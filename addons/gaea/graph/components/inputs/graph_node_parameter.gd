@@ -34,7 +34,8 @@ func _ready() -> void:
 		_graph_node.set_slot(
 			_input_idx,
 			add_input_slot, input_type, GaeaGraphNode.get_color_from_type(input_type),
-			add_output_slot, input_type, GaeaGraphNode.get_color_from_type(input_type)
+			add_output_slot, input_type, GaeaGraphNode.get_color_from_type(input_type),
+			GaeaGraphNode.get_icon_from_type(input_type), GaeaGraphNode.get_icon_from_type(input_type),
 		)
 
 	set_label_text(resource.name.capitalize())

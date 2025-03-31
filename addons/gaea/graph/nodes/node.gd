@@ -160,7 +160,25 @@ static func get_color_from_type(type: SlotTypes) -> Color:
 	return Color.WHITE
 
 
-
+static func get_icon_from_type(type: SlotTypes) -> Texture2D:
+	match type:
+		SlotTypes.VALUE_DATA:
+			return null
+		SlotTypes.MAP_DATA:
+			return load("res://addons/gaea/assets/star.svg")
+		SlotTypes.TILE_INFO:
+			return load("res://addons/gaea/assets/diamond.svg")
+		SlotTypes.VECTOR2:
+			return null
+		SlotTypes.VECTOR3:
+			return load("res://icon.svg")
+		SlotTypes.NUMBER:
+			return load("res://addons/gaea/assets/triangle.svg")
+		SlotTypes.RANGE:
+			return null
+		SlotTypes.BOOL:
+			return load("res://addons/gaea/assets/square.svg")
+	return null
 
 
 func _make_custom_tooltip(for_text: String) -> Object:

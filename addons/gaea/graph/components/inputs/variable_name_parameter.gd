@@ -15,6 +15,7 @@ func _ready() -> void:
 	_graph_node.set_slot_enabled_right(0, true)
 	_graph_node.set_slot_type_right(0, _graph_node.resource.output_type)
 	_graph_node.set_slot_color_right(0, GaeaGraphNode.get_color_from_type(_graph_node.resource.output_type))
+	_graph_node.set_slot_custom_icon_right(0, _graph_node.get_icon_from_type(_graph_node.resource.output_type))
 
 
 func get_param_value() -> String:

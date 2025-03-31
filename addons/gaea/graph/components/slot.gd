@@ -40,6 +40,7 @@ func _ready() -> void:
 		idx,
 		left_enabled, left_type, GaeaGraphNode.get_color_from_type(left_type),
 		right_enabled, right_type, GaeaGraphNode.get_color_from_type(right_type),
+		GaeaGraphNode.get_icon_from_type(left_type), GaeaGraphNode.get_icon_from_type(right_type),
 	)
 
 	if left_enabled:
