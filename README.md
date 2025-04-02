@@ -1,4 +1,4 @@
-![Gaea](logo.svg)
+![Gaea](https://raw.githubusercontent.com/gaea-godot/gaea-docs/a81f21c78766012a823992dd1ac8feecd17f62a6/docs/logo.svg)
 
 # 🌍 Gaea
 
@@ -8,9 +8,9 @@
 > Join the **Gamedev Graveyard** discord server to get notified about Gaea and hang out with other devs.
 
 
-Gaea is an **add-on for Godot 4.4**\*, designed to empower your project with advanced **procedural generation** capabilities.
+Gaea 2.0 is an **add-on for Godot 4.4**\*, designed to empower your project with advanced **procedural generation** capabilities.
 
-*For 4.3, use v1.X . For 4.2, use v1.1.3 or lower. For 4.0-4.1, use v0.6.2 or lower.
+*For 4.3 and below, use [v1.X](https://github.com/gaea-godot/gaea/tree/1.X).
 
 > **NOTE:** Gaea 2.0 is currently in early development, and may not yet be optimized for larger, more complex projects. Stay tuned for ongoing improvements and enhancements!
 
@@ -22,19 +22,18 @@ Gaea is an **add-on for Godot 4.4**\*, designed to empower your project with adv
 
 Gaea uses a graph system to create a flow of customizable nodes for endless posibilities in generation, both 2D and 3D. Creating custom nodes is easy, too, so you aren't limited by what the addon has.
 
-![A graph showing a bunch of interconnected nodes leading to a final output node](assets/graph_system.png)
+![A graph showing a bunch of interconnected nodes leading to a final output node](https://github.com/gaea-godot/gaea-docs/blob/main/docs/2.0/assets/graph_system.png?raw=true)
 
 Gaea can generate terrains such as:
 
-![Natural-looking terrain with grass, sand and water](assets/terrain-showcase.png)
-![Natural-looking cave-like system similar to Nuclear Throne, with chests, cacti and grass](assets/nuclear-throne-style-showcase.png)
+![Natural-looking terrain with grass, sand and water](https://github.com/gaea-godot/gaea-docs/blob/main/docs/2.0/assets/terrain-showcase.png?raw=true)
+![Natural-looking cave-like system similar to Nuclear Throne, with chests, cacti and grass](https://github.com/gaea-godot/gaea-docs/blob/main/docs/2.0/assets/nuclear-throne-style-showcase.png?raw=true)
 
 # Videos
 > Note: These are currently outdated and showcase the 1.X version of Gaea.
 
-[![How to Create Procedural Generation in Godot 4](assets/devworm-thumbnail.jpg)](https://youtu.be/oB1xsCcO9wI "How to Create Procedural Generation in Godot 4")
-[![10+2 AWESOME ADDONS for GODOT 4 by MrElipteach](assets/mrelipteach-thumbnail.jpg)](https://youtu.be/-FQNPCB7e3s?t=144&si=myv2OsGoLa7jiUfi "10+2 AWESOME ADDONS for GODOT 4 by MrElipteach")
-
+[![How to Create Procedural Generation in Godot 4](https://github.com/gaea-godot/gaea-docs/blob/main/docs/1.X/assets/devworm-thumbnail.jpg?raw=true)](https://youtu.be/oB1xsCcO9wI "How to Create Procedural Generation in Godot 4")
+[![10+2 AWESOME ADDONS for GODOT 4 by MrElipteach](https://github.com/gaea-godot/gaea-docs/blob/main/docs/1.X/assets/mrelipteach-thumbnail.jpg?raw=true)](https://youtu.be/-FQNPCB7e3s?t=144&si=myv2OsGoLa7jiUfi "10+2 AWESOME ADDONS for GODOT 4 by MrElipteach")
 
 
 # 🔧 Installation Steps
@@ -42,3 +41,4 @@ Gaea can generate terrains such as:
 1. **Download the project files.**
 2. Move the `gaea` folder into your `/addons` folder within your Godot project.
 3. Enable the addon through the project settings, and let your world-building journey begin!
+s
