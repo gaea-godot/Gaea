@@ -4,7 +4,7 @@
 
 [![](https://img.shields.io/badge/Docs-%239dbd4b?style=for-the-badge&logo=https%3A%2F%2Ffonts.googleapis.com%2Fcss2%3Ffamily%3DMaterial%2BSymbols%2BOutlined%3Aopsz%2Cwght%2CFILL%2CGRAD%4048%2C400%2C1%2C0&logoColor=white
 )](https://gaea-godot.github.io/gaea-docs/#/) [![](https://img.shields.io/badge/-Gamedev%20Graveyard-5865f2?style=for-the-badge&logo=discord&labelColor=white)](https://discord.gg/V7UsX54V49)
-> Join the **Gamedev Graveyard** discord server to get notified about Gaea and hang out with other devs.
+> Join the **Gamedev Graveyard** discord server to get notified about Gaea, ask questions and hang out with other devs.
 
 
 Gaea 2.0 is an **add-on for Godot 4.4**\*, designed to empower your project with advanced **procedural generation** capabilities.
