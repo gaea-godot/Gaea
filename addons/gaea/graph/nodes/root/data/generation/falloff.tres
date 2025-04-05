@@ -1,0 +1,54 @@
+[gd_resource type="Resource" load_steps=7 format=3 uid="uid://blm6fqdfqa5bh"]
+
+[ext_resource type="Script" uid="uid://bh3sajxnmp14w" path="res://addons/gaea/graph/nodes/node_argument.gd" id="1_6yuyv"]
+[ext_resource type="Script" uid="uid://ote622wl6axc" path="res://addons/gaea/graph/nodes/node_slot.gd" id="2_jwnbt"]
+[ext_resource type="Script" uid="uid://cgnbu4kly4sls" path="res://addons/gaea/graph/nodes/root/data/generation/falloff_map.gd" id="3_v78kc"]
+
+[sub_resource type="Resource" id="Resource_07p1y"]
+script = ExtResource("1_6yuyv")
+type = 0
+name = &"start"
+default_value = 0.5
+hint = Dictionary[String, Variant]({
+"max": 1.0,
+"min": 0.0
+})
+disable_input_slot = false
+add_output_slot = false
+metadata/_custom_type_script = "uid://bh3sajxnmp14w"
+
+[sub_resource type="Resource" id="Resource_6yuyv"]
+script = ExtResource("1_6yuyv")
+type = 0
+name = &"end"
+default_value = 1.0
+hint = Dictionary[String, Variant]({
+"max": 1.0,
+"min": 0.0
+})
+disable_input_slot = false
+add_output_slot = false
+metadata/_custom_type_script = "uid://bh3sajxnmp14w"
+
+[sub_resource type="Resource" id="Resource_jwnbt"]
+script = ExtResource("2_jwnbt")
+left_enabled = false
+left_type = 0
+left_label = ""
+right_enabled = true
+right_type = 0
+right_label = "Falloff"
+right_show_preview = true
+metadata/_custom_type_script = "uid://ote622wl6axc"
+
+[resource]
+script = ExtResource("3_v78kc")
+input_slots = Array[ExtResource("2_jwnbt")]([])
+args = Array[ExtResource("1_6yuyv")]([SubResource("Resource_07p1y"), SubResource("Resource_6yuyv")])
+output_slots = Array[ExtResource("2_jwnbt")]([SubResource("Resource_jwnbt")])
+title = "Falloff"
+description = ""
+is_output = false
+data = {}
+salt = 0
+metadata/_custom_type_script = "uid://brb1clh2y2bv0"
