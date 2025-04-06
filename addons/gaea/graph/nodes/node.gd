@@ -64,8 +64,8 @@ func initialize() -> void:
 
 	title = resource.title
 	resource.node = self
-	
-	
+
+
 func _has_output_slot(arg: GaeaNodeArgument) -> bool:
 	return arg.add_output_slot
 

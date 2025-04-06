@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://brb1clh2y2bv0" path="res://addons/gaea/graph/nodes/node_resource.gd" id="3_qhqpc"]
 [ext_resource type="Script" uid="uid://bh3sajxnmp14w" path="res://addons/gaea/graph/nodes/node_argument.gd" id="4_5ecun"]
 [ext_resource type="Script" uid="uid://ote622wl6axc" path="res://addons/gaea/graph/nodes/node_slot.gd" id="5_iooy1"]
-[ext_resource type="Script" uid="uid://bqa8aufofkr81" path="res://addons/gaea/graph/nodes/root/input/variables/variable_node.gd" id="6_oc7x7"]
+[ext_resource type="Script" uid="uid://bqa8aufofkr81" path="res://addons/gaea/graph/nodes/variable_node_resource.gd" id="6_oc7x7"]
 [ext_resource type="Resource" uid="uid://bbkdvyxkj2slo" path="res://addons/gaea/graph/nodes/output_node_resource.tres" id="7_du0iw"]
 [ext_resource type="Script" uid="uid://blx812352t3jj" path="res://addons/gaea/graph/nodes/root/data/generation/floor_walker.gd" id="9_5mmfj"]
 [ext_resource type="Script" uid="uid://dae6umbqb872e" path="res://addons/gaea/resources/gaea_data.gd" id="10_drb3t"]
@@ -17,7 +17,7 @@
 [ext_resource type="Script" uid="uid://dvbwtw53ut2hc" path="res://addons/gaea/graph/nodes/complement.gd" id="14_oc7x7"]
 [ext_resource type="Script" uid="uid://bmxbe51xh0t7d" path="res://addons/gaea/graph/nodes/union.gd" id="17_drb3t"]
 [ext_resource type="Script" uid="uid://br8gcsyc04ksj" path="res://addons/gaea/graph/nodes/root/map/placing/rules_placer.gd" id="17_x5s41"]
-[ext_resource type="Script" uid="uid://b38syakgm25ya" path="res://addons/gaea/graph/nodes/root/data/filters/random_filter.gd" id="18_vyp3c"]
+[ext_resource type="Script" path="res://addons/gaea/graph/nodes/root/data/filters/random_filter.gd" id="18_vyp3c"]
 
 [sub_resource type="Resource" id="Resource_j6vep"]
 script = ExtResource("1_wtjh4")
@@ -74,7 +74,7 @@ metadata/_custom_type_script = "uid://e45byecr4gi6"
 [sub_resource type="Resource" id="Resource_y3srg"]
 script = ExtResource("3_kk1e5")
 materials = Array[ExtResource("2_du0iw")]([SubResource("Resource_lm46c"), SubResource("Resource_jlmdo")])
-weights = PackedInt32Array(100, 50)
+weights = PackedFloat32Array(50, 100)
 preview_color = Color(0.0559988, 0.886948, 0.662938, 1)
 metadata/_custom_type_script = "uid://dtocuov1r8agi"
 
@@ -99,7 +99,7 @@ metadata/_custom_type_script = "uid://e45byecr4gi6"
 [sub_resource type="Resource" id="Resource_mfiu2"]
 script = ExtResource("3_kk1e5")
 materials = Array[ExtResource("2_du0iw")]([SubResource("Resource_qtqn2"), SubResource("Resource_wbro0")])
-weights = PackedFloat32Array(50, 100)
+weights = PackedFloat32Array(100, 100)
 preview_color = Color(0.604519, 0.617006, 0.236859, 1)
 metadata/_custom_type_script = "uid://dtocuov1r8agi"
 
@@ -1331,6 +1331,7 @@ scroll_offset = Vector2(0, 0)
 other = {
 "frames": [{
 "attached": Array[StringName]([&"BaseNode2", &"BaseNode6", &"BaseNode"]),
+"autoshrink": true,
 "name": &"_GraphFrame_37032",
 "position": Vector2(-1200, 79),
 "size": Vector2(972, 669),
@@ -1339,6 +1340,7 @@ other = {
 "title": "Floor"
 }, {
 "attached": Array[StringName]([&"_GraphNode_52354", &"_GraphNode_42526", &"_GraphNode_41445"]),
+"autoshrink": true,
 "name": &"_GraphFrame_37038",
 "position": Vector2(-60, 1299),
 "size": Vector2(692, 391),
@@ -1347,6 +1349,7 @@ other = {
 "title": "Place Chests"
 }, {
 "attached": Array[StringName]([&"_GraphNode_46619", &"_GraphNode_73049", &"_GraphNode_25309", &"_GraphNode_52512", &"_GraphNode_46691", &"_GraphNode_46754", &"_GraphNode_25390"]),
+"autoshrink": true,
 "name": &"_GraphFrame_37029",
 "position": Vector2(-80, -521),
 "size": Vector2(667, 896),
@@ -1355,6 +1358,7 @@ other = {
 "title": "Walls"
 }, {
 "attached": Array[StringName]([&"_GraphNode_40711", &"_GraphNode_29932", &"_GraphNode_29997", &"_GraphNode_30037", &"_GraphNode_52437", &"_GraphNode_29879"]),
+"autoshrink": true,
 "name": &"_GraphFrame_31859",
 "position": Vector2(-80, 499),
 "size": Vector2(812, 756),
@@ -1362,12 +1366,12 @@ other = {
 "tint_color_enabled": true,
 "title": "Add Vegetation"
 }],
-"scroll_offset": Vector2(-389.424, 64.171)
+"scroll_offset": Vector2(-389.424, 0)
 }
 Chest = SubResource("Resource_j6vep")
 FloorMaterial = SubResource("Resource_e1h74")
 SpikyVegetation = SubResource("Resource_y3srg")
 Vegetation = SubResource("Resource_mfiu2")
-WallMaterial = SubResource("Resource_kk1e5")
 WallAbove = SubResource("Resource_30ot8")
 WallBelow = SubResource("Resource_payrb")
+WallMaterial = SubResource("Resource_kk1e5")

@@ -33,7 +33,7 @@ func _ready() -> void:
 
 	if resource.default_value != null:
 		set_param_value(resource.default_value)
-		
+
 	if not graph_node.is_node_ready():
 		await graph_node.ready
 

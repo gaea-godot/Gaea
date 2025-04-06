@@ -36,7 +36,7 @@ func update_slots() -> void:
 	elif layer_count > get_child_count():
 		for i in range(get_child_count(), layer_count):
 			_add_layer_slot(i)
-	
+
 	for idx in layer_count:
 		_connect_layer_resource_signal(idx)
 
