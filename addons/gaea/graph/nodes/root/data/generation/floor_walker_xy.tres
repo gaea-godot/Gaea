@@ -23,7 +23,7 @@ name = &"starting_position"
 default_value = null
 hint = Dictionary[String, Variant]({})
 disable_input_slot = false
-add_output_slot = true
+add_output_slot = false
 metadata/_custom_type_script = "uid://bh3sajxnmp14w"
 
 [sub_resource type="Resource" id="Resource_e7u4k"]
