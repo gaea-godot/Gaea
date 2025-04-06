@@ -41,7 +41,6 @@ left_label = "Data"
 right_enabled = false
 right_type = 0
 right_label = ""
-right_show_preview = false
 
 [sub_resource type="Resource" id="Resource_oucor"]
 script = ExtResource("2_fkjhn")
@@ -51,7 +50,6 @@ left_label = "Material"
 right_enabled = false
 right_type = 0
 right_label = ""
-right_show_preview = false
 
 [sub_resource type="Resource" id="Resource_ksfsh"]
 script = ExtResource("2_fkjhn")
@@ -61,7 +59,6 @@ left_label = ""
 right_enabled = true
 right_type = 1
 right_label = "Map"
-right_show_preview = true
 
 [resource]
 script = ExtResource("3_jc4ok")

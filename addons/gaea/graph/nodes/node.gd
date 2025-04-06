@@ -4,6 +4,7 @@ extends GraphNode
 
 
 const PreviewTexture = preload("res://addons/gaea/graph/nodes/preview_texture.gd")
+const PREVIEW_TYPES := [SlotTypes.MAP_DATA, SlotTypes.VALUE_DATA]
 
 enum SlotTypes {
 	VALUE_DATA, MAP_DATA, TILE_INFO, VECTOR2, NUMBER, RANGE, BOOL, VECTOR3, NULL = -1
@@ -33,6 +34,9 @@ func initialize() -> void:
 	if not is_instance_valid(resource):
 		return
 
+	var preview_button_group: ButtonGroup = ButtonGroup.new()
+	preview_button_group.allow_unpress = true
+
 	if resource.salt == 0:
 		resource.salt = randi()
 
@@ -50,19 +54,24 @@ func initialize() -> void:
 		var node: Control = output_slot.get_node(self, idx)
 		idx += 1
 		add_child(node)
-		if output_slot.right_show_preview:
+		if output_slot.right_type in PREVIEW_TYPES:
 			node.toggle_preview_button.show()
-			preview_container = VBoxContainer.new()
-			add_child(preview_container)
-			preview = PreviewTexture.new()
-			preview.output_idx = resource.output_slots.find(output_slot) + resource.args.filter(_has_output_slot).size()
-			preview.node = self
-			preview.resource = resource
-			node.toggle_preview_button.toggled.connect(preview_container.set_visible)
-			preview_container.add_child(preview)
-			preview_container.hide()
-			generator.generation_finished.connect(preview.update.unbind(1))
 
+			if not is_instance_valid(preview):
+				preview_container = VBoxContainer.new()
+				preview = PreviewTexture.new()
+				preview.node = self
+				preview.resource = resource
+				generator.generation_finished.connect(preview.update.unbind(1))
+
+			var output_idx = resource.output_slots.find(output_slot) + resource.args.filter(_has_output_slot).size()
+			node.toggle_preview_button.button_group = preview_button_group
+			node.toggle_preview_button.toggled.connect(preview.toggle.bind(output_idx, output_slot.right_type).unbind(1))
+
+	if is_instance_valid(preview_container):
+		add_child(preview_container)
+		preview_container.add_child(preview)
+		preview_container.hide()
 	title = resource.title
 	resource.node = self
 

@@ -4,11 +4,14 @@ extends Control
 var _selected_generator: GaeaGenerator = null : get = get_selected_generator
 var _output_node: GraphNode
 
+const _LinkPopup = preload("uid://btt4eqjkp5pyf")
+
 @onready var _no_data: Control = $NoData
 @onready var _editor: Control = $Editor
 @onready var _graph_edit: GraphEdit = %GraphEdit
 @onready var _create_node_popup: PopupPanel = %CreateNodePopup
 @onready var _node_popup: PopupMenu = %NodePopup
+@onready var _link_popup: _LinkPopup = %LinkPopup
 @onready var _create_node_tree: Tree = %Tree
 @onready var _save_button: Button = $Editor/VBoxContainer/HBoxContainer/SaveButton
 @onready var _load_button: Button = $Editor/VBoxContainer/HBoxContainer/LoadButton
@@ -85,11 +88,18 @@ func _popup_create_node_menu_at_mouse() -> void:
 func _on_graph_edit_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
+			# Check if we clicked on a connection
+			var mouse_position = _graph_edit.get_local_mouse_position()
+			var connection = _graph_edit.get_closest_connection_at_point(mouse_position, 10.0)
+			if not connection.is_empty():
+				_popup_link_context_menu_at_mouse(connection)
+				return
+
 			var _selected: Array = _graph_edit.get_selected()
 			if _selected.is_empty():
 				_popup_create_node_menu_at_mouse()
 			else:
-				_popup_context_menu_at_mouse(_selected)
+				_popup_node_context_menu_at_mouse(_selected)
 
 
 func _add_node(resource: GaeaNodeResource) -> GraphNode:
@@ -105,7 +115,7 @@ func _add_node(resource: GaeaNodeResource) -> GraphNode:
 	return node
 
 
-func _popup_context_menu_at_mouse(selected_nodes: Array) -> void:
+func _popup_node_context_menu_at_mouse(selected_nodes: Array) -> void:
 	_node_popup.clear()
 	_node_popup.populate(selected_nodes)
 
@@ -113,6 +123,12 @@ func _popup_context_menu_at_mouse(selected_nodes: Array) -> void:
 	_node_popup.popup()
 
 
+func _popup_link_context_menu_at_mouse(connexion: Dictionary) -> void:
+	_link_popup.clear()
+	_link_popup.populate(connexion)
+
+	_link_popup.position = get_global_mouse_position() as Vector2i + get_window().position
+	_link_popup.popup()
 
 
 func _add_node_at_mouse(resource: GaeaNodeResource) -> GraphNode:
