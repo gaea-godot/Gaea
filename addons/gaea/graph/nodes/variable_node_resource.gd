@@ -17,6 +17,22 @@ static func get_scene() -> PackedScene:
 	return preload("res://addons/gaea/graph/nodes/variable_node.tscn")
 
 
+func get_type() -> GaeaGraphNode.SlotTypes:
+	match type:
+		TYPE_FLOAT, TYPE_INT:
+			return GaeaGraphNode.SlotTypes.NUMBER
+		TYPE_VECTOR2, TYPE_VECTOR2I:
+			return GaeaGraphNode.SlotTypes.VECTOR2
+		TYPE_BOOL:
+			return GaeaGraphNode.SlotTypes.BOOL
+		TYPE_OBJECT:
+			if hint_string == "GaeaMaterial":
+				return GaeaGraphNode.SlotTypes.TILE_INFO
+		TYPE_VECTOR3, TYPE_VECTOR3I:
+			return GaeaGraphNode.SlotTypes.VECTOR3
+	return GaeaGraphNode.SlotTypes.NULL
+
+
 func get_icon() -> Texture2D:
 	match type:
 		TYPE_FLOAT:

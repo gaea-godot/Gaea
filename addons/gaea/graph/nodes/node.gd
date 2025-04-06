@@ -14,6 +14,7 @@ signal connections_updated
 
 @export var resource: GaeaNodeResource
 
+static var titlebar_styleboxes: Dictionary[SlotTypes, Dictionary]
 var generator: GaeaGenerator
 var connections: Array[Dictionary]
 var preview: PreviewTexture
@@ -64,8 +65,25 @@ func initialize() -> void:
 
 	title = resource.title
 	resource.node = self
-	
-	
+
+	if resource.get_type() != SlotTypes.NULL:
+		var output_type: SlotTypes = resource.get_type()
+		var titlebar: StyleBoxFlat
+		var titlebar_selected: StyleBoxFlat
+		if not titlebar_styleboxes.has(output_type):
+			titlebar = get_theme_stylebox("titlebar", "GraphNode").duplicate()
+			titlebar_selected = get_theme_stylebox("titlebar_selected", "GraphNode").duplicate()
+			titlebar.bg_color = titlebar.bg_color.blend(Color(get_color_from_type(output_type), 0.3))
+			titlebar_selected.bg_color = titlebar.bg_color
+			titlebar_styleboxes.set(output_type, {"titlebar": titlebar, "selected": titlebar_selected})
+		else:
+			titlebar = titlebar_styleboxes.get(output_type).get("titlebar")
+			titlebar_selected = titlebar_styleboxes.get(output_type).get("selected")
+		add_theme_stylebox_override("titlebar", titlebar)
+		add_theme_stylebox_override("titlebar_selected", titlebar_selected)
+
+
+
 func _has_output_slot(arg: GaeaNodeArgument) -> bool:
 	return arg.add_output_slot
 

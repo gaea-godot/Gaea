@@ -93,14 +93,18 @@ static func get_formatted_text(unformatted_text: String) -> String:
 	return unformatted_text
 
 
-func get_icon() -> Texture2D:
+func get_type() -> GaeaGraphNode.SlotTypes:
 	if output_slots.is_empty():
-		return null
+		return GaeaGraphNode.SlotTypes.NULL
 
 	if not is_instance_valid(output_slots.back()):
-		return null
+		return GaeaGraphNode.SlotTypes.NULL
 
-	return get_icon_for_slot_type(output_slots.back().right_type)
+	return output_slots.back().right_type
+
+
+func get_icon() -> Texture2D:
+	return get_icon_for_slot_type(get_type())
 
 
 static func get_icon_for_slot_type(slot_type: GaeaGraphNode.SlotTypes) -> Texture2D:
