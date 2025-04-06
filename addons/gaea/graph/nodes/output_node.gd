@@ -13,6 +13,15 @@ func initialize() -> void:
 	_auto_resize.call_deferred()
 
 
+	var titlebar: StyleBoxFlat = get_theme_stylebox("titlebar", "GraphNode").duplicate()
+	var titlebar_selected: StyleBoxFlat = get_theme_stylebox("titlebar_selected", "GraphNode").duplicate()
+	titlebar.bg_color = titlebar.bg_color.blend(Color(resource.get_title_color(), 0.3))
+	titlebar_selected.bg_color = titlebar.bg_color
+
+	add_theme_stylebox_override("titlebar", titlebar)
+	add_theme_stylebox_override("titlebar_selected", titlebar_selected)
+
+
 func _add_layer_slot(idx: int) -> void:
 	var slot_resource: GaeaNodeSlot = GaeaNodeSlot.new()
 	slot_resource.left_enabled = true
@@ -36,7 +45,7 @@ func update_slots() -> void:
 	elif layer_count > get_child_count():
 		for i in range(get_child_count(), layer_count):
 			_add_layer_slot(i)
-	
+
 	for idx in layer_count:
 		_connect_layer_resource_signal(idx)
 

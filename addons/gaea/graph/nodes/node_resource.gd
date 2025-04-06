@@ -107,6 +107,10 @@ func get_icon() -> Texture2D:
 	return get_icon_for_slot_type(get_type())
 
 
+func get_title_color() -> Color:
+	return GaeaGraphNode.get_color_from_type(get_type())
+
+
 static func get_icon_for_slot_type(slot_type: GaeaGraphNode.SlotTypes) -> Texture2D:
 	match slot_type:
 		GaeaGraphNode.SlotTypes.VALUE_DATA:

@@ -66,14 +66,14 @@ func initialize() -> void:
 	title = resource.title
 	resource.node = self
 
-	if resource.get_type() != SlotTypes.NULL:
-		var output_type: SlotTypes = resource.get_type()
-		var titlebar: StyleBoxFlat
-		var titlebar_selected: StyleBoxFlat
+	var output_type: SlotTypes = resource.get_type()
+	var titlebar: StyleBoxFlat
+	var titlebar_selected: StyleBoxFlat
+	if output_type != SlotTypes.NULL:
 		if not titlebar_styleboxes.has(output_type):
 			titlebar = get_theme_stylebox("titlebar", "GraphNode").duplicate()
 			titlebar_selected = get_theme_stylebox("titlebar_selected", "GraphNode").duplicate()
-			titlebar.bg_color = titlebar.bg_color.blend(Color(get_color_from_type(output_type), 0.3))
+			titlebar.bg_color = titlebar.bg_color.blend(Color(resource.get_title_color(), 0.3))
 			titlebar_selected.bg_color = titlebar.bg_color
 			titlebar_styleboxes.set(output_type, {"titlebar": titlebar, "selected": titlebar_selected})
 		else:

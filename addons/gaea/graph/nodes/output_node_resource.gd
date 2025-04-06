@@ -23,5 +23,15 @@ func execute(area: AABB, generator_data: GaeaData, generator: GaeaGenerator) -> 
 	generator.generation_finished.emit.call_deferred(grid)
 
 
+func get_type() -> GaeaGraphNode.SlotTypes:
+	return GaeaGraphNode.SlotTypes.NULL
+
+
 static func get_scene() -> PackedScene:
 	return preload("res://addons/gaea/graph/nodes/output_node.tscn")
+
+
+func get_title_color() -> Color:
+	var color: Color = Color("421926")
+	color.v *= 1.5
+	return color
