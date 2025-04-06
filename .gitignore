@@ -15,3 +15,6 @@ data_*/
 mono_crash.*.json
 
 scenes/test/*
+
+# Editor-specific ignores
+.vscode/*
