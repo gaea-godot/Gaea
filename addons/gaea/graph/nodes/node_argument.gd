@@ -18,7 +18,7 @@ enum Type {
 	RULES
 }
 
-@export var type: Type :
+@export var type: Type:
 	set(value):
 		type = value
 		notify_property_list_changed()
@@ -32,12 +32,13 @@ enum Type {
 var value: Variant
 
 
-func get_arg_node() -> GaeaGraphNodeParameter:
+func get_arg_node(_graph_node: GaeaGraphNode, _idx: int) -> GaeaGraphNodeParameter:
 	var scene: PackedScene = get_scene_from_type(type)
 	if not is_instance_valid(scene):
 		return null
 
 	var node: GaeaGraphNodeParameter = scene.instantiate()
+	node.initialize(_graph_node, _idx)
 	if disable_input_slot:
 		node.add_input_slot = false
 	node.add_output_slot = add_output_slot

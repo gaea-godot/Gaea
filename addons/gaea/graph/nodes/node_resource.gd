@@ -110,7 +110,7 @@ static func get_icon_for_slot_type(slot_type: GaeaGraphNode.SlotTypes) -> Textur
 		GaeaGraphNode.SlotTypes.MAP_DATA:
 			return preload("../../assets/types/map.svg")
 		GaeaGraphNode.SlotTypes.TILE_INFO:
-			return preload("../../assets/material.svg")
+			return preload("../../assets/types/material.svg")
 		GaeaGraphNode.SlotTypes.VECTOR2:
 			return preload("../../assets/types/vec2.svg")
 		GaeaGraphNode.SlotTypes.NUMBER:

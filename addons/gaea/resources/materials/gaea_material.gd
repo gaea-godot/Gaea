@@ -1,5 +1,5 @@
 @tool
-@icon("../../assets/material.svg")
+@icon("../../assets/types/material.svg")
 class_name GaeaMaterial
 extends Resource
 

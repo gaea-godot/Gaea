@@ -15,8 +15,9 @@ const SLOT_SCENE = preload("res://addons/gaea/graph/components/slot.tscn")
 @export var right_label: String = ""
 
 
-func get_node() -> Control:
+func get_node(_graph_node: GaeaGraphNode, _idx: int) -> Control:
 	var node := SLOT_SCENE.instantiate()
+	node.initialize(_graph_node, _idx)
 	node.left_enabled = left_enabled
 	node.left_type = left_type
 	node.left_label = left_label

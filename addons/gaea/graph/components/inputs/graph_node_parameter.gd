@@ -16,26 +16,35 @@ signal param_value_changed(new_value: Variant)
 @onready var label: Label = $Label
 
 
+## Reference to the [GaeaGraphNode] instance
+var graph_node: GaeaGraphNode
+## ID of the slot in the [GaeaGraphNode].
+var idx: int
+
+
+func initialize(_graph_node: GaeaGraphNode, _idx: int) -> void:
+	graph_node = _graph_node
+	idx = _idx
+
+
 func _ready() -> void:
 	if not is_instance_valid(resource):
 		return
 
 	if resource.default_value != null:
 		set_param_value(resource.default_value)
+		
+	if not graph_node.is_node_ready():
+		await graph_node.ready
 
-	if get_parent() is GaeaGraphNode:
-		_graph_node = get_parent()
-		param_value_changed.connect(_graph_node._on_param_value_changed.bind(self, resource.name))
+	param_value_changed.connect(graph_node._on_param_value_changed.bind(self, resource.name))
 
-		await _graph_node.ready
-
-		_input_idx = get_index()
-
-		_graph_node.set_slot(
-			_input_idx,
-			add_input_slot, input_type, GaeaGraphNode.get_color_from_type(input_type),
-			add_output_slot, input_type, GaeaGraphNode.get_color_from_type(input_type)
-		)
+	graph_node.set_slot(
+		idx,
+		add_input_slot, input_type, GaeaGraphNode.get_color_from_type(input_type),
+		add_output_slot, input_type, GaeaGraphNode.get_color_from_type(input_type),
+		GaeaGraphNode.get_icon_from_type(input_type), GaeaGraphNode.get_icon_from_type(input_type),
+	)
 
 	set_label_text(resource.name.capitalize())
 
