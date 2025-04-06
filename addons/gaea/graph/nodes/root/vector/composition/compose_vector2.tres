@@ -32,7 +32,6 @@ left_label = ""
 right_enabled = true
 right_type = 3
 right_label = "Composed Vector2"
-right_show_preview = false
 metadata/_custom_type_script = "uid://ote622wl6axc"
 
 [resource]

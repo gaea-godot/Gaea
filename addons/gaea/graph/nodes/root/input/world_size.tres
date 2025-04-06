@@ -12,7 +12,6 @@ left_label = ""
 right_enabled = true
 right_type = 7
 right_label = "World Size"
-right_show_preview = false
 metadata/_custom_type_script = "uid://ote622wl6axc"
 
 [resource]

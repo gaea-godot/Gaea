@@ -6,53 +6,64 @@ const RESOLUTION: Vector2i = Vector2i(64, 64)
 var output_idx: int = 0
 var resource: GaeaNodeResource
 var node: GaeaGraphNode
-var scroll_bar: HSlider
-var scroll_bar_label: SpinBox
+var slider_container: HBoxContainer
+var slider: HSlider
+var slider_label: SpinBox
+var type: GaeaGraphNode.SlotTypes
 
 
 func _ready() -> void:
 	expand_mode = EXPAND_FIT_HEIGHT
 	stretch_mode = STRETCH_SCALE
-	visibility_changed.connect(_on_visibility_changed)
 
 	await get_tree().process_frame
 
-	var scroll_bar_container: HBoxContainer = HBoxContainer.new()
-
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 
-	scroll_bar_label = SpinBox.new()
-	scroll_bar_label.step = 0.01
-	scroll_bar_label.min_value = 0.0
-	scroll_bar_label.max_value = 1.0
+	slider_container = HBoxContainer.new()
 
-	scroll_bar = HSlider.new()
-	scroll_bar.step = 0.001
-	scroll_bar.min_value = 0.0
-	scroll_bar.max_value = 1.0
-	scroll_bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	scroll_bar.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	scroll_bar_label.value_changed.connect(scroll_bar.set_value_no_signal)
-	scroll_bar_label.value_changed.connect(update.unbind(1))
-	scroll_bar.value_changed.connect(update.unbind(1))
-	scroll_bar.value_changed.connect(scroll_bar_label.set_value_no_signal)
-	scroll_bar.allow_greater = true
-	scroll_bar.allow_lesser = true
+	slider_label = SpinBox.new()
+	slider_label.step = 0.01
+	slider_label.min_value = 0.0
+	slider_label.max_value = 1.0
 
-	scroll_bar_label.allow_greater = true
-	scroll_bar_label.allow_lesser = true
+	slider = HSlider.new()
+	slider.step = 0.001
+	slider.min_value = 0.0
+	slider.max_value = 1.0
+	slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	slider.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	slider_label.value_changed.connect(slider.set_value_no_signal)
+	slider_label.value_changed.connect(update.unbind(1))
+	slider.value_changed.connect(update.unbind(1))
+	slider.value_changed.connect(slider_label.set_value_no_signal)
+	slider.allow_greater = true
+	slider.allow_lesser = true
 
-	scroll_bar_container.add_child(scroll_bar)
-	scroll_bar_container.add_child(scroll_bar_label)
+	slider_label.allow_greater = true
+	slider_label.allow_lesser = true
 
-	get_parent().add_child(scroll_bar_container)
+	slider_container.add_child(slider)
+	slider_container.add_child(slider_label)
+
+	get_parent().add_child(slider_container)
 
 	texture = ImageTexture.create_from_image(Image.create_empty(RESOLUTION.x, RESOLUTION.y, true, Image.FORMAT_RGBA8))
 
 
-func _on_visibility_changed() -> void:
-	await get_tree().process_frame
-	node.size = node.get_combined_minimum_size()
+func toggle(for_idx: int, for_type: GaeaGraphNode.SlotTypes) -> void:
+	if not get_parent().visible:
+		get_parent().show()
+		output_idx = for_idx
+		slider_container.visible = for_type == GaeaGraphNode.SlotTypes.VALUE_DATA
+		type = for_type
+		update()
+	else:
+		if output_idx == for_idx:
+			output_idx = -1
+			type = GaeaGraphNode.SlotTypes.NULL
+		get_parent().hide()
+	(func() -> void: node.size = node.get_combined_minimum_size()).call_deferred()
 
 
 func update() -> void:
@@ -74,16 +85,19 @@ func update() -> void:
 		for y: int in resolution.y:
 			var color: Color
 			var value = data.get(Vector3i(x, y, 0))
-			if value is float:
-				if is_nan(value):
-					continue
-				color = Color(value, value, value, 1.0 if value >= scroll_bar.value else 0.0)
-			elif value is GaeaMaterial:
-				if not is_instance_valid(value):
-					continue
-				color = value.preview_color
-			else:
+			if value == null:
 				continue
+			match type:
+				GaeaGraphNode.SlotTypes.VALUE_DATA:
+					if typeof(value) != TYPE_FLOAT or is_nan(value):
+						continue
+					color = Color(value, value, value, 1.0 if value >= slider.value else 0.0)
+				GaeaGraphNode.SlotTypes.MAP_DATA:
+					if value is not GaeaMaterial or not is_instance_valid(value):
+						continue
+					color = value.preview_color
+				_:
+					continue
 			image.set_pixelv(Vector2i(x, y), color)
 
 	texture = ImageTexture.create_from_image(image)

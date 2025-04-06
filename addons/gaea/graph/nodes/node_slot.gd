@@ -13,7 +13,6 @@ const SLOT_SCENE = preload("res://addons/gaea/graph/components/slot.tscn")
 @export var right_enabled: bool = true
 @export var right_type: GaeaGraphNode.SlotTypes
 @export var right_label: String = ""
-@export var right_show_preview: bool = false
 
 
 func get_node(_graph_node: GaeaGraphNode, _idx: int) -> Control:

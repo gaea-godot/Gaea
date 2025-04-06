@@ -30,7 +30,6 @@ left_label = ""
 right_enabled = true
 right_type = 5
 right_label = "Composed Range"
-right_show_preview = false
 
 [resource]
 script = ExtResource("3_d0vpy")
