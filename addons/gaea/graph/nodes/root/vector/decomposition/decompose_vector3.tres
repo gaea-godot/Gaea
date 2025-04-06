@@ -22,7 +22,6 @@ left_label = ""
 right_enabled = true
 right_type = 4
 right_label = "X"
-right_show_preview = false
 metadata/_custom_type_script = "uid://ote622wl6axc"
 
 [sub_resource type="Resource" id="Resource_d8fxv"]
@@ -33,7 +32,6 @@ left_label = ""
 right_enabled = true
 right_type = 4
 right_label = "Y"
-right_show_preview = false
 metadata/_custom_type_script = "uid://ote622wl6axc"
 
 [sub_resource type="Resource" id="Resource_irclj"]
@@ -44,7 +42,6 @@ left_label = ""
 right_enabled = true
 right_type = 4
 right_label = "Z"
-right_show_preview = false
 metadata/_custom_type_script = "uid://ote622wl6axc"
 
 [resource]

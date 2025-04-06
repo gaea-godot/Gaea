@@ -37,7 +37,7 @@ func _ready() -> void:
 	var _maybe_graph_node: Node = get_parent()
 	if _maybe_graph_node is not GraphNode:
 		return
-	
+
 	var _graph_node: GraphNode = _maybe_graph_node
 
 	toggle_preview_button.texture_normal = get_theme_icon(&"GuiVisibilityHidden", &"EditorIcons")

@@ -21,7 +21,6 @@ left_label = ""
 right_enabled = true
 right_type = 0
 right_label = "Data"
-right_show_preview = true
 
 [resource]
 script = ExtResource("1_uk2rb")

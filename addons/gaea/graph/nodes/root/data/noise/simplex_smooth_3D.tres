@@ -39,7 +39,6 @@ left_label = ""
 right_enabled = true
 right_type = 0
 right_label = "Data [0, 1]"
-right_show_preview = true
 
 [resource]
 script = ExtResource("3_7romv")

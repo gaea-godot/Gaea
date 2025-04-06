@@ -37,7 +37,6 @@ left_label = "Data"
 right_enabled = false
 right_type = 0
 right_label = ""
-right_show_preview = false
 
 [sub_resource type="Resource" id="Resource_hqu83"]
 script = ExtResource("2_7js3n")
@@ -47,7 +46,6 @@ left_label = ""
 right_enabled = true
 right_type = 0
 right_label = "Filtered Data"
-right_show_preview = true
 
 [resource]
 script = ExtResource("3_58cm0")

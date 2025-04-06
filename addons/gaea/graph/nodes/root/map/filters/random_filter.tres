@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bh3sajxnmp14w" path="res://addons/gaea/graph/nodes/node_argument.gd" id="1_vr2bg"]
 [ext_resource type="Script" uid="uid://ote622wl6axc" path="res://addons/gaea/graph/nodes/node_slot.gd" id="2_fraxp"]
-[ext_resource type="Script" uid="uid://b38syakgm25ya" path="res://addons/gaea/graph/nodes/root/data/filters/random_filter.gd" id="3_5ax8o"]
+[ext_resource type="Script" path="res://addons/gaea/graph/nodes/root/data/filters/random_filter.gd" id="3_5ax8o"]
 
 [sub_resource type="Resource" id="Resource_5n5am"]
 script = ExtResource("1_vr2bg")
@@ -25,7 +25,6 @@ left_label = "Map"
 right_enabled = false
 right_type = 0
 right_label = ""
-right_show_preview = false
 
 [sub_resource type="Resource" id="Resource_fraxp"]
 script = ExtResource("2_fraxp")
@@ -35,7 +34,6 @@ left_label = ""
 right_enabled = true
 right_type = 1
 right_label = "Filtered Map"
-right_show_preview = true
 
 [resource]
 script = ExtResource("3_5ax8o")

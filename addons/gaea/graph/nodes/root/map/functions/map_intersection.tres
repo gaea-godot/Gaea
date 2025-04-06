@@ -12,7 +12,6 @@ left_label = "Map A"
 right_enabled = false
 right_type = 0
 right_label = ""
-right_show_preview = false
 
 [sub_resource type="Resource" id="Resource_x35wo"]
 script = ExtResource("2_tbek3")
@@ -22,7 +21,6 @@ left_label = "Map B"
 right_enabled = false
 right_type = 0
 right_label = ""
-right_show_preview = false
 
 [sub_resource type="Resource" id="Resource_ij1ao"]
 script = ExtResource("2_tbek3")
@@ -32,7 +30,6 @@ left_label = "Map C"
 right_enabled = false
 right_type = 0
 right_label = ""
-right_show_preview = false
 
 [sub_resource type="Resource" id="Resource_abt6c"]
 script = ExtResource("2_tbek3")
@@ -42,7 +39,6 @@ left_label = "Map D"
 right_enabled = false
 right_type = 0
 right_label = ""
-right_show_preview = false
 
 [sub_resource type="Resource" id="Resource_t3085"]
 script = ExtResource("2_tbek3")
@@ -52,7 +48,6 @@ left_label = ""
 right_enabled = true
 right_type = 1
 right_label = "Intersection"
-right_show_preview = true
 
 [resource]
 script = ExtResource("3_w7uw7")
