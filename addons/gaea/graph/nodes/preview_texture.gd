@@ -57,6 +57,7 @@ func toggle(for_idx: int, for_type: GaeaGraphNode.SlotTypes) -> void:
 		output_idx = for_idx
 		slider_container.visible = for_type == GaeaGraphNode.SlotTypes.VALUE_DATA
 		type = for_type
+		update()
 	else:
 		if output_idx == for_idx:
 			output_idx = -1
@@ -84,6 +85,8 @@ func update() -> void:
 		for y: int in resolution.y:
 			var color: Color
 			var value = data.get(Vector3i(x, y, 0))
+			if value == null:
+				continue
 			match type:
 				GaeaGraphNode.SlotTypes.VALUE_DATA:
 					if typeof(value) != TYPE_FLOAT or is_nan(value):
