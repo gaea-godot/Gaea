@@ -2,16 +2,17 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://xvju5c7o31f2"
-path="res://.godot/imported/hexagon.svg-12df68c301fe4f66d2f1695950e99d36.ctex"
+uid="uid://dbvw3j8fnmhpu"
+path="res://.godot/imported/hourglass.svg-af736b60709c82b950f5017f4ba45f05.ctex"
 metadata={
+"has_editor_variant": true,
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/gaea/assets/slots/hexagon.svg"
-dest_files=["res://.godot/imported/hexagon.svg-12df68c301fe4f66d2f1695950e99d36.ctex"]
+source_file="res://addons/gaea/assets/slots/hourglass.svg"
+dest_files=["res://.godot/imported/hourglass.svg-af736b60709c82b950f5017f4ba45f05.ctex"]
 
 [params]
 
@@ -33,5 +34,5 @@ process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
 svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false
+editor/scale_with_editor_scale=true
+editor/convert_colors_with_editor_theme=true

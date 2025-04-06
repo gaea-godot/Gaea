@@ -175,7 +175,7 @@ static func get_color_from_type(type: SlotTypes) -> Color:
 		SlotTypes.VECTOR3:
 			return Color("8e44ad") # MAGENTA
 		SlotTypes.NUMBER:
-			return Color("00d8d6") # JADE
+			return Color("a0a0a0") # JADE
 		SlotTypes.RANGE:
 			return Color("f04c7f") # PINK
 		SlotTypes.BOOL:
@@ -187,21 +187,27 @@ static func get_color_from_type(type: SlotTypes) -> Color:
 
 static func get_icon_from_type(type: SlotTypes) -> Texture2D:
 	match type:
+		SlotTypes.RANGE:
+			return load("res://addons/gaea/assets/slots/ring.svg")
+		SlotTypes.BOOL:
+			return load("res://addons/gaea/assets/slots/rounded_square.svg")
 		SlotTypes.VALUE_DATA:
 			return load("res://addons/gaea/assets/slots/square.svg")
 		SlotTypes.MAP_DATA:
-			return load("res://addons/gaea/assets/slots/hexagon.svg")
+			return load("res://addons/gaea/assets/slots/tag.svg")
 		SlotTypes.TILE_INFO:
 			return load("res://addons/gaea/assets/slots/diamond.svg")
-		SlotTypes.VECTOR2, SlotTypes.VECTOR3:
+		SlotTypes.VECTOR3:
+			return load("res://addons/gaea/assets/slots/hourglass.svg")
+		SlotTypes.VECTOR2:
 			return load("res://addons/gaea/assets/slots/triangle.svg")
 
 	return load("res://addons/gaea/assets/slots/circle.svg")
 
-
 func _make_custom_tooltip(for_text: String) -> Object:
 	var rich_text_label: RichTextLabel = RichTextLabel.new()
 	rich_text_label.autowrap_mode = TextServer.AUTOWRAP_WORD
+
 	rich_text_label.bbcode_enabled = true
 	rich_text_label.text = for_text
 	rich_text_label.fit_content = true
