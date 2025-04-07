@@ -4,4 +4,7 @@
 [ext_resource type="Script" uid="uid://bs40iof8ipbkq" path="res://addons/gaea/graph/nodes/root/other/reroute_node.gd" id="1_52lmj"]
 
 [node name="BaseNode" instance=ExtResource("1_0qpbo")]
+custom_minimum_size = Vector2(0, 0)
+resizable = false
+title = ""
 script = ExtResource("1_52lmj")
