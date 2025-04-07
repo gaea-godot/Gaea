@@ -34,18 +34,19 @@ func _ready() -> void:
 func populate(node: GaeaGenerator) -> void:
 	_remove_children()
 	_output_node = null
+	if _selected_generator != null and _selected_generator.data_changed.is_connected(_on_data_changed):
+		_selected_generator.data_changed.disconnect(_on_data_changed)
+	_selected_generator = node
+	if not _selected_generator.data_changed.is_connected(_on_data_changed):
+		_selected_generator.data_changed.connect(_on_data_changed)
 	if node.data == null:
 		_editor.hide()
 		_no_data.show()
-		_selected_generator = node
 	else:
 		_editor.show()
 		_no_data.hide()
-		_selected_generator = node
 		if not _selected_generator.data.layer_count_modified.is_connected(_update_output_node):
 			_selected_generator.data.layer_count_modified.connect(_update_output_node)
-		if not _selected_generator.data_changed.is_connected(_on_data_changed):
-			_selected_generator.data_changed.connect(_on_data_changed)
 		_load_data.call_deferred()
 
 
@@ -53,7 +54,7 @@ func unpopulate() -> void:
 	_save_data()
 
 	if is_instance_valid(_selected_generator):
-		if _selected_generator.data.layer_count_modified.is_connected(_update_output_node):
+		if _selected_generator.data != null and _selected_generator.data.layer_count_modified.is_connected(_update_output_node):
 			_selected_generator.data.layer_count_modified.disconnect(_update_output_node)
 		if _selected_generator.data_changed.is_connected(_on_data_changed):
 			_selected_generator.data_changed.disconnect(_on_data_changed)
@@ -71,7 +72,6 @@ func _remove_children() -> void:
 
 func _on_new_data_button_pressed() -> void:
 	_selected_generator.data = GaeaData.new()
-	populate(_selected_generator)
 
 
 func _on_data_changed() -> void:
@@ -178,7 +178,7 @@ func update_connections() -> void:
 
 
 func _save_data() -> void:
-	if not is_instance_valid(_selected_generator):
+	if not is_instance_valid(_selected_generator) or _selected_generator.data == null:
 		return
 
 	_selected_generator.data.node_data.clear()
@@ -243,7 +243,9 @@ func _load_data() -> void:
 			node.load_save_data.call_deferred(node_data)
 
 	if not has_output_node:
-		_add_node(preload("res://addons/gaea/graph/nodes/output_node_resource.tres"))
+		var node: GraphNode = _add_node(preload("res://addons/gaea/graph/nodes/output_node_resource.tres"))
+		_graph_edit.set_zoom(1.0)
+		_graph_edit.set_scroll_offset(node.size * 0.5 - _graph_edit.get_rect().size * 0.5)
 
 	# from_node and to_node are indexes in the resources array
 	for connection in _selected_generator.data.connections:

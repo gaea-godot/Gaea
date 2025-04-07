@@ -14,7 +14,8 @@ signal area_erased(area: AABB)
 @export var data: GaeaData :
 	set(value):
 		data = value
-		data.generator = self
+		if data:
+			data.generator = self
 		data_changed.emit()
 @warning_ignore("shadowed_global_identifier")
 @export var seed: int = randi()
