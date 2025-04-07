@@ -1,7 +1,7 @@
 @tool
 extends Control
 
-var _selected_generator: GaeaGenerator = null : get = get_selected_generator
+var _selected_generator: GaeaGenerator = null: get = get_selected_generator
 var _output_node: GraphNode
 
 const _LinkPopup = preload("uid://btt4eqjkp5pyf")
@@ -22,7 +22,6 @@ const _LinkPopup = preload("uid://btt4eqjkp5pyf")
 @onready var _window_popout_separator: VSeparator = $Editor/VBoxContainer/HBoxContainer/WindowPopoutSeparator
 
 
-
 func _ready() -> void:
 	_reload_node_tree_button.icon = preload("../assets/reload_tree.svg")
 	_reload_parameters_list_button.icon = preload("../assets/reload_variables_list.svg")
@@ -34,18 +33,19 @@ func _ready() -> void:
 func populate(node: GaeaGenerator) -> void:
 	_remove_children()
 	_output_node = null
+	if is_instance_valid(_selected_generator) and _selected_generator.data_changed.is_connected(_on_data_changed):
+		_selected_generator.data_changed.disconnect(_on_data_changed)
+	_selected_generator = node
+	if not _selected_generator.data_changed.is_connected(_on_data_changed):
+		_selected_generator.data_changed.connect(_on_data_changed)
 	if node.data == null:
 		_editor.hide()
 		_no_data.show()
-		_selected_generator = node
 	else:
 		_editor.show()
 		_no_data.hide()
-		_selected_generator = node
 		if not _selected_generator.data.layer_count_modified.is_connected(_update_output_node):
 			_selected_generator.data.layer_count_modified.connect(_update_output_node)
-		if not _selected_generator.data_changed.is_connected(_on_data_changed):
-			_selected_generator.data_changed.connect(_on_data_changed)
 		_load_data.call_deferred()
 
 
@@ -53,7 +53,7 @@ func unpopulate() -> void:
 	_save_data()
 
 	if is_instance_valid(_selected_generator):
-		if _selected_generator.data.layer_count_modified.is_connected(_update_output_node):
+		if is_instance_valid(_selected_generator.data) and _selected_generator.data.layer_count_modified.is_connected(_update_output_node):
 			_selected_generator.data.layer_count_modified.disconnect(_update_output_node)
 		if _selected_generator.data_changed.is_connected(_on_data_changed):
 			_selected_generator.data_changed.disconnect(_on_data_changed)
@@ -71,7 +71,6 @@ func _remove_children() -> void:
 
 func _on_new_data_button_pressed() -> void:
 	_selected_generator.data = GaeaData.new()
-	populate(_selected_generator)
 
 
 func _on_data_changed() -> void:
@@ -80,7 +79,6 @@ func _on_data_changed() -> void:
 
 
 func _popup_create_node_menu_at_mouse() -> void:
-
 	_create_node_popup.position = get_global_mouse_position() as Vector2i + get_window().position
 	_create_node_popup.popup()
 
@@ -178,7 +176,7 @@ func update_connections() -> void:
 
 
 func _save_data() -> void:
-	if not is_instance_valid(_selected_generator):
+	if not is_instance_valid(_selected_generator) or not is_instance_valid(_selected_generator.data):
 		return
 
 	_selected_generator.data.node_data.clear()
@@ -243,7 +241,9 @@ func _load_data() -> void:
 			node.load_save_data.call_deferred(node_data)
 
 	if not has_output_node:
-		_add_node(preload("res://addons/gaea/graph/nodes/output_node_resource.tres"))
+		var node: GraphNode = _add_node(preload("res://addons/gaea/graph/nodes/output_node_resource.tres"))
+		_graph_edit.set_zoom(1.0)
+		_graph_edit.set_scroll_offset(node.size * 0.5 - _graph_edit.get_rect().size * 0.5)
 
 	# from_node and to_node are indexes in the resources array
 	for connection in _selected_generator.data.connections:
@@ -373,8 +373,6 @@ func _on_window_popout_button_pressed() -> void:
 	window.popup()
 	_window_popout_button.hide()
 	_window_popout_separator.hide()
-
-
 
 
 func _on_window_close_requested(original_parent: Control, window: Window) -> void:
