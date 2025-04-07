@@ -1,0 +1,302 @@
+[gd_scene load_steps=35 format=3 uid="uid://5bk3kjdbc18r"]
+
+[ext_resource type="Script" uid="uid://d4feanreabm81" path="res://addons/gaea/nodes/generator.gd" id="1_qu2vt"]
+[ext_resource type="Script" uid="uid://e45byecr4gi6" path="res://addons/gaea/resources/materials/tilemap_material.gd" id="2_58ugv"]
+[ext_resource type="Script" uid="uid://3qsmwhn2sk47" path="res://addons/gaea/resources/gaea_layer.gd" id="2_b53wi"]
+[ext_resource type="Script" uid="uid://brb1clh2y2bv0" path="res://addons/gaea/graph/nodes/node_resource.gd" id="3_47lpa"]
+[ext_resource type="Resource" uid="uid://bbkdvyxkj2slo" path="res://addons/gaea/graph/nodes/output_node_resource.tres" id="4_3ppu3"]
+[ext_resource type="Script" uid="uid://dae6umbqb872e" path="res://addons/gaea/resources/gaea_data.gd" id="4_bhh40"]
+[ext_resource type="Script" uid="uid://bh3sajxnmp14w" path="res://addons/gaea/graph/nodes/node_argument.gd" id="5_58ugv"]
+[ext_resource type="Script" uid="uid://ote622wl6axc" path="res://addons/gaea/graph/nodes/node_slot.gd" id="6_8hnto"]
+[ext_resource type="Script" uid="uid://djjvx650evm0n" path="res://addons/gaea/graph/nodes/root/map/mappers/threshold_mapper.gd" id="7_0cw3f"]
+[ext_resource type="Script" uid="uid://bcp5jmkertrct" path="res://addons/gaea/graph/nodes/root/data/noise/simplex_smooth.gd" id="8_vsp87"]
+[ext_resource type="Script" uid="uid://bqa8aufofkr81" path="res://addons/gaea/graph/nodes/variable_node_resource.gd" id="9_xl8e3"]
+[ext_resource type="Script" uid="uid://m0m4x6trd11h" path="res://addons/gaea/graph/nodes/root/other/composition/compose_range.gd" id="10_1bad6"]
+[ext_resource type="Script" uid="uid://bu8niqlr2pe8o" path="res://addons/gaea/graph/nodes/constant.gd" id="11_8srrc"]
+
+[sub_resource type="Resource" id="Resource_8hnto"]
+script = ExtResource("2_58ugv")
+type = 0
+source_id = 0
+atlas_coord = Vector2i(0, 0)
+alternative_tile = 0
+preview_color = Color(0.638049, 0.18221, 0.266541, 1)
+metadata/_custom_type_script = "uid://e45byecr4gi6"
+
+[sub_resource type="Resource" id="Resource_lhnq8"]
+script = ExtResource("2_b53wi")
+enabled = true
+
+[sub_resource type="Resource" id="Resource_88nce"]
+script = ExtResource("5_58ugv")
+type = 0
+name = &"frequency"
+default_value = 0.01
+hint = Dictionary[String, Variant]({})
+disable_input_slot = false
+add_output_slot = false
+
+[sub_resource type="Resource" id="Resource_w4c4h"]
+script = ExtResource("5_58ugv")
+type = 0
+name = &"lacunarity"
+default_value = 2.0
+hint = Dictionary[String, Variant]({})
+disable_input_slot = false
+add_output_slot = false
+
+[sub_resource type="Resource" id="Resource_7ltu6"]
+script = ExtResource("5_58ugv")
+type = 1
+name = &"octaves"
+default_value = 5
+hint = Dictionary[String, Variant]({})
+disable_input_slot = false
+add_output_slot = false
+
+[sub_resource type="Resource" id="Resource_8tvqk"]
+script = ExtResource("6_8hnto")
+left_enabled = false
+left_type = 0
+left_label = ""
+right_enabled = true
+right_type = 0
+right_label = "Data [0, 1]"
+
+[sub_resource type="Resource" id="Resource_wgjhc"]
+script = ExtResource("8_vsp87")
+type = 0
+input_slots = Array[ExtResource("6_8hnto")]([])
+args = Array[ExtResource("5_58ugv")]([SubResource("Resource_88nce"), SubResource("Resource_w4c4h"), SubResource("Resource_7ltu6")])
+output_slots = Array[ExtResource("6_8hnto")]([SubResource("Resource_8tvqk")])
+title = "SimplexSmooth2D"
+description = "Creates a grid of values from [code]0[/bg][/c] to [code]1[/bg][/c] based on a SimplexSmooth noise texture.
+[b]Ignores the z axis.[/b]"
+is_output = false
+data = {
+&"frequency": 0.01,
+&"lacunarity": 2.0,
+&"octaves": 5.0
+}
+salt = 2427669376
+
+[sub_resource type="Resource" id="Resource_givc6"]
+script = ExtResource("5_58ugv")
+type = 0
+name = &"value"
+default_value = null
+hint = Dictionary[String, Variant]({})
+disable_input_slot = true
+add_output_slot = true
+metadata/_custom_type_script = "uid://bh3sajxnmp14w"
+
+[sub_resource type="Resource" id="Resource_11ab4"]
+script = ExtResource("11_8srrc")
+input_slots = Array[ExtResource("6_8hnto")]([])
+args = Array[ExtResource("5_58ugv")]([SubResource("Resource_givc6")])
+output_slots = Array[ExtResource("6_8hnto")]([])
+title = "FloatConstant"
+description = "A float constant."
+is_output = false
+data = {
+&"value": 0.0
+}
+salt = 2538178133
+metadata/_custom_type_script = "uid://brb1clh2y2bv0"
+
+[sub_resource type="Resource" id="Resource_a2hj1"]
+script = ExtResource("5_58ugv")
+type = 0
+name = &"min"
+default_value = null
+hint = Dictionary[String, Variant]({})
+disable_input_slot = false
+add_output_slot = false
+
+[sub_resource type="Resource" id="Resource_dkdok"]
+script = ExtResource("5_58ugv")
+type = 0
+name = &"max"
+default_value = 1.0
+hint = Dictionary[String, Variant]({})
+disable_input_slot = false
+add_output_slot = false
+
+[sub_resource type="Resource" id="Resource_gk2p2"]
+script = ExtResource("6_8hnto")
+left_enabled = false
+left_type = 0
+left_label = ""
+right_enabled = true
+right_type = 5
+right_label = "Composed Range"
+
+[sub_resource type="Resource" id="Resource_uvfnj"]
+script = ExtResource("10_1bad6")
+input_slots = Array[ExtResource("6_8hnto")]([])
+args = Array[ExtResource("5_58ugv")]([SubResource("Resource_a2hj1"), SubResource("Resource_dkdok")])
+output_slots = Array[ExtResource("6_8hnto")]([SubResource("Resource_gk2p2")])
+title = "ComposeRange"
+description = "Composes a range parameter from two numbers."
+is_output = false
+data = {
+&"max": 1.0,
+&"min": 0.0
+}
+salt = 3066235259
+
+[sub_resource type="Resource" id="Resource_f38r3"]
+script = ExtResource("5_58ugv")
+type = 4
+name = &"range"
+default_value = null
+hint = Dictionary[String, Variant]({})
+disable_input_slot = false
+add_output_slot = false
+
+[sub_resource type="Resource" id="Resource_ppkgb"]
+script = ExtResource("6_8hnto")
+left_enabled = true
+left_type = 0
+left_label = "Data"
+right_enabled = false
+right_type = 0
+right_label = ""
+
+[sub_resource type="Resource" id="Resource_37mns"]
+script = ExtResource("6_8hnto")
+left_enabled = true
+left_type = 2
+left_label = "Material"
+right_enabled = false
+right_type = 0
+right_label = ""
+
+[sub_resource type="Resource" id="Resource_p3vgk"]
+script = ExtResource("6_8hnto")
+left_enabled = false
+left_type = 0
+left_label = ""
+right_enabled = true
+right_type = 1
+right_label = "Map"
+
+[sub_resource type="Resource" id="Resource_0y8q0"]
+script = ExtResource("7_0cw3f")
+input_slots = Array[ExtResource("6_8hnto")]([SubResource("Resource_ppkgb"), SubResource("Resource_37mns")])
+args = Array[ExtResource("5_58ugv")]([SubResource("Resource_f38r3")])
+output_slots = Array[ExtResource("6_8hnto")]([SubResource("Resource_p3vgk")])
+title = "ThresholdMapper"
+description = "Outputs a map.
+For every cell of a value between [param]min[/bg][/c] and [param]max[/bg][/c] (inclusive), sets that cell to [param]material[/bg][/c]. Otherwise, sets it to [code]null[/bg][/c]."
+is_output = false
+data = {
+&"range": {
+"max": 1.0,
+"min": 0.5
+}
+}
+salt = 1342822191
+
+[sub_resource type="Resource" id="Resource_cvpld"]
+script = ExtResource("5_58ugv")
+type = 3
+name = &"name"
+default_value = null
+hint = Dictionary[String, Variant]({})
+disable_input_slot = false
+add_output_slot = false
+
+[sub_resource type="Resource" id="Resource_3ppu3"]
+script = ExtResource("9_xl8e3")
+type = 24
+hint = 17
+hint_string = "GaeaMaterial"
+output_type = 2
+input_slots = Array[ExtResource("6_8hnto")]([])
+args = Array[ExtResource("5_58ugv")]([SubResource("Resource_cvpld")])
+output_slots = Array[ExtResource("6_8hnto")]([])
+title = "MaterialVariable"
+description = "GaeaMaterial variable editable in the inspector."
+is_output = false
+data = {
+&"name": "MaterialVariable"
+}
+salt = 705448692
+
+[sub_resource type="Resource" id="Resource_ouch7"]
+script = ExtResource("4_bhh40")
+layers = Array[ExtResource("2_b53wi")]([SubResource("Resource_lhnq8")])
+connections = Array[Dictionary]([{
+"from_node": 3,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 4,
+"to_port": 0
+}, {
+"from_node": 0,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 3,
+"to_port": 0
+}, {
+"from_node": 2,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 3,
+"to_port": 2
+}, {
+"from_node": 1,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 2,
+"to_port": 0
+}, {
+"from_node": 5,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 3,
+"to_port": 1
+}])
+resources = Array[ExtResource("3_47lpa")]([SubResource("Resource_wgjhc"), SubResource("Resource_11ab4"), SubResource("Resource_uvfnj"), SubResource("Resource_0y8q0"), ExtResource("4_3ppu3"), SubResource("Resource_3ppu3")])
+node_data = Array[Dictionary]([{
+"name": &"_GraphNode_25632",
+"position": Vector2(-760, -320)
+}, {
+"name": &"_GraphNode_25772",
+"position": Vector2(-1040, 40)
+}, {
+"name": &"_GraphNode_25725",
+"position": Vector2(-680, 60)
+}, {
+"name": &"_GraphNode_25550",
+"position": Vector2(-360, -160)
+}, {
+"name": &"BaseNode",
+"position": Vector2(0, 0)
+}, {
+"name": &"_GraphNode_24572",
+"position": Vector2(-680, -100)
+}])
+parameters = Dictionary[StringName, Variant]({
+&"MaterialVariable": {
+"hint": 17,
+"hint_string": "GaeaMaterial",
+"name": "MaterialVariable",
+"type": 24,
+"value": SubResource("Resource_8hnto")
+}
+})
+scroll_offset = Vector2(0, 0)
+other = {
+"scroll_offset": Vector2(-1135.86, -290)
+}
+MaterialVariable = SubResource("Resource_8hnto")
+
+[node name="TmpReroute" type="Node2D"]
+
+[node name="GaeaGenerator" type="Node" parent="."]
+script = ExtResource("1_qu2vt")
+data = SubResource("Resource_ouch7")
+seed = 2243173400
+metadata/_custom_type_script = "uid://d4feanreabm81"
