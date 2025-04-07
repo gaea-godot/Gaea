@@ -8,7 +8,10 @@ var slot: _Slot
 func initialize() -> void:
 	if not is_instance_valid(resource):
 		return
-	
+	title = resource.title
+	resource.node = self
+
+
 	var slot_resource = GaeaNodeSlot.new()
 	slot_resource.left_enabled = true
 	slot_resource.left_type = resource.type

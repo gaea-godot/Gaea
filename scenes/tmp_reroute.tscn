@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://5bk3kjdbc18r"]
+[gd_scene load_steps=37 format=3 uid="uid://5bk3kjdbc18r"]
 
 [ext_resource type="Script" uid="uid://d4feanreabm81" path="res://addons/gaea/nodes/generator.gd" id="1_qu2vt"]
 [ext_resource type="Script" uid="uid://e45byecr4gi6" path="res://addons/gaea/resources/materials/tilemap_material.gd" id="2_58ugv"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" uid="uid://bqa8aufofkr81" path="res://addons/gaea/graph/nodes/variable_node_resource.gd" id="9_xl8e3"]
 [ext_resource type="Script" uid="uid://m0m4x6trd11h" path="res://addons/gaea/graph/nodes/root/other/composition/compose_range.gd" id="10_1bad6"]
 [ext_resource type="Script" uid="uid://bu8niqlr2pe8o" path="res://addons/gaea/graph/nodes/constant.gd" id="11_8srrc"]
+[ext_resource type="Script" uid="uid://bgqqucap4kua4" path="res://addons/gaea/graph/nodes/root/other/reroute_node_resource.gd" id="13_8hnto"]
 
 [sub_resource type="Resource" id="Resource_8hnto"]
 script = ExtResource("2_58ugv")
@@ -99,7 +100,7 @@ title = "FloatConstant"
 description = "A float constant."
 is_output = false
 data = {
-&"value": 0.0
+&"value": 0.5
 }
 salt = 2538178133
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"
@@ -224,6 +225,18 @@ data = {
 }
 salt = 705448692
 
+[sub_resource type="Resource" id="Resource_0cw3f"]
+script = ExtResource("13_8hnto")
+type = 4
+input_slots = Array[ExtResource("6_8hnto")]([])
+args = Array[ExtResource("5_58ugv")]([])
+output_slots = Array[ExtResource("6_8hnto")]([])
+title = "ReRoute"
+description = ""
+is_output = false
+data = {}
+salt = 0
+
 [sub_resource type="Resource" id="Resource_ouch7"]
 script = ExtResource("4_bhh40")
 layers = Array[ExtResource("2_b53wi")]([SubResource("Resource_lhnq8")])
@@ -258,7 +271,7 @@ connections = Array[Dictionary]([{
 "to_node": 3,
 "to_port": 1
 }])
-resources = Array[ExtResource("3_47lpa")]([SubResource("Resource_wgjhc"), SubResource("Resource_11ab4"), SubResource("Resource_uvfnj"), SubResource("Resource_0y8q0"), ExtResource("4_3ppu3"), SubResource("Resource_3ppu3")])
+resources = Array[ExtResource("3_47lpa")]([SubResource("Resource_wgjhc"), SubResource("Resource_11ab4"), SubResource("Resource_uvfnj"), SubResource("Resource_0y8q0"), ExtResource("4_3ppu3"), SubResource("Resource_3ppu3"), SubResource("Resource_0cw3f")])
 node_data = Array[Dictionary]([{
 "name": &"_GraphNode_25632",
 "position": Vector2(-760, -320)
@@ -277,6 +290,9 @@ node_data = Array[Dictionary]([{
 }, {
 "name": &"_GraphNode_24572",
 "position": Vector2(-680, -100)
+}, {
+"name": &"_GraphNode_24635",
+"position": Vector2(-1020, 180)
 }])
 parameters = Dictionary[StringName, Variant]({
 &"MaterialVariable": {
@@ -289,7 +305,7 @@ parameters = Dictionary[StringName, Variant]({
 })
 scroll_offset = Vector2(0, 0)
 other = {
-"scroll_offset": Vector2(-1135.86, -290)
+"scroll_offset": Vector2(-1157.72, -349.587)
 }
 MaterialVariable = SubResource("Resource_8hnto")
 
@@ -298,5 +314,5 @@ MaterialVariable = SubResource("Resource_8hnto")
 [node name="GaeaGenerator" type="Node" parent="."]
 script = ExtResource("1_qu2vt")
 data = SubResource("Resource_ouch7")
-seed = 2243173400
+seed = 1548690562
 metadata/_custom_type_script = "uid://d4feanreabm81"
