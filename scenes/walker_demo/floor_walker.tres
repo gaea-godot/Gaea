@@ -17,7 +17,7 @@
 [ext_resource type="Script" uid="uid://dvbwtw53ut2hc" path="res://addons/gaea/graph/nodes/complement.gd" id="14_oc7x7"]
 [ext_resource type="Script" uid="uid://bmxbe51xh0t7d" path="res://addons/gaea/graph/nodes/union.gd" id="17_drb3t"]
 [ext_resource type="Script" uid="uid://br8gcsyc04ksj" path="res://addons/gaea/graph/nodes/root/map/placing/rules_placer.gd" id="17_x5s41"]
-[ext_resource type="Script" uid="uid://b38syakgm25ya" path="res://addons/gaea/graph/nodes/root/data/filters/random_filter.gd" id="18_vyp3c"]
+[ext_resource type="Script" path="res://addons/gaea/graph/nodes/root/data/filters/random_filter.gd" id="18_vyp3c"]
 
 [sub_resource type="Resource" id="Resource_j6vep"]
 script = ExtResource("1_wtjh4")
@@ -1340,13 +1340,13 @@ other = {
 "attached": Array[StringName]([&"BaseNode", &"BaseNode6"]),
 "autoshrink": true,
 "name": &"_GraphFrame_37032",
-"position": Vector2(-740, 740),
+"position": Vector2(-740, 739),
 "size": Vector2(492, 234),
 "tint_color": Color(0.174225, 0.208835, 0.257812, 0.75),
 "tint_color_enabled": true,
 "title": "Floor"
 }],
-"scroll_offset": Vector2(-792.253, 209.73)
+"scroll_offset": Vector2(-792.253, 0)
 }
 Chest = SubResource("Resource_j6vep")
 FloorMaterial = SubResource("Resource_e1h74")

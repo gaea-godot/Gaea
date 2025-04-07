@@ -1,10 +1,11 @@
 @tool
 extends Control
 
+const _LinkPopup = preload("uid://btt4eqjkp5pyf")
+
+var undo_redo: EditorUndoRedoManager
 var _selected_generator: GaeaGenerator = null: get = get_selected_generator
 var _output_node: GraphNode
-
-const _LinkPopup = preload("uid://btt4eqjkp5pyf")
 
 @onready var _no_data: Control = $NoData
 @onready var _editor: Control = $Editor
@@ -100,16 +101,24 @@ func _on_graph_edit_gui_input(event: InputEvent) -> void:
 				_popup_node_context_menu_at_mouse(_selected)
 
 
+func _readd_node(resource: GaeaNodeResource, previous_name: StringName, position_offset: Vector2) -> void:
+	var _node: GaeaGraphNode = _add_node(resource)
+	_node.name = previous_name
+	_node.set_position_offset(position_offset)
+
+
 func _add_node(resource: GaeaNodeResource) -> GraphNode:
 	var node: GaeaGraphNode = resource.get_scene().instantiate()
 	node.resource = resource
 	node.generator = get_selected_generator()
 	_graph_edit.add_child(node)
 
+
 	#node.set_generator_reference(_selected_generator)
 	node.on_added()
 	node.save_requested.connect(_save_data)
 	node.name = node.name.replace("@", "_")
+
 	return node
 
 
@@ -139,7 +148,11 @@ func _add_node_at_mouse(resource: GaeaNodeResource) -> GraphNode:
 func _on_tree_node_selected_for_creation(resource: GaeaNodeResource) -> void:
 	_create_node_popup.hide()
 
-	_add_node_at_mouse(resource)
+	var _node: GraphNode = _add_node_at_mouse(resource)
+	undo_redo.create_action("Gaea: Create %s" % resource.title)
+	undo_redo.add_do_method(self, &"_readd_node", resource, _node.name, _node.get_position_offset())
+	undo_redo.add_undo_method(_graph_edit, &"delete_nodes", Array([_node.name], TYPE_STRING_NAME, "", null))
+	undo_redo.commit_action(false)
 
 
 func _on_cancel_create_button_pressed() -> void:
