@@ -160,6 +160,30 @@ data = {
 }
 salt = 705448692
 
+[sub_resource type="Resource" id="Resource_givc6"]
+script = ExtResource("5_58ugv")
+type = 0
+name = &"value"
+default_value = null
+hint = Dictionary[String, Variant]({})
+disable_input_slot = true
+add_output_slot = true
+metadata/_custom_type_script = "uid://bh3sajxnmp14w"
+
+[sub_resource type="Resource" id="Resource_11ab4"]
+script = ExtResource("11_8srrc")
+input_slots = Array[ExtResource("6_8hnto")]([])
+args = Array[ExtResource("5_58ugv")]([SubResource("Resource_givc6")])
+output_slots = Array[ExtResource("6_8hnto")]([])
+title = "FloatConstant"
+description = "A float constant."
+is_output = false
+data = {
+&"value": 0.5
+}
+salt = 2538178133
+metadata/_custom_type_script = "uid://brb1clh2y2bv0"
+
 [sub_resource type="Resource" id="Resource_a2hj1"]
 script = ExtResource("5_58ugv")
 type = 0
@@ -201,30 +225,6 @@ data = {
 }
 salt = 3066235259
 
-[sub_resource type="Resource" id="Resource_givc6"]
-script = ExtResource("5_58ugv")
-type = 0
-name = &"value"
-default_value = null
-hint = Dictionary[String, Variant]({})
-disable_input_slot = true
-add_output_slot = true
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
-
-[sub_resource type="Resource" id="Resource_11ab4"]
-script = ExtResource("11_8srrc")
-input_slots = Array[ExtResource("6_8hnto")]([])
-args = Array[ExtResource("5_58ugv")]([SubResource("Resource_givc6")])
-output_slots = Array[ExtResource("6_8hnto")]([])
-title = "FloatConstant"
-description = "A float constant."
-is_output = false
-data = {
-&"value": 0.5
-}
-salt = 2538178133
-metadata/_custom_type_script = "uid://brb1clh2y2bv0"
-
 [sub_resource type="Resource" id="Resource_ouch7"]
 script = ExtResource("4_bhh40")
 layers = Array[ExtResource("2_b53wi")]([SubResource("Resource_lhnq8")])
@@ -241,31 +241,55 @@ connections = Array[Dictionary]([{
 "to_node": 1,
 "to_port": 0
 }, {
-"from_node": 4,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 1,
-"to_port": 2
-}, {
 "from_node": 3,
 "from_port": 0,
 "keep_alive": false,
 "to_node": 1,
 "to_port": 1
 }, {
+"from_node": 4,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 7,
+"to_port": 0
+}, {
+"from_node": 7,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 4,
+"to_port": 0
+}, {
+"from_node": 4,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 1,
+"to_port": 2
+}, {
 "from_node": 6,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 5,
+"to_node": 4,
 "to_port": 0
 }, {
-"from_node": 5,
+"from_node": 4,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 4,
+"to_port": 0
+}, {
+"from_node": 4,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 7,
+"to_port": 1
+}, {
+"from_node": 4,
 "from_port": 0,
 "keep_alive": false,
 "to_node": 4,
 "to_port": 0
 }])
-resources = Array[ExtResource("3_47lpa")]([SubResource("Resource_wgjhc"), SubResource("Resource_0y8q0"), ExtResource("4_3ppu3"), SubResource("Resource_3ppu3"), SubResource("Resource_uvfnj"), ExtResource("13_8hnto"), SubResource("Resource_11ab4")])
+resources = Array[ExtResource("3_47lpa")]([SubResource("Resource_wgjhc"), SubResource("Resource_0y8q0"), ExtResource("4_3ppu3"), SubResource("Resource_3ppu3"), ExtResource("13_8hnto"), ExtResource("13_8hnto"), SubResource("Resource_11ab4"), SubResource("Resource_uvfnj"), ExtResource("13_8hnto")])
 node_data = Array[Dictionary]([{
 "name": &"_GraphNode_25632",
 "position": Vector2(-760, -320)
@@ -279,15 +303,23 @@ node_data = Array[Dictionary]([{
 "name": &"_GraphNode_24572",
 "position": Vector2(-680, -100)
 }, {
-"name": &"_GraphNode_25725",
-"position": Vector2(-680, 60)
+"name": &"_GraphNode_57727",
+"position": Vector2(-680, 20),
+&"type": 4
 }, {
-"name": &"BaseNode",
-"position": Vector2(-720, 60),
+"name": &"_GraphNode_57727",
+"position": Vector2(-680, 20),
 &"type": 4
 }, {
 "name": &"_GraphNode_25772",
-"position": Vector2(-920, 60)
+"position": Vector2(-960, 60)
+}, {
+"name": &"_GraphNode_25725",
+"position": Vector2(-620, 60)
+}, {
+"name": &"_GraphNode_57727",
+"position": Vector2(-680, 20),
+&"type": 4
 }])
 parameters = Dictionary[StringName, Variant]({
 &"MaterialVariable": {
@@ -300,7 +332,7 @@ parameters = Dictionary[StringName, Variant]({
 })
 scroll_offset = Vector2(0, 0)
 other = {
-"scroll_offset": Vector2(-2113.13, -145.38)
+"scroll_offset": Vector2(-2025.8, -251.062)
 }
 MaterialVariable = SubResource("Resource_8hnto")
 
