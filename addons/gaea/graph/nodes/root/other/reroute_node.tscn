@@ -1,10 +1,27 @@
-[gd_scene load_steps=3 format=3 uid="uid://b2rceqo8rtr88"]
+[gd_scene load_steps=5 format=3 uid="uid://b2rceqo8rtr88"]
 
 [ext_resource type="PackedScene" uid="uid://b7e2d15kxt2im" path="res://addons/gaea/graph/nodes/node.tscn" id="1_0qpbo"]
 [ext_resource type="Script" uid="uid://bs40iof8ipbkq" path="res://addons/gaea/graph/nodes/root/other/reroute_node.gd" id="1_52lmj"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fbfsu"]
+content_margin_top = 5.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6svu7"]
+
 [node name="BaseNode" instance=ExtResource("1_0qpbo")]
-custom_minimum_size = Vector2(0, 0)
+custom_minimum_size = Vector2(20, 0)
+offset_left = -20.0
+offset_top = -61.0
+offset_right = 20.0
+offset_bottom = 20.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_fbfsu")
+theme_override_styles/panel_selected = SubResource("StyleBoxEmpty_6svu7")
+theme_override_styles/titlebar = SubResource("StyleBoxEmpty_6svu7")
+theme_override_styles/titlebar_selected = SubResource("StyleBoxEmpty_6svu7")
+theme_override_styles/slot = SubResource("StyleBoxEmpty_6svu7")
 resizable = false
 title = ""
 script = ExtResource("1_52lmj")

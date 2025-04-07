@@ -265,16 +265,22 @@ connections = Array[Dictionary]([{
 "to_node": 2,
 "to_port": 1
 }, {
-"from_node": 5,
+"from_node": 6,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 6,
+"to_node": 1,
 "to_port": 0
 }, {
 "from_node": 6,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 1,
+"to_node": 6,
+"to_port": 0
+}, {
+"from_node": 5,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 6,
 "to_port": 0
 }])
 resources = Array[ExtResource("3_47lpa")]([SubResource("Resource_wgjhc"), SubResource("Resource_uvfnj"), SubResource("Resource_0y8q0"), ExtResource("4_3ppu3"), SubResource("Resource_3ppu3"), SubResource("Resource_11ab4"), SubResource("Resource_0cw3f")])
@@ -311,7 +317,7 @@ parameters = Dictionary[StringName, Variant]({
 })
 scroll_offset = Vector2(0, 0)
 other = {
-"scroll_offset": Vector2(-1655.57, -286.775)
+"scroll_offset": Vector2(-1666, -52.6823)
 }
 MaterialVariable = SubResource("Resource_8hnto")
 
