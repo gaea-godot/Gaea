@@ -32,6 +32,10 @@ func delete_nodes(nodes: Array[StringName]) -> void:
 
 
 func _on_connection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
+	for connection: Dictionary in get_connection_list():
+		if connection.to_node == to_node and connection.to_port == to_port:
+			disconnect_node(connection.from_node, connection.from_port, connection.to_node, connection.to_port)
+
 	connect_node(from_node, from_port, to_node, to_port)
 	request_connection_update.emit()
 
@@ -89,3 +93,12 @@ func _on_graph_elements_linked_to_frame_request(elements: Array, frame: StringNa
 
 func _on_element_attached_to_frame(element: StringName, frame: StringName) -> void:
 	attached_elements.set(element, frame)
+
+
+func _is_node_hover_valid(from_node: StringName, _from_port: int, to_node: StringName, to_port: int):
+	if from_node == to_node:
+		return false
+	if Input.is_key_pressed(KEY_SHIFT):
+		return true
+	else:
+		return get_connection_count(to_node, to_port) == 0
