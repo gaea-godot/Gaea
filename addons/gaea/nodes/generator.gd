@@ -11,10 +11,10 @@ signal reset_requested
 signal area_erased(area: AABB)
 
 
-@export var data: GaeaData :
+@export var data: GaeaData:
 	set(value):
 		data = value
-		if data:
+		if is_instance_valid(data):
 			data.generator = self
 		data_changed.emit()
 @warning_ignore("shadowed_global_identifier")

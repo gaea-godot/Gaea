@@ -1,7 +1,7 @@
 @tool
 extends Control
 
-var _selected_generator: GaeaGenerator = null : get = get_selected_generator
+var _selected_generator: GaeaGenerator = null: get = get_selected_generator
 var _output_node: GraphNode
 
 const _LinkPopup = preload("uid://btt4eqjkp5pyf")
@@ -20,7 +20,6 @@ const _LinkPopup = preload("uid://btt4eqjkp5pyf")
 @onready var _file_dialog: FileDialog = $FileDialog
 @onready var _window_popout_button: Button = $Editor/VBoxContainer/HBoxContainer/WindowPopoutButton
 @onready var _window_popout_separator: VSeparator = $Editor/VBoxContainer/HBoxContainer/WindowPopoutSeparator
-
 
 
 func _ready() -> void:
@@ -80,7 +79,6 @@ func _on_data_changed() -> void:
 
 
 func _popup_create_node_menu_at_mouse() -> void:
-
 	_create_node_popup.position = get_global_mouse_position() as Vector2i + get_window().position
 	_create_node_popup.popup()
 
@@ -375,8 +373,6 @@ func _on_window_popout_button_pressed() -> void:
 	window.popup()
 	_window_popout_button.hide()
 	_window_popout_separator.hide()
-
-
 
 
 func _on_window_close_requested(original_parent: Control, window: Window) -> void:
