@@ -5,7 +5,6 @@ type="CompressedTexture2D"
 uid="uid://4b3i1xqd4052"
 path="res://.godot/imported/rounded_square.svg-98b3e8420b9411ed3d1fec561f5ce764.ctex"
 metadata={
-"has_editor_variant": true,
 "vram_texture": false
 }
 
@@ -34,5 +33,5 @@ process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
 svg/scale=1.0
-editor/scale_with_editor_scale=true
-editor/convert_colors_with_editor_theme=true
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false
