@@ -34,7 +34,7 @@ func _ready() -> void:
 func populate(node: GaeaGenerator) -> void:
 	_remove_children()
 	_output_node = null
-	if _selected_generator != null and _selected_generator.data_changed.is_connected(_on_data_changed):
+	if is_instance_valid(_selected_generator) and _selected_generator.data_changed.is_connected(_on_data_changed):
 		_selected_generator.data_changed.disconnect(_on_data_changed)
 	_selected_generator = node
 	if not _selected_generator.data_changed.is_connected(_on_data_changed):
@@ -54,7 +54,7 @@ func unpopulate() -> void:
 	_save_data()
 
 	if is_instance_valid(_selected_generator):
-		if _selected_generator.data != null and _selected_generator.data.layer_count_modified.is_connected(_update_output_node):
+		if is_instance_valid(_selected_generator.data) and _selected_generator.data.layer_count_modified.is_connected(_update_output_node):
 			_selected_generator.data.layer_count_modified.disconnect(_update_output_node)
 		if _selected_generator.data_changed.is_connected(_on_data_changed):
 			_selected_generator.data_changed.disconnect(_on_data_changed)
