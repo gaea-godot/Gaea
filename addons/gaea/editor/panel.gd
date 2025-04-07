@@ -176,7 +176,7 @@ func update_connections() -> void:
 
 
 func _save_data() -> void:
-	if not is_instance_valid(_selected_generator) or _selected_generator.data == null:
+	if not is_instance_valid(_selected_generator) or not is_instance_valid(_selected_generator.data):
 		return
 
 	_selected_generator.data.node_data.clear()
