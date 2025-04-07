@@ -1,8 +1,28 @@
-[gd_resource type="Resource" script_class="GaeaNodeResource" load_steps=5 format=3 uid="uid://dtc6nrgjvi8pw"]
+[gd_resource type="Resource" script_class="GaeaNodeResource" load_steps=7 format=3 uid="uid://dtc6nrgjvi8pw"]
 
 [ext_resource type="Script" uid="uid://bh3sajxnmp14w" path="res://addons/gaea/graph/nodes/node_argument.gd" id="1_s1oqb"]
 [ext_resource type="Script" uid="uid://ote622wl6axc" path="res://addons/gaea/graph/nodes/node_slot.gd" id="2_00oos"]
 [ext_resource type="Script" uid="uid://brb1clh2y2bv0" path="res://addons/gaea/graph/nodes/node_resource.gd" id="3_7pl3n"]
+
+[sub_resource type="Resource" id="Resource_00oos"]
+script = ExtResource("1_s1oqb")
+type = 0
+name = &"a"
+default_value = null
+hint = Dictionary[String, Variant]({})
+disable_input_slot = false
+add_output_slot = false
+metadata/_custom_type_script = "uid://bh3sajxnmp14w"
+
+[sub_resource type="Resource" id="Resource_7pl3n"]
+script = ExtResource("1_s1oqb")
+type = 0
+name = &"b"
+default_value = null
+hint = Dictionary[String, Variant]({})
+disable_input_slot = false
+add_output_slot = false
+metadata/_custom_type_script = "uid://bh3sajxnmp14w"
 
 [sub_resource type="Resource" id="Resource_s1oqb"]
 script = ExtResource("2_00oos")
@@ -17,7 +37,7 @@ metadata/_custom_type_script = "uid://ote622wl6axc"
 [resource]
 script = ExtResource("3_7pl3n")
 input_slots = Array[ExtResource("2_00oos")]([])
-args = Array[ExtResource("1_s1oqb")]([])
+args = Array[ExtResource("1_s1oqb")]([SubResource("Resource_00oos"), SubResource("Resource_7pl3n")])
 output_slots = Array[ExtResource("2_00oos")]([SubResource("Resource_s1oqb")])
 title = "Add (+)"
 description = "Adds [param]a[/bg][/c] and [param]b[/bg][/c] together."
