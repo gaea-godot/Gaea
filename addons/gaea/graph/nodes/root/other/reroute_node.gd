@@ -55,10 +55,13 @@ func update_slot() -> void:
 
 func get_save_data() -> Dictionary:
 	var data = super()
+	data.type = resource.type
 	return data
 
 
 func _draw_port(slot_index: int, pos: Vector2i, left: bool, color: Color) -> void:
+	if left:
+		return
 	var port_icon = get_slot_custom_icon_right(slot_index)
 	if not is_instance_valid(port_icon):
 		port_icon = get_theme_icon(&"port", &"GraphNode")

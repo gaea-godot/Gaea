@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://5bk3kjdbc18r"]
+[gd_scene load_steps=36 format=3 uid="uid://5bk3kjdbc18r"]
 
 [ext_resource type="Script" uid="uid://d4feanreabm81" path="res://addons/gaea/nodes/generator.gd" id="1_qu2vt"]
 [ext_resource type="Script" uid="uid://e45byecr4gi6" path="res://addons/gaea/resources/materials/tilemap_material.gd" id="2_58ugv"]
@@ -13,7 +13,7 @@
 [ext_resource type="Script" uid="uid://bqa8aufofkr81" path="res://addons/gaea/graph/nodes/variable_node_resource.gd" id="9_xl8e3"]
 [ext_resource type="Script" uid="uid://m0m4x6trd11h" path="res://addons/gaea/graph/nodes/root/other/composition/compose_range.gd" id="10_1bad6"]
 [ext_resource type="Script" uid="uid://bu8niqlr2pe8o" path="res://addons/gaea/graph/nodes/constant.gd" id="11_8srrc"]
-[ext_resource type="Script" uid="uid://bgqqucap4kua4" path="res://addons/gaea/graph/nodes/root/other/reroute_node_resource.gd" id="13_8hnto"]
+[ext_resource type="Resource" uid="uid://b0uggpieo6brr" path="res://addons/gaea/graph/nodes/root/other/reroute_node_resource.tres" id="13_8hnto"]
 
 [sub_resource type="Resource" id="Resource_8hnto"]
 script = ExtResource("2_58ugv")
@@ -80,47 +80,6 @@ data = {
 &"octaves": 5.0
 }
 salt = 2427669376
-
-[sub_resource type="Resource" id="Resource_a2hj1"]
-script = ExtResource("5_58ugv")
-type = 0
-name = &"min"
-default_value = null
-hint = Dictionary[String, Variant]({})
-disable_input_slot = false
-add_output_slot = false
-
-[sub_resource type="Resource" id="Resource_dkdok"]
-script = ExtResource("5_58ugv")
-type = 0
-name = &"max"
-default_value = 1.0
-hint = Dictionary[String, Variant]({})
-disable_input_slot = false
-add_output_slot = false
-
-[sub_resource type="Resource" id="Resource_gk2p2"]
-script = ExtResource("6_8hnto")
-left_enabled = false
-left_type = 0
-left_label = ""
-right_enabled = true
-right_type = 5
-right_label = "Composed Range"
-
-[sub_resource type="Resource" id="Resource_uvfnj"]
-script = ExtResource("10_1bad6")
-input_slots = Array[ExtResource("6_8hnto")]([])
-args = Array[ExtResource("5_58ugv")]([SubResource("Resource_a2hj1"), SubResource("Resource_dkdok")])
-output_slots = Array[ExtResource("6_8hnto")]([SubResource("Resource_gk2p2")])
-title = "ComposeRange"
-description = "Composes a range parameter from two numbers."
-is_output = false
-data = {
-&"max": 1.0,
-&"min": 0.0
-}
-salt = 3066235259
 
 [sub_resource type="Resource" id="Resource_f38r3"]
 script = ExtResource("5_58ugv")
@@ -201,6 +160,47 @@ data = {
 }
 salt = 705448692
 
+[sub_resource type="Resource" id="Resource_a2hj1"]
+script = ExtResource("5_58ugv")
+type = 0
+name = &"min"
+default_value = null
+hint = Dictionary[String, Variant]({})
+disable_input_slot = false
+add_output_slot = false
+
+[sub_resource type="Resource" id="Resource_dkdok"]
+script = ExtResource("5_58ugv")
+type = 0
+name = &"max"
+default_value = 1.0
+hint = Dictionary[String, Variant]({})
+disable_input_slot = false
+add_output_slot = false
+
+[sub_resource type="Resource" id="Resource_gk2p2"]
+script = ExtResource("6_8hnto")
+left_enabled = false
+left_type = 0
+left_label = ""
+right_enabled = true
+right_type = 5
+right_label = "Composed Range"
+
+[sub_resource type="Resource" id="Resource_uvfnj"]
+script = ExtResource("10_1bad6")
+input_slots = Array[ExtResource("6_8hnto")]([])
+args = Array[ExtResource("5_58ugv")]([SubResource("Resource_a2hj1"), SubResource("Resource_dkdok")])
+output_slots = Array[ExtResource("6_8hnto")]([SubResource("Resource_gk2p2")])
+title = "ComposeRange"
+description = "Composes a range parameter from two numbers."
+is_output = false
+data = {
+&"max": 1.0,
+&"min": 0.0
+}
+salt = 3066235259
+
 [sub_resource type="Resource" id="Resource_givc6"]
 script = ExtResource("5_58ugv")
 type = 0
@@ -225,71 +225,50 @@ data = {
 salt = 2538178133
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"
 
-[sub_resource type="Resource" id="Resource_0cw3f"]
-script = ExtResource("13_8hnto")
-type = 4
-input_slots = Array[ExtResource("6_8hnto")]([])
-args = Array[ExtResource("5_58ugv")]([])
-output_slots = Array[ExtResource("6_8hnto")]([])
-title = "ReRoute"
-description = ""
-is_output = false
-data = {}
-salt = 0
-
 [sub_resource type="Resource" id="Resource_ouch7"]
 script = ExtResource("4_bhh40")
 layers = Array[ExtResource("2_b53wi")]([SubResource("Resource_lhnq8")])
 connections = Array[Dictionary]([{
-"from_node": 2,
+"from_node": 1,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 3,
+"to_node": 2,
 "to_port": 0
 }, {
 "from_node": 0,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 2,
+"to_node": 1,
 "to_port": 0
-}, {
-"from_node": 1,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 2,
-"to_port": 2
 }, {
 "from_node": 4,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 2,
+"to_node": 1,
+"to_port": 2
+}, {
+"from_node": 3,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 1,
 "to_port": 1
 }, {
 "from_node": 6,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 1,
-"to_port": 0
-}, {
-"from_node": 6,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 6,
+"to_node": 5,
 "to_port": 0
 }, {
 "from_node": 5,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 6,
+"to_node": 4,
 "to_port": 0
 }])
-resources = Array[ExtResource("3_47lpa")]([SubResource("Resource_wgjhc"), SubResource("Resource_uvfnj"), SubResource("Resource_0y8q0"), ExtResource("4_3ppu3"), SubResource("Resource_3ppu3"), SubResource("Resource_11ab4"), SubResource("Resource_0cw3f")])
+resources = Array[ExtResource("3_47lpa")]([SubResource("Resource_wgjhc"), SubResource("Resource_0y8q0"), ExtResource("4_3ppu3"), SubResource("Resource_3ppu3"), SubResource("Resource_uvfnj"), ExtResource("13_8hnto"), SubResource("Resource_11ab4")])
 node_data = Array[Dictionary]([{
 "name": &"_GraphNode_25632",
 "position": Vector2(-760, -320)
-}, {
-"name": &"_GraphNode_25725",
-"position": Vector2(-680, 60)
 }, {
 "name": &"_GraphNode_25550",
 "position": Vector2(-360, -160)
@@ -300,11 +279,15 @@ node_data = Array[Dictionary]([{
 "name": &"_GraphNode_24572",
 "position": Vector2(-680, -100)
 }, {
-"name": &"_GraphNode_25772",
-"position": Vector2(-1220, 40)
+"name": &"_GraphNode_25725",
+"position": Vector2(-680, 60)
 }, {
-"name": &"_GraphNode_24662",
-"position": Vector2(-880, 20)
+"name": &"BaseNode",
+"position": Vector2(-720, 60),
+&"type": 4
+}, {
+"name": &"_GraphNode_25772",
+"position": Vector2(-920, 60)
 }])
 parameters = Dictionary[StringName, Variant]({
 &"MaterialVariable": {
@@ -317,7 +300,7 @@ parameters = Dictionary[StringName, Variant]({
 })
 scroll_offset = Vector2(0, 0)
 other = {
-"scroll_offset": Vector2(-1666, -52.6823)
+"scroll_offset": Vector2(-2113.13, -145.38)
 }
 MaterialVariable = SubResource("Resource_8hnto")
 

@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://bs40iof8ipbkq" path="res://addons/gaea/graph/nodes/root/other/reroute_node.gd" id="1_52lmj"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fbfsu"]
+resource_name = "Empty with margin"
 content_margin_top = 5.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6svu7"]
@@ -18,7 +19,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_constants/separation = 0
 theme_override_styles/panel = SubResource("StyleBoxEmpty_fbfsu")
-theme_override_styles/panel_selected = SubResource("StyleBoxEmpty_6svu7")
+theme_override_styles/panel_selected = SubResource("StyleBoxEmpty_fbfsu")
 theme_override_styles/titlebar = SubResource("StyleBoxEmpty_6svu7")
 theme_override_styles/titlebar_selected = SubResource("StyleBoxEmpty_6svu7")
 theme_override_styles/slot = SubResource("StyleBoxEmpty_6svu7")

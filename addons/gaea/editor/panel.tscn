@@ -297,4 +297,5 @@ filters = PackedStringArray("*.tres,*.res;Resources")
 [connection signal="pressed" from="Editor/CreateNodePopup/Margin/VBox/HBoxContainer/CancelButton" to="." method="_on_cancel_create_button_pressed"]
 [connection signal="pressed" from="Editor/CreateNodePopup/Margin/VBox/HBoxContainer/CreateButton" to="Editor/CreateNodePopup/Margin/VBox/Tree" method="_on_create_button_pressed"]
 [connection signal="create_node_popup_requested" from="Editor/NodePopup" to="." method="_popup_create_node_menu_at_mouse"]
+[connection signal="create_new_reroute" from="Editor/LinkPopup" to="." method="_on_create_new_reroute"]
 [connection signal="file_selected" from="FileDialog" to="." method="_on_file_dialog_file_selected"]
