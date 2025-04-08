@@ -11,11 +11,8 @@ content_margin_top = 6.0
 
 [node name="BaseNode" instance=ExtResource("1_0qpbo")]
 custom_minimum_size = Vector2(20, 0)
-offset_right = 40.0
-offset_bottom = 84.0
-size_flags_horizontal = 4
-size_flags_vertical = 4
 theme_override_constants/separation = 0
+theme_override_constants/port_h_offset = 16
 theme_override_styles/panel = SubResource("StyleBoxEmpty_fbfsu")
 theme_override_styles/panel_selected = SubResource("StyleBoxEmpty_fbfsu")
 theme_override_styles/titlebar = SubResource("StyleBoxEmpty_6svu7")
@@ -23,4 +20,18 @@ theme_override_styles/titlebar_selected = SubResource("StyleBoxEmpty_6svu7")
 theme_override_styles/slot = SubResource("StyleBoxEmpty_6svu7")
 resizable = false
 title = ""
+slot/0/left_enabled = true
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 1, 1, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = true
+slot/0/right_type = 0
+slot/0/right_color = Color(1, 1, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
 script = ExtResource("1_52lmj")
+
+[node name="Control" type="Control" parent="." index="1"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+mouse_filter = 2

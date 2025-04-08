@@ -6,7 +6,6 @@
 
 [resource]
 script = ExtResource("1_x2o78")
-type = 4
 input_slots = Array[ExtResource("2_ljld5")]([])
 args = Array[ExtResource("1_gtekm")]([])
 output_slots = Array[ExtResource("2_ljld5")]([])

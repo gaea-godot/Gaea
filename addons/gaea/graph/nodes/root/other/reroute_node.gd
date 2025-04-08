@@ -2,10 +2,12 @@
 extends GaeaGraphNode
 
 const _RerouteResource = preload("uid://bgqqucap4kua4")
-const _Slot = preload("uid://dgb4blornaq38")
-var slot: _Slot
 var tween: Tween
-
+var type: GaeaGraphNode.SlotTypes = GaeaGraphNode.SlotTypes.NUMBER:
+	set(new_value):
+		if type != new_value:
+			type = new_value
+			_update_slots(new_value)
 
 
 var icon_opacity: float = 0.0:
@@ -15,46 +17,41 @@ var icon_opacity: float = 0.0:
 
 func initialize() -> void:
 	if not is_instance_valid(resource):
-		print("Invalid resource")
 		return
 	resource.node = self
 	
 	var titlebar_hbox = get_titlebar_hbox()
 	var titlebar_label = titlebar_hbox.get_child(0)
 	titlebar_label.hide()
-	
+
 	var slot_size = Vector2(32, 32) * EditorInterface.get_editor_scale()
 	titlebar_hbox.set_custom_minimum_size(slot_size)
-	titlebar_hbox.mouse_entered.connect(set_icon_opacity.bind(1.0))
-	titlebar_hbox.mouse_exited.connect(set_icon_opacity.bind(0.0))
+	titlebar_hbox.mouse_entered.connect(_set_icon_opacity.bind(1.0))
+	titlebar_hbox.mouse_exited.connect(_set_icon_opacity.bind(0.0))
 
-	var slot_area = Control.new()
-	slot_area.set_custom_minimum_size(slot_size)
-	slot_area.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(slot_area)
+	_update_slots(type)
 
-	add_theme_constant_override("port_h_offset", size.x * 0.5)
-
-	var color = GaeaGraphNode.get_color_from_type(resource.type)
+func _update_slots(type: GaeaGraphNode.SlotTypes):
+	var color = GaeaGraphNode.get_color_from_type(type)
 	set_slot(0,
-		true, resource.type, color,
-		true, resource.type, color,
+		true, type, color,
+		true, type, color,
 	)
-	set_slot_custom_icon_right(0, GaeaGraphNode.get_icon_from_type(resource.type))
-
-
-func update_type(new_type: SlotTypes) -> void:
-	resource.type = new_type
-	slot.left_type = resource.type
-	slot.right_type = resource.type
-
+	set_slot_type_left(0, type)
+	set_slot_type_right(0, type)
+	set_slot_custom_icon_right(0, GaeaGraphNode.get_icon_from_type(type))
 
 
 func get_save_data() -> Dictionary:
 	var data = super()
-	data.type = resource.type
+	data.type = type
 	return data
 
+
+func load_save_data(data: Dictionary) -> void:
+	if data.has(&"type"):
+		type = data.type
+	super(data)
 
 func _draw_port(slot_index: int, pos: Vector2i, left: bool, color: Color) -> void:
 	if left:
@@ -69,7 +66,6 @@ func _draw_port(slot_index: int, pos: Vector2i, left: bool, color: Color) -> voi
 		port_icon.get_size() * editor_scale
 	)
 	draw_texture_rect(port_icon, texture_rect, false, color)
-
 
 
 func _draw() -> void:
@@ -88,7 +84,7 @@ func _draw() -> void:
 	draw_texture(icon, icon_offset, Color(1, 1, 1, opacity))
 
 
-func set_icon_opacity(value: float):
+func _set_icon_opacity(value: float):
 	if is_instance_valid(tween):
 		tween.kill()
 	tween = create_tween()

@@ -8,7 +8,8 @@ var _output_node: GraphNode
 var _node_creation_target: Vector2 = Vector2.ZERO
 
 const _LinkPopup = preload("uid://btt4eqjkp5pyf")
-
+const _RerouteNode = preload("uid://bs40iof8ipbkq")
+	
 @onready var _no_data: Control = $NoData
 @onready var _editor: Control = $Editor
 @onready var _graph_edit: GraphEdit = %GraphEdit
@@ -387,17 +388,17 @@ func _on_window_close_requested(original_parent: Control, window: Window) -> voi
 
 
 func _on_create_new_reroute(connection: Dictionary) -> void:
-	var reroute: GraphNode = _add_node(preload("uid://b0uggpieo6brr"))
+
+	var reroute: _RerouteNode = _add_node(preload("uid://b0uggpieo6brr"))
+	
 	var offset = - reroute.get_output_port_position(0)
 	offset.y -= reroute.get_slot_custom_icon_right(0).get_size().y * 0.5
 	reroute.set_position_offset(_local_to_grid(_node_creation_target, offset))
 	
-	var from_node: GraphNode = _graph_edit.get_node(NodePath(connection.from_node))
+	var from_node: GraphNode = _graph_edit.get_node(NodePath(connection.from_node))	
+	var link_type = from_node.get_output_port_type(connection.from_port)
+	reroute.type = link_type
 	
-	var link_type = from_node.get_slot_type_right(connection.from_port)
-	prints("reroute", reroute)
-	reroute.set_type(link_type)
-	prints("link_type", link_type)
 	_graph_edit.disconnect_node(
 		connection.from_node, connection.from_port,
 		connection.to_node, connection.to_port,
