@@ -10,8 +10,9 @@ class Walker:
 	var pos: Vector3
 
 
-
-func get_data(_output_port: int, area: AABB, generator_data: GaeaData) -> Dictionary:
+func get_data(_passed_data:Array[Dictionary], _output_port: int, area: AABB, generator_data: GaeaData) -> Dictionary:
+	log_data(_output_port, generator_data)
+	
 	var _starting_position: Vector3 = get_arg("starting_position", generator_data)
 	_starting_position = _starting_position.round()
 

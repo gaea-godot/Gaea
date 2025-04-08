@@ -27,16 +27,93 @@ var node: GaeaGraphNode
 enum Axis {X, Y, Z}
 
 
-func get_data(_output_port: int, _area: AABB, _generator_data: GaeaData) -> Dictionary:
-	return {}
-
-
+# Execution
 func execute(_area: AABB, _generator_data: GaeaData, _generator: GaeaGenerator) -> void:
 	pass
 
 
+# Traversal
+func traverse(output_port:int, area: AABB, generator_data:GaeaData) -> Dictionary:
+	log_traverse(generator_data)
+	
+	# Caching
+	if has_cached_data(output_port, generator_data):
+		return get_cached_data(output_port, generator_data)
+	
+	# Validation
+	if not has_inputs_connected(_get_required_input_ports(), generator_data):
+		return {}
+	
+	# Traversal
+	var passed_data:Array[Dictionary] = []
+	for slot in range(input_slots.size()):
+		var data_input_resource = get_input_resource(slot, generator_data)
+		var slot_data:Dictionary = {}
+		if is_instance_valid(data_input_resource):
+			slot_data = data_input_resource.traverse(
+				get_connected_port_to(slot),
+				area, generator_data
+			)
+		passed_data.append(slot_data)
+	
+	var results:Dictionary = get_data(passed_data, output_port, area, generator_data)
+	set_cached_data(results, output_port, generator_data)
+	
+	return results
+
+
+# Data Retrieval
+func get_data(_passed_data:Array[Dictionary], _output_port: int, _area: AABB, _generator_data: GaeaData) -> Dictionary:
+	return {}
+
+
+# Caching
+## Adds or sets data to the cache at GaeaNodeResource, then output_port index.
+func set_cached_data(data:Dictionary, output_port:int, generator_data:GaeaData) -> void:
+	var node_cache:Dictionary = generator_data.cache.get_or_add(self, {})
+	node_cache[output_port] = data
+
+## Checks if the cache has data corresponding to GaeaNodeResource, then output_port index.
+func has_cached_data(output_port:int, generator_data:GaeaData) -> bool:
+	return generator_data.cache.has(self) and generator_data.cache[self].has(output_port)
+
+## Gets cached data by GaeaNodeResource, then output_port index.
+## Assumes that data exists, will error out if it doesn't.
+func get_cached_data(output_port:int, generator_data:GaeaData) -> Dictionary:
+	return generator_data.cache[self][output_port]
+
+
+# Inputs
+## Returns an array of input port indexes that are
+## expected to be connected for the Node Resource to
+## execute properly. Should be overridden in nodes
+## that extend NodeResource.
+func _get_required_input_ports() -> Array[int]:
+	return []
+
+func has_inputs_connected(required: Array[int], generator_data:GaeaData) -> bool:
+	for idx in required:
+		if get_input_resource(idx, generator_data) == null:
+			return false
+	return true
+
+func get_input_resource(slot:int, generator_data:GaeaData) -> GaeaNodeResource:
+	var data_connected_idx: int = get_connected_resource_idx(slot)
+	if data_connected_idx == -1:
+		return null
+
+	var data_input_resource: GaeaNodeResource = generator_data.resources.get(data_connected_idx)
+	if not is_instance_valid(data_input_resource):
+		return null
+	
+	return data_input_resource
+
+
+# Args
 ## Pass in `generator_data` to allow overriding with input slots.
 func get_arg(name: String, generator_data: GaeaData) -> Variant:
+	log_arg(name, generator_data)
+	
 	var arg_connection_idx: int = 0
 	var args_with_input: Array[GaeaNodeArgument] = args.filter(func(arg: GaeaNodeArgument) -> bool: return not arg.type == GaeaNodeArgument.Type.CATEGORY and not arg.disable_input_slot)
 	for i in args_with_input.size():
@@ -47,7 +124,7 @@ func get_arg(name: String, generator_data: GaeaData) -> Variant:
 	if arg_connection_idx != -1 and is_instance_valid(generator_data):
 		var connected_idx: int = get_connected_resource_idx(arg_connection_idx)
 		if connected_idx != -1:
-			return generator_data.resources[connected_idx].get_data(
+			return generator_data.resources[connected_idx].traverse(
 				get_connected_port_to(arg_connection_idx),
 				AABB(),
 				generator_data
@@ -55,6 +132,8 @@ func get_arg(name: String, generator_data: GaeaData) -> Variant:
 
 	return data.get(name)
 
+
+# Connections
 
 func get_connected_resource_idx(at: int) -> int:
 	for connection in connections:
@@ -69,6 +148,35 @@ func get_connected_port_to(to: int) -> int:
 			return connection.from_port
 	return -1
 
+
+# Logging
+
+func log_execute(message:String, area:AABB, generator_data:GaeaData):
+	if is_instance_valid(generator_data) and generator_data.logging & GaeaData.Log.Execute > 0:
+		message = message.strip_edges()
+		message = message if message == "" else message + " "
+		print("Execute   |   %sArea %s on %s" % [message, area, title])
+
+func log_layer(message:String, layer:int, generator_data:GaeaData):
+	if is_instance_valid(generator_data) and generator_data.logging & GaeaData.Log.Execute > 0:
+		message = message.strip_edges()
+		message = message if message == "" else message + " "
+		print("Execute   |   %sLayer %d on %s" % [message, layer, title])
+
+func log_traverse(generator_data:GaeaData):
+	if is_instance_valid(generator_data) and generator_data.logging & GaeaData.Log.Traverse > 0:
+		print("Traverse  |   %s" % [title])
+
+func log_data(output_port:int, generator_data:GaeaData):
+	if is_instance_valid(generator_data) and generator_data.logging & GaeaData.Log.Data > 0:
+		print("Data      |   %s from port %d" % [title, output_port])
+
+func log_arg(arg:String, generator_data:GaeaData):
+	if is_instance_valid(generator_data) and generator_data.logging & GaeaData.Log.Args > 0:
+		print("Arg       |   %s on %s" % [arg, title])
+
+
+# Miscelaneous
 
 static func get_scene() -> PackedScene:
 	return preload("res://addons/gaea/graph/nodes/node.tscn")

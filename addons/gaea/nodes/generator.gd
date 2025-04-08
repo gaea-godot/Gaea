@@ -55,12 +55,14 @@ func generate_area(area: AABB) -> void:
 
 		if resource.is_output:
 			output_resource = resource
-
+	
 	output_resource.execute(
 		area,
 		data,
 		self
 	)
+	
+	data.cache.clear()
 
 
 func erase_area(area: AABB) -> void:

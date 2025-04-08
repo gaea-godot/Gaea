@@ -2,7 +2,9 @@
 extends GaeaNodeResource
 
 
-func get_data(output_port: int, area: AABB, generator_data: GaeaData) -> Dictionary[Vector3i, float]:
+func get_data(_passed_data:Array[Dictionary], output_port: int, area: AABB, generator_data: GaeaData) -> Dictionary[Vector3i, float]:
+	log_data(output_port, generator_data)
+	
 	var direction_weights: Dictionary = {
 		Vector2i.LEFT: get_arg("move_left_weight", generator_data),
 		Vector2i.RIGHT: get_arg("move_right_weight", generator_data),

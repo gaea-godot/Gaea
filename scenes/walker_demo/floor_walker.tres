@@ -14,8 +14,8 @@
 [ext_resource type="Script" uid="uid://dux0bq53p61ls" path="res://addons/gaea/graph/nodes/root/map/mappers/basic_mapper.gd" id="12_5ecun"]
 [ext_resource type="Script" uid="uid://dnj3grm2qv20y" path="res://addons/gaea/graph/nodes/root/data/filters/distance_filter.gd" id="13_iooy1"]
 [ext_resource type="Script" uid="uid://bjmyuomcmtwq6" path="res://addons/gaea/graph/nodes/root/map/random/random_scatter.gd" id="13_oc7x7"]
-[ext_resource type="Script" uid="uid://dvbwtw53ut2hc" path="res://addons/gaea/graph/nodes/complement.gd" id="14_oc7x7"]
-[ext_resource type="Script" uid="uid://bmxbe51xh0t7d" path="res://addons/gaea/graph/nodes/union.gd" id="17_drb3t"]
+[ext_resource type="Script" uid="uid://dvbwtw53ut2hc" path="res://addons/gaea/graph/nodes/root/data/complement.gd" id="14_oc7x7"]
+[ext_resource type="Script" uid="uid://bmxbe51xh0t7d" path="res://addons/gaea/graph/nodes/root/data/union.gd" id="17_drb3t"]
 [ext_resource type="Script" uid="uid://br8gcsyc04ksj" path="res://addons/gaea/graph/nodes/root/map/placing/rules_placer.gd" id="17_x5s41"]
 [ext_resource type="Script" uid="uid://b38syakgm25ya" path="res://addons/gaea/graph/nodes/root/data/filters/random_filter.gd" id="18_vyp3c"]
 
@@ -1016,6 +1016,7 @@ metadata/_custom_type_script = "uid://brb1clh2y2bv0"
 [resource]
 script = ExtResource("10_drb3t")
 layers = Array[ExtResource("2_mfpnn")]([SubResource("Resource_nr2x3"), SubResource("Resource_entu7"), SubResource("Resource_q5q5d")])
+logging = 0
 connections = Array[Dictionary]([{
 "from_node": 17,
 "from_port": 0,
@@ -1305,7 +1306,7 @@ other = {
 "autoshrink": true,
 "name": &"_GraphFrame_37029",
 "position": Vector2(340, -521),
-"size": Vector2(547, 876),
+"size": Vector2(544, 874),
 "tint_color": Color(0.133333, 0.12549, 0.203922, 1),
 "tint_color_enabled": true,
 "title": "Walls"
@@ -1314,7 +1315,7 @@ other = {
 "autoshrink": true,
 "name": &"_GraphFrame_31859",
 "position": Vector2(220, 499),
-"size": Vector2(812, 716),
+"size": Vector2(812, 714),
 "tint_color": Color(0.0964966, 0.363281, 0.175698, 0.75),
 "tint_color_enabled": true,
 "title": "Add Vegetation"
@@ -1323,7 +1324,7 @@ other = {
 "autoshrink": true,
 "name": &"_GraphFrame_37038",
 "position": Vector2(240, 1259),
-"size": Vector2(692, 391),
+"size": Vector2(692, 387),
 "tint_color": Color(0.55, 0.415983, 0.3135, 0.52549),
 "tint_color_enabled": true,
 "title": "Place Chests"
@@ -1332,7 +1333,7 @@ other = {
 "autoshrink": true,
 "name": &"_GraphFrame_31934",
 "position": Vector2(-720, 479),
-"size": Vector2(306, 196),
+"size": Vector2(306, 194),
 "tint_color": Color(0.3125, 0.155029, 0.155029, 0.75),
 "tint_color_enabled": true,
 "title": "Get Everything Outside Floor"
@@ -1340,13 +1341,13 @@ other = {
 "attached": Array[StringName]([&"BaseNode", &"BaseNode6"]),
 "autoshrink": true,
 "name": &"_GraphFrame_37032",
-"position": Vector2(-740, 740),
-"size": Vector2(492, 234),
+"position": Vector2(-740, 739),
+"size": Vector2(492, 232),
 "tint_color": Color(0.174225, 0.208835, 0.257812, 0.75),
 "tint_color_enabled": true,
 "title": "Floor"
 }],
-"scroll_offset": Vector2(-792.253, 209.73)
+"scroll_offset": Vector2(-125.716, 0)
 }
 Chest = SubResource("Resource_j6vep")
 FloorMaterial = SubResource("Resource_e1h74")

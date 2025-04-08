@@ -1,34 +1,18 @@
 @tool
 extends GaeaNodeResource
 
+func _get_required_input_ports() -> Array[int]: return [0, 1]
 
-func get_data(_output_port: int, area: AABB, generator_data: GaeaData) -> Dictionary[Vector3i, GaeaMaterial]:
-	var data_connected_idx: int = get_connected_resource_idx(0)
-	if data_connected_idx == -1:
-		return {}
+func get_data(passed_data:Array[Dictionary], _output_port: int, area: AABB, generator_data: GaeaData) -> Dictionary[Vector3i, GaeaMaterial]:
+	log_data(_output_port, generator_data)
 
-	var data_input_resource: GaeaNodeResource = generator_data.resources.get(data_connected_idx)
-	if not is_instance_valid(data_input_resource):
-		return {}
+	var grid_data: Dictionary = passed_data[0]
+	var material: GaeaMaterial = passed_data[1].get("value", null)
 
-	var passed_data: Dictionary = data_input_resource.get_data(
-		get_connected_port_to(0),
-		area, generator_data
-	)
-	var material: GaeaMaterial = null
-
-	var material_connected_idx: int = get_connected_resource_idx(1)
-	if material_connected_idx != -1:
-		var material_input_resource: GaeaNodeResource = generator_data.resources.get(material_connected_idx)
-		if is_instance_valid(material_input_resource):
-			material = material_input_resource.get_data(
-				get_connected_port_to(1),
-				area, generator_data
-			).get("value", null)
 	var grid: Dictionary[Vector3i, GaeaMaterial]
 
-	for cell in passed_data:
-		if _passes_mapping(passed_data, cell, generator_data) and is_instance_valid(material):
+	for cell in grid_data:
+		if _passes_mapping(grid_data, cell, generator_data) and is_instance_valid(material):
 			grid[cell] = material.get_resource()
 
 	return grid

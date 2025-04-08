@@ -1,19 +1,11 @@
 @tool
 extends GaeaNodeResource
 
+func _get_required_input_ports() -> Array[int]: return [0]
 
-func get_data(_output_port: int, area: AABB, generator_data: GaeaData) -> Dictionary[Vector3i, float]:
-	var data_connected_idx: int = get_connected_resource_idx(0)
-	if data_connected_idx == -1:
-		return {}
-	var data_input_resource: GaeaNodeResource = generator_data.resources.get(data_connected_idx)
-	if not is_instance_valid(data_input_resource):
-		return {}
+func get_data(passed_data:Array[Dictionary], _output_port: int, area: AABB, generator_data: GaeaData) -> Dictionary[Vector3i, float]:
+	log_data(_output_port, generator_data)
 
-	var passed_data: Dictionary = data_input_resource.get_data(
-		get_connected_port_to(0),
-		area, generator_data
-	)
 	var neighbors: Array[Vector2i] = get_arg("neighbors", generator_data)
 	var inside: bool = get_arg("inside", generator_data)
 
@@ -22,18 +14,18 @@ func get_data(_output_port: int, area: AABB, generator_data: GaeaData) -> Dictio
 		for y in get_axis_range(Axis.Y, area):
 			for z in get_axis_range(Axis.Z, area):
 				var cell: Vector3i = Vector3i(x, y, z)
-				if (inside and passed_data.get(cell) == null) or (not inside and passed_data.get(cell) != null):
+				if (inside and passed_data[0].get(cell) == null) or (not inside and passed_data[0].get(cell) != null):
 					continue
 
 				for n: Vector2i in neighbors:
 					if not inside:
 						var neighboring_cell: Vector3i = Vector3i(cell.x - n.x, cell.y - n.y, cell.z)
-						if passed_data.get(neighboring_cell) != null:
+						if passed_data[0].get(neighboring_cell) != null:
 							border.set(cell, 1)
 							break
 					else:
 						var neighboring_cell: Vector3i = Vector3i(cell.x - n.x, cell.y - n.y, cell.z)
-						if passed_data.get(neighboring_cell) == null:
+						if passed_data[0].get(neighboring_cell) == null:
 							border.set(cell, 1)
 							break
 

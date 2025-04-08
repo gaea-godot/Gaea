@@ -1,32 +1,12 @@
 @tool
-extends "res://addons/gaea/graph/nodes/operation.gd"
+extends "res://addons/gaea/graph/nodes/root/data/operation.gd"
 
+func _get_required_input_ports(): return [0]
 
+func get_data(passed_data:Array[Dictionary], output_port: int, area: AABB, generator_data: GaeaData) -> Dictionary[Vector3i, float]:
 
-func get_data(output_port: int, area: AABB, generator_data: GaeaData) -> Dictionary[Vector3i, float]:
-	var a_data_connected_idx: int = get_connected_resource_idx(0)
-	if a_data_connected_idx == -1:
-		return {}
-	var a_data_input_resource: GaeaNodeResource = generator_data.resources.get(a_data_connected_idx)
-	if not is_instance_valid(a_data_input_resource):
-		return {}
-
-	var a_input: Dictionary = a_data_input_resource.get_data(
-		get_connected_port_to(0),
-		area, generator_data
-	)
-
-	var b_data_connected_idx: int = get_connected_resource_idx(1)
-	if b_data_connected_idx == -1:
-		return {}
-	var b_data_input_resource: GaeaNodeResource = generator_data.resources.get(b_data_connected_idx)
-	if not is_instance_valid(b_data_input_resource):
-		return {}
-
-	var b_input: Dictionary = b_data_input_resource.get_data(
-		get_connected_port_to(1),
-		area, generator_data
-	)
+	var a_input: Dictionary = passed_data[0]
+	var b_input: Dictionary = passed_data[1]
 
 	var new_grid: Dictionary[Vector3i, float]
 	for cell: Vector3i in a_input.keys() + b_input.keys():

@@ -5,7 +5,9 @@ extends GaeaNodeResource
 @export_enum("Sum", "Substraction", "Multiplication", "Division") var operation: int = 0
 
 
-func get_data(output_port: int, area: AABB, generator_data: GaeaData) -> Dictionary:
+func get_data(_passed_data:Array[Dictionary], output_port: int, area: AABB, generator_data: GaeaData) -> Dictionary:
+	log_data(output_port, generator_data)
+
 	var a: Variant = get_arg("a", generator_data)
 	var b: Variant = get_arg("b", generator_data)
 

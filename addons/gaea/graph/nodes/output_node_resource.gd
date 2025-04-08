@@ -3,6 +3,8 @@ extends GaeaNodeResource
 
 
 func execute(area: AABB, generator_data: GaeaData, generator: GaeaGenerator) -> void:
+	log_execute("Start", area, generator_data)
+
 	var grid: GaeaGrid = GaeaGrid.new()
 	for layer_idx in generator_data.layers.size():
 		var map_connected_idx: int = get_connected_resource_idx(layer_idx)
@@ -14,12 +16,18 @@ func execute(area: AABB, generator_data: GaeaData, generator: GaeaGenerator) -> 
 		if not is_instance_valid(layer_resource) or not layer_resource.enabled or not is_instance_valid(map_input_resource):
 			grid.add_layer(layer_idx, {}, layer_resource)
 			continue
+		
+		log_layer("Start", layer_idx, generator_data)
 
-		var grid_data: Dictionary = map_input_resource.get_data(
+		var grid_data: Dictionary = map_input_resource.traverse(
 			get_connected_port_to(layer_idx), area, generator_data
 		)
 		grid.add_layer(layer_idx, grid_data, layer_resource)
-
+		
+		log_layer("End", layer_idx, generator_data)
+	
+	log_execute("End", area, generator_data)
+	
 	generator.generation_finished.emit.call_deferred(grid)
 
 

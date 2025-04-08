@@ -6,12 +6,14 @@ extends Resource
 
 signal layer_count_modified
 
+enum Log { None=0, Execute=1, Traverse=2, Data=4, Args=8 }
 
 @export var layers: Array[GaeaLayer] = [GaeaLayer.new()] :
 	set(value):
 		layers = value
 		layer_count_modified.emit()
 		emit_changed()
+@export_flags("Execute", "Traverse", "Data", "Args") var logging:int = Log.None
 @export_storage var connections: Array[Dictionary]
 @export_storage var resources: Array[GaeaNodeResource]
 @export_storage var node_data: Array[Dictionary]
@@ -20,6 +22,7 @@ signal layer_count_modified
 @export_storage var other: Dictionary
 
 var generator: GaeaGenerator
+var cache: Dictionary[GaeaNodeResource, Dictionary] = {}
 
 
 func _init() -> void:
