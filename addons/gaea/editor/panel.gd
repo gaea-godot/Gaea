@@ -388,7 +388,6 @@ func _on_window_close_requested(original_parent: Control, window: Window) -> voi
 
 
 func _on_create_new_reroute(connection: Dictionary) -> void:
-
 	var reroute: _RerouteNode = _add_node(_RerouteNode.create_resource())
 	
 	var offset = - reroute.get_output_port_position(0)
@@ -413,6 +412,11 @@ func _on_create_new_reroute(connection: Dictionary) -> void:
 	)
 
 
+## This function converts a local position to a grid position based on the current zoom level and scroll offset.
+## It also applies snapping if enabled in the GraphEdit.
+## @param local_position The local position to convert.
+## @param grid_offset An optional offset to apply to the grid position.
+## @return The converted grid position.
 func _local_to_grid(local_position: Vector2, grid_offset: Vector2 = Vector2.ZERO) -> Vector2:
 	local_position = (local_position + _graph_edit.scroll_offset) / _graph_edit.zoom
 	local_position += grid_offset
