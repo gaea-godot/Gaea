@@ -32,6 +32,9 @@ func delete_nodes(nodes: Array[StringName]) -> void:
 
 
 func _on_connection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
+	if is_nodes_connected_relatively(from_node, to_node):
+		return
+
 	for connection: Dictionary in get_connection_list():
 		if connection.to_node == to_node and connection.to_port == to_port:
 			disconnect_node(connection.from_node, connection.from_port, connection.to_node, connection.to_port)
@@ -68,6 +71,17 @@ func remove_invalid_connections() -> void:
 			disconnect_node(connection.from_node, connection.from_port, connection.to_node, connection.to_port)
 			continue
 
+func is_nodes_connected_relatively(from_node: StringName, to_node: StringName) -> bool:
+	var nodes_to_check: Array[StringName] = [from_node]
+	while nodes_to_check.size() > 0:
+		var node_name = nodes_to_check.pop_front()
+		var node: GaeaGraphNode = get_node(NodePath(node_name))
+		if node is GaeaGraphNode:
+			for connection in node.connections:
+				nodes_to_check.append(connection.from_node)
+				if connection.from_node == to_node:
+					return true
+	return false
 
 func get_selected() -> Array:
 	return get_children().filter(func(child: Node) -> bool:
@@ -94,7 +108,7 @@ func _on_element_attached_to_frame(element: StringName, frame: StringName) -> vo
 	attached_elements.set(element, frame)
 
 
-func _is_node_hover_valid(from_node: StringName, _from_port: int, to_node: StringName, to_port: int):
+func _is_node_hover_valid(from_node: StringName, _from_port: int, to_node: StringName, _to_port: int) -> bool:
 	if from_node == to_node:
 		return false
 	return true

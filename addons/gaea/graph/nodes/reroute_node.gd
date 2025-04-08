@@ -10,16 +10,16 @@ var type: GaeaGraphNode.SlotTypes = GaeaGraphNode.SlotTypes.NUMBER:
 			type = new_value
 			_update_slots(new_value)
 
-
 var icon_opacity: float = 0.0:
 	set(new_value):
 		icon_opacity = new_value
 		queue_redraw()
 
+
 #region init
 func initialize() -> void:
 	super()
-	
+
 	var titlebar_hbox = get_titlebar_hbox()
 	var titlebar_label = titlebar_hbox.get_child(0)
 	titlebar_label.hide()
@@ -31,43 +31,57 @@ func initialize() -> void:
 
 	_update_slots(type)
 
+
 func _update_slots(type: GaeaGraphNode.SlotTypes):
 	var color = GaeaGraphNode.get_color_from_type(type)
-	set_slot(0,
-		true, type, color,
-		true, type, color,
-	)
+	set_slot(0, true, type, color, true, type, color)
 	set_slot_type_left(0, type)
 	set_slot_type_right(0, type)
 	set_slot_custom_icon_right(0, GaeaGraphNode.get_icon_from_type(type))
+	resource.input_slots[0].left_type = type
+
 
 static func create_resource() -> GaeaNodeResource:
-	return _RerouteResource.new()
+	var resource = _RerouteResource.new()
+	var input_slot = GaeaNodeSlot.new()
+	input_slot.left_enabled = true
+	resource.input_slots.append(input_slot)
+	return resource
 #endregion
+
 
 #region Lifecycle
 func on_removed() -> void:
 	var input_connection: Dictionary = connections[0]
 	var original_from_node: StringName = input_connection.from_node
 	var original_from_port: int = input_connection.from_port
-	var graph_edit: GraphEdit = find_parent('GraphEdit')
+	var graph_edit: GraphEdit = find_parent("GraphEdit")
 
+	
 	graph_edit.disconnection_request.emit(
-		input_connection.from_node, input_connection.from_port,
-		input_connection.to_node, input_connection.to_port,
+		input_connection.from_node,
+		input_connection.from_port,
+		input_connection.to_node,
+		input_connection.to_port,
 	)
+	
 
 	for connection in graph_edit.connections:
 		if connection.from_node == name and connection.from_port == 0:
 			graph_edit.disconnection_request.emit(
-				connection.from_node, connection.from_port,
-				connection.to_node, connection.to_port,
+				connection.from_node,
+				connection.from_port,
+				connection.to_node,
+				connection.to_port,
 			)
 			graph_edit.connection_request.emit(
-				input_connection.from_node, input_connection.from_port,
-				connection.to_node, connection.to_port,
+				input_connection.from_node,
+				input_connection.from_port,
+				connection.to_node,
+				connection.to_port,
 			)
 #endregion
+
 
 #region Save/Load
 func get_save_data() -> Dictionary:
@@ -90,11 +104,10 @@ func _draw_port(slot_index: int, pos: Vector2i, left: bool, color: Color) -> voi
 	var port_icon = get_slot_custom_icon_right(slot_index)
 	if not is_instance_valid(port_icon):
 		port_icon = get_theme_icon(&"port", &"GraphNode")
-	var icon_offset  = - port_icon.get_size() * 0.5
+	var icon_offset = -port_icon.get_size() * 0.5
 	var editor_scale = EditorInterface.get_editor_scale()
 	var texture_rect = Rect2(
-		Vector2(pos) + icon_offset * editor_scale,
-		port_icon.get_size() * editor_scale
+		Vector2(pos) + icon_offset * editor_scale, port_icon.get_size() * editor_scale
 	)
 	draw_texture_rect(port_icon, texture_rect, false, color)
 
@@ -106,12 +119,12 @@ func _draw() -> void:
 
 	var editor_scale = EditorInterface.get_editor_scale()
 	var offset = Vector2(0, -16 * editor_scale)
-	var drag_bg_color = get_theme_color(&"drag_background", &"VSRerouteNode");
+	var drag_bg_color = get_theme_color(&"drag_background", &"VSRerouteNode")
 	var circle_bg_color = Color(drag_bg_color, opacity)
 	draw_circle(get_size() * 0.5 + offset, 16 * editor_scale, circle_bg_color, true, -1, true)
 
 	var icon = EditorInterface.get_editor_theme().get_icon(&"ToolMove", &"EditorIcons")
-	var icon_offset = - icon.get_size() * 0.5 + get_size() * 0.5 + offset
+	var icon_offset = -icon.get_size() * 0.5 + get_size() * 0.5 + offset
 	draw_texture(icon, icon_offset, Color(1, 1, 1, opacity))
 
 
