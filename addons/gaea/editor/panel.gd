@@ -389,7 +389,7 @@ func _on_window_close_requested(original_parent: Control, window: Window) -> voi
 
 func _on_create_new_reroute(connection: Dictionary) -> void:
 
-	var reroute: _RerouteNode = _add_node(preload("uid://b0uggpieo6brr"))
+	var reroute: _RerouteNode = _add_node(_RerouteNode.create_resource())
 	
 	var offset = - reroute.get_output_port_position(0)
 	offset.y -= reroute.get_slot_custom_icon_right(0).get_size().y * 0.5

@@ -16,8 +16,6 @@ func get_data(_passed_data:Array[Dictionary], _output_port: int, area: AABB, gen
 
 
 func get_type() -> GaeaGraphNode.SlotTypes:
-	if is_instance_valid(node) and node.has(&"type"):
-		return node.get(&"type")
 	return GaeaGraphNode.SlotTypes.NULL
 
 

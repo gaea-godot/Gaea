@@ -2,6 +2,7 @@
 extends GaeaGraphNode
 
 const _RerouteResource = preload("uid://bgqqucap4kua4")
+
 var tween: Tween
 var type: GaeaGraphNode.SlotTypes = GaeaGraphNode.SlotTypes.NUMBER:
 	set(new_value):
@@ -16,9 +17,7 @@ var icon_opacity: float = 0.0:
 		queue_redraw()
 
 func initialize() -> void:
-	if not is_instance_valid(resource):
-		return
-	resource.node = self
+	super()
 	
 	var titlebar_hbox = get_titlebar_hbox()
 	var titlebar_label = titlebar_hbox.get_child(0)
@@ -41,6 +40,8 @@ func _update_slots(type: GaeaGraphNode.SlotTypes):
 	set_slot_type_right(0, type)
 	set_slot_custom_icon_right(0, GaeaGraphNode.get_icon_from_type(type))
 
+static func create_resource() -> GaeaNodeResource:
+	return _RerouteResource.new()
 
 func get_save_data() -> Dictionary:
 	var data = super()

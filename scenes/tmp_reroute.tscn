@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://5bk3kjdbc18r"]
+[gd_scene load_steps=36 format=3 uid="uid://5bk3kjdbc18r"]
 
 [ext_resource type="Script" uid="uid://d4feanreabm81" path="res://addons/gaea/nodes/generator.gd" id="1_qu2vt"]
 [ext_resource type="Script" uid="uid://3qsmwhn2sk47" path="res://addons/gaea/resources/gaea_layer.gd" id="2_b53wi"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://bqa8aufofkr81" path="res://addons/gaea/graph/nodes/variable_node_resource.gd" id="9_xl8e3"]
 [ext_resource type="Script" uid="uid://m0m4x6trd11h" path="res://addons/gaea/graph/nodes/root/scalar/operations/compose_range.gd" id="10_1bad6"]
 [ext_resource type="Script" uid="uid://bu8niqlr2pe8o" path="res://addons/gaea/graph/nodes/root/data/constant.gd" id="11_8srrc"]
+[ext_resource type="Script" uid="uid://bgqqucap4kua4" path="res://addons/gaea/graph/nodes/reroute_node_resource.gd" id="12_58ugv"]
 
 [sub_resource type="Resource" id="Resource_3ppu3"]
 script = ExtResource("2_b53wi")
@@ -190,6 +191,17 @@ data = {
 }
 salt = 463476959
 
+[sub_resource type="Resource" id="Resource_0y8q0"]
+script = ExtResource("12_58ugv")
+input_slots = Array[ExtResource("6_8hnto")]([])
+args = Array[ExtResource("5_58ugv")]([])
+output_slots = Array[ExtResource("6_8hnto")]([])
+title = "Node"
+description = ""
+is_output = false
+data = {}
+salt = 3279357131
+
 [sub_resource type="Resource" id="Resource_givc6"]
 script = ExtResource("5_58ugv")
 type = 0
@@ -214,6 +226,17 @@ data = {
 salt = 4032043591
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"
 
+[sub_resource type="Resource" id="Resource_8srrc"]
+script = ExtResource("12_58ugv")
+input_slots = Array[ExtResource("6_8hnto")]([])
+args = Array[ExtResource("5_58ugv")]([])
+output_slots = Array[ExtResource("6_8hnto")]([])
+title = "Node"
+description = ""
+is_output = false
+data = {}
+salt = 2762626038
+
 [sub_resource type="Resource" id="Resource_1bad6"]
 script = ExtResource("4_bhh40")
 layers = Array[ExtResource("2_b53wi")]([SubResource("Resource_3ppu3")])
@@ -231,27 +254,45 @@ connections = Array[Dictionary]([{
 "to_node": 1,
 "to_port": 0
 }, {
-"from_node": 3,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 1,
-"to_port": 1
-}, {
 "from_node": 4,
 "from_port": 0,
 "keep_alive": false,
 "to_node": 1,
 "to_port": 2
 }, {
-"from_node": 5,
+"from_node": 7,
 "from_port": 0,
 "keep_alive": false,
 "to_node": 4,
 "to_port": 0
+}, {
+"from_node": 3,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 5,
+"to_port": 0
+}, {
+"from_node": 5,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 1,
+"to_port": 1
+}, {
+"from_node": 6,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 7,
+"to_port": 0
+}, {
+"from_node": 7,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 4,
+"to_port": 1
 }])
-resources = Array[ExtResource("3_47lpa")]([ExtResource("4_3ppu3"), SubResource("Resource_58ugv"), SubResource("Resource_8hnto"), SubResource("Resource_0cw3f"), SubResource("Resource_vsp87"), SubResource("Resource_xl8e3")])
+resources = Array[ExtResource("3_47lpa")]([ExtResource("4_3ppu3"), SubResource("Resource_58ugv"), SubResource("Resource_8hnto"), SubResource("Resource_0cw3f"), SubResource("Resource_vsp87"), SubResource("Resource_0y8q0"), SubResource("Resource_xl8e3"), SubResource("Resource_8srrc")])
 node_data = Array[Dictionary]([{
-"name": &"BaseNode",
+"name": &"BaseNode2",
 "position": Vector2(400, -20)
 }, {
 "name": &"_GraphNode_25027",
@@ -266,8 +307,16 @@ node_data = Array[Dictionary]([{
 "name": &"_GraphNode_25235",
 "position": Vector2(-280, 80)
 }, {
+"name": &"_GraphNode_24329",
+"position": Vector2(0, -60),
+&"type": 2
+}, {
 "name": &"_GraphNode_25282",
-"position": Vector2(-560, 80)
+"position": Vector2(-640, 80)
+}, {
+"name": &"BaseNode",
+"position": Vector2(-380, 80),
+&"type": 4
 }])
 parameters = Dictionary[StringName, Variant]({
 &"MaterialVariable": {
@@ -280,7 +329,7 @@ parameters = Dictionary[StringName, Variant]({
 })
 scroll_offset = Vector2(0, 0)
 other = {
-"scroll_offset": Vector2(-566.535, -238.659)
+"scroll_offset": Vector2(-1046.28, -279.957)
 }
 metadata/_custom_type_script = "uid://dae6umbqb872e"
 
