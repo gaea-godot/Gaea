@@ -4,6 +4,7 @@ extends GraphEdit
 
 signal request_connection_update
 signal request_save
+signal nodes_about_to_be_deleted(names: Array[StringName], nodes: Array[GraphElement])
 
 var attached_elements: Dictionary
 
@@ -13,16 +14,30 @@ func _on_delete_nodes_request(nodes: Array[StringName]) -> void:
 
 
 func delete_nodes(nodes: Array[StringName]) -> void:
+	if nodes.is_empty():
+		return
+
+	var nodes_to_delete: Array[GraphElement]
 	for node_name in nodes:
 		var node: GraphElement = get_node(NodePath(node_name))
 		if node is GaeaGraphNode:
 			if node.resource.is_output:
 				continue
 
+			nodes_to_delete.append(node)
+		elif node is GraphFrame:
+			nodes_to_delete.append(node)
+
+	nodes_about_to_be_deleted.emit(nodes, nodes_to_delete)
+
+
+func free_nodes(nodes: Array[StringName]) -> void:
+	for node_name: StringName in nodes:
+		var node: GraphElement = get_node(NodePath(node_name))
+		if node is GaeaGraphNode:
 			for connection in node.connections:
 				disconnect_node(connection.from_node, connection.from_port, connection.to_node, connection.to_port)
 			node.on_removed()
-			#remove_child(node)
 		elif node is GraphFrame:
 			for attached in get_attached_nodes_of_frame(node.name):
 				attached_elements.erase(attached)

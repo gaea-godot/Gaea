@@ -107,6 +107,15 @@ func _readd_node(resource: GaeaNodeResource, previous_name: StringName, position
 	_node.set_position_offset(position_offset)
 
 
+func _readd_nodes(names: Array[StringName], types: Array[StringName], args: Array[Dictionary]) -> void:
+	for idx in names.size():
+		if types.get(idx) == &"GraphNode":
+			_readd_node(args.get(idx).get(&"resource"), names.get(idx), args.get(idx).get(&"position_offset"))
+		elif types.get(idx) == &"GraphFrame":
+			_add_frame(args.get(idx))
+
+
+
 func _add_node(resource: GaeaNodeResource) -> GraphNode:
 	var node: GaeaGraphNode = resource.get_scene().instantiate()
 	node.resource = resource
@@ -149,9 +158,9 @@ func _on_tree_node_selected_for_creation(resource: GaeaNodeResource) -> void:
 	_create_node_popup.hide()
 
 	var _node: GraphNode = _add_node_at_mouse(resource)
-	undo_redo.create_action("Gaea: Create %s" % resource.title)
-	undo_redo.add_do_method(self, &"_readd_node", resource, _node.name, _node.get_position_offset())
-	undo_redo.add_undo_method(_graph_edit, &"delete_nodes", Array([_node.name], TYPE_STRING_NAME, "", null))
+	undo_redo.create_action("Add %s to Gaea Graph" % resource.title)
+	undo_redo.add_do_method(self, _readd_node.get_method(), resource, _node.name, _node.get_position_offset())
+	undo_redo.add_undo_method(_graph_edit, _graph_edit.free_nodes.get_method(), Array([_node.name], TYPE_STRING_NAME, "", null))
 	undo_redo.commit_action(false)
 
 
@@ -206,16 +215,7 @@ func _save_data() -> void:
 		if child is GraphNode:
 			resources.append(child.resource)
 		elif child is GraphFrame:
-			other.get_or_add("frames", []).append({
-				"title": child.title,
-				"tint_color": child.tint_color,
-				"tint_color_enabled": child.tint_color_enabled,
-				"position": child.position_offset,
-				"attached": _graph_edit.get_attached_nodes_of_frame(child.name),
-				"size": child.size,
-				"autoshrink": child.autoshrink_enabled,
-				"name": child.name
-			})
+			other.get_or_add("frames", []).append(_get_frame_save_data(child))
 
 	for connection in connections:
 		var from_node: GraphNode = _graph_edit.get_node(NodePath(connection.from_node))
@@ -270,20 +270,39 @@ func _load_data() -> void:
 	update_connections()
 
 	for frame: Dictionary in _selected_generator.data.other.get("frames", []):
-		var new_frame: GraphFrame = GraphFrame.new()
-		new_frame.title = frame.get("title", "Frame")
-		new_frame.position_offset = frame.get("position", Vector2.ZERO)
-		new_frame.size = frame.get("size", Vector2(64, 64))
-		new_frame.tint_color = frame.get("tint_color", new_frame.tint_color)
-		new_frame.tint_color_enabled = frame.get("tint_color_enabled", false)
-		new_frame.name = frame.get_or_add("name", new_frame.name)
-		new_frame.autoshrink_enabled = frame.get("autoshrink", true)
-		_graph_edit.add_child(new_frame)
+		_add_frame(frame)
 
-	for frame: Dictionary in _selected_generator.data.other.get("frames", []):
+
+func _add_frame(frame: Dictionary) -> void:
+	var new_frame: GraphFrame = GraphFrame.new()
+	new_frame.title = frame.get("title", "Frame")
+	new_frame.position_offset = frame.get("position", Vector2.ZERO)
+	new_frame.size = frame.get("size", Vector2(64, 64))
+	new_frame.tint_color = frame.get("tint_color", new_frame.tint_color)
+	new_frame.tint_color_enabled = frame.get("tint_color_enabled", false)
+	new_frame.name = frame.get_or_add("name", new_frame.name)
+	new_frame.autoshrink_enabled = frame.get("autoshrink", true)
+	_graph_edit.add_child(new_frame)
+
+	(func() -> void:
 		for attached: StringName in frame.get("attached", []):
 			_graph_edit.attach_graph_element_to_frame(attached, frame.get("name"))
 			_graph_edit._on_element_attached_to_frame(attached, frame.get("name"))
+
+	).call_deferred()
+
+
+func _get_frame_save_data(frame: GraphFrame) -> Dictionary:
+	return {
+				"title": frame.title,
+				"tint_color": frame.tint_color,
+				"tint_color_enabled": frame.tint_color_enabled,
+				"position": frame.position_offset,
+				"attached": _graph_edit.get_attached_nodes_of_frame(frame.name),
+				"size": frame.size,
+				"autoshrink": frame.autoshrink_enabled,
+				"name": frame.name
+			}
 
 
 func _on_graph_edit_connection_to_empty(from_node: StringName, from_port: int, release_position: Vector2) -> void:
@@ -313,6 +332,12 @@ func _on_tree_special_node_selected_for_creation(id: StringName) -> void:
 			_graph_edit.add_child(new_frame)
 			new_frame.name = new_frame.name.replace("@", "_")
 			_save_data.call_deferred()
+
+			undo_redo.create_action("Add Frame to Gaea Graph")
+			undo_redo.add_do_method(self, "_add_frame", _get_frame_save_data(new_frame))
+			undo_redo.add_undo_method(_graph_edit, "free_nodes", [new_frame.name] as Array[StringName])
+			undo_redo.commit_action(false)
+
 	_create_node_popup.hide()
 
 
@@ -393,3 +418,24 @@ func _on_window_close_requested(original_parent: Control, window: Window) -> voi
 	window.queue_free()
 	_window_popout_button.show()
 	_window_popout_separator.show()
+
+
+func _on_graph_edit_nodes_about_to_be_deleted(names: Array[StringName], nodes: Array[GraphElement]) -> void:
+	undo_redo.create_action("Delete Gaea Node(s)")
+	undo_redo.add_do_method(_graph_edit, _graph_edit.free_nodes.get_method(), names)
+	undo_redo.add_undo_method(
+		self,
+		_readd_nodes.get_method(),
+		Array(nodes.map(func(_node: GraphElement) -> StringName: return _node.name), TYPE_STRING_NAME, "", null),
+		Array(nodes.map(func(_node: GraphElement) -> StringName: return _node.get_class()), TYPE_STRING_NAME, "", null),
+		Array(nodes.map(func(_node: GraphElement) -> Dictionary:
+			if _node is GaeaGraphNode:
+				return {&"resource": _node.resource, &"position_offset": _node.get_position_offset()}
+			elif _node is GraphFrame:
+				return _get_frame_save_data(_node)
+			else:
+				return {}
+			)
+		, TYPE_DICTIONARY, "", null)
+	)
+	undo_redo.commit_action()

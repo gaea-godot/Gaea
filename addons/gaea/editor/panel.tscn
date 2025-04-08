@@ -287,6 +287,7 @@ filters = PackedStringArray("*.tres,*.res;Resources")
 [connection signal="graph_elements_linked_to_frame_request" from="Editor/VBoxContainer/GraphEdit" to="Editor/VBoxContainer/GraphEdit" method="_on_graph_elements_linked_to_frame_request"]
 [connection signal="gui_input" from="Editor/VBoxContainer/GraphEdit" to="." method="_on_graph_edit_gui_input"]
 [connection signal="node_selected" from="Editor/VBoxContainer/GraphEdit" to="Editor/VBoxContainer/GraphEdit" method="_on_node_selected"]
+[connection signal="nodes_about_to_be_deleted" from="Editor/VBoxContainer/GraphEdit" to="." method="_on_graph_edit_nodes_about_to_be_deleted"]
 [connection signal="request_connection_update" from="Editor/VBoxContainer/GraphEdit" to="." method="update_connections"]
 [connection signal="request_save" from="Editor/VBoxContainer/GraphEdit" to="." method="_save_data"]
 [connection signal="text_changed" from="Editor/CreateNodePopup/Margin/VBox/SearchBar" to="Editor/CreateNodePopup/Margin/VBox/Tree" method="_on_search_bar_text_changed"]
