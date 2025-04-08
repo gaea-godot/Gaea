@@ -161,7 +161,7 @@ func get_save_data() -> Dictionary:
 
 
 func load_save_data(data: Dictionary) -> void:
-	position_offset = data.position
+	position_offset = data.get(&"position", get_position_offset())
 
 	for child in get_children():
 		if child is GaeaGraphNodeParameter:

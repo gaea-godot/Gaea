@@ -27,6 +27,8 @@ signal area_erased(area: AABB)
 @export var cell_size: Vector3i = Vector3i(16, 16, 1)
 @export var generate_on_ready: bool = true
 
+var _undo_redo: UndoRedo
+
 
 func _ready() -> void:
 	if not Engine.is_editor_hint() and generate_on_ready:

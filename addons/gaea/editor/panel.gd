@@ -3,7 +3,6 @@ extends Control
 
 const _LinkPopup = preload("uid://btt4eqjkp5pyf")
 
-var undo_redo: EditorUndoRedoManager
 var _selected_generator: GaeaGenerator = null: get = get_selected_generator
 var _output_node: GraphNode
 
@@ -31,6 +30,20 @@ func _ready() -> void:
 	_window_popout_button.icon = EditorInterface.get_base_control().get_theme_icon(&"MakeFloating", &"EditorIcons")
 
 
+func _input(event: InputEvent) -> void:
+	if not is_instance_valid(_selected_generator):
+		return
+
+	if event is InputEventKey:
+		if event.is_pressed():
+			if event.is_command_or_control_pressed():
+				if event.keycode == KEY_Z:
+					if event.is_shift_pressed(): _selected_generator._undo_redo.redo()
+					else: _selected_generator._undo_redo.undo()
+				elif event.keycode == KEY_Y:
+					_selected_generator._undo_redo.redo()
+
+
 func populate(node: GaeaGenerator) -> void:
 	_remove_children()
 	_output_node = null
@@ -48,6 +61,9 @@ func populate(node: GaeaGenerator) -> void:
 		if not _selected_generator.data.layer_count_modified.is_connected(_update_output_node):
 			_selected_generator.data.layer_count_modified.connect(_update_output_node)
 		_load_data.call_deferred()
+
+	if not is_instance_valid(_selected_generator._undo_redo):
+		_selected_generator._undo_redo = UndoRedo.new()
 
 
 func unpopulate() -> void:
@@ -101,19 +117,25 @@ func _on_graph_edit_gui_input(event: InputEvent) -> void:
 				_popup_node_context_menu_at_mouse(_selected)
 
 
-func _readd_node(resource: GaeaNodeResource, previous_name: StringName, position_offset: Vector2) -> void:
+func _readd_node(resource: GaeaNodeResource, previous_name: StringName, position_offset: Vector2, connections: Array) -> void:
 	var _node: GaeaGraphNode = _add_node(resource)
 	_node.name = previous_name
-	_node.set_position_offset(position_offset)
+	_node.load_save_data({&"position": position_offset})
+	for connection in connections:
+		_graph_edit.connection_request.emit(connection.from_node, connection.from_port, connection.to_node, connection.to_port)
+	#_node.set_position_offset(position_offset)
 
 
 func _readd_nodes(names: Array[StringName], types: Array[StringName], args: Array[Dictionary]) -> void:
 	for idx in names.size():
 		if types.get(idx) == &"GraphNode":
-			_readd_node(args.get(idx).get(&"resource"), names.get(idx), args.get(idx).get(&"position_offset"))
+			_readd_node(
+				args.get(idx).get(&"resource"),
+				names.get(idx),
+				args.get(idx).get(&"position_offset"),
+				args.get(idx).get(&"connections"))
 		elif types.get(idx) == &"GraphFrame":
 			_add_frame(args.get(idx))
-
 
 
 func _add_node(resource: GaeaNodeResource) -> GraphNode:
@@ -121,7 +143,6 @@ func _add_node(resource: GaeaNodeResource) -> GraphNode:
 	node.resource = resource
 	node.generator = get_selected_generator()
 	_graph_edit.add_child(node)
-
 
 	#node.set_generator_reference(_selected_generator)
 	node.on_added()
@@ -158,10 +179,11 @@ func _on_tree_node_selected_for_creation(resource: GaeaNodeResource) -> void:
 	_create_node_popup.hide()
 
 	var _node: GraphNode = _add_node_at_mouse(resource)
-	undo_redo.create_action("Add %s to Gaea Graph" % resource.title)
-	undo_redo.add_do_method(self, _readd_node.get_method(), resource, _node.name, _node.get_position_offset())
-	undo_redo.add_undo_method(_graph_edit, _graph_edit.free_nodes.get_method(), Array([_node.name], TYPE_STRING_NAME, "", null))
-	undo_redo.commit_action(false)
+
+	_selected_generator._undo_redo.create_action("Add %s to Gaea Graph" % resource.title)
+	_selected_generator._undo_redo.add_do_method(_readd_node.bind(resource, _node.name, _node.get_position_offset(), []))
+	_selected_generator._undo_redo.add_undo_method(_graph_edit.free_nodes.bind([_node.name] as Array[StringName]))
+	_selected_generator._undo_redo.commit_action(false)
 
 
 func _on_cancel_create_button_pressed() -> void:
@@ -333,10 +355,10 @@ func _on_tree_special_node_selected_for_creation(id: StringName) -> void:
 			new_frame.name = new_frame.name.replace("@", "_")
 			_save_data.call_deferred()
 
-			undo_redo.create_action("Add Frame to Gaea Graph")
-			undo_redo.add_do_method(self, "_add_frame", _get_frame_save_data(new_frame))
-			undo_redo.add_undo_method(_graph_edit, "free_nodes", [new_frame.name] as Array[StringName])
-			undo_redo.commit_action(false)
+			_selected_generator._undo_redo.create_action("Add Frame to Gaea Graph")
+			_selected_generator._undo_redo.add_do_method(_add_frame.bind(_get_frame_save_data(new_frame)))
+			_selected_generator._undo_redo.add_undo_method(_graph_edit.free_nodes.bind([new_frame.name] as Array[StringName]))
+			_selected_generator._undo_redo.commit_action(false)
 
 	_create_node_popup.hide()
 
@@ -421,21 +443,21 @@ func _on_window_close_requested(original_parent: Control, window: Window) -> voi
 
 
 func _on_graph_edit_nodes_about_to_be_deleted(names: Array[StringName], nodes: Array[GraphElement]) -> void:
-	undo_redo.create_action("Delete Gaea Node(s)")
-	undo_redo.add_do_method(_graph_edit, _graph_edit.free_nodes.get_method(), names)
-	undo_redo.add_undo_method(
-		self,
-		_readd_nodes.get_method(),
-		Array(nodes.map(func(_node: GraphElement) -> StringName: return _node.name), TYPE_STRING_NAME, "", null),
-		Array(nodes.map(func(_node: GraphElement) -> StringName: return _node.get_class()), TYPE_STRING_NAME, "", null),
-		Array(nodes.map(func(_node: GraphElement) -> Dictionary:
-			if _node is GaeaGraphNode:
-				return {&"resource": _node.resource, &"position_offset": _node.get_position_offset()}
-			elif _node is GraphFrame:
-				return _get_frame_save_data(_node)
-			else:
-				return {}
-			)
-		, TYPE_DICTIONARY, "", null)
+	_selected_generator._undo_redo.create_action("Delete Gaea Node(s)")
+	_selected_generator._undo_redo.add_do_method(_graph_edit.free_nodes.bind(names))
+	_selected_generator._undo_redo.add_undo_method(
+		_readd_nodes.bind(
+			Array(nodes.map(func(_node: GraphElement) -> StringName: return _node.name), TYPE_STRING_NAME, "", null),
+			Array(nodes.map(func(_node: GraphElement) -> StringName: return _node.get_class()), TYPE_STRING_NAME, "", null),
+			Array(nodes.map(func(_node: GraphElement) -> Dictionary:
+				if _node is GaeaGraphNode:
+					return {&"resource": _node.resource, &"position_offset": _node.get_position_offset(), &"connections": _node.connections.duplicate()}
+				elif _node is GraphFrame:
+					return _get_frame_save_data(_node)
+				else:
+					return {}
+				)
+			, TYPE_DICTIONARY, "", null)
+		)
 	)
-	undo_redo.commit_action()
+	_selected_generator._undo_redo.commit_action()
