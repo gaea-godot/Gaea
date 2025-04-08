@@ -399,15 +399,15 @@ func _on_create_new_reroute(connection: Dictionary) -> void:
 	var link_type = from_node.get_output_port_type(connection.from_port)
 	reroute.type = link_type
 	
-	_graph_edit.disconnect_node(
+	_graph_edit.disconnection_request.emit.call_deferred(
 		connection.from_node, connection.from_port,
 		connection.to_node, connection.to_port,
 	)
-	_graph_edit.connect_node(
+	_graph_edit.connection_request.emit.call_deferred(
 		connection.from_node, connection.from_port,
 		reroute.name, 0,
 	)
-	_graph_edit.connect_node(
+	_graph_edit.connection_request.emit.call_deferred(
 		reroute.name, 0,
 		connection.to_node, connection.to_port,
 	)

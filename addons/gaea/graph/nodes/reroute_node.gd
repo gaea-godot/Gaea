@@ -16,6 +16,7 @@ var icon_opacity: float = 0.0:
 		icon_opacity = new_value
 		queue_redraw()
 
+#region init
 func initialize() -> void:
 	super()
 	
@@ -42,7 +43,33 @@ func _update_slots(type: GaeaGraphNode.SlotTypes):
 
 static func create_resource() -> GaeaNodeResource:
 	return _RerouteResource.new()
+#endregion
 
+#region Lifecycle
+func on_removed() -> void:
+	var input_connection: Dictionary = connections[0]
+	var original_from_node: StringName = input_connection.from_node
+	var original_from_port: int = input_connection.from_port
+	var graph_edit: GraphEdit = find_parent('GraphEdit')
+
+	graph_edit.disconnection_request.emit(
+		input_connection.from_node, input_connection.from_port,
+		input_connection.to_node, input_connection.to_port,
+	)
+
+	for connection in graph_edit.connections:
+		if connection.from_node == name and connection.from_port == 0:
+			graph_edit.disconnection_request.emit(
+				connection.from_node, connection.from_port,
+				connection.to_node, connection.to_port,
+			)
+			graph_edit.connection_request.emit(
+				input_connection.from_node, input_connection.from_port,
+				connection.to_node, connection.to_port,
+			)
+#endregion
+
+#region Save/Load
 func get_save_data() -> Dictionary:
 	var data = super()
 	data.type = type
@@ -53,7 +80,10 @@ func load_save_data(data: Dictionary) -> void:
 	if data.has(&"type"):
 		type = data.type
 	super(data)
+#endregion
 
+
+#region Display
 func _draw_port(slot_index: int, pos: Vector2i, left: bool, color: Color) -> void:
 	if left:
 		return
@@ -86,7 +116,8 @@ func _draw() -> void:
 
 
 func _set_icon_opacity(value: float):
-	if is_instance_valid(tween):
+	if is_instance_valid(tween) and tween.is_running():
 		tween.kill()
 	tween = create_tween()
 	tween.tween_property(self, "icon_opacity", value, 0.3)
+#endregion
