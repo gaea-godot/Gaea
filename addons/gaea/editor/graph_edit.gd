@@ -61,7 +61,6 @@ func remove_invalid_connections() -> void:
 			continue
 
 		if to_node.get_input_port_count() <= connection.to_port:
-
 			disconnect_node(connection.from_node, connection.from_port, connection.to_node, connection.to_port)
 			continue
 
@@ -98,7 +97,4 @@ func _on_element_attached_to_frame(element: StringName, frame: StringName) -> vo
 func _is_node_hover_valid(from_node: StringName, _from_port: int, to_node: StringName, to_port: int):
 	if from_node == to_node:
 		return false
-	if Input.is_key_pressed(KEY_SHIFT):
-		return true
-	else:
-		return get_connection_count(to_node, to_port) == 0
+	return true
