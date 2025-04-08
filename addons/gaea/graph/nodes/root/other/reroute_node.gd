@@ -41,15 +41,12 @@ func initialize() -> void:
 		true, resource.type, color,
 	)
 	set_slot_custom_icon_right(0, GaeaGraphNode.get_icon_from_type(resource.type))
-	
 
 
-
-func update_slot() -> void:
+func update_type(new_type: SlotTypes) -> void:
+	resource.type = new_type
 	slot.left_type = resource.type
 	slot.right_type = resource.type
-	set_slot_type_left(0, resource.type)
-	set_slot_type_right(0, resource.type)
 
 
 

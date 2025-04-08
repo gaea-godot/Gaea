@@ -4,7 +4,6 @@ extends GaeaNodeResource
 @export var type: GaeaGraphNode.SlotTypes = GaeaGraphNode.SlotTypes.NUMBER
 
 
-
 func get_data(_output_port: int, area: AABB, generator_data: GaeaData) -> Dictionary:
 	var data_connected_idx: int = get_connected_resource_idx(0)
 	if data_connected_idx == -1:
@@ -29,6 +28,3 @@ func get_type() -> GaeaGraphNode.SlotTypes:
 
 static func get_scene() -> PackedScene:
 	return preload("uid://b2rceqo8rtr88")
-
-func get_icon() -> Texture2D:
-	return get_icon_for_slot_type(get_type())

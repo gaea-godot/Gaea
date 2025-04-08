@@ -5,16 +5,14 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fbfsu"]
 resource_name = "Empty with margin"
-content_margin_top = 5.0
+content_margin_top = 6.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6svu7"]
 
 [node name="BaseNode" instance=ExtResource("1_0qpbo")]
 custom_minimum_size = Vector2(20, 0)
-offset_left = -20.0
-offset_top = -61.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_right = 40.0
+offset_bottom = 84.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_constants/separation = 0

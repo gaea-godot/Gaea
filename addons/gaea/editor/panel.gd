@@ -391,6 +391,13 @@ func _on_create_new_reroute(connection: Dictionary) -> void:
 	var offset = - reroute.get_output_port_position(0)
 	offset.y -= reroute.get_slot_custom_icon_right(0).get_size().y * 0.5
 	reroute.set_position_offset(_local_to_grid(_node_creation_target, offset))
+	
+	var from_node: GraphNode = _graph_edit.get_node(NodePath(connection.from_node))
+	
+	var link_type = from_node.get_slot_type_right(connection.from_port)
+	prints("reroute", reroute)
+	reroute.set_type(link_type)
+	prints("link_type", link_type)
 	_graph_edit.disconnect_node(
 		connection.from_node, connection.from_port,
 		connection.to_node, connection.to_port,
