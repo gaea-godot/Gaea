@@ -1,7 +1,8 @@
 extends TextureRect
 
 
-const SIZE = Vector2(128, 24)
+const SIZE = Vector2(128, 32)
+const CHECKERBOARD_SIZE = Vector2(16, 16)
 
 var gradient: GaeaMaterialGradient
 
@@ -12,12 +13,20 @@ func _ready() -> void:
 	expand_mode = TextureRect.EXPAND_FIT_WIDTH
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	focus_mode = Control.FOCUS_NONE
-	custom_minimum_size = get_combined_minimum_size()
 	tooltip_text = "Color used is the GaeaMaterial's preview_color"
 
 
 func update() -> void:
 	var image: Image = Image.create_empty(SIZE.x, SIZE.y, false, Image.FORMAT_RGBA8)
+	for x in ceili(SIZE.x / CHECKERBOARD_SIZE.x):
+		for y in ceili(SIZE.y / CHECKERBOARD_SIZE.y):
+			image.fill_rect(Rect2i(
+					Vector2(x, y) * CHECKERBOARD_SIZE,
+					CHECKERBOARD_SIZE
+				),
+				Color.GRAY if (x % 2 == y % 2) else Color.DIM_GRAY
+			)
+
 	for idx: int in gradient.points.size():
 		var start_offset: float = gradient.points.get(idx).get(&"offset", 0.0)
 		var end_offset: float
