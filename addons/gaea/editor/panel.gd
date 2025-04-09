@@ -393,7 +393,7 @@ func _on_window_close_requested(original_parent: Control, window: Window) -> voi
 	_window_popout_separator.show()
 
 
-func _on_create_new_reroute(connection: Dictionary) -> void:
+func _on_new_reroute_requested(connection: Dictionary) -> void:
 	var reroute: _RerouteNode = _add_node(_RerouteNode.create_resource())
 	
 	var offset = - reroute.get_output_port_position(0)

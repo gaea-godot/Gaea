@@ -10,7 +10,7 @@ enum Action {
 
 var current_connection: Dictionary
 
-signal create_new_reroute(connection: Dictionary)
+signal new_reroute_requested(connection: Dictionary)
 
 
 func _ready() -> void:
@@ -34,4 +34,4 @@ func _on_id_pressed(id: int) -> void:
 				current_connection.to_port
 			)
 		Action.INSERT_NEW_REROUTE:
-			create_new_reroute.emit(current_connection)
+			new_reroute_requested.emit(current_connection)

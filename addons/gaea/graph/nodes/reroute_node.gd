@@ -161,6 +161,4 @@ func _set_icon_opacity(value: float):
 
 
 func _validate_connections():
-	print("_validate_connections")
 	has_no_input = connections.size() == 0
-	
