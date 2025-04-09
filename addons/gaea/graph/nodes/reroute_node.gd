@@ -8,7 +8,8 @@ var type: GaeaGraphNode.SlotTypes = GaeaGraphNode.SlotTypes.NUMBER:
 	set(new_value):
 		if type != new_value:
 			type = new_value
-			resource.title = "Reroute (%s)" % GaeaGraphNode.SlotTypes.find_key(new_value).capitalize()
+			if not is_part_of_edited_scene():
+				resource.title = "Reroute (%s)" % GaeaGraphNode.SlotTypes.find_key(new_value).capitalize()
 			_update_slots()
 
 var icon_opacity: float = 0.0:
@@ -40,15 +41,14 @@ func initialize() -> void:
 
 
 func _update_slots():
-	if is_part_of_edited_scene():
-		return
 	var color = GaeaGraphNode.get_color_from_type(type)
 	set_slot(0, true, type, color, true, type, color)
 	set_slot_type_left(0, type)
 	set_slot_type_right(0, type)
 	set_slot_custom_icon_right(0, GaeaGraphNode.get_icon_from_type(type))
-	resource.input_slots[0].left_type = type
-	resource.title = "Reroute (%s)" % GaeaGraphNode.SlotTypes.find_key(type).capitalize()
+	if not is_part_of_edited_scene():
+		resource.input_slots[0].left_type = type
+		resource.title = "Reroute (%s)" % GaeaGraphNode.SlotTypes.find_key(type).capitalize()
 
 
 static func create_resource() -> GaeaNodeResource:
