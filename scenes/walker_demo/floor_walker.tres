@@ -148,48 +148,6 @@ script = ExtResource("2_mfpnn")
 enabled = true
 metadata/_custom_type_script = "uid://3qsmwhn2sk47"
 
-[sub_resource type="Resource" id="Resource_qgdjv"]
-script = ExtResource("5_iooy1")
-left_enabled = true
-left_type = 0
-left_label = "Data"
-right_enabled = false
-right_type = 0
-right_label = ""
-metadata/_custom_type_script = "uid://ote622wl6axc"
-
-[sub_resource type="Resource" id="Resource_jx8kx"]
-script = ExtResource("5_iooy1")
-left_enabled = true
-left_type = 2
-left_label = "Material"
-right_enabled = false
-right_type = 0
-right_label = ""
-metadata/_custom_type_script = "uid://ote622wl6axc"
-
-[sub_resource type="Resource" id="Resource_cxwr2"]
-script = ExtResource("5_iooy1")
-left_enabled = false
-left_type = 0
-left_label = ""
-right_enabled = true
-right_type = 1
-right_label = "Map"
-metadata/_custom_type_script = "uid://ote622wl6axc"
-
-[sub_resource type="Resource" id="Resource_1stj3"]
-script = ExtResource("12_5ecun")
-input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_qgdjv"), SubResource("Resource_jx8kx")])
-args = Array[ExtResource("4_5ecun")]([])
-output_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_cxwr2")])
-title = "Mapper"
-description = "Maps all non-empty cells in [param]data[/bg][/c] to [param]material[/bg][/c]."
-is_output = false
-data = {}
-salt = 1095001467
-metadata/_custom_type_script = "uid://brb1clh2y2bv0"
-
 [sub_resource type="Resource" id="Resource_5n5am"]
 script = ExtResource("4_5ecun")
 type = 1
@@ -233,19 +191,6 @@ data = {
 &"chance": 5.0
 }
 salt = 2125879735
-
-[sub_resource type="Resource" id="Resource_le1sa"]
-script = ExtResource("18_vyp3c")
-input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_vr2bg")])
-args = Array[ExtResource("4_5ecun")]([SubResource("Resource_5n5am")])
-output_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_fraxp")])
-title = "RandomFilter"
-description = "Randomly filters [param]map[/bg][/c] to only the cells that pass the [param]chance[/bg][/c] check."
-is_output = false
-data = {
-&"chance": 15.0
-}
-salt = 2691821230
 
 [sub_resource type="Resource" id="Resource_x5s41"]
 script = ExtResource("4_5ecun")
@@ -325,32 +270,6 @@ Vector2i(0, 0): false
 }
 salt = 3208191914
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"
-
-[sub_resource type="Resource" id="Resource_cvpld"]
-script = ExtResource("4_5ecun")
-type = 3
-name = &"name"
-default_value = null
-hint = Dictionary[String, Variant]({})
-disable_input_slot = false
-add_output_slot = false
-
-[sub_resource type="Resource" id="Resource_oc7x7"]
-script = ExtResource("6_oc7x7")
-type = 24
-hint = 17
-hint_string = "GaeaMaterial"
-output_type = 2
-input_slots = Array[ExtResource("5_iooy1")]([])
-args = Array[ExtResource("4_5ecun")]([SubResource("Resource_cvpld")])
-output_slots = Array[ExtResource("5_iooy1")]([])
-title = "MaterialVariable"
-description = "GaeaMaterial variable editable in the inspector."
-is_output = false
-data = {
-&"name": "WallMaterial"
-}
-salt = 3078290440
 
 [sub_resource type="Resource" id="Resource_lbx5x"]
 script = ExtResource("4_5ecun")
@@ -441,66 +360,6 @@ Vector2i(0, 0): false
 salt = 4142241368
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"
 
-[sub_resource type="Resource" id="Resource_58cm0"]
-script = ExtResource("4_5ecun")
-type = 10
-name = &"to_point"
-default_value = null
-hint = Dictionary[String, Variant]({})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
-
-[sub_resource type="Resource" id="Resource_o7clu"]
-script = ExtResource("4_5ecun")
-type = 4
-name = &"distance_range"
-default_value = {
-"max": 64.0
-}
-hint = Dictionary[String, Variant]({
-"allow_lesser": false,
-"max": 64.0,
-"min": 0.0
-})
-disable_input_slot = false
-add_output_slot = false
-
-[sub_resource type="Resource" id="Resource_ppkgb"]
-script = ExtResource("5_iooy1")
-left_enabled = true
-left_type = 0
-left_label = "Data"
-right_enabled = false
-right_type = 0
-right_label = ""
-
-[sub_resource type="Resource" id="Resource_hqu83"]
-script = ExtResource("5_iooy1")
-left_enabled = false
-left_type = 0
-left_label = ""
-right_enabled = true
-right_type = 0
-right_label = "Filtered Data"
-
-[sub_resource type="Resource" id="Resource_tr8qa"]
-script = ExtResource("13_iooy1")
-input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_ppkgb")])
-args = Array[ExtResource("4_5ecun")]([SubResource("Resource_58cm0"), SubResource("Resource_o7clu")])
-output_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_hqu83")])
-title = "DistanceFilter"
-description = "Filters [param]data[/bg][/c] to only the cells at a distance from [param]to_point[/bg][/c] between [param]min[/bg][/c] and [param]max[/bg][/c]."
-is_output = false
-data = {
-&"distance_range": {
-"max": 64.0,
-"min": 4.0
-},
-&"to_point": Vector3(24, 24, 0)
-}
-salt = 2767213228
-
 [sub_resource type="Resource" id="Resource_306cy"]
 script = ExtResource("4_5ecun")
 type = 1
@@ -582,38 +441,6 @@ data = {
 &"name": "Chest"
 }
 salt = 3043193593
-
-[sub_resource type="Resource" id="Resource_m7j8q"]
-script = ExtResource("5_iooy1")
-left_enabled = true
-left_type = 0
-left_label = "Data"
-right_enabled = false
-right_type = 0
-right_label = ""
-metadata/_custom_type_script = "uid://ote622wl6axc"
-
-[sub_resource type="Resource" id="Resource_bie4n"]
-script = ExtResource("5_iooy1")
-left_enabled = false
-left_type = 0
-left_label = ""
-right_enabled = true
-right_type = 0
-right_label = "Complement [1]"
-metadata/_custom_type_script = "uid://ote622wl6axc"
-
-[sub_resource type="Resource" id="Resource_du0iw"]
-script = ExtResource("14_oc7x7")
-input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_m7j8q")])
-args = Array[ExtResource("4_5ecun")]([])
-output_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_bie4n")])
-title = "DataComplement"
-description = "Returns the complement of [param]data[/bg][/c]."
-is_output = false
-data = {}
-salt = 1095001467
-metadata/_custom_type_script = "uid://brb1clh2y2bv0"
 
 [sub_resource type="Resource" id="Resource_xn6xr"]
 script = ExtResource("5_iooy1")
@@ -899,46 +726,6 @@ data = {
 salt = 2719450087
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"
 
-[sub_resource type="Resource" id="Resource_l5x77"]
-script = ExtResource("5_iooy1")
-left_enabled = true
-left_type = 0
-left_label = ""
-right_enabled = true
-right_type = 0
-right_label = ""
-
-[sub_resource type="Resource" id="Resource_d7dhr"]
-script = ExtResource("13_vyp3c")
-input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_l5x77")])
-args = Array[ExtResource("4_5ecun")]([])
-output_slots = Array[ExtResource("5_iooy1")]([])
-title = "Node"
-description = ""
-is_output = false
-data = {}
-salt = 2945478844
-
-[sub_resource type="Resource" id="Resource_3wefi"]
-script = ExtResource("5_iooy1")
-left_enabled = true
-left_type = 0
-left_label = ""
-right_enabled = true
-right_type = 0
-right_label = ""
-
-[sub_resource type="Resource" id="Resource_4wy4r"]
-script = ExtResource("13_vyp3c")
-input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_3wefi")])
-args = Array[ExtResource("4_5ecun")]([])
-output_slots = Array[ExtResource("5_iooy1")]([])
-title = "Node"
-description = ""
-is_output = false
-data = {}
-salt = 4007325169
-
 [sub_resource type="Resource" id="Resource_81ci0"]
 script = ExtResource("5_iooy1")
 left_enabled = true
@@ -958,62 +745,6 @@ description = ""
 is_output = false
 data = {}
 salt = 1403137335
-
-[sub_resource type="Resource" id="Resource_qksdc"]
-script = ExtResource("5_iooy1")
-left_enabled = true
-left_type = 1
-left_label = "Map A"
-right_enabled = false
-right_type = 0
-right_label = ""
-
-[sub_resource type="Resource" id="Resource_x35wo"]
-script = ExtResource("5_iooy1")
-left_enabled = true
-left_type = 1
-left_label = "Map B"
-right_enabled = false
-right_type = 0
-right_label = ""
-
-[sub_resource type="Resource" id="Resource_ij1ao"]
-script = ExtResource("5_iooy1")
-left_enabled = true
-left_type = 1
-left_label = "Map C"
-right_enabled = false
-right_type = 0
-right_label = ""
-
-[sub_resource type="Resource" id="Resource_abt6c"]
-script = ExtResource("5_iooy1")
-left_enabled = true
-left_type = 1
-left_label = "Map D"
-right_enabled = false
-right_type = 0
-right_label = ""
-
-[sub_resource type="Resource" id="Resource_t3085"]
-script = ExtResource("5_iooy1")
-left_enabled = false
-left_type = 0
-left_label = ""
-right_enabled = true
-right_type = 1
-right_label = "Union"
-
-[sub_resource type="Resource" id="Resource_wctuo"]
-script = ExtResource("17_drb3t")
-input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_qksdc"), SubResource("Resource_x35wo"), SubResource("Resource_ij1ao"), SubResource("Resource_abt6c")])
-args = Array[ExtResource("4_5ecun")]([])
-output_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_t3085")])
-title = "MapUnion"
-description = "Merges [param]map A-D[/bg][/c]. The latter overrides any overlapping cells from the former."
-is_output = false
-data = {}
-salt = 1380013154
 
 [sub_resource type="Resource" id="Resource_3sv33"]
 script = ExtResource("17_x5s41")
@@ -1075,67 +806,14 @@ is_output = false
 data = {}
 salt = 2431203366
 
-[sub_resource type="Resource" id="Resource_8dtaq"]
-script = ExtResource("5_iooy1")
-left_enabled = true
-left_type = 0
-left_label = ""
-right_enabled = true
-right_type = 0
-right_label = ""
-
-[sub_resource type="Resource" id="Resource_8w5fv"]
-script = ExtResource("13_vyp3c")
-input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_8dtaq")])
-args = Array[ExtResource("4_5ecun")]([])
-output_slots = Array[ExtResource("5_iooy1")]([])
-title = "Node"
-description = ""
-is_output = false
-data = {}
-salt = 804619527
-
-[sub_resource type="Resource" id="Resource_iooy1"]
-script = ExtResource("5_iooy1")
-left_enabled = true
-left_type = 0
-left_label = "Data"
-right_enabled = false
-right_type = 0
-right_label = ""
-metadata/_custom_type_script = "uid://ote622wl6axc"
-
-[sub_resource type="Resource" id="Resource_drb3t"]
-script = ExtResource("5_iooy1")
-left_enabled = true
-left_type = 2
-left_label = "Material"
-right_enabled = false
-right_type = 0
-right_label = ""
-metadata/_custom_type_script = "uid://ote622wl6axc"
-
-[sub_resource type="Resource" id="Resource_cf2mk"]
-script = ExtResource("5_iooy1")
-left_enabled = false
-left_type = 0
-left_label = ""
-right_enabled = true
-right_type = 1
-right_label = "Map"
-metadata/_custom_type_script = "uid://ote622wl6axc"
-
-[sub_resource type="Resource" id="Resource_6slir"]
-script = ExtResource("12_5ecun")
-input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_iooy1"), SubResource("Resource_drb3t")])
-args = Array[ExtResource("4_5ecun")]([])
-output_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_cf2mk")])
-title = "Mapper"
-description = "Maps all non-empty cells in [param]data[/bg][/c] to [param]material[/bg][/c]."
-is_output = false
-data = {}
-salt = 845489457
-metadata/_custom_type_script = "uid://brb1clh2y2bv0"
+[sub_resource type="Resource" id="Resource_cvpld"]
+script = ExtResource("4_5ecun")
+type = 3
+name = &"name"
+default_value = null
+hint = Dictionary[String, Variant]({})
+disable_input_slot = false
+add_output_slot = false
 
 [sub_resource type="Resource" id="Resource_wnynr"]
 script = ExtResource("6_oc7x7")
@@ -1194,304 +872,597 @@ is_output = false
 data = {}
 salt = 4274167954
 
+[sub_resource type="Resource" id="Resource_qgdjv"]
+script = ExtResource("5_iooy1")
+left_enabled = true
+left_type = 0
+left_label = "Data"
+right_enabled = false
+right_type = 0
+right_label = ""
+metadata/_custom_type_script = "uid://ote622wl6axc"
+
+[sub_resource type="Resource" id="Resource_jx8kx"]
+script = ExtResource("5_iooy1")
+left_enabled = true
+left_type = 2
+left_label = "Material"
+right_enabled = false
+right_type = 0
+right_label = ""
+metadata/_custom_type_script = "uid://ote622wl6axc"
+
+[sub_resource type="Resource" id="Resource_cxwr2"]
+script = ExtResource("5_iooy1")
+left_enabled = false
+left_type = 0
+left_label = ""
+right_enabled = true
+right_type = 1
+right_label = "Map"
+metadata/_custom_type_script = "uid://ote622wl6axc"
+
+[sub_resource type="Resource" id="Resource_1stj3"]
+script = ExtResource("12_5ecun")
+input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_qgdjv"), SubResource("Resource_jx8kx")])
+args = Array[ExtResource("4_5ecun")]([])
+output_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_cxwr2")])
+title = "Mapper"
+description = "Maps all non-empty cells in [param]data[/bg][/c] to [param]material[/bg][/c]."
+is_output = false
+data = {}
+salt = 1095001467
+metadata/_custom_type_script = "uid://brb1clh2y2bv0"
+
+[sub_resource type="Resource" id="Resource_oc7x7"]
+script = ExtResource("6_oc7x7")
+type = 24
+hint = 17
+hint_string = "GaeaMaterial"
+output_type = 2
+input_slots = Array[ExtResource("5_iooy1")]([])
+args = Array[ExtResource("4_5ecun")]([SubResource("Resource_cvpld")])
+output_slots = Array[ExtResource("5_iooy1")]([])
+title = "MaterialVariable"
+description = "GaeaMaterial variable editable in the inspector."
+is_output = false
+data = {
+&"name": "WallMaterial"
+}
+salt = 3078290440
+
+[sub_resource type="Resource" id="Resource_8dtaq"]
+script = ExtResource("5_iooy1")
+left_enabled = true
+left_type = 0
+left_label = ""
+right_enabled = true
+right_type = 0
+right_label = ""
+
+[sub_resource type="Resource" id="Resource_8w5fv"]
+script = ExtResource("13_vyp3c")
+input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_8dtaq")])
+args = Array[ExtResource("4_5ecun")]([])
+output_slots = Array[ExtResource("5_iooy1")]([])
+title = "Node"
+description = ""
+is_output = false
+data = {}
+salt = 3922383654
+
+[sub_resource type="Resource" id="Resource_iooy1"]
+script = ExtResource("5_iooy1")
+left_enabled = true
+left_type = 0
+left_label = "Data"
+right_enabled = false
+right_type = 0
+right_label = ""
+metadata/_custom_type_script = "uid://ote622wl6axc"
+
+[sub_resource type="Resource" id="Resource_drb3t"]
+script = ExtResource("5_iooy1")
+left_enabled = true
+left_type = 2
+left_label = "Material"
+right_enabled = false
+right_type = 0
+right_label = ""
+metadata/_custom_type_script = "uid://ote622wl6axc"
+
+[sub_resource type="Resource" id="Resource_cf2mk"]
+script = ExtResource("5_iooy1")
+left_enabled = false
+left_type = 0
+left_label = ""
+right_enabled = true
+right_type = 1
+right_label = "Map"
+metadata/_custom_type_script = "uid://ote622wl6axc"
+
+[sub_resource type="Resource" id="Resource_6slir"]
+script = ExtResource("12_5ecun")
+input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_iooy1"), SubResource("Resource_drb3t")])
+args = Array[ExtResource("4_5ecun")]([])
+output_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_cf2mk")])
+title = "Mapper"
+description = "Maps all non-empty cells in [param]data[/bg][/c] to [param]material[/bg][/c]."
+is_output = false
+data = {}
+salt = 845489457
+metadata/_custom_type_script = "uid://brb1clh2y2bv0"
+
+[sub_resource type="Resource" id="Resource_le1sa"]
+script = ExtResource("18_vyp3c")
+input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_vr2bg")])
+args = Array[ExtResource("4_5ecun")]([SubResource("Resource_5n5am")])
+output_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_fraxp")])
+title = "RandomFilter"
+description = "Randomly filters [param]map[/bg][/c] to only the cells that pass the [param]chance[/bg][/c] check."
+is_output = false
+data = {
+&"chance": 15.0
+}
+salt = 2691821230
+
+[sub_resource type="Resource" id="Resource_58cm0"]
+script = ExtResource("4_5ecun")
+type = 10
+name = &"to_point"
+default_value = null
+hint = Dictionary[String, Variant]({})
+disable_input_slot = false
+add_output_slot = false
+metadata/_custom_type_script = "uid://bh3sajxnmp14w"
+
+[sub_resource type="Resource" id="Resource_o7clu"]
+script = ExtResource("4_5ecun")
+type = 4
+name = &"distance_range"
+default_value = {
+"max": 64.0
+}
+hint = Dictionary[String, Variant]({
+"allow_lesser": false,
+"max": 64.0,
+"min": 0.0
+})
+disable_input_slot = false
+add_output_slot = false
+
+[sub_resource type="Resource" id="Resource_ppkgb"]
+script = ExtResource("5_iooy1")
+left_enabled = true
+left_type = 0
+left_label = "Data"
+right_enabled = false
+right_type = 0
+right_label = ""
+
+[sub_resource type="Resource" id="Resource_hqu83"]
+script = ExtResource("5_iooy1")
+left_enabled = false
+left_type = 0
+left_label = ""
+right_enabled = true
+right_type = 0
+right_label = "Filtered Data"
+
+[sub_resource type="Resource" id="Resource_tr8qa"]
+script = ExtResource("13_iooy1")
+input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_ppkgb")])
+args = Array[ExtResource("4_5ecun")]([SubResource("Resource_58cm0"), SubResource("Resource_o7clu")])
+output_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_hqu83")])
+title = "DistanceFilter"
+description = "Filters [param]data[/bg][/c] to only the cells at a distance from [param]to_point[/bg][/c] between [param]min[/bg][/c] and [param]max[/bg][/c]."
+is_output = false
+data = {
+&"distance_range": {
+"max": 64.0,
+"min": 4.0
+},
+&"to_point": Vector3(24, 24, 0)
+}
+salt = 2767213228
+
+[sub_resource type="Resource" id="Resource_m7j8q"]
+script = ExtResource("5_iooy1")
+left_enabled = true
+left_type = 0
+left_label = "Data"
+right_enabled = false
+right_type = 0
+right_label = ""
+metadata/_custom_type_script = "uid://ote622wl6axc"
+
+[sub_resource type="Resource" id="Resource_bie4n"]
+script = ExtResource("5_iooy1")
+left_enabled = false
+left_type = 0
+left_label = ""
+right_enabled = true
+right_type = 0
+right_label = "Complement [1]"
+metadata/_custom_type_script = "uid://ote622wl6axc"
+
+[sub_resource type="Resource" id="Resource_du0iw"]
+script = ExtResource("14_oc7x7")
+input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_m7j8q")])
+args = Array[ExtResource("4_5ecun")]([])
+output_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_bie4n")])
+title = "DataComplement"
+description = "Returns the complement of [param]data[/bg][/c]."
+is_output = false
+data = {}
+salt = 1095001467
+metadata/_custom_type_script = "uid://brb1clh2y2bv0"
+
+[sub_resource type="Resource" id="Resource_3wefi"]
+script = ExtResource("5_iooy1")
+left_enabled = true
+left_type = 0
+left_label = ""
+right_enabled = true
+right_type = 0
+right_label = ""
+
+[sub_resource type="Resource" id="Resource_4wy4r"]
+script = ExtResource("13_vyp3c")
+input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_3wefi")])
+args = Array[ExtResource("4_5ecun")]([])
+output_slots = Array[ExtResource("5_iooy1")]([])
+title = "Node"
+description = ""
+is_output = false
+data = {}
+salt = 4007325169
+
+[sub_resource type="Resource" id="Resource_l5x77"]
+script = ExtResource("5_iooy1")
+left_enabled = true
+left_type = 0
+left_label = ""
+right_enabled = true
+right_type = 0
+right_label = ""
+
+[sub_resource type="Resource" id="Resource_d7dhr"]
+script = ExtResource("13_vyp3c")
+input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_l5x77")])
+args = Array[ExtResource("4_5ecun")]([])
+output_slots = Array[ExtResource("5_iooy1")]([])
+title = "Node"
+description = ""
+is_output = false
+data = {}
+salt = 2945478844
+
+[sub_resource type="Resource" id="Resource_qksdc"]
+script = ExtResource("5_iooy1")
+left_enabled = true
+left_type = 1
+left_label = "Map A"
+right_enabled = false
+right_type = 0
+right_label = ""
+
+[sub_resource type="Resource" id="Resource_x35wo"]
+script = ExtResource("5_iooy1")
+left_enabled = true
+left_type = 1
+left_label = "Map B"
+right_enabled = false
+right_type = 0
+right_label = ""
+
+[sub_resource type="Resource" id="Resource_ij1ao"]
+script = ExtResource("5_iooy1")
+left_enabled = true
+left_type = 1
+left_label = "Map C"
+right_enabled = false
+right_type = 0
+right_label = ""
+
+[sub_resource type="Resource" id="Resource_abt6c"]
+script = ExtResource("5_iooy1")
+left_enabled = true
+left_type = 1
+left_label = "Map D"
+right_enabled = false
+right_type = 0
+right_label = ""
+
+[sub_resource type="Resource" id="Resource_t3085"]
+script = ExtResource("5_iooy1")
+left_enabled = false
+left_type = 0
+left_label = ""
+right_enabled = true
+right_type = 1
+right_label = "Union"
+
+[sub_resource type="Resource" id="Resource_wctuo"]
+script = ExtResource("17_drb3t")
+input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_qksdc"), SubResource("Resource_x35wo"), SubResource("Resource_ij1ao"), SubResource("Resource_abt6c")])
+args = Array[ExtResource("4_5ecun")]([])
+output_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_t3085")])
+title = "MapUnion"
+description = "Merges [param]map A-D[/bg][/c]. The latter overrides any overlapping cells from the former."
+is_output = false
+data = {}
+salt = 1380013154
+
 [resource]
 script = ExtResource("10_drb3t")
 layers = Array[ExtResource("2_mfpnn")]([SubResource("Resource_nr2x3"), SubResource("Resource_entu7"), SubResource("Resource_q5q5d")])
 logging = 0
 connections = Array[Dictionary]([{
-"from_node": 28,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 27,
-"to_port": 1
-}, {
-"from_node": 12,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 11,
-"to_port": 1
-}, {
-"from_node": 10,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 11,
-"to_port": 0
-}, {
-"from_node": 5,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 0,
-"to_port": 1
-}, {
-"from_node": 0,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 22,
-"to_port": 0
-}, {
-"from_node": 7,
+"from_node": 17,
 "from_port": 0,
 "keep_alive": false,
 "to_node": 23,
 "to_port": 1
-}, {
-"from_node": 6,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 3,
-"to_port": 1
-}, {
-"from_node": 3,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 22,
-"to_port": 2
 }, {
 "from_node": 8,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 4,
+"to_node": 7,
 "to_port": 1
-}, {
-"from_node": 15,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 9,
-"to_port": 1
-}, {
-"from_node": 4,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 2,
-"to_port": 0
-}, {
-"from_node": 9,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 1,
-"to_port": 0
-}, {
-"from_node": 22,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 18,
-"to_port": 1
-}, {
-"from_node": 14,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 18,
-"to_port": 2
-}, {
-"from_node": 19,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 0,
-"to_port": 0
-}, {
-"from_node": 20,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 19,
-"to_port": 0
-}, {
-"from_node": 20,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 3,
-"to_port": 0
-}, {
-"from_node": 26,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 20,
-"to_port": 0
-}, {
-"from_node": 26,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 23,
-"to_port": 0
 }, {
 "from_node": 25,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 4,
-"to_port": 0
-}, {
-"from_node": 25,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 16,
-"to_port": 0
-}, {
-"from_node": 16,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 9,
-"to_port": 0
-}, {
-"from_node": 29,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 30,
-"to_port": 0
-}, {
-"from_node": 30,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 18,
-"to_port": 0
-}, {
-"from_node": 13,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 24,
-"to_port": 0
-}, {
-"from_node": 24,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 26,
-"to_port": 0
-}, {
-"from_node": 24,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 25,
-"to_port": 0
-}, {
-"from_node": 27,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 29,
-"to_port": 0
-}, {
-"from_node": 17,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 13,
-"to_port": 0
-}, {
-"from_node": 17,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 27,
-"to_port": 0
-}, {
-"from_node": 2,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 14,
-"to_port": 0
-}, {
-"from_node": 1,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 14,
-"to_port": 1
-}, {
-"from_node": 11,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 14,
-"to_port": 2
-}, {
-"from_node": 17,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 21,
+"to_node": 7,
 "to_port": 0
 }, {
 "from_node": 21,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 10,
+"to_node": 20,
+"to_port": 1
+}, {
+"from_node": 20,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 30,
+"to_port": 0
+}, {
+"from_node": 4,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 14,
+"to_port": 1
+}, {
+"from_node": 3,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 1,
+"to_port": 1
+}, {
+"from_node": 1,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 30,
+"to_port": 2
+}, {
+"from_node": 5,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 2,
+"to_port": 1
+}, {
+"from_node": 10,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 6,
+"to_port": 1
+}, {
+"from_node": 2,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 24,
+"to_port": 0
+}, {
+"from_node": 6,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 0,
+"to_port": 0
+}, {
+"from_node": 30,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 29,
+"to_port": 1
+}, {
+"from_node": 9,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 29,
+"to_port": 2
+}, {
+"from_node": 28,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 20,
+"to_port": 0
+}, {
+"from_node": 27,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 28,
+"to_port": 0
+}, {
+"from_node": 27,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 1,
+"to_port": 0
+}, {
+"from_node": 16,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 2,
+"to_port": 0
+}, {
+"from_node": 16,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 11,
+"to_port": 0
+}, {
+"from_node": 11,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 6,
+"to_port": 0
+}, {
+"from_node": 18,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 19,
+"to_port": 0
+}, {
+"from_node": 19,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 29,
+"to_port": 0
+}, {
+"from_node": 26,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 15,
+"to_port": 0
+}, {
+"from_node": 15,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 16,
 "to_port": 0
 }, {
 "from_node": 23,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 22,
+"to_node": 18,
+"to_port": 0
+}, {
+"from_node": 12,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 26,
+"to_port": 0
+}, {
+"from_node": 12,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 23,
+"to_port": 0
+}, {
+"from_node": 24,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 9,
+"to_port": 0
+}, {
+"from_node": 0,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 9,
+"to_port": 1
+}, {
+"from_node": 7,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 9,
+"to_port": 2
+}, {
+"from_node": 12,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 13,
+"to_port": 0
+}, {
+"from_node": 13,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 25,
+"to_port": 0
+}, {
+"from_node": 14,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 30,
 "to_port": 3
+}, {
+"from_node": 27,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 22,
+"to_port": 0
+}, {
+"from_node": 22,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 14,
+"to_port": 0
+}, {
+"from_node": 15,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 27,
+"to_port": 0
 }])
-resources = Array[ExtResource("3_qhqpc")]([SubResource("Resource_1stj3"), SubResource("Resource_iqurr"), SubResource("Resource_le1sa"), SubResource("Resource_d8638"), SubResource("Resource_xer5s"), SubResource("Resource_oc7x7"), SubResource("Resource_i22ej"), SubResource("Resource_15p8x"), SubResource("Resource_ql431"), SubResource("Resource_jipni"), SubResource("Resource_tr8qa"), SubResource("Resource_x7tuv"), SubResource("Resource_4pc45"), SubResource("Resource_du0iw"), SubResource("Resource_0c54b"), SubResource("Resource_ogkvd"), SubResource("Resource_x7xkf"), SubResource("Resource_5mmfj"), ExtResource("7_du0iw"), SubResource("Resource_d7dhr"), SubResource("Resource_4wy4r"), SubResource("Resource_1g3g8"), SubResource("Resource_wctuo"), SubResource("Resource_3sv33"), SubResource("Resource_xh5p7"), SubResource("Resource_dl7qb"), SubResource("Resource_8w5fv"), SubResource("Resource_6slir"), SubResource("Resource_wnynr"), SubResource("Resource_3epfb"), SubResource("Resource_gtnsu")])
+resources = Array[ExtResource("3_qhqpc")]([SubResource("Resource_iqurr"), SubResource("Resource_d8638"), SubResource("Resource_xer5s"), SubResource("Resource_i22ej"), SubResource("Resource_15p8x"), SubResource("Resource_ql431"), SubResource("Resource_jipni"), SubResource("Resource_x7tuv"), SubResource("Resource_4pc45"), SubResource("Resource_0c54b"), SubResource("Resource_ogkvd"), SubResource("Resource_x7xkf"), SubResource("Resource_5mmfj"), SubResource("Resource_1g3g8"), SubResource("Resource_3sv33"), SubResource("Resource_xh5p7"), SubResource("Resource_dl7qb"), SubResource("Resource_wnynr"), SubResource("Resource_3epfb"), SubResource("Resource_gtnsu"), SubResource("Resource_1stj3"), SubResource("Resource_oc7x7"), SubResource("Resource_8w5fv"), SubResource("Resource_6slir"), SubResource("Resource_le1sa"), SubResource("Resource_tr8qa"), SubResource("Resource_du0iw"), SubResource("Resource_4wy4r"), SubResource("Resource_d7dhr"), ExtResource("7_du0iw"), SubResource("Resource_wctuo")])
 node_data = Array[Dictionary]([{
-"name": &"_GraphNode_46693",
-"position": Vector2(620, -480)
-}, {
 "name": &"_GraphNode_30039",
-"position": Vector2(800, 900)
-}, {
-"name": &"_GraphNode_29881",
-"position": Vector2(800, 560)
+"position": Vector2(820, 900)
 }, {
 "name": &"_GraphNode_25392",
-"position": Vector2(620, -300)
+"position": Vector2(740, -300)
 }, {
 "name": &"_GraphNode_29934",
-"position": Vector2(500, 540)
-}, {
-"name": &"_GraphNode_73051",
-"position": Vector2(400, -400)
+"position": Vector2(520, 540)
 }, {
 "name": &"_GraphNode_46756",
-"position": Vector2(400, -220)
+"position": Vector2(520, -220)
 }, {
 "name": &"_GraphNode_52514",
-"position": Vector2(400, 100)
+"position": Vector2(520, 100)
 }, {
 "name": &"_GraphNode_40713",
-"position": Vector2(280, 620)
+"position": Vector2(300, 620)
 }, {
 "name": &"_GraphNode_29999",
-"position": Vector2(500, 880)
-}, {
-"name": &"_GraphNode_52356",
-"position": Vector2(280, 1320)
+"position": Vector2(520, 880)
 }, {
 "name": &"_GraphNode_41447",
-"position": Vector2(880, 1320)
+"position": Vector2(900, 1300)
 }, {
 "name": &"_GraphNode_42528",
-"position": Vector2(660, 1400)
-}, {
-"name": &"_GraphNode_46621",
-"position": Vector2(-560, 160)
+"position": Vector2(680, 1380)
 }, {
 "name": &"_GraphNode_41947",
 "position": Vector2(1260, 820)
 }, {
 "name": &"_GraphNode_52439",
-"position": Vector2(280, 960)
+"position": Vector2(300, 960)
 }, {
 "name": &"_GraphNode_27791",
-"position": Vector2(300, 880),
+"position": Vector2(320, 880),
 &"type": 0
 }, {
 "name": &"BaseNode6",
 "position": Vector2(-1360, 100)
 }, {
-"name": &"BaseNode10",
-"position": Vector2(1640, 560)
-}, {
-"name": &"_GraphNode_27752",
-"position": Vector2(280, -480),
-&"type": 0
-}, {
-"name": &"_GraphNode_27759",
-"position": Vector2(220, -300),
-&"type": 0
-}, {
 "name": &"_GraphNode_27967",
 "position": Vector2(-560, 880),
 &"type": 0
 }, {
-"name": &"_GraphNode_52319",
-"position": Vector2(1000, -160)
-}, {
 "name": &"_GraphNode_25311",
-"position": Vector2(620, 20)
+"position": Vector2(740, 20)
 }, {
 "name": &"_GraphNode_27830",
 "position": Vector2(-120, 200),
@@ -1501,15 +1472,8 @@ node_data = Array[Dictionary]([{
 "position": Vector2(140, 540),
 &"type": 0
 }, {
-"name": &"_GraphNode_27767",
-"position": Vector2(140, 20),
-&"type": 0
-}, {
-"name": &"BaseNode5",
-"position": Vector2(-320, 580)
-}, {
 "name": &"BaseNode9",
-"position": Vector2(-560, 680)
+"position": Vector2(-600, 680)
 }, {
 "name": &"_GraphNode_27816",
 "position": Vector2(180, 400),
@@ -1518,6 +1482,42 @@ node_data = Array[Dictionary]([{
 "name": &"_GraphNode_27823",
 "position": Vector2(1060, 400),
 &"type": 1
+}, {
+"name": &"_GraphNode_46693",
+"position": Vector2(740, -480)
+}, {
+"name": &"_GraphNode_73051",
+"position": Vector2(500, -400)
+}, {
+"name": &"BaseNode",
+"position": Vector2(520, 20),
+&"type": 0
+}, {
+"name": &"BaseNode5",
+"position": Vector2(-360, 580)
+}, {
+"name": &"_GraphNode_29881",
+"position": Vector2(820, 560)
+}, {
+"name": &"_GraphNode_52356",
+"position": Vector2(300, 1300)
+}, {
+"name": &"_GraphNode_46621",
+"position": Vector2(-540, 160)
+}, {
+"name": &"_GraphNode_27759",
+"position": Vector2(300, -300),
+&"type": 0
+}, {
+"name": &"_GraphNode_27752",
+"position": Vector2(380, -480),
+&"type": 0
+}, {
+"name": &"BaseNode10",
+"position": Vector2(1640, 400)
+}, {
+"name": &"_GraphNode_52319",
+"position": Vector2(1120, -160)
 }])
 parameters = Dictionary[StringName, Variant]({
 &"Chest": {
@@ -1573,52 +1573,52 @@ parameters = Dictionary[StringName, Variant]({
 scroll_offset = Vector2(0, 0)
 other = {
 "frames": [{
-"attached": Array[StringName]([]),
-"autoshrink": true,
-"name": &"_GraphFrame_25944",
-"position": Vector2(-600, 539),
-"size": Vector2(512, 253),
-"tint_color": Color(0.174225, 0.208835, 0.257812, 0.75),
-"tint_color_enabled": true,
-"title": "Floor"
-}, {
-"attached": Array[StringName]([]),
+"attached": Array[StringName]([&"_GraphNode_46621"]),
 "autoshrink": true,
 "name": &"_GraphFrame_25941",
-"position": Vector2(-600, 119),
+"position": Vector2(-580, 119),
 "size": Vector2(306, 194),
 "tint_color": Color(0.3125, 0.155029, 0.155029, 0.75),
 "tint_color_enabled": true,
 "title": "Get Everything Outside Floor"
 }, {
-"attached": Array[StringName]([]),
+"attached": Array[StringName]([&"BaseNode5", &"BaseNode9"]),
+"autoshrink": true,
+"name": &"_GraphFrame_25944",
+"position": Vector2(-640, 539),
+"size": Vector2(512, 253),
+"tint_color": Color(0.174225, 0.208835, 0.257812, 0.75),
+"tint_color_enabled": true,
+"title": "Floor"
+}, {
+"attached": Array[StringName]([&"_GraphNode_29881", &"_GraphNode_27791", &"_GraphNode_52439", &"_GraphNode_29999", &"_GraphNode_40713", &"_GraphNode_29934", &"_GraphNode_30039"]),
 "autoshrink": true,
 "name": &"_GraphFrame_25938",
-"position": Vector2(240, 499),
+"position": Vector2(260, 499),
 "size": Vector2(792, 714),
 "tint_color": Color(0.0964966, 0.363281, 0.175698, 0.75),
 "tint_color_enabled": true,
 "title": "Add Vegetation"
 }, {
-"attached": Array[StringName]([]),
-"autoshrink": true,
-"name": &"_GraphFrame_25935",
-"position": Vector2(360, -521),
-"size": Vector2(524, 874),
-"tint_color": Color(0.133333, 0.12549, 0.203922, 1),
-"tint_color_enabled": true,
-"title": "Walls"
-}, {
-"attached": Array[StringName]([]),
+"attached": Array[StringName]([&"_GraphNode_52356", &"_GraphNode_42528", &"_GraphNode_41447"]),
 "autoshrink": true,
 "name": &"_GraphFrame_25932",
-"position": Vector2(240, 1279),
+"position": Vector2(260, 1259),
 "size": Vector2(872, 317),
 "tint_color": Color(0.55, 0.415983, 0.3135, 0.52549),
 "tint_color_enabled": true,
 "title": "Place Chests"
+}, {
+"attached": Array[StringName]([&"_GraphNode_46693", &"_GraphNode_25311", &"_GraphNode_52514", &"_GraphNode_46756", &"_GraphNode_73051", &"_GraphNode_25392", &"BaseNode", &"_GraphNode_27759", &"_GraphNode_27752", &"_GraphNode_52319"]),
+"autoshrink": true,
+"name": &"_GraphFrame_25935",
+"position": Vector2(260, -521),
+"size": Vector2(1092, 874),
+"tint_color": Color(0.133333, 0.12549, 0.203922, 1),
+"tint_color_enabled": true,
+"title": "Walls"
 }],
-"scroll_offset": Vector2(-606.786, 155.086)
+"scroll_offset": Vector2(-377.48, -273.262)
 }
 Chest = SubResource("Resource_j6vep")
 FloorMaterial = SubResource("Resource_e1h74")
