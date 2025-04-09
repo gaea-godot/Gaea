@@ -252,25 +252,6 @@ Vector2i(0, 0): false
 salt = 380881962
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"
 
-[sub_resource type="Resource" id="Resource_xer5s"]
-script = ExtResource("17_x5s41")
-input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_vyp3c"), SubResource("Resource_utr2w")])
-args = Array[ExtResource("4_5ecun")]([SubResource("Resource_x5s41")])
-output_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_6sh8g")])
-title = "RulesPlacer"
-description = "Places [param]material[/bg][/c] on every world cell that follows [param]rules[/bg][/c] based on [param]reference_data[/bg][/c].
-[img]res://addons/gaea/assets/cross.svg[/img] means data DOESN'T have a cell there, [img]res://addons/gaea/assets/check.svg[/img] means the opposite.
-
-[b]The squared cell is the origin.[/b]"
-is_output = false
-data = {
-&"rules": {
-Vector2i(0, 0): false
-}
-}
-salt = 3208191914
-metadata/_custom_type_script = "uid://brb1clh2y2bv0"
-
 [sub_resource type="Resource" id="Resource_lbx5x"]
 script = ExtResource("4_5ecun")
 type = 3
@@ -1194,48 +1175,67 @@ is_output = false
 data = {}
 salt = 1380013154
 
+[sub_resource type="Resource" id="Resource_xer5s"]
+script = ExtResource("17_x5s41")
+input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_vyp3c"), SubResource("Resource_utr2w")])
+args = Array[ExtResource("4_5ecun")]([SubResource("Resource_x5s41")])
+output_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_6sh8g")])
+title = "RulesPlacer"
+description = "Places [param]material[/bg][/c] on every world cell that follows [param]rules[/bg][/c] based on [param]reference_data[/bg][/c].
+[img]res://addons/gaea/assets/cross.svg[/img] means data DOESN'T have a cell there, [img]res://addons/gaea/assets/check.svg[/img] means the opposite.
+
+[b]The squared cell is the origin.[/b]"
+is_output = false
+data = {
+&"rules": {
+Vector2i(0, 0): false
+}
+}
+salt = 3208191914
+metadata/_custom_type_script = "uid://brb1clh2y2bv0"
+
 [resource]
 script = ExtResource("10_drb3t")
 layers = Array[ExtResource("2_mfpnn")]([SubResource("Resource_nr2x3"), SubResource("Resource_entu7"), SubResource("Resource_q5q5d")])
 logging = 0
 connections = Array[Dictionary]([{
-"from_node": 17,
+"from_node": 16,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 23,
+"to_node": 22,
 "to_port": 1
 }, {
-"from_node": 8,
+"from_node": 7,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 7,
+"to_node": 6,
 "to_port": 1
 }, {
-"from_node": 25,
+"from_node": 24,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 7,
+"to_node": 6,
 "to_port": 0
-}, {
-"from_node": 21,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 20,
-"to_port": 1
 }, {
 "from_node": 20,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 30,
-"to_port": 0
-}, {
-"from_node": 4,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 14,
+"to_node": 19,
 "to_port": 1
 }, {
+"from_node": 19,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 29,
+"to_port": 0
+}, {
 "from_node": 3,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 13,
+"to_port": 1
+}, {
+"from_node": 2,
 "from_port": 0,
 "keep_alive": false,
 "to_node": 1,
@@ -1244,187 +1244,184 @@ connections = Array[Dictionary]([{
 "from_node": 1,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 30,
+"to_node": 29,
 "to_port": 2
 }, {
-"from_node": 5,
+"from_node": 4,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 2,
-"to_port": 1
-}, {
-"from_node": 10,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 6,
-"to_port": 1
-}, {
-"from_node": 2,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 24,
-"to_port": 0
-}, {
-"from_node": 6,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 0,
-"to_port": 0
-}, {
-"from_node": 30,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 29,
+"to_node": 30,
 "to_port": 1
 }, {
 "from_node": 9,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 29,
-"to_port": 2
+"to_node": 5,
+"to_port": 1
 }, {
-"from_node": 28,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 20,
-"to_port": 0
-}, {
-"from_node": 27,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 28,
-"to_port": 0
-}, {
-"from_node": 27,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 1,
-"to_port": 0
-}, {
-"from_node": 16,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 2,
-"to_port": 0
-}, {
-"from_node": 16,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 11,
-"to_port": 0
-}, {
-"from_node": 11,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 6,
-"to_port": 0
-}, {
-"from_node": 18,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 19,
-"to_port": 0
-}, {
-"from_node": 19,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 29,
-"to_port": 0
-}, {
-"from_node": 26,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 15,
-"to_port": 0
-}, {
-"from_node": 15,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 16,
-"to_port": 0
-}, {
-"from_node": 23,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 18,
-"to_port": 0
-}, {
-"from_node": 12,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 26,
-"to_port": 0
-}, {
-"from_node": 12,
+"from_node": 30,
 "from_port": 0,
 "keep_alive": false,
 "to_node": 23,
 "to_port": 0
 }, {
-"from_node": 24,
+"from_node": 5,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 9,
+"to_node": 0,
 "to_port": 0
 }, {
-"from_node": 0,
+"from_node": 29,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 9,
+"to_node": 28,
 "to_port": 1
 }, {
-"from_node": 7,
+"from_node": 8,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 9,
+"to_node": 28,
 "to_port": 2
-}, {
-"from_node": 12,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 13,
-"to_port": 0
-}, {
-"from_node": 13,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 25,
-"to_port": 0
-}, {
-"from_node": 14,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 30,
-"to_port": 3
 }, {
 "from_node": 27,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 22,
+"to_node": 19,
 "to_port": 0
 }, {
-"from_node": 22,
+"from_node": 26,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 14,
+"to_node": 27,
+"to_port": 0
+}, {
+"from_node": 26,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 1,
 "to_port": 0
 }, {
 "from_node": 15,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 27,
+"to_node": 30,
+"to_port": 0
+}, {
+"from_node": 15,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 10,
+"to_port": 0
+}, {
+"from_node": 10,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 5,
+"to_port": 0
+}, {
+"from_node": 17,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 18,
+"to_port": 0
+}, {
+"from_node": 18,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 28,
+"to_port": 0
+}, {
+"from_node": 25,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 14,
+"to_port": 0
+}, {
+"from_node": 14,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 15,
+"to_port": 0
+}, {
+"from_node": 22,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 17,
+"to_port": 0
+}, {
+"from_node": 11,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 25,
+"to_port": 0
+}, {
+"from_node": 11,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 22,
+"to_port": 0
+}, {
+"from_node": 23,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 8,
+"to_port": 0
+}, {
+"from_node": 0,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 8,
+"to_port": 1
+}, {
+"from_node": 6,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 8,
+"to_port": 2
+}, {
+"from_node": 11,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 12,
+"to_port": 0
+}, {
+"from_node": 12,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 24,
+"to_port": 0
+}, {
+"from_node": 13,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 29,
+"to_port": 3
+}, {
+"from_node": 26,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 21,
+"to_port": 0
+}, {
+"from_node": 21,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 13,
+"to_port": 0
+}, {
+"from_node": 14,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 26,
 "to_port": 0
 }])
-resources = Array[ExtResource("3_qhqpc")]([SubResource("Resource_iqurr"), SubResource("Resource_d8638"), SubResource("Resource_xer5s"), SubResource("Resource_i22ej"), SubResource("Resource_15p8x"), SubResource("Resource_ql431"), SubResource("Resource_jipni"), SubResource("Resource_x7tuv"), SubResource("Resource_4pc45"), SubResource("Resource_0c54b"), SubResource("Resource_ogkvd"), SubResource("Resource_x7xkf"), SubResource("Resource_5mmfj"), SubResource("Resource_1g3g8"), SubResource("Resource_3sv33"), SubResource("Resource_xh5p7"), SubResource("Resource_dl7qb"), SubResource("Resource_wnynr"), SubResource("Resource_3epfb"), SubResource("Resource_gtnsu"), SubResource("Resource_1stj3"), SubResource("Resource_oc7x7"), SubResource("Resource_8w5fv"), SubResource("Resource_6slir"), SubResource("Resource_le1sa"), SubResource("Resource_tr8qa"), SubResource("Resource_du0iw"), SubResource("Resource_4wy4r"), SubResource("Resource_d7dhr"), ExtResource("7_du0iw"), SubResource("Resource_wctuo")])
+resources = Array[ExtResource("3_qhqpc")]([SubResource("Resource_iqurr"), SubResource("Resource_d8638"), SubResource("Resource_i22ej"), SubResource("Resource_15p8x"), SubResource("Resource_ql431"), SubResource("Resource_jipni"), SubResource("Resource_x7tuv"), SubResource("Resource_4pc45"), SubResource("Resource_0c54b"), SubResource("Resource_ogkvd"), SubResource("Resource_x7xkf"), SubResource("Resource_5mmfj"), SubResource("Resource_1g3g8"), SubResource("Resource_3sv33"), SubResource("Resource_xh5p7"), SubResource("Resource_dl7qb"), SubResource("Resource_wnynr"), SubResource("Resource_3epfb"), SubResource("Resource_gtnsu"), SubResource("Resource_1stj3"), SubResource("Resource_oc7x7"), SubResource("Resource_8w5fv"), SubResource("Resource_6slir"), SubResource("Resource_le1sa"), SubResource("Resource_tr8qa"), SubResource("Resource_du0iw"), SubResource("Resource_4wy4r"), SubResource("Resource_d7dhr"), ExtResource("7_du0iw"), SubResource("Resource_wctuo"), SubResource("Resource_xer5s")])
 node_data = Array[Dictionary]([{
 "name": &"_GraphNode_30039",
 "position": Vector2(820, 900)
 }, {
 "name": &"_GraphNode_25392",
 "position": Vector2(740, -300)
-}, {
-"name": &"_GraphNode_29934",
-"position": Vector2(520, 540)
 }, {
 "name": &"_GraphNode_46756",
 "position": Vector2(520, -220)
@@ -1518,6 +1515,9 @@ node_data = Array[Dictionary]([{
 }, {
 "name": &"_GraphNode_52319",
 "position": Vector2(1120, -160)
+}, {
+"name": &"_GraphNode_29934",
+"position": Vector2(520, 540)
 }])
 parameters = Dictionary[StringName, Variant]({
 &"Chest": {
@@ -1618,7 +1618,7 @@ other = {
 "tint_color_enabled": true,
 "title": "Walls"
 }],
-"scroll_offset": Vector2(-377.48, -273.262)
+"scroll_offset": Vector2(-322.449, 121.276)
 }
 Chest = SubResource("Resource_j6vep")
 FloorMaterial = SubResource("Resource_e1h74")

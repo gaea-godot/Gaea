@@ -72,13 +72,13 @@ func get_data(_passed_data:Array[Dictionary], _output_port: int, _area: AABB, _g
 
 #region Caching
 ## Checks if this node should use caching or not.
-func _use_caching(output_port:int, generator_data:GaeaData) -> bool:
+func _use_caching(_output_port:int, _generator_data:GaeaData) -> bool:
 	return true
 
 ## Adds or sets data to the cache at GaeaNodeResource, then output_port index.
-func set_cached_data(data:Dictionary, output_port:int, generator_data:GaeaData) -> void:
+func set_cached_data(new_data:Dictionary, output_port:int, generator_data:GaeaData) -> void:
 	var node_cache:Dictionary = generator_data.cache.get_or_add(self, {})
-	node_cache[output_port] = data
+	node_cache[output_port] = new_data
 
 ## Checks if the cache has data corresponding to GaeaNodeResource, then output_port index.
 func has_cached_data(output_port:int, generator_data:GaeaData) -> bool:

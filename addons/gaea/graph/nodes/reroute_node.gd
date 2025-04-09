@@ -8,7 +8,7 @@ var type: GaeaGraphNode.SlotTypes = GaeaGraphNode.SlotTypes.NUMBER:
 	set(new_value):
 		if type != new_value:
 			type = new_value
-			_update_slots(new_value)
+			_update_slots()
 
 var icon_opacity: float = 0.0:
 	set(new_value):
@@ -29,10 +29,10 @@ func initialize() -> void:
 	titlebar_hbox.mouse_entered.connect(_set_icon_opacity.bind(1.0))
 	titlebar_hbox.mouse_exited.connect(_set_icon_opacity.bind(0.0))
 
-	_update_slots(type)
+	_update_slots()
 
 
-func _update_slots(type: GaeaGraphNode.SlotTypes):
+func _update_slots():
 	var color = GaeaGraphNode.get_color_from_type(type)
 	set_slot(0, true, type, color, true, type, color)
 	set_slot_type_left(0, type)
@@ -42,21 +42,18 @@ func _update_slots(type: GaeaGraphNode.SlotTypes):
 
 
 static func create_resource() -> GaeaNodeResource:
-	var resource = _RerouteResource.new()
+	var new_resource = _RerouteResource.new()
 	var input_slot = GaeaNodeSlot.new()
 	input_slot.left_enabled = true
-	resource.input_slots.append(input_slot)
-	return resource
+	new_resource.input_slots.append(input_slot)
+	return new_resource
 #endregion
 
 
 #region Lifecycle
 func on_removed() -> void:
 	var input_connection: Dictionary = connections[0]
-	var original_from_node: StringName = input_connection.from_node
-	var original_from_port: int = input_connection.from_port
 	var graph_edit: GraphEdit = find_parent("GraphEdit")
-
 	
 	graph_edit.disconnection_request.emit(
 		input_connection.from_node,
@@ -65,7 +62,6 @@ func on_removed() -> void:
 		input_connection.to_port,
 	)
 	
-
 	for connection in graph_edit.connections:
 		if connection.from_node == name and connection.from_port == 0:
 			graph_edit.disconnection_request.emit(

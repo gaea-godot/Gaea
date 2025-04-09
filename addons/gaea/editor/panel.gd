@@ -106,6 +106,7 @@ func _on_graph_edit_gui_input(event: InputEvent) -> void:
 
 
 func _add_node(resource: GaeaNodeResource) -> GraphNode:
+	@warning_ignore("static_called_on_instance")
 	var node: GaeaGraphNode = resource.get_scene().instantiate()
 	node.resource = resource
 	node.generator = get_selected_generator()
@@ -278,7 +279,7 @@ func _load_data() -> void:
 			_graph_edit._on_element_attached_to_frame(attached, frame.get("name"))
 
 
-func _on_graph_edit_connection_to_empty(from_node: StringName, from_port: int, release_position: Vector2) -> void:
+func _on_graph_edit_connection_to_empty(_from_node: StringName, _from_port: int, _release_position: Vector2) -> void:
 	_popup_create_node_menu_at_mouse()
 
 
@@ -395,7 +396,7 @@ func _on_create_new_reroute(connection: Dictionary) -> void:
 	reroute.set_position_offset(_local_to_grid(_node_creation_target, offset))
 	
 	var from_node: GraphNode = _graph_edit.get_node(NodePath(connection.from_node))	
-	var link_type = from_node.get_output_port_type(connection.from_port)
+	var link_type := from_node.get_output_port_type(connection.from_port) as GaeaGraphNode.SlotTypes
 	reroute.type = link_type
 	
 	_graph_edit.disconnection_request.emit.call_deferred(

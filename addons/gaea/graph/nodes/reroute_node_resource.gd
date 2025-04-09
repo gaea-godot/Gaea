@@ -11,7 +11,7 @@ func get_data(
 	return passed_data[output_port]
 
 
-func _use_caching(output_port:int, generator_data:GaeaData) -> bool:
+func _use_caching(_output_port:int, _generator_data:GaeaData) -> bool:
 	return false
 
 
