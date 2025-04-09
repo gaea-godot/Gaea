@@ -7,7 +7,16 @@ const PreviewTexture = preload("res://addons/gaea/graph/nodes/preview_texture.gd
 const PREVIEW_TYPES := [SlotTypes.MAP_DATA, SlotTypes.VALUE_DATA]
 
 enum SlotTypes {
-	VALUE_DATA, MAP_DATA, TILE_INFO, VECTOR2, NUMBER, RANGE, BOOL, VECTOR3, GRADIENT, NULL = -1
+	VALUE_DATA,
+	MAP_DATA,
+	TILE_INFO,
+	VECTOR2,
+	NUMBER,
+	RANGE,
+	BOOL,
+	VECTOR3,
+	GRADIENT,
+	NULL = -1
 }
 
 signal save_requested
