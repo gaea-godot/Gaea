@@ -31,8 +31,8 @@ func execute(area: AABB, generator_data: GaeaData, generator: GaeaGenerator) -> 
 	generator.generation_finished.emit.call_deferred(grid)
 
 
-func get_type() -> GaeaGraphNode.SlotType:
-	return GaeaGraphNode.SlotType.NULL
+func get_type() -> GaeaGraphNode.SlotTypes:
+	return GaeaGraphNode.SlotTypes.NULL
 
 
 static func get_scene() -> PackedScene:

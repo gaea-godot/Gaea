@@ -201,12 +201,12 @@ static func get_formatted_text(unformatted_text: String) -> String:
 	return unformatted_text
 
 
-func get_type() -> GaeaGraphNode.SlotType:
+func get_type() -> GaeaGraphNode.SlotTypes:
 	if output_slots.is_empty():
-		return GaeaGraphNode.SlotType.NULL
+		return GaeaGraphNode.SlotTypes.NULL
 
 	if not is_instance_valid(output_slots.back()):
-		return GaeaGraphNode.SlotType.NULL
+		return GaeaGraphNode.SlotTypes.NULL
 
 	return output_slots.back().right_type
 
@@ -219,23 +219,23 @@ func get_title_color() -> Color:
 	return GaeaGraphNode.get_color_from_type(get_type())
 
 
-static func get_icon_for_slot_type(slot_type: GaeaGraphNode.SlotType) -> Texture2D:
+static func get_icon_for_slot_type(slot_type: GaeaGraphNode.SlotTypes) -> Texture2D:
 	match slot_type:
-		GaeaGraphNode.SlotType.VALUE_DATA:
+		GaeaGraphNode.SlotTypes.VALUE_DATA:
 			return preload("../../assets/types/data_grid.svg")
-		GaeaGraphNode.SlotType.MAP_DATA:
+		GaeaGraphNode.SlotTypes.MAP_DATA:
 			return preload("../../assets/types/map.svg")
-		GaeaGraphNode.SlotType.TILE_INFO:
+		GaeaGraphNode.SlotTypes.TILE_INFO:
 			return preload("../../assets/types/material.svg")
-		GaeaGraphNode.SlotType.VECTOR2:
+		GaeaGraphNode.SlotTypes.VECTOR2:
 			return preload("../../assets/types/vec2.svg")
-		GaeaGraphNode.SlotType.NUMBER:
+		GaeaGraphNode.SlotTypes.NUMBER:
 			return preload("../../assets/types/num.svg")
-		GaeaGraphNode.SlotType.RANGE:
+		GaeaGraphNode.SlotTypes.RANGE:
 			return preload("../../assets/types/range.svg")
-		GaeaGraphNode.SlotType.BOOL:
+		GaeaGraphNode.SlotTypes.BOOL:
 			return preload("../../assets/types/bool.svg")
-		GaeaGraphNode.SlotType.VECTOR3:
+		GaeaGraphNode.SlotTypes.VECTOR3:
 			return preload("../../assets/types/vec3.svg")
 	return null
 

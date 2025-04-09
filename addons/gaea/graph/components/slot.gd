@@ -8,7 +8,7 @@ extends MarginContainer
 		_set_side_label_property(&"left", &"visible", new_value)
 		if is_node_ready():
 			graph_node.set_slot_enabled_left(idx, new_value)
-@export var left_type: GaeaGraphNode.SlotType:
+@export var left_type: GaeaGraphNode.SlotTypes:
 	set(new_value):
 		left_type = new_value
 		if is_node_ready():
@@ -27,7 +27,7 @@ extends MarginContainer
 		_set_side_label_property(&"right", &"visible", new_value)
 		if is_node_ready():
 			graph_node.set_slot_enabled_right(idx, new_value)
-@export var right_type: GaeaGraphNode.SlotType:
+@export var right_type: GaeaGraphNode.SlotTypes:
 	set(new_value):
 		right_type = new_value
 		if is_node_ready():

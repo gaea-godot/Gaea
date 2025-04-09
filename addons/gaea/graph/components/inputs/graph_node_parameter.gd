@@ -3,7 +3,7 @@ class_name GaeaGraphNodeParameter
 extends Control
 
 @export var add_input_slot: bool = true
-@export var input_type: GaeaGraphNode.SlotType
+@export var input_type: GaeaGraphNode.SlotTypes
 @export var connection_idx: int = 0
 
 var add_output_slot: bool = false
