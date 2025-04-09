@@ -1226,7 +1226,7 @@ connections = Array[Dictionary]([{
 "from_node": 19,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 29,
+"to_node": 28,
 "to_port": 0
 }, {
 "from_node": 3,
@@ -1244,13 +1244,13 @@ connections = Array[Dictionary]([{
 "from_node": 1,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 29,
+"to_node": 28,
 "to_port": 2
 }, {
 "from_node": 4,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 30,
+"to_node": 29,
 "to_port": 1
 }, {
 "from_node": 9,
@@ -1259,7 +1259,7 @@ connections = Array[Dictionary]([{
 "to_node": 5,
 "to_port": 1
 }, {
-"from_node": 30,
+"from_node": 29,
 "from_port": 0,
 "keep_alive": false,
 "to_node": 23,
@@ -1271,16 +1271,16 @@ connections = Array[Dictionary]([{
 "to_node": 0,
 "to_port": 0
 }, {
-"from_node": 29,
+"from_node": 28,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 28,
+"to_node": 30,
 "to_port": 1
 }, {
 "from_node": 8,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 28,
+"to_node": 30,
 "to_port": 2
 }, {
 "from_node": 27,
@@ -1304,7 +1304,7 @@ connections = Array[Dictionary]([{
 "from_node": 15,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 30,
+"to_node": 29,
 "to_port": 0
 }, {
 "from_node": 15,
@@ -1328,7 +1328,7 @@ connections = Array[Dictionary]([{
 "from_node": 18,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 28,
+"to_node": 30,
 "to_port": 0
 }, {
 "from_node": 25,
@@ -1394,7 +1394,7 @@ connections = Array[Dictionary]([{
 "from_node": 13,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 29,
+"to_node": 28,
 "to_port": 3
 }, {
 "from_node": 26,
@@ -1415,7 +1415,7 @@ connections = Array[Dictionary]([{
 "to_node": 26,
 "to_port": 0
 }])
-resources = Array[ExtResource("3_qhqpc")]([SubResource("Resource_iqurr"), SubResource("Resource_d8638"), SubResource("Resource_i22ej"), SubResource("Resource_15p8x"), SubResource("Resource_ql431"), SubResource("Resource_jipni"), SubResource("Resource_x7tuv"), SubResource("Resource_4pc45"), SubResource("Resource_0c54b"), SubResource("Resource_ogkvd"), SubResource("Resource_x7xkf"), SubResource("Resource_5mmfj"), SubResource("Resource_1g3g8"), SubResource("Resource_3sv33"), SubResource("Resource_xh5p7"), SubResource("Resource_dl7qb"), SubResource("Resource_wnynr"), SubResource("Resource_3epfb"), SubResource("Resource_gtnsu"), SubResource("Resource_1stj3"), SubResource("Resource_oc7x7"), SubResource("Resource_8w5fv"), SubResource("Resource_6slir"), SubResource("Resource_le1sa"), SubResource("Resource_tr8qa"), SubResource("Resource_du0iw"), SubResource("Resource_4wy4r"), SubResource("Resource_d7dhr"), ExtResource("7_du0iw"), SubResource("Resource_wctuo"), SubResource("Resource_xer5s")])
+resources = Array[ExtResource("3_qhqpc")]([SubResource("Resource_iqurr"), SubResource("Resource_d8638"), SubResource("Resource_i22ej"), SubResource("Resource_15p8x"), SubResource("Resource_ql431"), SubResource("Resource_jipni"), SubResource("Resource_x7tuv"), SubResource("Resource_4pc45"), SubResource("Resource_0c54b"), SubResource("Resource_ogkvd"), SubResource("Resource_x7xkf"), SubResource("Resource_5mmfj"), SubResource("Resource_1g3g8"), SubResource("Resource_3sv33"), SubResource("Resource_xh5p7"), SubResource("Resource_dl7qb"), SubResource("Resource_wnynr"), SubResource("Resource_3epfb"), SubResource("Resource_gtnsu"), SubResource("Resource_1stj3"), SubResource("Resource_oc7x7"), SubResource("Resource_8w5fv"), SubResource("Resource_6slir"), SubResource("Resource_le1sa"), SubResource("Resource_tr8qa"), SubResource("Resource_du0iw"), SubResource("Resource_4wy4r"), SubResource("Resource_d7dhr"), SubResource("Resource_wctuo"), SubResource("Resource_xer5s"), ExtResource("7_du0iw")])
 node_data = Array[Dictionary]([{
 "name": &"_GraphNode_30039",
 "position": Vector2(820, 900)
@@ -1510,14 +1510,14 @@ node_data = Array[Dictionary]([{
 "position": Vector2(380, -480),
 &"type": 0
 }, {
-"name": &"BaseNode10",
-"position": Vector2(1640, 400)
-}, {
 "name": &"_GraphNode_52319",
 "position": Vector2(1120, -160)
 }, {
 "name": &"_GraphNode_29934",
 "position": Vector2(520, 540)
+}, {
+"name": &"BaseNode10",
+"position": Vector2(1780, 500)
 }])
 parameters = Dictionary[StringName, Variant]({
 &"Chest": {
@@ -1618,7 +1618,7 @@ other = {
 "tint_color_enabled": true,
 "title": "Walls"
 }],
-"scroll_offset": Vector2(-322.449, 121.276)
+"scroll_offset": Vector2(-525.882, -248.038)
 }
 Chest = SubResource("Resource_j6vep")
 FloorMaterial = SubResource("Resource_e1h74")
