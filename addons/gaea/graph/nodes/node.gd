@@ -4,9 +4,9 @@ extends GraphNode
 
 
 const PreviewTexture = preload("res://addons/gaea/graph/nodes/preview_texture.gd")
-const PREVIEW_TYPES := [SlotTypes.MAP_DATA, SlotTypes.VALUE_DATA]
+const PREVIEW_TYPES := [SlotType.MAP_DATA, SlotType.VALUE_DATA]
 
-enum SlotTypes {
+enum SlotType {
 	VALUE_DATA,
 	MAP_DATA,
 	TILE_INFO,
@@ -24,7 +24,7 @@ signal connections_updated
 
 @export var resource: GaeaNodeResource
 
-static var titlebar_styleboxes: Dictionary[SlotTypes, Dictionary]
+static var titlebar_styleboxes: Dictionary[SlotType, Dictionary]
 var generator: GaeaGenerator
 var connections: Array[Dictionary]
 var preview: PreviewTexture
@@ -84,10 +84,10 @@ func initialize() -> void:
 	title = resource.title
 	resource.node = self
 
-	var output_type: SlotTypes = resource.get_type()
+	var output_type: SlotType = resource.get_type()
 	var titlebar: StyleBoxFlat
 	var titlebar_selected: StyleBoxFlat
-	if output_type != SlotTypes.NULL:
+	if output_type != SlotType.NULL:
 		if not titlebar_styleboxes.has(output_type):
 			titlebar = get_theme_stylebox("titlebar", "GraphNode").duplicate()
 			titlebar_selected = get_theme_stylebox("titlebar_selected", "GraphNode").duplicate()
@@ -180,48 +180,48 @@ func load_save_data(data: Dictionary) -> void:
 	finished_loading = true
 
 
-static func get_color_from_type(type: SlotTypes) -> Color:
+static func get_color_from_type(type: SlotType) -> Color:
 	match type:
-		SlotTypes.VALUE_DATA:
+		SlotType.VALUE_DATA:
 			return Color("f0f8ff") # WHITE
-		SlotTypes.MAP_DATA:
+		SlotType.MAP_DATA:
 			return Color("27ae60") # GREEN
-		SlotTypes.TILE_INFO:
+		SlotType.TILE_INFO:
 			return Color("eb2f06") # RED
-		SlotTypes.VECTOR2:
+		SlotType.VECTOR2:
 			return Color("00bfff") # LIGHT BLUE
-		SlotTypes.VECTOR3:
+		SlotType.VECTOR3:
 			return Color("8e44ad") # MAGENTA
-		SlotTypes.NUMBER:
+		SlotType.NUMBER:
 			return Color("a0a0a0") # GRAY
-		SlotTypes.RANGE:
+		SlotType.RANGE:
 			return Color("f04c7f") # PINK
-		SlotTypes.BOOL:
+		SlotType.BOOL:
 			return Color("ffdd59") # YELLOW
-		SlotTypes.GRADIENT:
+		SlotType.GRADIENT:
 			return Color("4834d4") # BLURPLE
-		#SlotTypes.TEXTURE: # Reserved Orange for later use.
+		#SlotType.TEXTURE: # Reserved Orange for later use.
 		#	return Color("e67e22")
 	return Color.WHITE
 
 
-static func get_icon_from_type(type: SlotTypes) -> Texture2D:
+static func get_icon_from_type(type: SlotType) -> Texture2D:
 	match type:
-		SlotTypes.RANGE:
+		SlotType.RANGE:
 			return load("res://addons/gaea/assets/slots/ring.svg")
-		SlotTypes.BOOL:
+		SlotType.BOOL:
 			return load("res://addons/gaea/assets/slots/rounded_square.svg")
-		SlotTypes.VALUE_DATA:
+		SlotType.VALUE_DATA:
 			return load("res://addons/gaea/assets/slots/square.svg")
-		SlotTypes.MAP_DATA:
+		SlotType.MAP_DATA:
 			return load("res://addons/gaea/assets/slots/tag.svg")
-		SlotTypes.TILE_INFO:
+		SlotType.TILE_INFO:
 			return load("res://addons/gaea/assets/slots/rhombus.svg")
-		SlotTypes.VECTOR3:
+		SlotType.VECTOR3:
 			return load("res://addons/gaea/assets/slots/hourglass.svg")
-		SlotTypes.VECTOR2:
+		SlotType.VECTOR2:
 			return load("res://addons/gaea/assets/slots/triangle.svg")
-		SlotTypes.GRADIENT:
+		SlotType.GRADIENT:
 			return load("res://addons/gaea/assets/slots/diamond.svg")
 
 	return load("res://addons/gaea/assets/slots/circle.svg")

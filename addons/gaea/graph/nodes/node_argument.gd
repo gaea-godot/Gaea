@@ -76,20 +76,20 @@ static func get_scene_from_type(for_type: Type) -> PackedScene:
 	return null
 
 
-static func get_slot_type_equivalent(for_type: Type) -> GaeaGraphNode.SlotTypes:
+static func get_slot_type_equivalent(for_type: Type) -> GaeaGraphNode.SlotType:
 	match for_type:
 		Type.FLOAT, Type.INT:
-			return GaeaGraphNode.SlotTypes.NUMBER
+			return GaeaGraphNode.SlotType.NUMBER
 		Type.VECTOR2:
-			return GaeaGraphNode.SlotTypes.VECTOR2
+			return GaeaGraphNode.SlotType.VECTOR2
 		Type.VECTOR3:
-			return GaeaGraphNode.SlotTypes.VECTOR3
+			return GaeaGraphNode.SlotType.VECTOR3
 		Type.BOOLEAN:
-			return GaeaGraphNode.SlotTypes.BOOL
+			return GaeaGraphNode.SlotType.BOOL
 		Type.RANGE:
-			return GaeaGraphNode.SlotTypes.RANGE
+			return GaeaGraphNode.SlotType.RANGE
 		_:
-			return GaeaGraphNode.SlotTypes.NULL
+			return GaeaGraphNode.SlotType.NULL
 
 
 static func get_icon_for_type(for_type: Type) -> Texture2D:

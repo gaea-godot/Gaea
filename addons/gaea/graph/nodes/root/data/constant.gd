@@ -9,7 +9,7 @@ func get_data(_passed_data:Array[Dictionary], _output_port: int, _area: AABB, _g
 	}
 
 
-func get_type() -> GaeaGraphNode.SlotTypes:
+func get_type() -> GaeaGraphNode.SlotType:
 	return GaeaNodeArgument.get_slot_type_equivalent(args.front().type)
 
 
