@@ -27,7 +27,7 @@ var node: GaeaGraphNode
 enum Axis {X, Y, Z}
 
 
-# Execution
+#region Execution
 func execute(_area: AABB, _generator_data: GaeaData, _generator: GaeaGenerator) -> void:
 	pass
 
@@ -37,7 +37,8 @@ func traverse(output_port:int, area: AABB, generator_data:GaeaData) -> Dictionar
 	log_traverse(generator_data)
 	
 	# Caching
-	if has_cached_data(output_port, generator_data):
+	var use_caching = _use_caching(output_port, generator_data)
+	if use_caching and has_cached_data(output_port, generator_data):
 		return get_cached_data(output_port, generator_data)
 	
 	# Validation
@@ -57,7 +58,8 @@ func traverse(output_port:int, area: AABB, generator_data:GaeaData) -> Dictionar
 		passed_data.append(slot_data)
 	
 	var results:Dictionary = get_data(passed_data, output_port, area, generator_data)
-	set_cached_data(results, output_port, generator_data)
+	if use_caching:
+		set_cached_data(results, output_port, generator_data)
 	
 	return results
 
@@ -65,13 +67,18 @@ func traverse(output_port:int, area: AABB, generator_data:GaeaData) -> Dictionar
 # Data Retrieval
 func get_data(_passed_data:Array[Dictionary], _output_port: int, _area: AABB, _generator_data: GaeaData) -> Dictionary:
 	return {}
+#endregion
 
 
-# Caching
+#region Caching
+## Checks if this node should use caching or not.
+func _use_caching(_output_port:int, _generator_data:GaeaData) -> bool:
+	return true
+
 ## Adds or sets data to the cache at GaeaNodeResource, then output_port index.
-func set_cached_data(data:Dictionary, output_port:int, generator_data:GaeaData) -> void:
+func set_cached_data(new_data:Dictionary, output_port:int, generator_data:GaeaData) -> void:
 	var node_cache:Dictionary = generator_data.cache.get_or_add(self, {})
-	node_cache[output_port] = data
+	node_cache[output_port] = new_data
 
 ## Checks if the cache has data corresponding to GaeaNodeResource, then output_port index.
 func has_cached_data(output_port:int, generator_data:GaeaData) -> bool:
@@ -81,9 +88,10 @@ func has_cached_data(output_port:int, generator_data:GaeaData) -> bool:
 ## Assumes that data exists, will error out if it doesn't.
 func get_cached_data(output_port:int, generator_data:GaeaData) -> Dictionary:
 	return generator_data.cache[self][output_port]
+#endregion
 
 
-# Inputs
+#region Inputs
 ## Returns an array of input port indexes that are
 ## expected to be connected for the Node Resource to
 ## execute properly. Should be overridden in nodes
@@ -107,9 +115,10 @@ func get_input_resource(slot:int, generator_data:GaeaData) -> GaeaNodeResource:
 		return null
 	
 	return data_input_resource
+#endregion
 
 
-# Args
+#region Args
 ## Pass in `generator_data` to allow overriding with input slots.
 func get_arg(name: String, generator_data: GaeaData) -> Variant:
 	log_arg(name, generator_data)
@@ -124,17 +133,21 @@ func get_arg(name: String, generator_data: GaeaData) -> Variant:
 	if arg_connection_idx != -1 and is_instance_valid(generator_data):
 		var connected_idx: int = get_connected_resource_idx(arg_connection_idx)
 		if connected_idx != -1:
-			return generator_data.resources[connected_idx].traverse(
+			var connected_node = generator_data.resources[connected_idx]
+			var connected_data = connected_node.traverse(
 				get_connected_port_to(arg_connection_idx),
 				AABB(),
 				generator_data
-			).get("value")
-
+			)
+			if connected_data.has("value"):
+				return connected_data.get("value")
+			else:
+				log_error("Could not get data from previous node, using default value instead.", generator_data, connected_idx)
 	return data.get(name)
+#endregion
 
 
-# Connections
-
+#region Connections
 func get_connected_resource_idx(at: int) -> int:
 	for connection in connections:
 		if connection.to_port == at:
@@ -147,10 +160,10 @@ func get_connected_port_to(to: int) -> int:
 		if connection.to_port == to:
 			return connection.from_port
 	return -1
+#endregion
 
 
-# Logging
-
+#region Logging
 func log_execute(message:String, area:AABB, generator_data:GaeaData):
 	if is_instance_valid(generator_data) and generator_data.logging & GaeaData.Log.Execute > 0:
 		message = message.strip_edges()
@@ -175,9 +188,27 @@ func log_arg(arg:String, generator_data:GaeaData):
 	if is_instance_valid(generator_data) and generator_data.logging & GaeaData.Log.Args > 0:
 		print("Arg       |   %s on %s" % [arg, title])
 
+## Display a error message in the Output log panel.
+## If a node_id is provided, it will display the path and position of the node.
+## Otherwise, it will display the path of the resource.
+## The node_idx is the index of the node in the generator_data.resources array.
+func log_error(message:String, generator_data:GaeaData, node_idx: int = -1):
+	if node_idx >= 0:
+		printerr("%s:%s in node '%s' - %s" % [
+			generator_data.resources[node_idx].resource_path,
+			generator_data.node_data[node_idx].position,
+			generator_data.resources[node_idx].title,
+			message,
+		])
+	else:
+		printerr("%s - %s" % [
+			generator_data.resource_path,
+			message,
+		])
+#endregion
 
-# Miscelaneous
 
+#region Miscelaneous
 static func get_scene() -> PackedScene:
 	return preload("res://addons/gaea/graph/nodes/node.tscn")
 
@@ -244,3 +275,4 @@ func _is_point_outside_area(area: AABB, point: Vector3) -> bool:
 	area.end -= Vector3.ONE
 	return (point.x < area.position.x or point.y < area.position.y or point.z < area.position.z or
 			point.x > area.end.x or point.y > area.end.y or point.z > area.end.z)
+#endregion
