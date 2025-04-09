@@ -23,6 +23,8 @@ signal points_sorted
 					points.remove_at(materials.find(material))
 
 		for idx: int in value.size():
+			if idx >= points.size():
+				break
 			points.get(idx).set(&"material", value.get(idx))
 
 		_sort_points()
