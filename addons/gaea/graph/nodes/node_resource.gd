@@ -35,15 +35,15 @@ func execute(_area: AABB, _generator_data: GaeaData, _generator: GaeaGenerator) 
 # Traversal
 func traverse(output_port:int, area: AABB, generator_data:GaeaData) -> Dictionary:
 	log_traverse(generator_data)
-	
+
 	# Caching
 	if has_cached_data(output_port, generator_data):
 		return get_cached_data(output_port, generator_data)
-	
+
 	# Validation
 	if not has_inputs_connected(_get_required_input_ports(), generator_data):
 		return {}
-	
+
 	# Traversal
 	var passed_data:Array[Dictionary] = []
 	for slot in range(input_slots.size()):
@@ -55,10 +55,10 @@ func traverse(output_port:int, area: AABB, generator_data:GaeaData) -> Dictionar
 				area, generator_data
 			)
 		passed_data.append(slot_data)
-	
+
 	var results:Dictionary = get_data(passed_data, output_port, area, generator_data)
 	set_cached_data(results, output_port, generator_data)
-	
+
 	return results
 
 
@@ -105,7 +105,7 @@ func get_input_resource(slot:int, generator_data:GaeaData) -> GaeaNodeResource:
 	var data_input_resource: GaeaNodeResource = generator_data.resources.get(data_connected_idx)
 	if not is_instance_valid(data_input_resource):
 		return null
-	
+
 	return data_input_resource
 
 
@@ -113,7 +113,7 @@ func get_input_resource(slot:int, generator_data:GaeaData) -> GaeaNodeResource:
 ## Pass in `generator_data` to allow overriding with input slots.
 func get_arg(name: String, generator_data: GaeaData) -> Variant:
 	log_arg(name, generator_data)
-	
+
 	var arg_connection_idx: int = 0
 	var args_with_input: Array[GaeaNodeArgument] = args.filter(func(arg: GaeaNodeArgument) -> bool: return not arg.type == GaeaNodeArgument.Type.CATEGORY and not arg.disable_input_slot)
 	for i in args_with_input.size():

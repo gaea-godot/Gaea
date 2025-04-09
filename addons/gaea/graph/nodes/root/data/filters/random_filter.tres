@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bh3sajxnmp14w" path="res://addons/gaea/graph/nodes/node_argument.gd" id="1_5n5am"]
 [ext_resource type="Script" uid="uid://ote622wl6axc" path="res://addons/gaea/graph/nodes/node_slot.gd" id="2_trkfv"]
-[ext_resource type="Script" uid="uid://b38syakgm25ya" path="res://addons/gaea/graph/nodes/root/data/filters/random_filter.gd" id="3_5n5am"]
+[ext_resource type="Script" path="res://addons/gaea/graph/nodes/root/data/filters/random_filter.gd" id="3_5n5am"]
 
 [sub_resource type="Resource" id="Resource_5n5am"]
 script = ExtResource("1_5n5am")
