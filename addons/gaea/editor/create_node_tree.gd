@@ -13,6 +13,8 @@ var _custom_nodes_path: String
 
 
 func _ready() -> void:
+	if is_part_of_edited_scene():
+		return
 	populate()
 
 

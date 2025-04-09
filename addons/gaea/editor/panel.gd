@@ -12,22 +12,36 @@ const _LinkPopup = preload("uid://btt4eqjkp5pyf")
 @onready var _create_node_popup: PopupPanel = %CreateNodePopup
 @onready var _node_popup: PopupMenu = %NodePopup
 @onready var _link_popup: _LinkPopup = %LinkPopup
-@onready var _create_node_tree: Tree = %Tree
-@onready var _save_button: Button = $Editor/VBoxContainer/HBoxContainer/SaveButton
-@onready var _load_button: Button = $Editor/VBoxContainer/HBoxContainer/LoadButton
-@onready var _reload_node_tree_button: Button = $Editor/VBoxContainer/HBoxContainer/ReloadNodeTreeButton
-@onready var _reload_parameters_list_button: Button = $Editor/VBoxContainer/HBoxContainer/ReloadParametersListButton
+@onready var _create_node_tree: Tree = %CreateNodeTree
+@onready var _save_button: Button = %SaveButton
+@onready var _load_button: Button = %LoadButton
+@onready var _reload_node_tree_button: Button = %ReloadNodeTreeButton
+@onready var _reload_parameters_list_button: Button = %ReloadParametersListButton
 @onready var _file_dialog: FileDialog = $FileDialog
-@onready var _window_popout_button: Button = $Editor/VBoxContainer/HBoxContainer/WindowPopoutButton
-@onready var _window_popout_separator: VSeparator = $Editor/VBoxContainer/HBoxContainer/WindowPopoutSeparator
+@onready var _window_popout_button: Button = %WindowPopoutButton
+@onready var _window_popout_separator: VSeparator = %WindowPopoutSeparator
 
 
 func _ready() -> void:
+	if is_part_of_edited_scene():
+		return
+
 	_reload_node_tree_button.icon = preload("../assets/reload_tree.svg")
 	_reload_parameters_list_button.icon = preload("../assets/reload_variables_list.svg")
 	_save_button.icon = EditorInterface.get_base_control().get_theme_icon(&"Save", &"EditorIcons")
 	_load_button.icon = EditorInterface.get_base_control().get_theme_icon(&"Load", &"EditorIcons")
 	_window_popout_button.icon = EditorInterface.get_base_control().get_theme_icon(&"MakeFloating", &"EditorIcons")
+
+	if not EditorInterface.is_multi_window_enabled():
+		_window_popout_button.disabled = true
+		_window_popout_button.tooltip_text = _get_multiwindow_support_tooltip_text()
+
+	var add_node_button = Button.new()
+	add_node_button.text = "Add Node..."
+	add_node_button.pressed.connect(_popup_create_node_menu_at_mouse)
+	var container := _graph_edit.get_menu_hbox()
+	container.add_child(add_node_button)
+	container.move_child(add_node_button, 0)
 
 
 func populate(node: GaeaGenerator) -> void:
@@ -79,7 +93,9 @@ func _on_data_changed() -> void:
 
 
 func _popup_create_node_menu_at_mouse() -> void:
-	_create_node_popup.position = get_global_mouse_position() as Vector2i + get_window().position
+	_create_node_popup.position = Vector2i(get_global_mouse_position())
+	if not EditorInterface.get_editor_settings().get_setting("interface/editor/single_window_mode"):
+		_create_node_popup.position += get_window().position
 	_create_node_popup.popup()
 
 
@@ -116,16 +132,18 @@ func _add_node(resource: GaeaNodeResource) -> GraphNode:
 func _popup_node_context_menu_at_mouse(selected_nodes: Array) -> void:
 	_node_popup.clear()
 	_node_popup.populate(selected_nodes)
-
-	_node_popup.position = get_global_mouse_position() as Vector2i + get_window().position
+	_node_popup.position = Vector2i(get_global_mouse_position())
+	if not EditorInterface.get_editor_settings().get_setting("interface/editor/single_window_mode"):
+		_node_popup.position += get_window().position
 	_node_popup.popup()
 
 
 func _popup_link_context_menu_at_mouse(connexion: Dictionary) -> void:
 	_link_popup.clear()
 	_link_popup.populate(connexion)
-
-	_link_popup.position = get_global_mouse_position() as Vector2i + get_window().position
+	_link_popup.position = Vector2i(get_global_mouse_position())
+	if not EditorInterface.get_editor_settings().get_setting("interface/editor/single_window_mode"):
+		_link_popup.position += get_window().position
 	_link_popup.popup()
 
 
@@ -278,7 +296,7 @@ func _on_graph_edit_connection_to_empty(from_node: StringName, from_port: int, r
 
 
 func _notification(what: int) -> void:
-	if what == NOTIFICATION_EDITOR_PRE_SAVE:
+	if what == NOTIFICATION_EDITOR_PRE_SAVE and not is_part_of_edited_scene():
 		_save_data()
 
 
@@ -344,6 +362,7 @@ func _on_window_popout_button_pressed() -> void:
 	var window: Window = Window.new()
 	window.min_size = get_combined_minimum_size()
 	window.size = size
+	window.title = "Gaea - Godot Engine"
 	window.close_requested.connect(_on_window_close_requested.bind(get_parent(), window))
 
 	var margin_container: MarginContainer = MarginContainer.new()
@@ -366,7 +385,7 @@ func _on_window_popout_button_pressed() -> void:
 	margin_container.add_theme_constant_override(&"margin_right", margin)
 
 	window.position = global_position as Vector2i + DisplayServer.window_get_position()
-
+	
 	reparent(margin_container, false)
 
 	EditorInterface.get_base_control().add_child(window)
@@ -380,3 +399,15 @@ func _on_window_close_requested(original_parent: Control, window: Window) -> voi
 	window.queue_free()
 	_window_popout_button.show()
 	_window_popout_separator.show()
+
+
+func _get_multiwindow_support_tooltip_text() -> String:
+	# Adapted from https://github.com/godotengine/godot/blob/a8598cd8e261716fa3addb6f10bb57c03a061be9/editor/editor_node.cpp#L4725-L4737
+	if EditorInterface.get_editor_settings().get_setting("interface/editor/single_window_mode"):
+		return tr("Multi-window support is not available because Interface > Editor > Single Window Mode is enabled in the editor settings.")
+	elif not EditorInterface.get_editor_settings().get_setting("interface/multi_window/enable"):
+		return tr("Multi-window support is not available because Interface > Multi Window > Enable is disabled in the editor settings.")
+	elif DisplayServer.has_feature(DisplayServer.FEATURE_SUBWINDOWS):
+		return tr("Multi-window support is not available because the `--single-window` command line argument was used to start the editor.")
+	else:
+		return tr("Multi-window support is not available because the current platform doesn't support multiple windows.")

@@ -11,6 +11,8 @@ var current_connection: Dictionary
 
 
 func _ready() -> void:
+	if is_part_of_edited_scene():
+		return
 	hide()
 	id_pressed.connect(_on_id_pressed)
 
@@ -18,6 +20,7 @@ func _ready() -> void:
 func populate(connection: Dictionary) -> void:
 	current_connection = connection
 	add_item("Disconnect", Action.DISCONNECT)
+	size = get_contents_minimum_size()
 
 
 func _on_id_pressed(id: int) -> void:
