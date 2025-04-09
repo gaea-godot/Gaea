@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ccqq5l0ruur37"
-path="res://.godot/imported/diamond.svg-593b7a9e3b0fcf028ee229d8a1b3f42e.ctex"
+uid="uid://lx5rvgl4j7wl"
+path="res://.godot/imported/material_gradient.svg-cb7f365e7772e8bcffac9ee542a13043.ctex"
 metadata={
 "has_editor_variant": true,
 "vram_texture": false
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://addons/gaea/assets/slots/diamond.svg"
-dest_files=["res://.godot/imported/diamond.svg-593b7a9e3b0fcf028ee229d8a1b3f42e.ctex"]
+source_file="res://addons/gaea/assets/types/material_gradient.svg"
+dest_files=["res://.godot/imported/material_gradient.svg-cb7f365e7772e8bcffac9ee542a13043.ctex"]
 
 [params]
 

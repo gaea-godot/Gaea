@@ -3,11 +3,14 @@ extends EditorPlugin
 
 
 const BottomPanel = preload("res://addons/gaea/editor/panel.tscn")
+const InspectorPlugin = preload("res://addons/gaea/editor/inspector_plugin.gd")
 
 var _container: MarginContainer
 var _panel: Control
 var _panel_button: Button
 var _editor_selection: EditorSelection
+var _inspector_plugin: EditorInspectorPlugin
+
 
 func _enter_tree() -> void:
 	_editor_selection = get_editor_interface().get_selection()
@@ -18,6 +21,9 @@ func _enter_tree() -> void:
 	_container.add_child(_panel)
 	_panel_button = add_control_to_bottom_panel(_container, "Gaea")
 	_panel_button.hide()
+
+	_inspector_plugin = InspectorPlugin.new()
+	add_inspector_plugin(_inspector_plugin)
 
 	if not ProjectSettings.has_setting("gaea/custom_nodes_path"):
 		ProjectSettings.set_setting("gaea/custom_nodes_path", "")
@@ -32,6 +38,7 @@ func _enter_tree() -> void:
 func _exit_tree() -> void:
 	_panel.unpopulate()
 	remove_control_from_bottom_panel(_container)
+	remove_inspector_plugin(_inspector_plugin)
 
 
 func _on_selection_changed() -> void:

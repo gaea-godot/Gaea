@@ -1,8 +1,20 @@
 @tool
-extends "res://addons/gaea/graph/nodes/root/map/mappers/basic_mapper.gd"
+extends GaeaNodeResource
 
 
-func _passes_mapping(passed_data: Dictionary, cell: Vector3i, generator_data: GaeaData) -> bool:
-	var range: Dictionary = get_arg("range", generator_data)
-	var value = passed_data.get(cell)
-	return value >= range.get("min", 0.0) and value <= range.get("max", 0.0)
+func get_data(passed_data:Array[Dictionary], _output_port: int, _area: AABB, generator_data: GaeaData) -> Dictionary[Vector3i, GaeaMaterial]:
+	log_data(_output_port, generator_data)
+
+	var grid_data: Dictionary = passed_data[0]
+	var gradient: GaeaMaterialGradient = passed_data[1].get("value", null)
+
+	var grid: Dictionary[Vector3i, GaeaMaterial]
+
+	for cell in grid_data:
+		if grid_data.get(cell) == null:
+			continue
+		var material: GaeaMaterial = gradient.sample(grid_data.get(cell))
+		if is_instance_valid(material):
+			grid[cell] = material.get_resource()
+
+	return grid

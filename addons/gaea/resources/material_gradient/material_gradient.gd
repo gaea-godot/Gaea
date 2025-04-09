@@ -1,39 +1,72 @@
 @tool
+@icon("../../assets/types/material_gradient.svg")
 class_name GaeaMaterialGradient
 extends Resource
 
 
+signal points_sorted
+
 var preview: Gradient = Gradient.new()
+
 @export var materials: Array[GaeaMaterial]:
+	get:
+		var value: Array[GaeaMaterial]
+		for point: Dictionary in points:
+			value.append(point.get(&"material"))
+		return value
 	set(value):
 		var pre_size: int = materials.size()
-		materials = value
+		prints(value, materials)
 
-		if materials.size() > pre_size:
-			offsets.resize(value.size())
-			for index in range(pre_size, materials.size()):
-				offsets[index] = 0.0
-		elif materials.size() < pre_size:
-			offsets.resize(value.size())
+		if value.size() > pre_size:
+			points.append({&"material": null, &"offset": 0.0})
+		elif value.size() < pre_size:
+			for material in materials:
+				if value.count(material) != materials.count(material):
+					points.remove_at(materials.find(material))
 
-		_update_preview()
-		notify_property_list_changed()
+		for idx: int in value.size():
+			points.get(idx).set(&"material", value.get(idx))
+
+		_sort_points()
+
 
 @export var offsets: PackedFloat32Array:
+	get:
+		return PackedFloat32Array(points.map(func(point: Dictionary) -> float: return point.get(&"offset", 0.0)))
 	set(value):
 		if value.size() == materials.size():
-			offsets = value
-			_update_preview()
+			for idx: int in value.size():
+				points.get(idx).set(&"offset", value.get(idx))
 
+		_sort_points()
+
+		#if value.size() == materials.size():
+			#offsets = value
+			#_update_preview()
+@export_storage var points: Array[Dictionary]
+
+
+func _init() -> void:
+	points.append({&"material": null, &"offset": 0.0})
+	notify_property_list_changed()
+
+
+func _sort_points() -> void:
+	points.sort_custom(
+		func(point_a: Dictionary, point_b: Dictionary) -> bool:
+			return point_a.get(&"offset", 0.0) > point_b.get(&"offset", 0.0)
+	)
+	points_sorted.emit()
 
 func sample(value: float) -> GaeaMaterial:
 	value = clampf(value, 0.0, 1.0)
 	var material: GaeaMaterial
 
-	for offset: float in offsets:
-		value -= offset
-		if value <= 0.0:
-			return materials[offsets.find(offset)]
+
+	for point: Dictionary in points:
+		if value >= point.get(&"offset", INF):
+			return point.get(&"material")
 
 	return material
 
@@ -46,4 +79,12 @@ func _update_preview() -> void:
 		if is_instance_valid(material):
 			color = material.preview_color
 		preview.colors[materials.find(material)] = color
-		print(preview.colors)
+
+
+#func _get(property: StringName) -> Variant:
+	#match property:
+		#&"offsets":
+			#var array :=
+			#print(array)
+			#return array
+	#return null
