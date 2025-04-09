@@ -10,6 +10,7 @@ const CODE_TEXT_COLOR := "da8a95"
 const CODE_BG_COLOR := "8080801a"
 
 const GAEA_MATERIAL_HINT := "Resource used to tell GaeaRenderers what to place."
+const GAEA_MATERIAL_GRADIENT_HINT := "Resource that maps values from 0.0-1.0 to certain GaeaMaterials."
 #endregion
 
 @export var input_slots: Array[GaeaNodeSlot]
@@ -193,7 +194,8 @@ func get_axis_range(axis: Axis, area: AABB) -> Array:
 
 static func get_formatted_text(unformatted_text: String) -> String:
 	unformatted_text = unformatted_text.replace("[param]", "[color=%s][bgcolor=%s]" % [PARAM_TEXT_COLOR, PARAM_BG_COLOR])
-	unformatted_text = unformatted_text.replace("GaeaMaterial", "[hint=%s]GaeaMaterial[/hint]" % GAEA_MATERIAL_HINT)
+	unformatted_text = unformatted_text.replace("GaeaMaterial ", "[hint=%s]GaeaMaterial[/hint] " % GAEA_MATERIAL_HINT)
+	unformatted_text = unformatted_text.replace("GaeaMaterialGradient ", "[hint=%s]GaeaMaterialGradient[/hint] " % GAEA_MATERIAL_GRADIENT_HINT)
 	unformatted_text = unformatted_text.replace("[code]", "[color=%s][bgcolor=%s]" % [CODE_TEXT_COLOR, CODE_BG_COLOR])
 
 	unformatted_text = unformatted_text.replace("[/c]", "[/color]")
