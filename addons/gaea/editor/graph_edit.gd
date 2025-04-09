@@ -5,6 +5,7 @@ extends GraphEdit
 signal request_connection_update
 signal request_save
 signal nodes_about_to_be_deleted(names: Array[StringName], nodes: Array[GraphElement])
+signal nodes_attached_to_frame(names: Array[StringName], frame: StringName)
 
 var attached_elements: Dictionary
 
@@ -34,6 +35,9 @@ func delete_nodes(nodes: Array[StringName]) -> void:
 func free_nodes(nodes: Array[StringName]) -> void:
 	for node_name: StringName in nodes:
 		var node: GraphElement = get_node(NodePath(node_name))
+		if not is_instance_valid(node):
+			continue
+
 		if node is GaeaGraphNode:
 			for connection in node.connections:
 				disconnect_node(connection.from_node, connection.from_port, connection.to_node, connection.to_port)
@@ -95,11 +99,16 @@ func get_selected_names() -> Array[StringName]:
 	return array
 
 
-func _on_graph_elements_linked_to_frame_request(elements: Array, frame: StringName) -> void:
+func _on_graph_elements_linked_to_frame_request(elements: Array[StringName], frame: StringName) -> void:
 	for element in elements:
-		attach_graph_element_to_frame(element, frame)
-		_on_element_attached_to_frame(element, frame)
+		attach_element_to_frame(element, frame)
+	nodes_attached_to_frame.emit(elements, frame)
 	request_save.emit.call_deferred()
+
+
+func attach_element_to_frame(element_name: StringName, frame: StringName) -> void:
+	attach_graph_element_to_frame(element_name, frame)
+	_on_element_attached_to_frame(element_name, frame)
 
 
 func _on_element_attached_to_frame(element: StringName, frame: StringName) -> void:

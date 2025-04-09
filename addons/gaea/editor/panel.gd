@@ -37,6 +37,7 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventKey:
 		if event.is_pressed():
 			if event.is_command_or_control_pressed():
+				print(_selected_generator._undo_redo.get_current_action_name())
 				if event.keycode == KEY_Z:
 					if event.is_shift_pressed(): _selected_generator._undo_redo.redo()
 					else: _selected_generator._undo_redo.undo()
@@ -214,7 +215,9 @@ func update_connections() -> void:
 
 	var connections: Array[Dictionary] = _graph_edit.get_connection_list()
 	for connection in connections:
-		var to_node: GraphNode = _graph_edit.get_node(NodePath(connection.to_node))
+		var to_node: GraphNode = _graph_edit.get_node_or_null(NodePath(connection.to_node))
+		if not is_instance_valid(to_node):
+			continue
 
 		to_node.connections.append(connection)
 
@@ -461,3 +464,38 @@ func _on_graph_edit_nodes_about_to_be_deleted(names: Array[StringName], nodes: A
 		)
 	)
 	_selected_generator._undo_redo.commit_action()
+
+
+func _on_graph_edit_begin_node_move() -> void:
+	_selected_generator._undo_redo.create_action("Move Node(s)")
+	for node: GraphElement in _graph_edit.get_selected():
+		_selected_generator._undo_redo.add_undo_method((
+			func(node_name: StringName, pos_offset: Vector2) -> void:
+				var _node: GraphElement = _graph_edit.get_node_or_null(NodePath(node_name))
+				if is_instance_valid(_node):
+					_node.set_position_offset(pos_offset)
+		).bind(node.name, node.get_position_offset()))
+
+
+func _on_graph_edit_end_node_move() -> void:
+	for node: GraphElement in _graph_edit.get_selected():
+		_selected_generator._undo_redo.add_do_method((
+			func(node_name: StringName, pos_offset: Vector2) -> void:
+				var _node: GraphElement = _graph_edit.get_node_or_null(NodePath(node_name))
+				if is_instance_valid(_node):
+					_node.set_position_offset(pos_offset)
+		).bind(node.name, node.get_position_offset()))
+	_selected_generator._undo_redo.commit_action(false)
+
+
+func _on_graph_edit_nodes_attached_to_frame(names: Array[StringName], frame: StringName) -> void:
+	_selected_generator._undo_redo.create_action("Attach Node(s) to Frame")
+	for element_name: StringName in names:
+		_selected_generator._undo_redo.add_do_method(_graph_edit.attach_element_to_frame.bind(
+			element_name, frame
+		))
+		_selected_generator._undo_redo.add_undo_method(_graph_edit.detach_graph_element_from_frame.bind(
+			element_name
+		))
+		_selected_generator._undo_redo.add_undo_method(_graph_edit.attached_elements.erase.bind(element_name))
+	_selected_generator._undo_redo.commit_action(false)

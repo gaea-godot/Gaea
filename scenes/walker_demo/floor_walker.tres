@@ -1241,7 +1241,7 @@ node_data = Array[Dictionary]([{
 "name": &"BaseNode2",
 "position": Vector2(-1180, 140)
 }, {
-"name": &"BaseNode",
+"name": &"BaseNode4",
 "position": Vector2(-480, 780)
 }, {
 "name": &"_GraphNode_46619",
@@ -1337,11 +1337,11 @@ other = {
 "tint_color_enabled": true,
 "title": "Get Everything Outside Floor"
 }, {
-"attached": Array[StringName]([&"BaseNode", &"BaseNode6"]),
+"attached": Array[StringName]([&"BaseNode6"]),
 "autoshrink": true,
 "name": &"_GraphFrame_37032",
-"position": Vector2(-740, 739),
-"size": Vector2(492, 234),
+"position": Vector2(-740, 779),
+"size": Vector2(272, 157),
 "tint_color": Color(0.174225, 0.208835, 0.257812, 0.75),
 "tint_color_enabled": true,
 "title": "Floor"
