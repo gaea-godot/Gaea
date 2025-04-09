@@ -188,12 +188,16 @@ func log_arg(arg:String, generator_data:GaeaData):
 	if is_instance_valid(generator_data) and generator_data.logging & GaeaData.Log.Args > 0:
 		print("Arg       |   %s on %s" % [arg, title])
 
-func log_error(message:String, generator_data:GaeaData, node_id: int = -1):
-	if node_id >= 0:
+## Display a error message in the Output log panel.
+## If a node_id is provided, it will display the path and position of the node.
+## Otherwise, it will display the path of the resource.
+## The node_idx is the index of the node in the generator_data.resources array.
+func log_error(message:String, generator_data:GaeaData, node_idx: int = -1):
+	if node_idx >= 0:
 		printerr("%s:%s in node '%s' - %s" % [
-			generator_data.resources[node_id].resource_path,
-			generator_data.node_data[node_id].position,
-			generator_data.resources[node_id].title,
+			generator_data.resources[node_idx].resource_path,
+			generator_data.node_data[node_idx].position,
+			generator_data.resources[node_idx].title,
 			message,
 		])
 	else:
