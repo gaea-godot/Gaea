@@ -11,6 +11,10 @@ func get_data(
 	return passed_data[output_port]
 
 
+func _use_caching(output_port:int, generator_data:GaeaData) -> bool:
+	return false
+
+
 func get_type() -> GaeaGraphNode.SlotTypes:
 	return GaeaGraphNode.SlotTypes.NULL
 

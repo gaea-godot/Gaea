@@ -106,10 +106,17 @@ func _draw_port(slot_index: int, pos: Vector2i, left: bool, color: Color) -> voi
 		port_icon = get_theme_icon(&"port", &"GraphNode")
 	var icon_offset = -port_icon.get_size() * 0.5
 	var editor_scale = EditorInterface.get_editor_scale()
-	var texture_rect = Rect2(
-		Vector2(pos) + icon_offset * editor_scale, port_icon.get_size() * editor_scale
+	
+	draw_texture_rect(
+		port_icon,
+		Rect2(
+			Vector2(pos) + icon_offset * editor_scale,
+			port_icon.get_size() * editor_scale
+		),
+		false,
+		color
 	)
-	draw_texture_rect(port_icon, texture_rect, false, color)
+
 
 
 func _draw() -> void:
@@ -121,6 +128,11 @@ func _draw() -> void:
 	var offset = Vector2(0, -16 * editor_scale)
 	var drag_bg_color = get_theme_color(&"drag_background", &"VSRerouteNode")
 	var circle_bg_color = Color(drag_bg_color, opacity)
+	
+	if selected:
+		var selected_color = get_theme_color(&"selected_rim_color", &"VSRerouteNode")
+		draw_circle(get_size() * 0.5 + offset, 18 * editor_scale, selected_color, true, -1, true)
+	
 	draw_circle(get_size() * 0.5 + offset, 16 * editor_scale, circle_bg_color, true, -1, true)
 
 	var icon = EditorInterface.get_editor_theme().get_icon(&"ToolMove", &"EditorIcons")
