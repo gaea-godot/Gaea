@@ -35,6 +35,8 @@ func update() -> void:
 		else:
 			end_offset = gradient.points.get(idx - 1).get(&"offset", 0.0)
 		var gaea_material: GaeaMaterial = gradient.points.get(idx).get(&"material", null)
+		if not is_instance_valid(gaea_material):
+			continue
 		var color: Color = Color.TRANSPARENT if not is_instance_valid(gaea_material) else gaea_material.preview_color
 
 		image.fill_rect(Rect2(
@@ -42,4 +44,5 @@ func update() -> void:
 				Vector2(((end_offset + 0.005) - start_offset) * SIZE.x, SIZE.y)
 			),
 			color)
+
 	texture = ImageTexture.create_from_image(image)
