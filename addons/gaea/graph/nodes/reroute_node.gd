@@ -40,6 +40,8 @@ func initialize() -> void:
 
 
 func _update_slots():
+	if is_part_of_edited_scene():
+		return
 	var color = GaeaGraphNode.get_color_from_type(type)
 	set_slot(0, true, type, color, true, type, color)
 	set_slot_type_left(0, type)
