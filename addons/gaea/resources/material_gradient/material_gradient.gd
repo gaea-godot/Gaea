@@ -6,8 +6,6 @@ extends Resource
 
 signal points_sorted
 
-var preview: Gradient = Gradient.new()
-
 @export var materials: Array[GaeaMaterial]:
 	get:
 		var value: Array[GaeaMaterial]
@@ -16,7 +14,6 @@ var preview: Gradient = Gradient.new()
 		return value
 	set(value):
 		var pre_size: int = materials.size()
-		prints(value, materials)
 
 		if value.size() > pre_size:
 			points.append({&"material": null, &"offset": 0.0})
@@ -40,10 +37,6 @@ var preview: Gradient = Gradient.new()
 				points.get(idx).set(&"offset", value.get(idx))
 
 		_sort_points()
-
-		#if value.size() == materials.size():
-			#offsets = value
-			#_update_preview()
 @export_storage var points: Array[Dictionary]
 
 
@@ -69,22 +62,3 @@ func sample(value: float) -> GaeaMaterial:
 			return point.get(&"material")
 
 	return material
-
-
-func _update_preview() -> void:
-	preview.offsets = offsets
-	preview.interpolation_mode = Gradient.GRADIENT_INTERPOLATE_CONSTANT
-	for material in materials:
-		var color: Color = Color.TRANSPARENT
-		if is_instance_valid(material):
-			color = material.preview_color
-		preview.colors[materials.find(material)] = color
-
-
-#func _get(property: StringName) -> Variant:
-	#match property:
-		#&"offsets":
-			#var array :=
-			#print(array)
-			#return array
-	#return null
