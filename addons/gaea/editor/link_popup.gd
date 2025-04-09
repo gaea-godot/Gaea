@@ -27,12 +27,11 @@ func populate(connection: Dictionary) -> void:
 func _on_id_pressed(id: int) -> void:
 	match id:
 		Action.DISCONNECT:
-			graph_edit.disconnect_node(
+			graph_edit.disconnection_request.emit(
 				current_connection.from_node,
 				current_connection.from_port,
 				current_connection.to_node,
 				current_connection.to_port
 			)
-			graph_edit.request_connection_update.emit()
 		Action.INSERT_NEW_REROUTE:
 			create_new_reroute.emit(current_connection)

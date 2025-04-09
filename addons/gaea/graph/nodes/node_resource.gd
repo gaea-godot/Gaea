@@ -133,12 +133,16 @@ func get_arg(name: String, generator_data: GaeaData) -> Variant:
 	if arg_connection_idx != -1 and is_instance_valid(generator_data):
 		var connected_idx: int = get_connected_resource_idx(arg_connection_idx)
 		if connected_idx != -1:
-			return generator_data.resources[connected_idx].traverse(
+			var connected_node = generator_data.resources[connected_idx]
+			var connected_data = connected_node.traverse(
 				get_connected_port_to(arg_connection_idx),
 				AABB(),
 				generator_data
-			).get("value")
-
+			)
+			if connected_data.has("value"):
+				return connected_data.get("value")
+			else:
+				log_error("Could not get data from previous node, using default value instead.", generator_data, connected_idx)
 	return data.get(name)
 #endregion
 
@@ -183,6 +187,20 @@ func log_data(output_port:int, generator_data:GaeaData):
 func log_arg(arg:String, generator_data:GaeaData):
 	if is_instance_valid(generator_data) and generator_data.logging & GaeaData.Log.Args > 0:
 		print("Arg       |   %s on %s" % [arg, title])
+
+func log_error(message:String, generator_data:GaeaData, node_id: int = -1):
+	if node_id >= 0:
+		printerr("%s:%s in node '%s' - %s" % [
+			generator_data.resources[node_id].resource_path,
+			generator_data.node_data[node_id].position,
+			generator_data.resources[node_id].title,
+			message,
+		])
+	else:
+		printerr("%s - %s" % [
+			generator_data.resource_path,
+			message,
+		])
 #endregion
 
 

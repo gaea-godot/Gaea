@@ -8,6 +8,7 @@ var type: GaeaGraphNode.SlotTypes = GaeaGraphNode.SlotTypes.NUMBER:
 	set(new_value):
 		if type != new_value:
 			type = new_value
+			resource.title = "Reroute (%s)" % GaeaGraphNode.SlotTypes.find_key(new_value).capitalize()
 			_update_slots()
 
 var icon_opacity: float = 0.0:
@@ -15,10 +16,15 @@ var icon_opacity: float = 0.0:
 		icon_opacity = new_value
 		queue_redraw()
 
+var has_no_input: bool = false:
+	set(new_value):
+		has_no_input = new_value
+		queue_redraw()
 
 #region init
 func initialize() -> void:
 	super()
+	connections_updated.connect(_validate_connections)
 
 	var titlebar_hbox = get_titlebar_hbox()
 	var titlebar_label = titlebar_hbox.get_child(0)
@@ -30,6 +36,7 @@ func initialize() -> void:
 	titlebar_hbox.mouse_exited.connect(_set_icon_opacity.bind(0.0))
 
 	_update_slots()
+	_validate_connections()
 
 
 func _update_slots():
@@ -39,10 +46,12 @@ func _update_slots():
 	set_slot_type_right(0, type)
 	set_slot_custom_icon_right(0, GaeaGraphNode.get_icon_from_type(type))
 	resource.input_slots[0].left_type = type
+	resource.title = "Reroute (%s)" % GaeaGraphNode.SlotTypes.find_key(type).capitalize()
 
 
 static func create_resource() -> GaeaNodeResource:
 	var new_resource = _RerouteResource.new()
+	new_resource.title = "New Reroute"
 	var input_slot = GaeaNodeSlot.new()
 	input_slot.left_enabled = true
 	new_resource.input_slots.append(input_slot)
@@ -52,15 +61,17 @@ static func create_resource() -> GaeaNodeResource:
 
 #region Lifecycle
 func on_removed() -> void:
-	var input_connection: Dictionary = connections[0]
 	var graph_edit: GraphEdit = find_parent("GraphEdit")
+	var input_connection: Dictionary = {}
 	
-	graph_edit.disconnection_request.emit(
-		input_connection.from_node,
-		input_connection.from_port,
-		input_connection.to_node,
-		input_connection.to_port,
-	)
+	if connections.size() == 1:
+		input_connection = connections[0]
+		graph_edit.disconnection_request.emit(
+			input_connection.from_node,
+			input_connection.from_port,
+			input_connection.to_node,
+			input_connection.to_port,
+		)
 	
 	for connection in graph_edit.connections:
 		if connection.from_node == name and connection.from_port == 0:
@@ -70,12 +81,13 @@ func on_removed() -> void:
 				connection.to_node,
 				connection.to_port,
 			)
-			graph_edit.connection_request.emit(
-				input_connection.from_node,
-				input_connection.from_port,
-				connection.to_node,
-				connection.to_port,
-			)
+			if not input_connection.is_empty():
+				graph_edit.connection_request.emit(
+					input_connection.from_node,
+					input_connection.from_port,
+					connection.to_node,
+					connection.to_port,
+				)
 #endregion
 
 
@@ -97,22 +109,26 @@ func load_save_data(data: Dictionary) -> void:
 func _draw_port(slot_index: int, pos: Vector2i, left: bool, color: Color) -> void:
 	if left:
 		return
+	var center_pos = Vector2(pos)
+	var editor_scale = EditorInterface.get_editor_scale()
+	
+	if has_no_input:
+		draw_circle(center_pos, 10 * editor_scale, Color.ORANGE_RED, true, -1, true)
+	
 	var port_icon = get_slot_custom_icon_right(slot_index)
 	if not is_instance_valid(port_icon):
 		port_icon = get_theme_icon(&"port", &"GraphNode")
 	var icon_offset = -port_icon.get_size() * 0.5
-	var editor_scale = EditorInterface.get_editor_scale()
 	
 	draw_texture_rect(
 		port_icon,
 		Rect2(
-			Vector2(pos) + icon_offset * editor_scale,
+			center_pos + icon_offset * editor_scale,
 			port_icon.get_size() * editor_scale
 		),
 		false,
 		color
 	)
-
 
 
 func _draw() -> void:
@@ -142,3 +158,9 @@ func _set_icon_opacity(value: float):
 	tween = create_tween()
 	tween.tween_property(self, "icon_opacity", value, 0.3)
 #endregion
+
+
+func _validate_connections():
+	print("_validate_connections")
+	has_no_input = connections.size() == 0
+	

@@ -24,6 +24,7 @@ const _RerouteNode = preload("uid://bs40iof8ipbkq")
 @onready var _file_dialog: FileDialog = $FileDialog
 @onready var _window_popout_button: Button = $Editor/VBoxContainer/HBoxContainer/WindowPopoutButton
 @onready var _window_popout_separator: VSeparator = $Editor/VBoxContainer/HBoxContainer/WindowPopoutSeparator
+@onready var _bottom_note_label: RichTextLabel = %BottomNote
 
 
 func _ready() -> void:
@@ -88,6 +89,11 @@ func _popup_create_node_menu_at_mouse() -> void:
 	_create_node_popup.popup()
 
 
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion:
+		update_bottom_note()
+
+
 func _on_graph_edit_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
@@ -103,7 +109,6 @@ func _on_graph_edit_gui_input(event: InputEvent) -> void:
 				_popup_create_node_menu_at_mouse()
 			else:
 				_popup_node_context_menu_at_mouse(_selected)
-
 
 func _add_node(resource: GaeaNodeResource) -> GraphNode:
 	@warning_ignore("static_called_on_instance")
@@ -413,15 +418,26 @@ func _on_create_new_reroute(connection: Dictionary) -> void:
 	)
 
 
+func update_bottom_note():
+	var mouse_position = _graph_edit.get_local_mouse_position()
+	if get_rect().has_point(mouse_position):
+		_bottom_note_label.visible = true
+		_bottom_note_label.text = "%s" % [
+			Vector2i(_local_to_grid(_graph_edit.get_local_mouse_position(), Vector2.ZERO, false))
+		]
+	else:
+		_bottom_note_label.visible = false
+
+
 ## This function converts a local position to a grid position based on the current zoom level and scroll offset.
 ## It also applies snapping if enabled in the GraphEdit.
 ## @param local_position The local position to convert.
 ## @param grid_offset An optional offset to apply to the grid position.
 ## @return The converted grid position.
-func _local_to_grid(local_position: Vector2, grid_offset: Vector2 = Vector2.ZERO) -> Vector2:
+func _local_to_grid(local_position: Vector2, grid_offset: Vector2 = Vector2.ZERO, enable_snapping: bool = true) -> Vector2:
 	local_position = (local_position + _graph_edit.scroll_offset) / _graph_edit.zoom
 	local_position += grid_offset
-	if _graph_edit.snapping_enabled:
+	if enable_snapping and _graph_edit.snapping_enabled:
 		return local_position.snapped(Vector2.ONE * _graph_edit.snapping_distance)
 	else:
 		return local_position
