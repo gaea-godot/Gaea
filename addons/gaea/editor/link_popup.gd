@@ -3,11 +3,14 @@ extends PopupMenu
 
 enum Action {
 	DISCONNECT,
+	INSERT_NEW_REROUTE
 }
 
 @export var graph_edit: GraphEdit
 
 var current_connection: Dictionary
+
+signal new_reroute_requested(connection: Dictionary)
 
 
 func _ready() -> void:
@@ -18,15 +21,17 @@ func _ready() -> void:
 func populate(connection: Dictionary) -> void:
 	current_connection = connection
 	add_item("Disconnect", Action.DISCONNECT)
+	add_item("Insert New Reroute", Action.INSERT_NEW_REROUTE)
 
 
 func _on_id_pressed(id: int) -> void:
 	match id:
 		Action.DISCONNECT:
-			graph_edit.disconnect_node(
+			graph_edit.disconnection_request.emit(
 				current_connection.from_node,
 				current_connection.from_port,
 				current_connection.to_node,
 				current_connection.to_port
 			)
-			graph_edit.request_connection_update.emit()
+		Action.INSERT_NEW_REROUTE:
+			new_reroute_requested.emit(current_connection)

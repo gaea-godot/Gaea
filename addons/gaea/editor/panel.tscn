@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dngytsjlmkfg7"]
+[gd_scene load_steps=15 format=3 uid="uid://dngytsjlmkfg7"]
 
 [ext_resource type="Script" uid="uid://dpbmowgfmnxe5" path="res://addons/gaea/editor/panel.gd" id="1_afcqa"]
 [ext_resource type="Texture2D" uid="uid://crs5x6wghxmmb" path="res://addons/gaea/assets/reload_tree.svg" id="2_4udwk"]
@@ -43,6 +43,8 @@ data = {
 
 [sub_resource type="ImageTexture" id="ImageTexture_k2fg6"]
 image = SubResource("Image_5idfd")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dhpru"]
 
 [node name="Gaea" type="Control"]
 custom_minimum_size = Vector2(0, 256)
@@ -168,6 +170,31 @@ size_flags_vertical = 3
 grid_pattern = 1
 right_disconnects = true
 script = ExtResource("2_cdav6")
+
+[node name="Margin" type="MarginContainer" parent="Editor/VBoxContainer/GraphEdit"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="BottomNote" type="RichTextLabel" parent="Editor/VBoxContainer/GraphEdit/Margin"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 1
+theme_override_styles/fill = SubResource("StyleBoxEmpty_dhpru")
+theme_override_styles/background = SubResource("StyleBoxEmpty_dhpru")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_dhpru")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_dhpru")
+text = "(0,0)"
+fit_content = true
+metadata/_edit_use_anchors_ = true
 
 [node name="CreateNodePopup" type="PopupPanel" parent="Editor"]
 unique_name_in_owner = true
@@ -297,4 +324,5 @@ filters = PackedStringArray("*.tres,*.res;Resources")
 [connection signal="pressed" from="Editor/CreateNodePopup/Margin/VBox/HBoxContainer/CancelButton" to="." method="_on_cancel_create_button_pressed"]
 [connection signal="pressed" from="Editor/CreateNodePopup/Margin/VBox/HBoxContainer/CreateButton" to="Editor/CreateNodePopup/Margin/VBox/Tree" method="_on_create_button_pressed"]
 [connection signal="create_node_popup_requested" from="Editor/NodePopup" to="." method="_popup_create_node_menu_at_mouse"]
+[connection signal="new_reroute_requested" from="Editor/LinkPopup" to="." method="_on_new_reroute_requested"]
 [connection signal="file_selected" from="FileDialog" to="." method="_on_file_dialog_file_selected"]

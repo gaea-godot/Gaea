@@ -4,8 +4,12 @@ extends Control
 var _selected_generator: GaeaGenerator = null: get = get_selected_generator
 var _output_node: GraphNode
 
-const _LinkPopup = preload("uid://btt4eqjkp5pyf")
+## Local position on [GraphEdit] for a node that may be created in the future.
+var _node_creation_target: Vector2 = Vector2.ZERO
 
+const _LinkPopup = preload("uid://btt4eqjkp5pyf")
+const _RerouteNode = preload("uid://bs40iof8ipbkq")
+	
 @onready var _no_data: Control = $NoData
 @onready var _editor: Control = $Editor
 @onready var _graph_edit: GraphEdit = %GraphEdit
@@ -20,6 +24,7 @@ const _LinkPopup = preload("uid://btt4eqjkp5pyf")
 @onready var _file_dialog: FileDialog = $FileDialog
 @onready var _window_popout_button: Button = $Editor/VBoxContainer/HBoxContainer/WindowPopoutButton
 @onready var _window_popout_separator: VSeparator = $Editor/VBoxContainer/HBoxContainer/WindowPopoutSeparator
+@onready var _bottom_note_label: RichTextLabel = %BottomNote
 
 
 func _ready() -> void:
@@ -80,7 +85,13 @@ func _on_data_changed() -> void:
 
 func _popup_create_node_menu_at_mouse() -> void:
 	_create_node_popup.position = get_global_mouse_position() as Vector2i + get_window().position
+	_node_creation_target = _graph_edit.get_local_mouse_position()
 	_create_node_popup.popup()
+
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion:
+		update_bottom_note()
 
 
 func _on_graph_edit_gui_input(event: InputEvent) -> void:
@@ -99,8 +110,8 @@ func _on_graph_edit_gui_input(event: InputEvent) -> void:
 			else:
 				_popup_node_context_menu_at_mouse(_selected)
 
-
 func _add_node(resource: GaeaNodeResource) -> GraphNode:
+	@warning_ignore("static_called_on_instance")
 	var node: GaeaGraphNode = resource.get_scene().instantiate()
 	node.resource = resource
 	node.generator = get_selected_generator()
@@ -126,20 +137,20 @@ func _popup_link_context_menu_at_mouse(connexion: Dictionary) -> void:
 	_link_popup.populate(connexion)
 
 	_link_popup.position = get_global_mouse_position() as Vector2i + get_window().position
+	_node_creation_target = _graph_edit.get_local_mouse_position()
 	_link_popup.popup()
 
 
-func _add_node_at_mouse(resource: GaeaNodeResource) -> GraphNode:
+func _add_node_at_position(resource: GaeaNodeResource, local_grid_position: Vector2) -> GraphNode:
 	var node := _add_node(resource)
-	node.set_position_offset((_graph_edit.get_local_mouse_position() + _graph_edit.scroll_offset) / _graph_edit.zoom)
+	node.set_position_offset(_local_to_grid(local_grid_position))
 	_save_data.call_deferred()
 	return node
 
 
 func _on_tree_node_selected_for_creation(resource: GaeaNodeResource) -> void:
 	_create_node_popup.hide()
-
-	_add_node_at_mouse(resource)
+	_add_node_at_position(resource, _node_creation_target)
 
 
 func _on_cancel_create_button_pressed() -> void:
@@ -273,7 +284,7 @@ func _load_data() -> void:
 			_graph_edit._on_element_attached_to_frame(attached, frame.get("name"))
 
 
-func _on_graph_edit_connection_to_empty(from_node: StringName, from_port: int, release_position: Vector2) -> void:
+func _on_graph_edit_connection_to_empty(_from_node: StringName, _from_port: int, _release_position: Vector2) -> void:
 	_popup_create_node_menu_at_mouse()
 
 
@@ -380,3 +391,53 @@ func _on_window_close_requested(original_parent: Control, window: Window) -> voi
 	window.queue_free()
 	_window_popout_button.show()
 	_window_popout_separator.show()
+
+
+func _on_new_reroute_requested(connection: Dictionary) -> void:
+	var reroute: _RerouteNode = _add_node(_RerouteNode.create_resource())
+	
+	var offset = - reroute.get_output_port_position(0)
+	offset.y -= reroute.get_slot_custom_icon_right(0).get_size().y * 0.5
+	reroute.set_position_offset(_local_to_grid(_node_creation_target, offset))
+	
+	var from_node: GraphNode = _graph_edit.get_node(NodePath(connection.from_node))	
+	var link_type := from_node.get_output_port_type(connection.from_port) as GaeaGraphNode.SlotTypes
+	reroute.type = link_type
+	
+	_graph_edit.disconnection_request.emit.call_deferred(
+		connection.from_node, connection.from_port,
+		connection.to_node, connection.to_port,
+	)
+	_graph_edit.connection_request.emit.call_deferred(
+		connection.from_node, connection.from_port,
+		reroute.name, 0,
+	)
+	_graph_edit.connection_request.emit.call_deferred(
+		reroute.name, 0,
+		connection.to_node, connection.to_port,
+	)
+
+
+func update_bottom_note():
+	var mouse_position = _graph_edit.get_local_mouse_position()
+	if get_rect().has_point(mouse_position):
+		_bottom_note_label.visible = true
+		_bottom_note_label.text = "%s" % [
+			Vector2i(_local_to_grid(_graph_edit.get_local_mouse_position(), Vector2.ZERO, false))
+		]
+	else:
+		_bottom_note_label.visible = false
+
+
+## This function converts a local position to a grid position based on the current zoom level and scroll offset.
+## It also applies snapping if enabled in the GraphEdit.
+## @param local_position The local position to convert.
+## @param grid_offset An optional offset to apply to the grid position.
+## @return The converted grid position.
+func _local_to_grid(local_position: Vector2, grid_offset: Vector2 = Vector2.ZERO, enable_snapping: bool = true) -> Vector2:
+	local_position = (local_position + _graph_edit.scroll_offset) / _graph_edit.zoom
+	local_position += grid_offset
+	if enable_snapping and _graph_edit.snapping_enabled:
+		return local_position.snapped(Vector2.ONE * _graph_edit.snapping_distance)
+	else:
+		return local_position
