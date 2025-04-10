@@ -34,6 +34,12 @@ signal points_sorted
 	get:
 		return PackedFloat32Array(points.map(func(point: Dictionary) -> float: return point.get(&"offset", 0.0)))
 	set(value):
+		var new_offsets := value.duplicate()
+		new_offsets.sort()
+
+		if new_offsets == offsets:
+			return
+
 		if value.size() == materials.size():
 			for idx: int in value.size():
 				points.get(idx).set(&"offset", value.get(idx))
