@@ -18,6 +18,7 @@ const _RerouteNode = preload("uid://bs40iof8ipbkq")
 @onready var _node_popup: PopupMenu = %NodePopup
 @onready var _link_popup: _LinkPopup = %LinkPopup
 @onready var _create_node_tree: Tree = %Tree
+@onready var _search_bar: LineEdit = %SearchBar
 @onready var _save_button: Button = $Editor/VBoxContainer/HBoxContainer/SaveButton
 @onready var _load_button: Button = $Editor/VBoxContainer/HBoxContainer/LoadButton
 @onready var _reload_node_tree_button: Button = $Editor/VBoxContainer/HBoxContainer/ReloadNodeTreeButton
@@ -26,6 +27,7 @@ const _RerouteNode = preload("uid://bs40iof8ipbkq")
 @onready var _window_popout_button: Button = $Editor/VBoxContainer/HBoxContainer/WindowPopoutButton
 @onready var _window_popout_separator: VSeparator = $Editor/VBoxContainer/HBoxContainer/WindowPopoutSeparator
 @onready var _bottom_note_label: RichTextLabel = %BottomNote
+
 
 
 func _ready() -> void:
@@ -89,6 +91,7 @@ func _popup_create_node_menu_at_mouse() -> void:
 	_create_node_popup.position = get_global_mouse_position() as Vector2i + get_window().position
 	_node_creation_target = _graph_edit.get_local_mouse_position()
 	_create_node_popup.popup()
+	_search_bar.grab_focus()
 
 
 func _input(event: InputEvent) -> void:

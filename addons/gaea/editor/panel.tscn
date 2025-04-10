@@ -231,6 +231,7 @@ theme_override_constants/margin_bottom = 6
 layout_mode = 2
 
 [node name="SearchBar" type="LineEdit" parent="Editor/CreateNodePopup/Margin/VBox"]
+unique_name_in_owner = true
 layout_mode = 2
 placeholder_text = "Search"
 clear_button_enabled = true
