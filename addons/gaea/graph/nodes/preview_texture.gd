@@ -3,6 +3,9 @@ extends TextureRect
 
 const RESOLUTION: Vector2i = Vector2i(64, 64)
 
+enum Axis { XY, XZ }
+
+var axis: Axis = Axis.XY
 var output_idx: int = 0
 var resource: GaeaNodeResource
 var node: GaeaGraphNode
@@ -10,6 +13,7 @@ var slider_container: HBoxContainer
 var slider: HSlider
 var slider_label: SpinBox
 var type: GaeaGraphNode.SlotTypes
+var tertiary_axis: int = 0
 
 
 func _ready() -> void:
@@ -89,7 +93,12 @@ func _draw_grid(grid: Dictionary, resolution: Vector2) -> void:
 	for x: int in resolution.x:
 		for y: int in resolution.y:
 			var color: Color
-			var value = grid.get(Vector3i(x, y, 0))
+			var cell: Vector3i
+			if axis == Axis.XY:
+				cell = Vector3i(x, y, tertiary_axis)
+			elif axis == Axis.XZ:
+				cell = Vector3i(x, tertiary_axis, y)
+			var value = grid.get(cell)
 			if value == null:
 				continue
 			match type:

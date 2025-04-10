@@ -29,6 +29,7 @@ const _RerouteNode = preload("uid://bs40iof8ipbkq")
 @onready var _bottom_note_label: RichTextLabel = %BottomNote
 @onready var _output_preview: TextureRect = %OutputPreview
 @onready var _preview_layer_selection: OptionButton = %PreviewLayerSelection
+@onready var _preview_tertiary_axis_label: Label = %PreviewTertiaryAxis
 
 
 func _ready() -> void:
@@ -496,3 +497,10 @@ func _local_to_grid(local_position: Vector2, grid_offset: Vector2 = Vector2.ZERO
 
 func _on_create_node_popup_close_requested() -> void:
 	_create_node_popup.hide()
+
+
+func _on_preview_type_selection_item_selected(index: int) -> void:
+	if index == 0:
+		_preview_tertiary_axis_label.text = "Z"
+	else:
+		_preview_tertiary_axis_label.text = "Y"

@@ -247,16 +247,15 @@ metadata/_edit_use_anchors_ = true
 [node name="Panel" type="VBoxContainer" parent="Editor/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 
-[node name="OutputPreview" type="TextureRect" parent="Editor/VBoxContainer/HBoxContainer2/Panel" node_paths=PackedStringArray("layer_selection")]
+[node name="OutputPreview" type="TextureRect" parent="Editor/VBoxContainer/HBoxContainer2/Panel"]
 unique_name_in_owner = true
 texture_filter = 1
 custom_minimum_size = Vector2(192, 192)
 layout_mode = 2
+size_flags_horizontal = 4
 texture = SubResource("ImageTexture_gowk0")
-expand_mode = 3
-stretch_mode = 5
+stretch_mode = 6
 script = ExtResource("5_nbnm7")
-layer_selection = NodePath("../HBoxContainer/PreviewLayerSelection")
 
 [node name="BG" type="TextureRect" parent="Editor/VBoxContainer/HBoxContainer2/Panel/OutputPreview"]
 show_behind_parent = true
@@ -293,20 +292,46 @@ item_count = 1
 popup/item_0/text = "All"
 popup/item_0/id = 0
 
+[node name="HBoxContainer3" type="HBoxContainer" parent="Editor/VBoxContainer/HBoxContainer2/Panel"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Editor/VBoxContainer/HBoxContainer2/Panel/HBoxContainer3"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Axis"
+autowrap_mode = 2
+
+[node name="PreviewTypeSelection" type="OptionButton" parent="Editor/VBoxContainer/HBoxContainer2/Panel/HBoxContainer3"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+selected = 0
+fit_to_longest_item = false
+item_count = 2
+popup/item_0/text = "XY"
+popup/item_0/id = 0
+popup/item_1/text = "XZ"
+popup/item_1/id = 1
+
 [node name="HBoxContainer2" type="HBoxContainer" parent="Editor/VBoxContainer/HBoxContainer2/Panel"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Editor/VBoxContainer/HBoxContainer2/Panel/HBoxContainer2"]
+[node name="PreviewTertiaryAxis" type="Label" parent="Editor/VBoxContainer/HBoxContainer2/Panel/HBoxContainer2"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Z"
 autowrap_mode = 2
 
-[node name="PreviewZSpinBox" type="SpinBox" parent="Editor/VBoxContainer/HBoxContainer2/Panel/HBoxContainer2"]
+[node name="PreviewTertiaryAxisSpinBox" type="SpinBox" parent="Editor/VBoxContainer/HBoxContainer2/Panel/HBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+allow_greater = true
+allow_lesser = true
 
 [node name="CreateNodePopup" type="Window" parent="Editor"]
 unique_name_in_owner = true
@@ -439,6 +464,7 @@ filters = PackedStringArray("*.tres,*.res;Resources")
 [connection signal="node_selected" from="Editor/VBoxContainer/HBoxContainer2/GraphEdit" to="Editor/VBoxContainer/HBoxContainer2/GraphEdit" method="_on_node_selected"]
 [connection signal="request_connection_update" from="Editor/VBoxContainer/HBoxContainer2/GraphEdit" to="." method="update_connections"]
 [connection signal="request_save" from="Editor/VBoxContainer/HBoxContainer2/GraphEdit" to="." method="_save_data"]
+[connection signal="item_selected" from="Editor/VBoxContainer/HBoxContainer2/Panel/HBoxContainer3/PreviewTypeSelection" to="." method="_on_preview_type_selection_item_selected"]
 [connection signal="close_requested" from="Editor/CreateNodePopup" to="." method="_on_create_node_popup_close_requested"]
 [connection signal="text_changed" from="Editor/CreateNodePopup/Margin/VBox/SearchBar" to="Editor/CreateNodePopup/Margin/VBox/Tree" method="_on_search_bar_text_changed"]
 [connection signal="item_activated" from="Editor/CreateNodePopup/Margin/VBox/Tree" to="Editor/CreateNodePopup/Margin/VBox/Tree" method="_on_item_activated"]
