@@ -21,7 +21,7 @@ Gaea 2.0 is an **add-on for Godot 4.4**\*, designed to empower your project with
 
 Gaea uses a graph system to create a flow of customizable nodes for endless posibilities in generation, both 2D and 3D. Creating custom nodes is easy, too, so you aren't limited by what the addon has.
 
-![A graph showing a bunch of interconnected nodes leading to a final output node](https://github.com/gaea-godot/gaea-docs/blob/main/docs/2.0/assets/graph_system.png?raw=true)
+![A graph showing a bunch of interconnected nodes leading to a final output node](https://github.com/gaea-godot/gaea-docs/blob/main/docs/2.0/assets/graph-system.png?raw=true)
 
 Gaea can generate terrains such as:
 
@@ -40,4 +40,3 @@ Gaea can generate terrains such as:
 1. **Download the project files.**
 2. Move the `gaea` folder into your `/addons` folder within your Godot project.
 3. Enable the addon through the project settings, and let your world-building journey begin!
-s
