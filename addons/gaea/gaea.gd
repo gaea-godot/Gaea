@@ -37,8 +37,9 @@ func _enter_tree() -> void:
 
 func _exit_tree() -> void:
 	_panel.unpopulate()
-	remove_control_from_bottom_panel(_container)
 	remove_inspector_plugin(_inspector_plugin)
+	remove_control_from_bottom_panel(_container)
+	_container.queue_free()
 
 
 func _on_selection_changed() -> void:
