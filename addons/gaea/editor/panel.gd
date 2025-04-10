@@ -28,6 +28,7 @@ const _RerouteNode = preload("uid://bs40iof8ipbkq")
 @onready var _window_popout_separator: VSeparator = $Editor/VBoxContainer/HBoxContainer/WindowPopoutSeparator
 @onready var _bottom_note_label: RichTextLabel = %BottomNote
 @onready var _output_preview: TextureRect = %OutputPreview
+@onready var _preview_layer_selection: OptionButton = %PreviewLayerSelection
 
 
 func _ready() -> void:
@@ -68,6 +69,7 @@ func populate(node: GaeaGenerator) -> void:
 		if not _selected_generator.data.layer_count_modified.is_connected(_update_output_node):
 			_selected_generator.data.layer_count_modified.connect(_update_output_node)
 		_load_data.call_deferred()
+		_update_preview_layer_selection()
 
 
 func unpopulate() -> void:
@@ -188,6 +190,35 @@ func _update_output_node() -> void:
 		await _output_node.update_slots()
 		await get_tree().process_frame
 		_graph_edit.remove_invalid_connections()
+
+	_update_preview_layer_selection()
+
+
+func _update_preview_layer_selection() -> void:
+	var _prev_selected: int = _preview_layer_selection.selected
+	if is_instance_valid(_selected_generator.data):
+		_preview_layer_selection.clear()
+		_preview_layer_selection.add_item("All")
+		for idx: int in _selected_generator.data.layers.size():
+			var layer: GaeaLayer = _selected_generator.data.layers.get(idx)
+			if not is_instance_valid(layer):
+				_preview_layer_selection.add_item("Layer %d" % idx)
+				_preview_layer_selection.set_item_disabled(idx + 1, true)
+				continue
+
+			if layer.resource_name.is_empty():
+				_preview_layer_selection.add_item("Layer %d" % idx)
+			else:
+				_preview_layer_selection.add_item(layer.resource_name)
+
+		if _preview_layer_selection.item_count >= _prev_selected:
+			return
+
+		if _preview_layer_selection.is_item_disabled(_prev_selected):
+			return
+
+		_preview_layer_selection.select(_prev_selected)
+
 
 
 func get_selected_generator() -> GaeaGenerator:
