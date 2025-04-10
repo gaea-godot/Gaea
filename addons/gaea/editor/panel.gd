@@ -17,15 +17,15 @@ const _RerouteNode = preload("uid://bs40iof8ipbkq")
 @onready var _create_node_panel: Panel = %CreateNodePanel
 @onready var _node_popup: PopupMenu = %NodePopup
 @onready var _link_popup: _LinkPopup = %LinkPopup
-@onready var _create_node_tree: Tree = %Tree
+@onready var _create_node_tree: Tree = %CreateNodeTree
 @onready var _search_bar: LineEdit = %SearchBar
-@onready var _save_button: Button = $Editor/VBoxContainer/HBoxContainer/SaveButton
-@onready var _load_button: Button = $Editor/VBoxContainer/HBoxContainer/LoadButton
-@onready var _reload_node_tree_button: Button = $Editor/VBoxContainer/HBoxContainer/ReloadNodeTreeButton
-@onready var _reload_parameters_list_button: Button = $Editor/VBoxContainer/HBoxContainer/ReloadParametersListButton
+@onready var _save_button: Button = %SaveButton
+@onready var _load_button: Button = %LoadButton
+@onready var _reload_node_tree_button: Button = %ReloadNodeTreeButton
+@onready var _reload_parameters_list_button: Button = %ReloadParametersListButton
 @onready var _file_dialog: FileDialog = $FileDialog
-@onready var _window_popout_button: Button = $Editor/VBoxContainer/HBoxContainer/WindowPopoutButton
-@onready var _window_popout_separator: VSeparator = $Editor/VBoxContainer/HBoxContainer/WindowPopoutSeparator
+@onready var _window_popout_separator: VSeparator = %WindowPopoutSeparator
+@onready var _window_popout_button: Button = %WindowPopoutButton
 @onready var _bottom_note_label: RichTextLabel = %BottomNote
 
 

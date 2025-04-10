@@ -123,6 +123,7 @@ icon = SubResource("ImageTexture_nbnm7")
 flat = true
 
 [node name="LoadButton" type="Button" parent="Editor/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Load data."
 icon = SubResource("ImageTexture_ve3i7")
@@ -132,12 +133,14 @@ flat = true
 layout_mode = 2
 
 [node name="ReloadNodeTreeButton" type="Button" parent="Editor/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Reload create node list."
 icon = ExtResource("2_4udwk")
 flat = true
 
 [node name="ReloadParametersListButton" type="Button" parent="Editor/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Reload variables list.
 (Sometimes some variables aren't deleted properly, this helps remove those)"
@@ -154,9 +157,11 @@ size_flags_horizontal = 8
 text = "Generate"
 
 [node name="WindowPopoutSeparator" type="VSeparator" parent="Editor/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="WindowPopoutButton" type="Button" parent="Editor/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
 tooltip_text = "Make the Gaea editor floating"
@@ -236,7 +241,7 @@ layout_mode = 2
 placeholder_text = "Search"
 clear_button_enabled = true
 
-[node name="Tree" type="Tree" parent="Editor/CreateNodePopup/Margin/VBox" node_paths=PackedStringArray("description_label")]
+[node name="CreateNodeTree" type="Tree" parent="Editor/CreateNodePopup/Margin/VBox" node_paths=PackedStringArray("description_label")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
@@ -327,12 +332,12 @@ filters = PackedStringArray("*.tres,*.res;Resources")
 [connection signal="request_connection_update" from="Editor/VBoxContainer/GraphEdit" to="." method="update_connections"]
 [connection signal="request_save" from="Editor/VBoxContainer/GraphEdit" to="." method="_save_data"]
 [connection signal="close_requested" from="Editor/CreateNodePopup" to="." method="_on_create_node_popup_close_requested"]
-[connection signal="text_changed" from="Editor/CreateNodePopup/Margin/VBox/SearchBar" to="Editor/CreateNodePopup/Margin/VBox/Tree" method="_on_search_bar_text_changed"]
-[connection signal="item_activated" from="Editor/CreateNodePopup/Margin/VBox/Tree" to="Editor/CreateNodePopup/Margin/VBox/Tree" method="_on_item_activated"]
-[connection signal="item_selected" from="Editor/CreateNodePopup/Margin/VBox/Tree" to="Editor/CreateNodePopup/Margin/VBox/Tree" method="_on_item_selected"]
-[connection signal="node_selected_for_creation" from="Editor/CreateNodePopup/Margin/VBox/Tree" to="." method="_on_tree_node_selected_for_creation"]
-[connection signal="special_node_selected_for_creation" from="Editor/CreateNodePopup/Margin/VBox/Tree" to="." method="_on_tree_special_node_selected_for_creation"]
-[connection signal="pressed" from="Editor/CreateNodePopup/Margin/VBox/HBoxContainer/CreateButton" to="Editor/CreateNodePopup/Margin/VBox/Tree" method="_on_create_button_pressed"]
+[connection signal="text_changed" from="Editor/CreateNodePopup/Margin/VBox/SearchBar" to="Editor/CreateNodePopup/Margin/VBox/CreateNodeTree" method="_on_search_bar_text_changed"]
+[connection signal="item_activated" from="Editor/CreateNodePopup/Margin/VBox/CreateNodeTree" to="Editor/CreateNodePopup/Margin/VBox/CreateNodeTree" method="_on_item_activated"]
+[connection signal="item_selected" from="Editor/CreateNodePopup/Margin/VBox/CreateNodeTree" to="Editor/CreateNodePopup/Margin/VBox/CreateNodeTree" method="_on_item_selected"]
+[connection signal="node_selected_for_creation" from="Editor/CreateNodePopup/Margin/VBox/CreateNodeTree" to="." method="_on_tree_node_selected_for_creation"]
+[connection signal="special_node_selected_for_creation" from="Editor/CreateNodePopup/Margin/VBox/CreateNodeTree" to="." method="_on_tree_special_node_selected_for_creation"]
+[connection signal="pressed" from="Editor/CreateNodePopup/Margin/VBox/HBoxContainer/CreateButton" to="Editor/CreateNodePopup/Margin/VBox/CreateNodeTree" method="_on_create_button_pressed"]
 [connection signal="pressed" from="Editor/CreateNodePopup/Margin/VBox/HBoxContainer/CancelButton" to="." method="_on_cancel_create_button_pressed"]
 [connection signal="create_node_popup_requested" from="Editor/NodePopup" to="." method="_popup_create_node_menu_at_mouse"]
 [connection signal="new_reroute_requested" from="Editor/LinkPopup" to="." method="_on_new_reroute_requested"]
