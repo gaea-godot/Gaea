@@ -377,6 +377,7 @@ func _on_window_popout_button_pressed() -> void:
 	var window: Window = Window.new()
 	window.min_size = get_combined_minimum_size()
 	window.size = size
+	window.title = "Gaea - Godot Engine"
 	window.close_requested.connect(_on_window_close_requested.bind(get_parent(), window))
 
 	var margin_container: MarginContainer = MarginContainer.new()
