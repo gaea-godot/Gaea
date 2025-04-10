@@ -16,18 +16,18 @@ func execute(area: AABB, generator_data: GaeaData, generator: GaeaGenerator) -> 
 		if not is_instance_valid(layer_resource) or not layer_resource.enabled or not is_instance_valid(map_input_resource):
 			grid.add_layer(layer_idx, {}, layer_resource)
 			continue
-		
+
 		log_layer("Start", layer_idx, generator_data)
 
 		var grid_data: Dictionary = map_input_resource.traverse(
 			get_connected_port_to(layer_idx), area, generator_data
 		)
 		grid.add_layer(layer_idx, grid_data, layer_resource)
-		
+
 		log_layer("End", layer_idx, generator_data)
-	
+
 	log_execute("End", area, generator_data)
-	
+
 	generator.generation_finished.emit.call_deferred(grid)
 
 

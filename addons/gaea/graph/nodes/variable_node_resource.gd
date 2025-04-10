@@ -29,6 +29,8 @@ func get_type() -> GaeaGraphNode.SlotTypes:
 		TYPE_OBJECT:
 			if hint_string == "GaeaMaterial":
 				return GaeaGraphNode.SlotTypes.TILE_INFO
+			elif hint_string == "GaeaMaterialGradient":
+				return GaeaGraphNode.SlotTypes.GRADIENT
 		TYPE_VECTOR3, TYPE_VECTOR3I:
 			return GaeaGraphNode.SlotTypes.VECTOR3
 	return GaeaGraphNode.SlotTypes.NULL
@@ -49,6 +51,8 @@ func get_icon() -> Texture2D:
 		TYPE_OBJECT:
 			if hint_string == "GaeaMaterial":
 				return preload("../../assets/types/material.svg")
+			elif hint_string == "GaeaMaterialGradient":
+				return preload("../../assets/types/material_gradient.svg")
 		TYPE_VECTOR3:
 			return preload("../../assets/types/vec3.svg")
 		TYPE_VECTOR3I:

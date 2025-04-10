@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ccqq5l0ruur37"
-path="res://.godot/imported/diamond.svg-593b7a9e3b0fcf028ee229d8a1b3f42e.ctex"
+uid="uid://daasmk1v2rpcm"
+path="res://.godot/imported/rhombus.svg-5c3f5850f02d84826d0415e2da2700f4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/gaea/assets/slots/diamond.svg"
-dest_files=["res://.godot/imported/diamond.svg-593b7a9e3b0fcf028ee229d8a1b3f42e.ctex"]
+source_file="res://addons/gaea/assets/slots/rhombus.svg"
+dest_files=["res://.godot/imported/rhombus.svg-5c3f5850f02d84826d0415e2da2700f4.ctex"]
 
 [params]
 

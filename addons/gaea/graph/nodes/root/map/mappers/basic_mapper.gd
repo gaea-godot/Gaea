@@ -12,11 +12,11 @@ func get_data(passed_data:Array[Dictionary], _output_port: int, area: AABB, gene
 	var grid: Dictionary[Vector3i, GaeaMaterial]
 
 	for cell in grid_data:
-		if _passes_mapping(grid_data, cell, generator_data) and is_instance_valid(material):
+		if _passes_mapping(passed_data, cell, generator_data) and is_instance_valid(material):
 			grid[cell] = material.get_resource()
 
 	return grid
 
 
-func _passes_mapping(passed_data: Dictionary, cell: Vector3i, _generator_data: GaeaData) -> bool:
-	return passed_data.get(cell) != null
+func _passes_mapping(passed_data: Array[Dictionary], cell: Vector3i, _generator_data: GaeaData) -> bool:
+	return passed_data[0].get(cell) != null

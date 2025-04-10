@@ -7,7 +7,16 @@ const PreviewTexture = preload("res://addons/gaea/graph/nodes/preview_texture.gd
 const PREVIEW_TYPES := [SlotTypes.MAP_DATA, SlotTypes.VALUE_DATA]
 
 enum SlotTypes {
-	VALUE_DATA, MAP_DATA, TILE_INFO, VECTOR2, NUMBER, RANGE, BOOL, VECTOR3, NULL = -1
+	VALUE_DATA,
+	MAP_DATA,
+	TILE_INFO,
+	VECTOR2,
+	NUMBER,
+	RANGE,
+	BOOL,
+	VECTOR3,
+	GRADIENT,
+	NULL = -1
 }
 
 signal save_requested
@@ -187,11 +196,13 @@ static func get_color_from_type(type: SlotTypes) -> Color:
 		SlotTypes.VECTOR3:
 			return Color("8e44ad") # MAGENTA
 		SlotTypes.NUMBER:
-			return Color("a0a0a0") # JADE
+			return Color("a0a0a0") # GRAY
 		SlotTypes.RANGE:
 			return Color("f04c7f") # PINK
 		SlotTypes.BOOL:
 			return Color("ffdd59") # YELLOW
+		SlotTypes.GRADIENT:
+			return Color("4834d4") # BLURPLE
 		#SlotTypes.TEXTURE: # Reserved Orange for later use.
 		#	return Color("e67e22")
 	return Color.WHITE
@@ -208,13 +219,16 @@ static func get_icon_from_type(type: SlotTypes) -> Texture2D:
 		SlotTypes.MAP_DATA:
 			return load("res://addons/gaea/assets/slots/tag.svg")
 		SlotTypes.TILE_INFO:
-			return load("res://addons/gaea/assets/slots/diamond.svg")
+			return load("res://addons/gaea/assets/slots/rhombus.svg")
 		SlotTypes.VECTOR3:
 			return load("res://addons/gaea/assets/slots/hourglass.svg")
 		SlotTypes.VECTOR2:
 			return load("res://addons/gaea/assets/slots/triangle.svg")
+		SlotTypes.GRADIENT:
+			return load("res://addons/gaea/assets/slots/diamond.svg")
 
 	return load("res://addons/gaea/assets/slots/circle.svg")
+
 
 func _make_custom_tooltip(for_text: String) -> Object:
 	var rich_text_label: RichTextLabel = RichTextLabel.new()
