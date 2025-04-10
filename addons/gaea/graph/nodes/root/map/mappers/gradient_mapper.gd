@@ -10,9 +10,13 @@ func get_data(passed_data:Array[Dictionary], _output_port: int, _area: AABB, gen
 
 	var grid: Dictionary[Vector3i, GaeaMaterial]
 
+	if not is_instance_valid(gradient):
+		return grid
+
 	for cell in grid_data:
 		if grid_data.get(cell) == null:
 			continue
+
 		var material: GaeaMaterial = gradient.sample(grid_data.get(cell))
 		if is_instance_valid(material):
 			grid[cell] = material.get_resource()
