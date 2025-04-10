@@ -29,10 +29,10 @@ func update() -> void:
 	for idx: int in gradient.points.size():
 		var start_offset: float = gradient.points.get(idx).get(&"offset", 0.0)
 		var end_offset: float
-		if idx - 1 < 0:
+		if idx + 1 >= gradient.points.size():
 			end_offset = 1.0
 		else:
-			end_offset = gradient.points.get(idx - 1).get(&"offset", 0.0)
+			end_offset = gradient.points.get(idx + 1).get(&"offset", 0.0)
 		var gaea_material: GaeaMaterial = gradient.points.get(idx).get(&"material", null)
 		if not is_instance_valid(gaea_material):
 			continue

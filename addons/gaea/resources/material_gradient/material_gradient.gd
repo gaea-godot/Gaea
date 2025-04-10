@@ -50,7 +50,7 @@ func _init() -> void:
 func _sort_points() -> void:
 	points.sort_custom(
 		func(point_a: Dictionary, point_b: Dictionary) -> bool:
-			return point_a.get(&"offset", 0.0) > point_b.get(&"offset", 0.0)
+			return point_a.get(&"offset", 0.0) < point_b.get(&"offset", 0.0)
 	)
 	points_sorted.emit()
 
@@ -59,8 +59,13 @@ func sample(value: float) -> GaeaMaterial:
 	var material: GaeaMaterial
 
 
-	for point: Dictionary in points:
-		if value >= point.get(&"offset", INF):
-			return point.get(&"material")
+	for idx: int in points.size():
+		var next_point_offset: float
+		if (idx + 1) >= points.size():
+			next_point_offset = INF
+		else:
+			next_point_offset = points.get(idx + 1).get(&"offset", INF)
+		if value < next_point_offset:
+			return points.get(idx).get(&"material")
 
 	return material
