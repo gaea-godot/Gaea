@@ -1,8 +1,7 @@
 @tool
 extends GaeaNodeResource
 
-
-func get_data(_output_port: int, area: AABB, generator_data: GaeaData) -> Dictionary[Vector3i, float]:
+func get_data(_passed_data:Array[Dictionary], _output_port: int, area: AABB, generator_data: GaeaData) -> Dictionary:
 	var start: float = get_arg("start", generator_data)
 	var end: float = get_arg("end", generator_data)
 	var new_grid: Dictionary[Vector3i, float]
