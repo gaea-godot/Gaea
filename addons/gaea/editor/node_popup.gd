@@ -32,7 +32,7 @@ func populate(selected: Array) -> void:
 
 		set_item_checked(get_item_index(Action.ENABLE_TINT), selected.front().tint_color_enabled)
 		set_item_checked(get_item_index(Action.ENABLE_AUTO_SHRINK), selected.front().autoshrink_enabled)
-
+		size = get_contents_minimum_size()
 
 
 func _on_id_pressed(id: int) -> void:

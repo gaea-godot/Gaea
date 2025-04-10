@@ -22,7 +22,7 @@ func populate(connection: Dictionary) -> void:
 	current_connection = connection
 	add_item("Disconnect", Action.DISCONNECT)
 	add_item("Insert New Reroute", Action.INSERT_NEW_REROUTE)
-
+	size = get_contents_minimum_size()
 
 func _on_id_pressed(id: int) -> void:
 	match id:

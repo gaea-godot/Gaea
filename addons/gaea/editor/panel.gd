@@ -31,12 +31,25 @@ const _RerouteNode = preload("uid://bs40iof8ipbkq")
 
 
 func _ready() -> void:
+	if is_part_of_edited_scene():
+		return
 	_reload_node_tree_button.icon = preload("../assets/reload_tree.svg")
 	_reload_parameters_list_button.icon = preload("../assets/reload_variables_list.svg")
 	_save_button.icon = EditorInterface.get_base_control().get_theme_icon(&"Save", &"EditorIcons")
 	_load_button.icon = EditorInterface.get_base_control().get_theme_icon(&"Load", &"EditorIcons")
 	_window_popout_button.icon = EditorInterface.get_base_control().get_theme_icon(&"MakeFloating", &"EditorIcons")
 	_create_node_panel.add_theme_stylebox_override(&"panel", EditorInterface.get_base_control().get_theme_stylebox(&"panel", &"PopupPanel"))
+
+	if not EditorInterface.is_multi_window_enabled():
+		_window_popout_button.disabled = true
+		_window_popout_button.tooltip_text = _get_multiwindow_support_tooltip_text()
+
+	var add_node_button = Button.new()
+	add_node_button.text = "Add Node..."
+	add_node_button.pressed.connect(_popup_create_node_menu_at_mouse)
+	var container := _graph_edit.get_menu_hbox()
+	container.add_child(add_node_button)
+	container.move_child(add_node_button, 0)
 
 
 func populate(node: GaeaGenerator) -> void:
@@ -88,8 +101,10 @@ func _on_data_changed() -> void:
 
 
 func _popup_create_node_menu_at_mouse() -> void:
-	_create_node_popup.position = get_global_mouse_position() as Vector2i + get_window().position
 	_node_creation_target = _graph_edit.get_local_mouse_position()
+	_create_node_popup.position = Vector2i(get_global_mouse_position())
+	if not EditorInterface.get_editor_settings().get_setting("interface/editor/single_window_mode"):
+		_create_node_popup.position += get_window().position
 	_create_node_popup.popup()
 	_search_bar.grab_focus()
 
@@ -132,17 +147,19 @@ func _add_node(resource: GaeaNodeResource) -> GraphNode:
 func _popup_node_context_menu_at_mouse(selected_nodes: Array) -> void:
 	_node_popup.clear()
 	_node_popup.populate(selected_nodes)
-
-	_node_popup.position = get_global_mouse_position() as Vector2i + get_window().position
+	_node_popup.position = Vector2i(get_global_mouse_position())
+	if not EditorInterface.get_editor_settings().get_setting("interface/editor/single_window_mode"):
+		_node_popup.position += get_window().position
 	_node_popup.popup()
 
 
 func _popup_link_context_menu_at_mouse(connexion: Dictionary) -> void:
+	_node_creation_target = _graph_edit.get_local_mouse_position()
 	_link_popup.clear()
 	_link_popup.populate(connexion)
-
-	_link_popup.position = get_global_mouse_position() as Vector2i + get_window().position
-	_node_creation_target = _graph_edit.get_local_mouse_position()
+	_link_popup.position = Vector2i(get_global_mouse_position())
+	if not EditorInterface.get_editor_settings().get_setting("interface/editor/single_window_mode"):
+		_link_popup.position += get_window().positionion
 	_link_popup.popup()
 
 
@@ -450,3 +467,15 @@ func _local_to_grid(local_position: Vector2, grid_offset: Vector2 = Vector2.ZERO
 
 func _on_create_node_popup_close_requested() -> void:
 	_create_node_popup.hide()
+
+
+func _get_multiwindow_support_tooltip_text() -> String:
+	# Adapted from https://github.com/godotengine/godot/blob/a8598cd8e261716fa3addb6f10bb57c03a061be9/editor/editor_node.cpp#L4725-L4737
+	if EditorInterface.get_editor_settings().get_setting("interface/editor/single_window_mode"):
+		return tr("Multi-window support is not available because Interface > Editor > Single Window Mode is enabled in the editor settings.")
+	elif not EditorInterface.get_editor_settings().get_setting("interface/multi_window/enable"):
+		return tr("Multi-window support is not available because Interface > Multi Window > Enable is disabled in the editor settings.")
+	elif DisplayServer.has_feature(DisplayServer.FEATURE_SUBWINDOWS):
+		return tr("Multi-window support is not available because the `--single-window` command line argument was used to start the editor.")
+	else:
+		return tr("Multi-window support is not available because the current platform doesn't support multiple windows.")

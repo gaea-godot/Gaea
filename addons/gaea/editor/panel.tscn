@@ -159,7 +159,7 @@ layout_mode = 2
 [node name="WindowPopoutButton" type="Button" parent="Editor/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
-tooltip_text = "Make the Gaea editor floating"
+tooltip_text = "Make the Gaea editor floating."
 icon = SubResource("ImageTexture_k2fg6")
 flat = true
 
