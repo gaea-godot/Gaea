@@ -294,7 +294,7 @@ func _on_graph_edit_connection_to_empty(_from_node: StringName, _from_port: int,
 
 
 func _notification(what: int) -> void:
-	if what == NOTIFICATION_EDITOR_PRE_SAVE:
+	if what == NOTIFICATION_EDITOR_PRE_SAVE and not is_part_of_edited_scene():
 		_save_data()
 
 
