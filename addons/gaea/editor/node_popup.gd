@@ -10,6 +10,8 @@ signal create_node_popup_requested
 
 
 func _ready() -> void:
+	if is_part_of_edited_scene():
+		return
 	hide()
 	id_pressed.connect(_on_id_pressed)
 
