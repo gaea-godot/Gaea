@@ -172,6 +172,7 @@ right_disconnects = true
 script = ExtResource("2_cdav6")
 
 [node name="Margin" type="MarginContainer" parent="Editor/VBoxContainer/GraphEdit"]
+z_index = 50
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
