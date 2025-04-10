@@ -81,11 +81,15 @@ func update() -> void:
 	)
 	node.generator.data.cache.clear()
 
+	_draw_grid(data, resolution)
+
+
+func _draw_grid(grid: Dictionary, resolution: Vector2) -> void:
 	var image: Image = Image.create_empty(resolution.x, resolution.y, true, Image.FORMAT_RGBA8)
 	for x: int in resolution.x:
 		for y: int in resolution.y:
 			var color: Color
-			var value = data.get(Vector3i(x, y, 0))
+			var value = grid.get(Vector3i(x, y, 0))
 			if value == null:
 				continue
 			match type:

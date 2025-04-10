@@ -27,7 +27,7 @@ const _RerouteNode = preload("uid://bs40iof8ipbkq")
 @onready var _window_popout_button: Button = $Editor/VBoxContainer/HBoxContainer/WindowPopoutButton
 @onready var _window_popout_separator: VSeparator = $Editor/VBoxContainer/HBoxContainer/WindowPopoutSeparator
 @onready var _bottom_note_label: RichTextLabel = %BottomNote
-
+@onready var _output_preview: TextureRect = %OutputPreview
 
 
 func _ready() -> void:
@@ -42,15 +42,27 @@ func _ready() -> void:
 func populate(node: GaeaGenerator) -> void:
 	_remove_children()
 	_output_node = null
-	if is_instance_valid(_selected_generator) and _selected_generator.data_changed.is_connected(_on_data_changed):
-		_selected_generator.data_changed.disconnect(_on_data_changed)
+	var _prev_generator := _selected_generator
+
+	if is_instance_valid(_prev_generator):
+		if _prev_generator.data_changed.is_connected(_on_data_changed):
+			_prev_generator.data_changed.disconnect(_on_data_changed)
+		if _prev_generator.generation_finished.is_connected(_output_preview._on_generation_finished):
+			_prev_generator.generation_finished.disconnect(_output_preview._on_generation_finished)
+
 	_selected_generator = node
+
 	if not _selected_generator.data_changed.is_connected(_on_data_changed):
 		_selected_generator.data_changed.connect(_on_data_changed)
+
 	if node.data == null:
 		_editor.hide()
 		_no_data.show()
 	else:
+		if _prev_generator != _selected_generator:
+			_output_preview.reset_texture()
+			_selected_generator.generation_finished.connect(_output_preview._on_generation_finished)
+			_output_preview.generator = _selected_generator
 		_editor.show()
 		_no_data.hide()
 		if not _selected_generator.data.layer_count_modified.is_connected(_update_output_node):
@@ -66,8 +78,11 @@ func unpopulate() -> void:
 			_selected_generator.data.layer_count_modified.disconnect(_update_output_node)
 		if _selected_generator.data_changed.is_connected(_on_data_changed):
 			_selected_generator.data_changed.disconnect(_on_data_changed)
+		if _selected_generator.generation_finished.is_connected(_output_preview._on_generation_finished):
+			_selected_generator.generation_finished.disconnect(_output_preview._on_generation_finished)
 
 	_selected_generator = null
+	_output_preview.generator = null
 
 	_remove_children()
 
