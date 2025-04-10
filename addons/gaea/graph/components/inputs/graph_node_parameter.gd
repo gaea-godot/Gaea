@@ -8,23 +8,19 @@ extends Control
 
 var add_output_slot: bool = false
 var resource: GaeaNodeArgument
-var _input_idx: int = 0
-var _graph_node: GaeaGraphNode
+## Reference to the [GaeaGraphNode] instance
+var graph_node: GaeaGraphNode
+## ID of the slot in the [GaeaGraphNode].
+var slot_idx: int
 
 signal param_value_changed(new_value: Variant)
 
 @onready var label: Label = $Label
 
 
-## Reference to the [GaeaGraphNode] instance
-var graph_node: GaeaGraphNode
-## ID of the slot in the [GaeaGraphNode].
-var idx: int
-
-
-func initialize(_graph_node: GaeaGraphNode, _idx: int) -> void:
+func initialize(_graph_node: GaeaGraphNode, _slot_idx: int) -> void:
 	graph_node = _graph_node
-	idx = _idx
+	slot_idx = _slot_idx
 
 
 func _ready() -> void:
@@ -40,7 +36,7 @@ func _ready() -> void:
 	param_value_changed.connect(graph_node._on_param_value_changed.bind(self, resource.name))
 
 	graph_node.set_slot(
-		idx,
+		slot_idx,
 		add_input_slot, input_type, GaeaGraphNode.get_color_from_type(input_type),
 		add_output_slot, input_type, GaeaGraphNode.get_color_from_type(input_type),
 		GaeaGraphNode.get_icon_from_type(input_type), GaeaGraphNode.get_icon_from_type(input_type),
@@ -59,12 +55,3 @@ func set_param_value(_new_value: Variant) -> void:
 
 func set_label_text(new_text: String) -> void:
 	label.text = new_text
-
-
-#func _on_graph_node_connections_updated() -> void:
-	#var _connected_node: GaeaGraphNode = _graph_node.get_connected_input_node(connection_idx)
-	#if _connected_node != null:
-		#hide()
-	#else:
-		#show()
-	#param_value_changed.emit()

@@ -516,197 +516,6 @@ is_output = false
 data = {}
 salt = 397848346
 
-[sub_resource type="Resource" id="Resource_t5iy4"]
-script = ExtResource("4_5ecun")
-type = 1
-name = &"max_cells"
-default_value = 100
-hint = Dictionary[String, Variant]({
-"min": 0
-})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
-
-[sub_resource type="Resource" id="Resource_mqjma"]
-script = ExtResource("4_5ecun")
-type = 10
-name = &"starting_position"
-default_value = null
-hint = Dictionary[String, Variant]({})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
-
-[sub_resource type="Resource" id="Resource_e7u4k"]
-script = ExtResource("4_5ecun")
-type = 6
-name = &"Direction Chances"
-default_value = null
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
-
-[sub_resource type="Resource" id="Resource_cavh3"]
-script = ExtResource("4_5ecun")
-type = 1
-name = &"direction_change_chance"
-default_value = 50
-hint = Dictionary[String, Variant]({
-"max": 100,
-"min": 0,
-"suffix": "%"
-})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
-
-[sub_resource type="Resource" id="Resource_gr4i8"]
-script = ExtResource("4_5ecun")
-type = 1
-name = &"rotate_90_weight"
-default_value = 40
-hint = Dictionary[String, Variant]({
-"min": 0
-})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
-
-[sub_resource type="Resource" id="Resource_6jvre"]
-script = ExtResource("4_5ecun")
-type = 1
-name = &"rotate_-90_weight"
-default_value = 40
-hint = Dictionary[String, Variant]({
-"min": 0
-})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
-
-[sub_resource type="Resource" id="Resource_qrvs2"]
-script = ExtResource("4_5ecun")
-type = 1
-name = &"rotate_180_weight"
-default_value = 40
-hint = Dictionary[String, Variant]({
-"min": 0
-})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
-
-[sub_resource type="Resource" id="Resource_75e24"]
-script = ExtResource("4_5ecun")
-type = 6
-name = &"Walker Chance"
-default_value = null
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
-
-[sub_resource type="Resource" id="Resource_ecg40"]
-script = ExtResource("4_5ecun")
-type = 1
-name = &"new_walker_chance"
-default_value = 5
-hint = Dictionary[String, Variant]({
-"max": 100,
-"min": 0,
-"suffix": "%"
-})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
-
-[sub_resource type="Resource" id="Resource_ofuto"]
-script = ExtResource("4_5ecun")
-type = 1
-name = &"destroy_walker_chance"
-default_value = 5
-hint = Dictionary[String, Variant]({
-"max": 100,
-"min": 0,
-"suffix": "%"
-})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
-
-[sub_resource type="Resource" id="Resource_bmpt0"]
-script = ExtResource("4_5ecun")
-type = 1
-name = &"bigger_room_chance"
-default_value = 15
-hint = Dictionary[String, Variant]({
-"max": 100,
-"min": 0,
-"suffix": "%"
-})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
-
-[sub_resource type="Resource" id="Resource_yw71v"]
-script = ExtResource("4_5ecun")
-type = 4
-name = &"bigger_room_size_range"
-default_value = {
-"max": 3.0,
-"min": 2.0
-}
-hint = Dictionary[String, Variant]({
-"allow_lesser": false,
-"max": 5.0,
-"min": 1.0,
-"step": 1.0,
-"suffix": "²"
-})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
-
-[sub_resource type="Resource" id="Resource_vjhf4"]
-script = ExtResource("5_iooy1")
-left_enabled = false
-left_type = 0
-left_label = ""
-right_enabled = true
-right_type = 0
-right_label = "Data [1]"
-metadata/_custom_type_script = "uid://ote622wl6axc"
-
-[sub_resource type="Resource" id="Resource_5mmfj"]
-script = ExtResource("9_5mmfj")
-second_axis = 1
-input_slots = Array[ExtResource("5_iooy1")]([])
-args = Array[ExtResource("4_5ecun")]([SubResource("Resource_t5iy4"), SubResource("Resource_mqjma"), SubResource("Resource_e7u4k"), SubResource("Resource_cavh3"), SubResource("Resource_gr4i8"), SubResource("Resource_6jvre"), SubResource("Resource_qrvs2"), SubResource("Resource_75e24"), SubResource("Resource_ecg40"), SubResource("Resource_ofuto"), SubResource("Resource_bmpt0"), SubResource("Resource_yw71v")])
-output_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_vjhf4")])
-title = "FloorWalkerXY"
-description = "Generates a floor by using [b]walkers[/b], which move around and place floor where they walk, while changing direction and/or spawning new walkers.
-Walks along the [code]X[/bg][/c] and [code]Y[/bg][/c] axis."
-is_output = false
-data = {
-&"Direction Chances": null,
-&"Walker Chance": null,
-&"bigger_room_chance": 15.0,
-&"bigger_room_size_range": {
-"max": 3.0,
-"min": 2.0
-},
-&"destroy_walker_chance": 5.0,
-&"direction_change_chance": 50.0,
-&"max_cells": 150.0,
-&"new_walker_chance": 5.0,
-&"rotate_-90_weight": 40.0,
-&"rotate_180_weight": 20.0,
-&"rotate_90_weight": 40.0,
-&"starting_position": Vector3(24, 24, 0)
-}
-salt = 2719450087
-metadata/_custom_type_script = "uid://brb1clh2y2bv0"
-
 [sub_resource type="Resource" id="Resource_81ci0"]
 script = ExtResource("5_iooy1")
 left_enabled = true
@@ -974,19 +783,6 @@ data = {}
 salt = 845489457
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"
 
-[sub_resource type="Resource" id="Resource_le1sa"]
-script = ExtResource("18_vyp3c")
-input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_vr2bg")])
-args = Array[ExtResource("4_5ecun")]([SubResource("Resource_5n5am")])
-output_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_fraxp")])
-title = "RandomFilter"
-description = "Randomly filters [param]map[/bg][/c] to only the cells that pass the [param]chance[/bg][/c] check."
-is_output = false
-data = {
-&"chance": 15.0
-}
-salt = 2691821230
-
 [sub_resource type="Resource" id="Resource_58cm0"]
 script = ExtResource("4_5ecun")
 type = 10
@@ -1194,15 +990,219 @@ Vector2i(0, 0): false
 salt = 3208191914
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"
 
+[sub_resource type="Resource" id="Resource_t5iy4"]
+script = ExtResource("4_5ecun")
+type = 1
+name = &"max_cells"
+default_value = 100
+hint = Dictionary[String, Variant]({
+"min": 0
+})
+disable_input_slot = false
+add_output_slot = false
+metadata/_custom_type_script = "uid://bh3sajxnmp14w"
+
+[sub_resource type="Resource" id="Resource_mqjma"]
+script = ExtResource("4_5ecun")
+type = 10
+name = &"starting_position"
+default_value = null
+hint = Dictionary[String, Variant]({})
+disable_input_slot = false
+add_output_slot = false
+metadata/_custom_type_script = "uid://bh3sajxnmp14w"
+
+[sub_resource type="Resource" id="Resource_e7u4k"]
+script = ExtResource("4_5ecun")
+type = 6
+name = &"Direction Chances"
+default_value = null
+disable_input_slot = false
+add_output_slot = false
+metadata/_custom_type_script = "uid://bh3sajxnmp14w"
+
+[sub_resource type="Resource" id="Resource_cavh3"]
+script = ExtResource("4_5ecun")
+type = 1
+name = &"direction_change_chance"
+default_value = 50
+hint = Dictionary[String, Variant]({
+"max": 100,
+"min": 0,
+"suffix": "%"
+})
+disable_input_slot = false
+add_output_slot = false
+metadata/_custom_type_script = "uid://bh3sajxnmp14w"
+
+[sub_resource type="Resource" id="Resource_gr4i8"]
+script = ExtResource("4_5ecun")
+type = 1
+name = &"rotate_90_weight"
+default_value = 40
+hint = Dictionary[String, Variant]({
+"min": 0
+})
+disable_input_slot = false
+add_output_slot = false
+metadata/_custom_type_script = "uid://bh3sajxnmp14w"
+
+[sub_resource type="Resource" id="Resource_6jvre"]
+script = ExtResource("4_5ecun")
+type = 1
+name = &"rotate_-90_weight"
+default_value = 40
+hint = Dictionary[String, Variant]({
+"min": 0
+})
+disable_input_slot = false
+add_output_slot = false
+metadata/_custom_type_script = "uid://bh3sajxnmp14w"
+
+[sub_resource type="Resource" id="Resource_qrvs2"]
+script = ExtResource("4_5ecun")
+type = 1
+name = &"rotate_180_weight"
+default_value = 40
+hint = Dictionary[String, Variant]({
+"min": 0
+})
+disable_input_slot = false
+add_output_slot = false
+metadata/_custom_type_script = "uid://bh3sajxnmp14w"
+
+[sub_resource type="Resource" id="Resource_75e24"]
+script = ExtResource("4_5ecun")
+type = 6
+name = &"Walker Chance"
+default_value = null
+disable_input_slot = false
+add_output_slot = false
+metadata/_custom_type_script = "uid://bh3sajxnmp14w"
+
+[sub_resource type="Resource" id="Resource_ecg40"]
+script = ExtResource("4_5ecun")
+type = 1
+name = &"new_walker_chance"
+default_value = 5
+hint = Dictionary[String, Variant]({
+"max": 100,
+"min": 0,
+"suffix": "%"
+})
+disable_input_slot = false
+add_output_slot = false
+metadata/_custom_type_script = "uid://bh3sajxnmp14w"
+
+[sub_resource type="Resource" id="Resource_ofuto"]
+script = ExtResource("4_5ecun")
+type = 1
+name = &"destroy_walker_chance"
+default_value = 5
+hint = Dictionary[String, Variant]({
+"max": 100,
+"min": 0,
+"suffix": "%"
+})
+disable_input_slot = false
+add_output_slot = false
+metadata/_custom_type_script = "uid://bh3sajxnmp14w"
+
+[sub_resource type="Resource" id="Resource_bmpt0"]
+script = ExtResource("4_5ecun")
+type = 1
+name = &"bigger_room_chance"
+default_value = 15
+hint = Dictionary[String, Variant]({
+"max": 100,
+"min": 0,
+"suffix": "%"
+})
+disable_input_slot = false
+add_output_slot = false
+metadata/_custom_type_script = "uid://bh3sajxnmp14w"
+
+[sub_resource type="Resource" id="Resource_yw71v"]
+script = ExtResource("4_5ecun")
+type = 4
+name = &"bigger_room_size_range"
+default_value = {
+"max": 3.0,
+"min": 2.0
+}
+hint = Dictionary[String, Variant]({
+"allow_lesser": false,
+"max": 5.0,
+"min": 1.0,
+"step": 1.0,
+"suffix": "²"
+})
+disable_input_slot = false
+add_output_slot = false
+metadata/_custom_type_script = "uid://bh3sajxnmp14w"
+
+[sub_resource type="Resource" id="Resource_vjhf4"]
+script = ExtResource("5_iooy1")
+left_enabled = false
+left_type = 0
+left_label = ""
+right_enabled = true
+right_type = 0
+right_label = "Data [1]"
+metadata/_custom_type_script = "uid://ote622wl6axc"
+
+[sub_resource type="Resource" id="Resource_5mmfj"]
+script = ExtResource("9_5mmfj")
+second_axis = 1
+input_slots = Array[ExtResource("5_iooy1")]([])
+args = Array[ExtResource("4_5ecun")]([SubResource("Resource_t5iy4"), SubResource("Resource_mqjma"), SubResource("Resource_e7u4k"), SubResource("Resource_cavh3"), SubResource("Resource_gr4i8"), SubResource("Resource_6jvre"), SubResource("Resource_qrvs2"), SubResource("Resource_75e24"), SubResource("Resource_ecg40"), SubResource("Resource_ofuto"), SubResource("Resource_bmpt0"), SubResource("Resource_yw71v")])
+output_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_vjhf4")])
+title = "FloorWalkerXY"
+description = "Generates a floor by using [b]walkers[/b], which move around and place floor where they walk, while changing direction and/or spawning new walkers.
+Walks along the [code]X[/bg][/c] and [code]Y[/bg][/c] axis."
+is_output = false
+data = {
+&"Direction Chances": null,
+&"Walker Chance": null,
+&"bigger_room_chance": 15.0,
+&"bigger_room_size_range": {
+"max": 3.0,
+"min": 2.0
+},
+&"destroy_walker_chance": 5.0,
+&"direction_change_chance": 50.0,
+&"max_cells": 150.0,
+&"new_walker_chance": 5.0,
+&"rotate_-90_weight": 40.0,
+&"rotate_180_weight": 20.0,
+&"rotate_90_weight": 40.0,
+&"starting_position": Vector3(24, 24, 0)
+}
+salt = 2719450087
+metadata/_custom_type_script = "uid://brb1clh2y2bv0"
+
+[sub_resource type="Resource" id="Resource_le1sa"]
+script = ExtResource("18_vyp3c")
+input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_vr2bg")])
+args = Array[ExtResource("4_5ecun")]([SubResource("Resource_5n5am")])
+output_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_fraxp")])
+title = "RandomFilter"
+description = "Randomly filters [param]map[/bg][/c] to only the cells that pass the [param]chance[/bg][/c] check."
+is_output = false
+data = {
+&"chance": 15.0
+}
+salt = 2691821230
+
 [resource]
 script = ExtResource("10_drb3t")
 layers = Array[ExtResource("2_mfpnn")]([SubResource("Resource_nr2x3"), SubResource("Resource_entu7"), SubResource("Resource_q5q5d")])
 logging = 0
 connections = Array[Dictionary]([{
-"from_node": 16,
+"from_node": 15,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 22,
+"to_node": 21,
 "to_port": 1
 }, {
 "from_node": 7,
@@ -1211,28 +1211,28 @@ connections = Array[Dictionary]([{
 "to_node": 6,
 "to_port": 1
 }, {
-"from_node": 24,
+"from_node": 22,
 "from_port": 0,
 "keep_alive": false,
 "to_node": 6,
 "to_port": 0
 }, {
-"from_node": 20,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 19,
-"to_port": 1
-}, {
 "from_node": 19,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 28,
+"to_node": 18,
+"to_port": 1
+}, {
+"from_node": 18,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 26,
 "to_port": 0
 }, {
 "from_node": 3,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 13,
+"to_node": 12,
 "to_port": 1
 }, {
 "from_node": 2,
@@ -1244,13 +1244,13 @@ connections = Array[Dictionary]([{
 "from_node": 1,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 28,
+"to_node": 26,
 "to_port": 2
 }, {
 "from_node": 4,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 29,
+"to_node": 27,
 "to_port": 1
 }, {
 "from_node": 9,
@@ -1259,10 +1259,10 @@ connections = Array[Dictionary]([{
 "to_node": 5,
 "to_port": 1
 }, {
-"from_node": 29,
+"from_node": 27,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 23,
+"to_node": 30,
 "to_port": 0
 }, {
 "from_node": 5,
@@ -1271,43 +1271,43 @@ connections = Array[Dictionary]([{
 "to_node": 0,
 "to_port": 0
 }, {
-"from_node": 28,
+"from_node": 26,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 30,
+"to_node": 28,
 "to_port": 1
 }, {
 "from_node": 8,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 30,
+"to_node": 28,
 "to_port": 2
 }, {
-"from_node": 27,
+"from_node": 25,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 19,
+"to_node": 18,
 "to_port": 0
 }, {
-"from_node": 26,
+"from_node": 24,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 27,
+"to_node": 25,
 "to_port": 0
 }, {
-"from_node": 26,
+"from_node": 24,
 "from_port": 0,
 "keep_alive": false,
 "to_node": 1,
 "to_port": 0
 }, {
-"from_node": 15,
+"from_node": 14,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 29,
+"to_node": 27,
 "to_port": 0
 }, {
-"from_node": 15,
+"from_node": 14,
 "from_port": 0,
 "keep_alive": false,
 "to_node": 10,
@@ -1319,49 +1319,49 @@ connections = Array[Dictionary]([{
 "to_node": 5,
 "to_port": 0
 }, {
-"from_node": 17,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 18,
-"to_port": 0
-}, {
-"from_node": 18,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 30,
-"to_port": 0
-}, {
-"from_node": 25,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 14,
-"to_port": 0
-}, {
-"from_node": 14,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 15,
-"to_port": 0
-}, {
-"from_node": 22,
+"from_node": 16,
 "from_port": 0,
 "keep_alive": false,
 "to_node": 17,
 "to_port": 0
 }, {
-"from_node": 11,
+"from_node": 17,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 25,
-"to_port": 0
-}, {
-"from_node": 11,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 22,
+"to_node": 28,
 "to_port": 0
 }, {
 "from_node": 23,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 13,
+"to_port": 0
+}, {
+"from_node": 13,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 14,
+"to_port": 0
+}, {
+"from_node": 21,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 16,
+"to_port": 0
+}, {
+"from_node": 29,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 23,
+"to_port": 0
+}, {
+"from_node": 29,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 21,
+"to_port": 0
+}, {
+"from_node": 30,
 "from_port": 0,
 "keep_alive": false,
 "to_node": 8,
@@ -1379,43 +1379,43 @@ connections = Array[Dictionary]([{
 "to_node": 8,
 "to_port": 2
 }, {
+"from_node": 29,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 11,
+"to_port": 0
+}, {
 "from_node": 11,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 12,
+"to_node": 22,
 "to_port": 0
 }, {
 "from_node": 12,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 24,
+"to_node": 26,
+"to_port": 3
+}, {
+"from_node": 24,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 20,
+"to_port": 0
+}, {
+"from_node": 20,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 12,
 "to_port": 0
 }, {
 "from_node": 13,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 28,
-"to_port": 3
-}, {
-"from_node": 26,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 21,
-"to_port": 0
-}, {
-"from_node": 21,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 13,
-"to_port": 0
-}, {
-"from_node": 14,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 26,
+"to_node": 24,
 "to_port": 0
 }])
-resources = Array[ExtResource("3_qhqpc")]([SubResource("Resource_iqurr"), SubResource("Resource_d8638"), SubResource("Resource_i22ej"), SubResource("Resource_15p8x"), SubResource("Resource_ql431"), SubResource("Resource_jipni"), SubResource("Resource_x7tuv"), SubResource("Resource_4pc45"), SubResource("Resource_0c54b"), SubResource("Resource_ogkvd"), SubResource("Resource_x7xkf"), SubResource("Resource_5mmfj"), SubResource("Resource_1g3g8"), SubResource("Resource_3sv33"), SubResource("Resource_xh5p7"), SubResource("Resource_dl7qb"), SubResource("Resource_wnynr"), SubResource("Resource_3epfb"), SubResource("Resource_gtnsu"), SubResource("Resource_1stj3"), SubResource("Resource_oc7x7"), SubResource("Resource_8w5fv"), SubResource("Resource_6slir"), SubResource("Resource_le1sa"), SubResource("Resource_tr8qa"), SubResource("Resource_du0iw"), SubResource("Resource_4wy4r"), SubResource("Resource_d7dhr"), SubResource("Resource_wctuo"), SubResource("Resource_xer5s"), ExtResource("7_du0iw")])
+resources = Array[ExtResource("3_qhqpc")]([SubResource("Resource_iqurr"), SubResource("Resource_d8638"), SubResource("Resource_i22ej"), SubResource("Resource_15p8x"), SubResource("Resource_ql431"), SubResource("Resource_jipni"), SubResource("Resource_x7tuv"), SubResource("Resource_4pc45"), SubResource("Resource_0c54b"), SubResource("Resource_ogkvd"), SubResource("Resource_x7xkf"), SubResource("Resource_1g3g8"), SubResource("Resource_3sv33"), SubResource("Resource_xh5p7"), SubResource("Resource_dl7qb"), SubResource("Resource_wnynr"), SubResource("Resource_3epfb"), SubResource("Resource_gtnsu"), SubResource("Resource_1stj3"), SubResource("Resource_oc7x7"), SubResource("Resource_8w5fv"), SubResource("Resource_6slir"), SubResource("Resource_tr8qa"), SubResource("Resource_du0iw"), SubResource("Resource_4wy4r"), SubResource("Resource_d7dhr"), SubResource("Resource_wctuo"), SubResource("Resource_xer5s"), ExtResource("7_du0iw"), SubResource("Resource_5mmfj"), SubResource("Resource_le1sa")])
 node_data = Array[Dictionary]([{
 "name": &"_GraphNode_30039",
 "position": Vector2(820, 900)
@@ -1450,9 +1450,6 @@ node_data = Array[Dictionary]([{
 "name": &"_GraphNode_27791",
 "position": Vector2(320, 880),
 &"type": 0
-}, {
-"name": &"BaseNode6",
-"position": Vector2(-1360, 100)
 }, {
 "name": &"_GraphNode_27967",
 "position": Vector2(-560, 880),
@@ -1493,9 +1490,6 @@ node_data = Array[Dictionary]([{
 "name": &"BaseNode5",
 "position": Vector2(-360, 580)
 }, {
-"name": &"_GraphNode_29881",
-"position": Vector2(820, 560)
-}, {
 "name": &"_GraphNode_52356",
 "position": Vector2(300, 1300)
 }, {
@@ -1518,6 +1512,12 @@ node_data = Array[Dictionary]([{
 }, {
 "name": &"BaseNode10",
 "position": Vector2(1780, 500)
+}, {
+"name": &"BaseNode6",
+"position": Vector2(-1360, 100)
+}, {
+"name": &"_GraphNode_29881",
+"position": Vector2(800, 560)
 }])
 parameters = Dictionary[StringName, Variant]({
 &"Chest": {
@@ -1618,7 +1618,7 @@ other = {
 "tint_color_enabled": true,
 "title": "Walls"
 }],
-"scroll_offset": Vector2(-525.882, -248.038)
+"scroll_offset": Vector2(-130.191, 182.87)
 }
 Chest = SubResource("Resource_j6vep")
 FloorMaterial = SubResource("Resource_e1h74")

@@ -1,7 +1,6 @@
 @tool
 extends GaeaGraphNodeParameter
 
-
 @onready var grid_container: GridContainer = $GridContainer
 
 
@@ -43,5 +42,5 @@ func set_param_value(new_value: Variant) -> void:
 
 func _get_button_pos(idx: int) -> Vector2i:
 	var row: int = ceili((float(idx) + 1.0) / 5.0)
-	var column: int = (idx + 1.0) - ((floori(float(idx + 1.0)/5.0))*5)
+	var column: int = roundi((idx + 1.0) - ((floori(float(idx + 1.0) / 5.0)) * 5.0))
 	return Vector2i(column, row) - Vector2i(3, 3)

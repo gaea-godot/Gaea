@@ -63,8 +63,8 @@ func _on_id_pressed(id: int) -> void:
 			var selected: Array = graph_edit.get_selected()
 			var node: GraphElement = selected.front()
 			if node is GraphFrame:
-				var popup: PopupPanel = PopupPanel.new()
-				popup.position = owner.get_global_mouse_position() as Vector2i
+				var _popup: PopupPanel = PopupPanel.new()
+				_popup.position = owner.get_global_mouse_position() as Vector2i
 
 				var vbox_container: VBoxContainer = VBoxContainer.new()
 
@@ -74,15 +74,15 @@ func _on_id_pressed(id: int) -> void:
 
 				var ok_button: Button = Button.new()
 				ok_button.text = "OK"
-				ok_button.pressed.connect(popup.queue_free)
+				ok_button.pressed.connect(_popup.queue_free)
 
 				vbox_container.add_child(color_picker)
 				vbox_container.add_child(ok_button)
 
-				popup.add_child(vbox_container)
+				_popup.add_child(vbox_container)
 
-				owner.add_child(popup)
-				popup.popup()
+				owner.add_child(_popup)
+				_popup.popup()
 		Action.ENABLE_TINT:
 			set_item_checked(idx, not is_item_checked(idx))
 			var selected: Array = graph_edit.get_selected()

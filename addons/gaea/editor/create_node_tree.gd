@@ -7,8 +7,6 @@ signal special_node_selected_for_creation(id: StringName)
 
 const NODES_FOLDER_PATH: String = "res://addons/gaea/graph/nodes/root/"
 
-var _custom_nodes_path: String
-
 @export var description_label: RichTextLabel
 
 

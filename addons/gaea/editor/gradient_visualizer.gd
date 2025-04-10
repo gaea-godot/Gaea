@@ -16,7 +16,7 @@ func _ready() -> void:
 
 
 func update() -> void:
-	var image: Image = Image.create_empty(SIZE.x, SIZE.y, false, Image.FORMAT_RGB8)
+	var image: Image = Image.create_empty(roundi(SIZE.x), roundi(SIZE.y), false, Image.FORMAT_RGB8)
 	for x in ceili(SIZE.x / CHECKERBOARD_SIZE.x):
 		for y in ceili(SIZE.y / CHECKERBOARD_SIZE.y):
 			image.fill_rect(Rect2i(

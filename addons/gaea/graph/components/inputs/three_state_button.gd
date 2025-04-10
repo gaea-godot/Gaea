@@ -30,11 +30,11 @@ func _gui_input(event: InputEvent) -> void:
 					current_state = false
 
 
-func set_state(pressed: bool, checked: bool) -> void:
+func set_state(p_pressed: bool, checked: bool) -> void:
 	if checked:
 		texture_rect.texture = CHECK
 	else:
 		texture_rect.texture = CROSS
 	current_state = checked
-	set_pressed(pressed)
-	texture_rect.visible = pressed
+	set_pressed(p_pressed)
+	texture_rect.visible = p_pressed
