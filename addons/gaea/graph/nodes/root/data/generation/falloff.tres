@@ -38,7 +38,6 @@ left_label = ""
 right_enabled = true
 right_type = 0
 right_label = "Falloff"
-right_show_preview = true
 metadata/_custom_type_script = "uid://ote622wl6axc"
 
 [resource]
