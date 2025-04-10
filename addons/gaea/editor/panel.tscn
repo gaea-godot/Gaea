@@ -117,6 +117,7 @@ grow_vertical = 2
 layout_mode = 2
 
 [node name="SaveButton" type="Button" parent="Editor/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Save data."
 icon = SubResource("ImageTexture_nbnm7")
