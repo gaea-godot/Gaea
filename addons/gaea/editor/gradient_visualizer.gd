@@ -1,8 +1,8 @@
 extends TextureRect
 
 
-const SIZE = Vector2(128, 32)
-const CHECKERBOARD_SIZE = Vector2(16, 16)
+const SIZE = Vector2i(128, 32)
+const CHECKERBOARD_SIZE = Vector2i(16, 16)
 
 var gradient: GaeaMaterialGradient
 
@@ -16,11 +16,11 @@ func _ready() -> void:
 
 
 func update() -> void:
-	var image: Image = Image.create_empty(roundi(SIZE.x), roundi(SIZE.y), false, Image.FORMAT_RGB8)
-	for x in ceili(SIZE.x / CHECKERBOARD_SIZE.x):
-		for y in ceili(SIZE.y / CHECKERBOARD_SIZE.y):
+	var image: Image = Image.create_empty(SIZE.x, SIZE.y, false, Image.FORMAT_RGB8)
+	for x in SIZE.x / CHECKERBOARD_SIZE.x:
+		for y in SIZE.y / CHECKERBOARD_SIZE.y:
 			image.fill_rect(Rect2i(
-					Vector2(x, y) * CHECKERBOARD_SIZE,
+					Vector2i(x, y) * CHECKERBOARD_SIZE,
 					CHECKERBOARD_SIZE
 				),
 				Color.GRAY if (x % 2 == y % 2) else Color.DIM_GRAY
@@ -39,8 +39,8 @@ func update() -> void:
 		var color: Color = Color.TRANSPARENT if not is_instance_valid(gaea_material) else gaea_material.preview_color
 
 		image.fill_rect(Rect2(
-				Vector2(start_offset * SIZE.x, 0.0),
-				Vector2(((end_offset + 0.005) - start_offset) * SIZE.x, SIZE.y)
+				Vector2i(start_offset * SIZE.x, 0.0),
+				Vector2i(((end_offset + 0.005) - start_offset) * SIZE.x, SIZE.y)
 			),
 			color)
 
