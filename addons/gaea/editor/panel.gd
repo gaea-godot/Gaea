@@ -212,11 +212,6 @@ func _save_data() -> void:
 	if not is_instance_valid(_selected_generator) or not is_instance_valid(_selected_generator.data):
 		return
 
-	_selected_generator.data.node_data.clear()
-	_selected_generator.data.resources.clear()
-	_selected_generator.data.connections.clear()
-	_selected_generator.data.other.clear()
-
 	var resources: Array[GaeaNodeResource]
 	var connections: Array[Dictionary] = _graph_edit.get_connection_list()
 	var node_data: Array[Dictionary]
