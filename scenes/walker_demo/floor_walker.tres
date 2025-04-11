@@ -1570,9 +1570,8 @@ parameters = Dictionary[StringName, Variant]({
 "value": SubResource("Resource_kk1e5")
 }
 })
-scroll_offset = Vector2(0, 0)
 other = {
-"frames": [{
+&"frames": [Dictionary[String, Variant]({
 "attached": Array[StringName]([&"_GraphNode_46621"]),
 "autoshrink": true,
 "name": &"_GraphFrame_25941",
@@ -1581,7 +1580,7 @@ other = {
 "tint_color": Color(0.3125, 0.155029, 0.155029, 0.75),
 "tint_color_enabled": true,
 "title": "Get Everything Outside Floor"
-}, {
+}), Dictionary[String, Variant]({
 "attached": Array[StringName]([&"BaseNode5", &"BaseNode9"]),
 "autoshrink": true,
 "name": &"_GraphFrame_25944",
@@ -1590,7 +1589,7 @@ other = {
 "tint_color": Color(0.174225, 0.208835, 0.257812, 0.75),
 "tint_color_enabled": true,
 "title": "Floor"
-}, {
+}), Dictionary[String, Variant]({
 "attached": Array[StringName]([&"_GraphNode_29881", &"_GraphNode_27791", &"_GraphNode_52439", &"_GraphNode_29999", &"_GraphNode_40713", &"_GraphNode_29934", &"_GraphNode_30039"]),
 "autoshrink": true,
 "name": &"_GraphFrame_25938",
@@ -1599,7 +1598,7 @@ other = {
 "tint_color": Color(0.0964966, 0.363281, 0.175698, 0.75),
 "tint_color_enabled": true,
 "title": "Add Vegetation"
-}, {
+}), Dictionary[String, Variant]({
 "attached": Array[StringName]([&"_GraphNode_52356", &"_GraphNode_42528", &"_GraphNode_41447"]),
 "autoshrink": true,
 "name": &"_GraphFrame_25932",
@@ -1608,7 +1607,7 @@ other = {
 "tint_color": Color(0.55, 0.415983, 0.3135, 0.52549),
 "tint_color_enabled": true,
 "title": "Place Chests"
-}, {
+}), Dictionary[String, Variant]({
 "attached": Array[StringName]([&"_GraphNode_46693", &"_GraphNode_25311", &"_GraphNode_52514", &"_GraphNode_46756", &"_GraphNode_73051", &"_GraphNode_25392", &"BaseNode", &"_GraphNode_27759", &"_GraphNode_27752", &"_GraphNode_52319"]),
 "autoshrink": true,
 "name": &"_GraphFrame_25935",
@@ -1617,8 +1616,8 @@ other = {
 "tint_color": Color(0.133333, 0.12549, 0.203922, 1),
 "tint_color_enabled": true,
 "title": "Walls"
-}],
-"scroll_offset": Vector2(-130.191, 182.87)
+})],
+&"scroll_offset": Vector2(-130.191, 182.87)
 }
 Chest = SubResource("Resource_j6vep")
 FloorMaterial = SubResource("Resource_e1h74")

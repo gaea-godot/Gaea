@@ -14,16 +14,17 @@ enum Log { None=0, Execute=1, Traverse=2, Data=4, Args=8 }
 		layer_count_modified.emit()
 		emit_changed()
 @export_flags("Execute", "Traverse", "Data", "Args") var logging:int = Log.None
+## List of all connections between nodes. The value contain the following properties.
+## See [member GraphEdit.connections] for format.
 @export_storage var connections: Array[Dictionary]
 @export_storage var resources: Array[GaeaNodeResource]
 @export_storage var node_data: Array[Dictionary]
 @export_storage var parameters: Dictionary[StringName, Variant]
-@export_storage var scroll_offset: Vector2
 @export_storage var other: Dictionary
 
 var generator: GaeaGenerator
 var cache: Dictionary[GaeaNodeResource, Dictionary] = {}
-
+var scroll_offset: Vector2
 
 func _init() -> void:
 	notify_property_list_changed()
