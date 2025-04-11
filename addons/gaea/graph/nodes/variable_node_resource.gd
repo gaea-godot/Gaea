@@ -14,7 +14,7 @@ func get_data(_passed_data:Array[Dictionary], _output_port: int, _area: AABB, ge
 	return generator_data.parameters.get(get_arg("name", null))
 
 
-static func get_scene() -> PackedScene:
+func get_scene() -> PackedScene:
 	return preload("res://addons/gaea/graph/nodes/variable_node.tscn")
 
 

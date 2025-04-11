@@ -129,3 +129,14 @@ func _is_node_hover_valid(from_node: StringName, _from_port: int, to_node: Strin
 	if from_node == to_node:
 		return false
 	return true
+
+
+## This function converts a local position to a grid position based on the current zoom level and scroll offset.
+## It also applies snapping if enabled in the GraphEdit.
+func local_to_grid(local_position: Vector2, grid_offset: Vector2 = Vector2.ZERO, enable_snapping: bool = true) -> Vector2:
+	local_position = (local_position + scroll_offset) / zoom
+	local_position += grid_offset
+	if enable_snapping and snapping_enabled:
+		return local_position.snapped(Vector2.ONE * snapping_distance)
+	else:
+		return local_position

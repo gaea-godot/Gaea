@@ -26,7 +26,7 @@ signal connections_updated
 
 static var titlebar_styleboxes: Dictionary[SlotTypes, Dictionary]
 var generator: GaeaGenerator
-## List of connections that goes to this node from other nodes. 
+## List of connections that goes to this node from other nodes.
 ## Used by the generator during runtime. This list is updated
 ## from Panel.update_connections method.
 var connections: Array[Dictionary]
