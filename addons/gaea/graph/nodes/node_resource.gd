@@ -150,14 +150,7 @@ func get_arg(name: String, generator_data: GaeaData) -> Variant:
 				var connected_type := connected_node.get_output_port_type(connected_port)
 				if arg_slot_type == connected_type:
 					return connected_data.get("value")
-
-				var method_name = &"cast_from_%s_to_%s" % [
-					GaeaGraphNode.SlotTypes.find_key(connected_type).to_snake_case(),
-					GaeaGraphNode.SlotTypes.find_key(arg_slot_type).to_snake_case(),
-				]
-				if has_method(method_name):
-					return call(method_name, connected_data.get("value"))
-				log_error("Could not get data from previous node, missing cast method : %s" % method_name, generator_data, connected_idx)
+				return GaeaNodeResource.cast_value(connected_type, arg_slot_type, connected_data.get("value"))
 			else:
 				log_error("Could not get data from previous node, using default value instead.", generator_data, connected_idx)
 	return data.get(name)
@@ -337,16 +330,22 @@ func _is_point_outside_area(area: AABB, point: Vector3) -> bool:
 
 
 #region Data casting methods
-func cast_from_range_to_vector_2(value: Dictionary) -> Dictionary:
-	return {
-		"x": value.get("min"),
-		"y": value.get("max"),
-	}
+static func cast_value(from_type: GaeaGraphNode.SlotTypes, to_type: GaeaGraphNode.SlotTypes, value: Variant) -> Variant:
+	match [from_type, to_type]:
+		[GaeaGraphNode.SlotTypes.RANGE, GaeaGraphNode.SlotTypes.VECTOR2]:
+			return Vector2(
+				value.get("min"),
+				value.get("max")
+			)
+		[GaeaGraphNode.SlotTypes.VECTOR2, GaeaGraphNode.SlotTypes.RANGE]:
+			return {
+				"min": value.get("x"),
+				"max": value.get("y"),
+			}
 
-
-func cast_from_vector2_to_range(value: Dictionary) -> Dictionary:
-	return {
-		"min": value.get("x"),
-		"max": value.get("y"),
-	}
+	printerr("Could not get data from previous node, missing cast method from %s to %s" % [
+		GaeaGraphNode.SlotTypes.find_key(from_type),
+		GaeaGraphNode.SlotTypes.find_key(to_type),
+	])
+	return {}
 #endregion
