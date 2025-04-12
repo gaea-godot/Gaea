@@ -7,6 +7,9 @@ signal request_save
 
 var attached_elements: Dictionary
 
+func _init() -> void:
+	add_valid_connection_type(GaeaGraphNode.SlotTypes.VECTOR2, GaeaGraphNode.SlotTypes.RANGE)
+	add_valid_connection_type(GaeaGraphNode.SlotTypes.RANGE, GaeaGraphNode.SlotTypes.VECTOR2)
 
 func _on_delete_nodes_request(nodes: Array[StringName]) -> void:
 	delete_nodes(nodes)
