@@ -55,9 +55,9 @@ func initialize() -> void:
 	var idx: int = 0
 
 	for input_slot in resource.input_slots:
-		if input_slot.left_enabled:
+		if not input_slot.left_enabled:
 			push_error("For input slot '%s' the left slot must be enabled." % input_slot.left_label)
-		if input_slot.left_type != GaeaGraphNode.SlotTypes.NULL:
+		if input_slot.left_type == GaeaGraphNode.SlotTypes.NULL:
 			push_error("For input slot '%s' the type must be defined." % input_slot.left_label)
 		input_slot.right_enabled = false
 		input_slot.right_type = GaeaGraphNode.SlotTypes.NULL
@@ -71,9 +71,9 @@ func initialize() -> void:
 	for output_slot in resource.output_slots:
 		output_slot.left_enabled = false
 		output_slot.left_type = GaeaGraphNode.SlotTypes.NULL
-		if output_slot.right_enabled:
+		if not output_slot.right_enabled:
 			push_error("For output slot '%s' the right slot must be enabled." % output_slot.right_label)
-		if output_slot.right_type != GaeaGraphNode.SlotTypes.NULL:
+		if output_slot.right_type == GaeaGraphNode.SlotTypes.NULL:
 			push_error("For output slot '%s' the type must be defined." % output_slot.right_label)
 		var node: Control = output_slot.get_node(self, idx)
 		idx += 1
