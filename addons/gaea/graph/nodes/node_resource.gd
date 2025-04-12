@@ -126,9 +126,13 @@ func get_arg(name: String, generator_data: GaeaData) -> Variant:
 	log_arg(name, generator_data)
 
 	var arg_connection_idx: int = 0
-	var args_with_input: Array[GaeaNodeArgument] = args.filter(func(arg: GaeaNodeArgument) -> bool: return not arg.type == GaeaNodeArgument.Type.CATEGORY and not arg.disable_input_slot)
+	var arg_slot_type: GaeaGraphNode.SlotTypes
+	var args_with_input: Array[GaeaNodeArgument] = args.filter(func(arg: GaeaNodeArgument) -> bool:
+		return not arg.type == GaeaNodeArgument.Type.CATEGORY and not arg.disable_input_slot
+	)
 	for i in args_with_input.size():
 		if args_with_input[i].name == name:
+			arg_slot_type = GaeaNodeArgument.get_slot_type_equivalent(args_with_input[i].type)
 			arg_connection_idx = i + input_slots.size()
 			break
 
@@ -136,13 +140,24 @@ func get_arg(name: String, generator_data: GaeaData) -> Variant:
 		var connected_idx: int = get_connected_resource_idx(arg_connection_idx)
 		if connected_idx != -1:
 			var connected_node = generator_data.resources[connected_idx]
+			var connected_port = get_connected_port_to(arg_connection_idx)
 			var connected_data = connected_node.traverse(
-				get_connected_port_to(arg_connection_idx),
+				connected_port,
 				AABB(),
 				generator_data
 			)
 			if connected_data.has("value"):
-				return connected_data.get("value")
+				var connected_type := connected_node.get_output_port_type(connected_port)
+				if arg_slot_type == connected_type:
+					return connected_data.get("value")
+
+				var method_name = &"cast_from_%s_to_%s" % [
+					GaeaGraphNode.SlotTypes.find_key(connected_type).to_snake_case(),
+					GaeaGraphNode.SlotTypes.find_key(arg_slot_type).to_snake_case(),
+				]
+				if has_method(method_name):
+					return call(method_name, connected_data.get("value"))
+				log_error("Could not get data from previous node, missing cast method : %s" % method_name, generator_data, connected_idx)
 			else:
 				log_error("Could not get data from previous node, using default value instead.", generator_data, connected_idx)
 	return data.get(name)
@@ -235,6 +250,46 @@ static func get_formatted_text(unformatted_text: String) -> String:
 	return unformatted_text
 
 
+## Return the output port type for a specific port index
+func get_output_port_type(port_index: int) -> GaeaGraphNode.SlotTypes:
+	for input_slot in input_slots:
+		if input_slot.right_enabled:
+			if port_index == 0:
+				return input_slot.right_type
+			port_index -= 1
+	for arg in args:
+		if arg.add_output_slot:
+			if port_index == 0:
+				return GaeaNodeArgument.get_slot_type_equivalent(arg.type)
+			port_index -= 1
+	for output_slot in output_slots:
+		if output_slot.right_enabled:
+			if port_index == 0:
+				return output_slot.right_type
+			port_index -= 1
+	return GaeaGraphNode.SlotTypes.NULL
+
+
+## Return the input port type for a specific port index
+func get_input_port_type(port_index: int) -> GaeaGraphNode.SlotTypes:
+	for input_slot in input_slots:
+		if input_slot.left_enabled:
+			if port_index == 0:
+				return input_slot.left_type
+			port_index -= 1
+	for arg in args:
+		if not arg.disable_input_slot:
+			if port_index == 0:
+				return GaeaNodeArgument.get_slot_type_equivalent(arg.type)
+			port_index -= 1
+	for output_slot in output_slots:
+		if output_slot.left_enabled:
+			if port_index == 0:
+				return output_slot.left_type
+			port_index -= 1
+	return GaeaGraphNode.SlotTypes.NULL
+
+
 func get_type() -> GaeaGraphNode.SlotTypes:
 	if output_slots.is_empty():
 		return GaeaGraphNode.SlotTypes.NULL
@@ -278,4 +333,20 @@ func _is_point_outside_area(area: AABB, point: Vector3) -> bool:
 	area.end -= Vector3.ONE
 	return (point.x < area.position.x or point.y < area.position.y or point.z < area.position.z or
 			point.x > area.end.x or point.y > area.end.y or point.z > area.end.z)
+#endregion
+
+
+#region Data casting methods
+func cast_from_range_to_vector_2(value: Dictionary) -> Dictionary:
+	return {
+		"x": value.get("min"),
+		"y": value.get("max"),
+	}
+
+
+func cast_from_vector2_to_range(value: Dictionary) -> Dictionary:
+	return {
+		"min": value.get("x"),
+		"max": value.get("y"),
+	}
 #endregion
