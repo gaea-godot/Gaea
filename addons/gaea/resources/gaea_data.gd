@@ -13,6 +13,7 @@ enum Log { None=0, Execute=1, Traverse=2, Data=4, Args=8 }
 		layers = value
 		layer_count_modified.emit()
 		emit_changed()
+@export_group("Debug")
 @export_flags("Execute", "Traverse", "Data", "Args") var logging:int = Log.None
 @export_storage var connections: Array[Dictionary]
 @export_storage var resources: Array[GaeaNodeResource]

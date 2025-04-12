@@ -35,7 +35,7 @@ func get_type() -> GaeaGraphNode.SlotTypes:
 	return GaeaGraphNode.SlotTypes.NULL
 
 
-static func get_scene() -> PackedScene:
+func get_scene() -> PackedScene:
 	return preload("res://addons/gaea/graph/nodes/output_node.tscn")
 
 
