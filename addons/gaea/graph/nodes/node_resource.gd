@@ -216,7 +216,7 @@ func get_input_port_type(port_index: int) -> GaeaGraphNode.SlotTypes:
 			if port_index == 0:
 				return output_slot.left_type
 			port_index -= 1
-	return GaeaGraphNode.SlotTypes.NULL
+	return get_type()
 
 #endregion
 
