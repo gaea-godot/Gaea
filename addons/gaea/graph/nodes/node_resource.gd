@@ -44,6 +44,7 @@ func traverse(output_port:int, area: AABB, generator_data:GaeaData) -> Dictionar
 
 	# Validation
 	if not has_inputs_connected(_get_required_input_ports(), generator_data):
+		log_error("The node don't have all required inputs ports connected.", generator_data, generator_data.resources.find(self))
 		return {}
 
 	# Traversal
@@ -51,17 +52,23 @@ func traverse(output_port:int, area: AABB, generator_data:GaeaData) -> Dictionar
 	for slot in range(input_slots.size()):
 		var data_input_resource = get_input_resource(slot, generator_data)
 		var slot_data:Dictionary = {}
+		
 		if is_instance_valid(data_input_resource):
+			var connected_port = get_connected_port_to(slot)
+			var connected_type := data_input_resource.get_output_port_type(connected_port)
+			var input_slot_type = input_slots[slot].left_type
 			slot_data = data_input_resource.traverse(
-				get_connected_port_to(slot),
+				connected_port,
 				area, generator_data
 			)
+			if connected_type != input_slot_type:
+				slot_data = GaeaNodeResource.cast_value(connected_type, input_slot_type, slot_data)
 		passed_data.append(slot_data)
 
 	var results:Dictionary = get_data(passed_data, output_port, area, generator_data)
 
 	if use_caching:
-		set_cached_data(results, output_port, generator_data)
+		set_cached_data(output_port, generator_data, results)
 	
 	return results
 
@@ -78,7 +85,7 @@ func _use_caching(_output_port:int, _generator_data:GaeaData) -> bool:
 	return true
 
 ## Adds or sets data to the cache at GaeaNodeResource, then output_port index.
-func set_cached_data(new_data:Dictionary, output_port:int, generator_data:GaeaData) -> void:
+func set_cached_data(output_port:int, generator_data:GaeaData, new_data:Dictionary) -> void:
 	var node_cache:Dictionary = generator_data.cache.get_or_add(self, {})
 	node_cache[output_port] = new_data
 
@@ -170,6 +177,47 @@ func get_connected_port_to(to: int) -> int:
 		if connection.to_port == to:
 			return connection.from_port
 	return -1
+
+
+## Return the output port type for a specific port index
+func get_output_port_type(port_index: int) -> GaeaGraphNode.SlotTypes:
+	for input_slot in input_slots:
+		if input_slot.right_enabled:
+			if port_index == 0:
+				return input_slot.right_type
+			port_index -= 1
+	for arg in args:
+		if arg.add_output_slot:
+			if port_index == 0:
+				return GaeaNodeArgument.get_slot_type_equivalent(arg.type)
+			port_index -= 1
+	for output_slot in output_slots:
+		if output_slot.right_enabled:
+			if port_index == 0:
+				return output_slot.right_type
+			port_index -= 1
+	return get_type()
+
+
+## Return the input port type for a specific port index
+func get_input_port_type(port_index: int) -> GaeaGraphNode.SlotTypes:
+	for input_slot in input_slots:
+		if input_slot.left_enabled:
+			if port_index == 0:
+				return input_slot.left_type
+			port_index -= 1
+	for arg in args:
+		if not arg.disable_input_slot:
+			if port_index == 0:
+				return GaeaNodeArgument.get_slot_type_equivalent(arg.type)
+			port_index -= 1
+	for output_slot in output_slots:
+		if output_slot.left_enabled:
+			if port_index == 0:
+				return output_slot.left_type
+			port_index -= 1
+	return GaeaGraphNode.SlotTypes.NULL
+
 #endregion
 
 
@@ -242,45 +290,6 @@ static func get_formatted_text(unformatted_text: String) -> String:
 	unformatted_text = unformatted_text.replace("[/bg]", "[/bgcolor]")
 	return unformatted_text
 
-
-## Return the output port type for a specific port index
-func get_output_port_type(port_index: int) -> GaeaGraphNode.SlotTypes:
-	for input_slot in input_slots:
-		if input_slot.right_enabled:
-			if port_index == 0:
-				return input_slot.right_type
-			port_index -= 1
-	for arg in args:
-		if arg.add_output_slot:
-			if port_index == 0:
-				return GaeaNodeArgument.get_slot_type_equivalent(arg.type)
-			port_index -= 1
-	for output_slot in output_slots:
-		if output_slot.right_enabled:
-			if port_index == 0:
-				return output_slot.right_type
-			port_index -= 1
-	return GaeaGraphNode.SlotTypes.NULL
-
-
-## Return the input port type for a specific port index
-func get_input_port_type(port_index: int) -> GaeaGraphNode.SlotTypes:
-	for input_slot in input_slots:
-		if input_slot.left_enabled:
-			if port_index == 0:
-				return input_slot.left_type
-			port_index -= 1
-	for arg in args:
-		if not arg.disable_input_slot:
-			if port_index == 0:
-				return GaeaNodeArgument.get_slot_type_equivalent(arg.type)
-			port_index -= 1
-	for output_slot in output_slots:
-		if output_slot.left_enabled:
-			if port_index == 0:
-				return output_slot.left_type
-			port_index -= 1
-	return GaeaGraphNode.SlotTypes.NULL
 
 
 func get_type() -> GaeaGraphNode.SlotTypes:
