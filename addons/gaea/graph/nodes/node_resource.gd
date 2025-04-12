@@ -69,7 +69,6 @@ func traverse(output_port:int, area: AABB, generator_data:GaeaData) -> Dictionar
 
 	if use_caching:
 		set_cached_data(output_port, generator_data, results)
-	
 	return results
 
 
@@ -267,7 +266,7 @@ func log_error(message:String, generator_data:GaeaData, node_idx: int = -1):
 
 
 #region Miscelaneous
-static func get_scene() -> PackedScene:
+func get_scene() -> PackedScene:
 	return preload("res://addons/gaea/graph/nodes/node.tscn")
 
 

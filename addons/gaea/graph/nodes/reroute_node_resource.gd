@@ -19,5 +19,5 @@ func get_type() -> GaeaGraphNode.SlotTypes:
 	return GaeaGraphNode.SlotTypes.NULL
 
 
-static func get_scene() -> PackedScene:
+func get_scene() -> PackedScene:
 	return preload("uid://b2rceqo8rtr88")

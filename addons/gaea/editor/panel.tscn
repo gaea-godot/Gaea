@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dngytsjlmkfg7"]
+[gd_scene load_steps=16 format=3 uid="uid://dngytsjlmkfg7"]
 
 [ext_resource type="Script" uid="uid://dpbmowgfmnxe5" path="res://addons/gaea/editor/panel.gd" id="1_afcqa"]
 [ext_resource type="Texture2D" uid="uid://crs5x6wghxmmb" path="res://addons/gaea/assets/reload_tree.svg" id="2_4udwk"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://coi2pynbl5ehe" path="res://addons/gaea/editor/create_node_tree.gd" id="2_vpeaa"]
 [ext_resource type="Texture2D" uid="uid://cwg7oy4i2cbwq" path="res://addons/gaea/assets/reload_variables_list.svg" id="3_dhpru"]
 [ext_resource type="Script" uid="uid://bybvolyg1u0v4" path="res://addons/gaea/editor/node_popup.gd" id="4_vtsfx"]
+[ext_resource type="Script" uid="uid://cqd2rkam5cs3d" path="res://addons/gaea/editor/create_node_popup.gd" id="5_nbnm7"]
 [ext_resource type="Script" uid="uid://btt4eqjkp5pyf" path="res://addons/gaea/editor/link_popup.gd" id="7_dhpru"]
 
 [sub_resource type="Image" id="Image_dhpru"]
@@ -211,6 +212,7 @@ size = Vector2i(256, 384)
 visible = false
 extend_to_title = true
 keep_title_visible = true
+script = ExtResource("5_nbnm7")
 
 [node name="CreateNodePanel" type="Panel" parent="Editor/CreateNodePopup"]
 unique_name_in_owner = true
@@ -333,14 +335,12 @@ filters = PackedStringArray("*.tres,*.res;Resources")
 [connection signal="node_selected" from="Editor/VBoxContainer/GraphEdit" to="Editor/VBoxContainer/GraphEdit" method="_on_node_selected"]
 [connection signal="request_connection_update" from="Editor/VBoxContainer/GraphEdit" to="." method="update_connections"]
 [connection signal="request_save" from="Editor/VBoxContainer/GraphEdit" to="." method="_save_data"]
-[connection signal="close_requested" from="Editor/CreateNodePopup" to="." method="_on_create_node_popup_close_requested"]
 [connection signal="text_changed" from="Editor/CreateNodePopup/Margin/VBox/SearchBar" to="Editor/CreateNodePopup/Margin/VBox/CreateNodeTree" method="_on_search_bar_text_changed"]
 [connection signal="item_activated" from="Editor/CreateNodePopup/Margin/VBox/CreateNodeTree" to="Editor/CreateNodePopup/Margin/VBox/CreateNodeTree" method="_on_item_activated"]
 [connection signal="item_selected" from="Editor/CreateNodePopup/Margin/VBox/CreateNodeTree" to="Editor/CreateNodePopup/Margin/VBox/CreateNodeTree" method="_on_item_selected"]
 [connection signal="node_selected_for_creation" from="Editor/CreateNodePopup/Margin/VBox/CreateNodeTree" to="." method="_on_tree_node_selected_for_creation"]
 [connection signal="special_node_selected_for_creation" from="Editor/CreateNodePopup/Margin/VBox/CreateNodeTree" to="." method="_on_tree_special_node_selected_for_creation"]
 [connection signal="pressed" from="Editor/CreateNodePopup/Margin/VBox/HBoxContainer/CreateButton" to="Editor/CreateNodePopup/Margin/VBox/CreateNodeTree" method="_on_create_button_pressed"]
-[connection signal="pressed" from="Editor/CreateNodePopup/Margin/VBox/HBoxContainer/CancelButton" to="." method="_on_cancel_create_button_pressed"]
 [connection signal="create_node_popup_requested" from="Editor/NodePopup" to="." method="_popup_create_node_menu_at_mouse"]
 [connection signal="new_reroute_requested" from="Editor/LinkPopup" to="." method="_on_new_reroute_requested"]
 [connection signal="file_selected" from="FileDialog" to="." method="_on_file_dialog_file_selected"]
