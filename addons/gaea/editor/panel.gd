@@ -488,34 +488,4 @@ func update_bottom_note():
 		]
 	else:
 		_bottom_note_label.visible = false
-
-
-## This function converts a local position to a grid position based on the current zoom level and scroll offset.
-## It also applies snapping if enabled in the GraphEdit.
-## @param local_position The local position to convert.
-## @param grid_offset An optional offset to apply to the grid position.
-## @return The converted grid position.
-func _local_to_grid(local_position: Vector2, grid_offset: Vector2 = Vector2.ZERO, enable_snapping: bool = true) -> Vector2:
-	local_position = (local_position + _graph_edit.scroll_offset) / _graph_edit.zoom
-	local_position += grid_offset
-	if enable_snapping and _graph_edit.snapping_enabled:
-		return local_position.snapped(Vector2.ONE * _graph_edit.snapping_distance)
-	else:
-		return local_position
-
-
-func _on_create_node_popup_close_requested() -> void:
-	_create_node_popup.hide()
-
-
-func _get_multiwindow_support_tooltip_text() -> String:
-	# Adapted from https://github.com/godotengine/godot/blob/a8598cd8e261716fa3addb6f10bb57c03a061be9/editor/editor_node.cpp#L4725-L4737
-	if EditorInterface.get_editor_settings().get_setting("interface/editor/single_window_mode"):
-		return tr("Multi-window support is not available because Interface > Editor > Single Window Mode is enabled in the editor settings.")
-	elif not EditorInterface.get_editor_settings().get_setting("interface/multi_window/enable"):
-		return tr("Multi-window support is not available because Interface > Multi Window > Enable is disabled in the editor settings.")
-	elif DisplayServer.has_feature(DisplayServer.FEATURE_SUBWINDOWS):
-		return tr("Multi-window support is not available because the `--single-window` command line argument was used to start the editor.")
-	else:
-		return tr("Multi-window support is not available because the current platform doesn't support multiple windows.")
 #endregion
