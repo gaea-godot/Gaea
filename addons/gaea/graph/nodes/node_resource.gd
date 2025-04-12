@@ -290,7 +290,6 @@ static func get_formatted_text(unformatted_text: String) -> String:
 	return unformatted_text
 
 
-
 func get_type() -> GaeaGraphNode.SlotTypes:
 	if output_slots.is_empty():
 		return GaeaGraphNode.SlotTypes.NULL
