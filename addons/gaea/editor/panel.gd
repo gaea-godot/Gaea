@@ -62,6 +62,7 @@ func _ready() -> void:
 	line_curvature_button.clip_text = true
 	container.add_child(line_curvature_button)
 	line_curvature_button.selected = 1
+	line_curvature_button.tooltip_text = "Change curvature of connection lines."
 	line_curvature_button.item_selected.connect(_on_connection_lines_curvature_changed)
 
 
