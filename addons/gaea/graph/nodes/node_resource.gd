@@ -355,7 +355,7 @@ static func cast_value(from_type: GaeaGraphNode.SlotTypes, to_type: GaeaGraphNod
 				value, value, value
 			)
 		[GaeaGraphNode.SlotTypes.NUMBER, GaeaGraphNode.SlotTypes.BOOL]:
-			return value > 0.0
+			return bool(value)
 		#endregion
 
 		#region Vector -> Any
