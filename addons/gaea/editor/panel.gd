@@ -55,6 +55,15 @@ func _ready() -> void:
 	container.add_child(add_node_button)
 	container.move_child(add_node_button, 0)
 
+	var line_curvature_button = OptionButton.new()
+	line_curvature_button.custom_minimum_size = Vector2(12, 12)
+	line_curvature_button.add_icon_item(preload("../assets/straight_lines.svg"), "Straight")
+	line_curvature_button.add_icon_item(preload("../assets/curved_lines.svg"), "Curved")
+	line_curvature_button.clip_text = true
+	container.add_child(line_curvature_button)
+	line_curvature_button.selected = 1
+	line_curvature_button.item_selected.connect(_on_connection_lines_curvature_changed)
+
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
@@ -416,6 +425,10 @@ func _on_reload_parameters_list_button_pressed() -> void:
 
 func _on_online_docs_button_pressed() -> void:
 	OS.shell_open("https://gaea-godot.github.io/gaea-docs/#/")
+
+
+func _on_connection_lines_curvature_changed(index: int) -> void:
+	_graph_edit.set_connection_lines_curvature(float(index) * 0.5)
 
 
 #region Popout Window
