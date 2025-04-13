@@ -171,21 +171,21 @@ func request_save() -> void:
 
 func notify_connections_updated() -> void:
 	connections_updated.emit()
-	for child in get_children():
-		if child is GaeaGraphNodeParameter:
-			child.set_param_visible(true)
 
-	for connection in connections:
-		if connection.to_node != name:
-			continue
-		var child := get_child(connection.to_port)
+
+	var input_idx: int = -1
+	for child in get_children():
+		if is_slot_enabled_left(child.get_index()):
+			input_idx += 1
+
 		if child is GaeaGraphNodeParameter:
-			child.set_param_visible(false)
+			child.set_param_visible(not connections.any(_is_connected_to.bind(input_idx)))
 
 	size.y = get_combined_minimum_size().y
 
 
-
+func _is_connected_to(connection: Dictionary, idx: int) -> bool:
+	return connection.to_port == idx and connection.to_node == name
 
 
 func get_save_data() -> Dictionary:
