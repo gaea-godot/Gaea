@@ -184,6 +184,7 @@ layout_mode = 2
 size_flags_vertical = 3
 grid_pattern = 1
 right_disconnects = true
+show_zoom_label = true
 script = ExtResource("2_cdav6")
 
 [node name="Margin" type="MarginContainer" parent="Editor/VBoxContainer/GraphEdit"]
