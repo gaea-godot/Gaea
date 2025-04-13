@@ -41,7 +41,7 @@ func initialize() -> void:
 
 
 func _update_slots():
-	var color = GaeaGraphNode.get_color_from_type(type)
+	var color = GaeaEditorSettings.get_configured_color_for_slot_type(type)
 	set_slot(0, true, type, color, true, type, color)
 	set_slot_type_left(0, type)
 	set_slot_type_right(0, type)
@@ -65,7 +65,7 @@ static func create_resource() -> GaeaNodeResource:
 func on_removed() -> void:
 	var graph_edit: GraphEdit = find_parent("GraphEdit")
 	var input_connection: Dictionary = {}
-	
+
 	if connections.size() == 1:
 		input_connection = connections[0]
 		graph_edit.disconnection_request.emit(
@@ -74,7 +74,7 @@ func on_removed() -> void:
 			input_connection.to_node,
 			input_connection.to_port,
 		)
-	
+
 	for connection in graph_edit.connections:
 		if connection.from_node == name and connection.from_port == 0:
 			graph_edit.disconnection_request.emit(
@@ -113,15 +113,15 @@ func _draw_port(slot_index: int, pos: Vector2i, left: bool, color: Color) -> voi
 		return
 	var center_pos = Vector2(pos)
 	var editor_scale = EditorInterface.get_editor_scale()
-	
+
 	if has_no_input:
 		draw_circle(center_pos, 10 * editor_scale, Color.ORANGE_RED, true, -1, true)
-	
+
 	var port_icon = get_slot_custom_icon_right(slot_index)
 	if not is_instance_valid(port_icon):
 		port_icon = get_theme_icon(&"port", &"GraphNode")
 	var icon_offset = -port_icon.get_size() * 0.5
-	
+
 	draw_texture_rect(
 		port_icon,
 		Rect2(
@@ -142,11 +142,11 @@ func _draw() -> void:
 	var offset = Vector2(0, -16 * editor_scale)
 	var drag_bg_color = get_theme_color(&"drag_background", &"VSRerouteNode")
 	var circle_bg_color = Color(drag_bg_color, opacity)
-	
+
 	if selected:
 		var selected_color = get_theme_color(&"selected_rim_color", &"VSRerouteNode")
 		draw_circle(get_size() * 0.5 + offset, 18 * editor_scale, selected_color, true, -1, true)
-	
+
 	draw_circle(get_size() * 0.5 + offset, 16 * editor_scale, circle_bg_color, true, -1, true)
 
 	var icon = EditorInterface.get_editor_theme().get_icon(&"ToolMove", &"EditorIcons")

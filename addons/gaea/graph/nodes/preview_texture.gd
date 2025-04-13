@@ -55,7 +55,7 @@ func toggle(for_idx: int, for_type: GaeaGraphNode.SlotTypes) -> void:
 	if not get_parent().visible:
 		get_parent().show()
 		output_idx = for_idx
-		slider_container.visible = for_type == GaeaGraphNode.SlotTypes.VALUE_DATA
+		slider_container.visible = for_type == GaeaGraphNode.SlotTypes.DATA
 		type = for_type
 		update()
 	else:
@@ -89,11 +89,11 @@ func update() -> void:
 			if value == null:
 				continue
 			match type:
-				GaeaGraphNode.SlotTypes.VALUE_DATA:
+				GaeaGraphNode.SlotTypes.DATA:
 					if typeof(value) != TYPE_FLOAT or is_nan(value):
 						continue
 					color = Color(value, value, value, 1.0 if value >= slider.value else 0.0)
-				GaeaGraphNode.SlotTypes.MAP_DATA:
+				GaeaGraphNode.SlotTypes.MAP:
 					if value is not GaeaMaterial or not is_instance_valid(value):
 						continue
 					color = value.preview_color

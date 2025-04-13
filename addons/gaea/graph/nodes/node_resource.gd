@@ -51,7 +51,7 @@ func traverse(output_port:int, area: AABB, generator_data:GaeaData) -> Dictionar
 	for slot in range(input_slots.size()):
 		var data_input_resource = get_input_resource(slot, generator_data)
 		var slot_data:Dictionary = {}
-		
+
 		if is_instance_valid(data_input_resource):
 			var connected_port = get_connected_port_to(slot)
 			var connected_type := data_input_resource.get_output_port_type(connected_port)
@@ -304,16 +304,16 @@ func get_icon() -> Texture2D:
 
 
 func get_title_color() -> Color:
-	return GaeaGraphNode.get_color_from_type(get_type())
+	return GaeaEditorSettings.get_configured_color_for_slot_type(get_type())
 
 
 static func get_icon_for_slot_type(slot_type: GaeaGraphNode.SlotTypes) -> Texture2D:
 	match slot_type:
-		GaeaGraphNode.SlotTypes.VALUE_DATA:
+		GaeaGraphNode.SlotTypes.DATA:
 			return preload("../../assets/types/data_grid.svg")
-		GaeaGraphNode.SlotTypes.MAP_DATA:
+		GaeaGraphNode.SlotTypes.MAP:
 			return preload("../../assets/types/map.svg")
-		GaeaGraphNode.SlotTypes.TILE_INFO:
+		GaeaGraphNode.SlotTypes.MATERIAL:
 			return preload("../../assets/types/material.svg")
 		GaeaGraphNode.SlotTypes.VECTOR2:
 			return preload("../../assets/types/vec2.svg")

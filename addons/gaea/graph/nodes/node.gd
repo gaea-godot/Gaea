@@ -4,12 +4,12 @@ extends GraphNode
 
 
 const PreviewTexture = preload("res://addons/gaea/graph/nodes/preview_texture.gd")
-const PREVIEW_TYPES := [SlotTypes.MAP_DATA, SlotTypes.VALUE_DATA]
+const PREVIEW_TYPES := [SlotTypes.MAP, SlotTypes.DATA]
 
 enum SlotTypes {
-	VALUE_DATA,
-	MAP_DATA,
-	TILE_INFO,
+	DATA,
+	MAP,
+	MATERIAL,
 	VECTOR2,
 	NUMBER,
 	RANGE,
@@ -103,12 +103,12 @@ func initialize() -> void:
 	var titlebar: StyleBoxFlat
 	var titlebar_selected: StyleBoxFlat
 	if output_type != SlotTypes.NULL:
-		if not titlebar_styleboxes.has(output_type):
+		if not titlebar_styleboxes.has(output_type) or titlebar_styleboxes.get(output_type).get("for_color", Color.BLACK) != resource.get_title_color():
 			titlebar = get_theme_stylebox("titlebar", "GraphNode").duplicate()
 			titlebar_selected = get_theme_stylebox("titlebar_selected", "GraphNode").duplicate()
 			titlebar.bg_color = titlebar.bg_color.blend(Color(resource.get_title_color(), 0.3))
 			titlebar_selected.bg_color = titlebar.bg_color
-			titlebar_styleboxes.set(output_type, {"titlebar": titlebar, "selected": titlebar_selected})
+			titlebar_styleboxes.set(output_type, {"titlebar": titlebar, "selected": titlebar_selected, "for_color": resource.get_title_color()})
 		else:
 			titlebar = titlebar_styleboxes.get(output_type).get("titlebar")
 			titlebar_selected = titlebar_styleboxes.get(output_type).get("selected")
@@ -197,11 +197,11 @@ func load_save_data(data: Dictionary) -> void:
 
 static func get_color_from_type(type: SlotTypes) -> Color:
 	match type:
-		SlotTypes.VALUE_DATA:
+		SlotTypes.DATA:
 			return Color("f0f8ff") # WHITE
-		SlotTypes.MAP_DATA:
+		SlotTypes.MAP:
 			return Color("27ae60") # GREEN
-		SlotTypes.TILE_INFO:
+		SlotTypes.MATERIAL:
 			return Color("eb2f06") # RED
 		SlotTypes.VECTOR2:
 			return Color("00bfff") # LIGHT BLUE
@@ -226,11 +226,11 @@ static func get_icon_from_type(type: SlotTypes) -> Texture2D:
 			return load("res://addons/gaea/assets/slots/ring.svg")
 		SlotTypes.BOOL:
 			return load("res://addons/gaea/assets/slots/rounded_square.svg")
-		SlotTypes.VALUE_DATA:
+		SlotTypes.DATA:
 			return load("res://addons/gaea/assets/slots/square.svg")
-		SlotTypes.MAP_DATA:
+		SlotTypes.MAP:
 			return load("res://addons/gaea/assets/slots/tag.svg")
-		SlotTypes.TILE_INFO:
+		SlotTypes.MATERIAL:
 			return load("res://addons/gaea/assets/slots/rhombus.svg")
 		SlotTypes.VECTOR3:
 			return load("res://addons/gaea/assets/slots/hourglass.svg")

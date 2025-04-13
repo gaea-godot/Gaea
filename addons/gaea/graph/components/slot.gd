@@ -13,7 +13,7 @@ extends MarginContainer
 		left_type = new_value
 		if is_node_ready():
 			graph_node.set_slot_type_left(idx, new_value)
-			graph_node.set_slot_color_left(idx, GaeaGraphNode.get_color_from_type(new_value))
+			graph_node.set_slot_color_left(idx, GaeaEditorSettings.get_configured_color_for_slot_type(new_value))
 			graph_node.set_slot_custom_icon_left(idx, GaeaGraphNode.get_icon_from_type(new_value))
 @export var left_label: String = "":
 	set(new_value):
@@ -32,7 +32,7 @@ extends MarginContainer
 		right_type = new_value
 		if is_node_ready():
 			graph_node.set_slot_type_right(idx, new_value)
-			graph_node.set_slot_color_right(idx, GaeaGraphNode.get_color_from_type(new_value))
+			graph_node.set_slot_color_right(idx, GaeaEditorSettings.get_configured_color_for_slot_type(new_value))
 			graph_node.set_slot_custom_icon_right(idx, GaeaGraphNode.get_icon_from_type(new_value))
 @export var right_label: String = "":
 	set(new_value):
@@ -71,8 +71,8 @@ func _ready() -> void:
 
 	graph_node.set_slot(
 		idx,
-		left_enabled, left_type, GaeaGraphNode.get_color_from_type(left_type),
-		right_enabled, right_type, GaeaGraphNode.get_color_from_type(right_type),
+		left_enabled, left_type, GaeaEditorSettings.get_configured_color_for_slot_type(left_type),
+		right_enabled, right_type, GaeaEditorSettings.get_configured_color_for_slot_type(right_type),
 		GaeaGraphNode.get_icon_from_type(left_type),
 		GaeaGraphNode.get_icon_from_type(right_type),
 	)

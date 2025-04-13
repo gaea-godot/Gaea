@@ -28,7 +28,7 @@ func get_type() -> GaeaGraphNode.SlotTypes:
 			return GaeaGraphNode.SlotTypes.BOOL
 		TYPE_OBJECT:
 			if hint_string == "GaeaMaterial":
-				return GaeaGraphNode.SlotTypes.TILE_INFO
+				return GaeaGraphNode.SlotTypes.MATERIAL
 			elif hint_string == "GaeaMaterialGradient":
 				return GaeaGraphNode.SlotTypes.GRADIENT
 		TYPE_VECTOR3, TYPE_VECTOR3I:

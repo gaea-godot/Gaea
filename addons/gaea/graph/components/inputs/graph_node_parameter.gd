@@ -37,8 +37,8 @@ func _ready() -> void:
 
 	graph_node.set_slot(
 		slot_idx,
-		add_input_slot, input_type, GaeaGraphNode.get_color_from_type(input_type),
-		add_output_slot, input_type, GaeaGraphNode.get_color_from_type(input_type),
+		add_input_slot, input_type, GaeaEditorSettings.get_configured_color_for_slot_type(input_type),
+		add_output_slot, input_type, GaeaEditorSettings.get_configured_color_for_slot_type(input_type),
 		GaeaGraphNode.get_icon_from_type(input_type), GaeaGraphNode.get_icon_from_type(input_type),
 	)
 

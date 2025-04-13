@@ -182,6 +182,7 @@ flat = true
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_colors/connection_rim_color = Color(0.0784314, 0.0784314, 0.0784314, 1)
 grid_pattern = 1
 right_disconnects = true
 show_zoom_label = true
