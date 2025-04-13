@@ -171,6 +171,21 @@ func request_save() -> void:
 
 func notify_connections_updated() -> void:
 	connections_updated.emit()
+	for child in get_children():
+		if child is GaeaGraphNodeParameter:
+			child.set_param_visible(true)
+
+	for connection in connections:
+		if connection.to_node != name:
+			continue
+		var child := get_child(connection.to_port)
+		if child is GaeaGraphNodeParameter:
+			child.set_param_visible(false)
+
+	size.y = get_combined_minimum_size().y
+
+
+
 
 
 func get_save_data() -> Dictionary:
