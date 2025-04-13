@@ -103,7 +103,7 @@ func initialize() -> void:
 	var titlebar: StyleBoxFlat
 	var titlebar_selected: StyleBoxFlat
 	if output_type != SlotTypes.NULL:
-		if not titlebar_styleboxes.has(output_type) or titlebar_styleboxes.get(output_type).get("for_color", Color.BLACK) != resource.get_title_color():
+		if not titlebar_styleboxes.has(output_type) or titlebar_styleboxes.get(output_type).get("for_color", Color.TRANSPARENT) != resource.get_title_color():
 			titlebar = get_theme_stylebox("titlebar", "GraphNode").duplicate()
 			titlebar_selected = get_theme_stylebox("titlebar_selected", "GraphNode").duplicate()
 			titlebar.bg_color = titlebar.bg_color.blend(Color(resource.get_title_color(), 0.3))
