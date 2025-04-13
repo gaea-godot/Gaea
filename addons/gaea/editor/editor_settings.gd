@@ -3,6 +3,7 @@ class_name GaeaEditorSettings
 extends RefCounted
 
 const LINE_CURVATURE := "gaea/graph/line_curvature"
+const GRID_PATTERN := "gaea/graph/grid_pattern"
 const COLOR_BASE := "gaea/graph/slot_colors/%s"
 const ICON_BASE := "gaea/graph/slot_icons/%s"
 const CONFIGURABLE_SLOT_COLORS := {
@@ -26,6 +27,11 @@ func add_settings() -> void:
 		"type": TYPE_FLOAT,
 		"hint": PROPERTY_HINT_RANGE,
 		"hint_string": "0.0,1.0"
+	})
+	_add_setting(GRID_PATTERN, 1, {
+		"type": TYPE_INT,
+		"hint": PROPERTY_HINT_ENUM,
+		"hint_string": "Lines,Dots"
 	})
 
 
@@ -80,3 +86,7 @@ static func get_configured_icon_for_slot_type(slot_type: GaeaGraphNode.SlotTypes
 
 static func get_line_curvature() -> float:
 	return EditorInterface.get_editor_settings().get_setting(LINE_CURVATURE)
+
+
+static func get_grid_pattern() -> int:
+	return EditorInterface.get_editor_settings().get_setting(GRID_PATTERN)
