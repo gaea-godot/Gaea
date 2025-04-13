@@ -340,35 +340,27 @@ static func cast_value(from_type: GaeaGraphNode.SlotTypes, to_type: GaeaGraphNod
 	match [from_type, to_type]:
 		[GaeaGraphNode.SlotTypes.RANGE, GaeaGraphNode.SlotTypes.VECTOR2]:
 			return Vector2(
-				value.get("min"),
-				value.get("max")
+				value.get("min"), value.get("max")
 			)
 		[GaeaGraphNode.SlotTypes.VECTOR2, GaeaGraphNode.SlotTypes.RANGE]:
 			return {
-				"min": value.x,
-				"max": value.y,
+				"min": value.x, "max": value.y
 			}
 		[GaeaGraphNode.SlotTypes.NUMBER, GaeaGraphNode.SlotTypes.VECTOR2]:
 			return Vector2(
-				value,
-				value
+				value, value
 			)
 		[GaeaGraphNode.SlotTypes.NUMBER, GaeaGraphNode.SlotTypes.VECTOR3]:
 			return Vector3(
-				value,
-				value,
-				value
+				value, value, value
 			)
 		[GaeaGraphNode.SlotTypes.VECTOR2, GaeaGraphNode.SlotTypes.VECTOR3]:
 			return Vector3(
-				value.x,
-				value.y,
-				0.0
+				value.x, value.y, 0.0
 			)
 		[GaeaGraphNode.SlotTypes.VECTOR3, GaeaGraphNode.SlotTypes.VECTOR2]:
 			return Vector2(
-				value.x,
-				value.y
+				value.x, value.y
 			)
 
 	printerr("Could not get data from previous node, missing cast method from %s to %s" % [
