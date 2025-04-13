@@ -23,13 +23,13 @@ left_enabled = true
 left_type = 1
 left_label = "Map"
 right_enabled = false
-right_type = 0
+right_type = -1
 right_label = ""
 
 [sub_resource type="Resource" id="Resource_fraxp"]
 script = ExtResource("2_fraxp")
 left_enabled = false
-left_type = 0
+left_type = -1
 left_label = ""
 right_enabled = true
 right_type = 1

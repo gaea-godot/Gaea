@@ -10,7 +10,7 @@ left_enabled = true
 left_type = 1
 left_label = "Map A"
 right_enabled = false
-right_type = 0
+right_type = -1
 right_label = ""
 
 [sub_resource type="Resource" id="Resource_x35wo"]
@@ -19,13 +19,13 @@ left_enabled = true
 left_type = 1
 left_label = "Map B"
 right_enabled = false
-right_type = 0
+right_type = -1
 right_label = ""
 
 [sub_resource type="Resource" id="Resource_t3085"]
 script = ExtResource("2_88wic")
 left_enabled = false
-left_type = 0
+left_type = -1
 left_label = ""
 right_enabled = true
 right_type = 1

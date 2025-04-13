@@ -10,14 +10,14 @@ left_enabled = true
 left_type = 0
 left_label = "Data"
 right_enabled = false
-right_type = 0
+right_type = -1
 right_label = ""
 metadata/_custom_type_script = "uid://ote622wl6axc"
 
 [sub_resource type="Resource" id="Resource_bie4n"]
 script = ExtResource("2_7p6n3")
 left_enabled = false
-left_type = 0
+left_type = -1
 left_label = ""
 right_enabled = true
 right_type = 0

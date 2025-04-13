@@ -27,7 +27,7 @@ metadata/_custom_type_script = "uid://bh3sajxnmp14w"
 [sub_resource type="Resource" id="Resource_2fado"]
 script = ExtResource("2_plf13")
 left_enabled = false
-left_type = 0
+left_type = -1
 left_label = ""
 right_enabled = true
 right_type = 7

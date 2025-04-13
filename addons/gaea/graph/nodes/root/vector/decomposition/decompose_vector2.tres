@@ -17,7 +17,7 @@ metadata/_custom_type_script = "uid://bh3sajxnmp14w"
 [sub_resource type="Resource" id="Resource_kk1e5"]
 script = ExtResource("2_0xxnj")
 left_enabled = false
-left_type = 0
+left_type = -1
 left_label = ""
 right_enabled = true
 right_type = 4
@@ -27,7 +27,7 @@ metadata/_custom_type_script = "uid://ote622wl6axc"
 [sub_resource type="Resource" id="Resource_d8fxv"]
 script = ExtResource("2_0xxnj")
 left_enabled = false
-left_type = 0
+left_type = -1
 left_label = ""
 right_enabled = true
 right_type = 4

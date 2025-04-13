@@ -158,7 +158,7 @@ metadata/_custom_type_script = "uid://bh3sajxnmp14w"
 [sub_resource type="Resource" id="Resource_vjhf4"]
 script = ExtResource("2_t5iy4")
 left_enabled = false
-left_type = 0
+left_type = -1
 left_label = ""
 right_enabled = true
 right_type = 0

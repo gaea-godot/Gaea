@@ -7,7 +7,7 @@
 [sub_resource type="Resource" id="Resource_ed7be"]
 script = ExtResource("2_1btle")
 left_enabled = false
-left_type = 0
+left_type = -1
 left_label = ""
 right_enabled = true
 right_type = 7

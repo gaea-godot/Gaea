@@ -34,7 +34,7 @@ add_output_slot = false
 [sub_resource type="Resource" id="Resource_8tvqk"]
 script = ExtResource("2_5fhhb")
 left_enabled = false
-left_type = 0
+left_type = -1
 left_label = ""
 right_enabled = true
 right_type = 0

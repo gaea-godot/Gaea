@@ -10,7 +10,7 @@ left_enabled = true
 left_type = 0
 left_label = "Data A"
 right_enabled = false
-right_type = 0
+right_type = -1
 right_label = ""
 
 [sub_resource type="Resource" id="Resource_htgkp"]
@@ -19,13 +19,13 @@ left_enabled = true
 left_type = 0
 left_label = "Data B"
 right_enabled = false
-right_type = 0
+right_type = -1
 right_label = ""
 
 [sub_resource type="Resource" id="Resource_avr7f"]
 script = ExtResource("2_ucc1t")
 left_enabled = false
-left_type = 0
+left_type = -1
 left_label = ""
 right_enabled = true
 right_type = 0

@@ -25,7 +25,7 @@ add_output_slot = false
 [sub_resource type="Resource" id="Resource_gk2p2"]
 script = ExtResource("2_nkrai")
 left_enabled = false
-left_type = 0
+left_type = -1
 left_label = ""
 right_enabled = true
 right_type = 5
