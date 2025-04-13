@@ -41,6 +41,8 @@ func _ready() -> void:
 	if is_instance_valid(resource):
 		set_tooltip_text(GaeaNodeResource.get_formatted_text(resource.description))
 
+	connections_updated.connect(_update_arguments_visibility)
+
 
 func initialize() -> void:
 	if not is_instance_valid(resource):
@@ -120,6 +122,7 @@ func initialize() -> void:
 func _has_output_slot(arg: GaeaNodeArgument) -> bool:
 	return arg.add_output_slot
 
+
 func on_added() -> void:
 	pass
 
@@ -161,6 +164,20 @@ func _on_param_value_changed(_value: Variant, _node: GaeaGraphNodeParameter, _pa
 			preview.update()
 
 
+func _update_arguments_visibility() -> void:
+	var input_idx: int = -1
+	for child in get_children():
+		if is_slot_enabled_left(child.get_index()):
+			input_idx += 1
+
+		if child is GaeaGraphNodeParameter:
+			child.set_param_visible(not connections.any(_is_connected_to.bind(input_idx)))
+
+	size.y = get_combined_minimum_size().y
+	for i: int in get_child_count():
+		slot_updated.emit.call_deferred(i)
+
+
 func on_removed() -> void:
 	pass
 
@@ -171,16 +188,6 @@ func request_save() -> void:
 
 func notify_connections_updated() -> void:
 	connections_updated.emit()
-
-	var input_idx: int = -1
-	for child in get_children():
-		if is_slot_enabled_left(child.get_index()):
-			input_idx += 1
-
-		if child is GaeaGraphNodeParameter:
-			child.set_param_visible(not connections.any(_is_connected_to.bind(input_idx)))
-
-	(func() -> void: size.y = get_combined_minimum_size().y).call_deferred()
 
 
 func _is_connected_to(connection: Dictionary, idx: int) -> bool:
