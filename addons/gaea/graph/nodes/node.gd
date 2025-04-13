@@ -169,9 +169,18 @@ func request_save() -> void:
 	save_requested.emit()
 
 
+func hide_param_value(idx: int) -> void:
+	var input_idx: int = -1
+	for child in get_children():
+		if is_slot_enabled_left(child.get_index()):
+			input_idx += 1
+
+		if child is GaeaGraphNodeParameter:
+			child.set_param_visible(false)
+
+
 func notify_connections_updated() -> void:
 	connections_updated.emit()
-
 
 	var input_idx: int = -1
 	for child in get_children():
