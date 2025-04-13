@@ -24,8 +24,8 @@ func populate() -> void:
 	tree_dictionary["Special"] = {
 		"Frame": &"frame"
 	}
-	if not ProjectSettings.get_setting("gaea/custom_nodes_path", "").is_empty():
-		tree_dictionary = _populate_dict_with_files(ProjectSettings.get_setting("gaea/custom_nodes_path", ""), tree_dictionary)
+	if not GaeaProjectSettings.get_custom_nodes_path().is_empty():
+		tree_dictionary = _populate_dict_with_files(GaeaProjectSettings.get_custom_nodes_path(), tree_dictionary)
 	_populate_from_dictionary(tree_dictionary, root)
 	root.set_collapsed_recursive(true)
 	root.set_collapsed(false)
