@@ -181,7 +181,6 @@ func notify_connections_updated() -> void:
 			child.set_param_visible(not connections.any(_is_connected_to.bind(input_idx)))
 
 	(func() -> void: size.y = get_combined_minimum_size().y).call_deferred()
-	queue_redraw.call_deferred()
 
 
 func _is_connected_to(connection: Dictionary, idx: int) -> bool:
