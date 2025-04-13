@@ -11,6 +11,10 @@ func get_data(passed_data:Array[Dictionary], output_port: int, area: AABB, gener
 
 	var new_grid: Dictionary[Vector3i, float]
 	for cell: Vector3i in a_input.keys() + b_input.keys():
-		new_grid.set(cell, _get_new_value(a_input.get(cell), b_input.get(cell)))
+		var a_value = a_input.get(cell)
+		var b_value = b_input.get(cell)
+		if a_value == null or b_value == null:
+			continue
+		new_grid.set(cell, _get_new_value(a_value, b_value))
 
 	return new_grid
