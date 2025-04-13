@@ -365,7 +365,7 @@ static func cast_value(from_type: GaeaGraphNode.SlotTypes, to_type: GaeaGraphNod
 		[GaeaGraphNode.SlotTypes.BOOL, GaeaGraphNode.SlotTypes.NUMBER]:
 			return (1.0 if value else 0.0)
 		[GaeaGraphNode.SlotTypes.NUMBER, GaeaGraphNode.SlotTypes.BOOL]:
-			return is_equal_approx(value, 1.0)
+			return value > 0.0
 
 
 	printerr("Could not get data from previous node, missing cast method from %s to %s" % [
