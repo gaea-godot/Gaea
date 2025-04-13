@@ -43,7 +43,6 @@ func _ready() -> void:
 	)
 
 	set_label_text(resource.name.capitalize())
-	custom_minimum_size = get_combined_minimum_size()
 
 
 func get_param_value() -> Variant:
