@@ -12,6 +12,10 @@ func _init() -> void:
 	add_valid_connection_type(GaeaGraphNode.SlotTypes.RANGE, GaeaGraphNode.SlotTypes.VECTOR2)
 
 
+func _ready() -> void:
+	add_theme_color_override(&"connection_rim_color", Color("141414"))
+
+
 func _on_delete_nodes_request(nodes: Array[StringName]) -> void:
 	delete_nodes(nodes)
 
