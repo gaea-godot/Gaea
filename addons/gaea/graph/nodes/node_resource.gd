@@ -44,7 +44,6 @@ func traverse(output_port:int, area: AABB, generator_data:GaeaData) -> Dictionar
 
 	# Validation
 	if not has_inputs_connected(_get_required_input_ports(), generator_data):
-		log_error("The node don't have all required inputs ports connected.", generator_data, generator_data.resources.find(self))
 		return {}
 
 	# Traversal
