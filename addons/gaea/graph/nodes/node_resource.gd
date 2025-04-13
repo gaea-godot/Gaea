@@ -130,16 +130,17 @@ func get_input_resource(slot:int, generator_data:GaeaData) -> GaeaNodeResource:
 func get_arg(name: String, generator_data: GaeaData) -> Variant:
 	log_arg(name, generator_data)
 
-	var arg_connection_idx: int = 0
+	var arg_connection_idx: int = -1
 	var arg_slot_type: GaeaGraphNode.SlotTypes
 	var args_with_input: Array[GaeaNodeArgument] = args.filter(func(arg: GaeaNodeArgument) -> bool:
-		return not arg.type == GaeaNodeArgument.Type.CATEGORY and not arg.disable_input_slot
+		return GaeaNodeArgument.has_input(arg.type) and not arg.disable_input_slot
 	)
 	for i in args_with_input.size():
 		if args_with_input[i].name == name:
 			arg_slot_type = GaeaNodeArgument.get_slot_type_equivalent(args_with_input[i].type)
 			arg_connection_idx = i + input_slots.size()
 			break
+
 
 	if arg_connection_idx != -1 and is_instance_valid(generator_data):
 		var connected_idx: int = get_connected_resource_idx(arg_connection_idx)
