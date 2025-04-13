@@ -25,6 +25,8 @@ var has_no_input: bool = false:
 #region init
 func initialize() -> void:
 	super()
+	resource.input_slots[0].left_enabled = true
+	resource.input_slots[0].right_enabled = true
 	connections_updated.connect(_validate_connections)
 
 	var titlebar_hbox = get_titlebar_hbox()
@@ -48,6 +50,7 @@ func _update_slots():
 	set_slot_custom_icon_right(0, GaeaGraphNode.get_icon_from_type(type))
 	if not is_part_of_edited_scene():
 		resource.input_slots[0].left_type = type
+		resource.input_slots[0].right_type = type
 		resource.title = "Reroute (%s)" % GaeaGraphNode.SlotTypes.find_key(type).capitalize()
 
 
@@ -55,6 +58,7 @@ static func create_resource() -> GaeaNodeResource:
 	var new_resource = _RerouteResource.new()
 	new_resource.title = "New Reroute"
 	var input_slot = GaeaNodeSlot.new()
+	input_slot.right_enabled = true
 	input_slot.left_enabled = true
 	new_resource.input_slots.append(input_slot)
 	return new_resource
