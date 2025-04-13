@@ -4,6 +4,7 @@ extends RefCounted
 
 const LINE_CURVATURE := "gaea/graph/line_curvature"
 const GRID_PATTERN := "gaea/graph/grid_pattern"
+const OUTPUT_TITLE_COLOR := "gaea/graph/output_title_color"
 const COLOR_BASE := "gaea/graph/slot_colors/%s"
 const ICON_BASE := "gaea/graph/slot_icons/%s"
 const CONFIGURABLE_SLOT_COLORS := {
@@ -34,6 +35,7 @@ func add_settings() -> void:
 		"hint_string": "Lines,Dots"
 	})
 
+	_add_setting(OUTPUT_TITLE_COLOR, Color("632639"), {"type": TYPE_COLOR, "hint": PROPERTY_HINT_COLOR_NO_ALPHA})
 
 	for slot_type: GaeaGraphNode.SlotTypes in CONFIGURABLE_SLOT_COLORS.keys():
 		_add_setting(
@@ -44,6 +46,7 @@ func add_settings() -> void:
 				"hint": PROPERTY_HINT_COLOR_NO_ALPHA
 			}
 		)
+
 
 	for slot_type: GaeaGraphNode.SlotTypes in CONFIGURABLE_SLOT_COLORS.keys():
 		_add_setting(
@@ -63,6 +66,10 @@ func _add_setting(key: String, default_value: Variant, property_info: Dictionary
 	editor_settings.set_initial_value(key, default_value, false)
 	property_info.set("name", key)
 	editor_settings.add_property_info(property_info)
+
+
+static func get_configured_output_color() -> Color:
+	return EditorInterface.get_editor_settings().get_setting(OUTPUT_TITLE_COLOR)
 
 
 static func get_configured_color_for_slot_type(slot_type: GaeaGraphNode.SlotTypes) -> Color:

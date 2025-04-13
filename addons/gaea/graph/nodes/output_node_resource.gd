@@ -40,6 +40,4 @@ func get_scene() -> PackedScene:
 
 
 func get_title_color() -> Color:
-	var color: Color = Color("421926")
-	color.v *= 1.5
-	return color
+	return GaeaEditorSettings.get_configured_output_color()
