@@ -45,7 +45,7 @@ func _update_slots():
 	set_slot(0, true, type, color, true, type, color)
 	set_slot_type_left(0, type)
 	set_slot_type_right(0, type)
-	set_slot_custom_icon_right(0, GaeaGraphNode.get_icon_from_type(type))
+	set_slot_custom_icon_right(0, GaeaEditorSettings.get_configured_icon_for_slot_type(type))
 	if not is_part_of_edited_scene():
 		resource.input_slots[0].left_type = type
 		resource.title = "Reroute (%s)" % GaeaGraphNode.SlotTypes.find_key(type).capitalize()

@@ -4,6 +4,7 @@ extends RefCounted
 
 const LINE_CURVATURE := "gaea/graph/line_curvature"
 const COLOR_BASE := "gaea/graph/slot_colors/%s"
+const ICON_BASE := "gaea/graph/slot_icons/%s"
 const CONFIGURABLE_SLOT_COLORS := {
 	GaeaGraphNode.SlotTypes.DATA: "data",
 	GaeaGraphNode.SlotTypes.MAP: "map",
@@ -38,6 +39,17 @@ func add_settings() -> void:
 			}
 		)
 
+	for slot_type: GaeaGraphNode.SlotTypes in CONFIGURABLE_SLOT_COLORS.keys():
+		_add_setting(
+			ICON_BASE % CONFIGURABLE_SLOT_COLORS.get(slot_type),
+			GaeaGraphNode.get_icon_from_type(slot_type).resource_path,
+			{
+				"type": TYPE_STRING,
+				"hint": PROPERTY_HINT_FILE,
+				"hint_string": "*.png,*.jpg,*.svg"
+			}
+		)
+
 
 func _add_setting(key: String, default_value: Variant, property_info: Dictionary) -> void:
 	if not editor_settings.has_setting(key):
@@ -51,6 +63,19 @@ static func get_configured_color_for_slot_type(slot_type: GaeaGraphNode.SlotType
 	if slot_type == GaeaGraphNode.SlotTypes.NULL:
 		return Color.WHITE
 	return EditorInterface.get_editor_settings().get_setting(COLOR_BASE % CONFIGURABLE_SLOT_COLORS.get(slot_type))
+
+
+static func get_configured_icon_for_slot_type(slot_type: GaeaGraphNode.SlotTypes) -> Texture:
+	if slot_type == GaeaGraphNode.SlotTypes.NULL:
+		return null
+
+	var path: String = EditorInterface.get_editor_settings().get_setting(ICON_BASE % CONFIGURABLE_SLOT_COLORS.get(slot_type))
+	if path.is_empty():
+		return preload("res://addons/gaea/assets/slots/circle.svg")
+	var loaded: Object = load(path)
+	if loaded is Texture:
+		return loaded
+	return preload("res://addons/gaea/assets/slots/circle.svg")
 
 
 static func get_line_curvature() -> float:

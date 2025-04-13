@@ -39,7 +39,7 @@ func _ready() -> void:
 		slot_idx,
 		add_input_slot, input_type, GaeaEditorSettings.get_configured_color_for_slot_type(input_type),
 		add_output_slot, input_type, GaeaEditorSettings.get_configured_color_for_slot_type(input_type),
-		GaeaGraphNode.get_icon_from_type(input_type), GaeaGraphNode.get_icon_from_type(input_type),
+		GaeaEditorSettings.get_configured_icon_for_slot_type(input_type), GaeaEditorSettings.get_configured_icon_for_slot_type(input_type),
 	)
 
 	set_label_text(resource.name.capitalize())
