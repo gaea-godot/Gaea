@@ -338,14 +338,14 @@ func _is_point_outside_area(area: AABB, point: Vector3) -> bool:
 #region Data casting methods
 static func cast_value(from_type: GaeaGraphNode.SlotTypes, to_type: GaeaGraphNode.SlotTypes, value: Variant) -> Variant:
 	match [from_type, to_type]:
+		#region Range -> Any
 		[GaeaGraphNode.SlotTypes.RANGE, GaeaGraphNode.SlotTypes.VECTOR2]:
 			return Vector2(
 				value.get("min"), value.get("max")
 			)
-		[GaeaGraphNode.SlotTypes.VECTOR2, GaeaGraphNode.SlotTypes.RANGE]:
-			return {
-				"min": value.x, "max": value.y
-			}
+		#endregion
+
+		#region Number -> Any
 		[GaeaGraphNode.SlotTypes.NUMBER, GaeaGraphNode.SlotTypes.VECTOR2]:
 			return Vector2(
 				value, value
@@ -354,6 +354,15 @@ static func cast_value(from_type: GaeaGraphNode.SlotTypes, to_type: GaeaGraphNod
 			return Vector3(
 				value, value, value
 			)
+		[GaeaGraphNode.SlotTypes.NUMBER, GaeaGraphNode.SlotTypes.BOOL]:
+			return value > 0.0
+		#endregion
+
+		#region Vector -> Any
+		[GaeaGraphNode.SlotTypes.VECTOR2, GaeaGraphNode.SlotTypes.RANGE]:
+			return {
+				"min": value.x, "max": value.y
+			}
 		[GaeaGraphNode.SlotTypes.VECTOR2, GaeaGraphNode.SlotTypes.VECTOR3]:
 			return Vector3(
 				value.x, value.y, 0.0
@@ -362,10 +371,19 @@ static func cast_value(from_type: GaeaGraphNode.SlotTypes, to_type: GaeaGraphNod
 			return Vector2(
 				value.x, value.y
 			)
+		[GaeaGraphNode.SlotTypes.VECTOR2, GaeaGraphNode.SlotTypes.NUMBER],\
+		[GaeaGraphNode.SlotTypes.VECTOR3, GaeaGraphNode.SlotTypes.NUMBER]:
+			return value.x
+		#endregion
+
+		#region Boolean -> Any
 		[GaeaGraphNode.SlotTypes.BOOL, GaeaGraphNode.SlotTypes.NUMBER]:
-			return (1.0 if value else 0.0)
-		[GaeaGraphNode.SlotTypes.NUMBER, GaeaGraphNode.SlotTypes.BOOL]:
-			return value > 0.0
+			return float(value)
+		[GaeaGraphNode.SlotTypes.BOOL, GaeaGraphNode.SlotTypes.VECTOR2]:
+			return Vector2(float(value), float(value))
+		[GaeaGraphNode.SlotTypes.BOOL, GaeaGraphNode.SlotTypes.VECTOR3]:
+			return Vector3(float(value), float(value), float(value))
+		#endregion
 
 
 	printerr("Could not get data from previous node, missing cast method from %s to %s" % [
