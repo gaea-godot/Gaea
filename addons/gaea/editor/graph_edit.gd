@@ -10,6 +10,10 @@ var attached_elements: Dictionary
 func _init() -> void:
 	add_valid_connection_type(GaeaGraphNode.SlotTypes.VECTOR2, GaeaGraphNode.SlotTypes.RANGE)
 	add_valid_connection_type(GaeaGraphNode.SlotTypes.RANGE, GaeaGraphNode.SlotTypes.VECTOR2)
+	add_valid_connection_type(GaeaGraphNode.SlotTypes.NUMBER, GaeaGraphNode.SlotTypes.VECTOR2)
+	add_valid_connection_type(GaeaGraphNode.SlotTypes.NUMBER, GaeaGraphNode.SlotTypes.VECTOR3)
+	add_valid_connection_type(GaeaGraphNode.SlotTypes.VECTOR2, GaeaGraphNode.SlotTypes.VECTOR3)
+	add_valid_connection_type(GaeaGraphNode.SlotTypes.VECTOR3, GaeaGraphNode.SlotTypes.VECTOR2)
 
 
 func _on_delete_nodes_request(nodes: Array[StringName]) -> void:
