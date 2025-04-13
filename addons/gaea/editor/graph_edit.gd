@@ -60,7 +60,6 @@ func _on_connection_request(from_node: StringName, from_port: int, to_node: Stri
 					connection.to_port
 				)
 
-	target_node.hide_param_value(to_port)
 	connect_node(from_node, from_port, to_node, to_port)
 	request_connection_update.emit()
 

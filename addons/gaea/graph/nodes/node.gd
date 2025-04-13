@@ -169,16 +169,6 @@ func request_save() -> void:
 	save_requested.emit()
 
 
-func hide_param_value(idx: int) -> void:
-	var input_idx: int = -1
-	for child in get_children():
-		if is_slot_enabled_left(child.get_index()):
-			input_idx += 1
-
-		if child is GaeaGraphNodeParameter:
-			child.set_param_visible(false)
-
-
 func notify_connections_updated() -> void:
 	connections_updated.emit()
 
@@ -190,7 +180,8 @@ func notify_connections_updated() -> void:
 		if child is GaeaGraphNodeParameter:
 			child.set_param_visible(not connections.any(_is_connected_to.bind(input_idx)))
 
-	size.y = get_combined_minimum_size().y
+	(func() -> void: size.y = get_combined_minimum_size().y).call_deferred()
+	queue_redraw.call_deferred()
 
 
 func _is_connected_to(connection: Dictionary, idx: int) -> bool:
