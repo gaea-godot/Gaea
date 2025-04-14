@@ -254,8 +254,23 @@ func _popup_create_node_menu_at_mouse() -> void:
 	_create_node_popup.position = Vector2i(get_global_mouse_position())
 	if not EditorInterface.get_editor_settings().get_setting("interface/editor/single_window_mode"):
 		_create_node_popup.position += get_window().position
+	_clamp_popup_in_window(_create_node_popup, get_window())
 	_create_node_popup.popup()
 	_search_bar.grab_focus()
+
+
+func _clamp_popup_in_window(popup: Window, main_window: Window) -> void:
+	var window_rect = Rect2i(main_window.position, main_window.size)
+	var inner_rect = Rect2i(popup.position, popup.size)
+	if inner_rect.position.x < window_rect.position.x:
+		popup.position.x = window_rect.position.x
+	elif inner_rect.position.x + inner_rect.size.x > window_rect.position.x + window_rect.size.x:
+		popup.position.x = window_rect.position.x + window_rect.size.x - inner_rect.size.x
+
+	if inner_rect.position.y < window_rect.position.y:
+		popup.position.y = window_rect.position.y
+	elif inner_rect.position.y + inner_rect.size.y > window_rect.position.y + window_rect.size.y:
+		popup.position.y = window_rect.position.y + window_rect.size.y - inner_rect.size.y
 
 
 func _add_node_from_resource(resource: GaeaNodeResource) -> GraphNode:
