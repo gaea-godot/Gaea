@@ -167,8 +167,9 @@ func _on_param_value_changed(_value: Variant, _node: GaeaGraphNodeParameter, _pa
 func _update_arguments_visibility() -> void:
 	var input_idx: int = -1
 	for child in get_children():
-		if is_slot_enabled_left(child.get_index()):
-			input_idx += 1
+		if not is_slot_enabled_left(child.get_index()):
+			continue
+		input_idx += 1
 
 		if child is GaeaGraphNodeParameter:
 			child.set_param_visible(not connections.any(_is_connected_to.bind(input_idx)))
