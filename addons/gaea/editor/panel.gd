@@ -83,6 +83,9 @@ func _on_graph_edit_gui_input(event: InputEvent) -> void:
 func _on_visibility_changed() -> void:
 	_graph_edit.set_connection_lines_curvature(GaeaEditorSettings.get_line_curvature())
 	_graph_edit.set_grid_pattern(GaeaEditorSettings.get_grid_pattern())
+	_graph_edit.set_connection_lines_thickness(GaeaEditorSettings.get_line_thickness())
+	_graph_edit.set_minimap_opacity(GaeaEditorSettings.get_minimap_opacity())
+
 #endregion
 
 

@@ -2,7 +2,10 @@
 class_name GaeaEditorSettings
 extends RefCounted
 
+
 const LINE_CURVATURE := "gaea/graph/line_curvature"
+const LINE_THICKNESS := "gaea/graph/line_thickness"
+const MINIMAP_OPACITY := "gaea/graph/minimap_opacity"
 const GRID_PATTERN := "gaea/graph/grid_pattern"
 const OUTPUT_TITLE_COLOR := "gaea/graph/output_title_color"
 const COLOR_BASE := "gaea/graph/slot_colors/%s"
@@ -25,6 +28,16 @@ var editor_settings: EditorSettings
 func add_settings() -> void:
 	editor_settings = EditorInterface.get_editor_settings()
 	_add_setting(LINE_CURVATURE, 0.5, {
+		"type": TYPE_FLOAT,
+		"hint": PROPERTY_HINT_RANGE,
+		"hint_string": "0.0,1.0"
+	})
+	_add_setting(LINE_THICKNESS, 4.0, {
+		"type": TYPE_FLOAT,
+		"hint": PROPERTY_HINT_RANGE,
+		"hint_string": "0.0,100.0"
+	})
+	_add_setting(MINIMAP_OPACITY, 0.85, {
 		"type": TYPE_FLOAT,
 		"hint": PROPERTY_HINT_RANGE,
 		"hint_string": "0.0,1.0"
@@ -93,6 +106,14 @@ static func get_configured_icon_for_slot_type(slot_type: GaeaGraphNode.SlotTypes
 
 static func get_line_curvature() -> float:
 	return EditorInterface.get_editor_settings().get_setting(LINE_CURVATURE)
+
+
+static func get_line_thickness() -> float:
+	return EditorInterface.get_editor_settings().get_setting(LINE_THICKNESS)
+
+
+static func get_minimap_opacity() -> float:
+	return EditorInterface.get_editor_settings().get_setting(MINIMAP_OPACITY)
 
 
 static func get_grid_pattern() -> int:
