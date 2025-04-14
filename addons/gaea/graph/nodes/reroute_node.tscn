@@ -19,7 +19,6 @@ theme_override_styles/panel_selected = SubResource("StyleBoxEmpty_fbfsu")
 theme_override_styles/titlebar = SubResource("StyleBoxEmpty_6svu7")
 theme_override_styles/titlebar_selected = SubResource("StyleBoxEmpty_6svu7")
 theme_override_styles/slot = SubResource("StyleBoxEmpty_6svu7")
-resizable = false
 title = ""
 slot/0/left_enabled = true
 slot/0/left_type = 4
