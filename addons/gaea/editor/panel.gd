@@ -267,6 +267,7 @@ func _popup_create_node_menu_at_mouse() -> void:
 	_clamp_popup_in_window(_create_node_popup, get_window())
 	_create_node_popup.popup()
 	_search_bar.grab_focus()
+	_search_bar.select_all()
 
 
 func _clamp_popup_in_window(popup: Window, main_window: Window) -> void:

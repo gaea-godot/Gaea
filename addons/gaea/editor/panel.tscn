@@ -218,7 +218,7 @@ metadata/_edit_use_anchors_ = true
 unique_name_in_owner = true
 title = "Create Node"
 position = Vector2i(0, 36)
-size = Vector2i(256, 384)
+size = Vector2i(400, 600)
 visible = false
 transient = true
 exclusive = true
@@ -226,16 +226,25 @@ extend_to_title = true
 keep_title_visible = true
 script = ExtResource("5_nbnm7")
 
-[node name="CreateNodePanel" type="Panel" parent="Editor/CreateNodePopup"]
-unique_name_in_owner = true
+[node name="BackgroundContainer" type="MarginContainer" parent="Editor/CreateNodePopup"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = -10
+theme_override_constants/margin_top = -10
+theme_override_constants/margin_right = -10
+theme_override_constants/margin_bottom = -10
+
+[node name="CreateNodePanel" type="Panel" parent="Editor/CreateNodePopup/BackgroundContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="Margin" type="MarginContainer" parent="Editor/CreateNodePopup"]
+[node name="MainContentContainer" type="MarginContainer" parent="Editor/CreateNodePopup"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -243,21 +252,42 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/margin_left = 6
-theme_override_constants/margin_top = 6
-theme_override_constants/margin_right = 6
-theme_override_constants/margin_bottom = 6
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
 
-[node name="VBox" type="VBoxContainer" parent="Editor/CreateNodePopup/Margin"]
+[node name="VBox" type="VBoxContainer" parent="Editor/CreateNodePopup/MainContentContainer"]
 layout_mode = 2
 
-[node name="SearchBar" type="LineEdit" parent="Editor/CreateNodePopup/Margin/VBox"]
+[node name="SearchContainer" type="HBoxContainer" parent="Editor/CreateNodePopup/MainContentContainer/VBox"]
+layout_mode = 2
+
+[node name="SearchBar" type="LineEdit" parent="Editor/CreateNodePopup/MainContentContainer/VBox/SearchContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
 placeholder_text = "Search"
 clear_button_enabled = true
 
-[node name="CreateNodeTree" type="Tree" parent="Editor/CreateNodePopup/Margin/VBox" node_paths=PackedStringArray("description_label")]
+[node name="ToolButton" type="Button" parent="Editor/CreateNodePopup/MainContentContainer/VBox/SearchContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+focus_mode = 0
+flat = true
+
+[node name="ToolPopup" type="PopupMenu" parent="Editor/CreateNodePopup/MainContentContainer/VBox/SearchContainer/ToolButton"]
+unique_name_in_owner = true
+position = Vector2i(255, 80)
+size = Vector2i(108, 62)
+item_count = 2
+item_0/text = "Expand all"
+item_0/id = 0
+item_1/text = "Collapse all"
+item_1/id = 1
+
+[node name="CreateNodeTree" type="Tree" parent="Editor/CreateNodePopup/MainContentContainer/VBox" node_paths=PackedStringArray("description_label")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
@@ -265,31 +295,31 @@ hide_root = true
 script = ExtResource("2_vpeaa")
 description_label = NodePath("../PanelContainer/DescriptionLabel")
 
-[node name="Label" type="Label" parent="Editor/CreateNodePopup/Margin/VBox"]
+[node name="Label" type="Label" parent="Editor/CreateNodePopup/MainContentContainer/VBox"]
 layout_mode = 2
 text = "Description"
 
-[node name="PanelContainer" type="PanelContainer" parent="Editor/CreateNodePopup/Margin/VBox"]
+[node name="PanelContainer" type="PanelContainer" parent="Editor/CreateNodePopup/MainContentContainer/VBox"]
 layout_mode = 2
 
-[node name="DescriptionLabel" type="RichTextLabel" parent="Editor/CreateNodePopup/Margin/VBox/PanelContainer"]
+[node name="DescriptionLabel" type="RichTextLabel" parent="Editor/CreateNodePopup/MainContentContainer/VBox/PanelContainer"]
 custom_minimum_size = Vector2(0, 96)
 layout_mode = 2
 bbcode_enabled = true
 text = "Description of the selected node goes here"
 autowrap_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Editor/CreateNodePopup/Margin/VBox"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Editor/CreateNodePopup/MainContentContainer/VBox"]
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="CreateButton" type="Button" parent="Editor/CreateNodePopup/Margin/VBox/HBoxContainer"]
+[node name="CreateButton" type="Button" parent="Editor/CreateNodePopup/MainContentContainer/VBox/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Create"
 
-[node name="CancelButton" type="Button" parent="Editor/CreateNodePopup/Margin/VBox/HBoxContainer"]
+[node name="CancelButton" type="Button" parent="Editor/CreateNodePopup/MainContentContainer/VBox/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -348,12 +378,14 @@ filters = PackedStringArray("*.tres,*.res;Resources")
 [connection signal="node_selected" from="Editor/VBoxContainer/GraphEdit" to="Editor/VBoxContainer/GraphEdit" method="_on_node_selected"]
 [connection signal="request_connection_update" from="Editor/VBoxContainer/GraphEdit" to="." method="update_connections"]
 [connection signal="request_save" from="Editor/VBoxContainer/GraphEdit" to="." method="_save_data"]
-[connection signal="text_changed" from="Editor/CreateNodePopup/Margin/VBox/SearchBar" to="Editor/CreateNodePopup/Margin/VBox/CreateNodeTree" method="_on_search_bar_text_changed"]
-[connection signal="item_activated" from="Editor/CreateNodePopup/Margin/VBox/CreateNodeTree" to="Editor/CreateNodePopup/Margin/VBox/CreateNodeTree" method="_on_item_activated"]
-[connection signal="item_selected" from="Editor/CreateNodePopup/Margin/VBox/CreateNodeTree" to="Editor/CreateNodePopup/Margin/VBox/CreateNodeTree" method="_on_item_selected"]
-[connection signal="node_selected_for_creation" from="Editor/CreateNodePopup/Margin/VBox/CreateNodeTree" to="." method="_on_tree_node_selected_for_creation"]
-[connection signal="special_node_selected_for_creation" from="Editor/CreateNodePopup/Margin/VBox/CreateNodeTree" to="." method="_on_tree_special_node_selected_for_creation"]
-[connection signal="pressed" from="Editor/CreateNodePopup/Margin/VBox/HBoxContainer/CreateButton" to="Editor/CreateNodePopup/Margin/VBox/CreateNodeTree" method="_on_create_button_pressed"]
+[connection signal="text_changed" from="Editor/CreateNodePopup/MainContentContainer/VBox/SearchContainer/SearchBar" to="Editor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_search_bar_text_changed"]
+[connection signal="pressed" from="Editor/CreateNodePopup/MainContentContainer/VBox/SearchContainer/ToolButton" to="Editor/CreateNodePopup" method="_on_tool_button_pressed"]
+[connection signal="id_pressed" from="Editor/CreateNodePopup/MainContentContainer/VBox/SearchContainer/ToolButton/ToolPopup" to="Editor/CreateNodePopup" method="_on_tool_popup_id_pressed"]
+[connection signal="item_activated" from="Editor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" to="Editor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_item_activated"]
+[connection signal="item_selected" from="Editor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" to="Editor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_item_selected"]
+[connection signal="node_selected_for_creation" from="Editor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" to="." method="_on_tree_node_selected_for_creation"]
+[connection signal="special_node_selected_for_creation" from="Editor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" to="." method="_on_tree_special_node_selected_for_creation"]
+[connection signal="pressed" from="Editor/CreateNodePopup/MainContentContainer/VBox/HBoxContainer/CreateButton" to="Editor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_create_button_pressed"]
 [connection signal="create_node_popup_requested" from="Editor/NodePopup" to="." method="_popup_create_node_menu_at_mouse"]
 [connection signal="new_reroute_requested" from="Editor/LinkPopup" to="." method="_on_new_reroute_requested"]
 [connection signal="file_selected" from="FileDialog" to="." method="_on_file_dialog_file_selected"]
