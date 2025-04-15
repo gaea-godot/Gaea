@@ -14,7 +14,7 @@ func initialize() -> void:
 
 	if resource is not GaeaVariableNodeResource:
 		return
-	
+
 	var _loading_loop_limit = 60
 	while not finished_loading and _loading_loop_limit > 0:
 		await get_tree().process_frame
@@ -24,7 +24,7 @@ func initialize() -> void:
 
 	set_arg_value("name", resource.get_arg("name", null))
 	previous_name = get_arg_value("name")
-	
+
 	if generator.data.parameters.has(get_arg_value("name")):
 		return
 

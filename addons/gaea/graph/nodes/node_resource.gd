@@ -31,7 +31,7 @@ enum Axis {X, Y, Z}
 
 #region Execution
 func execute(_area: AABB, _generator_data: GaeaData, _generator: GaeaGenerator) -> void:
-	
+
 	pass
 
 
@@ -161,7 +161,14 @@ func get_arg(name: String, generator_data: GaeaData) -> Variant:
 				return GaeaNodeResource.cast_value(connected_type, arg_slot_type, connected_data.get("value"))
 			else:
 				log_error("Could not get data from previous node, using default value instead.", generator_data, connected_idx)
-	return data.get(name)
+
+	var arg_resource: GaeaNodeArgument
+	for arg in args:
+		if arg.name == name:
+			arg_resource = arg
+			break
+
+	return data.get(name, arg_resource.get_default_value())
 #endregion
 
 

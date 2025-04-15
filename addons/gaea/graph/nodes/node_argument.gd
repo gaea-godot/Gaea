@@ -23,7 +23,7 @@ enum Type {
 		type = value
 		notify_property_list_changed()
 @export var name: StringName
-@export_storage var default_value: Variant
+@export_storage var default_value: Variant : get = get_default_value
 @export var hint: Dictionary[String, Variant]
 @export_group("Slots")
 @export var disable_input_slot: bool = false
@@ -49,6 +49,28 @@ func get_arg_node(_graph_node: GaeaGraphNode, _idx: int) -> GaeaGraphNodeParamet
 
 func get_arg_name() -> StringName:
 	return name
+
+
+func get_default_value() -> Variant:
+	if default_value != null:
+		return default_value
+
+	match type:
+		Type.FLOAT:
+			return 0.0
+		Type.INT, Type.BITMASK, Type.BITMASK_EXCLUSIVE:
+			return 0
+		Type.VECTOR2:
+			return Vector2.ZERO
+		Type.VECTOR3:
+			return Vector3.ZERO
+		Type.NEIGHBOR, Type.FLAGS:
+			return []
+		Type.BOOLEAN:
+			return false
+		Type.RANGE:
+			return {"min": 0.0, "max": 1.0}
+	return null
 
 
 static func get_scene_from_type(for_type: Type) -> PackedScene:

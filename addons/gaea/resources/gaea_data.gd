@@ -142,7 +142,7 @@ func get_all_nodes_files(path: String, files: Dictionary[String, String] = {}) -
 				if file_name.get_extension() != "tres":
 					file_name = dir.get_next()
 					continue
-				
+
 				var node_path = dir.get_current_dir() + "/" + file_name
 				var node = ResourceLoader.load(node_path)
 				files.set(node.title, ResourceUID.id_to_text(ResourceLoader.get_resource_uid(node_path)))

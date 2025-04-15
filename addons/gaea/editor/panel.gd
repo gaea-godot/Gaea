@@ -193,7 +193,7 @@ func _get_frame_save_data(frame: GraphFrame) -> Dictionary[String, Variant]:
 func _load_data() -> void:
 	is_loading = true
 	_graph_edit.scroll_offset = _selected_generator.data.other.get("scroll_offset", Vector2.ZERO)
-	
+
 	var has_output_node: bool = false
 	for idx in _selected_generator.data.resources.size():
 		var saved_data = _selected_generator.data.node_data[idx]
@@ -308,7 +308,7 @@ func _add_node_from_resource(resource: GaeaNodeResource, p_is_loading: bool = fa
 	node.resource = resource
 	node.generator = get_selected_generator()
 	_graph_edit.add_child(node)
-	
+
 
 	#node.set_generator_reference(_selected_generator)
 	node.on_added()
