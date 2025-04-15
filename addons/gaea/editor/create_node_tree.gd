@@ -102,7 +102,7 @@ func _on_item_selected() -> void:
 
 
 func _on_nothing_selected() -> void:
-	description_label.clear()
+	description_label.set_text("")
 
 
 func _on_search_bar_text_changed(new_text: String) -> void:

@@ -6,6 +6,7 @@ extends Window
 @onready var tool_button: Button = %ToolButton
 @onready var tool_popup: PopupMenu = %ToolPopup
 @onready var create_node_tree: Tree = %CreateNodeTree
+@onready var description_label: RichTextLabel = %DescriptionLabel
 
 
 func _ready() -> void:
@@ -14,6 +15,7 @@ func _ready() -> void:
 	close_requested.connect(hide)
 	cancel_button.pressed.connect(hide)
 	tool_button.icon = EditorInterface.get_base_control().get_theme_icon(&"Tools", &"EditorIcons")
+	description_label.set_text("")
 
 
 func _input(event: InputEvent) -> void:

@@ -304,6 +304,7 @@ text = "Description"
 layout_mode = 2
 
 [node name="DescriptionLabel" type="RichTextLabel" parent="Editor/CreateNodePopup/MainContentContainer/VBox/PanelContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 96)
 layout_mode = 2
 bbcode_enabled = true
