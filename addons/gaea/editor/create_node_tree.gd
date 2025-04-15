@@ -80,6 +80,8 @@ func _populate_dict_with_files(folder_path: String, dict: Dictionary) -> Diction
 
 func _on_item_activated() -> void:
 	var item: TreeItem = get_selected()
+	if not is_instance_valid(item):
+		return
 	if item.get_metadata(0) is GaeaNodeResource:
 		node_selected_for_creation.emit(item.get_metadata(0).duplicate())
 	elif item.get_metadata(0) is StringName:
@@ -97,6 +99,10 @@ func _on_item_selected() -> void:
 	elif item.get_metadata(0) is StringName:
 		match item.get_metadata(0):
 			&"frame": description_label.set_text("A rectangular area for better organziation.")
+
+
+func _on_nothing_selected() -> void:
+	description_label.clear()
 
 
 func _on_search_bar_text_changed(new_text: String) -> void:
@@ -131,3 +137,6 @@ func _on_search_bar_text_changed(new_text: String) -> void:
 		scroll_to_item(first_item_found, true)
 		first_item_found.select(0)
 		ensure_cursor_is_visible()
+	else:
+		scroll_to_item(get_root(), true)
+		deselect_all()

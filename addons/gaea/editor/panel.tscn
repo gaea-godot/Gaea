@@ -385,6 +385,7 @@ filters = PackedStringArray("*.tres,*.res;Resources")
 [connection signal="item_activated" from="Editor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" to="Editor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_item_activated"]
 [connection signal="item_selected" from="Editor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" to="Editor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_item_selected"]
 [connection signal="node_selected_for_creation" from="Editor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" to="." method="_on_tree_node_selected_for_creation"]
+[connection signal="nothing_selected" from="Editor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" to="Editor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_nothing_selected"]
 [connection signal="special_node_selected_for_creation" from="Editor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" to="." method="_on_tree_special_node_selected_for_creation"]
 [connection signal="pressed" from="Editor/CreateNodePopup/MainContentContainer/VBox/HBoxContainer/CreateButton" to="Editor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_create_button_pressed"]
 [connection signal="create_node_popup_requested" from="Editor/NodePopup" to="." method="_popup_create_node_menu_at_mouse"]
