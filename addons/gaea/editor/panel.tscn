@@ -295,7 +295,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Cancel"
 
-[node name="NodePopup" type="PopupMenu" parent="Editor" node_paths=PackedStringArray("graph_edit")]
+[node name="NodePopup" type="PopupMenu" parent="Editor" node_paths=PackedStringArray("panel", "graph_edit")]
 unique_name_in_owner = true
 size = Vector2i(100, 124)
 item_count = 6
@@ -313,6 +313,7 @@ item_4/disabled = true
 item_5/text = "Set Color"
 item_5/id = 5
 script = ExtResource("4_vtsfx")
+panel = NodePath("../..")
 graph_edit = NodePath("../VBoxContainer/GraphEdit")
 
 [node name="LinkPopup" type="PopupMenu" parent="Editor" node_paths=PackedStringArray("graph_edit")]
