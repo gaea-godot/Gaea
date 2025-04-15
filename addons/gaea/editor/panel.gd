@@ -285,6 +285,7 @@ func _popup_create_node_menu_at_mouse() -> void:
 	_clamp_popup_in_window(_create_node_popup, get_window())
 	_create_node_popup.popup()
 	_search_bar.grab_focus()
+	_search_bar.select_all()
 
 
 func _clamp_popup_in_window(popup: Window, main_window: Window) -> void:
@@ -308,9 +309,6 @@ func _add_node_from_resource(resource: GaeaNodeResource, p_is_loading: bool = fa
 	node.resource = resource
 	node.generator = get_selected_generator()
 	_graph_edit.add_child(node)
-
-
-	#node.set_generator_reference(_selected_generator)
 	node.on_added()
 	node.save_requested.connect(_save_data)
 	node.name = node.name.replace("@", "_")
@@ -500,6 +498,7 @@ func _on_window_popout_button_pressed() -> void:
 	_window_popout_button.hide()
 	_window_popout_separator.hide()
 
+
 func _get_multiwindow_support_tooltip_text() -> String:
 	# Adapted from https://github.com/godotengine/godot/blob/a8598cd8e261716fa3addb6f10bb57c03a061be9/editor/editor_node.cpp#L4725-L4737
 	if EditorInterface.get_editor_settings().get_setting("interface/editor/single_window_mode"):
@@ -510,6 +509,7 @@ func _get_multiwindow_support_tooltip_text() -> String:
 		return tr("Multi-window support is not available because the `--single-window` command line argument was used to start the editor.")
 	else:
 		return tr("Multi-window support is not available because the current platform doesn't support multiple windows.")
+
 
 func _on_window_close_requested(original_parent: Control, window: Window) -> void:
 	reparent(original_parent, false)

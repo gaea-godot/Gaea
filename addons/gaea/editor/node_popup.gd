@@ -2,8 +2,18 @@
 extends PopupMenu
 
 
-enum Action { ADD, DELETE, RENAME, ENABLE_TINT, TINT, DETACH, ENABLE_AUTO_SHRINK }
+enum Action {
+	ADD,
+	DELETE,
+	RENAME,
+	ENABLE_TINT,
+	TINT,
+	DETACH,
+	ENABLE_AUTO_SHRINK,
+	OPEN_IN_INSPECTOR
+}
 
+@export var panel: Control
 @export var graph_edit: GraphEdit
 
 signal create_node_popup_requested
@@ -35,6 +45,15 @@ func populate(selected: Array) -> void:
 		set_item_checked(get_item_index(Action.ENABLE_TINT), selected.front().tint_color_enabled)
 		set_item_checked(get_item_index(Action.ENABLE_AUTO_SHRINK), selected.front().autoshrink_enabled)
 		size = get_contents_minimum_size()
+	if selected.front() is GaeaGraphNode and selected.size() == 1:
+		var node: GaeaGraphNode = selected.front()
+		var resource: GaeaNodeResource = node.resource
+		if resource is GaeaVariableNodeResource:
+			var data: GaeaData = panel.get_selected_generator().data
+			var parameter: Dictionary = data.parameters.get(node.get_arg_value("name"), {})
+			if parameter.get("value") is Resource:
+				add_separator()
+				add_item("Open In Inspector", Action.OPEN_IN_INSPECTOR)
 
 
 func _on_id_pressed(id: int) -> void:
@@ -103,3 +122,12 @@ func _on_id_pressed(id: int) -> void:
 				if graph_edit.attached_elements.has(node.name):
 					graph_edit.detach_graph_element_from_frame(node.name)
 					graph_edit.attached_elements.erase(node.name)
+		Action.OPEN_IN_INSPECTOR:
+			var node: GaeaGraphNode = graph_edit.get_selected().front()
+			var resource: GaeaNodeResource = node.resource
+			if resource is GaeaVariableNodeResource:
+				var data: GaeaData = panel.get_selected_generator().data
+				var parameter: Dictionary = data.parameters.get(node.get_arg_value("name"), {})
+				var value: Variant = parameter.get("value")
+				if value is Resource and is_instance_valid(value):
+					EditorInterface.edit_resource(value)

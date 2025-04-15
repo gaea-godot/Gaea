@@ -8,6 +8,7 @@ signal special_node_selected_for_creation(id: StringName)
 const NODES_FOLDER_PATH: String = "res://addons/gaea/graph/nodes/root/"
 
 @export var description_label: RichTextLabel
+var tree_dictionary: Dictionary
 
 
 func _ready() -> void:
@@ -20,7 +21,7 @@ func populate() -> void:
 	clear()
 	var root: TreeItem = create_item()
 	hide_root = true
-	var tree_dictionary: Dictionary = _populate_dict_with_files(NODES_FOLDER_PATH, {})
+	tree_dictionary = _populate_dict_with_files(NODES_FOLDER_PATH, {})
 	tree_dictionary["Special"] = {
 		"Frame": &"frame"
 	}
@@ -61,9 +62,6 @@ func _populate_dict_with_files(folder_path: String, dict: Dictionary) -> Diction
 			file_name = dir.get_next()
 			continue
 
-		#var tree_item: TreeItem = create_item(parent_item)
-		#tree_item.set_text(0, file_name.get_basename().capitalize())
-
 		var tree_name: String = file_name.get_basename().capitalize()
 
 		var file_path = folder_path + file_name
@@ -75,8 +73,6 @@ func _populate_dict_with_files(folder_path: String, dict: Dictionary) -> Diction
 			if resource is GaeaNodeResource:
 				tree_name = resource.title
 				dict.get_or_add(file_name, resource)
-
-
 		file_name = dir.get_next()
 
 	return dict
@@ -84,6 +80,8 @@ func _populate_dict_with_files(folder_path: String, dict: Dictionary) -> Diction
 
 func _on_item_activated() -> void:
 	var item: TreeItem = get_selected()
+	if not is_instance_valid(item):
+		return
 	if item.get_metadata(0) is GaeaNodeResource:
 		node_selected_for_creation.emit(item.get_metadata(0))
 	elif item.get_metadata(0) is StringName:
@@ -103,24 +101,42 @@ func _on_item_selected() -> void:
 			&"frame": description_label.set_text("A rectangular area for better organziation.")
 
 
+func _on_nothing_selected() -> void:
+	description_label.set_text("")
+
+
 func _on_search_bar_text_changed(new_text: String) -> void:
 	if new_text.is_empty():
 		get_root().set_collapsed_recursive(true)
 		get_root().collapsed = false
 		deselect_all()
-		return
-
-	var item: TreeItem = get_root().get_next_in_tree()
-	var first_item_found: bool = false
-	item.collapsed = true
+	else:
+		get_root().set_collapsed_recursive(false)
+	
+	var item: TreeItem = get_root()
+	var first_item_found: TreeItem
 
 	while item.get_next_in_tree() != null:
 		item = item.get_next_in_tree()
-		if item.get_text(0).to_lower().contains(new_text.to_lower()):
-			item.uncollapse_tree()
-			if not first_item_found:
-				scroll_to_item(item, true)
-				item.select(0)
-				first_item_found = true
+		if new_text.is_empty():
+			item.visible = true
+		else:
+			var item_matched = new_text.is_subsequence_ofn(item.get_text(0))
+			if item_matched:
+				if not first_item_found:
+					first_item_found = item
+				item.visible = true
+				var parent_item: TreeItem = item.get_parent()
+				while parent_item != null:
+					parent_item.visible = true
+					parent_item = parent_item.get_parent()
+			else:
+				item.visible = false
 
-	ensure_cursor_is_visible()
+	if first_item_found:
+		scroll_to_item(first_item_found, true)
+		first_item_found.select(0)
+		ensure_cursor_is_visible()
+	else:
+		scroll_to_item(get_root(), true)
+		deselect_all()
