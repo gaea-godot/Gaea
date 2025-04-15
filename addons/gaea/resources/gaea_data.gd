@@ -94,9 +94,11 @@ func _setup_local_to_scene() -> void:
 	for idx in resource_uids.size():
 		var base_uid = resource_uids[idx]
 		var data: Dictionary = node_data[idx]
-		var resource := (load(base_uid) as GaeaNodeResource)._instantiate_duplicate()
+		var resource: GaeaNodeResource = load(base_uid)
 		if not resource is GaeaNodeResource:
 			push_error("Something went wrong, the resource at %s is not a GaeaNodeResource" % base_uid)
+			return
+		resource = resource._instantiate_duplicate()
 		resource._load_save_data(data)
 		resources.append(resource)
 
