@@ -276,6 +276,7 @@ custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 focus_mode = 0
 flat = true
+icon_alignment = 1
 
 [node name="ToolPopup" type="PopupMenu" parent="Editor/CreateNodePopup/MainContentContainer/VBox/SearchContainer/ToolButton"]
 unique_name_in_owner = true

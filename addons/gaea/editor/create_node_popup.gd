@@ -9,6 +9,8 @@ extends Window
 
 
 func _ready() -> void:
+	if is_part_of_edited_scene():
+		return
 	close_requested.connect(hide)
 	cancel_button.pressed.connect(hide)
 	tool_button.icon = EditorInterface.get_base_control().get_theme_icon(&"Tools", &"EditorIcons")
