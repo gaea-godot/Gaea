@@ -267,7 +267,7 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-placeholder_text = "Search"
+placeholder_text = "Search (Ctrl+Tab to cycle)"
 clear_button_enabled = true
 
 [node name="ToolButton" type="Button" parent="Editor/CreateNodePopup/MainContentContainer/VBox/SearchContainer"]

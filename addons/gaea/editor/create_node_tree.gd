@@ -17,6 +17,15 @@ func _ready() -> void:
 	populate()
 
 
+func _unhandled_key_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.is_pressed():
+		if event.is_command_or_control_pressed() and event.keycode == KEY_TAB:
+			_select_next_visible(
+				get_selected() if get_selected() != null else get_root(),
+				1 if not event.is_shift_pressed() else -1
+				)
+
+
 func populate() -> void:
 	clear()
 	var root: TreeItem = create_item()
@@ -33,6 +42,7 @@ func populate() -> void:
 
 
 func _populate_from_dictionary(dictionary: Dictionary, parent_item: TreeItem) -> void:
+	parent_item.set_selectable(0, false)
 	for key: String in dictionary:
 		var tree_item: TreeItem = create_item(parent_item)
 		tree_item.set_text(0, key)
@@ -112,7 +122,7 @@ func _on_search_bar_text_changed(new_text: String) -> void:
 		deselect_all()
 	else:
 		get_root().set_collapsed_recursive(false)
-	
+
 	var item: TreeItem = get_root()
 	var first_item_found: TreeItem
 
@@ -122,14 +132,11 @@ func _on_search_bar_text_changed(new_text: String) -> void:
 			item.visible = true
 		else:
 			var item_matched = new_text.is_subsequence_ofn(item.get_text(0))
-			if item_matched:
+			if item_matched and item.is_selectable(0):
 				if not first_item_found:
 					first_item_found = item
 				item.visible = true
-				var parent_item: TreeItem = item.get_parent()
-				while parent_item != null:
-					parent_item.visible = true
-					parent_item = parent_item.get_parent()
+				_show_parents_recursive(item)
 			else:
 				item.visible = false
 
@@ -140,3 +147,28 @@ func _on_search_bar_text_changed(new_text: String) -> void:
 	else:
 		scroll_to_item(get_root(), true)
 		deselect_all()
+
+
+func _select_next_visible(from: TreeItem, direction: int = 1) -> void:
+	if not is_instance_valid(from):
+		return
+
+	var item: TreeItem = (from.get_next_visible(true) if direction == 1 else from.get_prev_visible(true))
+	if not is_instance_valid(item):
+		return
+
+	while not item.is_selectable(0):
+		item.set_collapsed_recursive(false)
+		item = (item.get_next_visible(true) if direction == 1 else item.get_prev_visible(true))
+	_show_parents_recursive(item)
+	scroll_to_item(item)
+	item.select(0)
+	grab_focus()
+
+
+func _show_parents_recursive(item: TreeItem) -> void:
+	var parent_item: TreeItem = item.get_parent()
+	while parent_item != null:
+		parent_item.visible = true
+		parent_item.set_collapsed_recursive(false)
+		parent_item = parent_item.get_parent()
