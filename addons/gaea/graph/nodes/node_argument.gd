@@ -64,8 +64,10 @@ func get_default_value() -> Variant:
 			return Vector2.ZERO
 		Type.VECTOR3:
 			return Vector3.ZERO
-		Type.NEIGHBOR, Type.FLAGS:
-			return []
+		Type.NEIGHBOR:
+			return [] as Array[Vector2i]
+		Type.FLAGS:
+			return [] as Array[int]
 		Type.BOOLEAN:
 			return false
 		Type.RANGE:
