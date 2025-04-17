@@ -21,6 +21,7 @@ func _enter_tree() -> void:
 
 	_container = MarginContainer.new()
 	_panel = BottomPanel.instantiate()
+	_panel.plugin = self
 	_container.add_child(_panel)
 	_panel_button = add_control_to_bottom_panel(_container, "Gaea")
 	_panel_button.hide()

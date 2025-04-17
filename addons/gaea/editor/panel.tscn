@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dngytsjlmkfg7"]
+[gd_scene load_steps=17 format=3 uid="uid://dngytsjlmkfg7"]
 
 [ext_resource type="Script" uid="uid://dpbmowgfmnxe5" path="res://addons/gaea/editor/panel.gd" id="1_afcqa"]
 [ext_resource type="Texture2D" uid="uid://crs5x6wghxmmb" path="res://addons/gaea/assets/reload_tree.svg" id="2_4udwk"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://bybvolyg1u0v4" path="res://addons/gaea/editor/node_popup.gd" id="4_vtsfx"]
 [ext_resource type="Script" uid="uid://cqd2rkam5cs3d" path="res://addons/gaea/editor/create_node_popup.gd" id="5_nbnm7"]
 [ext_resource type="Script" uid="uid://btt4eqjkp5pyf" path="res://addons/gaea/editor/link_popup.gd" id="7_dhpru"]
+[ext_resource type="PackedScene" uid="uid://dcec3sivqmbjf" path="res://addons/gaea/editor/about_window.tscn" id="9_affj1"]
 
 [sub_resource type="Image" id="Image_nbnm7"]
 data = {
@@ -157,9 +158,13 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="GenerateButton" type="Button" parent="Editor/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Generate"
+
+[node name="OnlineDocsSeparator" type="VSeparator" parent="Editor/VBoxContainer/HBoxContainer"]
+layout_mode = 2
 
 [node name="OnlineDocsButton" type="Button" parent="Editor/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
@@ -167,6 +172,14 @@ layout_mode = 2
 tooltip_text = "Open Gaea online documentation."
 focus_mode = 0
 text = "Online Docs"
+flat = true
+
+[node name="AboutButton" type="Button" parent="Editor/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "See information about your Gaea version."
+focus_mode = 0
+text = "About..."
 flat = true
 
 [node name="WindowPopoutSeparator" type="VSeparator" parent="Editor/VBoxContainer/HBoxContainer"]
@@ -365,6 +378,11 @@ title = "Open a File"
 ok_button_text = "Open"
 file_mode = 0
 filters = PackedStringArray("*.tres,*.res;Resources")
+
+[node name="AboutWindow" parent="." instance=ExtResource("9_affj1")]
+size = Vector2i(512, 384)
+visible = false
+exclusive = true
 
 [connection signal="pressed" from="NoData/NewDataButton" to="." method="_on_new_data_button_pressed"]
 [connection signal="pressed" from="Editor/VBoxContainer/HBoxContainer/SaveButton" to="." method="_on_save_button_pressed"]

@@ -1,15 +1,16 @@
 @tool
 extends Control
 
+const _LinkPopup = preload("uid://btt4eqjkp5pyf")
+const _RerouteNode = preload("uid://bs40iof8ipbkq")
+
 var _selected_generator: GaeaGenerator = null: get = get_selected_generator
 var _output_node: GaeaGraphNode
 var is_loading = false
 
 ## Local position on [GraphEdit] for a node that may be created in the future.
 var _node_creation_target: Vector2 = Vector2.ZERO
-
-const _LinkPopup = preload("uid://btt4eqjkp5pyf")
-const _RerouteNode = preload("uid://bs40iof8ipbkq")
+var plugin: EditorPlugin
 
 @onready var _no_data: Control = $NoData
 @onready var _editor: Control = $Editor
@@ -29,7 +30,9 @@ const _RerouteNode = preload("uid://bs40iof8ipbkq")
 @onready var _window_popout_separator: VSeparator = %WindowPopoutSeparator
 @onready var _window_popout_button: Button = %WindowPopoutButton
 @onready var _bottom_note_label: RichTextLabel = %BottomNote
-
+@onready var _generate_button: Button = %GenerateButton
+@onready var _about_button: Button = %AboutButton
+@onready var _about_window: AcceptDialog = $AboutWindow
 
 
 #region Built-in & Input
@@ -44,6 +47,10 @@ func _ready() -> void:
 	_window_popout_button.icon = EditorInterface.get_base_control().get_theme_icon(&"MakeFloating", &"EditorIcons")
 	_online_docs_button.icon = EditorInterface.get_base_control().get_theme_icon(&"ExternalLink", &"EditorIcons")
 	_create_node_panel.add_theme_stylebox_override(&"panel", EditorInterface.get_base_control().get_theme_stylebox(&"panel", &"PopupPanel"))
+	_about_button.icon = EditorInterface.get_base_control().get_theme_icon(&"NodeInfo", &"EditorIcons")
+	_about_button.pressed.connect(_about_window.popup_centered)
+	_about_window.plugin = plugin
+	_about_window.initialize()
 
 	if not EditorInterface.is_multi_window_enabled():
 		_window_popout_button.disabled = true

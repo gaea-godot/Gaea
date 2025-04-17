@@ -112,7 +112,7 @@ func _on_search_bar_text_changed(new_text: String) -> void:
 		deselect_all()
 	else:
 		get_root().set_collapsed_recursive(false)
-	
+
 	var item: TreeItem = get_root()
 	var first_item_found: TreeItem
 
