@@ -8,7 +8,7 @@
 script = ExtResource("1_aer6b")
 type = 0
 name = &"x"
-default_value = null
+default_value = 0.0
 hint = Dictionary[String, Variant]({})
 disable_input_slot = false
 add_output_slot = false
@@ -18,7 +18,7 @@ metadata/_custom_type_script = "uid://bh3sajxnmp14w"
 script = ExtResource("1_aer6b")
 type = 0
 name = &"y"
-default_value = null
+default_value = 0.0
 hint = Dictionary[String, Variant]({})
 disable_input_slot = false
 add_output_slot = false

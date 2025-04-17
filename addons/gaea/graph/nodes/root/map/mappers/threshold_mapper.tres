@@ -8,7 +8,10 @@
 script = ExtResource("1_w2bvo")
 type = 4
 name = &"range"
-default_value = null
+default_value = {
+"max": 1.0,
+"min": 0.0
+}
 hint = Dictionary[String, Variant]({})
 disable_input_slot = false
 add_output_slot = false

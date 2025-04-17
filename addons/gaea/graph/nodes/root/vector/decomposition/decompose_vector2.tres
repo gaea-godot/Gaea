@@ -8,7 +8,7 @@
 script = ExtResource("1_lx85c")
 type = 2
 name = &"vector"
-default_value = null
+default_value = Vector2(0, 0)
 hint = Dictionary[String, Variant]({})
 disable_input_slot = false
 add_output_slot = false

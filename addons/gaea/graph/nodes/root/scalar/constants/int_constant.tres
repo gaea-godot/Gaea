@@ -8,7 +8,7 @@
 script = ExtResource("1_v83yh")
 type = 1
 name = &"value"
-default_value = null
+default_value = 0
 hint = Dictionary[String, Variant]({})
 disable_input_slot = true
 add_output_slot = true
