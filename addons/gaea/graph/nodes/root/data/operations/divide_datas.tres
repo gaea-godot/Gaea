@@ -40,5 +40,3 @@ output_slots = Array[ExtResource("2_5muse")]([SubResource("Resource_avr7f")])
 title = "Divide (A/B)"
 description = "Divides [param]data A[/bg][/c] and [param]data B[/bg][/c] together."
 is_output = false
-data = {}
-salt = 0

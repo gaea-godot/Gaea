@@ -52,6 +52,4 @@ output_slots = Array[ExtResource("2_306cy")]([SubResource("Resource_cxwr2")])
 title = "ValueMapper"
 description = "Maps all cells in [param]data[/bg][/c] equal to [param]value[/bg][/c] to [param]material[/bg][/c]."
 is_output = false
-data = {}
-salt = 0
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"

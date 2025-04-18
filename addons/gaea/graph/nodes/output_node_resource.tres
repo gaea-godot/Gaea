@@ -12,5 +12,3 @@ output_slots = Array[ExtResource("2_tcram")]([])
 title = "Output"
 description = "Outputs the generated grid via the [param]generation_finished[/bg][/c] signal in the GaeaGenerator."
 is_output = true
-data = {}
-salt = 532150899

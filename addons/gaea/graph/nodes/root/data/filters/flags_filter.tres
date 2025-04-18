@@ -59,5 +59,3 @@ output_slots = Array[ExtResource("2_cq04f")]([SubResource("Resource_ksfsh")])
 title = "FlagsFilter"
 description = "Filter [param]data[/bg][/c] to only the cells that that matches the flag conditions."
 is_output = false
-data = {}
-salt = 0

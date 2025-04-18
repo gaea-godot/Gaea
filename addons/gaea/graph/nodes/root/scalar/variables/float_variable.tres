@@ -25,5 +25,3 @@ output_slots = Array[ExtResource("2_2qmh0")]([])
 title = "FloatVariable"
 description = "Float variable editable in the inspector."
 is_output = false
-data = {}
-salt = 0

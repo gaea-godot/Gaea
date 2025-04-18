@@ -45,7 +45,7 @@ func _ready() -> void:
 
 
 func initialize() -> void:
-	if not is_instance_valid(resource):
+	if not is_instance_valid(resource) or is_part_of_edited_scene():
 		return
 
 	var preview_button_group: ButtonGroup = ButtonGroup.new()
@@ -196,23 +196,33 @@ func _is_connected_to(connection: Dictionary, idx: int) -> bool:
 
 
 func get_save_data() -> Dictionary:
-	for arg in resource.args:
-		resource.data[arg.name] = get_arg_value(arg.name)
-
 	var dictionary: Dictionary = {
 		"name": name,
-		"position": position_offset
+		"position": position_offset,
+		"salt": resource.salt
 	}
+	if resource.args.size() > 0:
+		dictionary.set("data", {})
+		for arg in resource.args:
+			var value: Variant = get_arg_value(arg.name)
+			if value == null:
+				continue
+			if value != arg.get_default_value():
+				dictionary.data[arg.name] = get_arg_value(arg.name)
 	return dictionary
 
 
-func load_save_data(data: Dictionary) -> void:
-	position_offset = data.position
+func load_save_data(saved_data: Dictionary) -> void:
+	position_offset = saved_data.position
+	if saved_data.has("data"):
+		var data = saved_data.get("data")
+		for child in get_children():
+			if child is GaeaGraphNodeParameter:
+				if not data.has(child.resource.name):
+					data.set(child.resource.name, child.get_param_value())
 
-	for child in get_children():
-		if child is GaeaGraphNodeParameter:
-			if resource.data.has(child.resource.name):
-				child.set_param_value(resource.data[child.resource.name])
+				if data.get(child.resource.name) != null:
+					child.set_param_value(data[child.resource.name])
 
 	finished_loading = true
 

@@ -39,5 +39,3 @@ output_slots = Array[ExtResource("2_88wic")]([SubResource("Resource_t3085")])
 title = "MapDifference"
 description = "Returns the difference between [param]map A[/bg][/c] - [param]map B[/bg][/c]."
 is_output = false
-data = {}
-salt = 0

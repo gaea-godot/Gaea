@@ -40,5 +40,3 @@ output_slots = Array[ExtResource("2_ucc1t")]([SubResource("Resource_avr7f")])
 title = "Add (A+B)"
 description = "Adds [param]data A[/bg][/c] and [param]data B[/bg][/c] together."
 is_output = false
-data = {}
-salt = 0

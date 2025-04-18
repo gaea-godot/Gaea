@@ -50,5 +50,3 @@ title = "SimplexSmooth2D"
 description = "Creates a grid of values from [code]0[/bg][/c] to [code]1[/bg][/c] based on a SimplexSmooth noise texture.
 [b]Ignores the z axis.[/b]"
 is_output = false
-data = {}
-salt = 0

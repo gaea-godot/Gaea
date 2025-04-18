@@ -69,5 +69,3 @@ title = "FlagsMapper"
 description = "Outputs a map.
 For every cell that matches the flags in [param]mask[/bg][/c], sets that cell to [param]material[/bg][/c]."
 is_output = false
-data = {}
-salt = 0

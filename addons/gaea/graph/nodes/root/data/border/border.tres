@@ -52,6 +52,4 @@ output_slots = Array[ExtResource("2_mragm")]([SubResource("Resource_x06ro")])
 title = "Border2D"
 description = "Returns the border of [param]data[/bg][/c]. If [param]inside[/bg][/c] is [code]true[/bg][/c], returns the inner border."
 is_output = false
-data = {}
-salt = 0
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"

@@ -39,5 +39,3 @@ output_slots = Array[ExtResource("2_nkrai")]([SubResource("Resource_gk2p2")])
 title = "ComposeRange"
 description = "Composes a range parameter from two numbers."
 is_output = false
-data = {}
-salt = 0

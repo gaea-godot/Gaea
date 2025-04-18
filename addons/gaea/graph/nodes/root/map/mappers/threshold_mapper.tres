@@ -49,5 +49,3 @@ title = "ThresholdMapper"
 description = "Outputs a map.
 For every cell of a value between [param]min[/bg][/c] and [param]max[/bg][/c] (inclusive), sets that cell to [param]material[/bg][/c]. Otherwise, sets it to [code]null[/bg][/c]."
 is_output = false
-data = {}
-salt = 0

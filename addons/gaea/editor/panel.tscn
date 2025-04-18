@@ -119,6 +119,7 @@ layout_mode = 2
 
 [node name="SaveButton" type="Button" parent="Editor/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 tooltip_text = "Save data."
 icon = SubResource("ImageTexture_nbnm7")
@@ -126,12 +127,14 @@ flat = true
 
 [node name="LoadButton" type="Button" parent="Editor/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 tooltip_text = "Load data."
 icon = SubResource("ImageTexture_ve3i7")
 flat = true
 
 [node name="VSeparator" type="VSeparator" parent="Editor/VBoxContainer/HBoxContainer"]
+visible = false
 layout_mode = 2
 
 [node name="ReloadNodeTreeButton" type="Button" parent="Editor/VBoxContainer/HBoxContainer"]

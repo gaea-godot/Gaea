@@ -175,6 +175,4 @@ title = "FloorWalkerXZ"
 description = "Generates a floor by using [b]walkers[/b], which move around and place floor where they walk, while changing direction and/or spawning new walkers.
 Walks along the [code]X[/bg][/c] and [code]Z[/bg][/c] axis."
 is_output = false
-data = {}
-salt = 0
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"

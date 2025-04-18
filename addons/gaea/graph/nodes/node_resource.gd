@@ -20,16 +20,18 @@ const GAEA_MATERIAL_GRADIENT_HINT := "Resource that maps values from 0.0-1.0 to 
 @export_multiline var description: String = ""
 @export var is_output: bool = false
 
-@export_storage var data: Dictionary
-@export_storage var salt: int = 0
 var connections: Array[Dictionary]
+var resource_uid: String
 var node: GaeaGraphNode
+var data: Dictionary
+var salt: int = 0
 
 enum Axis {X, Y, Z}
 
 
 #region Execution
 func execute(_area: AABB, _generator_data: GaeaData, _generator: GaeaGenerator) -> void:
+
 	pass
 
 
@@ -159,7 +161,14 @@ func get_arg(name: String, generator_data: GaeaData) -> Variant:
 				return GaeaNodeResource.cast_value(connected_type, arg_slot_type, connected_data.get("value"))
 			else:
 				log_error("Could not get data from previous node, using default value instead.", generator_data, connected_idx)
-	return data.get(name)
+
+	var arg_resource: GaeaNodeArgument
+	for arg in args:
+		if arg.name == name:
+			arg_resource = arg
+			break
+
+	return data.get(name, arg_resource.get_default_value())
 #endregion
 
 
@@ -333,6 +342,14 @@ func _is_point_outside_area(area: AABB, point: Vector3) -> bool:
 	area.end -= Vector3.ONE
 	return (point.x < area.position.x or point.y < area.position.y or point.z < area.position.z or
 			point.x > area.end.x or point.y > area.end.y or point.z > area.end.z)
+
+
+func _instantiate_duplicate() -> GaeaNodeResource:
+	var new_resource = duplicate() as GaeaNodeResource
+	new_resource.resource_uid = ResourceUID.id_to_text(
+		ResourceLoader.get_resource_uid(resource_path)
+	)
+	return new_resource
 #endregion
 
 
@@ -393,3 +410,8 @@ static func cast_value(from_type: GaeaGraphNode.SlotTypes, to_type: GaeaGraphNod
 	])
 	return {}
 #endregion
+
+
+func _load_save_data(saved_data: Dictionary) -> void:
+	salt = saved_data.get("salt", 0)
+	data = saved_data.get("data", {})

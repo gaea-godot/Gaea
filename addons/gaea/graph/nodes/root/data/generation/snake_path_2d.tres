@@ -104,5 +104,3 @@ output_slots = Array[ExtResource("2_a0dir")]([SubResource("Resource_ci3aq")])
 title = "SnakePath2D"
 description = "Generates a path that goes from the top of the world to the bottom, with each cell consisting of flags that indicate their exits (up, down, left, right). "
 is_output = false
-data = {}
-salt = 0

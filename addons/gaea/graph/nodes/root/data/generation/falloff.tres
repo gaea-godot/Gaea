@@ -48,6 +48,4 @@ output_slots = Array[ExtResource("2_jwnbt")]([SubResource("Resource_jwnbt")])
 title = "Falloff"
 description = ""
 is_output = false
-data = {}
-salt = 0
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"

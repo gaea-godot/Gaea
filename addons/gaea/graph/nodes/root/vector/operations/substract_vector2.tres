@@ -43,6 +43,4 @@ output_slots = Array[ExtResource("2_mpkjn")]([SubResource("Resource_aa6s8")])
 title = "Substract (-)"
 description = "Substracts [param]B[/bg][/c] from [param]A[/bg][/c]."
 is_output = false
-data = {}
-salt = 0
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"

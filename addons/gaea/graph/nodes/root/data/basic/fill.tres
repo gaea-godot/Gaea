@@ -30,5 +30,3 @@ output_slots = Array[ExtResource("2_5mlbf")]([SubResource("Resource_4o1fi")])
 title = "Fill"
 description = "Fills the grid with [param]value[/bg][/c]."
 is_output = false
-data = {}
-salt = 0

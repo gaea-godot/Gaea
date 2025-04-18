@@ -22,6 +22,4 @@ output_slots = Array[ExtResource("2_1btle")]([SubResource("Resource_ed7be")])
 title = "WorldSize"
 description = "The world_size parameter in the generator's inspector."
 is_output = false
-data = {}
-salt = 0
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"

@@ -42,6 +42,4 @@ output_slots = Array[ExtResource("2_jx8kx")]([SubResource("Resource_cxwr2")])
 title = "Mapper"
 description = "Maps all non-empty cells in [param]data[/bg][/c] to [param]material[/bg][/c]."
 is_output = false
-data = {}
-salt = 0
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"

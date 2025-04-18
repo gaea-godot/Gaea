@@ -43,6 +43,4 @@ output_slots = Array[ExtResource("2_7swaf")]([SubResource("Resource_aa6s8")])
 title = "Multiply (*)"
 description = "Multiplies [param]A[/bg][/c] and [param]B[/bg][/c] together."
 is_output = false
-data = {}
-salt = 0
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"

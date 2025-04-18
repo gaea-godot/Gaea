@@ -25,5 +25,3 @@ output_slots = Array[ExtResource("2_x7okg")]([])
 title = "MaterialVariable"
 description = "GaeaMaterial variable editable in the inspector."
 is_output = false
-data = {}
-salt = 0

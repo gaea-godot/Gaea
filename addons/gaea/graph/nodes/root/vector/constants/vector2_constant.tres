@@ -22,6 +22,4 @@ output_slots = Array[ExtResource("2_1gv04")]([])
 title = "Vector2Constant"
 description = "A Vector2 constant."
 is_output = false
-data = {}
-salt = 0
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"

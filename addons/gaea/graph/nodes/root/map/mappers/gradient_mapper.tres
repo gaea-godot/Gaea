@@ -42,6 +42,4 @@ output_slots = Array[ExtResource("2_7m02a")]([SubResource("Resource_wanyj")])
 title = "GradientMapper"
 description = "Takes a GaeaMaterialGradient resource and samples the corresponding material to the values in [param]data[/bg][/c]."
 is_output = false
-data = {}
-salt = 0
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"

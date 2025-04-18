@@ -25,5 +25,3 @@ output_slots = Array[ExtResource("2_v72lx")]([])
 title = "BoolVariable"
 description = "Boolean variable editable in the inspector."
 is_output = false
-data = {}
-salt = 0

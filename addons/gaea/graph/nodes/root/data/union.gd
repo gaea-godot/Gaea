@@ -7,8 +7,8 @@ func get_data(passed_data:Array[Dictionary], _output_port: int, area: AABB, gene
 	
 	var grids: Array[Dictionary] = []
 	
-	for data in passed_data:
-		grids.append(data)
+	for grid_data in passed_data:
+		grids.append(grid_data)
 
 	var grid: Dictionary = {}
 	if grids.is_empty():

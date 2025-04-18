@@ -55,6 +55,4 @@ description = "Places [param]material[/bg][/c] on every world cell that follows 
 
 [b]The squared cell is the origin.[/b]"
 is_output = false
-data = {}
-salt = 0
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"

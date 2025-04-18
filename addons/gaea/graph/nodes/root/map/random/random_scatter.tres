@@ -54,6 +54,4 @@ output_slots = Array[ExtResource("2_13046")]([SubResource("Resource_qponm")])
 title = "RandomScatter"
 description = "Randomly places [param]amount[/bg][/c] [param]material[/bg][/c]s in the cells of [param]data[/bg][/c]"
 is_output = false
-data = {}
-salt = 0
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"

@@ -1,24 +1,10 @@
-[gd_resource type="Resource" script_class="GaeaData" load_steps=125 format=3 uid="uid://dowa1yikrbcdj"]
+[gd_resource type="Resource" script_class="GaeaData" load_steps=22 format=3 uid="uid://dowa1yikrbcdj"]
 
 [ext_resource type="Script" uid="uid://e45byecr4gi6" path="res://addons/gaea/resources/materials/tilemap_material.gd" id="1_wtjh4"]
 [ext_resource type="Script" uid="uid://cj08rybcfwlle" path="res://addons/gaea/resources/materials/gaea_material.gd" id="2_du0iw"]
 [ext_resource type="Script" uid="uid://3qsmwhn2sk47" path="res://addons/gaea/resources/gaea_layer.gd" id="2_mfpnn"]
 [ext_resource type="Script" uid="uid://dtocuov1r8agi" path="res://addons/gaea/resources/materials/random_material.gd" id="3_kk1e5"]
-[ext_resource type="Script" uid="uid://brb1clh2y2bv0" path="res://addons/gaea/graph/nodes/node_resource.gd" id="3_qhqpc"]
-[ext_resource type="Script" uid="uid://bh3sajxnmp14w" path="res://addons/gaea/graph/nodes/node_argument.gd" id="4_5ecun"]
-[ext_resource type="Script" uid="uid://ote622wl6axc" path="res://addons/gaea/graph/nodes/node_slot.gd" id="5_iooy1"]
-[ext_resource type="Script" uid="uid://bqa8aufofkr81" path="res://addons/gaea/graph/nodes/variable_node_resource.gd" id="6_oc7x7"]
-[ext_resource type="Resource" uid="uid://bbkdvyxkj2slo" path="res://addons/gaea/graph/nodes/output_node_resource.tres" id="7_du0iw"]
-[ext_resource type="Script" uid="uid://blx812352t3jj" path="res://addons/gaea/graph/nodes/root/data/generation/floor_walker.gd" id="9_5mmfj"]
 [ext_resource type="Script" uid="uid://dae6umbqb872e" path="res://addons/gaea/resources/gaea_data.gd" id="10_drb3t"]
-[ext_resource type="Script" uid="uid://dux0bq53p61ls" path="res://addons/gaea/graph/nodes/root/map/mappers/basic_mapper.gd" id="12_5ecun"]
-[ext_resource type="Script" uid="uid://dnj3grm2qv20y" path="res://addons/gaea/graph/nodes/root/data/filters/distance_filter.gd" id="13_iooy1"]
-[ext_resource type="Script" uid="uid://bjmyuomcmtwq6" path="res://addons/gaea/graph/nodes/root/map/random/random_scatter.gd" id="13_oc7x7"]
-[ext_resource type="Script" uid="uid://bgqqucap4kua4" path="res://addons/gaea/graph/nodes/reroute_node_resource.gd" id="13_vyp3c"]
-[ext_resource type="Script" uid="uid://dvbwtw53ut2hc" path="res://addons/gaea/graph/nodes/root/data/complement.gd" id="14_oc7x7"]
-[ext_resource type="Script" uid="uid://bmxbe51xh0t7d" path="res://addons/gaea/graph/nodes/root/data/union.gd" id="17_drb3t"]
-[ext_resource type="Script" uid="uid://br8gcsyc04ksj" path="res://addons/gaea/graph/nodes/root/map/placing/rules_placer.gd" id="17_x5s41"]
-[ext_resource type="Script" uid="uid://b38syakgm25ya" path="res://addons/gaea/graph/nodes/root/data/filters/random_filter.gd" id="18_vyp3c"]
 
 [sub_resource type="Resource" id="Resource_j6vep"]
 script = ExtResource("1_wtjh4")
@@ -148,1166 +134,115 @@ script = ExtResource("2_mfpnn")
 enabled = true
 metadata/_custom_type_script = "uid://3qsmwhn2sk47"
 
-[sub_resource type="Resource" id="Resource_5n5am"]
-script = ExtResource("4_5ecun")
-type = 1
-name = &"chance"
-default_value = 100
-hint = Dictionary[String, Variant]({
-"max": 100,
-"min": 0,
-"suffix": "%"
-})
-disable_input_slot = false
-add_output_slot = false
-
-[sub_resource type="Resource" id="Resource_vr2bg"]
-script = ExtResource("5_iooy1")
-left_enabled = true
-left_type = 1
-left_label = "Map"
-right_enabled = false
-right_type = 0
-right_label = ""
-
-[sub_resource type="Resource" id="Resource_fraxp"]
-script = ExtResource("5_iooy1")
-left_enabled = false
-left_type = 0
-left_label = ""
-right_enabled = true
-right_type = 1
-right_label = "Filtered Map"
-
-[sub_resource type="Resource" id="Resource_iqurr"]
-script = ExtResource("18_vyp3c")
-input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_vr2bg")])
-args = Array[ExtResource("4_5ecun")]([SubResource("Resource_5n5am")])
-output_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_fraxp")])
-title = "RandomFilter"
-description = "Randomly filters [param]map[/bg][/c] to only the cells that pass the [param]chance[/bg][/c] check."
-is_output = false
-data = {
-&"chance": 5.0
-}
-salt = 2125879735
-
-[sub_resource type="Resource" id="Resource_x5s41"]
-script = ExtResource("4_5ecun")
-type = 12
-name = &"rules"
-default_value = null
-hint = Dictionary[String, Variant]({})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
-
-[sub_resource type="Resource" id="Resource_vyp3c"]
-script = ExtResource("5_iooy1")
-left_enabled = true
-left_type = 0
-left_label = "Reference Data"
-right_enabled = false
-right_type = 0
-right_label = ""
-metadata/_custom_type_script = "uid://ote622wl6axc"
-
-[sub_resource type="Resource" id="Resource_utr2w"]
-script = ExtResource("5_iooy1")
-left_enabled = true
-left_type = 2
-left_label = "Material"
-right_enabled = false
-right_type = 0
-right_label = ""
-metadata/_custom_type_script = "uid://ote622wl6axc"
-
-[sub_resource type="Resource" id="Resource_6sh8g"]
-script = ExtResource("5_iooy1")
-left_enabled = false
-left_type = 0
-left_label = ""
-right_enabled = true
-right_type = 1
-right_label = "Map"
-metadata/_custom_type_script = "uid://ote622wl6axc"
-
-[sub_resource type="Resource" id="Resource_d8638"]
-script = ExtResource("17_x5s41")
-input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_vyp3c"), SubResource("Resource_utr2w")])
-args = Array[ExtResource("4_5ecun")]([SubResource("Resource_x5s41")])
-output_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_6sh8g")])
-title = "RulesPlacer"
-description = "Places [param]material[/bg][/c] on every world cell that follows [param]rules[/bg][/c] based on [param]reference_data[/bg][/c].
-[img]res://addons/gaea/assets/cross.svg[/img] means data DOESN'T have a cell there, [img]res://addons/gaea/assets/check.svg[/img] means the opposite.
-
-[b]The squared cell is the origin.[/b]"
-is_output = false
-data = {
-&"rules": {
-Vector2i(0, -1): true,
-Vector2i(0, 0): false
-}
-}
-salt = 380881962
-metadata/_custom_type_script = "uid://brb1clh2y2bv0"
-
-[sub_resource type="Resource" id="Resource_lbx5x"]
-script = ExtResource("4_5ecun")
-type = 3
-name = &"name"
-default_value = null
-hint = Dictionary[String, Variant]({})
-disable_input_slot = false
-add_output_slot = false
-
-[sub_resource type="Resource" id="Resource_i22ej"]
-script = ExtResource("6_oc7x7")
-type = 24
-hint = 17
-hint_string = "GaeaMaterial"
-output_type = 2
-input_slots = Array[ExtResource("5_iooy1")]([])
-args = Array[ExtResource("4_5ecun")]([SubResource("Resource_lbx5x")])
-output_slots = Array[ExtResource("5_iooy1")]([])
-title = "MaterialVariable"
-description = "GaeaMaterial variable editable in the inspector."
-is_output = false
-data = {
-&"name": "WallBelow"
-}
-salt = 1065991013
-
-[sub_resource type="Resource" id="Resource_15p8x"]
-script = ExtResource("6_oc7x7")
-type = 24
-hint = 17
-hint_string = "GaeaMaterial"
-output_type = 2
-input_slots = Array[ExtResource("5_iooy1")]([])
-args = Array[ExtResource("4_5ecun")]([SubResource("Resource_lbx5x")])
-output_slots = Array[ExtResource("5_iooy1")]([])
-title = "MaterialVariable"
-description = "GaeaMaterial variable editable in the inspector."
-is_output = false
-data = {
-&"name": "WallAbove"
-}
-salt = 2224158555
-
-[sub_resource type="Resource" id="Resource_gy70f"]
-script = ExtResource("4_5ecun")
-type = 3
-name = &"name"
-default_value = null
-hint = Dictionary[String, Variant]({})
-disable_input_slot = false
-add_output_slot = false
-
-[sub_resource type="Resource" id="Resource_ql431"]
-script = ExtResource("6_oc7x7")
-type = 24
-hint = 17
-hint_string = "GaeaMaterial"
-output_type = 2
-input_slots = Array[ExtResource("5_iooy1")]([])
-args = Array[ExtResource("4_5ecun")]([SubResource("Resource_gy70f")])
-output_slots = Array[ExtResource("5_iooy1")]([])
-title = "MaterialVariable"
-description = "GaeaMaterial variable editable in the inspector."
-is_output = false
-data = {
-&"name": "Vegetation"
-}
-salt = 3147852408
-
-[sub_resource type="Resource" id="Resource_jipni"]
-script = ExtResource("17_x5s41")
-input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_vyp3c"), SubResource("Resource_utr2w")])
-args = Array[ExtResource("4_5ecun")]([SubResource("Resource_x5s41")])
-output_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_6sh8g")])
-title = "RulesPlacer"
-description = "Places [param]material[/bg][/c] on every world cell that follows [param]rules[/bg][/c] based on [param]reference_data[/bg][/c].
-[img]res://addons/gaea/assets/cross.svg[/img] means data DOESN'T have a cell there, [img]res://addons/gaea/assets/check.svg[/img] means the opposite.
-
-[b]The squared cell is the origin.[/b]"
-is_output = false
-data = {
-&"rules": {
-Vector2i(0, -1): false,
-Vector2i(0, 0): false
-}
-}
-salt = 4142241368
-metadata/_custom_type_script = "uid://brb1clh2y2bv0"
-
-[sub_resource type="Resource" id="Resource_306cy"]
-script = ExtResource("4_5ecun")
-type = 1
-name = &"amount"
-default_value = 10
-hint = Dictionary[String, Variant]({
-"min": 0
-})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
-
-[sub_resource type="Resource" id="Resource_wga38"]
-script = ExtResource("5_iooy1")
-left_enabled = true
-left_type = 0
-left_label = "Data"
-right_enabled = false
-right_type = 0
-right_label = ""
-metadata/_custom_type_script = "uid://ote622wl6axc"
-
-[sub_resource type="Resource" id="Resource_rs7w7"]
-script = ExtResource("5_iooy1")
-left_enabled = true
-left_type = 2
-left_label = "Material"
-right_enabled = false
-right_type = 0
-right_label = ""
-metadata/_custom_type_script = "uid://ote622wl6axc"
-
-[sub_resource type="Resource" id="Resource_qponm"]
-script = ExtResource("5_iooy1")
-left_enabled = false
-left_type = 0
-left_label = ""
-right_enabled = true
-right_type = 1
-right_label = "Map"
-metadata/_custom_type_script = "uid://ote622wl6axc"
-
-[sub_resource type="Resource" id="Resource_x7tuv"]
-script = ExtResource("13_oc7x7")
-input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_wga38"), SubResource("Resource_rs7w7")])
-args = Array[ExtResource("4_5ecun")]([SubResource("Resource_306cy")])
-output_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_qponm")])
-title = "RandomScatter"
-description = "Randomly places [param]amount[/bg][/c] [param]material[/bg][/c]s in the cells of [param]data[/bg][/c]"
-is_output = false
-data = {
-&"amount": 2.0
-}
-salt = 308118276
-metadata/_custom_type_script = "uid://brb1clh2y2bv0"
-
-[sub_resource type="Resource" id="Resource_vi7ex"]
-script = ExtResource("4_5ecun")
-type = 3
-name = &"name"
-default_value = null
-hint = Dictionary[String, Variant]({})
-disable_input_slot = false
-add_output_slot = false
-
-[sub_resource type="Resource" id="Resource_4pc45"]
-script = ExtResource("6_oc7x7")
-type = 24
-hint = 17
-hint_string = "GaeaMaterial"
-output_type = 2
-input_slots = Array[ExtResource("5_iooy1")]([])
-args = Array[ExtResource("4_5ecun")]([SubResource("Resource_vi7ex")])
-output_slots = Array[ExtResource("5_iooy1")]([])
-title = "MaterialVariable"
-description = "GaeaMaterial variable editable in the inspector."
-is_output = false
-data = {
-&"name": "Chest"
-}
-salt = 3043193593
-
-[sub_resource type="Resource" id="Resource_xn6xr"]
-script = ExtResource("5_iooy1")
-left_enabled = true
-left_type = 1
-left_label = "Map A"
-right_enabled = false
-right_type = 0
-right_label = ""
-
-[sub_resource type="Resource" id="Resource_6bjao"]
-script = ExtResource("5_iooy1")
-left_enabled = true
-left_type = 1
-left_label = "Map B"
-right_enabled = false
-right_type = 0
-right_label = ""
-
-[sub_resource type="Resource" id="Resource_7pnsf"]
-script = ExtResource("5_iooy1")
-left_enabled = true
-left_type = 1
-left_label = "Map C"
-right_enabled = false
-right_type = 0
-right_label = ""
-
-[sub_resource type="Resource" id="Resource_4lorr"]
-script = ExtResource("5_iooy1")
-left_enabled = true
-left_type = 1
-left_label = "Map D"
-right_enabled = false
-right_type = 0
-right_label = ""
-
-[sub_resource type="Resource" id="Resource_6tskg"]
-script = ExtResource("5_iooy1")
-left_enabled = false
-left_type = 0
-left_label = ""
-right_enabled = true
-right_type = 1
-right_label = "Union"
-
-[sub_resource type="Resource" id="Resource_0c54b"]
-script = ExtResource("17_drb3t")
-input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_xn6xr"), SubResource("Resource_6bjao"), SubResource("Resource_7pnsf"), SubResource("Resource_4lorr")])
-args = Array[ExtResource("4_5ecun")]([])
-output_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_6tskg")])
-title = "MapUnion"
-description = "Merges [param]map A-D[/bg][/c]. The latter overrides any overlapping cells from the former."
-is_output = false
-data = {}
-salt = 1022077936
-
-[sub_resource type="Resource" id="Resource_ogkvd"]
-script = ExtResource("6_oc7x7")
-type = 24
-hint = 17
-hint_string = "GaeaMaterial"
-output_type = 2
-input_slots = Array[ExtResource("5_iooy1")]([])
-args = Array[ExtResource("4_5ecun")]([SubResource("Resource_gy70f")])
-output_slots = Array[ExtResource("5_iooy1")]([])
-title = "MaterialVariable"
-description = "GaeaMaterial variable editable in the inspector."
-is_output = false
-data = {
-&"name": "SpikyVegetation"
-}
-salt = 2702524083
-
-[sub_resource type="Resource" id="Resource_un1w8"]
-script = ExtResource("5_iooy1")
-left_enabled = true
-left_type = 0
-left_label = ""
-right_enabled = true
-right_type = 0
-right_label = ""
-
-[sub_resource type="Resource" id="Resource_x7xkf"]
-script = ExtResource("13_vyp3c")
-input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_un1w8")])
-args = Array[ExtResource("4_5ecun")]([])
-output_slots = Array[ExtResource("5_iooy1")]([])
-title = "Reroute (Value Data)"
-description = ""
-is_output = false
-data = {}
-salt = 397848346
-
-[sub_resource type="Resource" id="Resource_81ci0"]
-script = ExtResource("5_iooy1")
-left_enabled = true
-left_type = 0
-left_label = ""
-right_enabled = true
-right_type = 0
-right_label = ""
-
-[sub_resource type="Resource" id="Resource_1g3g8"]
-script = ExtResource("13_vyp3c")
-input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_81ci0")])
-args = Array[ExtResource("4_5ecun")]([])
-output_slots = Array[ExtResource("5_iooy1")]([])
-title = "Reroute (Value Data)"
-description = ""
-is_output = false
-data = {}
-salt = 1403137335
-
-[sub_resource type="Resource" id="Resource_3sv33"]
-script = ExtResource("17_x5s41")
-input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_vyp3c"), SubResource("Resource_utr2w")])
-args = Array[ExtResource("4_5ecun")]([SubResource("Resource_x5s41")])
-output_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_6sh8g")])
-title = "RulesPlacer"
-description = "Places [param]material[/bg][/c] on every world cell that follows [param]rules[/bg][/c] based on [param]reference_data[/bg][/c].
-[img]res://addons/gaea/assets/cross.svg[/img] means data DOESN'T have a cell there, [img]res://addons/gaea/assets/check.svg[/img] means the opposite.
-
-[b]The squared cell is the origin.[/b]"
-is_output = false
-data = {
-&"rules": {
-Vector2i(0, -1): false,
-Vector2i(0, 0): true
-}
-}
-salt = 581472843
-metadata/_custom_type_script = "uid://brb1clh2y2bv0"
-
-[sub_resource type="Resource" id="Resource_ldcee"]
-script = ExtResource("5_iooy1")
-left_enabled = true
-left_type = 0
-left_label = ""
-right_enabled = true
-right_type = 0
-right_label = ""
-
-[sub_resource type="Resource" id="Resource_xh5p7"]
-script = ExtResource("13_vyp3c")
-input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_ldcee")])
-args = Array[ExtResource("4_5ecun")]([])
-output_slots = Array[ExtResource("5_iooy1")]([])
-title = "Reroute (Value Data)"
-description = ""
-is_output = false
-data = {}
-salt = 1563864083
-
-[sub_resource type="Resource" id="Resource_3axh3"]
-script = ExtResource("5_iooy1")
-left_enabled = true
-left_type = 0
-left_label = ""
-right_enabled = true
-right_type = 0
-right_label = ""
-
-[sub_resource type="Resource" id="Resource_dl7qb"]
-script = ExtResource("13_vyp3c")
-input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_3axh3")])
-args = Array[ExtResource("4_5ecun")]([])
-output_slots = Array[ExtResource("5_iooy1")]([])
-title = "Reroute (Value Data)"
-description = ""
-is_output = false
-data = {}
-salt = 2431203366
-
-[sub_resource type="Resource" id="Resource_cvpld"]
-script = ExtResource("4_5ecun")
-type = 3
-name = &"name"
-default_value = null
-hint = Dictionary[String, Variant]({})
-disable_input_slot = false
-add_output_slot = false
-
-[sub_resource type="Resource" id="Resource_wnynr"]
-script = ExtResource("6_oc7x7")
-type = 24
-hint = 17
-hint_string = "GaeaMaterial"
-output_type = 2
-input_slots = Array[ExtResource("5_iooy1")]([])
-args = Array[ExtResource("4_5ecun")]([SubResource("Resource_cvpld")])
-output_slots = Array[ExtResource("5_iooy1")]([])
-title = "MaterialVariable"
-description = "GaeaMaterial variable editable in the inspector."
-is_output = false
-data = {
-&"name": "FloorMaterial"
-}
-salt = 3203641953
-
-[sub_resource type="Resource" id="Resource_xa2fx"]
-script = ExtResource("5_iooy1")
-left_enabled = true
-left_type = 1
-left_label = ""
-right_enabled = true
-right_type = 0
-right_label = ""
-
-[sub_resource type="Resource" id="Resource_3epfb"]
-script = ExtResource("13_vyp3c")
-input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_xa2fx")])
-args = Array[ExtResource("4_5ecun")]([])
-output_slots = Array[ExtResource("5_iooy1")]([])
-title = "Reroute (Map Data)"
-description = ""
-is_output = false
-data = {}
-salt = 805934768
-
-[sub_resource type="Resource" id="Resource_vtqca"]
-script = ExtResource("5_iooy1")
-left_enabled = true
-left_type = 1
-left_label = ""
-right_enabled = true
-right_type = 0
-right_label = ""
-
-[sub_resource type="Resource" id="Resource_gtnsu"]
-script = ExtResource("13_vyp3c")
-input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_vtqca")])
-args = Array[ExtResource("4_5ecun")]([])
-output_slots = Array[ExtResource("5_iooy1")]([])
-title = "Reroute (Map Data)"
-description = ""
-is_output = false
-data = {}
-salt = 4274167954
-
-[sub_resource type="Resource" id="Resource_qgdjv"]
-script = ExtResource("5_iooy1")
-left_enabled = true
-left_type = 0
-left_label = "Data"
-right_enabled = false
-right_type = 0
-right_label = ""
-metadata/_custom_type_script = "uid://ote622wl6axc"
-
-[sub_resource type="Resource" id="Resource_jx8kx"]
-script = ExtResource("5_iooy1")
-left_enabled = true
-left_type = 2
-left_label = "Material"
-right_enabled = false
-right_type = 0
-right_label = ""
-metadata/_custom_type_script = "uid://ote622wl6axc"
-
-[sub_resource type="Resource" id="Resource_cxwr2"]
-script = ExtResource("5_iooy1")
-left_enabled = false
-left_type = 0
-left_label = ""
-right_enabled = true
-right_type = 1
-right_label = "Map"
-metadata/_custom_type_script = "uid://ote622wl6axc"
-
-[sub_resource type="Resource" id="Resource_1stj3"]
-script = ExtResource("12_5ecun")
-input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_qgdjv"), SubResource("Resource_jx8kx")])
-args = Array[ExtResource("4_5ecun")]([])
-output_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_cxwr2")])
-title = "Mapper"
-description = "Maps all non-empty cells in [param]data[/bg][/c] to [param]material[/bg][/c]."
-is_output = false
-data = {}
-salt = 1095001467
-metadata/_custom_type_script = "uid://brb1clh2y2bv0"
-
-[sub_resource type="Resource" id="Resource_oc7x7"]
-script = ExtResource("6_oc7x7")
-type = 24
-hint = 17
-hint_string = "GaeaMaterial"
-output_type = 2
-input_slots = Array[ExtResource("5_iooy1")]([])
-args = Array[ExtResource("4_5ecun")]([SubResource("Resource_cvpld")])
-output_slots = Array[ExtResource("5_iooy1")]([])
-title = "MaterialVariable"
-description = "GaeaMaterial variable editable in the inspector."
-is_output = false
-data = {
-&"name": "WallMaterial"
-}
-salt = 3078290440
-
-[sub_resource type="Resource" id="Resource_8dtaq"]
-script = ExtResource("5_iooy1")
-left_enabled = true
-left_type = 0
-left_label = ""
-right_enabled = true
-right_type = 0
-right_label = ""
-
-[sub_resource type="Resource" id="Resource_8w5fv"]
-script = ExtResource("13_vyp3c")
-input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_8dtaq")])
-args = Array[ExtResource("4_5ecun")]([])
-output_slots = Array[ExtResource("5_iooy1")]([])
-title = "Reroute (Value Data)"
-description = ""
-is_output = false
-data = {}
-salt = 3922383654
-
-[sub_resource type="Resource" id="Resource_iooy1"]
-script = ExtResource("5_iooy1")
-left_enabled = true
-left_type = 0
-left_label = "Data"
-right_enabled = false
-right_type = 0
-right_label = ""
-metadata/_custom_type_script = "uid://ote622wl6axc"
-
-[sub_resource type="Resource" id="Resource_drb3t"]
-script = ExtResource("5_iooy1")
-left_enabled = true
-left_type = 2
-left_label = "Material"
-right_enabled = false
-right_type = 0
-right_label = ""
-metadata/_custom_type_script = "uid://ote622wl6axc"
-
-[sub_resource type="Resource" id="Resource_cf2mk"]
-script = ExtResource("5_iooy1")
-left_enabled = false
-left_type = 0
-left_label = ""
-right_enabled = true
-right_type = 1
-right_label = "Map"
-metadata/_custom_type_script = "uid://ote622wl6axc"
-
-[sub_resource type="Resource" id="Resource_6slir"]
-script = ExtResource("12_5ecun")
-input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_iooy1"), SubResource("Resource_drb3t")])
-args = Array[ExtResource("4_5ecun")]([])
-output_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_cf2mk")])
-title = "Mapper"
-description = "Maps all non-empty cells in [param]data[/bg][/c] to [param]material[/bg][/c]."
-is_output = false
-data = {}
-salt = 845489457
-metadata/_custom_type_script = "uid://brb1clh2y2bv0"
-
-[sub_resource type="Resource" id="Resource_58cm0"]
-script = ExtResource("4_5ecun")
-type = 10
-name = &"to_point"
-default_value = null
-hint = Dictionary[String, Variant]({})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
-
-[sub_resource type="Resource" id="Resource_o7clu"]
-script = ExtResource("4_5ecun")
-type = 4
-name = &"distance_range"
-default_value = {
-"max": 64.0
-}
-hint = Dictionary[String, Variant]({
-"allow_lesser": false,
-"max": 64.0,
-"min": 0.0
-})
-disable_input_slot = false
-add_output_slot = false
-
-[sub_resource type="Resource" id="Resource_ppkgb"]
-script = ExtResource("5_iooy1")
-left_enabled = true
-left_type = 0
-left_label = "Data"
-right_enabled = false
-right_type = 0
-right_label = ""
-
-[sub_resource type="Resource" id="Resource_hqu83"]
-script = ExtResource("5_iooy1")
-left_enabled = false
-left_type = 0
-left_label = ""
-right_enabled = true
-right_type = 0
-right_label = "Filtered Data"
-
-[sub_resource type="Resource" id="Resource_tr8qa"]
-script = ExtResource("13_iooy1")
-input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_ppkgb")])
-args = Array[ExtResource("4_5ecun")]([SubResource("Resource_58cm0"), SubResource("Resource_o7clu")])
-output_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_hqu83")])
-title = "DistanceFilter"
-description = "Filters [param]data[/bg][/c] to only the cells at a distance from [param]to_point[/bg][/c] between [param]min[/bg][/c] and [param]max[/bg][/c]."
-is_output = false
-data = {
-&"distance_range": {
-"max": 64.0,
-"min": 4.0
-},
-&"to_point": Vector3(24, 24, 0)
-}
-salt = 2767213228
-
-[sub_resource type="Resource" id="Resource_m7j8q"]
-script = ExtResource("5_iooy1")
-left_enabled = true
-left_type = 0
-left_label = "Data"
-right_enabled = false
-right_type = 0
-right_label = ""
-metadata/_custom_type_script = "uid://ote622wl6axc"
-
-[sub_resource type="Resource" id="Resource_bie4n"]
-script = ExtResource("5_iooy1")
-left_enabled = false
-left_type = 0
-left_label = ""
-right_enabled = true
-right_type = 0
-right_label = "Complement [1]"
-metadata/_custom_type_script = "uid://ote622wl6axc"
-
-[sub_resource type="Resource" id="Resource_du0iw"]
-script = ExtResource("14_oc7x7")
-input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_m7j8q")])
-args = Array[ExtResource("4_5ecun")]([])
-output_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_bie4n")])
-title = "DataComplement"
-description = "Returns the complement of [param]data[/bg][/c]."
-is_output = false
-data = {}
-salt = 1095001467
-metadata/_custom_type_script = "uid://brb1clh2y2bv0"
-
-[sub_resource type="Resource" id="Resource_3wefi"]
-script = ExtResource("5_iooy1")
-left_enabled = true
-left_type = 0
-left_label = ""
-right_enabled = true
-right_type = 0
-right_label = ""
-
-[sub_resource type="Resource" id="Resource_4wy4r"]
-script = ExtResource("13_vyp3c")
-input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_3wefi")])
-args = Array[ExtResource("4_5ecun")]([])
-output_slots = Array[ExtResource("5_iooy1")]([])
-title = "Reroute (Value Data)"
-description = ""
-is_output = false
-data = {}
-salt = 4007325169
-
-[sub_resource type="Resource" id="Resource_l5x77"]
-script = ExtResource("5_iooy1")
-left_enabled = true
-left_type = 0
-left_label = ""
-right_enabled = true
-right_type = 0
-right_label = ""
-
-[sub_resource type="Resource" id="Resource_d7dhr"]
-script = ExtResource("13_vyp3c")
-input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_l5x77")])
-args = Array[ExtResource("4_5ecun")]([])
-output_slots = Array[ExtResource("5_iooy1")]([])
-title = "Reroute (Value Data)"
-description = ""
-is_output = false
-data = {}
-salt = 2945478844
-
-[sub_resource type="Resource" id="Resource_qksdc"]
-script = ExtResource("5_iooy1")
-left_enabled = true
-left_type = 1
-left_label = "Map A"
-right_enabled = false
-right_type = 0
-right_label = ""
-
-[sub_resource type="Resource" id="Resource_x35wo"]
-script = ExtResource("5_iooy1")
-left_enabled = true
-left_type = 1
-left_label = "Map B"
-right_enabled = false
-right_type = 0
-right_label = ""
-
-[sub_resource type="Resource" id="Resource_ij1ao"]
-script = ExtResource("5_iooy1")
-left_enabled = true
-left_type = 1
-left_label = "Map C"
-right_enabled = false
-right_type = 0
-right_label = ""
-
-[sub_resource type="Resource" id="Resource_abt6c"]
-script = ExtResource("5_iooy1")
-left_enabled = true
-left_type = 1
-left_label = "Map D"
-right_enabled = false
-right_type = 0
-right_label = ""
-
-[sub_resource type="Resource" id="Resource_t3085"]
-script = ExtResource("5_iooy1")
-left_enabled = false
-left_type = 0
-left_label = ""
-right_enabled = true
-right_type = 1
-right_label = "Union"
-
-[sub_resource type="Resource" id="Resource_wctuo"]
-script = ExtResource("17_drb3t")
-input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_qksdc"), SubResource("Resource_x35wo"), SubResource("Resource_ij1ao"), SubResource("Resource_abt6c")])
-args = Array[ExtResource("4_5ecun")]([])
-output_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_t3085")])
-title = "MapUnion"
-description = "Merges [param]map A-D[/bg][/c]. The latter overrides any overlapping cells from the former."
-is_output = false
-data = {}
-salt = 1380013154
-
-[sub_resource type="Resource" id="Resource_xer5s"]
-script = ExtResource("17_x5s41")
-input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_vyp3c"), SubResource("Resource_utr2w")])
-args = Array[ExtResource("4_5ecun")]([SubResource("Resource_x5s41")])
-output_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_6sh8g")])
-title = "RulesPlacer"
-description = "Places [param]material[/bg][/c] on every world cell that follows [param]rules[/bg][/c] based on [param]reference_data[/bg][/c].
-[img]res://addons/gaea/assets/cross.svg[/img] means data DOESN'T have a cell there, [img]res://addons/gaea/assets/check.svg[/img] means the opposite.
-
-[b]The squared cell is the origin.[/b]"
-is_output = false
-data = {
-&"rules": {
-Vector2i(0, 0): false
-}
-}
-salt = 3208191914
-metadata/_custom_type_script = "uid://brb1clh2y2bv0"
-
-[sub_resource type="Resource" id="Resource_t5iy4"]
-script = ExtResource("4_5ecun")
-type = 1
-name = &"max_cells"
-default_value = 100
-hint = Dictionary[String, Variant]({
-"min": 0
-})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
-
-[sub_resource type="Resource" id="Resource_mqjma"]
-script = ExtResource("4_5ecun")
-type = 10
-name = &"starting_position"
-default_value = null
-hint = Dictionary[String, Variant]({})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
-
-[sub_resource type="Resource" id="Resource_e7u4k"]
-script = ExtResource("4_5ecun")
-type = 6
-name = &"Direction Chances"
-default_value = null
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
-
-[sub_resource type="Resource" id="Resource_cavh3"]
-script = ExtResource("4_5ecun")
-type = 1
-name = &"direction_change_chance"
-default_value = 50
-hint = Dictionary[String, Variant]({
-"max": 100,
-"min": 0,
-"suffix": "%"
-})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
-
-[sub_resource type="Resource" id="Resource_gr4i8"]
-script = ExtResource("4_5ecun")
-type = 1
-name = &"rotate_90_weight"
-default_value = 40
-hint = Dictionary[String, Variant]({
-"min": 0
-})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
-
-[sub_resource type="Resource" id="Resource_6jvre"]
-script = ExtResource("4_5ecun")
-type = 1
-name = &"rotate_-90_weight"
-default_value = 40
-hint = Dictionary[String, Variant]({
-"min": 0
-})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
-
-[sub_resource type="Resource" id="Resource_qrvs2"]
-script = ExtResource("4_5ecun")
-type = 1
-name = &"rotate_180_weight"
-default_value = 40
-hint = Dictionary[String, Variant]({
-"min": 0
-})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
-
-[sub_resource type="Resource" id="Resource_75e24"]
-script = ExtResource("4_5ecun")
-type = 6
-name = &"Walker Chance"
-default_value = null
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
-
-[sub_resource type="Resource" id="Resource_ecg40"]
-script = ExtResource("4_5ecun")
-type = 1
-name = &"new_walker_chance"
-default_value = 5
-hint = Dictionary[String, Variant]({
-"max": 100,
-"min": 0,
-"suffix": "%"
-})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
-
-[sub_resource type="Resource" id="Resource_ofuto"]
-script = ExtResource("4_5ecun")
-type = 1
-name = &"destroy_walker_chance"
-default_value = 5
-hint = Dictionary[String, Variant]({
-"max": 100,
-"min": 0,
-"suffix": "%"
-})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
-
-[sub_resource type="Resource" id="Resource_bmpt0"]
-script = ExtResource("4_5ecun")
-type = 1
-name = &"bigger_room_chance"
-default_value = 15
-hint = Dictionary[String, Variant]({
-"max": 100,
-"min": 0,
-"suffix": "%"
-})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
-
-[sub_resource type="Resource" id="Resource_yw71v"]
-script = ExtResource("4_5ecun")
-type = 4
-name = &"bigger_room_size_range"
-default_value = {
-"max": 3.0,
-"min": 2.0
-}
-hint = Dictionary[String, Variant]({
-"allow_lesser": false,
-"max": 5.0,
-"min": 1.0,
-"step": 1.0,
-"suffix": "²"
-})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
-
-[sub_resource type="Resource" id="Resource_vjhf4"]
-script = ExtResource("5_iooy1")
-left_enabled = false
-left_type = 0
-left_label = ""
-right_enabled = true
-right_type = 0
-right_label = "Data [1]"
-metadata/_custom_type_script = "uid://ote622wl6axc"
-
-[sub_resource type="Resource" id="Resource_5mmfj"]
-script = ExtResource("9_5mmfj")
-second_axis = 1
-input_slots = Array[ExtResource("5_iooy1")]([])
-args = Array[ExtResource("4_5ecun")]([SubResource("Resource_t5iy4"), SubResource("Resource_mqjma"), SubResource("Resource_e7u4k"), SubResource("Resource_cavh3"), SubResource("Resource_gr4i8"), SubResource("Resource_6jvre"), SubResource("Resource_qrvs2"), SubResource("Resource_75e24"), SubResource("Resource_ecg40"), SubResource("Resource_ofuto"), SubResource("Resource_bmpt0"), SubResource("Resource_yw71v")])
-output_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_vjhf4")])
-title = "FloorWalkerXY"
-description = "Generates a floor by using [b]walkers[/b], which move around and place floor where they walk, while changing direction and/or spawning new walkers.
-Walks along the [code]X[/bg][/c] and [code]Y[/bg][/c] axis."
-is_output = false
-data = {
-&"Direction Chances": null,
-&"Walker Chance": null,
-&"bigger_room_chance": 15.0,
-&"bigger_room_size_range": {
-"max": 3.0,
-"min": 2.0
-},
-&"destroy_walker_chance": 5.0,
-&"direction_change_chance": 50.0,
-&"max_cells": 150.0,
-&"new_walker_chance": 5.0,
-&"rotate_-90_weight": 40.0,
-&"rotate_180_weight": 20.0,
-&"rotate_90_weight": 40.0,
-&"starting_position": Vector3(24, 24, 0)
-}
-salt = 2719450087
-metadata/_custom_type_script = "uid://brb1clh2y2bv0"
-
-[sub_resource type="Resource" id="Resource_le1sa"]
-script = ExtResource("18_vyp3c")
-input_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_vr2bg")])
-args = Array[ExtResource("4_5ecun")]([SubResource("Resource_5n5am")])
-output_slots = Array[ExtResource("5_iooy1")]([SubResource("Resource_fraxp")])
-title = "RandomFilter"
-description = "Randomly filters [param]map[/bg][/c] to only the cells that pass the [param]chance[/bg][/c] check."
-is_output = false
-data = {
-&"chance": 15.0
-}
-salt = 2691821230
-
 [resource]
+resource_local_to_scene = true
 script = ExtResource("10_drb3t")
 layers = Array[ExtResource("2_mfpnn")]([SubResource("Resource_nr2x3"), SubResource("Resource_entu7"), SubResource("Resource_q5q5d")])
 logging = 0
 connections = Array[Dictionary]([{
-"from_node": 15,
+"from_node": 3,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 21,
-"to_port": 1
-}, {
-"from_node": 7,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 6,
+"to_node": 1,
 "to_port": 1
 }, {
 "from_node": 22,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 6,
-"to_port": 0
-}, {
-"from_node": 19,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 18,
-"to_port": 1
-}, {
-"from_node": 18,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 26,
-"to_port": 0
-}, {
-"from_node": 3,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 12,
-"to_port": 1
-}, {
-"from_node": 2,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 1,
-"to_port": 1
-}, {
-"from_node": 1,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 26,
-"to_port": 2
-}, {
-"from_node": 4,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 27,
-"to_port": 1
-}, {
-"from_node": 9,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 5,
+"to_node": 20,
 "to_port": 1
 }, {
 "from_node": 27,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 30,
+"to_node": 20,
 "to_port": 0
 }, {
-"from_node": 5,
+"from_node": 30,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 0,
-"to_port": 0
-}, {
-"from_node": 26,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 28,
+"to_node": 24,
 "to_port": 1
 }, {
-"from_node": 8,
+"from_node": 24,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 28,
-"to_port": 2
+"to_node": 26,
+"to_port": 0
+}, {
+"from_node": 29,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 5,
+"to_port": 1
 }, {
 "from_node": 25,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 6,
+"to_port": 1
+}, {
+"from_node": 19,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 16,
+"to_port": 1
+}, {
+"from_node": 28,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 17,
+"to_port": 1
+}, {
+"from_node": 16,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 15,
+"to_port": 0
+}, {
+"from_node": 17,
 "from_port": 0,
 "keep_alive": false,
 "to_node": 18,
 "to_port": 0
 }, {
-"from_node": 24,
+"from_node": 26,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 25,
-"to_port": 0
+"to_node": 4,
+"to_port": 1
 }, {
-"from_node": 24,
+"from_node": 21,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 1,
-"to_port": 0
+"to_node": 4,
+"to_port": 2
 }, {
-"from_node": 14,
+"from_node": 7,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 27,
+"to_node": 24,
 "to_port": 0
 }, {
-"from_node": 14,
+"from_node": 8,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 7,
+"to_port": 0
+}, {
+"from_node": 8,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 6,
+"to_port": 0
+}, {
+"from_node": 9,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 16,
+"to_port": 0
+}, {
+"from_node": 9,
 "from_port": 0,
 "keep_alive": false,
 "to_node": 10,
@@ -1316,19 +251,19 @@ connections = Array[Dictionary]([{
 "from_node": 10,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 5,
-"to_port": 0
-}, {
-"from_node": 16,
-"from_port": 0,
-"keep_alive": false,
 "to_node": 17,
 "to_port": 0
 }, {
-"from_node": 17,
+"from_node": 11,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 28,
+"to_node": 12,
+"to_port": 0
+}, {
+"from_node": 12,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 4,
 "to_port": 0
 }, {
 "from_node": 23,
@@ -1340,184 +275,286 @@ connections = Array[Dictionary]([{
 "from_node": 13,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 14,
+"to_node": 9,
 "to_port": 0
 }, {
-"from_node": 21,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 16,
-"to_port": 0
-}, {
-"from_node": 29,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 23,
-"to_port": 0
-}, {
-"from_node": 29,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 21,
-"to_port": 0
-}, {
-"from_node": 30,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 8,
-"to_port": 0
-}, {
-"from_node": 0,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 8,
-"to_port": 1
-}, {
-"from_node": 6,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 8,
-"to_port": 2
-}, {
-"from_node": 29,
+"from_node": 1,
 "from_port": 0,
 "keep_alive": false,
 "to_node": 11,
 "to_port": 0
 }, {
-"from_node": 11,
+"from_node": 2,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 22,
+"to_node": 23,
 "to_port": 0
 }, {
-"from_node": 12,
+"from_node": 2,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 26,
-"to_port": 3
-}, {
-"from_node": 24,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 20,
+"to_node": 1,
 "to_port": 0
+}, {
+"from_node": 15,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 21,
+"to_port": 0
+}, {
+"from_node": 18,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 21,
+"to_port": 1
 }, {
 "from_node": 20,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 12,
+"to_node": 21,
+"to_port": 2
+}, {
+"from_node": 2,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 14,
+"to_port": 0
+}, {
+"from_node": 14,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 27,
+"to_port": 0
+}, {
+"from_node": 8,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 0,
+"to_port": 0
+}, {
+"from_node": 0,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 5,
 "to_port": 0
 }, {
 "from_node": 13,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 24,
+"to_node": 8,
 "to_port": 0
+}, {
+"from_node": 6,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 26,
+"to_port": 1
+}, {
+"from_node": 5,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 26,
+"to_port": 2
 }])
-resources = Array[ExtResource("3_qhqpc")]([SubResource("Resource_iqurr"), SubResource("Resource_d8638"), SubResource("Resource_i22ej"), SubResource("Resource_15p8x"), SubResource("Resource_ql431"), SubResource("Resource_jipni"), SubResource("Resource_x7tuv"), SubResource("Resource_4pc45"), SubResource("Resource_0c54b"), SubResource("Resource_ogkvd"), SubResource("Resource_x7xkf"), SubResource("Resource_1g3g8"), SubResource("Resource_3sv33"), SubResource("Resource_xh5p7"), SubResource("Resource_dl7qb"), SubResource("Resource_wnynr"), SubResource("Resource_3epfb"), SubResource("Resource_gtnsu"), SubResource("Resource_1stj3"), SubResource("Resource_oc7x7"), SubResource("Resource_8w5fv"), SubResource("Resource_6slir"), SubResource("Resource_tr8qa"), SubResource("Resource_du0iw"), SubResource("Resource_4wy4r"), SubResource("Resource_d7dhr"), SubResource("Resource_wctuo"), SubResource("Resource_xer5s"), ExtResource("7_du0iw"), SubResource("Resource_5mmfj"), SubResource("Resource_le1sa")])
+resource_uids = Array[String](["uid://kdn03ei2yp6e", "uid://dnr2f2kgvmyjd", "uid://b7ad0bauchvyu", "uid://byrhtfsduac1x", "uid://bbkdvyxkj2slo", "uid://c2u75oyoi2lne", "uid://c2u75oyoi2lne", "uid://kdn03ei2yp6e", "uid://kdn03ei2yp6e", "uid://kdn03ei2yp6e", "uid://kdn03ei2yp6e", "uid://kdn03ei2yp6e", "uid://kdn03ei2yp6e", "uid://kdn03ei2yp6e", "uid://kdn03ei2yp6e", "uid://40kjl8ojif34", "uid://c2u75oyoi2lne", "uid://c2u75oyoi2lne", "uid://40kjl8ojif34", "uid://byrhtfsduac1x", "uid://buu32u5bluejt", "uid://dtgm8q3pqox6c", "uid://byrhtfsduac1x", "uid://b1vj6la3lmq5f", "uid://dnr2f2kgvmyjd", "uid://byrhtfsduac1x", "uid://dtgm8q3pqox6c", "uid://bjgl7hlbbjuws", "uid://byrhtfsduac1x", "uid://byrhtfsduac1x", "uid://byrhtfsduac1x"])
 node_data = Array[Dictionary]([{
-"name": &"_GraphNode_30039",
-"position": Vector2(820, 900)
-}, {
-"name": &"_GraphNode_25392",
-"position": Vector2(740, -300)
-}, {
-"name": &"_GraphNode_46756",
-"position": Vector2(520, -220)
-}, {
-"name": &"_GraphNode_52514",
-"position": Vector2(520, 100)
-}, {
-"name": &"_GraphNode_40713",
-"position": Vector2(300, 620)
-}, {
-"name": &"_GraphNode_29999",
-"position": Vector2(520, 880)
-}, {
-"name": &"_GraphNode_41447",
-"position": Vector2(900, 1300)
-}, {
-"name": &"_GraphNode_42528",
-"position": Vector2(680, 1380)
-}, {
-"name": &"_GraphNode_41947",
-"position": Vector2(1260, 820)
-}, {
-"name": &"_GraphNode_52439",
-"position": Vector2(300, 960)
-}, {
-"name": &"_GraphNode_27791",
-"position": Vector2(320, 880),
-&"type": 0
-}, {
-"name": &"_GraphNode_27967",
-"position": Vector2(-560, 880),
-&"type": 0
-}, {
-"name": &"_GraphNode_25311",
-"position": Vector2(740, 20)
-}, {
-"name": &"_GraphNode_27830",
-"position": Vector2(-120, 200),
-&"type": 0
-}, {
-"name": &"_GraphNode_27783",
-"position": Vector2(140, 540),
+"name": &"BaseNode3",
+"position": Vector2(480, 80),
+"salt": 3922383654,
 &"type": 0
 }, {
 "name": &"BaseNode9",
-"position": Vector2(-600, 680)
+"position": Vector2(-340, 540),
+"salt": 845489457
 }, {
-"name": &"_GraphNode_27816",
-"position": Vector2(180, 400),
-&"type": 1
-}, {
-"name": &"_GraphNode_27823",
-"position": Vector2(1060, 400),
-&"type": 1
-}, {
-"name": &"_GraphNode_46693",
-"position": Vector2(740, -480)
-}, {
-"name": &"_GraphNode_73051",
-"position": Vector2(500, -400)
-}, {
-"name": &"BaseNode",
-"position": Vector2(520, 20),
-&"type": 0
-}, {
-"name": &"BaseNode5",
-"position": Vector2(-360, 580)
-}, {
-"name": &"_GraphNode_52356",
-"position": Vector2(300, 1300)
-}, {
-"name": &"_GraphNode_46621",
-"position": Vector2(-540, 160)
-}, {
-"name": &"_GraphNode_27759",
-"position": Vector2(300, -300),
-&"type": 0
-}, {
-"name": &"_GraphNode_27752",
-"position": Vector2(380, -480),
-&"type": 0
-}, {
-"name": &"_GraphNode_52319",
-"position": Vector2(1120, -160)
-}, {
-"name": &"_GraphNode_29934",
-"position": Vector2(520, 540)
-}, {
+"data": {
+&"max_cells": 150.0,
+&"rotate_180_weight": 20.0,
+&"starting_position": Vector3(24, 24, 0)
+},
 "name": &"BaseNode10",
-"position": Vector2(1780, 500)
+"position": Vector2(-1360, 100),
+"salt": 2719450087
 }, {
-"name": &"BaseNode6",
-"position": Vector2(-1360, 100)
+"data": {
+&"name": "FloorMaterial"
+},
+"name": &"BaseNode13",
+"position": Vector2(-600, 640),
+"salt": 3203641953
 }, {
-"name": &"_GraphNode_29881",
-"position": Vector2(800, 560)
+"name": &"BaseNode14",
+"position": Vector2(1780, 500),
+"salt": 0
+}, {
+"data": {
+&"rules": {
+Vector2i(0, -1): false,
+Vector2i(0, 0): true
+}
+},
+"name": &"_GraphNode_25313",
+"position": Vector2(740, 80),
+"salt": 581472843
+}, {
+"data": {
+&"rules": {
+Vector2i(0, -1): true,
+Vector2i(0, 0): false
+}
+},
+"name": &"_GraphNode_25394",
+"position": Vector2(740, -260),
+"salt": 380881962
+}, {
+"name": &"_GraphNode_27754",
+"position": Vector2(480, -500),
+"salt": 2945478844,
+&"type": 0
+}, {
+"name": &"_GraphNode_27761",
+"position": Vector2(360, -320),
+"salt": 4007325169,
+&"type": 0
+}, {
+"name": &"_GraphNode_27785",
+"position": Vector2(140, 560),
+"salt": 2431203366,
+&"type": 0
+}, {
+"name": &"_GraphNode_27793",
+"position": Vector2(340, 900),
+"salt": 397848346,
+&"type": 0
+}, {
+"name": &"_GraphNode_27818",
+"position": Vector2(180, 400),
+"salt": 805934768,
+&"type": 1
+}, {
+"name": &"_GraphNode_27825",
+"position": Vector2(1060, 400),
+"salt": 4274167954,
+&"type": 1
+}, {
+"name": &"_GraphNode_27832",
+"position": Vector2(-120, 200),
+"salt": 1563864083,
+&"type": 0
+}, {
+"name": &"_GraphNode_27969",
+"position": Vector2(-560, 880),
+"salt": 1403137335,
+&"type": 0
+}, {
+"data": {
+&"chance": 15.0
+},
+"name": &"_GraphNode_29883",
+"position": Vector2(800, 600),
+"salt": 2691821230
+}, {
+"data": {
+&"rules": {
+Vector2i(0, 0): false
+}
+},
+"name": &"_GraphNode_29936",
+"position": Vector2(540, 580),
+"salt": 3208191914
+}, {
+"data": {
+&"rules": {
+Vector2i(0, -1): false,
+Vector2i(0, 0): false
+}
+},
+"name": &"_GraphNode_30001",
+"position": Vector2(540, 900),
+"salt": 4142241368
+}, {
+"data": {
+&"chance": 5.0
+},
+"name": &"_GraphNode_30041",
+"position": Vector2(820, 900),
+"salt": 2125879735
+}, {
+"data": {
+&"name": "Vegetation"
+},
+"name": &"_GraphNode_40715",
+"position": Vector2(320, 680),
+"salt": 3147852408
+}, {
+"data": {
+&"amount": 2.0
+},
+"name": &"_GraphNode_41449",
+"position": Vector2(900, 1260),
+"salt": 308118276
+}, {
+"name": &"_GraphNode_41949",
+"position": Vector2(1260, 820),
+"salt": 1022077936
+}, {
+"data": {
+&"name": "Chest"
+},
+"name": &"_GraphNode_42530",
+"position": Vector2(660, 1340),
+"salt": 3043193593
+}, {
+"name": &"_GraphNode_46623",
+"position": Vector2(-480, 160),
+"salt": 1095001467
+}, {
+"name": &"_GraphNode_46695",
+"position": Vector2(740, -500),
+"salt": 1095001467
+}, {
+"data": {
+&"name": "WallBelow"
+},
+"name": &"_GraphNode_46758",
+"position": Vector2(520, -180),
+"salt": 1065991013
+}, {
+"name": &"_GraphNode_52321",
+"position": Vector2(1120, -180),
+"salt": 1380013154
+}, {
+"data": {
+&"distance_range": {
+"max": 64.0,
+"min": 4.0
+},
+&"to_point": Vector3(24, 24, 0)
+},
+"name": &"_GraphNode_52358",
+"position": Vector2(280, 1240),
+"salt": 2767213228
+}, {
+"data": {
+&"name": "SpikyVegetation"
+},
+"name": &"_GraphNode_52441",
+"position": Vector2(320, 980),
+"salt": 2702524083
+}, {
+"data": {
+&"name": "WallAbove"
+},
+"name": &"_GraphNode_52516",
+"position": Vector2(520, 160),
+"salt": 2224158555
+}, {
+"data": {
+&"name": "WallMaterial"
+},
+"name": &"_GraphNode_73053",
+"position": Vector2(520, -420),
+"salt": 3078290440
 }])
 parameters = Dictionary[StringName, Variant]({
 &"Chest": {
@@ -1572,52 +609,52 @@ parameters = Dictionary[StringName, Variant]({
 })
 other = {
 &"frames": [Dictionary[String, Variant]({
-"attached": Array[StringName]([&"_GraphNode_46621"]),
+"attached": Array[StringName]([&"_GraphNode_52358", &"_GraphNode_41449", &"_GraphNode_42530"]),
 "autoshrink": true,
-"name": &"_GraphFrame_25941",
-"position": Vector2(-580, 119),
-"size": Vector2(306, 194),
-"tint_color": Color(0.3125, 0.155029, 0.155029, 0.75),
-"tint_color_enabled": true,
-"title": "Get Everything Outside Floor"
-}), Dictionary[String, Variant]({
-"attached": Array[StringName]([&"BaseNode5", &"BaseNode9"]),
-"autoshrink": true,
-"name": &"_GraphFrame_25944",
-"position": Vector2(-640, 539),
-"size": Vector2(512, 253),
-"tint_color": Color(0.174225, 0.208835, 0.257812, 0.75),
-"tint_color_enabled": true,
-"title": "Floor"
-}), Dictionary[String, Variant]({
-"attached": Array[StringName]([&"_GraphNode_29881", &"_GraphNode_27791", &"_GraphNode_52439", &"_GraphNode_29999", &"_GraphNode_40713", &"_GraphNode_29934", &"_GraphNode_30039"]),
-"autoshrink": true,
-"name": &"_GraphFrame_25938",
-"position": Vector2(260, 499),
-"size": Vector2(792, 714),
-"tint_color": Color(0.0964966, 0.363281, 0.175698, 0.75),
-"tint_color_enabled": true,
-"title": "Add Vegetation"
-}), Dictionary[String, Variant]({
-"attached": Array[StringName]([&"_GraphNode_52356", &"_GraphNode_42528", &"_GraphNode_41447"]),
-"autoshrink": true,
-"name": &"_GraphFrame_25932",
-"position": Vector2(260, 1259),
-"size": Vector2(872, 317),
+"name": &"_GraphFrame_29830",
+"position": Vector2(240, 1199),
+"size": Vector2(892, 325),
 "tint_color": Color(0.55, 0.415983, 0.3135, 0.52549),
 "tint_color_enabled": true,
 "title": "Place Chests"
 }), Dictionary[String, Variant]({
-"attached": Array[StringName]([&"_GraphNode_46693", &"_GraphNode_25311", &"_GraphNode_52514", &"_GraphNode_46756", &"_GraphNode_73051", &"_GraphNode_25392", &"BaseNode", &"_GraphNode_27759", &"_GraphNode_27752", &"_GraphNode_52319"]),
+"attached": Array[StringName]([&"_GraphNode_46695", &"_GraphNode_73053", &"_GraphNode_52516", &"_GraphNode_52321", &"_GraphNode_46758", &"_GraphNode_27754", &"_GraphNode_25394", &"_GraphNode_25313", &"BaseNode3", &"_GraphNode_27761"]),
 "autoshrink": true,
-"name": &"_GraphFrame_25935",
-"position": Vector2(260, -521),
-"size": Vector2(1092, 874),
+"name": &"_GraphFrame_29833",
+"position": Vector2(320, -541),
+"size": Vector2(1032, 849),
 "tint_color": Color(0.133333, 0.12549, 0.203922, 1),
 "tint_color_enabled": true,
 "title": "Walls"
+}), Dictionary[String, Variant]({
+"attached": Array[StringName]([&"_GraphNode_29936", &"_GraphNode_30001", &"_GraphNode_52441", &"_GraphNode_30041", &"_GraphNode_27793", &"_GraphNode_40715", &"_GraphNode_29883"]),
+"autoshrink": true,
+"name": &"_GraphFrame_29836",
+"position": Vector2(280, 539),
+"size": Vector2(772, 589),
+"tint_color": Color(0.0964966, 0.363281, 0.175698, 0.75),
+"tint_color_enabled": true,
+"title": "Add Vegetation"
+}), Dictionary[String, Variant]({
+"attached": Array[StringName]([&"_GraphNode_46623"]),
+"autoshrink": true,
+"name": &"_GraphFrame_29839",
+"position": Vector2(-520, 119),
+"size": Vector2(306, 196),
+"tint_color": Color(0.3125, 0.155029, 0.155029, 0.75),
+"tint_color_enabled": true,
+"title": "Get Everything Outside Floor"
+}), Dictionary[String, Variant]({
+"attached": Array[StringName]([&"BaseNode9", &"BaseNode13"]),
+"autoshrink": true,
+"name": &"_GraphFrame_29842",
+"position": Vector2(-640, 499),
+"size": Vector2(532, 257),
+"tint_color": Color(0.174225, 0.208835, 0.257812, 0.75),
+"tint_color_enabled": true,
+"title": "Floor"
 })],
-&"scroll_offset": Vector2(-130.191, 182.87)
+&"scroll_offset": Vector2(-753.448, 113.943)
 }
 Chest = SubResource("Resource_j6vep")
 FloorMaterial = SubResource("Resource_e1h74")

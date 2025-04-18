@@ -40,5 +40,3 @@ output_slots = Array[ExtResource("2_n0whf")]([SubResource("Resource_16x2u")])
 title = "Multiply (*)"
 description = "Multiplies all cells in [param]data[/bg][/c] with [param]value[/bg][/c]."
 is_output = false
-data = {}
-salt = 0

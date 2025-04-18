@@ -15,8 +15,16 @@ func initialize() -> void:
 	if resource is not GaeaVariableNodeResource:
 		return
 
+	var _loading_loop_limit = 60
+	while not finished_loading and _loading_loop_limit > 0:
+		await get_tree().process_frame
+		_loading_loop_limit -= 1
+	if not finished_loading:
+		push_error("Something went wrong during loading of the variable node", title)
+
 	set_arg_value("name", resource.get_arg("name", null))
 	previous_name = get_arg_value("name")
+
 	if generator.data.parameters.has(get_arg_value("name")):
 		return
 
@@ -29,6 +37,7 @@ func initialize() -> void:
 		"hint": resource.hint,
 		"hint_string": resource.hint_string,
 		"value": _get_default_value(resource.type),
+		"usage": PROPERTY_USAGE_EDITOR
 	}
 
 	generator.data.notify_property_list_changed()
@@ -71,6 +80,7 @@ func _on_param_value_changed(value: Variant, node: GaeaGraphNodeParameter, param
 	previous_name = value
 
 	generator.data.notify_property_list_changed()
+	save_requested.emit.call_deferred()
 
 
 func _get_default_value(for_type: Variant.Type) -> Variant:

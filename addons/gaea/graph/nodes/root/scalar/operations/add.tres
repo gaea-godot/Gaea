@@ -43,6 +43,4 @@ output_slots = Array[ExtResource("2_00oos")]([SubResource("Resource_s1oqb")])
 title = "Add (+)"
 description = "Adds [param]a[/bg][/c] and [param]b[/bg][/c] together."
 is_output = false
-data = {}
-salt = 0
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"

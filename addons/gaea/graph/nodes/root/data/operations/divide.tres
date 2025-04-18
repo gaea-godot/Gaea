@@ -40,5 +40,3 @@ output_slots = Array[ExtResource("2_1mf7m")]([SubResource("Resource_avr7f")])
 title = "Divide (/)"
 description = "Divides all cells in [param]data[/bg][/c] by [param]value[/bg][/c]."
 is_output = false
-data = {}
-salt = 0

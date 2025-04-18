@@ -42,6 +42,4 @@ output_slots = Array[ExtResource("2_lc4c5")]([SubResource("Resource_bie4n")])
 title = "DataDifference"
 description = "Returns the difference between [param]data A[/bg][/c] - [param]data B[/bg][/c]."
 is_output = false
-data = {}
-salt = 0
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"

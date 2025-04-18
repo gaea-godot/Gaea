@@ -40,5 +40,3 @@ output_slots = Array[ExtResource("2_gttm1")]([SubResource("Resource_avr7f")])
 title = "Add (+)"
 description = "Adds [param]value[/bg][/c] to all cells in [param]data[/bg][/c]"
 is_output = false
-data = {}
-salt = 0

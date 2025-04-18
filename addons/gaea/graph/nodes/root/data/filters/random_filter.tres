@@ -43,5 +43,3 @@ output_slots = Array[ExtResource("2_trkfv")]([SubResource("Resource_hqu83")])
 title = "RandomFilter"
 description = "Randomly filters [param]data[/bg][/c] to only the cells that pass the [param]chance[/bg][/c] check."
 is_output = false
-data = {}
-salt = 0

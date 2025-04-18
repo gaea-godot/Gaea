@@ -57,5 +57,3 @@ output_slots = Array[ExtResource("2_tbek3")]([SubResource("Resource_t3085")])
 title = "MapIntersection"
 description = "Returns the intersection between [param]map A[/bg][/c] with [param]map B[/bg][/c]. Later grids override any cells from the previous grids when valid. (B overrides A, C overrides B, etc.)"
 is_output = false
-data = {}
-salt = 0

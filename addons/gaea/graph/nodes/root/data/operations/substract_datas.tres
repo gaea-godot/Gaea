@@ -40,5 +40,3 @@ output_slots = Array[ExtResource("2_ucc1t")]([SubResource("Resource_avr7f")])
 title = "Substract (A-B)"
 description = "Substracts [param]data B[/bg][/c] from [param]data A[/bg][/c] together."
 is_output = false
-data = {}
-salt = 0

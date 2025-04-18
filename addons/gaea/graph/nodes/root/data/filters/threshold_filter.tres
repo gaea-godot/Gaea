@@ -39,5 +39,3 @@ output_slots = Array[ExtResource("2_ih1d3")]([SubResource("Resource_hqu83")])
 title = "ThresholdFilter"
 description = "Filters [param]data[/bg][/c] to only the cells of a value between [param]min[/bg][/c] and [param]max[/bg][/c]."
 is_output = false
-data = {}
-salt = 0

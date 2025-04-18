@@ -42,6 +42,4 @@ output_slots = Array[ExtResource("2_0xxnj")]([SubResource("Resource_kk1e5"), Sub
 title = "DecomposeVector2"
 description = "Decomposes a Vector2 into 2 numbers."
 is_output = false
-data = {}
-salt = 0
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"

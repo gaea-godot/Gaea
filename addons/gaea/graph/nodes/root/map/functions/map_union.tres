@@ -57,5 +57,3 @@ output_slots = Array[ExtResource("2_j54ge")]([SubResource("Resource_t3085")])
 title = "MapUnion"
 description = "Merges [param]map A-D[/bg][/c]. The latter overrides any overlapping cells from the former."
 is_output = false
-data = {}
-salt = 0

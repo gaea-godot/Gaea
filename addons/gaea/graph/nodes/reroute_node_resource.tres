@@ -1,0 +1,24 @@
+[gd_resource type="Resource" load_steps=5 format=3 uid="uid://kdn03ei2yp6e"]
+
+[ext_resource type="Script" uid="uid://bh3sajxnmp14w" path="res://addons/gaea/graph/nodes/node_argument.gd" id="1_1jyr0"]
+[ext_resource type="Script" uid="uid://ote622wl6axc" path="res://addons/gaea/graph/nodes/node_slot.gd" id="2_63img"]
+[ext_resource type="Script" uid="uid://bgqqucap4kua4" path="res://addons/gaea/graph/nodes/reroute_node_resource.gd" id="3_ufwtk"]
+
+[sub_resource type="Resource" id="Resource_1jyr0"]
+script = ExtResource("2_63img")
+left_enabled = true
+left_type = 0
+left_label = ""
+right_enabled = true
+right_type = 0
+right_label = ""
+metadata/_custom_type_script = "uid://ote622wl6axc"
+
+[resource]
+script = ExtResource("3_ufwtk")
+input_slots = Array[ExtResource("2_63img")]([SubResource("Resource_1jyr0")])
+args = Array[ExtResource("1_1jyr0")]([])
+output_slots = Array[ExtResource("2_63img")]([])
+title = "New Reroute"
+description = ""
+is_output = false

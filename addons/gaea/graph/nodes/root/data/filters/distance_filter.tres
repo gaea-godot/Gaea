@@ -8,7 +8,7 @@
 script = ExtResource("1_58cm0")
 type = 10
 name = &"to_point"
-default_value = null
+default_value = Vector3(0, 0, 0)
 hint = Dictionary[String, Variant]({})
 disable_input_slot = false
 add_output_slot = false
@@ -55,5 +55,3 @@ output_slots = Array[ExtResource("2_7js3n")]([SubResource("Resource_hqu83")])
 title = "DistanceFilter"
 description = "Filters [param]data[/bg][/c] to only the cells at a distance from [param]to_point[/bg][/c] between [param]min[/bg][/c] and [param]max[/bg][/c]."
 is_output = false
-data = {}
-salt = 0
