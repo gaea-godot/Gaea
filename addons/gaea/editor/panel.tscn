@@ -380,7 +380,6 @@ file_mode = 0
 filters = PackedStringArray("*.tres,*.res;Resources")
 
 [node name="AboutWindow" parent="." instance=ExtResource("9_affj1")]
-size = Vector2i(512, 384)
 visible = false
 exclusive = true
 
@@ -403,6 +402,7 @@ exclusive = true
 [connection signal="request_connection_update" from="Editor/VBoxContainer/GraphEdit" to="." method="update_connections"]
 [connection signal="request_save" from="Editor/VBoxContainer/GraphEdit" to="." method="_save_data"]
 [connection signal="text_changed" from="Editor/CreateNodePopup/MainContentContainer/VBox/SearchContainer/SearchBar" to="Editor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_search_bar_text_changed"]
+[connection signal="text_submitted" from="Editor/CreateNodePopup/MainContentContainer/VBox/SearchContainer/SearchBar" to="Editor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_search_bar_text_submitted"]
 [connection signal="pressed" from="Editor/CreateNodePopup/MainContentContainer/VBox/SearchContainer/ToolButton" to="Editor/CreateNodePopup" method="_on_tool_button_pressed"]
 [connection signal="id_pressed" from="Editor/CreateNodePopup/MainContentContainer/VBox/SearchContainer/ToolButton/ToolPopup" to="Editor/CreateNodePopup" method="_on_tool_popup_id_pressed"]
 [connection signal="item_activated" from="Editor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" to="Editor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_item_activated"]

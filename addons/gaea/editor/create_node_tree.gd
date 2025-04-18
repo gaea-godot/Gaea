@@ -172,3 +172,8 @@ func _show_parents_recursive(item: TreeItem) -> void:
 		parent_item.visible = true
 		parent_item.set_collapsed_recursive(false)
 		parent_item = parent_item.get_parent()
+
+
+func _on_search_bar_text_submitted(new_text: String) -> void:
+	if get_selected() != null:
+		_on_item_activated()
