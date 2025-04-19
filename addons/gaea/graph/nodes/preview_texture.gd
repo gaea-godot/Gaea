@@ -56,7 +56,7 @@ func _ready() -> void:
 func toggle(for_output: GaeaNodeSlotOutput) -> void:
 	if not get_parent().visible:
 		get_parent().show()
-		slider_container.visible = true
+		slider_container.visible = for_output.type == GaeaValue.Type.DATA
 		selected_output = for_output
 		update()
 	else:

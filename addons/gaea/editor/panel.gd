@@ -379,10 +379,10 @@ func _popup_node_context_menu_at_mouse(selected_nodes: Array) -> void:
 	_node_popup.popup()
 
 
-func _popup_link_context_menu_at_mouse(connexion: Dictionary) -> void:
+func _popup_link_context_menu_at_mouse(connection: Dictionary) -> void:
 	_node_creation_target = _graph_edit.get_local_mouse_position()
 	_link_popup.clear()
-	_link_popup.populate(connexion)
+	_link_popup.populate(connection)
 	_link_popup.position = Vector2i(get_global_mouse_position())
 	if not EditorInterface.get_editor_settings().get_setting("interface/editor/single_window_mode"):
 		_link_popup.position += get_window().position

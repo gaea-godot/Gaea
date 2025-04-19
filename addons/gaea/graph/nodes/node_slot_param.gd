@@ -41,53 +41,8 @@ func _property_get_revert(property: StringName) -> Variant:
 
 
 func _validate_property(property: Dictionary) -> void:
-	if property.name == "default_value":
-		match type:
-			GaeaValue.Type.FLOAT:
-				property.type = TYPE_FLOAT
-				property.usage = PROPERTY_USAGE_EDITOR | PROPERTY_USAGE_STORAGE
-			GaeaValue.Type.INT:
-				property.type = TYPE_INT
-				property.usage = PROPERTY_USAGE_EDITOR | PROPERTY_USAGE_STORAGE
-			GaeaValue.Type.VECTOR2:
-				property.type = TYPE_VECTOR2
-				property.usage = PROPERTY_USAGE_EDITOR | PROPERTY_USAGE_STORAGE
-			GaeaValue.Type.RANGE:
-				property.type = TYPE_DICTIONARY
-				property.usage = PROPERTY_USAGE_EDITOR | PROPERTY_USAGE_STORAGE
-			GaeaValue.Type.BITMASK, GaeaValue.Type.BITMASK_EXCLUSIVE:
-				property.type = TYPE_INT
-				property.usage = PROPERTY_USAGE_EDITOR | PROPERTY_USAGE_STORAGE
-				property.hint = PROPERTY_HINT_LAYERS_2D_PHYSICS
-			GaeaValue.Type.BOOLEAN:
-				property.type = TYPE_BOOL
-				property.usage = PROPERTY_USAGE_EDITOR | PROPERTY_USAGE_STORAGE
-			GaeaValue.Type.FLAGS:
-				property.type = TYPE_ARRAY
-				property.hint = PROPERTY_HINT_TYPE_STRING
-				property.usage = PROPERTY_USAGE_EDITOR | PROPERTY_USAGE_STORAGE
-				property.hint_string = "%d:" % [TYPE_INT]
-			GaeaValue.Type.VECTOR3:
-				property.type = TYPE_VECTOR3
-				property.usage = PROPERTY_USAGE_EDITOR | PROPERTY_USAGE_STORAGE
-			GaeaValue.Type.NEIGHBORS:
-				property.type = TYPE_ARRAY
-				property.hint = PROPERTY_HINT_TYPE_STRING
-				property.usage = PROPERTY_USAGE_EDITOR | PROPERTY_USAGE_STORAGE
-				property.hint_string = "%d:" % [TYPE_VECTOR2I]
-			GaeaValue.Type.DATA:
-				property.type = TYPE_DICTIONARY
-				property.hint = PROPERTY_HINT_DICTIONARY_TYPE
-				property.hint_string = "%d:;%d:" % [TYPE_VECTOR3I, TYPE_FLOAT]
-				property.usage = PROPERTY_USAGE_EDITOR | PROPERTY_USAGE_STORAGE
-			GaeaValue.Type.MAP:
-				property.type = TYPE_DICTIONARY
-				property.hint = PROPERTY_HINT_DICTIONARY_TYPE
-				property.hint_string = "%d:" % [TYPE_VECTOR3I]
-				property.usage = PROPERTY_USAGE_EDITOR | PROPERTY_USAGE_STORAGE
-
-	if property.name == "hint" and type == GaeaValue.Type.CATEGORY:
-		property.usage = PROPERTY_USAGE_NONE
+	if property.name == "default_value" or property.name == "hint":
+		GaeaValue.apply_property_type_hint(property, type)
 #endregion
 
 

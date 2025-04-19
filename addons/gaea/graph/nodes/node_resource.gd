@@ -120,11 +120,11 @@ func get_arg(name: StringName, _area: AABB, generator_data: GaeaData) -> Variant
 	if not is_instance_valid(param):
 		return null
 
-	var connexion := get_param_connection(param)
-	if not connexion.is_empty():
-		var connected_idx = connexion.from_node
+	var connection := get_param_connection(param)
+	if not connection.is_empty():
+		var connected_idx = connection.from_node
 		var connected_node = generator_data.resources[connected_idx]
-		var connected_output = connected_node.connection_idx_to_output(connexion.from_port)
+		var connected_output = connected_node.connection_idx_to_output(connection.from_port)
 		var connected_data = connected_node.traverse(
 			connected_output,
 			_area,

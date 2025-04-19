@@ -2,8 +2,6 @@
 class_name GaeaGraphNodeOutput
 extends MarginContainer
 
-const PREVIEW_TYPES := [GaeaValue.Type.MAP, GaeaValue.Type.DATA]
-
 
 var resource: GaeaNodeSlotOutput
 ## Reference to the [GaeaGraphNode] instance
