@@ -69,6 +69,8 @@ static func get_default_value(type: Type) -> Variant:
 			return [] as Array[int]
 	return null
 
+
+@warning_ignore("unused_parameter")
 static func from_variant_type(type: Variant.Type, hint: PropertyHint = PROPERTY_HINT_NONE, hint_string: String = "") -> Type:
 	match type:
 		TYPE_INT:
