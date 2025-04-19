@@ -99,7 +99,7 @@ func _on_visibility_changed() -> void:
 
 #region Saving and Loading
 func populate(node: GaeaGenerator) -> void:
-	_remove_children()
+	await _remove_children()
 	_output_node = null
 
 	if is_instance_valid(_selected_generator) and _selected_generator.data_changed.is_connected(_on_data_changed):
@@ -132,13 +132,14 @@ func unpopulate() -> void:
 
 	_selected_generator = null
 
-	_remove_children()
+	await _remove_children()
 
 
 func _remove_children() -> void:
 	for child in _graph_edit.get_children():
 		if child is GraphElement:
 			child.queue_free()
+			await child.tree_exited
 
 
 func _save_data() -> void:
