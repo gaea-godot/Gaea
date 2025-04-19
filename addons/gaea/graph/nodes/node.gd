@@ -87,11 +87,6 @@ func initialize() -> void:
 		add_theme_stylebox_override("titlebar_selected", titlebar_selected)
 
 
-
-func _has_output_slot(arg: GaeaNodeArgument) -> bool:
-	return arg.add_output_slot
-
-
 func on_added() -> void:
 	pass
 
