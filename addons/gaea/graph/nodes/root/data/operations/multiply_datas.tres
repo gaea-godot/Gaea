@@ -1,42 +1,32 @@
 [gd_resource type="Resource" load_steps=7 format=3 uid="uid://dv5677k1v6n"]
 
-[ext_resource type="Script" uid="uid://bh3sajxnmp14w" path="res://addons/gaea/graph/nodes/node_argument.gd" id="1_1sm2y"]
-[ext_resource type="Script" uid="uid://ote622wl6axc" path="res://addons/gaea/graph/nodes/node_slot.gd" id="2_3huyt"]
-[ext_resource type="Script" uid="uid://co8c50vhbqht7" path="res://addons/gaea/graph/nodes/root/data/operations/datas_operation.gd" id="3_htgkp"]
+[ext_resource type="Resource" uid="uid://8w0nsvq1cu1r" path="res://addons/gaea/graph/components/slot_outputs/data.tres" id="2_wress"]
+[ext_resource type="Script" uid="uid://co8c50vhbqht7" path="res://addons/gaea/graph/nodes/root/data/datas_operation.gd" id="3_htgkp"]
+[ext_resource type="Script" uid="uid://dil6xg31ctqdu" path="res://addons/gaea/graph/nodes/node_slot_output.gd" id="3_jx2jg"]
+[ext_resource type="Script" uid="uid://b5mukn8hdt8ww" path="res://addons/gaea/graph/nodes/node_slot_param.gd" id="4_ejhcs"]
 
-[sub_resource type="Resource" id="Resource_i353x"]
-script = ExtResource("2_3huyt")
-left_enabled = true
-left_type = 0
-left_label = "Data A"
-right_enabled = false
-right_type = -1
-right_label = ""
+[sub_resource type="Resource" id="Resource_ucc1t"]
+resource_name = "Data A (Data)"
+script = ExtResource("4_ejhcs")
+name = &"data_a"
+type = 200
+hint = Dictionary[String, Variant]({})
+default_value = Dictionary[Vector3i, float]({})
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
-[sub_resource type="Resource" id="Resource_htgkp"]
-script = ExtResource("2_3huyt")
-left_enabled = true
-left_type = 0
-left_label = "Data B"
-right_enabled = false
-right_type = -1
-right_label = ""
-
-[sub_resource type="Resource" id="Resource_avr7f"]
-script = ExtResource("2_3huyt")
-left_enabled = false
-left_type = -1
-left_label = ""
-right_enabled = true
-right_type = 0
-right_label = "Data"
+[sub_resource type="Resource" id="Resource_v2kem"]
+resource_name = "Data B (Data)"
+script = ExtResource("4_ejhcs")
+name = &"data_b"
+type = 200
+hint = Dictionary[String, Variant]({})
+default_value = Dictionary[Vector3i, float]({})
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
 [resource]
 script = ExtResource("3_htgkp")
 operation = 2
-input_slots = Array[ExtResource("2_3huyt")]([SubResource("Resource_i353x"), SubResource("Resource_htgkp")])
-args = Array[ExtResource("1_1sm2y")]([])
-output_slots = Array[ExtResource("2_3huyt")]([SubResource("Resource_avr7f")])
+params = Array[ExtResource("4_ejhcs")]([SubResource("Resource_ucc1t"), SubResource("Resource_v2kem")])
+outputs = Array[ExtResource("3_jx2jg")]([ExtResource("2_wress")])
 title = "Multiply (A*B)"
 description = "Multiplies [param]data A[/bg][/c] and [param]data B[/bg][/c] together."
-is_output = false

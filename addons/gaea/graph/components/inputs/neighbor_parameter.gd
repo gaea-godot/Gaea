@@ -10,7 +10,9 @@ const DIRECTIONS = [Vector2i.UP + Vector2i.LEFT		, Vector2i.UP	, Vector2i.UP + V
 
 
 func _ready() -> void:
-	super()
+	if is_part_of_edited_scene():
+		return
+	await super()
 	for button: CheckBox in grid_container.get_children():
 		button.toggled.connect(_on_value_changed.unbind(1))
 

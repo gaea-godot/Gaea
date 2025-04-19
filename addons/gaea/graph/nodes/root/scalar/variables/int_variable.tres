@@ -1,27 +1,23 @@
-[gd_resource type="Resource" script_class="GaeaVariableNodeResource" load_steps=5 format=3 uid="uid://37ihrctuxf3"]
+[gd_resource type="Resource" script_class="GaeaVariableNodeResource" load_steps=6 format=3 uid="uid://37ihrctuxf3"]
 
-[ext_resource type="Script" uid="uid://bh3sajxnmp14w" path="res://addons/gaea/graph/nodes/node_argument.gd" id="1_5fkkh"]
-[ext_resource type="Script" uid="uid://ote622wl6axc" path="res://addons/gaea/graph/nodes/node_slot.gd" id="2_0ncn6"]
+[ext_resource type="Resource" uid="uid://i46iucpudaxi" path="res://addons/gaea/graph/components/slot_params/variable_name.tres" id="3_3t7cq"]
+[ext_resource type="Script" uid="uid://dil6xg31ctqdu" path="res://addons/gaea/graph/nodes/node_slot_output.gd" id="3_o1873"]
 [ext_resource type="Script" uid="uid://bqa8aufofkr81" path="res://addons/gaea/graph/nodes/variable_node_resource.gd" id="3_xpm8k"]
+[ext_resource type="Script" uid="uid://b5mukn8hdt8ww" path="res://addons/gaea/graph/nodes/node_slot_param.gd" id="4_8f1os"]
 
-[sub_resource type="Resource" id="Resource_putew"]
-script = ExtResource("1_5fkkh")
-type = 3
-name = &"name"
-default_value = null
-hint = Dictionary[String, Variant]({})
-disable_input_slot = false
-add_output_slot = false
+[sub_resource type="Resource" id="Resource_o1873"]
+resource_name = "Value (Int)"
+script = ExtResource("3_o1873")
+name = &"value"
+type = 2
+metadata/_custom_type_script = "uid://dil6xg31ctqdu"
 
 [resource]
 script = ExtResource("3_xpm8k")
 type = 2
 hint = 0
 hint_string = ""
-output_type = 4
-input_slots = Array[ExtResource("2_0ncn6")]([])
-args = Array[ExtResource("1_5fkkh")]([SubResource("Resource_putew")])
-output_slots = Array[ExtResource("2_0ncn6")]([])
+params = Array[ExtResource("4_8f1os")]([ExtResource("3_3t7cq")])
+outputs = Array[ExtResource("3_o1873")]([SubResource("Resource_o1873")])
 title = "IntVariable"
 description = "Integer variable editable in the inspector."
-is_output = false

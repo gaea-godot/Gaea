@@ -1,27 +1,22 @@
-[gd_resource type="Resource" script_class="GaeaVariableNodeResource" load_steps=5 format=3 uid="uid://cta2ipm8oe120"]
+[gd_resource type="Resource" script_class="GaeaVariableNodeResource" load_steps=6 format=3 uid="uid://cta2ipm8oe120"]
 
-[ext_resource type="Script" uid="uid://bh3sajxnmp14w" path="res://addons/gaea/graph/nodes/node_argument.gd" id="1_irqh6"]
-[ext_resource type="Script" uid="uid://ote622wl6axc" path="res://addons/gaea/graph/nodes/node_slot.gd" id="2_v72lx"]
+[ext_resource type="Resource" uid="uid://i46iucpudaxi" path="res://addons/gaea/graph/components/slot_params/variable_name.tres" id="3_lod04"]
+[ext_resource type="Script" uid="uid://dil6xg31ctqdu" path="res://addons/gaea/graph/nodes/node_slot_output.gd" id="3_vwlpb"]
 [ext_resource type="Script" uid="uid://bqa8aufofkr81" path="res://addons/gaea/graph/nodes/variable_node_resource.gd" id="3_yqn5n"]
+[ext_resource type="Script" uid="uid://b5mukn8hdt8ww" path="res://addons/gaea/graph/nodes/node_slot_param.gd" id="4_6ue71"]
 
-[sub_resource type="Resource" id="Resource_putew"]
-script = ExtResource("1_irqh6")
-type = 3
-name = &"name"
-default_value = null
-hint = Dictionary[String, Variant]({})
-disable_input_slot = false
-add_output_slot = false
+[sub_resource type="Resource" id="Resource_lod04"]
+resource_name = "Value (Boolean)"
+script = ExtResource("3_vwlpb")
+name = &"value"
+type = 1
 
 [resource]
 script = ExtResource("3_yqn5n")
 type = 1
 hint = 0
 hint_string = ""
-output_type = 6
-input_slots = Array[ExtResource("2_v72lx")]([])
-args = Array[ExtResource("1_irqh6")]([SubResource("Resource_putew")])
-output_slots = Array[ExtResource("2_v72lx")]([])
+params = Array[ExtResource("4_6ue71")]([ExtResource("3_lod04")])
+outputs = Array[ExtResource("3_vwlpb")]([SubResource("Resource_lod04")])
 title = "BoolVariable"
 description = "Boolean variable editable in the inspector."
-is_output = false

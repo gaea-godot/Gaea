@@ -1,25 +1,29 @@
-[gd_resource type="Resource" load_steps=5 format=3 uid="uid://c1k7e0whh2ewx"]
+[gd_resource type="Resource" load_steps=6 format=3 uid="uid://c1k7e0whh2ewx"]
 
-[ext_resource type="Script" uid="uid://bh3sajxnmp14w" path="res://addons/gaea/graph/nodes/node_argument.gd" id="1_givc6"]
-[ext_resource type="Script" uid="uid://ote622wl6axc" path="res://addons/gaea/graph/nodes/node_slot.gd" id="2_123e2"]
 [ext_resource type="Script" uid="uid://bu8niqlr2pe8o" path="res://addons/gaea/graph/nodes/root/data/constant.gd" id="3_givc6"]
+[ext_resource type="Script" uid="uid://dil6xg31ctqdu" path="res://addons/gaea/graph/nodes/node_slot_output.gd" id="3_pghss"]
+[ext_resource type="Script" uid="uid://b5mukn8hdt8ww" path="res://addons/gaea/graph/nodes/node_slot_param.gd" id="4_6m31q"]
 
-[sub_resource type="Resource" id="Resource_givc6"]
-script = ExtResource("1_givc6")
-type = 0
+[sub_resource type="Resource" id="Resource_gqic4"]
+resource_name = "Value (Float)"
+script = ExtResource("3_pghss")
 name = &"value"
-default_value = null
+type = 3
+metadata/_custom_type_script = "uid://dil6xg31ctqdu"
+
+[sub_resource type="Resource" id="Resource_j1i3i"]
+resource_name = "Value (Float)"
+script = ExtResource("4_6m31q")
+name = &"value"
+type = 3
 hint = Dictionary[String, Variant]({})
-disable_input_slot = true
-add_output_slot = true
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
+default_value = 0.0
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
 [resource]
 script = ExtResource("3_givc6")
-input_slots = Array[ExtResource("2_123e2")]([])
-args = Array[ExtResource("1_givc6")]([SubResource("Resource_givc6")])
-output_slots = Array[ExtResource("2_123e2")]([])
+params = Array[ExtResource("4_6m31q")]([SubResource("Resource_j1i3i")])
+outputs = Array[ExtResource("3_pghss")]([SubResource("Resource_gqic4")])
 title = "FloatConstant"
 description = "A float constant."
-is_output = false
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"

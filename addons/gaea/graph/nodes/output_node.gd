@@ -3,15 +3,15 @@ extends GaeaGraphNode
 
 
 func initialize() -> void:
-	if not is_instance_valid(resource):
+	if not is_instance_valid(resource) or is_part_of_edited_scene():
 		return
 
 	title = resource.title
 	resource.node = self
+	resource.params = []
 	for layer in generator.data.layers.size():
 		_add_layer_slot(layer)
-	_auto_resize.call_deferred()
-
+	auto_shrink.call_deferred()
 
 	var titlebar: StyleBoxFlat = get_theme_stylebox("titlebar", "GraphNode").duplicate()
 	var titlebar_selected: StyleBoxFlat = get_theme_stylebox("titlebar_selected", "GraphNode").duplicate()
@@ -23,11 +23,10 @@ func initialize() -> void:
 
 
 func _add_layer_slot(idx: int) -> void:
-	var slot_resource: GaeaNodeSlot = GaeaNodeSlot.new()
-	slot_resource.left_enabled = true
-	slot_resource.left_label = "Layer %s" % idx
-	slot_resource.left_type = GaeaGraphNode.SlotTypes.MAP
-	slot_resource.right_enabled = false
+	var slot_resource: GaeaNodeSlotParam = GaeaNodeSlotParam.new()
+	slot_resource.name = "layer_%s" % idx
+	slot_resource.type = GaeaValue.Type.MAP
+	resource.params.append(slot_resource)
 	var node = slot_resource.get_node(self, idx)
 	add_child(node)
 	_connect_layer_resource_signal(idx)
@@ -49,7 +48,8 @@ func update_slots() -> void:
 	for idx in layer_count:
 		_connect_layer_resource_signal(idx)
 
-	_auto_resize.call_deferred()
+	auto_shrink.call_deferred()
+
 
 func _connect_layer_resource_signal(idx: int):
 	var layer: GaeaLayer = generator.data.layers[idx]
@@ -80,8 +80,3 @@ func _on_layer_resource_changed(idx: int, layer: GaeaLayer):
 
 	if not layer.enabled:
 		slot.left_label = "[color=DIM_GRAY][s]%s[/s][/color]" % slot.left_label
-
-
-func _auto_resize():
-	size.x = get_combined_minimum_size().x
-	size.y = get_combined_minimum_size().y

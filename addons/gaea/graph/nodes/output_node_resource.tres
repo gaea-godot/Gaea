@@ -1,14 +1,13 @@
 [gd_resource type="Resource" load_steps=4 format=3 uid="uid://bbkdvyxkj2slo"]
 
-[ext_resource type="Script" uid="uid://bh3sajxnmp14w" path="res://addons/gaea/graph/nodes/node_argument.gd" id="1_8mdcw"]
-[ext_resource type="Script" uid="uid://ote622wl6axc" path="res://addons/gaea/graph/nodes/node_slot.gd" id="2_tcram"]
+[ext_resource type="Script" uid="uid://dil6xg31ctqdu" path="res://addons/gaea/graph/nodes/node_slot_output.gd" id="1_43bun"]
+[ext_resource type="Script" uid="uid://b5mukn8hdt8ww" path="res://addons/gaea/graph/nodes/node_slot_param.gd" id="2_3asvu"]
 [ext_resource type="Script" uid="uid://dol7xviglksx4" path="res://addons/gaea/graph/nodes/output_node_resource.gd" id="3_awovq"]
 
 [resource]
 script = ExtResource("3_awovq")
-input_slots = Array[ExtResource("2_tcram")]([])
-args = Array[ExtResource("1_8mdcw")]([])
-output_slots = Array[ExtResource("2_tcram")]([])
+params = Array[ExtResource("2_3asvu")]([])
+outputs = Array[ExtResource("1_43bun")]([])
 title = "Output"
 description = "Outputs the generated grid via the [param]generation_finished[/bg][/c] signal in the GaeaGenerator."
-is_output = true
+metadata/is_output = true

@@ -6,7 +6,6 @@
 [node name="VariableNameParameter" instance=ExtResource("1_kwsdp")]
 size_flags_horizontal = 3
 script = ExtResource("2_ofrdj")
-add_input_slot = false
 
 [node name="Label" parent="." index="0"]
 visible = false

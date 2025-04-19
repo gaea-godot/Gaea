@@ -1,41 +1,37 @@
 [gd_resource type="Resource" load_steps=7 format=3 uid="uid://bmjbf86en6cas"]
 
-[ext_resource type="Script" uid="uid://bh3sajxnmp14w" path="res://addons/gaea/graph/nodes/node_argument.gd" id="1_7wqu7"]
-[ext_resource type="Script" uid="uid://ote622wl6axc" path="res://addons/gaea/graph/nodes/node_slot.gd" id="2_nkrai"]
-[ext_resource type="Script" uid="uid://m0m4x6trd11h" path="res://addons/gaea/graph/nodes/root/scalar/operations/compose_range.gd" id="3_d0vpy"]
+[ext_resource type="Script" uid="uid://m0m4x6trd11h" path="res://addons/gaea/graph/nodes/root/other/composition/compose_range.gd" id="3_1fnim"]
+[ext_resource type="Script" uid="uid://dil6xg31ctqdu" path="res://addons/gaea/graph/nodes/node_slot_output.gd" id="3_otsan"]
+[ext_resource type="Script" uid="uid://b5mukn8hdt8ww" path="res://addons/gaea/graph/nodes/node_slot_param.gd" id="4_2rrvu"]
 
-[sub_resource type="Resource" id="Resource_a2hj1"]
-script = ExtResource("1_7wqu7")
-type = 0
+[sub_resource type="Resource" id="Resource_1fnim"]
+resource_name = "Range"
+script = ExtResource("3_otsan")
+name = &"range"
+type = 100
+metadata/_custom_type_script = "uid://dil6xg31ctqdu"
+
+[sub_resource type="Resource" id="Resource_pm1n8"]
+resource_name = "Min (Float)"
+script = ExtResource("4_2rrvu")
 name = &"min"
+type = 3
+hint = Dictionary[String, Variant]({})
 default_value = null
-hint = Dictionary[String, Variant]({})
-disable_input_slot = false
-add_output_slot = false
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
-[sub_resource type="Resource" id="Resource_dkdok"]
-script = ExtResource("1_7wqu7")
-type = 0
+[sub_resource type="Resource" id="Resource_otsan"]
+resource_name = "Max (Float)"
+script = ExtResource("4_2rrvu")
 name = &"max"
-default_value = 1.0
+type = 3
 hint = Dictionary[String, Variant]({})
-disable_input_slot = false
-add_output_slot = false
-
-[sub_resource type="Resource" id="Resource_gk2p2"]
-script = ExtResource("2_nkrai")
-left_enabled = false
-left_type = -1
-left_label = ""
-right_enabled = true
-right_type = 5
-right_label = "Composed Range"
+default_value = 1.0
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
 [resource]
-script = ExtResource("3_d0vpy")
-input_slots = Array[ExtResource("2_nkrai")]([])
-args = Array[ExtResource("1_7wqu7")]([SubResource("Resource_a2hj1"), SubResource("Resource_dkdok")])
-output_slots = Array[ExtResource("2_nkrai")]([SubResource("Resource_gk2p2")])
+script = ExtResource("3_1fnim")
+params = Array[ExtResource("4_2rrvu")]([SubResource("Resource_pm1n8"), SubResource("Resource_otsan")])
+outputs = Array[ExtResource("3_otsan")]([SubResource("Resource_1fnim")])
 title = "ComposeRange"
 description = "Composes a range parameter from two numbers."
-is_output = false

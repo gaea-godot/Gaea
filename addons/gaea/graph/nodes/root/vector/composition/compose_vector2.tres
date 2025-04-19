@@ -1,46 +1,38 @@
 [gd_resource type="Resource" load_steps=7 format=3 uid="uid://dv28660onn7fl"]
 
-[ext_resource type="Script" uid="uid://bh3sajxnmp14w" path="res://addons/gaea/graph/nodes/node_argument.gd" id="1_aer6b"]
-[ext_resource type="Script" uid="uid://ote622wl6axc" path="res://addons/gaea/graph/nodes/node_slot.gd" id="2_8dago"]
+[ext_resource type="Script" uid="uid://dil6xg31ctqdu" path="res://addons/gaea/graph/nodes/node_slot_output.gd" id="3_504x0"]
 [ext_resource type="Script" uid="uid://cmo7oilfgh0gs" path="res://addons/gaea/graph/nodes/root/vector/composition/compose_vector.gd" id="3_aer6b"]
+[ext_resource type="Script" uid="uid://b5mukn8hdt8ww" path="res://addons/gaea/graph/nodes/node_slot_param.gd" id="4_yfsfv"]
 
-[sub_resource type="Resource" id="Resource_aer6b"]
-script = ExtResource("1_aer6b")
-type = 0
+[sub_resource type="Resource" id="Resource_504x0"]
+resource_name = "Composed Vector 3 (Vector 3)"
+script = ExtResource("3_504x0")
+name = &"composed_vector3"
+type = 9
+metadata/_custom_type_script = "uid://dil6xg31ctqdu"
+
+[sub_resource type="Resource" id="Resource_3677i"]
+resource_name = "X (Float)"
+script = ExtResource("4_yfsfv")
 name = &"x"
-default_value = null
+type = 3
 hint = Dictionary[String, Variant]({})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
+default_value = null
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
-[sub_resource type="Resource" id="Resource_8dago"]
-script = ExtResource("1_aer6b")
-type = 0
+[sub_resource type="Resource" id="Resource_tx35q"]
+resource_name = "Y (Float)"
+script = ExtResource("4_yfsfv")
 name = &"y"
-default_value = null
+type = 3
 hint = Dictionary[String, Variant]({})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
-
-[sub_resource type="Resource" id="Resource_4s5b1"]
-script = ExtResource("2_8dago")
-left_enabled = false
-left_type = -1
-left_label = ""
-right_enabled = true
-right_type = 3
-right_label = "Composed Vector2"
-metadata/_custom_type_script = "uid://ote622wl6axc"
+default_value = null
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
 [resource]
 script = ExtResource("3_aer6b")
-type = 0
-input_slots = Array[ExtResource("2_8dago")]([])
-args = Array[ExtResource("1_aer6b")]([SubResource("Resource_aer6b"), SubResource("Resource_8dago")])
-output_slots = Array[ExtResource("2_8dago")]([SubResource("Resource_4s5b1")])
+params = Array[ExtResource("4_yfsfv")]([SubResource("Resource_3677i"), SubResource("Resource_tx35q")])
+outputs = Array[ExtResource("3_504x0")]([SubResource("Resource_504x0")])
 title = "ComposeVector2"
 description = "Composes a Vector2 from two numbers."
-is_output = false
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"

@@ -1,57 +1,27 @@
 [gd_resource type="Resource" load_steps=8 format=3 uid="uid://buu32u5bluejt"]
 
-[ext_resource type="Script" uid="uid://bh3sajxnmp14w" path="res://addons/gaea/graph/nodes/node_argument.gd" id="1_jkoeh"]
-[ext_resource type="Script" uid="uid://ote622wl6axc" path="res://addons/gaea/graph/nodes/node_slot.gd" id="2_13046"]
+[ext_resource type="Resource" uid="uid://dh1ay72s0vge" path="res://addons/gaea/graph/components/slot_outputs/map.tres" id="2_44gyr"]
+[ext_resource type="Script" uid="uid://dil6xg31ctqdu" path="res://addons/gaea/graph/nodes/node_slot_output.gd" id="3_62a3o"]
 [ext_resource type="Script" uid="uid://bjmyuomcmtwq6" path="res://addons/gaea/graph/nodes/root/map/random/random_scatter.gd" id="3_udjmx"]
+[ext_resource type="Script" uid="uid://b5mukn8hdt8ww" path="res://addons/gaea/graph/nodes/node_slot_param.gd" id="4_44gyr"]
+[ext_resource type="Resource" uid="uid://chudwi8qvv3so" path="res://addons/gaea/graph/components/slot_params/data.tres" id="4_rrsfj"]
+[ext_resource type="Resource" uid="uid://dw6tgqr675e7i" path="res://addons/gaea/graph/components/slot_params/material.tres" id="5_341pr"]
 
-[sub_resource type="Resource" id="Resource_306cy"]
-script = ExtResource("1_jkoeh")
-type = 1
+[sub_resource type="Resource" id="Resource_44gyr"]
+resource_name = "Amount (Int)"
+script = ExtResource("4_44gyr")
 name = &"amount"
-default_value = 10
+type = 2
 hint = Dictionary[String, Variant]({
 "min": 0
 })
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
-
-[sub_resource type="Resource" id="Resource_wga38"]
-script = ExtResource("2_13046")
-left_enabled = true
-left_type = 0
-left_label = "Data"
-right_enabled = false
-right_type = -1
-right_label = ""
-metadata/_custom_type_script = "uid://ote622wl6axc"
-
-[sub_resource type="Resource" id="Resource_rs7w7"]
-script = ExtResource("2_13046")
-left_enabled = true
-left_type = 2
-left_label = "Material"
-right_enabled = false
-right_type = -1
-right_label = ""
-metadata/_custom_type_script = "uid://ote622wl6axc"
-
-[sub_resource type="Resource" id="Resource_qponm"]
-script = ExtResource("2_13046")
-left_enabled = false
-left_type = -1
-left_label = ""
-right_enabled = true
-right_type = 1
-right_label = "Map"
-metadata/_custom_type_script = "uid://ote622wl6axc"
+default_value = 10
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
 [resource]
 script = ExtResource("3_udjmx")
-input_slots = Array[ExtResource("2_13046")]([SubResource("Resource_wga38"), SubResource("Resource_rs7w7")])
-args = Array[ExtResource("1_jkoeh")]([SubResource("Resource_306cy")])
-output_slots = Array[ExtResource("2_13046")]([SubResource("Resource_qponm")])
+params = Array[ExtResource("4_44gyr")]([ExtResource("4_rrsfj"), ExtResource("5_341pr"), SubResource("Resource_44gyr")])
+outputs = Array[ExtResource("3_62a3o")]([ExtResource("2_44gyr")])
 title = "RandomScatter"
 description = "Randomly places [param]amount[/bg][/c] [param]material[/bg][/c]s in the cells of [param]data[/bg][/c]"
-is_output = false
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"

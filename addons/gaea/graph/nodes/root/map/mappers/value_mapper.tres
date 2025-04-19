@@ -1,55 +1,25 @@
 [gd_resource type="Resource" load_steps=8 format=3 uid="uid://6tctdjrjbard"]
 
-[ext_resource type="Script" uid="uid://bh3sajxnmp14w" path="res://addons/gaea/graph/nodes/node_argument.gd" id="1_hhyiq"]
-[ext_resource type="Script" uid="uid://ote622wl6axc" path="res://addons/gaea/graph/nodes/node_slot.gd" id="2_306cy"]
+[ext_resource type="Resource" uid="uid://dh1ay72s0vge" path="res://addons/gaea/graph/components/slot_outputs/map.tres" id="2_4nagy"]
 [ext_resource type="Script" uid="uid://cd25npsj1ey2n" path="res://addons/gaea/graph/nodes/root/map/mappers/value_mapper.gd" id="3_hhyiq"]
+[ext_resource type="Script" uid="uid://dil6xg31ctqdu" path="res://addons/gaea/graph/nodes/node_slot_output.gd" id="3_tfhoy"]
+[ext_resource type="Script" uid="uid://b5mukn8hdt8ww" path="res://addons/gaea/graph/nodes/node_slot_param.gd" id="4_4nagy"]
+[ext_resource type="Resource" uid="uid://chudwi8qvv3so" path="res://addons/gaea/graph/components/slot_params/data.tres" id="4_cxv6s"]
+[ext_resource type="Resource" uid="uid://dw6tgqr675e7i" path="res://addons/gaea/graph/components/slot_params/material.tres" id="5_0e7nu"]
 
-[sub_resource type="Resource" id="Resource_306cy"]
-script = ExtResource("1_hhyiq")
-type = 0
+[sub_resource type="Resource" id="Resource_4nagy"]
+resource_name = "Value (Float)"
+script = ExtResource("4_4nagy")
 name = &"value"
-default_value = null
+type = 3
 hint = Dictionary[String, Variant]({})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
-
-[sub_resource type="Resource" id="Resource_qgdjv"]
-script = ExtResource("2_306cy")
-left_enabled = true
-left_type = 0
-left_label = "Data"
-right_enabled = false
-right_type = -1
-right_label = ""
-metadata/_custom_type_script = "uid://ote622wl6axc"
-
-[sub_resource type="Resource" id="Resource_jx8kx"]
-script = ExtResource("2_306cy")
-left_enabled = true
-left_type = 2
-left_label = "Material"
-right_enabled = false
-right_type = -1
-right_label = ""
-metadata/_custom_type_script = "uid://ote622wl6axc"
-
-[sub_resource type="Resource" id="Resource_cxwr2"]
-script = ExtResource("2_306cy")
-left_enabled = false
-left_type = -1
-left_label = ""
-right_enabled = true
-right_type = 1
-right_label = "Map"
-metadata/_custom_type_script = "uid://ote622wl6axc"
+default_value = null
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
 [resource]
 script = ExtResource("3_hhyiq")
-input_slots = Array[ExtResource("2_306cy")]([SubResource("Resource_qgdjv"), SubResource("Resource_jx8kx")])
-args = Array[ExtResource("1_hhyiq")]([SubResource("Resource_306cy")])
-output_slots = Array[ExtResource("2_306cy")]([SubResource("Resource_cxwr2")])
+params = Array[ExtResource("4_4nagy")]([ExtResource("4_cxv6s"), ExtResource("5_0e7nu"), SubResource("Resource_4nagy")])
+outputs = Array[ExtResource("3_tfhoy")]([ExtResource("2_4nagy")])
 title = "ValueMapper"
 description = "Maps all cells in [param]data[/bg][/c] equal to [param]value[/bg][/c] to [param]material[/bg][/c]."
-is_output = false
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"

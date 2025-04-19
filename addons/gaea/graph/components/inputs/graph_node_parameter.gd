@@ -2,12 +2,10 @@
 class_name GaeaGraphNodeParameter
 extends Control
 
-@export var add_input_slot: bool = true
-@export var input_type: GaeaGraphNode.SlotTypes
 @export var connection_idx: int = 0
 
 var add_output_slot: bool = false
-var resource: GaeaNodeArgument
+var resource: GaeaNodeSlotParam
 ## Reference to the [GaeaGraphNode] instance
 var graph_node: GaeaGraphNode
 ## ID of the slot in the [GaeaGraphNode].
@@ -24,23 +22,26 @@ func initialize(_graph_node: GaeaGraphNode, _slot_idx: int) -> void:
 
 
 func _ready() -> void:
-	if not is_instance_valid(resource):
+	if is_part_of_edited_scene():
 		return
 
-	if resource.get_default_value() != null:
-		set_param_value(resource.get_default_value())
+	if resource.default_value != null:
+		set_param_value(resource.default_value)
 
 	if not graph_node.is_node_ready():
 		await graph_node.ready
 
 	param_value_changed.connect(graph_node._on_param_value_changed.bind(self, resource.name))
-
-	graph_node.set_slot(
-		slot_idx,
-		add_input_slot, input_type, GaeaEditorSettings.get_configured_color_for_slot_type(input_type),
-		add_output_slot, input_type, GaeaEditorSettings.get_configured_color_for_slot_type(input_type),
-		GaeaEditorSettings.get_configured_icon_for_slot_type(input_type), GaeaEditorSettings.get_configured_icon_for_slot_type(input_type),
-	)
+	
+	if GaeaValue.is_wireable(resource.type):
+		graph_node.set_slot_enabled_left(slot_idx, true)
+		graph_node.set_slot_type_left(slot_idx, resource.type)
+		graph_node.set_slot_color_left(slot_idx, GaeaValue.get_color(resource.type))
+		graph_node.set_slot_custom_icon_left(slot_idx, GaeaValue.get_slot_icon(resource.type))
+	else:
+		# This is required because without it the color of the slots after is OK but not the icon.
+		# Probably a Godot issue.
+		graph_node.set_slot_enabled_left(slot_idx, false)
 
 	set_label_text(resource.name.capitalize())
 
@@ -55,6 +56,10 @@ func set_param_value(_new_value: Variant) -> void:
 
 func set_label_text(new_text: String) -> void:
 	label.text = new_text
+
+
+func get_label_text() -> String:
+	return label.text
 
 
 func set_param_visible(value: bool) -> void:

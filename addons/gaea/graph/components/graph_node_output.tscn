@@ -1,10 +1,10 @@
 [gd_scene load_steps=3 format=3 uid="uid://cqpby5jyv71l0"]
 
-[ext_resource type="Script" uid="uid://dgb4blornaq38" path="res://addons/gaea/graph/components/slot.gd" id="1_ro1nl"]
+[ext_resource type="Script" uid="uid://dgb4blornaq38" path="res://addons/gaea/graph/components/graph_node_output.gd" id="1_4q754"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dkx48"]
 
-[node name="Slot" type="MarginContainer"]
+[node name="GraphNodeOutput" type="MarginContainer"]
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 15.0
@@ -13,25 +13,11 @@ size_flags_horizontal = 3
 size_flags_vertical = 0
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_bottom = 5
-script = ExtResource("1_ro1nl")
+script = ExtResource("1_4q754")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
 size_flags_vertical = 0
-
-[node name="LeftLabel" type="RichTextLabel" parent="HBoxContainer"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 24)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 0
-mouse_filter = 1
-theme_override_styles/normal = SubResource("StyleBoxEmpty_dkx48")
-bbcode_enabled = true
-fit_content = true
-scroll_active = false
-autowrap_mode = 0
-vertical_alignment = 1
 
 [node name="RightLabel" type="RichTextLabel" parent="HBoxContainer"]
 unique_name_in_owner = true

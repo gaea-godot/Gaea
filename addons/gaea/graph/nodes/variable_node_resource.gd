@@ -3,58 +3,33 @@ extends GaeaNodeResource
 class_name GaeaVariableNodeResource
 
 
-@export var type: Variant.Type
-@export var hint: PropertyHint
-@export var hint_string: String
-@export var output_type: GaeaGraphNode.SlotTypes
+@export var type: Variant.Type:
+	set(new_value):
+		type = new_value
+		_update_output_slot()
+@export var hint: PropertyHint:
+	set(new_value):
+		hint = new_value
+		_update_output_slot()
+@export var hint_string: String:
+	set(new_value):
+		hint_string = new_value
+		_update_output_slot()
 
 
-func get_data(_passed_data:Array[Dictionary], _output_port: int, _area: AABB, generator_data: GaeaData) -> Dictionary:
-	log_data(_output_port, generator_data)
-	return generator_data.parameters.get(get_arg("name", null))
+func _update_output_slot():
+	var output = GaeaNodeSlotOutput.new()
+	output.name = "value"
+	output.type = GaeaValue.from_variant_type(type, hint, hint_string)
+	outputs = [output]
+
+func get_data(output_port: GaeaNodeSlotOutput, area: AABB, generator_data: GaeaData) -> Dictionary:
+	log_data(output_port, generator_data)
+	var data = generator_data.parameters.get(get_arg(&"name", area, null))
+	if data.has("value"):
+		return output_port.return_value(data.get("value"))
+	return {}
 
 
 func get_scene() -> PackedScene:
-	return preload("res://addons/gaea/graph/nodes/variable_node.tscn")
-
-
-func get_type() -> GaeaGraphNode.SlotTypes:
-	match type:
-		TYPE_FLOAT, TYPE_INT:
-			return GaeaGraphNode.SlotTypes.NUMBER
-		TYPE_VECTOR2, TYPE_VECTOR2I:
-			return GaeaGraphNode.SlotTypes.VECTOR2
-		TYPE_BOOL:
-			return GaeaGraphNode.SlotTypes.BOOL
-		TYPE_OBJECT:
-			if hint_string == "GaeaMaterial":
-				return GaeaGraphNode.SlotTypes.MATERIAL
-			elif hint_string == "GaeaMaterialGradient":
-				return GaeaGraphNode.SlotTypes.GRADIENT
-		TYPE_VECTOR3, TYPE_VECTOR3I:
-			return GaeaGraphNode.SlotTypes.VECTOR3
-	return GaeaGraphNode.SlotTypes.NULL
-
-
-func get_icon() -> Texture2D:
-	match type:
-		TYPE_FLOAT:
-			return preload("../../assets/types/float.svg")
-		TYPE_INT:
-			return preload("../../assets/types/int.svg")
-		TYPE_VECTOR2:
-			return preload("../../assets/types/vec2.svg")
-		TYPE_VECTOR2I:
-			return preload("../../assets/types/vec2i.svg")
-		TYPE_BOOL:
-			return preload("../../assets/types/bool.svg")
-		TYPE_OBJECT:
-			if hint_string == "GaeaMaterial":
-				return preload("../../assets/types/material.svg")
-			elif hint_string == "GaeaMaterialGradient":
-				return preload("../../assets/types/material_gradient.svg")
-		TYPE_VECTOR3:
-			return preload("../../assets/types/vec3.svg")
-		TYPE_VECTOR3I:
-			return preload("../../assets/types/vec3i.svg")
-	return null
+	return preload("uid://bodjhgqp1bpui")

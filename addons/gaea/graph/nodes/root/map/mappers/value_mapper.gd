@@ -1,7 +1,7 @@
 @tool
-extends "res://addons/gaea/graph/nodes/root/map/mappers/basic_mapper.gd"
+extends "basic_mapper.gd"
 
 
-func _passes_mapping(passed_data: Array[Dictionary], cell: Vector3i, generator_data: GaeaData) -> bool:
-	var value: float = get_arg("value", generator_data)
-	return passed_data[0].get(cell) == value
+func _passes_mapping(grid_data: Dictionary, cell: Vector3i, area: AABB, generator_data: GaeaData) -> bool:
+	var value: float = get_arg(&"value", area, generator_data)
+	return is_equal_approx(grid_data.get(cell), value)

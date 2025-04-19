@@ -1,55 +1,33 @@
 [gd_resource type="Resource" load_steps=8 format=3 uid="uid://pisw6udylbhn"]
 
-[ext_resource type="Script" uid="uid://bh3sajxnmp14w" path="res://addons/gaea/graph/nodes/node_argument.gd" id="1_ous1k"]
-[ext_resource type="Script" uid="uid://ote622wl6axc" path="res://addons/gaea/graph/nodes/node_slot.gd" id="2_mragm"]
+[ext_resource type="Resource" uid="uid://8w0nsvq1cu1r" path="res://addons/gaea/graph/components/slot_outputs/data.tres" id="2_x06ro"]
+[ext_resource type="Resource" uid="uid://chudwi8qvv3so" path="res://addons/gaea/graph/components/slot_params/data.tres" id="3_mragm"]
 [ext_resource type="Script" uid="uid://741f2tjbjf7c" path="res://addons/gaea/graph/nodes/root/data/border/border.gd" id="3_ous1k"]
-
-[sub_resource type="Resource" id="Resource_ous1k"]
-script = ExtResource("1_ous1k")
-type = 11
-name = &"neighbors"
-default_value = Array[Vector2i]([Vector2i(-1, 0), Vector2i(1, 0), Vector2i(0, 1), Vector2i(0, -1)])
-hint = Dictionary[String, Variant]({})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
-
-[sub_resource type="Resource" id="Resource_3s2ir"]
-script = ExtResource("1_ous1k")
-type = 9
-name = &"inside"
-default_value = null
-hint = Dictionary[String, Variant]({})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
+[ext_resource type="Script" uid="uid://dil6xg31ctqdu" path="res://addons/gaea/graph/nodes/node_slot_output.gd" id="3_x06ro"]
+[ext_resource type="Script" uid="uid://b5mukn8hdt8ww" path="res://addons/gaea/graph/nodes/node_slot_param.gd" id="4_3s2ir"]
 
 [sub_resource type="Resource" id="Resource_mragm"]
-script = ExtResource("2_mragm")
-left_enabled = true
-left_type = 0
-left_label = "Data"
-right_enabled = false
-right_type = -1
-right_label = ""
-metadata/_custom_type_script = "uid://ote622wl6axc"
+resource_name = "Neighbors"
+script = ExtResource("4_3s2ir")
+name = &"neighbors"
+type = 303
+hint = Dictionary[String, Variant]({})
+default_value = Array[Vector2i]([Vector2i(-1, 0), Vector2i(1, 0), Vector2i(0, 1), Vector2i(0, -1)])
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
 [sub_resource type="Resource" id="Resource_x06ro"]
-script = ExtResource("2_mragm")
-left_enabled = false
-left_type = -1
-left_label = ""
-right_enabled = true
-right_type = 0
-right_label = "Border"
-metadata/_custom_type_script = "uid://ote622wl6axc"
+resource_name = "Inside (Boolean)"
+script = ExtResource("4_3s2ir")
+name = &"inside"
+type = 1
+hint = Dictionary[String, Variant]({})
+default_value = false
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
 [resource]
 script = ExtResource("3_ous1k")
-input_slots = Array[ExtResource("2_mragm")]([SubResource("Resource_mragm")])
-args = Array[ExtResource("1_ous1k")]([SubResource("Resource_ous1k"), SubResource("Resource_3s2ir")])
-output_slots = Array[ExtResource("2_mragm")]([SubResource("Resource_x06ro")])
+params = Array[ExtResource("4_3s2ir")]([ExtResource("3_mragm"), SubResource("Resource_mragm"), SubResource("Resource_x06ro")])
+outputs = Array[ExtResource("3_x06ro")]([ExtResource("2_x06ro")])
 title = "Border2D"
 description = "Returns the border of [param]data[/bg][/c]. If [param]inside[/bg][/c] is [code]true[/bg][/c], returns the inner border."
-is_output = false
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"

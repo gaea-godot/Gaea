@@ -1,45 +1,16 @@
 [gd_resource type="Resource" load_steps=7 format=3 uid="uid://dnr2f2kgvmyjd"]
 
-[ext_resource type="Script" uid="uid://bh3sajxnmp14w" path="res://addons/gaea/graph/nodes/node_argument.gd" id="1_qgdjv"]
-[ext_resource type="Script" uid="uid://ote622wl6axc" path="res://addons/gaea/graph/nodes/node_slot.gd" id="2_jx8kx"]
+[ext_resource type="Resource" uid="uid://dh1ay72s0vge" path="res://addons/gaea/graph/components/slot_outputs/map.tres" id="2_dnof2"]
+[ext_resource type="Script" uid="uid://dil6xg31ctqdu" path="res://addons/gaea/graph/nodes/node_slot_output.gd" id="3_cxwr2"]
+[ext_resource type="Resource" uid="uid://chudwi8qvv3so" path="res://addons/gaea/graph/components/slot_params/data.tres" id="3_dnof2"]
 [ext_resource type="Script" uid="uid://dux0bq53p61ls" path="res://addons/gaea/graph/nodes/root/map/mappers/basic_mapper.gd" id="3_qgdjv"]
-
-[sub_resource type="Resource" id="Resource_qgdjv"]
-script = ExtResource("2_jx8kx")
-left_enabled = true
-left_type = 0
-left_label = "Data"
-right_enabled = false
-right_type = -1
-right_label = ""
-metadata/_custom_type_script = "uid://ote622wl6axc"
-
-[sub_resource type="Resource" id="Resource_jx8kx"]
-script = ExtResource("2_jx8kx")
-left_enabled = true
-left_type = 2
-left_label = "Material"
-right_enabled = false
-right_type = -1
-right_label = ""
-metadata/_custom_type_script = "uid://ote622wl6axc"
-
-[sub_resource type="Resource" id="Resource_cxwr2"]
-script = ExtResource("2_jx8kx")
-left_enabled = false
-left_type = -1
-left_label = ""
-right_enabled = true
-right_type = 1
-right_label = "Map"
-metadata/_custom_type_script = "uid://ote622wl6axc"
+[ext_resource type="Resource" uid="uid://dw6tgqr675e7i" path="res://addons/gaea/graph/components/slot_params/material.tres" id="4_brmw2"]
+[ext_resource type="Script" uid="uid://b5mukn8hdt8ww" path="res://addons/gaea/graph/nodes/node_slot_param.gd" id="4_dnof2"]
 
 [resource]
 script = ExtResource("3_qgdjv")
-input_slots = Array[ExtResource("2_jx8kx")]([SubResource("Resource_qgdjv"), SubResource("Resource_jx8kx")])
-args = Array[ExtResource("1_qgdjv")]([])
-output_slots = Array[ExtResource("2_jx8kx")]([SubResource("Resource_cxwr2")])
+params = Array[ExtResource("4_dnof2")]([ExtResource("3_dnof2"), ExtResource("4_brmw2")])
+outputs = Array[ExtResource("3_cxwr2")]([ExtResource("2_dnof2")])
 title = "Mapper"
 description = "Maps all non-empty cells in [param]data[/bg][/c] to [param]material[/bg][/c]."
-is_output = false
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"

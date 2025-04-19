@@ -11,8 +11,9 @@ var current_state: bool = true
 
 
 func _ready() -> void:
+	if is_part_of_edited_scene():
+		return
 	add_theme_icon_override("checked", get_theme_icon("unchecked"))
-
 
 func _toggled(toggled_on: bool) -> void:
 	texture_rect.set_visible.call_deferred(toggled_on)

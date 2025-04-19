@@ -2,19 +2,19 @@
 extends GaeaNodeResource
 
 
-func get_data(_passed_data:Array[Dictionary], output_port: int, area: AABB, generator_data: GaeaData) -> Dictionary[Vector3i, float]:
+func get_data(output_port: GaeaNodeSlotOutput, area: AABB, generator_data: GaeaData) -> Dictionary:
 	log_data(output_port, generator_data)
 
-	var direction_weights: Dictionary = {
-		Vector2i.LEFT: get_arg("move_left_weight", generator_data),
-		Vector2i.RIGHT: get_arg("move_right_weight", generator_data),
-		Vector2i.DOWN: get_arg("move_down_weight", generator_data),
+	var direction_weights: Dictionary[Vector2i, float] = {
+		Vector2i.LEFT: get_arg(&"move_left_weight", area, generator_data),
+		Vector2i.RIGHT: get_arg(&"move_right_weight", area, generator_data),
+		Vector2i.DOWN: get_arg(&"move_down_weight", area, generator_data),
 	}
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
-	var left_flag: int = get_arg("left", generator_data)
-	var right_flag: int = get_arg("right", generator_data)
-	var down_flag: int = get_arg("down", generator_data)
-	var up_flag: int = get_arg("up", generator_data)
+	var left_flag: int = get_arg(&"left", area, generator_data)
+	var right_flag: int = get_arg(&"right", area, generator_data)
+	var down_flag: int = get_arg(&"down", area, generator_data)
+	var up_flag: int = get_arg(&"up", area, generator_data)
 	var direction_to_flags: Dictionary = {
 		Vector2i.LEFT: left_flag,
 		Vector2i.RIGHT: right_flag,
@@ -54,4 +54,4 @@ func get_data(_passed_data:Array[Dictionary], output_port: int, area: AABB, gene
 	for cell in path:
 		grid[Vector3i(cell.x, cell.y, 0)] = path.get(cell)
 
-	return grid
+	return output_port.return_value(grid)

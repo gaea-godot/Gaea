@@ -10,27 +10,27 @@ class Walker:
 	var pos: Vector3
 
 
-func get_data(_passed_data:Array[Dictionary], _output_port: int, area: AABB, generator_data: GaeaData) -> Dictionary:
-	log_data(_output_port, generator_data)
+func get_data(output_port: GaeaNodeSlotOutput, area: AABB, generator_data: GaeaData) -> Dictionary:
+	log_data(output_port, generator_data)
 
-	var _starting_position: Vector3 = get_arg("starting_position", generator_data)
+	var _starting_position: Vector3 = get_arg(&"starting_position", area, generator_data)
 	_starting_position = _starting_position.round()
 
 	var rotation_weights: Dictionary = {
-		PI / 2.0: get_arg("rotate_90_weight", generator_data),
-		-PI / 2.0: get_arg("rotate_-90_weight", generator_data),
-		PI: get_arg("rotate_180_weight", generator_data)
+		PI / 2.0: get_arg(&"rotate_90_weight", area, generator_data),
+		-PI / 2.0: get_arg(&"rotate_-90_weight", area, generator_data),
+		PI: get_arg(&"rotate_180_weight", area, generator_data)
 	}
-	var direction_change_chance: float = float(get_arg("direction_change_chance", generator_data)) / 100.0
-	var new_walker_chance: float = float(get_arg("new_walker_chance", generator_data)) / 100.0
-	var destroy_walker_chance: float = float(get_arg("destroy_walker_chance", generator_data)) / 100.0
-	var bigger_room_chance: float = float(get_arg("bigger_room_chance", generator_data)) / 100.0
-	var bigger_room_size_range: Dictionary = get_arg("bigger_room_size_range", generator_data)
+	var direction_change_chance: float = float(get_arg(&"direction_change_chance", area, generator_data)) / 100.0
+	var new_walker_chance: float = float(get_arg(&"new_walker_chance", area, generator_data)) / 100.0
+	var destroy_walker_chance: float = float(get_arg(&"destroy_walker_chance", area, generator_data)) / 100.0
+	var bigger_room_chance: float = float(get_arg(&"bigger_room_chance", area, generator_data)) / 100.0
+	var bigger_room_size_range: Dictionary = get_arg(&"bigger_room_size_range", area, generator_data)
 
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	rng.set_seed(generator_data.generator.seed + salt)
 	seed(generator_data.generator.seed + salt)
-	var max_cells: int = get_arg("max_cells", generator_data)
+	var max_cells: int = get_arg(&"max_cells", area, generator_data)
 	max_cells = mini(
 		max_cells,
 		roundi(area.size.x) * (roundi(area.size.y) if second_axis == Axis.Y else roundi(area.size.z))
@@ -81,7 +81,7 @@ func get_data(_passed_data:Array[Dictionary], _output_port: int, area: AABB, gen
 	for cell in _walked_cells:
 		grid[cell] = 1.0
 
-	return grid
+	return output_port.return_value(grid)
 
 
 func _add_walker(pos: Vector3, array: Array[Walker]) -> void:

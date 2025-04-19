@@ -1,22 +1,16 @@
 @tool
 extends GaeaNodeResource
 
-
-func get_data(
-	passed_data: Array[Dictionary],
-	output_port: int,
-	_area: AABB,
-	_generator_data: GaeaData
-) -> Dictionary:
-	return passed_data[output_port]
+func get_data(output_port: GaeaNodeSlotOutput, area: AABB, generator_data: GaeaData) -> Dictionary:
+	return output_port.return_value(get_arg(&"value", area, generator_data))
 
 
-func _use_caching(_output_port:int, _generator_data:GaeaData) -> bool:
+func _use_caching(_output_port: GaeaNodeSlotOutput, _generator_data:GaeaData) -> bool:
 	return false
 
 
-func get_type() -> GaeaGraphNode.SlotTypes:
-	return GaeaGraphNode.SlotTypes.NULL
+func get_type() -> GaeaValue.Type:
+	return GaeaValue.Type.NULL
 
 
 func get_scene() -> PackedScene:
@@ -25,6 +19,7 @@ func get_scene() -> PackedScene:
 
 func _instantiate_duplicate() -> GaeaNodeResource:
 	var new_resource = super()
-	for input_slot_idx in new_resource.input_slots.size():
-		new_resource.input_slots[input_slot_idx] = new_resource.input_slots[input_slot_idx].duplicate()
+	for input_slot_idx in new_resource.params.size():
+		new_resource.params[input_slot_idx] = new_resource.params[input_slot_idx].duplicate()
+		new_resource.outputs[input_slot_idx] = new_resource.outputs[input_slot_idx].duplicate()
 	return new_resource

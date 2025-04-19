@@ -8,24 +8,13 @@ signal request_save
 var attached_elements: Dictionary
 
 func _init() -> void:
-	add_valid_connection_type(GaeaGraphNode.SlotTypes.RANGE, GaeaGraphNode.SlotTypes.VECTOR2)
-
-	add_valid_connection_type(GaeaGraphNode.SlotTypes.NUMBER, GaeaGraphNode.SlotTypes.VECTOR2)
-	add_valid_connection_type(GaeaGraphNode.SlotTypes.NUMBER, GaeaGraphNode.SlotTypes.VECTOR3)
-	add_valid_connection_type(GaeaGraphNode.SlotTypes.NUMBER, GaeaGraphNode.SlotTypes.BOOL)
-
-	add_valid_connection_type(GaeaGraphNode.SlotTypes.VECTOR2, GaeaGraphNode.SlotTypes.RANGE)
-	add_valid_connection_type(GaeaGraphNode.SlotTypes.VECTOR2, GaeaGraphNode.SlotTypes.VECTOR3)
-	add_valid_connection_type(GaeaGraphNode.SlotTypes.VECTOR2, GaeaGraphNode.SlotTypes.NUMBER)
-	add_valid_connection_type(GaeaGraphNode.SlotTypes.VECTOR3, GaeaGraphNode.SlotTypes.VECTOR2)
-	add_valid_connection_type(GaeaGraphNode.SlotTypes.VECTOR3, GaeaGraphNode.SlotTypes.NUMBER)
-
-	add_valid_connection_type(GaeaGraphNode.SlotTypes.BOOL, GaeaGraphNode.SlotTypes.NUMBER)
-	add_valid_connection_type(GaeaGraphNode.SlotTypes.BOOL, GaeaGraphNode.SlotTypes.VECTOR2)
-	add_valid_connection_type(GaeaGraphNode.SlotTypes.BOOL, GaeaGraphNode.SlotTypes.VECTOR3)
+	for cast in GaeaValue.get_cast_list():
+		add_valid_connection_type(cast[0], cast[1])
 
 
 func _ready() -> void:
+	if is_part_of_edited_scene():
+		return
 	add_theme_color_override(&"connection_rim_color", Color("141414"))
 
 
@@ -37,7 +26,7 @@ func delete_nodes(nodes: Array[StringName]) -> void:
 	for node_name in nodes:
 		var node: GraphElement = get_node(NodePath(node_name))
 		if node is GaeaGraphNode:
-			if node.resource.is_output:
+			if node.resource.is_output():
 				continue
 			for connection in node.connections:
 				disconnect_node(connection.from_node, connection.from_port, connection.to_node, connection.to_port)

@@ -1,178 +1,160 @@
 [gd_resource type="Resource" load_steps=17 format=3 uid="uid://nh1dr3qjpivi"]
 
-[ext_resource type="Script" uid="uid://bh3sajxnmp14w" path="res://addons/gaea/graph/nodes/node_argument.gd" id="1_v1tyu"]
-[ext_resource type="Script" uid="uid://ote622wl6axc" path="res://addons/gaea/graph/nodes/node_slot.gd" id="2_t6cai"]
-[ext_resource type="Script" uid="uid://blx812352t3jj" path="res://addons/gaea/graph/nodes/root/data/generation/floor_walker.gd" id="3_c7kea"]
+[ext_resource type="Script" uid="uid://dil6xg31ctqdu" path="res://addons/gaea/graph/nodes/node_slot_output.gd" id="1_532gb"]
+[ext_resource type="Resource" uid="uid://8w0nsvq1cu1r" path="res://addons/gaea/graph/components/slot_outputs/data.tres" id="2_ncq10"]
+[ext_resource type="Script" uid="uid://b5mukn8hdt8ww" path="res://addons/gaea/graph/nodes/node_slot_param.gd" id="3_r6ap1"]
+[ext_resource type="Script" uid="uid://blx812352t3jj" path="res://addons/gaea/graph/nodes/root/data/generation/floor_walker.gd" id="4_wylef"]
 
 [sub_resource type="Resource" id="Resource_t5iy4"]
-script = ExtResource("1_v1tyu")
-type = 1
+resource_name = "Max Cells (Int)"
+script = ExtResource("3_r6ap1")
 name = &"max_cells"
-default_value = 100
+type = 2
 hint = Dictionary[String, Variant]({
 "min": 0
 })
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
-
-[sub_resource type="Resource" id="Resource_mqjma"]
-script = ExtResource("1_v1tyu")
-type = 10
-name = &"starting_position"
-default_value = null
-hint = Dictionary[String, Variant]({})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
-
-[sub_resource type="Resource" id="Resource_e7u4k"]
-script = ExtResource("1_v1tyu")
-type = 6
-name = &"Direction Chances"
-default_value = null
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
-
-[sub_resource type="Resource" id="Resource_cavh3"]
-script = ExtResource("1_v1tyu")
-type = 1
-name = &"direction_change_chance"
-default_value = 50
-hint = Dictionary[String, Variant]({
-"max": 100,
-"min": 0,
-"suffix": "%"
-})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
+default_value = 100
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
 [sub_resource type="Resource" id="Resource_gr4i8"]
-script = ExtResource("1_v1tyu")
-type = 1
-name = &"rotate_90_weight"
-default_value = 40
-hint = Dictionary[String, Variant]({
-"min": 0
-})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
+resource_name = "Starting Position (Vector 3)"
+script = ExtResource("3_r6ap1")
+name = &"starting_position"
+type = 9
+hint = Dictionary[String, Variant]({})
+default_value = Vector3(0, 0, 0)
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
 [sub_resource type="Resource" id="Resource_6jvre"]
-script = ExtResource("1_v1tyu")
-type = 1
-name = &"rotate_-90_weight"
-default_value = 40
-hint = Dictionary[String, Variant]({
-"min": 0
-})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
+resource_name = "Direction Chances (Category)"
+script = ExtResource("3_r6ap1")
+name = &"Direction Chances"
+type = -1
+default_value = null
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
 [sub_resource type="Resource" id="Resource_qrvs2"]
-script = ExtResource("1_v1tyu")
-type = 1
-name = &"rotate_180_weight"
-default_value = 40
+resource_name = "Direction Change Chance (Int)"
+script = ExtResource("3_r6ap1")
+name = &"direction_change_chance"
+type = 2
 hint = Dictionary[String, Variant]({
-"min": 0
+"max": 100,
+"min": 0,
+"suffix": "%"
 })
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
+default_value = 50
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
+
+[sub_resource type="Resource" id="Resource_e7u4k"]
+resource_name = "Rotate 90 Weight (Int)"
+script = ExtResource("3_r6ap1")
+name = &"rotate_90_weight"
+type = 2
+hint = Dictionary[String, Variant]({
+"max": 100,
+"min": 0,
+"suffix": "%"
+})
+default_value = 40
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
+
+[sub_resource type="Resource" id="Resource_cavh3"]
+resource_name = "Rotate -90 Weight (Int)"
+script = ExtResource("3_r6ap1")
+name = &"rotate_-90_weight"
+type = 2
+hint = Dictionary[String, Variant]({
+"max": 100,
+"min": 0,
+"suffix": "%"
+})
+default_value = 40
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
 [sub_resource type="Resource" id="Resource_75e24"]
-script = ExtResource("1_v1tyu")
-type = 6
-name = &"Walker Chance"
-default_value = null
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
+resource_name = "Rotate 180 Weight (Int)"
+script = ExtResource("3_r6ap1")
+name = &"rotate_180_weight"
+type = 2
+hint = Dictionary[String, Variant]({
+"max": 100,
+"min": 0,
+"suffix": "%"
+})
+default_value = 40
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
 [sub_resource type="Resource" id="Resource_ecg40"]
-script = ExtResource("1_v1tyu")
-type = 1
-name = &"new_walker_chance"
-default_value = 5
-hint = Dictionary[String, Variant]({
-"max": 100,
-"min": 0,
-"suffix": "%"
-})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
+resource_name = "Walker Chance (Category)"
+script = ExtResource("3_r6ap1")
+name = &"Walker Chance"
+type = -1
+default_value = null
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
 [sub_resource type="Resource" id="Resource_ofuto"]
-script = ExtResource("1_v1tyu")
-type = 1
-name = &"destroy_walker_chance"
-default_value = 5
+resource_name = "New Walker Chance (Int)"
+script = ExtResource("3_r6ap1")
+name = &"new_walker_chance"
+type = 2
 hint = Dictionary[String, Variant]({
 "max": 100,
 "min": 0,
 "suffix": "%"
 })
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
+default_value = 5
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
 [sub_resource type="Resource" id="Resource_bmpt0"]
-script = ExtResource("1_v1tyu")
-type = 1
-name = &"bigger_room_chance"
-default_value = 15
+resource_name = "Destroy Walker Chance (Int)"
+script = ExtResource("3_r6ap1")
+name = &"destroy_walker_chance"
+type = 2
 hint = Dictionary[String, Variant]({
 "max": 100,
 "min": 0,
 "suffix": "%"
 })
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
+default_value = 5
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
 [sub_resource type="Resource" id="Resource_yw71v"]
-script = ExtResource("1_v1tyu")
-type = 4
+resource_name = "Bigger Room Chance (Int)"
+script = ExtResource("3_r6ap1")
+name = &"bigger_room_chance"
+type = 2
+hint = Dictionary[String, Variant]({
+"max": 100,
+"min": 0,
+"suffix": "%"
+})
+default_value = 15
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
+
+[sub_resource type="Resource" id="Resource_mqjma"]
+resource_name = "Bigger Room Size Range (Range)"
+script = ExtResource("3_r6ap1")
 name = &"bigger_room_size_range"
-default_value = {
-"max": 3.0,
-"min": 2.0
-}
+type = 100
 hint = Dictionary[String, Variant]({
 "allow_lesser": false,
 "max": 5.0,
 "min": 1.0,
-"step": 1.0,
-"suffix": "²"
+"step": 1.0
 })
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
-
-[sub_resource type="Resource" id="Resource_vjhf4"]
-script = ExtResource("2_t6cai")
-left_enabled = false
-left_type = -1
-left_label = ""
-right_enabled = true
-right_type = 0
-right_label = "Data [1]"
-metadata/_custom_type_script = "uid://ote622wl6axc"
+default_value = {
+"max": 3.0,
+"min": 2.0
+}
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
 [resource]
-script = ExtResource("3_c7kea")
+script = ExtResource("4_wylef")
 second_axis = 2
-input_slots = Array[ExtResource("2_t6cai")]([])
-args = Array[ExtResource("1_v1tyu")]([SubResource("Resource_t5iy4"), SubResource("Resource_mqjma"), SubResource("Resource_e7u4k"), SubResource("Resource_cavh3"), SubResource("Resource_gr4i8"), SubResource("Resource_6jvre"), SubResource("Resource_qrvs2"), SubResource("Resource_75e24"), SubResource("Resource_ecg40"), SubResource("Resource_ofuto"), SubResource("Resource_bmpt0"), SubResource("Resource_yw71v")])
-output_slots = Array[ExtResource("2_t6cai")]([SubResource("Resource_vjhf4")])
-title = "FloorWalkerXZ"
+params = Array[ExtResource("3_r6ap1")]([SubResource("Resource_t5iy4"), SubResource("Resource_gr4i8"), SubResource("Resource_6jvre"), SubResource("Resource_qrvs2"), SubResource("Resource_e7u4k"), SubResource("Resource_cavh3"), SubResource("Resource_75e24"), SubResource("Resource_ecg40"), SubResource("Resource_ofuto"), SubResource("Resource_bmpt0"), SubResource("Resource_yw71v"), SubResource("Resource_mqjma")])
+outputs = Array[ExtResource("1_532gb")]([ExtResource("2_ncq10")])
+title = "FloorWalkerXY"
 description = "Generates a floor by using [b]walkers[/b], which move around and place floor where they walk, while changing direction and/or spawning new walkers.
 Walks along the [code]X[/bg][/c] and [code]Z[/bg][/c] axis."
-is_output = false
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"

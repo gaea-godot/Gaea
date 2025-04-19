@@ -1,17 +1,19 @@
 @tool
 extends GaeaNodeResource
 
-func _get_required_input_ports() -> Array[int]: return [0, 1]
+func _get_required_params() -> Array[StringName]:
+	return [&"data", &"material"]
 
-func get_data(passed_data:Array[Dictionary], _output_port: int, area: AABB, generator_data: GaeaData) -> Dictionary[Vector3i, GaeaMaterial]:
-	log_data(_output_port, generator_data)
 
-	var grid_data: Dictionary = passed_data[0]
-	var material: GaeaMaterial = passed_data[1].get("value", null)
+func get_data(output_port: GaeaNodeSlotOutput, area: AABB, generator_data: GaeaData) -> Dictionary:
+	log_data(output_port, generator_data)
+
+	var grid_data: Dictionary = get_arg(&"data", area, generator_data)
+	var material: GaeaMaterial = get_arg(&"material", area, generator_data)
 
 	var grid: Dictionary[Vector3i, GaeaMaterial]
 
-	var rules: Dictionary = get_arg("rules", generator_data)
+	var rules: Dictionary = get_arg(&"rules", area, generator_data)
 
 	for x in get_axis_range(Axis.X, area):
 		for y in get_axis_range(Axis.Y, area):
@@ -30,4 +32,4 @@ func get_data(passed_data:Array[Dictionary], _output_port: int, area: AABB, gene
 				if place:
 					grid.set(cell, null if not is_instance_valid(material) else material.get_resource())
 
-	return grid
+	return output_port.return_value(grid)

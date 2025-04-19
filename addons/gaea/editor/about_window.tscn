@@ -1,0 +1,114 @@
+[gd_scene load_steps=3 format=3 uid="uid://dcec3sivqmbjf"]
+
+[ext_resource type="Script" uid="uid://dk3l1cldanrep" path="res://addons/gaea/editor/about_window.gd" id="1_ls6ih"]
+[ext_resource type="Texture2D" uid="uid://cvk5tco7njoa1" path="res://addons/gaea/assets/logo.svg" id="1_qhqg1"]
+
+[node name="Window" type="AcceptDialog"]
+auto_translate_mode = 1
+title = "Thanks for using Gaea!"
+initial_position = 1
+size = Vector2i(512, 384)
+visible = true
+exclusive = false
+script = ExtResource("1_ls6ih")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 504.0
+offset_bottom = 335.0
+
+[node name="MarginContainer3" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 16
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 2
+size_flags_vertical = 0
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("1_qhqg1")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = -2
+alignment = 1
+
+[node name="VersionLabel" type="LinkButton" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+text = "Gaea v2.0.0-beta2"
+underline = 1
+uri = "https://github.com/gaea-godot/gaea"
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "by the Gaea community."
+
+[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 16
+
+[node name="ContributorsPanel" type="PanelContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/ContributorsPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MainVBox" type="VBoxContainer" parent="VBoxContainer/ContributorsPanel/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="RichTextLabel" parent="VBoxContainer/ContributorsPanel/ScrollContainer/MainVBox"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[b]Moderators"
+fit_content = true
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/ContributorsPanel/ScrollContainer/MainVBox"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/ContributorsPanel/ScrollContainer/MainVBox/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/ContributorsPanel/ScrollContainer/MainVBox/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/ContributorsPanel/ScrollContainer/MainVBox/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "BenjaTK"
+
+[node name="Label2" type="Label" parent="VBoxContainer/ContributorsPanel/ScrollContainer/MainVBox/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "cullumi (Ian Cullum)"
+
+[node name="Label2" type="RichTextLabel" parent="VBoxContainer/ContributorsPanel/ScrollContainer/MainVBox"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[b]Contributors"
+fit_content = true
+
+[node name="PanelContainer2" type="PanelContainer" parent="VBoxContainer/ContributorsPanel/ScrollContainer/MainVBox"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/ContributorsPanel/ScrollContainer/MainVBox/PanelContainer2"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+
+[node name="ContributorsVBox" type="VBoxContainer" parent="VBoxContainer/ContributorsPanel/ScrollContainer/MainVBox/PanelContainer2/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2

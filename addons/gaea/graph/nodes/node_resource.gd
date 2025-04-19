@@ -13,12 +13,12 @@ const GAEA_MATERIAL_HINT := "Resource used to tell GaeaRenderers what to place."
 const GAEA_MATERIAL_GRADIENT_HINT := "Resource that maps values from 0.0-1.0 to certain GaeaMaterials."
 #endregion
 
-@export var input_slots: Array[GaeaNodeSlot]
-@export var args: Array[GaeaNodeArgument]
-@export var output_slots: Array[GaeaNodeSlot]
+@export var params: Array[GaeaNodeSlotParam]
+@export var outputs: Array[GaeaNodeSlotOutput]
+
 @export var title: String = "Node"
 @export_multiline var description: String = ""
-@export var is_output: bool = false
+
 
 var connections: Array[Dictionary]
 var resource_uid: String
@@ -31,12 +31,11 @@ enum Axis {X, Y, Z}
 
 #region Execution
 func execute(_area: AABB, _generator_data: GaeaData, _generator: GaeaGenerator) -> void:
-
 	pass
 
 
 # Traversal
-func traverse(output_port:int, area: AABB, generator_data:GaeaData) -> Dictionary:
+func traverse(output_port: GaeaNodeSlotOutput, area: AABB, generator_data:GaeaData) -> Variant:
 	log_traverse(generator_data)
 
 	# Caching
@@ -45,28 +44,11 @@ func traverse(output_port:int, area: AABB, generator_data:GaeaData) -> Dictionar
 		return get_cached_data(output_port, generator_data)
 
 	# Validation
-	if not has_inputs_connected(_get_required_input_ports(), generator_data):
+	if not has_inputs_connected(_get_required_params(), generator_data):
 		return {}
 
-	# Traversal
-	var passed_data:Array[Dictionary] = []
-	for slot in range(input_slots.size()):
-		var data_input_resource = get_input_resource(slot, generator_data)
-		var slot_data:Dictionary = {}
-
-		if is_instance_valid(data_input_resource):
-			var connected_port = get_connected_port_to(slot)
-			var connected_type := data_input_resource.get_output_port_type(connected_port)
-			var input_slot_type = input_slots[slot].left_type
-			slot_data = data_input_resource.traverse(
-				connected_port,
-				area, generator_data
-			)
-			if connected_type != input_slot_type:
-				slot_data = GaeaNodeResource.cast_value(connected_type, input_slot_type, slot_data)
-		passed_data.append(slot_data)
-
-	var results:Dictionary = get_data(passed_data, output_port, area, generator_data)
+	# Get Data
+	var results:Dictionary = get_data(output_port, area, generator_data)
 
 	if use_caching:
 		set_cached_data(output_port, generator_data, results)
@@ -74,29 +56,30 @@ func traverse(output_port:int, area: AABB, generator_data:GaeaData) -> Dictionar
 
 
 # Data Retrieval
-func get_data(_passed_data:Array[Dictionary], _output_port: int, _area: AABB, _generator_data: GaeaData) -> Dictionary:
+@warning_ignore("unused_parameter")
+func get_data(output_port: GaeaNodeSlotOutput, area: AABB, generator_data: GaeaData) -> Dictionary:
 	return {}
 #endregion
 
 
 #region Caching
 ## Checks if this node should use caching or not.
-func _use_caching(_output_port:int, _generator_data:GaeaData) -> bool:
+func _use_caching(_output_port: GaeaNodeSlotOutput, _generator_data:GaeaData) -> bool:
 	return true
 
 ## Adds or sets data to the cache at GaeaNodeResource, then output_port index.
-func set_cached_data(output_port:int, generator_data:GaeaData, new_data:Dictionary) -> void:
+func set_cached_data(output_port: GaeaNodeSlotOutput, generator_data:GaeaData, new_data:Dictionary) -> void:
 	var node_cache:Dictionary = generator_data.cache.get_or_add(self, {})
-	node_cache[output_port] = new_data
+	node_cache[output_port.name] = new_data
 
 ## Checks if the cache has data corresponding to GaeaNodeResource, then output_port index.
-func has_cached_data(output_port:int, generator_data:GaeaData) -> bool:
-	return generator_data.cache.has(self) and generator_data.cache[self].has(output_port)
+func has_cached_data(output_port: GaeaNodeSlotOutput, generator_data:GaeaData) -> bool:
+	return generator_data.cache.has(self) and generator_data.cache[self].has(output_port.name)
 
 ## Gets cached data by GaeaNodeResource, then output_port index.
 ## Assumes that data exists, will error out if it doesn't.
-func get_cached_data(output_port:int, generator_data:GaeaData) -> Dictionary:
-	return generator_data.cache[self][output_port]
+func get_cached_data(output_port: GaeaNodeSlotOutput, generator_data:GaeaData) -> Dictionary:
+	return generator_data.cache[self][output_port.name]
 #endregion
 
 
@@ -105,21 +88,22 @@ func get_cached_data(output_port:int, generator_data:GaeaData) -> Dictionary:
 ## expected to be connected for the Node Resource to
 ## execute properly. Should be overridden in nodes
 ## that extend NodeResource.
-func _get_required_input_ports() -> Array[int]:
+func _get_required_params() -> Array[StringName]:
 	return []
 
-func has_inputs_connected(required: Array[int], generator_data:GaeaData) -> bool:
+func has_inputs_connected(required: Array[StringName], generator_data:GaeaData) -> bool:
 	for idx in required:
 		if get_input_resource(idx, generator_data) == null:
 			return false
 	return true
 
-func get_input_resource(slot:int, generator_data:GaeaData) -> GaeaNodeResource:
-	var data_connected_idx: int = get_connected_resource_idx(slot)
-	if data_connected_idx == -1:
+func get_input_resource(param_name: StringName, generator_data:GaeaData) -> GaeaNodeResource:
+	var param := find_param_by_name(param_name)
+	var connection = get_param_connection(param)
+	if connection.is_empty() or connection.from_node == -1:
 		return null
 
-	var data_input_resource: GaeaNodeResource = generator_data.resources.get(data_connected_idx)
+	var data_input_resource: GaeaNodeResource = generator_data.resources.get(connection.from_node)
 	if not is_instance_valid(data_input_resource):
 		return null
 
@@ -129,103 +113,74 @@ func get_input_resource(slot:int, generator_data:GaeaData) -> GaeaNodeResource:
 
 #region Args
 ## Pass in `generator_data` to allow overriding with input slots.
-func get_arg(name: String, generator_data: GaeaData) -> Variant:
+func get_arg(name: StringName, _area: AABB, generator_data: GaeaData) -> Variant:
 	log_arg(name, generator_data)
 
-	var arg_connection_idx: int = -1
-	var arg_slot_type: GaeaGraphNode.SlotTypes
-	var args_with_input: Array[GaeaNodeArgument] = args.filter(func(arg: GaeaNodeArgument) -> bool:
-		return GaeaNodeArgument.has_input(arg.type) and not arg.disable_input_slot
-	)
-	for i in args_with_input.size():
-		if args_with_input[i].name == name:
-			arg_slot_type = GaeaNodeArgument.get_slot_type_equivalent(args_with_input[i].type)
-			arg_connection_idx = i + input_slots.size()
-			break
+	var param := find_param_by_name(name)
+	if not is_instance_valid(param):
+		return null
 
-
-	if arg_connection_idx != -1 and is_instance_valid(generator_data):
-		var connected_idx: int = get_connected_resource_idx(arg_connection_idx)
-		if connected_idx != -1:
-			var connected_node = generator_data.resources[connected_idx]
-			var connected_port = get_connected_port_to(arg_connection_idx)
-			var connected_data = connected_node.traverse(
-				connected_port,
-				AABB(),
-				generator_data
-			)
-			if connected_data.has("value"):
-				var connected_type := connected_node.get_output_port_type(connected_port)
-				if arg_slot_type == connected_type:
-					return connected_data.get("value")
-				return GaeaNodeResource.cast_value(connected_type, arg_slot_type, connected_data.get("value"))
+	var connection := get_param_connection(param)
+	if not connection.is_empty():
+		var connected_idx = connection.from_node
+		var connected_node = generator_data.resources[connected_idx]
+		var connected_output = connected_node.connection_idx_to_output(connection.from_port)
+		var connected_data = connected_node.traverse(
+			connected_output,
+			_area,
+			generator_data
+		)
+		if connected_data.has("value"):
+			var connected_value = connected_data.get("value")
+			var connected_type: GaeaValue.Type = connected_output.type
+			if connected_data.has("type"):
+				connected_type = connected_data.get("type")
+			if connected_type == param.type:
+				return connected_value
 			else:
-				log_error("Could not get data from previous node, using default value instead.", generator_data, connected_idx)
+				return GaeaValue.cast_value(connected_type, param.type, connected_value)
+		else:
+			log_error("Could not get data from previous node, using default value instead.", generator_data, connected_idx)
+			return param.default_value
 
-	var arg_resource: GaeaNodeArgument
-	for arg in args:
-		if arg.name == name:
-			arg_resource = arg
-			break
-
-	return data.get(name, arg_resource.get_default_value())
+	return data.get(name, param.default_value)
 #endregion
 
 
-#region Connections
-func get_connected_resource_idx(at: int) -> int:
+#region Params connections
+func find_param_by_name(param_name: StringName) -> GaeaNodeSlotParam:
+	for param in params:
+		if param.name == param_name:
+			return param
+	return null
+
+func param_to_connection_idx(param: GaeaNodeSlotParam) -> int:
+	return params.find(param)
+
+func connection_idx_to_param(param_idx: int) -> GaeaNodeSlotParam:
+	return params[param_idx]
+
+func get_param_connection(param: GaeaNodeSlotParam) -> Dictionary:
+	var idx = param_to_connection_idx(param)
 	for connection in connections:
-		if connection.to_port == at:
-			return connection.from_node
-	return -1
+		if connection.to_port == idx:
+			return connection
+	return {}
+#endregion
 
 
-func get_connected_port_to(to: int) -> int:
-	for connection in connections:
-		if connection.to_port == to:
-			return connection.from_port
-	return -1
+#region Output connections
+func find_output_by_name(output_name: StringName) -> GaeaNodeSlotOutput:
+	for output in outputs:
+		if output.name == output_name:
+			return output
+	return null
 
+func output_to_connection_idx(output: GaeaNodeSlotOutput) -> int:
+	return outputs.find(output)
 
-## Return the output port type for a specific port index
-func get_output_port_type(port_index: int) -> GaeaGraphNode.SlotTypes:
-	for input_slot in input_slots:
-		if input_slot.right_enabled:
-			if port_index == 0:
-				return input_slot.right_type
-			port_index -= 1
-	for arg in args:
-		if arg.add_output_slot:
-			if port_index == 0:
-				return GaeaNodeArgument.get_slot_type_equivalent(arg.type)
-			port_index -= 1
-	for output_slot in output_slots:
-		if output_slot.right_enabled:
-			if port_index == 0:
-				return output_slot.right_type
-			port_index -= 1
-	return get_type()
-
-
-## Return the input port type for a specific port index
-func get_input_port_type(port_index: int) -> GaeaGraphNode.SlotTypes:
-	for input_slot in input_slots:
-		if input_slot.left_enabled:
-			if port_index == 0:
-				return input_slot.left_type
-			port_index -= 1
-	for arg in args:
-		if not arg.disable_input_slot:
-			if port_index == 0:
-				return GaeaNodeArgument.get_slot_type_equivalent(arg.type)
-			port_index -= 1
-	for output_slot in output_slots:
-		if output_slot.left_enabled:
-			if port_index == 0:
-				return output_slot.left_type
-			port_index -= 1
-	return get_type()
-
+func connection_idx_to_output(output_idx: int) -> GaeaNodeSlotOutput:
+	return outputs[output_idx]
 #endregion
 
 
@@ -246,9 +201,9 @@ func log_traverse(generator_data:GaeaData):
 	if is_instance_valid(generator_data) and generator_data.logging & GaeaData.Log.Traverse > 0:
 		print("Traverse  |   %s" % [title])
 
-func log_data(output_port:int, generator_data:GaeaData):
+func log_data(output_port: GaeaNodeSlotOutput, generator_data:GaeaData):
 	if is_instance_valid(generator_data) and generator_data.logging & GaeaData.Log.Data > 0:
-		print("Data      |   %s from port %d" % [title, output_port])
+		print("Data      |   %s from port &\"%s\"" % [title, output_port.name])
 
 func log_arg(arg:String, generator_data:GaeaData):
 	if is_instance_valid(generator_data) and generator_data.logging & GaeaData.Log.Args > 0:
@@ -276,7 +231,7 @@ func log_error(message:String, generator_data:GaeaData, node_idx: int = -1):
 
 #region Miscelaneous
 func get_scene() -> PackedScene:
-	return preload("res://addons/gaea/graph/nodes/node.tscn")
+	return preload("uid://b7e2d15kxt2im")
 
 
 func get_axis_range(axis: Axis, area: AABB) -> Array:
@@ -299,43 +254,22 @@ static func get_formatted_text(unformatted_text: String) -> String:
 	return unformatted_text
 
 
-func get_type() -> GaeaGraphNode.SlotTypes:
-	if output_slots.is_empty():
-		return GaeaGraphNode.SlotTypes.NULL
-
-	if not is_instance_valid(output_slots.back()):
-		return GaeaGraphNode.SlotTypes.NULL
-
-	return output_slots.back().right_type
+func get_type() -> GaeaValue.Type:
+	if outputs.size() > 0:
+		return outputs[-1].type
+	return GaeaValue.Type.NULL
 
 
 func get_icon() -> Texture2D:
-	return get_icon_for_slot_type(get_type())
+	return GaeaValue.get_display_icon(get_type())
 
 
 func get_title_color() -> Color:
-	return GaeaEditorSettings.get_configured_color_for_slot_type(get_type())
+	return GaeaValue.get_color(get_type())
 
 
-static func get_icon_for_slot_type(slot_type: GaeaGraphNode.SlotTypes) -> Texture2D:
-	match slot_type:
-		GaeaGraphNode.SlotTypes.DATA:
-			return preload("../../assets/types/data_grid.svg")
-		GaeaGraphNode.SlotTypes.MAP:
-			return preload("../../assets/types/map.svg")
-		GaeaGraphNode.SlotTypes.MATERIAL:
-			return preload("../../assets/types/material.svg")
-		GaeaGraphNode.SlotTypes.VECTOR2:
-			return preload("../../assets/types/vec2.svg")
-		GaeaGraphNode.SlotTypes.NUMBER:
-			return preload("../../assets/types/num.svg")
-		GaeaGraphNode.SlotTypes.RANGE:
-			return preload("../../assets/types/range.svg")
-		GaeaGraphNode.SlotTypes.BOOL:
-			return preload("../../assets/types/bool.svg")
-		GaeaGraphNode.SlotTypes.VECTOR3:
-			return preload("../../assets/types/vec3.svg")
-	return null
+func is_output() -> bool:
+	return has_meta(&"is_output") and get_meta(&"is_output") == true
 
 
 func _is_point_outside_area(area: AABB, point: Vector3) -> bool:
@@ -350,65 +284,6 @@ func _instantiate_duplicate() -> GaeaNodeResource:
 		ResourceLoader.get_resource_uid(resource_path)
 	)
 	return new_resource
-#endregion
-
-
-#region Data casting methods
-static func cast_value(from_type: GaeaGraphNode.SlotTypes, to_type: GaeaGraphNode.SlotTypes, value: Variant) -> Variant:
-	match [from_type, to_type]:
-		#region Range -> Any
-		[GaeaGraphNode.SlotTypes.RANGE, GaeaGraphNode.SlotTypes.VECTOR2]:
-			return Vector2(
-				value.get("min"), value.get("max")
-			)
-		#endregion
-
-		#region Number -> Any
-		[GaeaGraphNode.SlotTypes.NUMBER, GaeaGraphNode.SlotTypes.VECTOR2]:
-			return Vector2(
-				value, value
-			)
-		[GaeaGraphNode.SlotTypes.NUMBER, GaeaGraphNode.SlotTypes.VECTOR3]:
-			return Vector3(
-				value, value, value
-			)
-		[GaeaGraphNode.SlotTypes.NUMBER, GaeaGraphNode.SlotTypes.BOOL]:
-			return bool(value)
-		#endregion
-
-		#region Vector -> Any
-		[GaeaGraphNode.SlotTypes.VECTOR2, GaeaGraphNode.SlotTypes.RANGE]:
-			return {
-				"min": value.x, "max": value.y
-			}
-		[GaeaGraphNode.SlotTypes.VECTOR2, GaeaGraphNode.SlotTypes.VECTOR3]:
-			return Vector3(
-				value.x, value.y, 0.0
-			)
-		[GaeaGraphNode.SlotTypes.VECTOR3, GaeaGraphNode.SlotTypes.VECTOR2]:
-			return Vector2(
-				value.x, value.y
-			)
-		[GaeaGraphNode.SlotTypes.VECTOR2, GaeaGraphNode.SlotTypes.NUMBER],\
-		[GaeaGraphNode.SlotTypes.VECTOR3, GaeaGraphNode.SlotTypes.NUMBER]:
-			return value.x
-		#endregion
-
-		#region Boolean -> Any
-		[GaeaGraphNode.SlotTypes.BOOL, GaeaGraphNode.SlotTypes.NUMBER]:
-			return float(value)
-		[GaeaGraphNode.SlotTypes.BOOL, GaeaGraphNode.SlotTypes.VECTOR2]:
-			return Vector2(float(value), float(value))
-		[GaeaGraphNode.SlotTypes.BOOL, GaeaGraphNode.SlotTypes.VECTOR3]:
-			return Vector3(float(value), float(value), float(value))
-		#endregion
-
-
-	printerr("Could not get data from previous node, missing cast method from %s to %s" % [
-		GaeaGraphNode.SlotTypes.find_key(from_type),
-		GaeaGraphNode.SlotTypes.find_key(to_type),
-	])
-	return {}
 #endregion
 
 

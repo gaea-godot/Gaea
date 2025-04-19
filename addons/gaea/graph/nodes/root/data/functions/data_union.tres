@@ -1,65 +1,50 @@
 [gd_resource type="Resource" load_steps=9 format=3 uid="uid://4ybwu0m8kw1a"]
 
-[ext_resource type="Script" uid="uid://bh3sajxnmp14w" path="res://addons/gaea/graph/nodes/node_argument.gd" id="1_vy5f3"]
-[ext_resource type="Script" uid="uid://ote622wl6axc" path="res://addons/gaea/graph/nodes/node_slot.gd" id="2_km55b"]
+[ext_resource type="Resource" uid="uid://8w0nsvq1cu1r" path="res://addons/gaea/graph/components/slot_outputs/data.tres" id="2_km55b"]
 [ext_resource type="Script" uid="uid://bmxbe51xh0t7d" path="res://addons/gaea/graph/nodes/root/data/union.gd" id="3_brqp2"]
+[ext_resource type="Script" uid="uid://dil6xg31ctqdu" path="res://addons/gaea/graph/nodes/node_slot_output.gd" id="3_t4wup"]
+[ext_resource type="Script" uid="uid://b5mukn8hdt8ww" path="res://addons/gaea/graph/nodes/node_slot_param.gd" id="4_b4r1g"]
 
-[sub_resource type="Resource" id="Resource_payrb"]
-script = ExtResource("2_km55b")
-left_enabled = true
-left_type = 0
-left_label = "Data A"
-right_enabled = false
-right_type = -1
-right_label = ""
-metadata/_custom_type_script = "uid://ote622wl6axc"
+[sub_resource type="Resource" id="Resource_vy5f3"]
+resource_name = "Data A (Data)"
+script = ExtResource("4_b4r1g")
+name = &"data_a"
+type = 200
+hint = Dictionary[String, Variant]({})
+default_value = Dictionary[Vector3i, float]({})
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
-[sub_resource type="Resource" id="Resource_l204x"]
-script = ExtResource("2_km55b")
-left_enabled = true
-left_type = 0
-left_label = "Data B"
-right_enabled = false
-right_type = -1
-right_label = ""
-metadata/_custom_type_script = "uid://ote622wl6axc"
+[sub_resource type="Resource" id="Resource_km55b"]
+resource_name = "Data B (Data)"
+script = ExtResource("4_b4r1g")
+name = &"data_b"
+type = 200
+hint = Dictionary[String, Variant]({})
+default_value = Dictionary[Vector3i, float]({})
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
-[sub_resource type="Resource" id="Resource_h4yhw"]
-script = ExtResource("2_km55b")
-left_enabled = true
-left_type = 0
-left_label = "Data C"
-right_enabled = false
-right_type = -1
-right_label = ""
-metadata/_custom_type_script = "uid://ote622wl6axc"
+[sub_resource type="Resource" id="Resource_brqp2"]
+resource_name = "Data C (Data)"
+script = ExtResource("4_b4r1g")
+name = &"data_c"
+type = 200
+hint = Dictionary[String, Variant]({})
+default_value = Dictionary[Vector3i, float]({})
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
-[sub_resource type="Resource" id="Resource_tpjb4"]
-script = ExtResource("2_km55b")
-left_enabled = true
-left_type = 0
-left_label = "Data D"
-right_enabled = false
-right_type = -1
-right_label = ""
-metadata/_custom_type_script = "uid://ote622wl6axc"
-
-[sub_resource type="Resource" id="Resource_t0o6h"]
-script = ExtResource("2_km55b")
-left_enabled = false
-left_type = -1
-left_label = ""
-right_enabled = true
-right_type = 0
-right_label = "Union"
-metadata/_custom_type_script = "uid://ote622wl6axc"
+[sub_resource type="Resource" id="Resource_t4wup"]
+resource_name = "Data D (Data)"
+script = ExtResource("4_b4r1g")
+name = &"data_d"
+type = 200
+hint = Dictionary[String, Variant]({})
+default_value = Dictionary[Vector3i, float]({})
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
 [resource]
 script = ExtResource("3_brqp2")
-input_slots = Array[ExtResource("2_km55b")]([SubResource("Resource_payrb"), SubResource("Resource_l204x"), SubResource("Resource_h4yhw"), SubResource("Resource_tpjb4")])
-args = Array[ExtResource("1_vy5f3")]([])
-output_slots = Array[ExtResource("2_km55b")]([SubResource("Resource_t0o6h")])
+params = Array[ExtResource("4_b4r1g")]([SubResource("Resource_vy5f3"), SubResource("Resource_km55b"), SubResource("Resource_brqp2"), SubResource("Resource_t4wup")])
+outputs = Array[ExtResource("3_t4wup")]([ExtResource("2_km55b")])
 title = "DataUnion"
 description = "Merges [param]data A-D[/bg][/c]. Later grids override any cells from the previous grids when valid. (B overrides A, C overrides B, etc.)"
-is_output = false
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"

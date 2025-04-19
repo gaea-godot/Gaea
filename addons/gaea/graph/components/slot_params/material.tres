@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="GaeaNodeSlotParam" load_steps=2 format=3 uid="uid://dw6tgqr675e7i"]
+
+[ext_resource type="Script" uid="uid://b5mukn8hdt8ww" path="res://addons/gaea/graph/nodes/node_slot_param.gd" id="1_6sipt"]
+
+[resource]
+resource_name = "Material"
+script = ExtResource("1_6sipt")
+name = &"material"
+type = 101
+hint = Dictionary[String, Variant]({})
+default_value = null
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"

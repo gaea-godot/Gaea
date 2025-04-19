@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="GaeaNodeSlotOutput" load_steps=2 format=3 uid="uid://dh1ay72s0vge"]
+
+[ext_resource type="Script" uid="uid://dil6xg31ctqdu" path="res://addons/gaea/graph/nodes/node_slot_output.gd" id="1_55g74"]
+
+[resource]
+resource_name = "Map"
+script = ExtResource("1_55g74")
+name = &"map"
+type = 201
+metadata/_custom_type_script = "uid://dil6xg31ctqdu"

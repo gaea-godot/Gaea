@@ -1,41 +1,31 @@
 [gd_resource type="Resource" load_steps=7 format=3 uid="uid://dp08ix2q7gxas"]
 
-[ext_resource type="Script" uid="uid://bh3sajxnmp14w" path="res://addons/gaea/graph/nodes/node_argument.gd" id="1_arrhi"]
-[ext_resource type="Script" uid="uid://ote622wl6axc" path="res://addons/gaea/graph/nodes/node_slot.gd" id="2_88wic"]
+[ext_resource type="Resource" uid="uid://dh1ay72s0vge" path="res://addons/gaea/graph/components/slot_outputs/map.tres" id="2_88wic"]
 [ext_resource type="Script" uid="uid://4fup8piv8iac" path="res://addons/gaea/graph/nodes/root/data/difference.gd" id="3_arrhi"]
+[ext_resource type="Script" uid="uid://dil6xg31ctqdu" path="res://addons/gaea/graph/nodes/node_slot_output.gd" id="3_pt8xu"]
+[ext_resource type="Script" uid="uid://b5mukn8hdt8ww" path="res://addons/gaea/graph/nodes/node_slot_param.gd" id="4_xotxi"]
 
-[sub_resource type="Resource" id="Resource_qksdc"]
-script = ExtResource("2_88wic")
-left_enabled = true
-left_type = 1
-left_label = "Map A"
-right_enabled = false
-right_type = -1
-right_label = ""
+[sub_resource type="Resource" id="Resource_pt8xu"]
+resource_name = "Map A (Map)"
+script = ExtResource("4_xotxi")
+name = &"map_a"
+type = 201
+hint = Dictionary[String, Variant]({})
+default_value = Dictionary[Vector3i, Variant]({})
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
-[sub_resource type="Resource" id="Resource_x35wo"]
-script = ExtResource("2_88wic")
-left_enabled = true
-left_type = 1
-left_label = "Map B"
-right_enabled = false
-right_type = -1
-right_label = ""
-
-[sub_resource type="Resource" id="Resource_t3085"]
-script = ExtResource("2_88wic")
-left_enabled = false
-left_type = -1
-left_label = ""
-right_enabled = true
-right_type = 1
-right_label = "Difference"
+[sub_resource type="Resource" id="Resource_xotxi"]
+resource_name = "Map B (Map)"
+script = ExtResource("4_xotxi")
+name = &"map_b"
+type = 201
+hint = Dictionary[String, Variant]({})
+default_value = Dictionary[Vector3i, Variant]({})
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
 [resource]
 script = ExtResource("3_arrhi")
-input_slots = Array[ExtResource("2_88wic")]([SubResource("Resource_qksdc"), SubResource("Resource_x35wo")])
-args = Array[ExtResource("1_arrhi")]([])
-output_slots = Array[ExtResource("2_88wic")]([SubResource("Resource_t3085")])
+params = Array[ExtResource("4_xotxi")]([SubResource("Resource_pt8xu"), SubResource("Resource_xotxi")])
+outputs = Array[ExtResource("3_pt8xu")]([ExtResource("2_88wic")])
 title = "MapDifference"
 description = "Returns the difference between [param]map A[/bg][/c] - [param]map B[/bg][/c]."
-is_output = false

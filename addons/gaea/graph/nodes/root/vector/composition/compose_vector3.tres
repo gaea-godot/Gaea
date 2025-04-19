@@ -1,56 +1,47 @@
 [gd_resource type="Resource" load_steps=8 format=3 uid="uid://dfjr83x416ec4"]
 
-[ext_resource type="Script" uid="uid://bh3sajxnmp14w" path="res://addons/gaea/graph/nodes/node_argument.gd" id="1_0wgj8"]
-[ext_resource type="Script" uid="uid://ote622wl6axc" path="res://addons/gaea/graph/nodes/node_slot.gd" id="2_hjfge"]
 [ext_resource type="Script" uid="uid://cmo7oilfgh0gs" path="res://addons/gaea/graph/nodes/root/vector/composition/compose_vector.gd" id="3_0wgj8"]
+[ext_resource type="Script" uid="uid://dil6xg31ctqdu" path="res://addons/gaea/graph/nodes/node_slot_output.gd" id="3_7pmwm"]
+[ext_resource type="Script" uid="uid://b5mukn8hdt8ww" path="res://addons/gaea/graph/nodes/node_slot_param.gd" id="4_j4ogv"]
 
-[sub_resource type="Resource" id="Resource_5ecun"]
-script = ExtResource("1_0wgj8")
-type = 0
+[sub_resource type="Resource" id="Resource_504x0"]
+resource_name = "Composed Vector 3 (Vector 3)"
+script = ExtResource("3_7pmwm")
+name = &"composed_vector3"
+type = 9
+metadata/_custom_type_script = "uid://dil6xg31ctqdu"
+
+[sub_resource type="Resource" id="Resource_3677i"]
+resource_name = "X (Float)"
+script = ExtResource("4_j4ogv")
 name = &"x"
-default_value = null
+type = 3
 hint = Dictionary[String, Variant]({})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
+default_value = null
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
-[sub_resource type="Resource" id="Resource_iooy1"]
-script = ExtResource("1_0wgj8")
-type = 0
+[sub_resource type="Resource" id="Resource_tx35q"]
+resource_name = "Y (Float)"
+script = ExtResource("4_j4ogv")
 name = &"y"
-default_value = null
+type = 3
 hint = Dictionary[String, Variant]({})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
+default_value = null
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
-[sub_resource type="Resource" id="Resource_hjfge"]
-script = ExtResource("1_0wgj8")
-type = 0
+[sub_resource type="Resource" id="Resource_ws76o"]
+resource_name = "Z (Float)"
+script = ExtResource("4_j4ogv")
 name = &"z"
-default_value = null
+type = 3
 hint = Dictionary[String, Variant]({})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
-
-[sub_resource type="Resource" id="Resource_oc7x7"]
-script = ExtResource("2_hjfge")
-left_enabled = false
-left_type = -1
-left_label = ""
-right_enabled = true
-right_type = 7
-right_label = "Composed Vector3"
-metadata/_custom_type_script = "uid://ote622wl6axc"
+default_value = null
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
 [resource]
 script = ExtResource("3_0wgj8")
-type = 1
-input_slots = Array[ExtResource("2_hjfge")]([])
-args = Array[ExtResource("1_0wgj8")]([SubResource("Resource_5ecun"), SubResource("Resource_iooy1"), SubResource("Resource_hjfge")])
-output_slots = Array[ExtResource("2_hjfge")]([SubResource("Resource_oc7x7")])
+params = Array[ExtResource("4_j4ogv")]([SubResource("Resource_3677i"), SubResource("Resource_tx35q"), SubResource("Resource_ws76o")])
+outputs = Array[ExtResource("3_7pmwm")]([SubResource("Resource_504x0")])
 title = "ComposeVector3"
 description = "Composes a Vector3 from three numbers."
-is_output = false
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"

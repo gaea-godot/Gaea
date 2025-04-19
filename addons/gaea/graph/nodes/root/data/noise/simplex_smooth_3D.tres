@@ -1,51 +1,41 @@
 [gd_resource type="Resource" load_steps=8 format=3 uid="uid://bumgueaiw5d1f"]
 
-[ext_resource type="Script" uid="uid://bh3sajxnmp14w" path="res://addons/gaea/graph/nodes/node_argument.gd" id="1_5b1hk"]
-[ext_resource type="Script" uid="uid://ote622wl6axc" path="res://addons/gaea/graph/nodes/node_slot.gd" id="2_vwhe4"]
+[ext_resource type="Resource" uid="uid://8w0nsvq1cu1r" path="res://addons/gaea/graph/components/slot_outputs/data.tres" id="2_78joe"]
 [ext_resource type="Script" uid="uid://bcp5jmkertrct" path="res://addons/gaea/graph/nodes/root/data/noise/simplex_smooth.gd" id="3_7romv"]
+[ext_resource type="Script" uid="uid://dil6xg31ctqdu" path="res://addons/gaea/graph/nodes/node_slot_output.gd" id="3_oq68h"]
+[ext_resource type="Script" uid="uid://b5mukn8hdt8ww" path="res://addons/gaea/graph/nodes/node_slot_param.gd" id="4_nex6h"]
 
-[sub_resource type="Resource" id="Resource_n5m4n"]
-script = ExtResource("1_5b1hk")
-type = 0
+[sub_resource type="Resource" id="Resource_h8dvk"]
+resource_name = "Frequency (Float)"
+script = ExtResource("4_nex6h")
 name = &"frequency"
+type = 3
+hint = Dictionary[String, Variant]({})
 default_value = 0.01
-hint = Dictionary[String, Variant]({})
-disable_input_slot = false
-add_output_slot = false
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
-[sub_resource type="Resource" id="Resource_vx1by"]
-script = ExtResource("1_5b1hk")
-type = 0
+[sub_resource type="Resource" id="Resource_wufdu"]
+resource_name = "Lacunarity (Float)"
+script = ExtResource("4_nex6h")
 name = &"lacunarity"
+type = 3
+hint = Dictionary[String, Variant]({})
 default_value = 2.0
-hint = Dictionary[String, Variant]({})
-disable_input_slot = false
-add_output_slot = false
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
-[sub_resource type="Resource" id="Resource_smuhk"]
-script = ExtResource("1_5b1hk")
-type = 1
+[sub_resource type="Resource" id="Resource_a2m2d"]
+resource_name = "Octaves (Int)"
+script = ExtResource("4_nex6h")
 name = &"octaves"
-default_value = 5
+type = 2
 hint = Dictionary[String, Variant]({})
-disable_input_slot = false
-add_output_slot = false
-
-[sub_resource type="Resource" id="Resource_cmwkl"]
-script = ExtResource("2_vwhe4")
-left_enabled = false
-left_type = -1
-left_label = ""
-right_enabled = true
-right_type = 0
-right_label = "Data [0, 1]"
+default_value = 5
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
 [resource]
 script = ExtResource("3_7romv")
 type = 1
-input_slots = Array[ExtResource("2_vwhe4")]([])
-args = Array[ExtResource("1_5b1hk")]([SubResource("Resource_n5m4n"), SubResource("Resource_vx1by"), SubResource("Resource_smuhk")])
-output_slots = Array[ExtResource("2_vwhe4")]([SubResource("Resource_cmwkl")])
+params = Array[ExtResource("4_nex6h")]([SubResource("Resource_h8dvk"), SubResource("Resource_wufdu"), SubResource("Resource_a2m2d")])
+outputs = Array[ExtResource("3_oq68h")]([ExtResource("2_78joe")])
 title = "SimplexSmooth3D"
 description = "Creates a grid of values from [code]0[/bg][/c] to [code]1[/bg][/c] based on a SimplexSmooth noise texture."
-is_output = false

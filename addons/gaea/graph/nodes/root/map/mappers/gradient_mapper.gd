@@ -2,11 +2,15 @@
 extends GaeaNodeResource
 
 
-func get_data(passed_data:Array[Dictionary], _output_port: int, _area: AABB, generator_data: GaeaData) -> Dictionary[Vector3i, GaeaMaterial]:
-	log_data(_output_port, generator_data)
+func _get_required_params() -> Array[StringName]:
+	return [&"data", &"gradient"]
 
-	var grid_data: Dictionary = passed_data[0]
-	var gradient: GaeaMaterialGradient = passed_data[1].get("value", null)
+
+func get_data(output_port: GaeaNodeSlotOutput, area: AABB, generator_data: GaeaData) -> Dictionary:
+	log_data(output_port, generator_data)
+
+	var grid_data: Dictionary = get_arg(&"data", area, generator_data)
+	var gradient: GaeaMaterialGradient = get_arg(&"gradient", area, generator_data)
 
 	var grid: Dictionary[Vector3i, GaeaMaterial]
 
@@ -21,4 +25,4 @@ func get_data(passed_data:Array[Dictionary], _output_port: int, _area: AABB, gen
 		if is_instance_valid(material):
 			grid[cell] = material.get_resource()
 
-	return grid
+	return output_port.return_value(grid)

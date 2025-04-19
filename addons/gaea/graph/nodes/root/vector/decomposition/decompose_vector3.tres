@@ -1,55 +1,43 @@
 [gd_resource type="Resource" load_steps=8 format=3 uid="uid://evg3g607sf40"]
 
-[ext_resource type="Script" uid="uid://bh3sajxnmp14w" path="res://addons/gaea/graph/nodes/node_argument.gd" id="1_irclj"]
-[ext_resource type="Script" uid="uid://ote622wl6axc" path="res://addons/gaea/graph/nodes/node_slot.gd" id="2_7qop7"]
+[ext_resource type="Script" uid="uid://dil6xg31ctqdu" path="res://addons/gaea/graph/nodes/node_slot_output.gd" id="3_q4fvj"]
 [ext_resource type="Script" uid="uid://cgqpchc8aym4t" path="res://addons/gaea/graph/nodes/root/vector/decomposition/decompose_vector.gd" id="3_w022r"]
+[ext_resource type="Script" uid="uid://b5mukn8hdt8ww" path="res://addons/gaea/graph/nodes/node_slot_param.gd" id="4_o0h56"]
 
-[sub_resource type="Resource" id="Resource_0xxnj"]
-script = ExtResource("1_irclj")
-type = 10
+[sub_resource type="Resource" id="Resource_whmij"]
+resource_name = "X (Float)"
+script = ExtResource("3_q4fvj")
+name = &"x"
+type = 3
+metadata/_custom_type_script = "uid://dil6xg31ctqdu"
+
+[sub_resource type="Resource" id="Resource_t7rqj"]
+resource_name = "Y (Float)"
+script = ExtResource("3_q4fvj")
+name = &"y"
+type = 3
+metadata/_custom_type_script = "uid://dil6xg31ctqdu"
+
+[sub_resource type="Resource" id="Resource_rc8pe"]
+resource_name = "Z (Float)"
+script = ExtResource("3_q4fvj")
+name = &"z"
+type = 3
+metadata/_custom_type_script = "uid://dil6xg31ctqdu"
+
+[sub_resource type="Resource" id="Resource_unfi1"]
+resource_name = "Vector (Vector 2)"
+script = ExtResource("4_o0h56")
 name = &"vector"
-default_value = null
+type = 5
 hint = Dictionary[String, Variant]({})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
-
-[sub_resource type="Resource" id="Resource_kk1e5"]
-script = ExtResource("2_7qop7")
-left_enabled = false
-left_type = -1
-left_label = ""
-right_enabled = true
-right_type = 4
-right_label = "X"
-metadata/_custom_type_script = "uid://ote622wl6axc"
-
-[sub_resource type="Resource" id="Resource_d8fxv"]
-script = ExtResource("2_7qop7")
-left_enabled = false
-left_type = -1
-left_label = ""
-right_enabled = true
-right_type = 4
-right_label = "Y"
-metadata/_custom_type_script = "uid://ote622wl6axc"
-
-[sub_resource type="Resource" id="Resource_irclj"]
-script = ExtResource("2_7qop7")
-left_enabled = false
-left_type = -1
-left_label = ""
-right_enabled = true
-right_type = 4
-right_label = "Z"
-metadata/_custom_type_script = "uid://ote622wl6axc"
+default_value = Vector2(0, 0)
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
 [resource]
 script = ExtResource("3_w022r")
-input_slots = Array[ExtResource("2_7qop7")]([])
-args = Array[ExtResource("1_irclj")]([SubResource("Resource_0xxnj")])
-output_slots = Array[ExtResource("2_7qop7")]([SubResource("Resource_kk1e5"), SubResource("Resource_d8fxv"), SubResource("Resource_irclj")])
+params = Array[ExtResource("4_o0h56")]([SubResource("Resource_unfi1")])
+outputs = Array[ExtResource("3_q4fvj")]([SubResource("Resource_whmij"), SubResource("Resource_t7rqj"), SubResource("Resource_rc8pe")])
 title = "DecomposeVector3"
-description = "Decomposes a Vector3 into 2 numbers."
-is_output = false
+description = "Decomposes a Vector3 into 3 numbers."
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"

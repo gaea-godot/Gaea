@@ -1,25 +1,20 @@
 [gd_resource type="Resource" load_steps=5 format=3 uid="uid://dyk8vkdntdudc"]
 
-[ext_resource type="Script" uid="uid://bh3sajxnmp14w" path="res://addons/gaea/graph/nodes/node_argument.gd" id="1_ed7be"]
-[ext_resource type="Script" uid="uid://ote622wl6axc" path="res://addons/gaea/graph/nodes/node_slot.gd" id="2_1btle"]
+[ext_resource type="Script" uid="uid://dil6xg31ctqdu" path="res://addons/gaea/graph/nodes/node_slot_output.gd" id="3_0fpac"]
 [ext_resource type="Script" uid="uid://fc8vogh4mvhw" path="res://addons/gaea/graph/nodes/root/input/world_size.gd" id="3_ed7be"]
+[ext_resource type="Script" uid="uid://b5mukn8hdt8ww" path="res://addons/gaea/graph/nodes/node_slot_param.gd" id="4_5x83u"]
 
-[sub_resource type="Resource" id="Resource_ed7be"]
-script = ExtResource("2_1btle")
-left_enabled = false
-left_type = -1
-left_label = ""
-right_enabled = true
-right_type = 7
-right_label = "World Size"
-metadata/_custom_type_script = "uid://ote622wl6axc"
+[sub_resource type="Resource" id="Resource_txel0"]
+resource_name = "World Size (Vector 3)"
+script = ExtResource("3_0fpac")
+name = &"world_size"
+type = 9
+metadata/_custom_type_script = "uid://dil6xg31ctqdu"
 
 [resource]
 script = ExtResource("3_ed7be")
-input_slots = Array[ExtResource("2_1btle")]([])
-args = Array[ExtResource("1_ed7be")]([])
-output_slots = Array[ExtResource("2_1btle")]([SubResource("Resource_ed7be")])
+params = Array[ExtResource("4_5x83u")]([])
+outputs = Array[ExtResource("3_0fpac")]([SubResource("Resource_txel0")])
 title = "WorldSize"
 description = "The world_size parameter in the generator's inspector."
-is_output = false
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"

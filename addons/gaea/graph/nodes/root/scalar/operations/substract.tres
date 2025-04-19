@@ -1,46 +1,39 @@
 [gd_resource type="Resource" load_steps=7 format=3 uid="uid://167vhd3o81mk"]
 
-[ext_resource type="Script" uid="uid://bh3sajxnmp14w" path="res://addons/gaea/graph/nodes/node_argument.gd" id="1_f5uq5"]
-[ext_resource type="Script" uid="uid://ote622wl6axc" path="res://addons/gaea/graph/nodes/node_slot.gd" id="2_08ngx"]
 [ext_resource type="Script" uid="uid://d1jaftbgxy7ru" path="res://addons/gaea/graph/nodes/root/data/operation.gd" id="3_f5uq5"]
+[ext_resource type="Script" uid="uid://dil6xg31ctqdu" path="res://addons/gaea/graph/nodes/node_slot_output.gd" id="3_ysehk"]
+[ext_resource type="Script" uid="uid://b5mukn8hdt8ww" path="res://addons/gaea/graph/nodes/node_slot_param.gd" id="4_6nfhi"]
 
-[sub_resource type="Resource" id="Resource_16x2u"]
-script = ExtResource("1_f5uq5")
-type = 0
+[sub_resource type="Resource" id="Resource_7pl3n"]
+resource_name = "Result (Float)"
+script = ExtResource("3_ysehk")
+name = &"result"
+type = 3
+metadata/_custom_type_script = "uid://dil6xg31ctqdu"
+
+[sub_resource type="Resource" id="Resource_s1oqb"]
+resource_name = "A (Float)"
+script = ExtResource("4_6nfhi")
 name = &"a"
-default_value = null
+type = 3
 hint = Dictionary[String, Variant]({})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
+default_value = null
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
-[sub_resource type="Resource" id="Resource_dwo1v"]
-script = ExtResource("1_f5uq5")
-type = 0
+[sub_resource type="Resource" id="Resource_00oos"]
+resource_name = "B (Float)"
+script = ExtResource("4_6nfhi")
 name = &"b"
-default_value = null
+type = 3
 hint = Dictionary[String, Variant]({})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
-
-[sub_resource type="Resource" id="Resource_1wjr0"]
-script = ExtResource("2_08ngx")
-left_enabled = false
-left_type = -1
-left_label = ""
-right_enabled = true
-right_type = 4
-right_label = "Result"
-metadata/_custom_type_script = "uid://ote622wl6axc"
+default_value = null
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
 [resource]
 script = ExtResource("3_f5uq5")
 operation = 1
-input_slots = Array[ExtResource("2_08ngx")]([])
-args = Array[ExtResource("1_f5uq5")]([SubResource("Resource_16x2u"), SubResource("Resource_dwo1v")])
-output_slots = Array[ExtResource("2_08ngx")]([SubResource("Resource_1wjr0")])
+params = Array[ExtResource("4_6nfhi")]([SubResource("Resource_s1oqb"), SubResource("Resource_00oos")])
+outputs = Array[ExtResource("3_ysehk")]([SubResource("Resource_7pl3n")])
 title = "Substract (-)"
 description = "Substracts [param]B[/bg][/c] from [param]A[/bg][/c]."
-is_output = false
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"

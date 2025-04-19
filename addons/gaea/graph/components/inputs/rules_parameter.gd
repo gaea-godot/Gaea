@@ -5,10 +5,9 @@ extends GaeaGraphNodeParameter
 
 
 func _ready() -> void:
-	super()
-
-	if not is_instance_valid(resource):
+	if is_part_of_edited_scene():
 		return
+	await super()
 
 	for button: CheckBox in grid_container.get_children():
 		button.toggled.connect(_on_value_changed.unbind(1))

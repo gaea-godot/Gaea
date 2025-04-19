@@ -8,14 +8,16 @@ extends GaeaGraphNodeParameter
 
 
 func _ready() -> void:
-	super()
+	if is_part_of_edited_scene():
+		return
+	await super()
 	var button_group: ButtonGroup = ButtonGroup.new()
 	for button: Button in grid_container.get_children():
 		button.text = str(button.get_index() + 1)
 		button.tooltip_text = "Bit %s, value %s" % [button.get_index() + 1, 1 << button.get_index()]
 
 		if is_instance_valid(resource):
-			if resource.type == GaeaNodeArgument.Type.BITMASK_EXCLUSIVE:
+			if resource.type == GaeaValue.Type.BITMASK_EXCLUSIVE:
 				button.button_group = button_group
 
 		button.toggled.connect(_on_value_changed.unbind(1))
@@ -39,7 +41,7 @@ func get_param_value() -> Variant:
 	if super() != null:
 		return super()
 
-	if resource.type != GaeaNodeArgument.Type.FLAGS:
+	if resource.type != GaeaValue.Type.FLAGS:
 		var num: int = 0
 		for button: Button in grid_container.get_children():
 			if button.button_pressed:
@@ -54,7 +56,7 @@ func get_param_value() -> Variant:
 
 
 func set_param_value(new_value: Variant) -> void:
-	if resource.type != GaeaNodeArgument.Type.FLAGS:
+	if resource.type != GaeaValue.Type.FLAGS:
 		if typeof(new_value) != TYPE_INT:
 			return
 

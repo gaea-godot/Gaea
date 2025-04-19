@@ -1,45 +1,32 @@
 [gd_resource type="Resource" load_steps=7 format=3 uid="uid://c4ks3ukknfqkm"]
 
-[ext_resource type="Script" uid="uid://bh3sajxnmp14w" path="res://addons/gaea/graph/nodes/node_argument.gd" id="1_32h1u"]
-[ext_resource type="Script" uid="uid://ote622wl6axc" path="res://addons/gaea/graph/nodes/node_slot.gd" id="2_lc4c5"]
+[ext_resource type="Resource" uid="uid://8w0nsvq1cu1r" path="res://addons/gaea/graph/components/slot_outputs/data.tres" id="2_lc4c5"]
 [ext_resource type="Script" uid="uid://4fup8piv8iac" path="res://addons/gaea/graph/nodes/root/data/difference.gd" id="3_32h1u"]
+[ext_resource type="Script" uid="uid://dil6xg31ctqdu" path="res://addons/gaea/graph/nodes/node_slot_output.gd" id="3_q3i8v"]
+[ext_resource type="Script" uid="uid://b5mukn8hdt8ww" path="res://addons/gaea/graph/nodes/node_slot_param.gd" id="4_otwxw"]
 
-[sub_resource type="Resource" id="Resource_m7j8q"]
-script = ExtResource("2_lc4c5")
-left_enabled = true
-left_type = 0
-left_label = "Data A"
-right_enabled = false
-right_type = -1
-right_label = ""
-metadata/_custom_type_script = "uid://ote622wl6axc"
+[sub_resource type="Resource" id="Resource_q3i8v"]
+resource_name = "Data A (Data)"
+script = ExtResource("4_otwxw")
+name = &"data_a"
+type = 200
+hint = Dictionary[String, Variant]({})
+default_value = Dictionary[Vector3i, float]({})
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
-[sub_resource type="Resource" id="Resource_l204x"]
-script = ExtResource("2_lc4c5")
-left_enabled = true
-left_type = 0
-left_label = "Data B"
-right_enabled = false
-right_type = -1
-right_label = ""
-metadata/_custom_type_script = "uid://ote622wl6axc"
-
-[sub_resource type="Resource" id="Resource_bie4n"]
-script = ExtResource("2_lc4c5")
-left_enabled = false
-left_type = -1
-left_label = ""
-right_enabled = true
-right_type = 0
-right_label = "Difference"
-metadata/_custom_type_script = "uid://ote622wl6axc"
+[sub_resource type="Resource" id="Resource_lc4c5"]
+resource_name = "Data B (Data)"
+script = ExtResource("4_otwxw")
+name = &"data_b"
+type = 200
+hint = Dictionary[String, Variant]({})
+default_value = Dictionary[Vector3i, float]({})
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
 [resource]
 script = ExtResource("3_32h1u")
-input_slots = Array[ExtResource("2_lc4c5")]([SubResource("Resource_m7j8q"), SubResource("Resource_l204x")])
-args = Array[ExtResource("1_32h1u")]([])
-output_slots = Array[ExtResource("2_lc4c5")]([SubResource("Resource_bie4n")])
+params = Array[ExtResource("4_otwxw")]([SubResource("Resource_q3i8v"), SubResource("Resource_lc4c5")])
+outputs = Array[ExtResource("3_q3i8v")]([ExtResource("2_lc4c5")])
 title = "DataDifference"
 description = "Returns the difference between [param]data A[/bg][/c] - [param]data B[/bg][/c]."
-is_output = false
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"

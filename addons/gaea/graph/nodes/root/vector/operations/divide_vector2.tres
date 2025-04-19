@@ -1,46 +1,39 @@
 [gd_resource type="Resource" load_steps=7 format=3 uid="uid://cgd05tlepxucw"]
 
-[ext_resource type="Script" uid="uid://bh3sajxnmp14w" path="res://addons/gaea/graph/nodes/node_argument.gd" id="1_gfi0m"]
-[ext_resource type="Script" uid="uid://ote622wl6axc" path="res://addons/gaea/graph/nodes/node_slot.gd" id="2_kl01i"]
 [ext_resource type="Script" uid="uid://d1jaftbgxy7ru" path="res://addons/gaea/graph/nodes/root/data/operation.gd" id="3_gawbj"]
-
-[sub_resource type="Resource" id="Resource_s327x"]
-script = ExtResource("1_gfi0m")
-type = 2
-name = &"a"
-default_value = null
-hint = Dictionary[String, Variant]({})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
-
-[sub_resource type="Resource" id="Resource_rw25m"]
-script = ExtResource("1_gfi0m")
-type = 2
-name = &"b"
-default_value = null
-hint = Dictionary[String, Variant]({})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
+[ext_resource type="Script" uid="uid://dil6xg31ctqdu" path="res://addons/gaea/graph/nodes/node_slot_output.gd" id="3_pft5r"]
+[ext_resource type="Script" uid="uid://b5mukn8hdt8ww" path="res://addons/gaea/graph/nodes/node_slot_param.gd" id="4_w3mmn"]
 
 [sub_resource type="Resource" id="Resource_aa6s8"]
-script = ExtResource("2_kl01i")
-left_enabled = false
-left_type = -1
-left_label = ""
-right_enabled = true
-right_type = 3
-right_label = "Result"
-metadata/_custom_type_script = "uid://ote622wl6axc"
+resource_name = "Result (Vector 2)"
+script = ExtResource("3_pft5r")
+name = &"result"
+type = 5
+metadata/_custom_type_script = "uid://dil6xg31ctqdu"
+
+[sub_resource type="Resource" id="Resource_xlpbo"]
+resource_name = "A (Vector 2)"
+script = ExtResource("4_w3mmn")
+name = &"a"
+type = 5
+hint = Dictionary[String, Variant]({})
+default_value = Vector2(0, 0)
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
+
+[sub_resource type="Resource" id="Resource_6t2vl"]
+resource_name = "B (Vector 2)"
+script = ExtResource("4_w3mmn")
+name = &"b"
+type = 5
+hint = Dictionary[String, Variant]({})
+default_value = Vector2(0, 0)
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
 [resource]
 script = ExtResource("3_gawbj")
 operation = 3
-input_slots = Array[ExtResource("2_kl01i")]([])
-args = Array[ExtResource("1_gfi0m")]([SubResource("Resource_s327x"), SubResource("Resource_rw25m")])
-output_slots = Array[ExtResource("2_kl01i")]([SubResource("Resource_aa6s8")])
+params = Array[ExtResource("4_w3mmn")]([SubResource("Resource_xlpbo"), SubResource("Resource_6t2vl")])
+outputs = Array[ExtResource("3_pft5r")]([SubResource("Resource_aa6s8")])
 title = "Divide (/)"
 description = "Divides [param]A[/bg][/c] and [param]B[/bg][/c] together."
-is_output = false
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"

@@ -4,12 +4,12 @@ extends GaeaGraphNode
 const _RerouteResource = preload("uid://bgqqucap4kua4")
 
 var tween: Tween
-var type: GaeaGraphNode.SlotTypes = GaeaGraphNode.SlotTypes.NUMBER:
+var type: GaeaValue.Type = GaeaValue.Type.FLOAT:
 	set(new_value):
 		if type != new_value:
 			type = new_value
 			if not is_part_of_edited_scene():
-				resource.title = "Reroute (%s)" % GaeaGraphNode.SlotTypes.find_key(new_value).capitalize()
+				resource.title = "Reroute (%s)" % GaeaValue.Type.find_key(new_value).capitalize()
 			_update_slots()
 
 var icon_opacity: float = 0.0:
@@ -24,12 +24,11 @@ var has_no_input: bool = false:
 
 #region init
 func initialize() -> void:
-	super()
 	if not is_instance_valid(resource) or is_part_of_edited_scene():
 		return
-
-	resource.input_slots[0].left_enabled = true
-	resource.input_slots[0].right_enabled = true
+	
+	resource.node = self
+	
 	connections_updated.connect(_validate_connections)
 
 	var titlebar_hbox = get_titlebar_hbox()
@@ -46,15 +45,15 @@ func initialize() -> void:
 
 
 func _update_slots():
-	var color = GaeaEditorSettings.get_configured_color_for_slot_type(type)
+	var color = GaeaValue.get_color(type)
 	set_slot(0, true, type, color, true, type, color)
 	set_slot_type_left(0, type)
 	set_slot_type_right(0, type)
-	set_slot_custom_icon_right(0, GaeaEditorSettings.get_configured_icon_for_slot_type(type))
+	set_slot_custom_icon_right(0, GaeaValue.get_slot_icon(type))
 	if not is_part_of_edited_scene():
-		resource.input_slots[0].left_type = type
-		resource.input_slots[0].right_type = type
-		resource.title = "Reroute (%s)" % GaeaGraphNode.SlotTypes.find_key(type).capitalize()
+		resource.params[0].type = type
+		resource.outputs[0].type = type
+		resource.title = "Reroute (%s)" % GaeaValue.Type.find_key(type).capitalize()
 #endregion
 
 
@@ -93,11 +92,16 @@ func on_removed() -> void:
 #region Save/Load
 func get_save_data() -> Dictionary:
 	var data = super()
+	if data.has("salt"):
+		data.erase("salt")
 	data.type = type
 	return data
 
 
 func load_save_data(data: Dictionary) -> void:
+	# Data migration from 2.0 beta. See PR #310. Remove before releasing 2.X.
+	if data.has(&"salt"):
+		data.set(&"type", GaeaValue.from_old_slot_type(data.get(&"type")))
 	if data.has(&"type"):
 		type = data.type
 	super(data)

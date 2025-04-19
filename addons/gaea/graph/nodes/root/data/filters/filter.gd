@@ -1,20 +1,24 @@
 @tool
 extends GaeaNodeResource
 
-func _get_required_input_ports() -> Array[int]: return [0]
+func _get_required_params() -> Array[StringName]:
+	return [params[0].name]
 
-func get_data(passed_data:Array[Dictionary], _output_port: int, _area: AABB, generator_data: GaeaData) -> Dictionary:
-	log_data(_output_port, generator_data)
+
+func get_data(output_port: GaeaNodeSlotOutput, area: AABB, generator_data: GaeaData) -> Dictionary:
+	log_data(output_port, generator_data)
 
 	seed(generator_data.generator.seed + salt)
 
+	var input_data: Dictionary = get_arg(params[0].name, area, generator_data)
 	var new_data: Dictionary = {}
-	for cell: Vector3i in passed_data[0]:
-		if _passes_filter(passed_data[0], cell, generator_data):
-			new_data.set(cell, passed_data[0].get(cell))
+	for cell: Vector3i in input_data:
+		if _passes_filter(input_data, cell, area, generator_data):
+			new_data.set(cell, input_data.get(cell))
 
-	return new_data
+	return output_port.return_value(new_data)
 
 
-func _passes_filter(_passed_data: Dictionary, _cell: Vector3i, _generator_data: GaeaData) -> bool:
+@warning_ignore("unused_parameter")
+func _passes_filter(input_data: Dictionary, cell: Vector3i, area: AABB, generator_data: GaeaData) -> bool:
 	return true

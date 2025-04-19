@@ -1,45 +1,27 @@
 [gd_resource type="Resource" load_steps=7 format=3 uid="uid://cu6746ccrvp44"]
 
-[ext_resource type="Script" uid="uid://bh3sajxnmp14w" path="res://addons/gaea/graph/nodes/node_argument.gd" id="1_5n5am"]
-[ext_resource type="Script" uid="uid://ote622wl6axc" path="res://addons/gaea/graph/nodes/node_slot.gd" id="2_trkfv"]
+[ext_resource type="Resource" uid="uid://8w0nsvq1cu1r" path="res://addons/gaea/graph/components/slot_outputs/data.tres" id="2_q67s8"]
 [ext_resource type="Script" uid="uid://b38syakgm25ya" path="res://addons/gaea/graph/nodes/root/data/filters/random_filter.gd" id="3_5n5am"]
+[ext_resource type="Script" uid="uid://dil6xg31ctqdu" path="res://addons/gaea/graph/nodes/node_slot_output.gd" id="3_q67s8"]
+[ext_resource type="Resource" uid="uid://chudwi8qvv3so" path="res://addons/gaea/graph/components/slot_params/data.tres" id="3_trkfv"]
+[ext_resource type="Script" uid="uid://b5mukn8hdt8ww" path="res://addons/gaea/graph/nodes/node_slot_param.gd" id="4_kx00b"]
 
-[sub_resource type="Resource" id="Resource_5n5am"]
-script = ExtResource("1_5n5am")
-type = 1
+[sub_resource type="Resource" id="Resource_q67s8"]
+resource_name = "Chance (Int)"
+script = ExtResource("4_kx00b")
 name = &"chance"
-default_value = 100
+type = 2
 hint = Dictionary[String, Variant]({
 "max": 100,
 "min": 0,
 "suffix": "%"
 })
-disable_input_slot = false
-add_output_slot = false
-
-[sub_resource type="Resource" id="Resource_ppkgb"]
-script = ExtResource("2_trkfv")
-left_enabled = true
-left_type = 0
-left_label = "Data"
-right_enabled = false
-right_type = -1
-right_label = ""
-
-[sub_resource type="Resource" id="Resource_hqu83"]
-script = ExtResource("2_trkfv")
-left_enabled = false
-left_type = -1
-left_label = ""
-right_enabled = true
-right_type = 0
-right_label = "Filtered Data"
+default_value = 100
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
 [resource]
 script = ExtResource("3_5n5am")
-input_slots = Array[ExtResource("2_trkfv")]([SubResource("Resource_ppkgb")])
-args = Array[ExtResource("1_5n5am")]([SubResource("Resource_5n5am")])
-output_slots = Array[ExtResource("2_trkfv")]([SubResource("Resource_hqu83")])
+params = Array[ExtResource("4_kx00b")]([ExtResource("3_trkfv"), SubResource("Resource_q67s8")])
+outputs = Array[ExtResource("3_q67s8")]([ExtResource("2_q67s8")])
 title = "RandomFilter"
 description = "Randomly filters [param]data[/bg][/c] to only the cells that pass the [param]chance[/bg][/c] check."
-is_output = false

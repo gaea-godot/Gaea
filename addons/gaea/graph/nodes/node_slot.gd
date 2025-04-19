@@ -1,27 +1,29 @@
 @tool
-class_name GaeaNodeSlot
-extends Resource
+class_name GaeaNodeSlot extends Resource
 
 
-const SLOT_SCENE = preload("res://addons/gaea/graph/components/slot.tscn")
-
-@export_group("Left", "left")
-@export var left_enabled: bool = true
-@export var left_type: GaeaGraphNode.SlotTypes
-@export var left_label: String = ""
-@export_group("Right", "right")
-@export var right_enabled: bool = true
-@export var right_type: GaeaGraphNode.SlotTypes
-@export var right_label: String = ""
+#region Inspector related virtual methods
+func _update_resource_name() -> void:
+	if _property_can_revert(&"resource_name"):
+		resource_name = _property_get_revert(&"resource_name")
 
 
-func get_node(_graph_node: GaeaGraphNode, _idx: int) -> Control:
-	var node := SLOT_SCENE.instantiate()
-	node.initialize(_graph_node, _idx)
-	node.left_enabled = left_enabled
-	node.left_type = left_type
-	node.left_label = left_label
-	node.right_enabled = right_enabled
-	node.right_type = right_type
-	node.right_label = right_label
-	return node
+func _property_can_revert(property: StringName) -> bool:
+	match property:
+		&"resource_name":
+			return true
+	return false
+
+
+func _property_get_revert(property: StringName) -> Variant:
+	match property:
+		&"resource_name":
+			var _resource_name = get(&"name").capitalize()
+			var type_key = GaeaValue.Type.find_key(get(&"type"))
+			if type_key != null:
+				type_key = type_key.capitalize()
+				if _resource_name != type_key:
+					_resource_name += " (%s)" % type_key.capitalize()
+			return _resource_name
+	return null
+#endregion

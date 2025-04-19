@@ -14,13 +14,13 @@ var _custom_editor_settings: GaeaEditorSettings
 var _custom_project_settings: GaeaProjectSettings
 
 
-
 func _enter_tree() -> void:
 	_editor_selection = get_editor_interface().get_selection()
 	_editor_selection.selection_changed.connect(_on_selection_changed)
 
 	_container = MarginContainer.new()
 	_panel = BottomPanel.instantiate()
+	_panel.plugin = self
 	_container.add_child(_panel)
 	_panel_button = add_control_to_bottom_panel(_container, "Gaea")
 	_panel_button.hide()

@@ -1,58 +1,28 @@
 [gd_resource type="Resource" load_steps=8 format=3 uid="uid://c2u75oyoi2lne"]
 
-[ext_resource type="Script" uid="uid://bh3sajxnmp14w" path="res://addons/gaea/graph/nodes/node_argument.gd" id="1_utr2w"]
-[ext_resource type="Script" uid="uid://ote622wl6axc" path="res://addons/gaea/graph/nodes/node_slot.gd" id="2_wqiis"]
+[ext_resource type="Resource" uid="uid://dh1ay72s0vge" path="res://addons/gaea/graph/components/slot_outputs/map.tres" id="2_ygcj7"]
 [ext_resource type="Script" uid="uid://br8gcsyc04ksj" path="res://addons/gaea/graph/nodes/root/map/placing/rules_placer.gd" id="3_ugwx0"]
+[ext_resource type="Script" uid="uid://dil6xg31ctqdu" path="res://addons/gaea/graph/nodes/node_slot_output.gd" id="3_ygcj7"]
+[ext_resource type="Resource" uid="uid://chudwi8qvv3so" path="res://addons/gaea/graph/components/slot_params/data.tres" id="4_awbrb"]
+[ext_resource type="Script" uid="uid://b5mukn8hdt8ww" path="res://addons/gaea/graph/nodes/node_slot_param.gd" id="4_jn5ut"]
+[ext_resource type="Resource" uid="uid://dw6tgqr675e7i" path="res://addons/gaea/graph/components/slot_params/material.tres" id="5_l2bj6"]
 
-[sub_resource type="Resource" id="Resource_x5s41"]
-script = ExtResource("1_utr2w")
-type = 12
+[sub_resource type="Resource" id="Resource_cnffn"]
+resource_name = "Rules"
+script = ExtResource("4_jn5ut")
 name = &"rules"
-default_value = null
+type = 304
 hint = Dictionary[String, Variant]({})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
-
-[sub_resource type="Resource" id="Resource_vyp3c"]
-script = ExtResource("2_wqiis")
-left_enabled = true
-left_type = 0
-left_label = "Reference Data"
-right_enabled = false
-right_type = -1
-right_label = ""
-metadata/_custom_type_script = "uid://ote622wl6axc"
-
-[sub_resource type="Resource" id="Resource_utr2w"]
-script = ExtResource("2_wqiis")
-left_enabled = true
-left_type = 2
-left_label = "Material"
-right_enabled = false
-right_type = -1
-right_label = ""
-metadata/_custom_type_script = "uid://ote622wl6axc"
-
-[sub_resource type="Resource" id="Resource_6sh8g"]
-script = ExtResource("2_wqiis")
-left_enabled = false
-left_type = -1
-left_label = ""
-right_enabled = true
-right_type = 1
-right_label = "Map"
-metadata/_custom_type_script = "uid://ote622wl6axc"
+default_value = null
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
 [resource]
 script = ExtResource("3_ugwx0")
-input_slots = Array[ExtResource("2_wqiis")]([SubResource("Resource_vyp3c"), SubResource("Resource_utr2w")])
-args = Array[ExtResource("1_utr2w")]([SubResource("Resource_x5s41")])
-output_slots = Array[ExtResource("2_wqiis")]([SubResource("Resource_6sh8g")])
+params = Array[ExtResource("4_jn5ut")]([ExtResource("4_awbrb"), ExtResource("5_l2bj6"), SubResource("Resource_cnffn")])
+outputs = Array[ExtResource("3_ygcj7")]([ExtResource("2_ygcj7")])
 title = "RulesPlacer"
 description = "Places [param]material[/bg][/c] on every world cell that follows [param]rules[/bg][/c] based on [param]reference_data[/bg][/c].
 [img]res://addons/gaea/assets/cross.svg[/img] means data DOESN'T have a cell there, [img]res://addons/gaea/assets/check.svg[/img] means the opposite.
 
 [b]The squared cell is the origin.[/b]"
-is_output = false
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"

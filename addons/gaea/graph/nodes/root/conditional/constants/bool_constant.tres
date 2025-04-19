@@ -1,25 +1,29 @@
-[gd_resource type="Resource" load_steps=5 format=3 uid="uid://b2bpg5nt6l31"]
+[gd_resource type="Resource" load_steps=6 format=3 uid="uid://b2bpg5nt6l31"]
 
-[ext_resource type="Script" uid="uid://bh3sajxnmp14w" path="res://addons/gaea/graph/nodes/node_argument.gd" id="1_b2mxj"]
-[ext_resource type="Script" uid="uid://ote622wl6axc" path="res://addons/gaea/graph/nodes/node_slot.gd" id="2_nbgc6"]
 [ext_resource type="Script" uid="uid://bu8niqlr2pe8o" path="res://addons/gaea/graph/nodes/root/data/constant.gd" id="3_ecoux"]
+[ext_resource type="Script" uid="uid://dil6xg31ctqdu" path="res://addons/gaea/graph/nodes/node_slot_output.gd" id="3_slklg"]
+[ext_resource type="Script" uid="uid://b5mukn8hdt8ww" path="res://addons/gaea/graph/nodes/node_slot_param.gd" id="4_kl17e"]
 
-[sub_resource type="Resource" id="Resource_givc6"]
-script = ExtResource("1_b2mxj")
-type = 9
+[sub_resource type="Resource" id="Resource_ij6o2"]
+resource_name = "Value (Boolean)"
+script = ExtResource("3_slklg")
 name = &"value"
-default_value = false
+type = 1
+metadata/_custom_type_script = "uid://dil6xg31ctqdu"
+
+[sub_resource type="Resource" id="Resource_slklg"]
+resource_name = "Value (Boolean)"
+script = ExtResource("4_kl17e")
+name = &"value"
+type = 1
 hint = Dictionary[String, Variant]({})
-disable_input_slot = true
-add_output_slot = true
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
+default_value = null
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
 [resource]
 script = ExtResource("3_ecoux")
-input_slots = Array[ExtResource("2_nbgc6")]([])
-args = Array[ExtResource("1_b2mxj")]([SubResource("Resource_givc6")])
-output_slots = Array[ExtResource("2_nbgc6")]([])
+params = Array[ExtResource("4_kl17e")]([SubResource("Resource_slklg")])
+outputs = Array[ExtResource("3_slklg")]([SubResource("Resource_ij6o2")])
 title = "BoolConstant"
 description = "A boolean constant."
-is_output = false
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"

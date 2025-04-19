@@ -1,18 +1,20 @@
+@tool
 extends TextureRect
 
 
 const RESOLUTION: Vector2i = Vector2i(64, 64)
 
-var output_idx: int = 0
-var resource: GaeaNodeResource
+var selected_output: GaeaNodeSlotOutput
 var node: GaeaGraphNode
 var slider_container: HBoxContainer
 var slider: HSlider
 var slider_label: SpinBox
-var type: GaeaGraphNode.SlotTypes
 
 
 func _ready() -> void:
+	if is_part_of_edited_scene():
+		return
+
 	expand_mode = EXPAND_FIT_HEIGHT
 	stretch_mode = STRETCH_SCALE
 
@@ -51,34 +53,34 @@ func _ready() -> void:
 	texture = ImageTexture.create_from_image(Image.create_empty(RESOLUTION.x, RESOLUTION.y, true, Image.FORMAT_RGBA8))
 
 
-func toggle(for_idx: int, for_type: GaeaGraphNode.SlotTypes) -> void:
+func toggle(for_output: GaeaNodeSlotOutput) -> void:
 	if not get_parent().visible:
 		get_parent().show()
-		output_idx = for_idx
-		slider_container.visible = for_type == GaeaGraphNode.SlotTypes.DATA
-		type = for_type
+		slider_container.visible = for_output.type == GaeaValue.Type.DATA
+		selected_output = for_output
 		update()
 	else:
-		if output_idx == for_idx:
-			output_idx = -1
-			type = GaeaGraphNode.SlotTypes.NULL
+		if selected_output == for_output:
+			selected_output = null
 		get_parent().hide()
-	(func() -> void: node.size = node.get_combined_minimum_size()).call_deferred()
+	
+	node.auto_shrink.call_deferred()
 
 
 func update() -> void:
-	if not visible:
+	if not is_visible_in_tree():
 		return
 
 	var resolution: Vector2i = RESOLUTION
 	if is_instance_valid(node.generator):
 		resolution = resolution.min(Vector2i(node.generator.world_size.x, node.generator.world_size.y))
 
-	var data: Dictionary = resource.traverse(
-		output_idx,
+	var data: Dictionary = node.resource.traverse(
+		selected_output,
 		AABB(Vector3.ZERO, Vector3(resolution.x, resolution.y, 1)),
 		node.generator.data
-	)
+	).get("value")
+	
 	node.generator.data.cache.clear()
 
 	var image: Image = Image.create_empty(resolution.x, resolution.y, true, Image.FORMAT_RGBA8)
@@ -88,12 +90,12 @@ func update() -> void:
 			var value = data.get(Vector3i(x, y, 0))
 			if value == null:
 				continue
-			match type:
-				GaeaGraphNode.SlotTypes.DATA:
+			match selected_output.type:
+				GaeaValue.Type.DATA:
 					if typeof(value) != TYPE_FLOAT or is_nan(value):
 						continue
 					color = Color(value, value, value, 1.0 if value >= slider.value else 0.0)
-				GaeaGraphNode.SlotTypes.MAP:
+				GaeaValue.Type.MAP:
 					if value is not GaeaMaterial or not is_instance_valid(value):
 						continue
 					color = value.preview_color

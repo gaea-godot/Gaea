@@ -1,24 +1,28 @@
-[gd_resource type="Resource" load_steps=5 format=3 uid="uid://kdn03ei2yp6e"]
+[gd_resource type="Resource" load_steps=6 format=3 uid="uid://kdn03ei2yp6e"]
 
-[ext_resource type="Script" uid="uid://bh3sajxnmp14w" path="res://addons/gaea/graph/nodes/node_argument.gd" id="1_1jyr0"]
-[ext_resource type="Script" uid="uid://ote622wl6axc" path="res://addons/gaea/graph/nodes/node_slot.gd" id="2_63img"]
+[ext_resource type="Script" uid="uid://dil6xg31ctqdu" path="res://addons/gaea/graph/nodes/node_slot_output.gd" id="3_i7rb4"]
 [ext_resource type="Script" uid="uid://bgqqucap4kua4" path="res://addons/gaea/graph/nodes/reroute_node_resource.gd" id="3_ufwtk"]
+[ext_resource type="Script" uid="uid://b5mukn8hdt8ww" path="res://addons/gaea/graph/nodes/node_slot_param.gd" id="4_ff6uq"]
+
+[sub_resource type="Resource" id="Resource_63img"]
+resource_name = "Value (Float)"
+script = ExtResource("3_i7rb4")
+name = &"value"
+type = 3
+metadata/_custom_type_script = "uid://dil6xg31ctqdu"
 
 [sub_resource type="Resource" id="Resource_1jyr0"]
-script = ExtResource("2_63img")
-left_enabled = true
-left_type = 0
-left_label = ""
-right_enabled = true
-right_type = 0
-right_label = ""
-metadata/_custom_type_script = "uid://ote622wl6axc"
+resource_name = "Value (Float)"
+script = ExtResource("4_ff6uq")
+name = &"value"
+type = 3
+hint = Dictionary[String, Variant]({})
+default_value = 0.0
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
 [resource]
 script = ExtResource("3_ufwtk")
-input_slots = Array[ExtResource("2_63img")]([SubResource("Resource_1jyr0")])
-args = Array[ExtResource("1_1jyr0")]([])
-output_slots = Array[ExtResource("2_63img")]([])
+params = Array[ExtResource("4_ff6uq")]([SubResource("Resource_1jyr0")])
+outputs = Array[ExtResource("3_i7rb4")]([SubResource("Resource_63img")])
 title = "New Reroute"
 description = ""
-is_output = false

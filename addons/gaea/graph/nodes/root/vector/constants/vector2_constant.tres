@@ -1,25 +1,29 @@
-[gd_resource type="Resource" load_steps=5 format=3 uid="uid://cs1wgu81ww5lr"]
+[gd_resource type="Resource" load_steps=6 format=3 uid="uid://cs1wgu81ww5lr"]
 
-[ext_resource type="Script" uid="uid://bh3sajxnmp14w" path="res://addons/gaea/graph/nodes/node_argument.gd" id="1_c30k0"]
-[ext_resource type="Script" uid="uid://ote622wl6axc" path="res://addons/gaea/graph/nodes/node_slot.gd" id="2_1gv04"]
 [ext_resource type="Script" uid="uid://bu8niqlr2pe8o" path="res://addons/gaea/graph/nodes/root/data/constant.gd" id="3_fncly"]
+[ext_resource type="Script" uid="uid://dil6xg31ctqdu" path="res://addons/gaea/graph/nodes/node_slot_output.gd" id="3_q4t3r"]
+[ext_resource type="Script" uid="uid://b5mukn8hdt8ww" path="res://addons/gaea/graph/nodes/node_slot_param.gd" id="4_6sbw4"]
 
-[sub_resource type="Resource" id="Resource_givc6"]
-script = ExtResource("1_c30k0")
-type = 2
+[sub_resource type="Resource" id="Resource_2qguf"]
+resource_name = "Value (Vector 2)"
+script = ExtResource("3_q4t3r")
 name = &"value"
-default_value = null
+type = 5
+metadata/_custom_type_script = "uid://dil6xg31ctqdu"
+
+[sub_resource type="Resource" id="Resource_2rbta"]
+resource_name = "Value (Vector 2)"
+script = ExtResource("4_6sbw4")
+name = &"value"
+type = 5
 hint = Dictionary[String, Variant]({})
-disable_input_slot = true
-add_output_slot = true
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
+default_value = Vector2(0, 0)
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
 [resource]
 script = ExtResource("3_fncly")
-input_slots = Array[ExtResource("2_1gv04")]([])
-args = Array[ExtResource("1_c30k0")]([SubResource("Resource_givc6")])
-output_slots = Array[ExtResource("2_1gv04")]([])
+params = Array[ExtResource("4_6sbw4")]([SubResource("Resource_2rbta")])
+outputs = Array[ExtResource("3_q4t3r")]([SubResource("Resource_2qguf")])
 title = "Vector2Constant"
 description = "A Vector2 constant."
-is_output = false
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"

@@ -6,16 +6,11 @@ extends GaeaGraphNodeParameter
 
 
 func _ready() -> void:
-	await super()
-	if not is_instance_valid(resource):
+	if is_part_of_edited_scene():
 		return
+	await super()
 
 	line_edit.text_changed.connect(param_value_changed.emit)
-	graph_node.set_slot_enabled_right(0, true)
-	graph_node.set_slot_type_right(0, graph_node.resource.output_type)
-	graph_node.set_slot_color_right(0, GaeaEditorSettings.get_configured_color_for_slot_type(graph_node.resource.output_type))
-	graph_node.set_slot_custom_icon_right(0, GaeaEditorSettings.get_configured_icon_for_slot_type(graph_node.resource.output_type))
-
 
 func get_param_value() -> String:
 	if super() != null:

@@ -20,9 +20,9 @@ func initialize() -> void:
 		await get_tree().process_frame
 		_loading_loop_limit -= 1
 	if not finished_loading:
-		push_error("Something went wrong during loading of the variable node", title)
+		push_error("Something went wrong during loading of the variable node '%s'" % title)
 
-	set_arg_value("name", resource.get_arg("name", null))
+	set_arg_value("name", resource.get_arg(&"name", AABB(), null))
 	previous_name = get_arg_value("name")
 
 	if generator.data.parameters.has(get_arg_value("name")):

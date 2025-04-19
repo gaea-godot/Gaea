@@ -6,7 +6,9 @@ extends GaeaGraphNodeParameter
 
 
 func _ready() -> void:
-	super()
+	if is_part_of_edited_scene():
+		return
+	await super()
 
 	check_box.toggled.connect(param_value_changed.emit)
 

@@ -88,6 +88,7 @@ func _get(property: StringName) -> Variant:
 
 
 func _setup_local_to_scene() -> void:
+	#Data migration from 2.0 beta. See PR #305. Remove before releasing 2.X.
 	if resources.size() > 0:
 		_migrate_data()
 	resources = []
@@ -104,6 +105,8 @@ func _setup_local_to_scene() -> void:
 
 
 #region Migration from previous save format
+## Data migration from 2.0 beta. See PR #305. Remove before releasing 2.X.
+## @deprecated
 func _migrate_data() -> void:
 	var node_map := get_all_nodes_files("res://addons/gaea/graph/nodes/root/")
 	resource_uids = []
@@ -125,7 +128,8 @@ func _migrate_data() -> void:
 			data.set("salt", resource.salt)
 		node_data[idx] = data
 
-
+## Data migration from 2.0 beta. See PR #305. Remove before releasing 2.X.
+## @deprecated
 func get_all_nodes_files(path: String, files: Dictionary[String, String] = {}) -> Dictionary[String, String]:
 	var dir : = DirAccess.open(path)
 

@@ -1,46 +1,39 @@
 [gd_resource type="Resource" load_steps=7 format=3 uid="uid://dtc6nrgjvi8pw"]
 
-[ext_resource type="Script" uid="uid://bh3sajxnmp14w" path="res://addons/gaea/graph/nodes/node_argument.gd" id="1_s1oqb"]
-[ext_resource type="Script" uid="uid://ote622wl6axc" path="res://addons/gaea/graph/nodes/node_slot.gd" id="2_00oos"]
+[ext_resource type="Script" uid="uid://dil6xg31ctqdu" path="res://addons/gaea/graph/nodes/node_slot_output.gd" id="3_7pl3n"]
 [ext_resource type="Script" uid="uid://d1jaftbgxy7ru" path="res://addons/gaea/graph/nodes/root/data/operation.gd" id="3_s1oqb"]
-
-[sub_resource type="Resource" id="Resource_00oos"]
-script = ExtResource("1_s1oqb")
-type = 0
-name = &"a"
-default_value = null
-hint = Dictionary[String, Variant]({})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
+[ext_resource type="Script" uid="uid://b5mukn8hdt8ww" path="res://addons/gaea/graph/nodes/node_slot_param.gd" id="4_5on43"]
 
 [sub_resource type="Resource" id="Resource_7pl3n"]
-script = ExtResource("1_s1oqb")
-type = 0
-name = &"b"
-default_value = null
-hint = Dictionary[String, Variant]({})
-disable_input_slot = false
-add_output_slot = false
-metadata/_custom_type_script = "uid://bh3sajxnmp14w"
+resource_name = "Result (Float)"
+script = ExtResource("3_7pl3n")
+name = &"result"
+type = 3
+metadata/_custom_type_script = "uid://dil6xg31ctqdu"
 
 [sub_resource type="Resource" id="Resource_s1oqb"]
-script = ExtResource("2_00oos")
-left_enabled = false
-left_type = -1
-left_label = ""
-right_enabled = true
-right_type = 4
-right_label = "Result"
-metadata/_custom_type_script = "uid://ote622wl6axc"
+resource_name = "A (Float)"
+script = ExtResource("4_5on43")
+name = &"a"
+type = 3
+hint = Dictionary[String, Variant]({})
+default_value = null
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
+
+[sub_resource type="Resource" id="Resource_00oos"]
+resource_name = "B (Float)"
+script = ExtResource("4_5on43")
+name = &"b"
+type = 3
+hint = Dictionary[String, Variant]({})
+default_value = null
+metadata/_custom_type_script = "uid://b5mukn8hdt8ww"
 
 [resource]
 script = ExtResource("3_s1oqb")
 operation = 0
-input_slots = Array[ExtResource("2_00oos")]([])
-args = Array[ExtResource("1_s1oqb")]([SubResource("Resource_00oos"), SubResource("Resource_7pl3n")])
-output_slots = Array[ExtResource("2_00oos")]([SubResource("Resource_s1oqb")])
+params = Array[ExtResource("4_5on43")]([SubResource("Resource_s1oqb"), SubResource("Resource_00oos")])
+outputs = Array[ExtResource("3_7pl3n")]([SubResource("Resource_7pl3n")])
 title = "Add (+)"
 description = "Adds [param]a[/bg][/c] and [param]b[/bg][/c] together."
-is_output = false
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"

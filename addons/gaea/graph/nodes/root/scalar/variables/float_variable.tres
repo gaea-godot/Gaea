@@ -1,27 +1,23 @@
-[gd_resource type="Resource" script_class="GaeaVariableNodeResource" load_steps=5 format=3 uid="uid://ce7tbrfosey37"]
+[gd_resource type="Resource" script_class="GaeaVariableNodeResource" load_steps=6 format=3 uid="uid://ce7tbrfosey37"]
 
-[ext_resource type="Script" uid="uid://bh3sajxnmp14w" path="res://addons/gaea/graph/nodes/node_argument.gd" id="1_d7ydr"]
-[ext_resource type="Script" uid="uid://ote622wl6axc" path="res://addons/gaea/graph/nodes/node_slot.gd" id="2_2qmh0"]
+[ext_resource type="Script" uid="uid://dil6xg31ctqdu" path="res://addons/gaea/graph/nodes/node_slot_output.gd" id="3_1o25y"]
+[ext_resource type="Resource" uid="uid://i46iucpudaxi" path="res://addons/gaea/graph/components/slot_params/variable_name.tres" id="3_4wa8a"]
 [ext_resource type="Script" uid="uid://bqa8aufofkr81" path="res://addons/gaea/graph/nodes/variable_node_resource.gd" id="3_lemr5"]
+[ext_resource type="Script" uid="uid://b5mukn8hdt8ww" path="res://addons/gaea/graph/nodes/node_slot_param.gd" id="4_wp4aa"]
 
-[sub_resource type="Resource" id="Resource_putew"]
-script = ExtResource("1_d7ydr")
+[sub_resource type="Resource" id="Resource_1o25y"]
+resource_name = "Value (Float)"
+script = ExtResource("3_1o25y")
+name = &"value"
 type = 3
-name = &"name"
-default_value = null
-hint = Dictionary[String, Variant]({})
-disable_input_slot = false
-add_output_slot = false
+metadata/_custom_type_script = "uid://dil6xg31ctqdu"
 
 [resource]
 script = ExtResource("3_lemr5")
 type = 3
 hint = 0
 hint_string = ""
-output_type = 4
-input_slots = Array[ExtResource("2_2qmh0")]([])
-args = Array[ExtResource("1_d7ydr")]([SubResource("Resource_putew")])
-output_slots = Array[ExtResource("2_2qmh0")]([])
+params = Array[ExtResource("4_wp4aa")]([ExtResource("3_4wa8a")])
+outputs = Array[ExtResource("3_1o25y")]([SubResource("Resource_1o25y")])
 title = "FloatVariable"
 description = "Float variable editable in the inspector."
-is_output = false

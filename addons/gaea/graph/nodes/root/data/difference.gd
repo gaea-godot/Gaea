@@ -1,13 +1,12 @@
 @tool
 extends GaeaNodeResource
 
-func get_data(passed_data:Array[Dictionary], _output_port: int, area: AABB, generator_data: GaeaData) -> Dictionary:
-	log_data(_output_port, generator_data)
+func get_data(output_port: GaeaNodeSlotOutput, area: AABB, generator_data: GaeaData) -> Dictionary:
+	log_data(output_port, generator_data)
 
 	var grids: Array[Dictionary] = []
-	for data in passed_data:
-		var grid_data: Dictionary = {}
-		grids.append(data)
+	for param in params:
+		grids.append(get_arg(param.name, area, generator_data))
 
 	var grid: Dictionary = {}
 	if grids.is_empty():
@@ -20,4 +19,4 @@ func get_data(passed_data:Array[Dictionary], _output_port: int, area: AABB, gene
 				break
 			grid.set(cell, grid_a.get(cell))
 
-	return grid
+	return output_port.return_value(grid)

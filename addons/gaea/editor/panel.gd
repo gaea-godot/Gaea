@@ -1,15 +1,16 @@
 @tool
 extends Control
 
+const _LinkPopup = preload("uid://btt4eqjkp5pyf")
+const _RerouteNode = preload("uid://bs40iof8ipbkq")
+
 var _selected_generator: GaeaGenerator = null: get = get_selected_generator
 var _output_node: GaeaGraphNode
 var is_loading = false
 
 ## Local position on [GraphEdit] for a node that may be created in the future.
 var _node_creation_target: Vector2 = Vector2.ZERO
-
-const _LinkPopup = preload("uid://btt4eqjkp5pyf")
-const _RerouteNode = preload("uid://bs40iof8ipbkq")
+var plugin: EditorPlugin
 
 @onready var _no_data: Control = $NoData
 @onready var _editor: Control = $Editor
@@ -29,7 +30,9 @@ const _RerouteNode = preload("uid://bs40iof8ipbkq")
 @onready var _window_popout_separator: VSeparator = %WindowPopoutSeparator
 @onready var _window_popout_button: Button = %WindowPopoutButton
 @onready var _bottom_note_label: RichTextLabel = %BottomNote
-
+@onready var _generate_button: Button = %GenerateButton
+@onready var _about_button: Button = %AboutButton
+@onready var _about_window: AcceptDialog = $AboutWindow
 
 
 #region Built-in & Input
@@ -44,6 +47,10 @@ func _ready() -> void:
 	_window_popout_button.icon = EditorInterface.get_base_control().get_theme_icon(&"MakeFloating", &"EditorIcons")
 	_online_docs_button.icon = EditorInterface.get_base_control().get_theme_icon(&"ExternalLink", &"EditorIcons")
 	_create_node_panel.add_theme_stylebox_override(&"panel", EditorInterface.get_base_control().get_theme_stylebox(&"panel", &"PopupPanel"))
+	_about_button.icon = EditorInterface.get_base_control().get_theme_icon(&"NodeInfo", &"EditorIcons")
+	_about_button.pressed.connect(_about_window.popup_centered)
+	_about_window.plugin = plugin
+	_about_window.initialize()
 
 	if not EditorInterface.is_multi_window_enabled():
 		_window_popout_button.disabled = true
@@ -199,12 +206,12 @@ func _load_data() -> void:
 		var saved_data = _selected_generator.data.node_data[idx]
 		var node: GaeaGraphNode = _load_node(_selected_generator.data.resources[idx], saved_data)
 
-		if node.resource.is_output:
+		if node.resource.is_output():
 			has_output_node = true
 			_output_node = node
 
 	for child in _graph_edit.get_children():
-		if child is GaeaGraphNode and child.resource.is_output:
+		if child is GaeaGraphNode and child.resource.is_output():
 			_output_node = child
 			has_output_node = true
 
@@ -222,7 +229,8 @@ func _load_data() -> void:
 	for connection in _selected_generator.data.connections:
 		var from_node: GraphNode = _selected_generator.data.resources[connection.from_node].node
 		var to_node: GraphNode = _selected_generator.data.resources[connection.to_node].node
-
+		if not is_instance_valid(from_node) or not is_instance_valid(to_node):
+			continue
 		if to_node.get_input_port_count() <= connection.to_port:
 			continue
 		_graph_edit.connection_request.emit(from_node.name, connection.from_port, to_node.name, connection.to_port)
@@ -312,6 +320,8 @@ func _add_node_from_resource(resource: GaeaNodeResource, p_is_loading: bool = fa
 	node.on_added()
 	node.save_requested.connect(_save_data)
 	node.name = node.name.replace("@", "_")
+	if not p_is_loading:
+		node.finished_loading = true
 	return node
 
 
@@ -348,7 +358,7 @@ func _on_new_reroute_requested(connection: Dictionary) -> void:
 	reroute.set_position_offset(_graph_edit.local_to_grid(_node_creation_target, offset))
 
 	var from_node: GraphNode = _graph_edit.get_node(NodePath(connection.from_node))
-	var link_type := from_node.get_output_port_type(connection.from_port) as GaeaGraphNode.SlotTypes
+	var link_type := from_node.get_output_port_type(connection.from_port) as GaeaValue.Type
 	reroute.type = link_type
 
 	_graph_edit.disconnection_request.emit.call_deferred(
@@ -376,10 +386,10 @@ func _popup_node_context_menu_at_mouse(selected_nodes: Array) -> void:
 	_node_popup.popup()
 
 
-func _popup_link_context_menu_at_mouse(connexion: Dictionary) -> void:
+func _popup_link_context_menu_at_mouse(connection: Dictionary) -> void:
 	_node_creation_target = _graph_edit.get_local_mouse_position()
 	_link_popup.clear()
-	_link_popup.populate(connexion)
+	_link_popup.populate(connection)
 	_link_popup.position = Vector2i(get_global_mouse_position())
 	if not EditorInterface.get_editor_settings().get_setting("interface/editor/single_window_mode"):
 		_link_popup.position += get_window().position
