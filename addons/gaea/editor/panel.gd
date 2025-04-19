@@ -11,6 +11,8 @@ var is_loading = false
 ## Local position on [GraphEdit] for a node that may be created in the future.
 var _node_creation_target: Vector2 = Vector2.ZERO
 var plugin: EditorPlugin
+var _scroll_offsets: Dictionary[GaeaData, Vector2]
+var _zooms: Dictionary[GaeaData, float]
 
 @onready var _no_data: Control = $NoData
 @onready var _editor: Control = $Editor
@@ -172,8 +174,6 @@ func _save_data() -> void:
 		resource.data = save_data.get("data", {})
 		node_data.append(save_data)
 
-	other[&"scroll_offset"] = _graph_edit.scroll_offset
-
 	_selected_generator.data.connections = connections
 	_selected_generator.data.resources = resources
 	_selected_generator.data.resource_uids = resource_uids
@@ -199,7 +199,6 @@ func _get_frame_save_data(frame: GraphFrame) -> Dictionary[String, Variant]:
 
 func _load_data() -> void:
 	is_loading = true
-	_graph_edit.scroll_offset = _selected_generator.data.other.get("scroll_offset", Vector2.ZERO)
 
 	var has_output_node: bool = false
 	for idx in _selected_generator.data.resources.size():
@@ -218,8 +217,10 @@ func _load_data() -> void:
 	if not has_output_node:
 		_output_node = _add_node_from_resource(preload("uid://bbkdvyxkj2slo"))
 		_save_data.call_deferred()
-		_graph_edit.set_zoom(1.0)
-		_graph_edit.set_scroll_offset(_output_node.size * 0.5 - _graph_edit.get_rect().size * 0.5)
+
+	# If scroll offset is saved, set it to that. Else, center the output node.
+	_graph_edit.set_scroll_offset(_scroll_offsets.get(_selected_generator.data, _output_node.size * 0.5 - _graph_edit.get_rect().size * 0.5))
+	_graph_edit.set_zoom(_zooms.get(_selected_generator.data, 1.0))
 
 	for frame_data: Dictionary in _selected_generator.data.other.get(&"frames", []):
 		_load_frame(frame_data)
@@ -545,3 +546,10 @@ func update_bottom_note():
 	else:
 		_bottom_note_label.visible = false
 #endregion
+
+
+func _on_graph_edit_scroll_offset_changed(offset: Vector2) -> void:
+	if is_instance_valid(_selected_generator):
+		if is_instance_valid(_selected_generator.data):
+			_scroll_offsets.set(_selected_generator.data, offset)
+			_zooms.set(_selected_generator.data, _graph_edit.zoom)

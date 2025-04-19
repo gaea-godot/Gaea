@@ -619,7 +619,7 @@ other = {
 "autoshrink": true,
 "name": &"_GraphFrame_29830",
 "position": Vector2(240, 1299),
-"size": Vector2(892, 312),
+"size": Vector2(892, 322),
 "tint_color": Color(0.55, 0.415983, 0.3135, 0.52549),
 "tint_color_enabled": true,
 "title": "Place Chests"
@@ -628,7 +628,7 @@ other = {
 "autoshrink": true,
 "name": &"_GraphFrame_29833",
 "position": Vector2(320, -541),
-"size": Vector2(1032, 944),
+"size": Vector2(1032, 950),
 "tint_color": Color(0.133333, 0.12549, 0.203922, 1),
 "tint_color_enabled": true,
 "title": "Walls"
@@ -637,7 +637,7 @@ other = {
 "autoshrink": true,
 "name": &"_GraphFrame_29836",
 "position": Vector2(280, 539),
-"size": Vector2(772, 684),
+"size": Vector2(772, 690),
 "tint_color": Color(0.0964966, 0.363281, 0.175698, 0.75),
 "tint_color_enabled": true,
 "title": "Add Vegetation"
@@ -646,7 +646,7 @@ other = {
 "autoshrink": true,
 "name": &"_GraphFrame_29839",
 "position": Vector2(-520, 119),
-"size": Vector2(306, 189),
+"size": Vector2(306, 193),
 "tint_color": Color(0.3125, 0.155029, 0.155029, 0.75),
 "tint_color_enabled": true,
 "title": "Get Everything Outside Floor"
@@ -655,12 +655,11 @@ other = {
 "autoshrink": true,
 "name": &"_GraphFrame_29842",
 "position": Vector2(-640, 499),
-"size": Vector2(532, 291),
+"size": Vector2(532, 295),
 "tint_color": Color(0.174225, 0.208835, 0.257812, 0.75),
 "tint_color_enabled": true,
 "title": "Floor"
-})],
-&"scroll_offset": Vector2(-444.003, -221)
+})]
 }
 Chest = SubResource("Resource_j6vep")
 FloorMaterial = SubResource("Resource_e1h74")
