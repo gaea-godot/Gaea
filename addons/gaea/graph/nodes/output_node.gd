@@ -68,15 +68,15 @@ func _connect_layer_resource_signal(idx: int):
 
 
 func _on_layer_resource_changed(idx: int, layer: GaeaLayer):
-	var slot: Node = get_child(idx)
+	var slot: GaeaGraphNodeParameter = get_child(idx)
 	if not is_instance_valid(layer):
-		slot.left_label = "[color=RED](%d) Missing GaeaLayer resource[/color]" % idx
+		slot.set_label_text("[color=RED](%d) Missing GaeaLayer resource[/color]" % idx)
 		return
-
+	
 	if layer.resource_name:
-		slot.left_label = "(%d) %s" % [idx, layer.resource_name]
+		slot.set_label_text("(%d) %s" % [idx, layer.resource_name])
 	else:
-		slot.left_label = "(%d) Layer %s" % [idx, idx]
+		slot.set_label_text("(%d) Layer %s" % [idx, idx])
 
 	if not layer.enabled:
-		slot.left_label = "[color=DIM_GRAY][s]%s[/s][/color]" % slot.left_label
+		slot.set_label_text("[color=DIM_GRAY][s]%s[/s][/color]" % slot.get_label_text())
