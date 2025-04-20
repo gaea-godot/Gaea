@@ -36,7 +36,8 @@ const GAEA_MATERIAL_GRADIENT_HINT := "Resource that maps values from 0.0-1.0 to 
 ## hovering over the node in the graph.
 @export_multiline var description: String = ""
 
-## List of all connections between nodes. The value contain the following properties.
+## List of all connections to this node. Doesn't include connections [i]from[/i] this node.[br]
+## The dictionaries contain the following properties:
 ## [codeblock]
 ## {
 ##    from_node: int, # Index of the node in [member GaeaData.resources]

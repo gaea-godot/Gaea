@@ -27,7 +27,7 @@ enum Log {
 @export_group("Debug")
 ## Selection of what to print in the Output console during generation. See [enum Log].
 @export_flags("Execute", "Traverse", "Data", "Args") var logging:int = Log.None
-## List of all connections between nodes. The value contain the following properties.
+## List of all connections between nodes. The dictionaries contain the following properties:
 ## [codeblock]
 ## {
 ##    from_node: int, # Index of the node in [member resources]
