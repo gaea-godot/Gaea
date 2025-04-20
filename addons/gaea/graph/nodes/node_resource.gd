@@ -1,4 +1,5 @@
 @tool
+@icon("../../assets/gaea_node_resource.svg")
 class_name GaeaNodeResource
 extends Resource
 ## A node in a Gaea graph.
