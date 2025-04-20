@@ -101,14 +101,17 @@ func _get_data(output_port: GaeaNodeSlotOutput, area: AABB, generator_data: Gaea
 func _use_caching(_output_port: GaeaNodeSlotOutput, _generator_data:GaeaData) -> bool:
 	return true
 
+
 # Adds or sets data to the cache at GaeaNodeResource, then output_port index.
 func _set_cached_data(output_port: GaeaNodeSlotOutput, generator_data:GaeaData, new_data:Dictionary) -> void:
 	var node_cache:Dictionary = generator_data.cache.get_or_add(self, {})
 	node_cache[output_port.name] = new_data
 
+
 # Checks if the cache has data corresponding to this node, then if it has it for output_port.
 func _has_cached_data(output_port: GaeaNodeSlotOutput, generator_data:GaeaData) -> bool:
 	return generator_data.cache.has(self) and generator_data.cache[self].has(output_port.name)
+
 
 # Gets cached data by GaeaNodeResource, then output_port index.
 # Assumes that data exists, will error out if it doesn't.
@@ -122,6 +125,7 @@ func _get_cached_data(output_port: GaeaNodeSlotOutput, generator_data:GaeaData) 
 ## execute properly. Can be overridden in nodes that extend [GaeaNodeResource].
 func _get_required_params() -> Array[StringName]:
 	return []
+
 
 # Returns [code]true[/code] if all [param required] inputs are connected.
 func _has_inputs_connected(required: Array[StringName], generator_data:GaeaData) -> bool:
@@ -191,13 +195,16 @@ func _find_param_by_name(param_name: StringName) -> GaeaNodeSlotParam:
 			return param
 	return null
 
+
 ## Returns the connection idx of [param param].
 func param_to_connection_idx(param: GaeaNodeSlotParam) -> int:
 	return params.find(param)
 
+
 ## Returns the [GaeaNodeSlotParam] corresponding to [param param_idx].
 func connection_idx_to_param(param_idx: int) -> GaeaNodeSlotParam:
 	return params[param_idx]
+
 
 # Returns the connection data corresponding to [param param].
 func _get_param_connection(param: GaeaNodeSlotParam) -> Dictionary:
@@ -217,9 +224,11 @@ func _find_output_by_name(output_name: StringName) -> GaeaNodeSlotOutput:
 			return output
 	return null
 
+
 ## Returns the connection idx of [param output].
 func output_to_connection_idx(output: GaeaNodeSlotOutput) -> int:
 	return outputs.find(output)
+
 
 ## Returns the [GaeaNodeSlotOutput] corresponding to [param output_idx].
 func connection_idx_to_output(output_idx: int) -> GaeaNodeSlotOutput:
@@ -235,6 +244,7 @@ func _log_execute(message:String, area:AABB, generator_data:GaeaData):
 		message = message if message == "" else message + " "
 		print("Execute   |   %sArea %s on %s" % [message, area, title])
 
+
 # If enabled in [member GaeaData.logging], log the layer information. (See [enum GaeaData.Log]).
 func _log_layer(message:String, layer:int, generator_data:GaeaData):
 	if is_instance_valid(generator_data) and generator_data.logging & GaeaData.Log.Execute > 0:
@@ -242,10 +252,12 @@ func _log_layer(message:String, layer:int, generator_data:GaeaData):
 		message = message if message == "" else message + " "
 		print("Execute   |   %sLayer %d on %s" % [message, layer, title])
 
+
 # If enabled in [member GaeaData.logging], log the traverse information. (See [enum GaeaData.Log]).
 func _log_traverse(generator_data:GaeaData):
 	if is_instance_valid(generator_data) and generator_data.logging & GaeaData.Log.Traverse > 0:
 		print("Traverse  |   %s" % [title])
+
 
 ## If enabled in [member GaeaData.logging], log the data information. (See [enum GaeaData.Log]).
 ## Should be called in [method _get_data]
@@ -253,10 +265,12 @@ func _log_data(output_port: GaeaNodeSlotOutput, generator_data:GaeaData):
 	if is_instance_valid(generator_data) and generator_data.logging & GaeaData.Log.Data > 0:
 		print("Data      |   %s from port &\"%s\"" % [title, output_port.name])
 
+
 # If enabled in [member GaeaData.logging], log the argument information. (See [enum GaeaData.Log]).
 func _log_arg(arg:String, generator_data:GaeaData):
 	if is_instance_valid(generator_data) and generator_data.logging & GaeaData.Log.Args > 0:
 		print("Arg       |   %s on %s" % [arg, title])
+
 
 ## Display a error message in the Output log panel.
 ## If a [param node_idx] is provided, it will display the path and position of the node.
