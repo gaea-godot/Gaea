@@ -2,10 +2,10 @@
 extends GaeaNodeResource
 class_name GaeaNodeFalloffMap
 ## Returns a grid that goes from higher values in the center to lower in the borders.
-## Rate can be adjusted with [member start] and [member end].
+## Rate can be adjusted with [param start] and [param end].
 ##
-## For lower [member start] values, the transition will be smoother.[br]
-## For lower [member end] values, the generated 'square' will be smaller.[br]
+## For lower [param start] values, the transition will be smoother.[br]
+## For lower [param end] values, the generated 'square' will be smaller.[br]
 ## Multiplying this with a [GaeaNodeSimplexSmooth]'s generation can create island-looking terrains.
 
 

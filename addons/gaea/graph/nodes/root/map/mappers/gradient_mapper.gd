@@ -1,6 +1,8 @@
 @tool
 extends GaeaNodeResource
 class_name GaeaNodeGradientMapper
+## Takes a [GaeaMaterialGradient] resource and samples the
+## corresponding material to the values in [param data].
 
 
 func _get_required_params() -> Array[StringName]:

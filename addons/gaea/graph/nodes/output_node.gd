@@ -1,5 +1,6 @@
 @tool
 extends GaeaGraphNode
+## The in-editor representation of [GaeaNodeOutput].
 
 
 func _on_added() -> void:

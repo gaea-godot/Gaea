@@ -1,9 +1,9 @@
 @tool
 extends GaeaNodeResource
 class_name GaeaNodeDataComplement
-## Returns the complement of [member data].
+## Returns the complement of [param data].
 ##
-## Returns all the points outside [member data] set to [code]1.0[/code].
+## Returns all the points outside [param data] set to [code]1.0[/code].
 
 
 func _get_required_params() -> Array[StringName]:

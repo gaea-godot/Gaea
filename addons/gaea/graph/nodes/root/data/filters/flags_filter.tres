@@ -38,4 +38,4 @@ script = ExtResource("3_lefuc")
 params = Array[ExtResource("4_muasx")]([ExtResource("3_nd8yt"), SubResource("Resource_u606u"), SubResource("Resource_nd8yt"), SubResource("Resource_muasx")])
 outputs = Array[ExtResource("3_u606u")]([ExtResource("2_u606u")])
 title = "FlagsFilter"
-description = "Filter [param]data[/bg][/c] to only the cells that that matches the flag conditions."
+description = "Filters [param]data[/bg][/c] to only the cells that match the flag conditions."

@@ -1,6 +1,8 @@
 @tool
 extends GaeaNodeOperation
 class_name GaeaNodeDataOperation
+## Applies [member operation] to a value of [enum GaeaValue.Type] Data and a value of type [code]float[/code].
+
 
 func _get_required_params() -> Array[StringName]:
 	return [&"data"]

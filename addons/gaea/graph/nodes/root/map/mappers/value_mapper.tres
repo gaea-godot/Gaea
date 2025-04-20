@@ -21,5 +21,5 @@ script = ExtResource("3_hhyiq")
 params = Array[ExtResource("4_4nagy")]([ExtResource("4_cxv6s"), ExtResource("5_0e7nu"), SubResource("Resource_4nagy")])
 outputs = Array[ExtResource("3_tfhoy")]([ExtResource("2_4nagy")])
 title = "ValueMapper"
-description = "Maps all cells in [param]data[/bg][/c] equal to [param]value[/bg][/c] to [param]material[/bg][/c]."
+description = "Maps every cell in [param]data[/bg][/c] equal to [param]value[/bg][/c] to [param]material[/bg][/c]."
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"

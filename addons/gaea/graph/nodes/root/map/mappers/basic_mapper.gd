@@ -1,6 +1,8 @@
 @tool
 extends GaeaNodeResource
 class_name GaeaNodeMapper
+## Abstract class used for mapper nodes. Can be overriden to customize behavior,
+## otherwise maps all non-empty cells in [param data] to [param material].
 
 
 func _get_required_params() -> Array[StringName]:

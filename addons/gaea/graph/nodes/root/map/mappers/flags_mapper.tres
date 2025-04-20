@@ -39,5 +39,4 @@ script = ExtResource("3_jc4ok")
 params = Array[ExtResource("4_4455x")]([ExtResource("4_3ra5r"), ExtResource("5_7nf1g"), SubResource("Resource_ah20m"), SubResource("Resource_7ddo6"), SubResource("Resource_115s3")])
 outputs = Array[ExtResource("3_t5a2c")]([ExtResource("2_4455x")])
 title = "FlagsMapper"
-description = "Outputs a map.
-For every cell that matches the flags in [param]mask[/bg][/c], sets that cell to [param]material[/bg][/c]."
+description = "Maps every cell of [param]data[/bg][/c] that matches the flag conditions to [param]material[/bg][/c]."

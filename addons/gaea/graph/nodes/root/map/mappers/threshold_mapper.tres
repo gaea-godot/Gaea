@@ -24,5 +24,4 @@ script = ExtResource("3_0cira")
 params = Array[ExtResource("4_a01kd")]([ExtResource("4_6gg45"), ExtResource("5_27pg0"), SubResource("Resource_4kdce")])
 outputs = Array[ExtResource("3_dyk2u")]([ExtResource("2_a01kd")])
 title = "ThresholdMapper"
-description = "Outputs a map.
-For every cell of a value between [param]min[/bg][/c] and [param]max[/bg][/c] (inclusive), sets that cell to [param]material[/bg][/c]. Otherwise, sets it to [code]null[/bg][/c]."
+description = "Maps every cell of a [param]data[/bg][/c] in [param]range[/bg][/c] to [param]material[/bg][/c]."

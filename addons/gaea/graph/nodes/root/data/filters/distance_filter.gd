@@ -1,8 +1,7 @@
 @tool
 extends GaeaNodeFilter
 class_name GaeaNodeDistanceFilter
-## Filters [member data] to only the cells at a distance
-## from [member to_point] between [member min] and [member max].
+## Filters [param data] to only the cells at a distance from [param to_point] in [param distance_range].
 
 
 @warning_ignore("unused_parameter")

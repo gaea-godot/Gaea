@@ -1,6 +1,7 @@
 @tool
 extends GaeaNodeFilter
 class_name GaeaNodeThresholdFilter
+## Filters [param data] to only the cells of a value in [param range].
 
 
 func _passes_filter(input_data: Dictionary, cell: Vector3i, area: AABB, generator_data: GaeaData) -> bool:

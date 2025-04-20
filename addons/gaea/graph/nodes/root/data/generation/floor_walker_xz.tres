@@ -153,6 +153,6 @@ second_axis = 2
 params = Array[ExtResource("3_r6ap1")]([SubResource("Resource_t5iy4"), SubResource("Resource_gr4i8"), SubResource("Resource_6jvre"), SubResource("Resource_qrvs2"), SubResource("Resource_e7u4k"), SubResource("Resource_cavh3"), SubResource("Resource_75e24"), SubResource("Resource_ecg40"), SubResource("Resource_ofuto"), SubResource("Resource_bmpt0"), SubResource("Resource_yw71v"), SubResource("Resource_mqjma")])
 outputs = Array[ExtResource("1_532gb")]([ExtResource("2_ncq10")])
 title = "FloorWalkerXY"
-description = "Generates a floor by using [b]walkers[/b], which move around and place floor where they walk, while changing direction and/or spawning new walkers.
+description = "Generates a floor by using [b]walkers[/b], which move around and set cells where they walk to [code]1.0[/bg][/c], while changing direction and/or spawning new walkers.
 Walks along the [code]X[/bg][/c] and [code]Z[/bg][/c] axis."
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"

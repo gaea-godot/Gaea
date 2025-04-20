@@ -36,4 +36,4 @@ script = ExtResource("3_58cm0")
 params = Array[ExtResource("2_7js3n")]([ExtResource("3_7js3n"), SubResource("Resource_7js3n"), SubResource("Resource_vwo0x")])
 outputs = Array[ExtResource("1_58cm0")]([ExtResource("2_vwo0x")])
 title = "DistanceFilter"
-description = "Filters [param]data[/bg][/c] to only the cells at a distance from [param]to_point[/bg][/c] between [param]min[/bg][/c] and [param]max[/bg][/c]."
+description = "Filters [param]data[/bg][/c] to only the cells at a distance from [param]to_point[/bg][/c] in [param]range[/bg][/c]."

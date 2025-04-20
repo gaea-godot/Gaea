@@ -1,6 +1,7 @@
 @tool
 extends GaeaNodeResource
 class_name GaeaNodeRandomScatter
+## Randomly places [param amount] [param material]s in the cells of [param data].
 
 
 func _get_required_params() -> Array[StringName]:

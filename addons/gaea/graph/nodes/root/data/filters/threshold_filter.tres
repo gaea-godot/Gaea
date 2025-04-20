@@ -23,4 +23,4 @@ script = ExtResource("3_alytp")
 params = Array[ExtResource("4_a0jc3")]([ExtResource("3_wa4wd"), SubResource("Resource_x2ojf")])
 outputs = Array[ExtResource("3_x2ojf")]([ExtResource("2_x2ojf")])
 title = "ThresholdFilter"
-description = "Filters [param]data[/bg][/c] to only the cells of a value between [param]min[/bg][/c] and [param]max[/bg][/c]."
+description = "Filters [param]data[/bg][/c] to only the cells of a value between [param]range[/bg][/c]."

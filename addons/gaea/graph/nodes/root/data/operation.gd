@@ -1,8 +1,10 @@
 @tool
 extends GaeaNodeResource
 class_name GaeaNodeOperation
+## Generic class for all kind of operation nodes. Applies [member operation] to [member a] and [member b].
 
 
+## The operation to be applied.
 @export_enum("Sum", "Substraction", "Multiplication", "Division") var operation: int = 0
 
 

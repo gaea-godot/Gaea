@@ -1,10 +1,10 @@
 @tool
 extends GaeaNodeResource
 class_name GaeaNodeDifference
-## Returns the difference between [member A] - [member B].
+## Returns the difference between [param A] - [param B].
 ##
 ## Generic class for both the [enum GaeaValue.Type] [b]Map[/b] and [b]Data[/b] versions of this node.[br]
-## Returns all the points from [member A] without all the points from [member B].
+## Returns all the points from [param A] without all the points from [param B].
 
 
 func _get_data(output_port: GaeaNodeSlotOutput, area: AABB, generator_data: GaeaData) -> Dictionary:

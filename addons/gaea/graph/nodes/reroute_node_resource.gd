@@ -1,6 +1,10 @@
 @tool
 extends GaeaNodeResource
 class_name GaeaNodeReroute
+## Allows rerouting a connection within the Gaea graph.
+##
+## Can be placed by pressing [kbd]Right Click[/kbd] in a connection wire and selecting the option,
+## and it'll automatically adapt to the type of the selected wire.
 
 
 func _get_data(output_port: GaeaNodeSlotOutput, area: AABB, generator_data: GaeaData) -> Dictionary:

@@ -1,7 +1,7 @@
 @tool
 extends GaeaNodeResource
 class_name GaeaNodeComposeRange
-## Composes a range parameter from 2 numbers, [member min] and [member max].
+## Composes a range parameter from 2 numbers, [param min] and [param max].
 ##
 ## Range parameters internally have the following format:
 ## [codeblock]
