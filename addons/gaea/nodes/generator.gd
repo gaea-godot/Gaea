@@ -41,7 +41,7 @@ signal area_erased(area: AABB)
 func generate() -> void:
 	if random_seed_on_generate:
 		seed = randi()
-	reset()
+	request_reset()
 	generate_area(AABB(Vector3.ZERO, world_size))
 
 
@@ -72,7 +72,7 @@ func generate_area(area: AABB) -> void:
 
 ## Emits [signal area_erased]. Does nothing by itself, but notifies [GaeaRenderer]s that they should
 ## erase the points of [param area].
-func erase_area(area: AABB) -> void:
+func request_area_erasure(area: AABB) -> void:
 	area_erased.emit.call_deferred(area)
 
 
@@ -83,5 +83,5 @@ func global_to_map(position: Vector3) -> Vector3i:
 
 ## Emits [signal reset_requested]. Does nothing by itself, but notifies [GaeaRenderer]s that they should
 ## reset the current generation.
-func reset() -> void:
+func request_reset() -> void:
 	reset_requested.emit()

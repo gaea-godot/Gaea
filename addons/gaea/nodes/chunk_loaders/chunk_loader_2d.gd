@@ -24,7 +24,7 @@ var _loaded_chunks: Array[Vector2]
 
 
 func _ready() -> void:
-	generator.reset()
+	generator.request_reset()
 	if load_on_ready:
 		_update_loading(actor.global_position)
 
@@ -52,7 +52,7 @@ func _update_loading(actor_position: Vector2i) -> void:
 	if unload_chunks:
 		for chunk in _loaded_chunks:
 			if not required_chunks.has(chunk):
-				generator.erase_area(AABB(
+				generator.request_area_erasure(AABB(
 					Vector3(chunk.x * chunk_size.x, chunk.y * chunk_size.y, 0),
 					Vector3i(chunk_size.x, chunk_size.y, 1)
 				))
