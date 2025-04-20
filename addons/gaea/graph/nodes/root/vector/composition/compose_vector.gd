@@ -1,6 +1,10 @@
 @tool
 extends GaeaNodeResource
 class_name GaeaNodeComposeVector
+## Composes a Vector2/3 from 2/3 numbers.
+##
+## Generic class for both the [b]ComposeVector2[/b] and the [b]ComposeVector3[/b] nodes.
+## It auto detects the type it should compose.
 
 
 func _get_data(output_port: GaeaNodeSlotOutput, area: AABB, generator_data: GaeaData) -> Dictionary:

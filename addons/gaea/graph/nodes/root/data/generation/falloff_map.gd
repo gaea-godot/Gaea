@@ -1,6 +1,12 @@
 @tool
 extends GaeaNodeResource
 class_name GaeaNodeFalloffMap
+## Returns a grid that goes from higher values in the center to lower in the borders.
+## Rate can be adjusted with [member start] and [member end].
+##
+## For lower [member start] values, the transition will be smoother.[br]
+## For lower [member end] values, the generated 'square' will be smaller.[br]
+## Multiplying this with a [GaeaNodeSimplexSmooth]'s generation can create island-looking terrains.
 
 
 func _get_data(output_port: GaeaNodeSlotOutput, area: AABB, generator_data: GaeaData) -> Dictionary:

@@ -43,5 +43,5 @@ script = ExtResource("3_0wgj8")
 params = Array[ExtResource("4_j4ogv")]([SubResource("Resource_3677i"), SubResource("Resource_tx35q"), SubResource("Resource_ws76o")])
 outputs = Array[ExtResource("3_7pmwm")]([SubResource("Resource_504x0")])
 title = "ComposeVector3"
-description = "Composes a Vector3 from three numbers."
+description = "Composes a Vector3 from 3 numbers."
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"

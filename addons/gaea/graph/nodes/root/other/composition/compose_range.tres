@@ -34,4 +34,4 @@ script = ExtResource("3_1fnim")
 params = Array[ExtResource("4_2rrvu")]([SubResource("Resource_pm1n8"), SubResource("Resource_otsan")])
 outputs = Array[ExtResource("3_otsan")]([SubResource("Resource_1fnim")])
 title = "ComposeRange"
-description = "Composes a range parameter from two numbers."
+description = "Composes a range parameter from 2 numbers."

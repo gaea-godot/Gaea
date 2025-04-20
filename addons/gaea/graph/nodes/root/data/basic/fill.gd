@@ -1,6 +1,7 @@
 @tool
 extends GaeaNodeResource
 class_name GaeaNodeFill
+## Fills the grid with [member value].
 
 
 func _get_data(output_port: GaeaNodeSlotOutput, area: AABB, generator_data: GaeaData) -> Dictionary:

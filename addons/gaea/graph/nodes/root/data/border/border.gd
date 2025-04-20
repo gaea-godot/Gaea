@@ -1,6 +1,15 @@
 @tool
 extends GaeaNodeResource
 class_name GaeaNodeBorder2D
+## Returns the border of [member data]. If [member inside] is [code]true[/code], returns the inner border.
+##
+## Loops through all the points in the generation area.[br]
+## - If [member inside] is [code]false[/code],
+## returns only the points that don't exist in [member data]
+## and that have a value in all the [member neighbors] offsets.[br]
+## - If [member inside] is [code]true[/code],
+## it'll return instead the cells in [member data] that have empty points in all the [member neighbors] offsets.[br][br]
+## Output data is a grid of [code]1.0[/code]s.
 
 
 func _get_required_params() -> Array[StringName]:

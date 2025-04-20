@@ -1,6 +1,8 @@
 @tool
 extends GaeaNodeResource
 class_name GaeaNodeFilter
+## Abstract class used for filter nodes.
+
 
 func _get_required_params() -> Array[StringName]:
 	return [params[0].name]
@@ -20,6 +22,9 @@ func _get_data(output_port: GaeaNodeSlotOutput, area: AABB, generator_data: Gaea
 	return output_port.return_value(new_data)
 
 
+## Override this method to change the filtering functionality. Should return [code]true[/code]
+## if the [param cell] in [param input_data] passes the filter, and therefore should be included
+## in the output.
 @warning_ignore("unused_parameter")
 func _passes_filter(input_data: Dictionary, cell: Vector3i, area: AABB, generator_data: GaeaData) -> bool:
 	return true

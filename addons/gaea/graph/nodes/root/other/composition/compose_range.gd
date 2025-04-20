@@ -1,6 +1,16 @@
 @tool
 extends GaeaNodeResource
 class_name GaeaNodeComposeRange
+## Composes a range parameter from 2 numbers, [member min] and [member max].
+##
+## Range parameters internally have the following format:
+## [codeblock]
+## {
+##     min: float,
+##     max: float
+## }
+## [/codeblock]
+## See [enum GaeaValue.Type].
 
 
 func _get_data(output_port: GaeaNodeSlotOutput, area: AABB, generator_data: GaeaData) -> Dictionary:

@@ -28,5 +28,5 @@ script = ExtResource("3_v78kc")
 params = Array[ExtResource("4_w1flq")]([SubResource("Resource_6yuyv"), SubResource("Resource_jwnbt")])
 outputs = Array[ExtResource("3_07p1y")]([ExtResource("2_jwnbt")])
 title = "Falloff"
-description = ""
+description = "Returns a grid that goes from higher values in the center to lower in the borders. Rate can be adjusted with [param]start[/bg][/c] and [param]end[/bg][/c]."
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"

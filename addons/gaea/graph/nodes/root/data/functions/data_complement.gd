@@ -1,9 +1,14 @@
 @tool
 extends GaeaNodeResource
 class_name GaeaNodeDataComplement
+## Returns the complement of [member data].
+##
+## Returns all the points outside [member data] set to [code]1.0[/code].
+
 
 func _get_required_params() -> Array[StringName]:
 	return [&"data"]
+
 
 @warning_ignore("unused_parameter")
 func _get_data(output_port: GaeaNodeSlotOutput, area: AABB, generator_data: GaeaData) -> Dictionary:
