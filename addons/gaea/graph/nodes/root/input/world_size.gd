@@ -1,6 +1,7 @@
 @tool
 extends GaeaNodeResource
 class_name GaeaNodeWorldSize
+## Outputs [member GaeaGenerator.world_size] of the current generator.
 
 
 func _get_data(output_port: GaeaNodeSlotOutput, area: AABB, generator_data: GaeaData) -> Dictionary:

@@ -1,6 +1,11 @@
 @tool
 extends GaeaNodeResource
 class_name GaeaNodeUnion
+## Merges [param A]-[param D]. Later grids override any cells
+## from the previous grids when valid. (B overrides A, C overrides B, etc.)
+##
+## Generic class for both the [enum GaeaValue.Type] [b]Map[/b] and [b]Data[/b] versions of this node.[br]
+## Returns a grid with all the points that are in the inputted grids.
 
 
 func _get_data(output_port: GaeaNodeSlotOutput, area: AABB, generator_data: GaeaData) -> Dictionary:

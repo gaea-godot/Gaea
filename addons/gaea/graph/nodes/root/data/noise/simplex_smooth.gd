@@ -1,8 +1,12 @@
 @tool
 extends GaeaNodeResource
 class_name GaeaNodeSimplexSmooth
+## Creates a grid of values from [code]0.0[/code] to [code]1.0[/code] based on a SimplexSmooth noise texture.
+##
+## Generic class for both the 2D and 3D version of this node.
 
 
+## Whether it uses the [method Noise.get_noise_2d] or [method Noise.get_noise_3d].
 @export_enum("2D", "3D") var type = 0
 
 

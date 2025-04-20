@@ -3,7 +3,7 @@ extends GaeaNodeResource
 class_name GaeaNodeDecomposeVector
 ## Decomposes a Vector2/3 into 2/3 numbers.
 ##
-## Generic class for both the [b]DecomposeVector2[/b] and the [b]DecomposeVector3[/b] nodes.
+## Generic class for both the Vector2 and Vector3 versions of this node.
 
 
 func _get_data(output_port: GaeaNodeSlotOutput, area: AABB, generator_data: GaeaData) -> Dictionary:

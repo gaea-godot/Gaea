@@ -3,7 +3,7 @@ extends GaeaNodeResource
 class_name GaeaNodeComposeVector
 ## Composes a Vector2/3 from 2/3 numbers.
 ##
-## Generic class for both the [b]ComposeVector2[/b] and the [b]ComposeVector3[/b] nodes.
+## Generic class for both the Vector2 and Vector3 versions of this node.
 ## It auto detects the type it should compose.
 
 

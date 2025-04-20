@@ -16,5 +16,5 @@ script = ExtResource("3_ed7be")
 params = Array[ExtResource("4_5x83u")]([])
 outputs = Array[ExtResource("3_0fpac")]([SubResource("Resource_txel0")])
 title = "WorldSize"
-description = "The world_size parameter in the generator's inspector."
+description = "Outputs the [param]world_size[/bg][/c] parameter in the generator's inspector."
 metadata/_custom_type_script = "uid://brb1clh2y2bv0"

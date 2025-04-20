@@ -297,12 +297,12 @@ func _log_error(message:String, generator_data:GaeaData, node_idx: int = -1):
 
 
 #region Miscelaneous
-## Returns the corresponding scene to be used in the Gaea graph editor.
+## Public version of [method _get_scene].
 func get_scene() -> PackedScene:
 	return _get_scene()
 
 
-## Virtual method. Should be overriden if the node should use a different scene from the base one.
+## Virtual method. Should be overriden if the node should use a different scene in the Gaea editor from the base one.
 func _get_scene() -> PackedScene:
 	return preload("uid://b7e2d15kxt2im")
 
