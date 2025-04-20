@@ -103,7 +103,9 @@ func _use_caching(_output_port: GaeaNodeSlotOutput, _generator_data:GaeaData) ->
 	return true
 
 
-# Adds or sets data to the cache at GaeaNodeResource, then output_port index.
+## Adds or sets data to the cache at GaeaNodeResource, then output_port index.
+## This is called during [method traverse] if [method _use_caching] returns [code]true[/code],
+## but can also be called in special cases where you want to manually add cached values.
 func _set_cached_data(output_port: GaeaNodeSlotOutput, generator_data:GaeaData, new_data:Dictionary) -> void:
 	var node_cache:Dictionary = generator_data.cache.get_or_add(self, {})
 	node_cache[output_port.name] = new_data
