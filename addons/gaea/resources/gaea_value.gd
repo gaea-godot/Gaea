@@ -20,8 +20,8 @@ enum Type {
 	## Formatted the following way:
 	## [codeblock]
 	## {
-	## min: float,
-	## max: float
+	##     min: float,
+	##     max: float
 	## }
 	## [/codeblock]
 	RANGE = 100,
