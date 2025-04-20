@@ -35,13 +35,8 @@ func execute(area: AABB, generator_data: GaeaData, generator: GaeaGenerator) -> 
 	generator.generation_finished.emit.call_deferred(grid)
 
 
-## Type of this node is [b]Null[/b].
-func get_type() -> GaeaValue.Type:
-	return GaeaValue.Type.NULL
-
-
-## Custom scene that dynamically adds layer slots.
-func get_scene() -> PackedScene:
+# Custom scene that dynamically adds layer slots.
+func _get_scene() -> PackedScene:
 	return preload("uid://leflx3tpvb4s")
 
 

@@ -15,11 +15,7 @@ func _use_caching(_output_port: GaeaNodeSlotOutput, _generator_data:GaeaData) ->
 	return false
 
 
-func get_type() -> GaeaValue.Type:
-	return GaeaValue.Type.NULL
-
-
-func get_scene() -> PackedScene:
+func _get_scene() -> PackedScene:
 	return preload("uid://b2rceqo8rtr88")
 
 

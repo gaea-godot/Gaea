@@ -31,5 +31,5 @@ func _get_data(output_port: GaeaNodeSlotOutput, area: AABB, generator_data: Gaea
 	return {}
 
 
-func get_scene() -> PackedScene:
+func _get_scene() -> PackedScene:
 	return preload("uid://bodjhgqp1bpui")
