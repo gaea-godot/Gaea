@@ -15,7 +15,7 @@ signal param_value_changed(new_value: Variant)
 var resource: GaeaNodeSlotParam
 ## Reference to the [GaeaGraphNode] instance
 var graph_node: GaeaGraphNode
-## idx of the slot in the [GaeaGraphNode].
+## Index of the slot in the [GaeaGraphNode].
 var slot_idx: int
 
 @onready var _label: Label = $Label

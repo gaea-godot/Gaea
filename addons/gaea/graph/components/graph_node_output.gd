@@ -8,7 +8,7 @@ extends MarginContainer
 var resource: GaeaNodeSlotOutput
 ## Reference to the [GaeaGraphNode] instance
 var graph_node: GaeaGraphNode
-## idx of the slot in the [GaeaGraphNode].
+## Index of the slot in the [GaeaGraphNode].
 var idx: int
 
 
