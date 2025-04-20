@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=8 format=3 uid="uid://6tctdjrjbard"]
+[gd_resource type="Resource" script_class="GaeaNodeValueMapper" load_steps=8 format=3 uid="uid://6tctdjrjbard"]
 
 [ext_resource type="Resource" uid="uid://dh1ay72s0vge" path="res://addons/gaea/graph/components/slot_outputs/map.tres" id="2_4nagy"]
 [ext_resource type="Script" uid="uid://cd25npsj1ey2n" path="res://addons/gaea/graph/nodes/root/map/mappers/value_mapper.gd" id="3_hhyiq"]

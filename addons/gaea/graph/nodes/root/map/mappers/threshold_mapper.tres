@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=8 format=3 uid="uid://conft7neua4ww"]
+[gd_resource type="Resource" script_class="GaeaNodeThresholdMapper" load_steps=8 format=3 uid="uid://conft7neua4ww"]
 
 [ext_resource type="Resource" uid="uid://dh1ay72s0vge" path="res://addons/gaea/graph/components/slot_outputs/map.tres" id="2_a01kd"]
 [ext_resource type="Script" uid="uid://djjvx650evm0n" path="res://addons/gaea/graph/nodes/root/map/mappers/threshold_mapper.gd" id="3_0cira"]

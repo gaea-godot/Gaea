@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=8 format=3 uid="uid://bjgl7hlbbjuws"]
+[gd_resource type="Resource" script_class="GaeaNodeDistanceFilter" load_steps=8 format=3 uid="uid://bjgl7hlbbjuws"]
 
 [ext_resource type="Script" uid="uid://dil6xg31ctqdu" path="res://addons/gaea/graph/nodes/node_slot_output.gd" id="1_58cm0"]
 [ext_resource type="Script" uid="uid://b5mukn8hdt8ww" path="res://addons/gaea/graph/nodes/node_slot_param.gd" id="2_7js3n"]

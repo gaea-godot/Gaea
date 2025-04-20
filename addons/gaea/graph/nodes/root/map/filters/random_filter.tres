@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=7 format=3 uid="uid://40kjl8ojif34"]
+[gd_resource type="Resource" script_class="GaeaNodeRandomFilter" load_steps=7 format=3 uid="uid://40kjl8ojif34"]
 
 [ext_resource type="Resource" uid="uid://dh1ay72s0vge" path="res://addons/gaea/graph/components/slot_outputs/map.tres" id="2_5ax8o"]
 [ext_resource type="Script" uid="uid://b38syakgm25ya" path="res://addons/gaea/graph/nodes/root/data/filters/random_filter.gd" id="3_5ax8o"]

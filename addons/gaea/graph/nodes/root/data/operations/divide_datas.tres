@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=7 format=3 uid="uid://f6ycpjqowl41"]
+[gd_resource type="Resource" script_class="GaeaNodeDatasOperation" load_steps=7 format=3 uid="uid://f6ycpjqowl41"]
 
 [ext_resource type="Resource" uid="uid://8w0nsvq1cu1r" path="res://addons/gaea/graph/components/slot_outputs/data.tres" id="2_5muse"]
 [ext_resource type="Script" uid="uid://co8c50vhbqht7" path="res://addons/gaea/graph/nodes/root/data/datas_operation.gd" id="3_8dwot"]

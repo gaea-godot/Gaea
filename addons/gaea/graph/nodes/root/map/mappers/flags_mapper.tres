@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=10 format=3 uid="uid://dpienqmp335jg"]
+[gd_resource type="Resource" script_class="GaeaNodeFlagsMapper" load_steps=10 format=3 uid="uid://dpienqmp335jg"]
 
 [ext_resource type="Resource" uid="uid://dh1ay72s0vge" path="res://addons/gaea/graph/components/slot_outputs/map.tres" id="2_4455x"]
 [ext_resource type="Script" uid="uid://bdwxrdlr0267t" path="res://addons/gaea/graph/nodes/root/map/mappers/flags_mapper.gd" id="3_jc4ok"]
