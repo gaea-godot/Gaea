@@ -2,7 +2,7 @@
 @icon("../../../assets/parameter_editor.svg")
 class_name GaeaGraphNodeParameterEditor
 extends Control
-## An editor inside [GaeaGraphNode]s to change values of arguments, of a simple input slot
+## An editor inside [GaeaGraphNode]s to change values of arguments, or a simple input slot
 ## if there's no existing editor.
 ##
 ## This class can be extended to create editors for the different value types in Gaea.
