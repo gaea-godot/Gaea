@@ -6,6 +6,10 @@ class_name GaeaVector3ArgumentEditor
 @onready var _x_spin_box: SpinBox = $XSpinBox
 @onready var _y_spin_box: SpinBox = $YSpinBox
 @onready var _z_spin_box: SpinBox = $ZSpinBox
+@onready var _x_label: RichTextLabel = %XLabel
+@onready var _y_label: RichTextLabel = %YLabel
+@onready var _z_label: RichTextLabel = %ZLabel
+
 
 
 func _configure() -> void:
@@ -15,6 +19,9 @@ func _configure() -> void:
 	_x_spin_box.value_changed.connect(argument_value_changed.emit)
 	_y_spin_box.value_changed.connect(argument_value_changed.emit)
 	_z_spin_box.value_changed.connect(argument_value_changed.emit)
+	_x_label.add_theme_color_override("default_color", get_theme_color("property_color_x", "Editor"))
+	_y_label.add_theme_color_override("default_color", get_theme_color("property_color_y", "Editor"))
+	_z_label.add_theme_color_override("default_color", get_theme_color("property_color_z", "Editor"))
 
 	if type == GaeaValue.Type.VECTOR2I or type == GaeaValue.Type.VECTOR3I:
 		_x_spin_box.step = 1
