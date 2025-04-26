@@ -36,12 +36,6 @@ project/assembly_name="Gaea"
 
 enabled=PackedStringArray("res://addons/gaea/plugin.cfg")
 
-[file_customization]
-
-folder_colors={
-"res://addons/gaea/graph/graph_nodes/old_root/": "red"
-}
-
 [importer_defaults]
 
 texture={
