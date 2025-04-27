@@ -33,6 +33,6 @@ func _get_overridden_output_port_idx(output_name: StringName) -> int:
 	return 0
 
 
-func _get_data(output_port: StringName, area: AABB, generator_data: GaeaData) -> Dictionary:
+func _get_data(output_port: StringName, area: AABB, generator_data: GaeaData) -> Variant:
 	_log_data(output_port, generator_data)
 	return _get_arg(&"value", area, generator_data)
