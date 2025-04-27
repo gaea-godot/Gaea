@@ -26,8 +26,7 @@ func _get_argument_display_name(arg_name: StringName) -> String:
 	return arg_name
 
 
-@warning_ignore("unused_parameter")
-func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
+func _get_argument_type(_arg_name: StringName) -> GaeaValue.Type:
 	return (GaeaValue.Type.INT if _is_integer_vector() else GaeaValue.Type.FLOAT)
 #endregion
 

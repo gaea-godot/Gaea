@@ -21,7 +21,7 @@ func _get_arguments_list() -> Array[StringName]:
 	return [&"start", &"end"]
 
 
-func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
+func _get_argument_type(_arg_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.FLOAT
 
 
@@ -36,12 +36,12 @@ func _get_output_ports_list() -> Array[StringName]:
 	return [&"data"]
 
 
-func _get_output_port_type(output_name: StringName) -> GaeaValue.Type:
+func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.DATA
 
 
 
-func _get_data(output_port: StringName, area: AABB, generator_data: GaeaData) -> Dictionary:
+func _get_data(_output_port: StringName, area: AABB, generator_data: GaeaData) -> Dictionary:
 	var start: float = _get_arg(&"start", area, generator_data)
 	var end: float = _get_arg(&"end", area, generator_data)
 	var new_grid: Dictionary[Vector3i, float]

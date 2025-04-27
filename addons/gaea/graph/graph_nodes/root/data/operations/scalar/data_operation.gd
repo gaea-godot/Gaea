@@ -37,7 +37,7 @@ func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.FLOAT
 
 
-func _get_output_port_type(output_name: StringName) -> GaeaValue.Type:
+func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.DATA
 
 
@@ -55,7 +55,7 @@ func _get_operation_definitions() -> Dictionary[Operation, Definition]:
 
 func _get_data(output_port: StringName, area: AABB, generator_data: GaeaData) -> Variant:
 	_log_data(output_port, generator_data)
-	var operation: Operation = get_enum_selection(0)
+	var operation: Operation = get_enum_selection(0) as Operation
 	var operation_definition: Definition = OPERATION_DEFINITIONS[operation]
 	var args: Array
 	var input_grid: Dictionary = _get_arg(&"a", area, generator_data)

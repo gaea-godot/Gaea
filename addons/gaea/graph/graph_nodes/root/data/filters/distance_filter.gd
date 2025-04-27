@@ -23,12 +23,11 @@ func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
 	return super(arg_name)
 
 
-func _get_output_port_type(output_name: StringName) -> GaeaValue.Type:
+func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.DATA
 
 
-@warning_ignore("unused_parameter")
-func _passes_filter(input_data: Dictionary, cell: Vector3i, area: AABB, generator_data: GaeaData) -> bool:
+func _passes_filter(_input_data: Dictionary, cell: Vector3i, area: AABB, generator_data: GaeaData) -> bool:
 	var point: Vector3 = _get_arg(&"to_point", area, generator_data)
 	var distance_range: Dictionary = _get_arg(&"distance_range", area, generator_data)
 	var distance: float = Vector3(cell).distance_squared_to(point)

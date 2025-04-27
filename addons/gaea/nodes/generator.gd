@@ -49,7 +49,7 @@ func generate() -> void:
 func generate_area(area: AABB) -> void:
 	data.generator = self
 	var connections: Array[Dictionary] = data.connections
-	var output_resource: GaeaNodeResource
+	var output_resource: GaeaNodeOutput
 
 	for resource in data.resources:
 		resource.connections.clear()

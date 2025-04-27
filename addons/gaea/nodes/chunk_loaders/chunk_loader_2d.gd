@@ -29,7 +29,7 @@ func _ready() -> void:
 		_update_loading(actor.global_position)
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	var current_time = Time.get_ticks_msec()
 	if current_time - _last_run > update_rate:
 		_try_loading()

@@ -10,12 +10,11 @@ var _panel: Control
 var _panel_button: Button
 var _editor_selection: EditorSelection
 var _inspector_plugin: EditorInspectorPlugin
-var _custom_editor_settings: GaeaEditorSettings
 var _custom_project_settings: GaeaProjectSettings
 
 
 func _enter_tree() -> void:
-	_editor_selection = get_editor_interface().get_selection()
+	_editor_selection = EditorInterface.get_selection()
 	_editor_selection.selection_changed.connect(_on_selection_changed)
 
 	_container = MarginContainer.new()

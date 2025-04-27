@@ -29,7 +29,9 @@ func _configure() -> void:
 func get_arg_value() -> Variant:
 	if super() != null:
 		return super()
-	return float(spin_box.value) if type == GaeaValue.Type.FLOAT else int(spin_box.value)
+	if type == GaeaValue.Type.FLOAT:
+		return float(spin_box.value)
+	return int(spin_box.value)
 
 
 func set_arg_value(new_value: Variant) -> void:

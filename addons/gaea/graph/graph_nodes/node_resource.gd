@@ -427,8 +427,7 @@ func traverse(output_port: StringName, area: AABB, generator_data:GaeaData) -> V
 
 ## Returns the data corresponding to [param output_port]. Should be overridden to create custom
 ## behavior for each node.
-@warning_ignore("unused_parameter")
-func _get_data(output_port: StringName, area: AABB, generator_data: GaeaData) -> Variant:
+func _get_data(_output_port: StringName, _area: AABB, _generator_data: GaeaData) -> Variant:
 	return {}
 #endregion
 

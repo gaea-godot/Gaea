@@ -40,14 +40,12 @@ func _connect_signals() -> void:
 
 
 ## Should be overridden with custom behavior for rendering the [param grid].
-@warning_ignore("unused_parameter")
-func _render(grid: GaeaGrid) -> void:
+func _render(_grid: GaeaGrid) -> void:
 	pass
 
 
 ## Should be overridden with custom behavior for erasing the rendered [param area].
-@warning_ignore("unused_parameter")
-func _on_area_erased(area: AABB) -> void:
+func _on_area_erased(_area: AABB) -> void:
 	pass
 
 

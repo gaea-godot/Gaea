@@ -62,9 +62,6 @@ func _sort_points() -> void:
 
 func sample(value: float) -> GaeaMaterial:
 	value = clampf(value, 0.0, 1.0)
-	var material: GaeaMaterial
-
-
 	for idx: int in points.size():
 		var next_point_offset: float
 		if (idx + 1) >= points.size():
@@ -73,5 +70,4 @@ func sample(value: float) -> GaeaMaterial:
 			next_point_offset = points.get(idx + 1).get(&"offset", INF)
 		if value < next_point_offset:
 			return points.get(idx).get(&"material")
-
-	return material
+	return null

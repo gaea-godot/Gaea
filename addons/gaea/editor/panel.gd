@@ -31,7 +31,6 @@ var _zooms: Dictionary[GaeaData, float]
 @onready var _window_popout_separator: VSeparator = %WindowPopoutSeparator
 @onready var _window_popout_button: Button = %WindowPopoutButton
 @onready var _bottom_note_label: RichTextLabel = %BottomNote
-@onready var _generate_button: Button = %GenerateButton
 @onready var _about_button: Button = %AboutButton
 @onready var _about_window: AcceptDialog = $AboutWindow
 

@@ -25,7 +25,7 @@ func _input(event: InputEvent) -> void:
 
 func _on_tool_button_pressed() -> void:
 	tool_popup.position = Vector2(position) + tool_button.get_global_rect().end
-	tool_popup.position.x -= tool_button.size.x
+	tool_popup.position.x -= roundi(tool_button.size.x)
 	tool_popup.popup()
 
 

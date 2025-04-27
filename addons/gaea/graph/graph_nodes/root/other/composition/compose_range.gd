@@ -25,7 +25,7 @@ func _get_arguments_list() -> Array[StringName]:
 	return [&"min", &"max"]
 
 
-func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
+func _get_argument_type(_arg_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.FLOAT
 
 

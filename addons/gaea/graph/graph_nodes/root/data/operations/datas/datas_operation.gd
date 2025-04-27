@@ -87,19 +87,18 @@ func _get_output_ports_list() -> Array[StringName]:
 	return [&"result"]
 
 
-func _get_output_port_type(output_name: StringName) -> GaeaValue.Type:
+func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.DATA
 
 
-func _get_output_port_display_name(output_name: StringName) -> String:
+func _get_output_port_display_name(_output_name: StringName) -> String:
 	return OPERATION_DEFINITIONS[get_enum_selection(0)].output
 
 
 
 func _get_data(output_port: StringName, area: AABB, generator_data: GaeaData) -> Dictionary:
 	_log_data(output_port, generator_data)
-	var operation: Operation = get_enum_selection(0)
-	var args: Array
+	var operation: Operation = get_enum_selection(0) as Operation
 	var a_grid: Dictionary = _get_arg(&"a", area, generator_data)
 	var b_grid: Dictionary = _get_arg(&"b", area, generator_data)
 	var new_grid: Dictionary[Vector3i, float]

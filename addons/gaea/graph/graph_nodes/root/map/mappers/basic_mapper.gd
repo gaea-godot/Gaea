@@ -25,7 +25,7 @@ func _get_output_ports_list() -> Array[StringName]:
 	return [&"map"]
 
 
-func _get_output_port_type(output_name: StringName) -> GaeaValue.Type:
+func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.MAP
 
 
@@ -48,6 +48,5 @@ func _get_data(output_port: StringName, area: AABB, generator_data: GaeaData) ->
 	return grid
 
 
-@warning_ignore("unused_parameter")
-func _passes_mapping(grid_data: Dictionary, cell: Vector3i, area: AABB, generator_data: GaeaData) -> bool:
+func _passes_mapping(grid_data: Dictionary, cell: Vector3i, _area: AABB, _generator_data: GaeaData) -> bool:
 	return grid_data.get(cell) != null

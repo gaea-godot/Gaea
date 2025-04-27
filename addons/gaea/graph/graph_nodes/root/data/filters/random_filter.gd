@@ -34,10 +34,10 @@ func _get_argument_hint(arg_name: StringName) -> Dictionary[String, Variant]:
 	return super(arg_name)
 
 
-func _get_output_port_type(output_name: StringName) -> GaeaValue.Type:
+func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.DATA
 
 
-func _passes_filter(input_data: Dictionary, cell: Vector3i, area: AABB, generator_data: GaeaData) -> bool:
+func _passes_filter(_input_data: Dictionary, _cell: Vector3i, area: AABB, generator_data: GaeaData) -> bool:
 	var chance: float = float(_get_arg(&"chance", area, generator_data)) / 100.0
 	return randf() <= chance

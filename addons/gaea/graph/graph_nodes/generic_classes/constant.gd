@@ -10,10 +10,10 @@ func _get_arguments_list() -> Array[StringName]:
 	return [&"value"]
 
 
-func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
+func _get_argument_type(_arg_name: StringName) -> GaeaValue.Type:
 	return get_type()
 
-func _get_argument_display_name(arg_name: StringName) -> String:
+func _get_argument_display_name(_arg_name: StringName) -> String:
 	return ""
 
 
@@ -29,7 +29,7 @@ func _get_output_ports_list() -> Array[StringName]:
 	return [&"constant"]
 
 
-func _get_overridden_output_port_idx(output_name: StringName) -> int:
+func _get_overridden_output_port_idx(_output_name: StringName) -> int:
 	return 0
 
 

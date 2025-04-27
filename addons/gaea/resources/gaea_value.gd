@@ -91,8 +91,7 @@ static func get_default_value(type: Type) -> Variant:
 
 
 ## Returns the associated [enum Type] to [param type] of [enum Variant.Type].
-@warning_ignore("unused_parameter")
-static func from_variant_type(type: Variant.Type, hint: PropertyHint = PROPERTY_HINT_NONE, hint_string: String = "") -> Type:
+static func from_variant_type(type: Variant.Type, _hint: PropertyHint = PROPERTY_HINT_NONE, hint_string: String = "") -> Type:
 	match type:
 		TYPE_BOOL:
 			return Type.BOOLEAN
