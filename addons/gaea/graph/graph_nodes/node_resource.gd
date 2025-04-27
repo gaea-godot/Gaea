@@ -390,7 +390,7 @@ func _get_arg(arg_name: StringName, area: AABB, generator_data: GaeaData) -> Var
 			if connected_type == _get_argument_type(arg_name):
 				return connected_value
 			else:
-				return GaeaValue.cast_value(connected_type, _get_argument_type(arg_name), connected_value)
+				return GaeaValueCast.cast_value(connected_type, _get_argument_type(arg_name), connected_value)
 		else:
 			_log_error("Could not get data from previous node, using default value instead.", generator_data, connected_idx)
 			return get_argument_default_value(arg_name)

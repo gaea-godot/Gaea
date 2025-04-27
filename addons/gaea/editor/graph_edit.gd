@@ -8,7 +8,7 @@ signal save_requested
 var attached_elements: Dictionary
 
 func _init() -> void:
-	for cast in GaeaValue.get_cast_list():
+	for cast in GaeaValueCast.get_cast_list():
 		add_valid_connection_type(cast[0], cast[1])
 
 
