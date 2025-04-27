@@ -105,7 +105,7 @@ func _get_data(output_port: StringName, area: AABB, generator_data: GaeaData) ->
 	var operation_definition: Definition = OPERATION_DEFINITIONS[operation]
 	for cell: Vector3i in a_grid:
 		if not b_grid.has(cell):
-			return a_grid.get(cell)
+			continue
 		new_grid.set(cell, operation_definition.conversion.callv([a_grid[cell], b_grid[cell]]))
 	return new_grid
 
