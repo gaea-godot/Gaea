@@ -24,6 +24,7 @@ script = ExtResource("1_xfmar")
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/normal = SubResource("StyleBoxEmpty_3xeyn")
+bbcode_enabled = true
 text = "Label"
 fit_content = true
 
