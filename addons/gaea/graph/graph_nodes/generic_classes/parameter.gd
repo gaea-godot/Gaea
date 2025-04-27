@@ -45,6 +45,9 @@ func _get_argument_default_value(arg_name: StringName) -> Variant:
 
 
 func _get_available_name(from: String) -> String:
+	if not is_instance_valid(node):
+		return ""
+
 	var _available_name: String = from
 	var _suffix: int = 1
 	while node.generator.data.parameters.has(_available_name):

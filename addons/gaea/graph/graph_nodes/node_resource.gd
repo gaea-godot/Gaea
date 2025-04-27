@@ -43,6 +43,7 @@ const GAEA_MATERIAL_GRADIENT_HINT := "Resource that maps values from 0.0-1.0 to 
 ## [/codeblock]
 var connections: Array[Dictionary]
 ## The related [GaeaGraphNode] for editing in the Gaea graph editor.
+## This is null during runtime.
 var node: GaeaGraphNode
 ## A Dictionary holding the values of the arguments
 ## where the keys are their names.
@@ -367,9 +368,6 @@ func _on_argument_value_changed(arg_name: StringName, new_value: Variant) -> voi
 ## Returns the value of the argument of [param name]. Pass in [param generator_data] to allow overriding with input slots.[br]
 ## [param area] is used for values of the type Data or Map. (See [enum GaeaValue.Type]).
 func _get_arg(arg_name: StringName, area: AABB, generator_data: GaeaData) -> Variant:
-	if not arg_name in _get_arguments_list():
-		return null
-
 	_log_arg(arg_name, generator_data)
 
 	var connection := _get_argument_connection(arg_name)

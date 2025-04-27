@@ -55,6 +55,14 @@ func _get_argument_display_name(arg_name: StringName) -> String:
 	return layer_name
 
 
+func _get_argument_connection(arg_name: StringName) -> Dictionary:
+	var idx = int(arg_name)
+	for connection in connections:
+		if connection.to_port == idx:
+			return connection
+	return {}
+
+
 ## Start generation for [param area], and emit the [param generator]'s [signal GaeaGenerator.generation_finished]
 ## signal when done.
 func execute(area: AABB, generator_data: GaeaData, generator: GaeaGenerator) -> void:

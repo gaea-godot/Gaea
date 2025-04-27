@@ -146,61 +146,61 @@ connections = Array[Dictionary]([{
 "to_node": 2,
 "to_port": 1
 }, {
-"from_node": 25,
+"from_node": 23,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 23,
-"to_port": 1
-}, {
-"from_node": 30,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 23,
-"to_port": 0
-}, {
-"from_node": 33,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 27,
-"to_port": 1
-}, {
-"from_node": 27,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 29,
-"to_port": 0
-}, {
-"from_node": 32,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 6,
+"to_node": 21,
 "to_port": 1
 }, {
 "from_node": 28,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 7,
-"to_port": 1
+"to_node": 21,
+"to_port": 0
 }, {
 "from_node": 31,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 17,
+"to_node": 25,
 "to_port": 1
 }, {
-"from_node": 17,
+"from_node": 25,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 18,
+"to_node": 27,
 "to_port": 0
 }, {
+"from_node": 30,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 6,
+"to_port": 1
+}, {
+"from_node": 26,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 7,
+"to_port": 1
+}, {
 "from_node": 29,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 15,
+"to_port": 1
+}, {
+"from_node": 15,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 16,
+"to_port": 0
+}, {
+"from_node": 27,
 "from_port": 0,
 "keep_alive": false,
 "to_node": 5,
 "to_port": 1
 }, {
-"from_node": 24,
+"from_node": 22,
 "from_port": 0,
 "keep_alive": false,
 "to_node": 5,
@@ -209,7 +209,7 @@ connections = Array[Dictionary]([{
 "from_node": 8,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 27,
+"to_node": 25,
 "to_port": 0
 }, {
 "from_node": 9,
@@ -227,49 +227,37 @@ connections = Array[Dictionary]([{
 "from_node": 10,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 11,
+"to_node": 15,
 "to_port": 0
 }, {
 "from_node": 11,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 17,
+"to_node": 12,
 "to_port": 0
 }, {
 "from_node": 12,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 13,
-"to_port": 0
-}, {
-"from_node": 13,
-"from_port": 0,
-"keep_alive": false,
 "to_node": 5,
 "to_port": 0
 }, {
-"from_node": 26,
+"from_node": 24,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 14,
-"to_port": 0
-}, {
-"from_node": 14,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 10,
+"to_node": 13,
 "to_port": 0
 }, {
 "from_node": 2,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 12,
+"to_node": 11,
 "to_port": 0
 }, {
 "from_node": 3,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 26,
+"to_node": 24,
 "to_port": 0
 }, {
 "from_node": 3,
@@ -278,29 +266,23 @@ connections = Array[Dictionary]([{
 "to_node": 2,
 "to_port": 0
 }, {
+"from_node": 14,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 22,
+"to_port": 0
+}, {
 "from_node": 16,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 24,
-"to_port": 0
-}, {
-"from_node": 18,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 24,
+"to_node": 22,
 "to_port": 1
 }, {
-"from_node": 23,
+"from_node": 21,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 24,
+"to_node": 22,
 "to_port": 2
-}, {
-"from_node": 15,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 30,
-"to_port": 0
 }, {
 "from_node": 9,
 "from_port": 0,
@@ -314,7 +296,7 @@ connections = Array[Dictionary]([{
 "to_node": 6,
 "to_port": 0
 }, {
-"from_node": 14,
+"from_node": 13,
 "from_port": 0,
 "keep_alive": false,
 "to_node": 9,
@@ -323,16 +305,16 @@ connections = Array[Dictionary]([{
 "from_node": 7,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 29,
+"to_node": 27,
 "to_port": 1
 }, {
 "from_node": 6,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 29,
+"to_node": 27,
 "to_port": 2
 }, {
-"from_node": 22,
+"from_node": 20,
 "from_port": 0,
 "keep_alive": false,
 "to_node": 0,
@@ -341,28 +323,16 @@ connections = Array[Dictionary]([{
 "from_node": 0,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 16,
+"to_node": 14,
 "to_port": 0
 }, {
-"from_node": 19,
+"from_node": 17,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 20,
+"to_node": 18,
 "to_port": 0
 }, {
-"from_node": 20,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 21,
-"to_port": 0
-}, {
-"from_node": 21,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 0,
-"to_port": 0
-}, {
-"from_node": 3,
+"from_node": 18,
 "from_port": 0,
 "keep_alive": false,
 "to_node": 19,
@@ -371,10 +341,28 @@ connections = Array[Dictionary]([{
 "from_node": 19,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 15,
+"to_node": 0,
+"to_port": 0
+}, {
+"from_node": 3,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 17,
+"to_port": 0
+}, {
+"from_node": 18,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 28,
+"to_port": 0
+}, {
+"from_node": 13,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 10,
 "to_port": 0
 }])
-resource_uids = Array[String](["uid://dux0bq53p61ls", "uid://bgqqucap4kua4", "uid://dux0bq53p61ls", "uid://blx812352t3jj", "uid://cqs1w714pbfql", "uid://dol7xviglksx4", "uid://br8gcsyc04ksj", "uid://br8gcsyc04ksj", "uid://bgqqucap4kua4", "uid://bgqqucap4kua4", "uid://bgqqucap4kua4", "uid://bgqqucap4kua4", "uid://bgqqucap4kua4", "uid://bgqqucap4kua4", "uid://bgqqucap4kua4", "uid://bgqqucap4kua4", "uid://coh5skum82ue3", "uid://br8gcsyc04ksj", "uid://coh5skum82ue3", "uid://bgqqucap4kua4", "uid://bgqqucap4kua4", "uid://bgqqucap4kua4", "uid://cqs1w714pbfql", "uid://bjmyuomcmtwq6", "uid://d2f6bjkxcn7jl", "uid://cqs1w714pbfql", "uid://0vv1gfyt6147", "uid://dux0bq53p61ls", "uid://cqs1w714pbfql", "uid://d2f6bjkxcn7jl", "uid://dnj3grm2qv20y", "uid://cqs1w714pbfql", "uid://cqs1w714pbfql", "uid://cqs1w714pbfql"])
+resource_uids = Array[String](["uid://dux0bq53p61ls", "uid://bgqqucap4kua4", "uid://dux0bq53p61ls", "uid://blx812352t3jj", "uid://cqs1w714pbfql", "uid://dol7xviglksx4", "uid://br8gcsyc04ksj", "uid://br8gcsyc04ksj", "uid://bgqqucap4kua4", "uid://bgqqucap4kua4", "uid://bgqqucap4kua4", "uid://bgqqucap4kua4", "uid://bgqqucap4kua4", "uid://bgqqucap4kua4", "uid://coh5skum82ue3", "uid://br8gcsyc04ksj", "uid://coh5skum82ue3", "uid://bgqqucap4kua4", "uid://bgqqucap4kua4", "uid://bgqqucap4kua4", "uid://cqs1w714pbfql", "uid://bjmyuomcmtwq6", "uid://d2f6bjkxcn7jl", "uid://cqs1w714pbfql", "uid://0vv1gfyt6147", "uid://dux0bq53p61ls", "uid://cqs1w714pbfql", "uid://d2f6bjkxcn7jl", "uid://dnj3grm2qv20y", "uid://cqs1w714pbfql", "uid://cqs1w714pbfql", "uid://cqs1w714pbfql"])
 node_data = Array[Dictionary]([{
 &"arguments": {},
 &"enums": [],
@@ -400,9 +388,9 @@ node_data = Array[Dictionary]([{
 "max": 3.0,
 "min": 2.0
 },
-&"max_cells": 150,
+&"max_cells": 400,
 &"rotate_180_weight": 20,
-&"starting_position": Vector3i(24, 24, 0)
+&"starting_position": Vector3i(40, 24, 0)
 },
 &"enums": [0],
 "name": &"BaseNode10",
@@ -461,13 +449,6 @@ Vector2i(0, 0): false
 }, {
 &"arguments": {},
 &"enums": [],
-"name": &"_GraphNode_27785",
-"position": Vector2(180, 580),
-"salt": 0,
-"type": 200
-}, {
-&"arguments": {},
-&"enums": [],
 "name": &"_GraphNode_27793",
 "position": Vector2(340, 900),
 "salt": 0,
@@ -491,13 +472,6 @@ Vector2i(0, 0): false
 &"enums": [],
 "name": &"_GraphNode_27832",
 "position": Vector2(-120, 200),
-"salt": 0,
-"type": 200
-}, {
-&"arguments": {},
-&"enums": [],
-"name": &"_GraphNode_27969",
-"position": Vector2(-560, 880),
 "salt": 0,
 "type": 200
 }, {
@@ -698,7 +672,7 @@ other = {
 "autoshrink": true,
 "name": &"_GraphFrame_29830",
 "position": Vector2(240, 1299),
-"size": Vector2(874, 677),
+"size": Vector2(867, 305),
 "tint_color": Color(0.55, 0.415983, 0.3135, 0.52549),
 "tint_color_enabled": true,
 "title": "Place Chests"
@@ -707,7 +681,7 @@ other = {
 "autoshrink": true,
 "name": &"_GraphFrame_29833",
 "position": Vector2(320, -541),
-"size": Vector2(1000, 952),
+"size": Vector2(1000, 950),
 "tint_color": Color(0.133333, 0.12549, 0.203922, 1),
 "tint_color_enabled": true,
 "title": "Walls"
@@ -716,7 +690,7 @@ other = {
 "autoshrink": true,
 "name": &"_GraphFrame_29836",
 "position": Vector2(280, 559),
-"size": Vector2(750, 672),
+"size": Vector2(743, 670),
 "tint_color": Color(0.0964966, 0.363281, 0.175698, 0.75),
 "tint_color_enabled": true,
 "title": "Add Vegetation"
@@ -725,7 +699,7 @@ other = {
 "autoshrink": true,
 "name": &"_GraphFrame_29839",
 "position": Vector2(-520, 119),
-"size": Vector2(306, 231),
+"size": Vector2(306, 227),
 "tint_color": Color(0.3125, 0.155029, 0.155029, 0.75),
 "tint_color_enabled": true,
 "title": "Get Everything Outside Floor"
@@ -734,7 +708,7 @@ other = {
 "autoshrink": true,
 "name": &"_GraphFrame_29842",
 "position": Vector2(-640, 499),
-"size": Vector2(500, 257),
+"size": Vector2(500, 254),
 "tint_color": Color(0.174225, 0.208835, 0.257812, 0.75),
 "tint_color_enabled": true,
 "title": "Floor"
@@ -742,9 +716,9 @@ other = {
 &"save_version": 2
 }
 Chest = SubResource("Resource_j6vep")
+FloorMaterial = SubResource("Resource_e1h74")
 SpikyVegetation = SubResource("Resource_y3srg")
 Vegetation = SubResource("Resource_mfiu2")
 WallAbove = SubResource("Resource_30ot8")
 WallBelow = SubResource("Resource_payrb")
 WallMaterial = SubResource("Resource_kk1e5")
-FloorMaterial = SubResource("Resource_e1h74")
