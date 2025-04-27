@@ -698,7 +698,7 @@ other = {
 "autoshrink": true,
 "name": &"_GraphFrame_29830",
 "position": Vector2(240, 1299),
-"size": Vector2(874, 677),
+"size": Vector2(867, 305),
 "tint_color": Color(0.55, 0.415983, 0.3135, 0.52549),
 "tint_color_enabled": true,
 "title": "Place Chests"
@@ -707,7 +707,7 @@ other = {
 "autoshrink": true,
 "name": &"_GraphFrame_29833",
 "position": Vector2(320, -541),
-"size": Vector2(1000, 952),
+"size": Vector2(1000, 950),
 "tint_color": Color(0.133333, 0.12549, 0.203922, 1),
 "tint_color_enabled": true,
 "title": "Walls"
@@ -716,7 +716,7 @@ other = {
 "autoshrink": true,
 "name": &"_GraphFrame_29836",
 "position": Vector2(280, 559),
-"size": Vector2(750, 672),
+"size": Vector2(743, 670),
 "tint_color": Color(0.0964966, 0.363281, 0.175698, 0.75),
 "tint_color_enabled": true,
 "title": "Add Vegetation"
@@ -725,7 +725,7 @@ other = {
 "autoshrink": true,
 "name": &"_GraphFrame_29839",
 "position": Vector2(-520, 119),
-"size": Vector2(306, 231),
+"size": Vector2(306, 227),
 "tint_color": Color(0.3125, 0.155029, 0.155029, 0.75),
 "tint_color_enabled": true,
 "title": "Get Everything Outside Floor"
@@ -734,7 +734,7 @@ other = {
 "autoshrink": true,
 "name": &"_GraphFrame_29842",
 "position": Vector2(-640, 499),
-"size": Vector2(500, 257),
+"size": Vector2(500, 254),
 "tint_color": Color(0.174225, 0.208835, 0.257812, 0.75),
 "tint_color_enabled": true,
 "title": "Floor"
@@ -742,9 +742,9 @@ other = {
 &"save_version": 2
 }
 Chest = SubResource("Resource_j6vep")
+FloorMaterial = SubResource("Resource_e1h74")
 SpikyVegetation = SubResource("Resource_y3srg")
 Vegetation = SubResource("Resource_mfiu2")
 WallAbove = SubResource("Resource_30ot8")
 WallBelow = SubResource("Resource_payrb")
 WallMaterial = SubResource("Resource_kk1e5")
-FloorMaterial = SubResource("Resource_e1h74")
