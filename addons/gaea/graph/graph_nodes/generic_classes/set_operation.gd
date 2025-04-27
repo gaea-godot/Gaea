@@ -47,7 +47,7 @@ func _get_enums_count() -> int:
 	return 1
 
 
-func _get_enum_options(idx: int) -> Dictionary:
+func _get_enum_options(_idx: int) -> Dictionary:
 	var operations := Operation.duplicate()
 	if get_type() == GaeaValue.Type.MAP:
 		operations.erase(operations.find_key(Operation.COMPLEMENT))
@@ -62,7 +62,7 @@ func _get_arguments_list() -> Array[StringName]:
 	return super()
 
 
-func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
+func _get_argument_type(_arg_name: StringName) -> GaeaValue.Type:
 	return get_type()
 
 
@@ -87,9 +87,9 @@ func _get_data(output_port: StringName, area: AABB, generator_data: GaeaData) ->
 	_log_data(output_port, generator_data)
 	var grids: Array[Dictionary] = []
 	for arg in _get_arguments_list():
-		var grid: Dictionary = _get_arg(arg, area, generator_data)
-		if not grid.is_empty():
-			grids.append(_get_arg(arg, area, generator_data))
+		var _grid: Dictionary = _get_arg(arg, area, generator_data)
+		if not _grid.is_empty():
+			grids.append(_grid)
 
 	var grid: Dictionary = {}
 	if grids.is_empty():

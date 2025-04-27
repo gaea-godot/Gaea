@@ -16,7 +16,7 @@ func _get_arguments_list() -> Array[StringName]:
 	return [&"value"]
 
 
-func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
+func _get_argument_type(_arg_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.FLOAT
 
 
@@ -24,7 +24,7 @@ func _get_output_ports_list() -> Array[StringName]:
 	return [&"data"]
 
 
-func _get_output_port_type(output_name: StringName) -> GaeaValue.Type:
+func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.DATA
 
 

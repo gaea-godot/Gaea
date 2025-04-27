@@ -25,8 +25,7 @@ func _get_arguments_list() -> Array[StringName]:
 	return [&"value"]
 
 
-@warning_ignore("unused_parameter")
-func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
+func _get_argument_type(_arg_name: StringName) -> GaeaValue.Type:
 	return type
 #endregion
 
@@ -36,8 +35,7 @@ func _get_output_ports_list() -> Array[StringName]:
 	return _get_arguments_list()
 
 
-@warning_ignore("unused_parameter")
-func _get_output_port_type(output_name: StringName) -> GaeaValue.Type:
+func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return type
 #endregion
 

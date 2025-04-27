@@ -92,13 +92,13 @@ func _get_argument_hint(arg_name: StringName) -> Dictionary[String, Variant]:
 	return super(arg_name)
 
 
-func _get_output_port_type(output_name: StringName) -> GaeaValue.Type:
+func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.DATA
 
 
 func _get_data(output_port: StringName, area: AABB, generator_data: GaeaData) -> Dictionary:
 	_log_data(output_port, generator_data)
-	var axis_type: AxisType = get_enum_selection(0)
+	var axis_type: AxisType = get_enum_selection(0) as AxisType
 
 	var _starting_position: Vector3 = _get_arg(&"starting_position", area, generator_data)
 	_starting_position = _starting_position.round()

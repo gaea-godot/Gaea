@@ -59,7 +59,7 @@ func _get_output_ports_list() -> Array[StringName]:
 	return [&"data"]
 
 
-func _get_output_port_type(output_name: StringName) -> GaeaValue.Type:
+func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.DATA
 
 
@@ -86,7 +86,7 @@ func _get_data(output_port: StringName, area: AABB, generator_data: GaeaData) ->
 
 	var path: Dictionary
 	var grid: Dictionary[Vector3i, float] = {}
-	var starting_cell: Vector2i = Vector2i(rng.randi_range(0, area.size.x - 1), 0)
+	var starting_cell: Vector2i = Vector2i(rng.randi_range(0, roundi(area.size.x - 1)), 0)
 	var last_cell: Vector2i = starting_cell
 	var current_cell: Vector2i = starting_cell
 	var last_direction: Vector2i = Vector2i.ZERO

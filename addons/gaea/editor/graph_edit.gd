@@ -107,8 +107,8 @@ func remove_invalid_connections() -> void:
 			disconnect_node(connection.from_node, connection.from_port, connection.to_node, connection.to_port)
 			continue
 
-		var from_type: GaeaValue.Type = from_node.get_output_port_type(connection.from_port)
-		var to_type: GaeaValue.Type = to_node.get_input_port_type(connection.to_port)
+		var from_type: GaeaValue.Type = from_node.get_output_port_type(connection.from_port) as GaeaValue.Type
+		var to_type: GaeaValue.Type = to_node.get_input_port_type(connection.to_port) as GaeaValue.Type
 		if not is_valid_connection_type(from_type, to_type) and from_type != to_type:
 			disconnect_node(connection.from_node, connection.from_port, connection.to_node, connection.to_port)
 			to_node.notify_connections_updated.call_deferred()

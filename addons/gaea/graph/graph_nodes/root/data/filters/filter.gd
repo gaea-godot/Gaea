@@ -55,6 +55,5 @@ func _get_data(output_port: StringName, area: AABB, generator_data: GaeaData) ->
 ## Override this method to change the filtering functionality. Should return [code]true[/code]
 ## if the [param cell] in [param input_data] passes the filter, and therefore should be included
 ## in the output.
-@warning_ignore("unused_parameter")
-func _passes_filter(input_data: Dictionary, cell: Vector3i, area: AABB, generator_data: GaeaData) -> bool:
+func _passes_filter(_input_data: Dictionary, _cell: Vector3i, _area: AABB, _generator_data: GaeaData) -> bool:
 	return true

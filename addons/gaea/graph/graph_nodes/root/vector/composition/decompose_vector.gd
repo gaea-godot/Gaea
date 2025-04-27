@@ -40,8 +40,7 @@ func _get_output_port_display_name(output_name: StringName) -> String:
 	return output_name
 
 
-@warning_ignore("unused_parameter")
-func _get_output_port_type(output_name: StringName) -> GaeaValue.Type:
+func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return (GaeaValue.Type.INT if _is_integer_vector() else GaeaValue.Type.FLOAT)
 #endregion
 

@@ -36,11 +36,11 @@ func _get_arguments_list() -> Array[StringName]:
 	return [&"name"]
 
 
-func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
+func _get_argument_type(_arg_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.VARIABLE_NAME
 
 
-func _get_argument_default_value(arg_name: StringName) -> Variant:
+func _get_argument_default_value(_arg_name: StringName) -> Variant:
 	return _get_available_name(_get_title())
 
 
@@ -57,11 +57,11 @@ func _get_output_ports_list() -> Array[StringName]:
 	return [&"value"]
 
 
-func _get_overridden_output_port_idx(output_name: StringName) -> int:
+func _get_overridden_output_port_idx(_output_name: StringName) -> int:
 	return 0
 
 
-func _get_output_port_type(output_name: StringName) -> GaeaValue.Type:
+func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.from_variant_type(_get_variant_type(), _get_property_hint(), _get_property_hint_string())
 
 

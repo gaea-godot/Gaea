@@ -132,7 +132,7 @@ func _on_search_bar_text_changed(new_text: String) -> void:
 		get_root().set_collapsed_recursive(false)
 
 	var item: TreeItem = get_root()
-	var first_item_found: TreeItem
+	var first_item_found: TreeItem = null
 
 	while item.get_next_in_tree() != null:
 		item = item.get_next_in_tree()
@@ -141,7 +141,7 @@ func _on_search_bar_text_changed(new_text: String) -> void:
 		else:
 			var item_matched = new_text.is_subsequence_ofn(item.get_text(0))
 			if item_matched and item.is_selectable(0):
-				if not first_item_found:
+				if first_item_found == null:
 					first_item_found = item
 				item.visible = true
 				_show_parents_recursive(item)
@@ -182,6 +182,6 @@ func _show_parents_recursive(item: TreeItem) -> void:
 		parent_item = parent_item.get_parent()
 
 
-func _on_search_bar_text_submitted(new_text: String) -> void:
+func _on_search_bar_text_submitted(_new_text: String) -> void:
 	if get_selected() != null:
 		_on_item_activated()

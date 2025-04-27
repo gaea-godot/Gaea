@@ -28,11 +28,11 @@ func _get_enums_count() -> int:
 	return 1
 
 
-func _get_enum_options(idx: int) -> Dictionary:
+func _get_enum_options(_idx: int) -> Dictionary:
 	return NoiseType
 
 
-func _get_enum_default_value(enum_idx: int) -> int:
+func _get_enum_default_value(_enum_idx: int) -> int:
 	return NoiseType.SIMPLEX_SMOOTH
 
 
@@ -56,7 +56,7 @@ func _get_output_ports_list() -> Array[StringName]:
 	return [&"data"]
 
 
-func _get_output_port_type(output_name: StringName) -> GaeaValue.Type:
+func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.DATA
 
 
@@ -65,7 +65,7 @@ func _get_data(output_port: StringName, area: AABB, generator_data: GaeaData) ->
 
 	var _noise: FastNoiseLite = FastNoiseLite.new()
 	_noise.seed = generator_data.generator.seed + salt
-	_noise.noise_type = get_enum_selection(0)
+	_noise.noise_type = get_enum_selection(0) as FastNoiseLite.NoiseType
 
 	_noise.frequency = _get_arg(&"frequency", area, generator_data)
 	_noise.fractal_octaves = _get_arg(&"octaves", area, generator_data)
@@ -83,5 +83,5 @@ func _is_available() -> bool:
 	return false
 
 
-func _get_noise_value(cell: Vector3i, noise: FastNoiseLite) -> float:
+func _get_noise_value(_cell: Vector3i, _noise: FastNoiseLite) -> float:
 	return -1.0

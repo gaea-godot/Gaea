@@ -8,5 +8,5 @@ func _get_title() -> String:
 	return "MapSetOp"
 
 
-func _get_output_port_type(output_name: StringName) -> GaeaValue.Type:
+func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.MAP

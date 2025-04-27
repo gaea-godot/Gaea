@@ -8,6 +8,7 @@ extends Control
 ## This class can be extended to create editors for the different value types in Gaea.
 
 ## Emitted when the value is changed using the editor.
+@warning_ignore("unused_signal")
 signal argument_value_changed(new_value: Variant)
 
 var type: GaeaValue.Type
