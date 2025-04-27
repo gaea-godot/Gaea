@@ -81,8 +81,6 @@ static func cast_value(from_type: GaeaValue.Type, to_type: GaeaValue.Type, value
 
 	var cast_method = _casts_methods.get(from_type, {}).get(to_type, null)
 	if cast_method is Callable:
-		push_warning("from = ", GaeaValue.Type.find_key(from_type), " ", value)
-		push_warning("to = ", GaeaValue.Type.find_key(to_type), " ", cast_method.call(value))
 		return cast_method.call(value)
 
 	printerr("Could not get data from previous node, missing cast method from %s to %s" % [
