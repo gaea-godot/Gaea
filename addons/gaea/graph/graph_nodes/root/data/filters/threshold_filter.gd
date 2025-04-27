@@ -9,7 +9,7 @@ func _get_title() -> String:
 
 
 func _get_description() -> String:
-	return "Filters [param]data[/bg][/c] to only the cells of a value in [param]range[/bg][/c]."
+	return "Filters [param data] to only the cells of a value in [param range]."
 
 
 func _get_arguments_list() -> Array[StringName]:

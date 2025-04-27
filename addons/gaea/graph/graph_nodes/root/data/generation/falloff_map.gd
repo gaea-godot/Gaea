@@ -14,7 +14,7 @@ func _get_title() -> String:
 
 
 func _get_description() -> String:
-	return "Returns a grid that goes from higher values in the center to lower in the borders.\nRate can be adjusted with [param]start[/bg][/c] and [param]end[/bg][/c]."
+	return "Returns a grid that goes from higher values in the center to lower in the borders.\nRate can be adjusted with [param start] and [param end]."
 
 
 func _get_arguments_list() -> Array[StringName]:

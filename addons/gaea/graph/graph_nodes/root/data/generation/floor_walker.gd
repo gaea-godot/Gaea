@@ -30,7 +30,7 @@ func _get_title() -> String:
 
 
 func _get_description() -> String:
-	return "Generates a floor by using [b]walkers[/b], which move around and set cells where they walk to [code]1.0[/bg][/c], while changing direction and/or spawning new walkers."
+	return "Generates a floor by using [b]walkers[/b], which move around and set cells where they walk to [code]1.0[/code], while changing direction and/or spawning new walkers."
 
 
 func _get_enums_count() -> int:

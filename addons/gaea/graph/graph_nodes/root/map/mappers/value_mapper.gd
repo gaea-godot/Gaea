@@ -11,7 +11,7 @@ func _get_title() -> String:
 
 
 func _get_description() -> String:
-	return "Maps every cell of [param]reference_data[/bg][/c] equal to [param]value[/bg][/c] to [param]material[/bg][/c]."
+	return "Maps every cell of [param reference_data] equal to [param value] to [param material]."
 
 
 func _get_arguments_list() -> Array[StringName]:

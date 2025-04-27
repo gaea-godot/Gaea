@@ -17,7 +17,7 @@ func _get_title() -> String:
 
 
 func _get_description() -> String:
-	return "Returns the border of [param]data[/bg][/c]. If [param]inside[/bg][/c] is [code]true[/bg][/c], returns the inner border."
+	return "Returns the border of [param data]. If [param inside] is [code]true[/code], returns the inner border."
 
 
 func _get_arguments_list() -> Array[StringName]:

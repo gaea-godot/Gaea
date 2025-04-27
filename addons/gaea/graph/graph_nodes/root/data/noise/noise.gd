@@ -21,7 +21,7 @@ func _get_title() -> String:
 
 
 func _get_description() -> String:
-	return "Creates a grid of values from [code]0[/bg][/c] to [code]1[/bg][/c] based on a noise algorithm."
+	return "Creates a grid of values from [code]0[/code] to [code]1[/code] based on a noise algorithm."
 
 
 func _get_enums_count() -> int:

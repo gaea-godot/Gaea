@@ -15,7 +15,7 @@ func _get_title() -> String:
 
 
 func _get_description() -> String:
-	return "Maps every cell of [param]reference_data[/bg][/c] that matches the flag conditions to [param]material[/bg][/c]."
+	return "Maps every cell of [param reference_data] that matches the flag conditions to [param material]."
 
 
 func _get_arguments_list() -> Array[StringName]:

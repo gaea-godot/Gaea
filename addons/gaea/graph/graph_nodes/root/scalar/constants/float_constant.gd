@@ -13,4 +13,4 @@ func _get_title() -> String:
 
 
 func _get_description() -> String:
-	return "[code]float[/bg][/c] constant."
+	return "[code]float[/code] constant."

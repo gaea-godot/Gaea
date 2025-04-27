@@ -45,31 +45,31 @@ var OPERATION_DEFINITIONS: Dictionary[Operation, Definition] : get = _get_operat
 func _get_description() -> String:
 	match get_enum_selection(0):
 		Operation.Power:
-			return "Returns the value of [param]base[/bg][/c] raised to the power of [param]exp[/bg][/c]."
+			return "Returns the value of [param base] raised to the power of [param exp]."
 		Operation.Max:
-			return "Returns the maximum between [param]a[/bg][/c] and [param]b[/bg][/c]."
+			return "Returns the maximum between [param a] and [param b]."
 		Operation.Min:
-			return "Returns the minimum between [param]a[/bg][/c] and [param]b[/bg][/c]."
+			return "Returns the minimum between [param a] and [param b]."
 		Operation.Abs:
-			return "Returns the absolute value of [param]a[/bg][/c]."
+			return "Returns the absolute value of [param a]."
 		Operation.Clamp:
-			return "Constrains [param]a[/bg][/c] to lie between [param]min[/bg][/c] and [param]max[/bg][/c] (inclusive)."
+			return "Constrains [param a] to lie between [param min] and [param max] (inclusive)."
 		Operation.Remap:
-			return "Maps [param]a[/bg][/c] from range [code][istart, istop][/bg][/c] to [code][ostart, ostop][/bg][/c]."
+			return "Maps [param a] from range [code][istart, istop][/code] to [code][ostart, ostop][/code]."
 		Operation.Ceil:
-			return "Finds the nearest integer that is greater or equal to [param]a[/bg][/c]."
+			return "Finds the nearest integer that is greater or equal to [param a]."
 		Operation.Floor:
-			return "Finds the nearest integer that is lower or equal to [param]a[/bg][/c]."
+			return "Finds the nearest integer that is lower or equal to [param a]."
 		Operation.Round:
-			return "Finds the nearest integer to [param]a[/bg][/c]."
+			return "Finds the nearest integer to [param a]."
 		Operation.Sign:
-			return "Returns [code]-1[/bg][/c] for negative numbers, [code]1[/bg][/c] for positive numbers and [code]0[/bg][/c] for zeroes."
+			return "Returns [code]-1[/code] for negative numbers, [code]1[/code] for positive numbers and [code]0[/code] for zeroes."
 		Operation.Smoothstep:
-			return "Returns [code]0[/bg][/c] if [param]a[/bg][/c] < [param]from[/bg][/c], [code]1[/bg][/c] if [param]a[/bg][/c] > [param]to[/bg][/c], otherwise returns an interpolated value between [code]0[/bg][/c] and [code]1[/bg][/c]."
+			return "Returns [code]0[/code] if [param a] < [param from], [code]1[/code] if [param a] > [param to], otherwise returns an interpolated value between [code]0[/code] and [code]1[/code]."
 		Operation.Step:
-			return "Returns [code]0[/bg][/c] if [param]a[/bg][/c] < [param]edge[/bg][/c], otherwise [code]1[/bg][/c]."
+			return "Returns [code]0[/code] if [param a] < [param edge], otherwise [code]1[/code]."
 		Operation.Wrap:
-			return "Wraps [param]a[/bg][/c] between [param]min[/bg][/c] and [param]max[/bg][/c]."
+			return "Wraps [param a] between [param min] and [param max]."
 	return super()
 
 

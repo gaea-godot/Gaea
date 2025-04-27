@@ -15,17 +15,17 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 
 func _get_description() -> String:
 	if get_tree_name() == "IntOp" and not is_instance_valid(node):
-		return "Operation between 2 [code]int[/bg][/c] numbers."
+		return "Operation between 2 [code]int[/code] numbers."
 
 	match get_enum_selection(0):
 		Operation.Add:
-			return "Sums 2 [code]int[/bg][/c] numbers."
+			return "Sums 2 [code]int[/code] numbers."
 		Operation.Subtract:
-			return "Subtracts 2 [code]int[/bg][/c] numbers."
+			return "Subtracts 2 [code]int[/code] numbers."
 		Operation.Multiply:
-			return "Multiplies 2 [code]int[/bg][/c] numbers together."
+			return "Multiplies 2 [code]int[/code] numbers together."
 		Operation.Divide:
-			return "Divides 2 [code]int[/bg][/c] numbers together."
+			return "Divides 2 [code]int[/code] numbers together."
 		_:
 			return super()
 

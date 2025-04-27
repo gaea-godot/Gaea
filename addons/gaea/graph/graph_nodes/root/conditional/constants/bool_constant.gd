@@ -13,4 +13,4 @@ func _get_title() -> String:
 
 
 func _get_description() -> String:
-	return "[code]bool[/bg][/c] constant."
+	return "[code]bool[/code] constant."

@@ -9,7 +9,7 @@ func _get_title() -> String:
 
 
 func _get_description() -> String:
-	return "Decomposes a [code]%s[/bg][/c] into %d [code]float[/bg][/c]s." % [_get_vector_type_name(), _get_output_ports_list().size()]
+	return "Decomposes a [code]%s[/code] into %d [code]float[/code]s." % [_get_vector_type_name(), _get_output_ports_list().size()]
 
 
 #region Arguments

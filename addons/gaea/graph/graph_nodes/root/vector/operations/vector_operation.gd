@@ -30,17 +30,17 @@ func _get_title() -> String:
 
 func _get_description() -> String:
 	if get_tree_name() == _get_title() and not is_instance_valid(node):
-		return "Operation between 2 [code]Vector[/bg][/c]s."
+		return "Operation between 2 [code]Vector[/code]s."
 
 	match get_enum_selection(1):
 		Operation.Add:
-			return "Sums 2 [code]%s[/bg][/c]s." % _get_enum_option_display_name(0, get_enum_selection(0))
+			return "Sums 2 [code]%s[/code]s." % _get_enum_option_display_name(0, get_enum_selection(0))
 		Operation.Subtract:
-			return "Subtracts 2 [code]%s[/bg][/c]s." % _get_enum_option_display_name(0, get_enum_selection(0))
+			return "Subtracts 2 [code]%s[/code]s." % _get_enum_option_display_name(0, get_enum_selection(0))
 		Operation.Multiply:
-			return "Multiplies 2 [code]%s[/bg][/c]s together." % _get_enum_option_display_name(0, get_enum_selection(0))
+			return "Multiplies 2 [code]%s[/code]s together." % _get_enum_option_display_name(0, get_enum_selection(0))
 		Operation.Divide:
-			return "Divides 2 [code]%s[/bg][/c]s together." % _get_enum_option_display_name(0, get_enum_selection(0))
+			return "Divides 2 [code]%s[/code]s together." % _get_enum_option_display_name(0, get_enum_selection(0))
 	return ""
 
 

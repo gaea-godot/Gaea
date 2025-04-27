@@ -13,4 +13,4 @@ func _get_title() -> String:
 
 
 func _get_description() -> String:
-	return "[code]Vector2[/bg][/c] constant."
+	return "[code]Vector2[/code] constant."

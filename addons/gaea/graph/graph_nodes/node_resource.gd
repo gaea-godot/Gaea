@@ -21,10 +21,10 @@ signal argument_value_changed(arg_name: StringName, new_value: Variant)
 signal enum_value_changed(enum_idx: int, option_value: int)
 
 #region Description Formatting
-const PARAM_TEXT_COLOR := "cdbff0"
-const PARAM_BG_COLOR := "bfbfbf1a"
-const CODE_TEXT_COLOR := "da8a95"
-const CODE_BG_COLOR := "8080801a"
+const PARAM_TEXT_COLOR := Color("cdbff0")
+const PARAM_BG_COLOR := Color("bfbfbf1a")
+const CODE_TEXT_COLOR := Color("da8a95")
+const CODE_BG_COLOR := Color("8080801a")
 
 const GAEA_MATERIAL_HINT := "Resource used to tell GaeaRenderers what to place."
 const GAEA_MATERIAL_GRADIENT_HINT := "Resource that maps values from 0.0-1.0 to certain GaeaMaterials."
@@ -602,14 +602,14 @@ func _get_axis_range(axis: Axis, area: AABB) -> Array:
 
 ## Used by the 'Create Node' tree to display [member description] in an organized manner.
 static func get_formatted_text(unformatted_text: String) -> String:
-	unformatted_text = unformatted_text.replace("[param]", "[color=%s][bgcolor=%s]" % [PARAM_TEXT_COLOR, PARAM_BG_COLOR])
-	unformatted_text = unformatted_text.replace("GaeaMaterial ", "[hint=%s]GaeaMaterial[/hint] " % GAEA_MATERIAL_HINT)
-	unformatted_text = unformatted_text.replace("GaeaMaterialGradient ", "[hint=%s]GaeaMaterialGradient[/hint] " % GAEA_MATERIAL_GRADIENT_HINT)
-	unformatted_text = unformatted_text.replace("[code]", "[color=%s][bgcolor=%s]" % [CODE_TEXT_COLOR, CODE_BG_COLOR])
+	var param_regex = RegEx.new()
+	param_regex.compile("\\[param ([^\\]]+)\\]")
 
-	unformatted_text = unformatted_text.replace("[/c]", "[/color]")
-	unformatted_text = unformatted_text.replace("[/bg]", "[/bgcolor]")
-	return unformatted_text
+	return param_regex.sub(unformatted_text, "[bgcolor=%s][color=%s]$1[/color][/bgcolor]" % [PARAM_BG_COLOR.to_html(true), PARAM_TEXT_COLOR.to_html(true)], true) \
+		.replace("GaeaMaterial ", "[hint=%s]GaeaMaterial[/hint] " % GAEA_MATERIAL_HINT) \
+		.replace("GaeaMaterialGradient ", "[hint=%s]GaeaMaterialGradient[/hint] " % GAEA_MATERIAL_GRADIENT_HINT) \
+		.replace("[code]", "[bgcolor=%s][color=%s][code]" % [CODE_BG_COLOR.to_html(true), CODE_TEXT_COLOR.to_html(true)]) \
+		.replace("[/code]", "[/code][/color][/bgcolor]")
 
 
 ## Returns the corresponding type icon.

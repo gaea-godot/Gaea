@@ -21,13 +21,13 @@ const OPERATION_SYMBOLS := {
 func _get_description() -> String:
 	match get_enum_selection(0):
 		Operation.UNION:
-			return "Merges [param]A[/bg][/c]-[param]D[/bg][/c].\nLater grids override any cells from the previous grids when valid. (B overrides A, C overrides B, etc.)"
+			return "Merges [param A]-[param D].\nLater grids override any cells from the previous grids when valid. (B overrides A, C overrides B, etc.)"
 		Operation.INTERSECTION:
-			return "Returns the intersection between [param]A[/bg][/c]-[param]D[/bg][/c].\nLater grids override any cells from the previous grids when valid. (B overrides A, C overrides B, etc.)"
+			return "Returns the intersection between [param A]-[param D].\nLater grids override any cells from the previous grids when valid. (B overrides A, C overrides B, etc.)"
 		Operation.COMPLEMENT:
-			return "Returns the complement of [param]A[/bg][/c]."
+			return "Returns the complement of [param A]."
 		Operation.DIFFERENCE:
-			return "Returns all the points of [param]A[/bg][/c] without those of [param]B[/bg][/c]."
+			return "Returns all the points of [param A] without those of [param B]."
 	return ""
 
 

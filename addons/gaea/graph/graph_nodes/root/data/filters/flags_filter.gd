@@ -15,7 +15,7 @@ func _get_title() -> String:
 
 
 func _get_description() -> String:
-	return "Filters [param]data[/bg][/c] to only the cells that match the flag conditions."
+	return "Filters [param data] to only the cells that match the flag conditions."
 
 
 func _get_arguments_list() -> Array[StringName]:

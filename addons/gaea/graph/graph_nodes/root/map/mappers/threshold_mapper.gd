@@ -9,7 +9,7 @@ func _get_title() -> String:
 
 
 func _get_description() -> String:
-	return "Maps every cell of [param]reference_data[/bg][/c] of a value in [param]range[/bg][/c] to [param]material[/bg][/c]."
+	return "Maps every cell of [param reference_data] of a value in [param range] to [param material]."
 
 
 func _get_arguments_list() -> Array[StringName]:

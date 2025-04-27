@@ -22,8 +22,8 @@ func _get_title() -> String:
 
 
 func _get_description() -> String:
-	return "Places [param]material[/bg][/c] on every world cell that follows [param]rules[/bg][/c] based
-on [param]reference_data[/bg][/c].\n[img]res://addons/gaea/assets/cross.svg[/img] means data DOESN'T have a cell there,\
+	return "Places [param material] on every world cell that follows [param rules] based
+on [param reference_data].\n[img]res://addons/gaea/assets/cross.svg[/img] means data DOESN'T have a cell there,\
  [img]res://addons/gaea/assets/check.svg[/img] means the opposite."
 
 

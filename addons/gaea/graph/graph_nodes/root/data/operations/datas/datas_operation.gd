@@ -35,13 +35,13 @@ func _get_description() -> String:
 
 	match get_enum_selection(0):
 		Operation.Add:
-			return "Adds all cells in [param]B[/bg][/c] to all cells in [param]A[/bg][/c]."
+			return "Adds all cells in [param B] to all cells in [param A]."
 		Operation.Subtract:
-			return "Adds all cells in [param]B[/bg][/c] from all cells in [param]A[/bg][/c]."
+			return "Adds all cells in [param B] from all cells in [param A]."
 		Operation.Multiply:
-			return "Multiplies all cells in [param]B[/bg][/c] with all cells in [param]A[/bg][/c]."
+			return "Multiplies all cells in [param B] with all cells in [param A]."
 		Operation.Divide:
-			return "Adds all cells in [param]A[/bg][/c] by all cells in [param]B[/bg][/c]."
+			return "Adds all cells in [param A] by all cells in [param B]."
 		_:
 			return super()
 

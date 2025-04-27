@@ -13,4 +13,4 @@ func _get_title() -> String:
 
 
 func _get_description() -> String:
-	return "[code]bool[/bg][/c] parameter editable in the inspector."
+	return "[code]bool[/code] parameter editable in the inspector."

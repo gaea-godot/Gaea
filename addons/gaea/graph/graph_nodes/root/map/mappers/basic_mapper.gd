@@ -10,7 +10,7 @@ func _get_title() -> String:
 
 
 func _get_description() -> String:
-	return "Maps all non-empty cells in [param]reference_data[/bg][/c] to [param]material[/bg][/c]."
+	return "Maps all non-empty cells in [param reference_data] to [param material]."
 
 
 func _get_arguments_list() -> Array[StringName]:

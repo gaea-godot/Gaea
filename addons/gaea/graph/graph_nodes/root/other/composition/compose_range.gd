@@ -18,7 +18,7 @@ func _get_title() -> String:
 
 
 func _get_description() -> String:
-	return "Composes a range value from 2 numbers, [param]min[/bg][/c] and [param]max[/bg][/c]."
+	return "Composes a range value from 2 numbers, [param min] and [param max]."
 
 
 func _get_arguments_list() -> Array[StringName]:

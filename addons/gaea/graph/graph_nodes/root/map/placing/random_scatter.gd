@@ -9,7 +9,7 @@ func _get_title() -> String:
 
 
 func _get_description() -> String:
-	return "Randomly places [param]amount[/bg][/c] [param]material[/bg][/c]s in the cells of [param]reference_data[/bg][/c]."
+	return "Randomly places [param amount] [param material]s in the cells of [param reference_data]."
 
 
 func _get_arguments_list() -> Array[StringName]:

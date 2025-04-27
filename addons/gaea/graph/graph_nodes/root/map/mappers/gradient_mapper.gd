@@ -10,7 +10,7 @@ func _get_title() -> String:
 
 
 func _get_description() -> String:
-	return "Takes a GaeaMaterialGradient resource and samples the corresponding material to the values in [param]reference_data[/bg][/c]."
+	return "Takes a GaeaMaterialGradient resource and samples the corresponding material to the values in [param reference_data]."
 
 
 func _get_arguments_list() -> Array[StringName]:

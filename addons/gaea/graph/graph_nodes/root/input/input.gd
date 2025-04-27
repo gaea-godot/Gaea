@@ -18,7 +18,7 @@ func _get_title() -> String:
 
 func _get_description() -> String:
 	match get_enum_selection(0):
-		InputVar.WORLD_SIZE: return "Outputs the [param]world_size[/bg][/c] parameter in the generator's inspector."
+		InputVar.WORLD_SIZE: return "Outputs the [param world_size] parameter in the generator's inspector."
 		InputVar.AREA_SIZE: return "Outputs the size of the area being currently generated."
 		InputVar.AREA_POSITION: return "Outputs the position of the area being currently generated."
 		InputVar.AREA_END: return "Outputs the bottom right corner position of the area being currently generated."

@@ -9,7 +9,7 @@ func _get_title() -> String:
 
 
 func _get_description() -> String:
-	return "Filters [param]data[/bg][/c] to only the cells at a distance from [param]to_point[/bg][/c] in [param]distance_range[/bg][/c]."
+	return "Filters [param data] to only the cells at a distance from [param to_point] in [param distance_range]."
 
 
 func _get_arguments_list() -> Array[StringName]:

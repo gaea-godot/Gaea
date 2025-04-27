@@ -9,7 +9,7 @@ func _get_title() -> String:
 
 
 func _get_description() -> String:
-	return "Fills the grid with [param]value[/bg][/c]."
+	return "Fills the grid with [param value]."
 
 
 func _get_arguments_list() -> Array[StringName]:

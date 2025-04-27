@@ -10,19 +10,19 @@ func _get_title() -> String:
 
 func _get_description() -> String:
 	if get_tree_name() == "DataOp" and not is_instance_valid(node):
-		return "Operation between a data grid and a [code]float[/bg][/c] number."
+		return "Operation between a data grid and a [code]float[/code] number."
 
 	match get_enum_selection(0):
 		Operation.Add:
-			return "Adds a [code]float[/bg][/c] number to all cells in [param]A[/bg][/c]."
+			return "Adds a [code]float[/code] number to all cells in [param A]."
 		Operation.Subtract:
-			return "Adds a [code]float[/bg][/c] number from all cells in [param]A[/bg][/c]."
+			return "Adds a [code]float[/code] number from all cells in [param A]."
 		Operation.Multiply:
-			return "Adds a [code]float[/bg][/c] number with all cells in [param]A[/bg][/c]."
+			return "Adds a [code]float[/code] number with all cells in [param A]."
 		Operation.Divide:
-			return "Divides all cells in [param]A[/bg][/c] by a [code]float[/bg][/c] number."
+			return "Divides all cells in [param A] by a [code]float[/code] number."
 		_:
-			return super() + "\n\nOperates over all cells of [param]A[/bg][/c], [param]a[/bg][/c] being the cells' value."
+			return super() + "\n\nOperates over all cells of [param A], [param a] being the cells' value."
 
 
 func _get_argument_display_name(arg_name: StringName) -> String:
