@@ -5,8 +5,6 @@
 
 [node name="BaseParameter" instance=ExtResource("1_xkrhe")]
 script = ExtResource("2_pbrqj")
-add_input_slot = true
-input_type = 6
 
 [node name="CheckBox" type="CheckBox" parent="." index="1"]
 layout_mode = 2
