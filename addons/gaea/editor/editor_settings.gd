@@ -20,7 +20,6 @@ const CONFIGURABLE_SLOT_COLORS := {
 	GaeaValue.Type.VECTOR3I: "vector_3i",
 	GaeaValue.Type.RANGE: "range",
 	GaeaValue.Type.MATERIAL: "material",
-	GaeaValue.Type.GRADIENT: "gradient",
 	GaeaValue.Type.DATA: "data",
 	GaeaValue.Type.MAP: "map",
 }

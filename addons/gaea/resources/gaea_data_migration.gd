@@ -3,24 +3,50 @@ class_name GaeaDataMigration
 
 
 static func migrate(data: GaeaData):
-	var current_version = data.other.get(&"save_version", -1)
-
-	if current_version == -1:
+	if data.other.get(&"save_version", -1) == -1:
 		_migration_step_from_beta(data)
+	if data.other.get(&"save_version", -1) == 2:
+		_migration_step_material_merge(data)
+	push_warning("Gaea graph migrated from previous save file format. Please save your project and reload.")
 
-	push_warning("Gaea migrated previous save file to new format.")
 
+## [param node_map] Contains all migration data.
+## Each key is the previous UID.
+## The value can either be:
+## - A String: for a simple direct mapping to a new UID.
+## - An Array:
+##     - First element: the new UID.
+##     - Second element: the values to assign in the data array.
+##     - Third element: the keys to rename in the arguments Dictionary.
+static func _process_migration(data: GaeaData, node_map: Dictionary[String, Variant], new_save_version: int):
+	for idx in data.resource_uids.size():
+		var base_uid = data.resource_uids[idx]
+
+		if data.node_data[idx].has("data"):
+			data.node_data[idx].set(&"arguments", data.node_data[idx].get("data"))
+			data.node_data[idx].erase("data")
+
+		if node_map.has(base_uid):
+			var target_data = node_map.get(base_uid)
+			if typeof(target_data) == TYPE_STRING:
+				data.resource_uids[idx] = target_data
+			else:
+				# Resource UID
+				data.resource_uids[idx] = target_data[0]
+				# Static data to set
+				if target_data.size() > 1:
+					for data_key in target_data[1]:
+						data.node_data[idx].set(data_key, target_data[1].get(data_key))
+				# Argument keys to rename
+				if target_data.size() > 2:
+					for old_key in target_data[2].keys():
+						var arguments: Dictionary = data.node_data[idx].get(&"arguments")
+						arguments.set(target_data[2].get(old_key), arguments.get(old_key))
+						arguments.erase(old_key)
+	data.other.set(&"save_version", new_save_version)
 
 ## Migrate data from rework [url=https://github.com/gaea-godot/gaea/pull/344]#344[/url].
 static func _migration_step_from_beta(data: GaeaData):
-	# Contains all migration data.
-	# Each key is the previous UID.
-	# The value can either be:
-	# - A String: for a simple direct mapping to a new UID.
-	# - An Array:
-	#     - First element: the new UID.
-	#     - Second element: the values to assign in the data array.
-	#     - Third element: the keys to rename in the arguments Dictionary.
 	var node_map: Dictionary[String, Variant] = {
 		"uid://bbkdvyxkj2slo": "uid://dol7xviglksx4", #output_node_resource.tres
 		"uid://kdn03ei2yp6e": "uid://bgqqucap4kua4", #reroute_node_resource.tres
@@ -107,30 +133,13 @@ static func _migration_step_from_beta(data: GaeaData):
 		"uid://cgd05tlepxucw": ["uid://bclwjwmoudxkh", {&"enums": [GaeaNodeVectorBase.VectorType.VECTOR2, GaeaNodeVectorOp.Operation.Divide]}], #root/vector/operations/divide_vector2.tres
 		"uid://hut3x2e74y85": ["uid://bclwjwmoudxkh", {&"enums": [GaeaNodeVectorBase.VectorType.VECTOR3, GaeaNodeVectorOp.Operation.Divide]}], #root/vector/operations/divide_vector3.tres
 	}
+	_process_migration(data, node_map, 2)
 
-	for idx in data.resource_uids.size():
-		var base_uid = data.resource_uids[idx]
 
-		if data.node_data[idx].has("data"):
-			data.node_data[idx].set(&"arguments", data.node_data[idx].get("data"))
-			data.node_data[idx].erase("data")
-
-		if node_map.has(base_uid):
-			var target_data = node_map.get(base_uid)
-			if typeof(target_data) == TYPE_STRING:
-				data.resource_uids[idx] = target_data
-			else:
-				# Resource UID
-				data.resource_uids[idx] = target_data[0]
-				# Static data to set
-				if target_data.size() > 1:
-					for data_key in target_data[1]:
-						data.node_data[idx].set(data_key, target_data[1].get(data_key))
-				# Argument keys to rename
-				if target_data.size() > 2:
-					for old_key in target_data[2].keys():
-						var arguments: Dictionary = data.node_data[idx].get(&"arguments")
-						arguments.set(target_data[2].get(old_key), arguments.get(old_key))
-						arguments.erase(old_key)
-
-	data.other.set(&"save_version", 2)
+## Migrate data for material merge [url=https://github.com/gaea-godot/gaea/pull/TBD]#TBD[/url].
+static func _migration_step_material_merge(data: GaeaData):
+	var node_map: Dictionary[String, Variant] = {
+		"uid://cumythno5ccu3": "uid://cqs1w714pbfql", #root/resources/variables/gradient_parameter.gd
+		"uid://c4yhilhmhasb2": "uid://dux0bq53p61ls", #root/map/mappers/gradient_mapper.gd
+	}
+	_process_migration(data, node_map, 3)

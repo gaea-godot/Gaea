@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://lx5rvgl4j7wl"
-path="res://.godot/imported/material_gradient.svg-cb7f365e7772e8bcffac9ee542a13043.ctex"
+path="res://.godot/imported/sampled_material.svg-229c3f58fc02bef523b0fff458c01acb.ctex"
 metadata={
 "has_editor_variant": true,
 "vram_texture": false
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://addons/gaea/assets/types/material_gradient.svg"
-dest_files=["res://.godot/imported/material_gradient.svg-cb7f365e7772e8bcffac9ee542a13043.ctex"]
+source_file="res://addons/gaea/assets/types/sampled_material.svg"
+dest_files=["res://.godot/imported/sampled_material.svg-229c3f58fc02bef523b0fff458c01acb.ctex"]
 
 [params]
 

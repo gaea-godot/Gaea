@@ -5,7 +5,7 @@ extends Resource
 ## Resource that holds the saved data for a Gaea graph.
 
 ## Current save version used for [GaeaDataMigration].
-const CURRENT_SAVE_VERSION := 2
+const CURRENT_SAVE_VERSION := 3
 
 ## Emitted when the size of [member layers] is changed, or when one of its values is changed.
 signal layer_count_modified

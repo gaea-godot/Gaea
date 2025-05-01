@@ -605,7 +605,7 @@ static func get_formatted_text(unformatted_text: String) -> String:
 
 	return param_regex.sub(unformatted_text, "[bgcolor=%s][color=%s]$1[/color][/bgcolor]" % [PARAM_BG_COLOR.to_html(true), PARAM_TEXT_COLOR.to_html(true)], true) \
 		.replace("GaeaMaterial ", "[hint=%s]GaeaMaterial[/hint] " % GAEA_MATERIAL_HINT) \
-		.replace("GaeaMaterialGradient ", "[hint=%s]GaeaMaterialGradient[/hint] " % GAEA_MATERIAL_GRADIENT_HINT) \
+		.replace("GaeaGradientMaterial ", "[hint=%s]GaeaGradientMaterial[/hint] " % GAEA_MATERIAL_GRADIENT_HINT) \
 		.replace("[code]", "[bgcolor=%s][color=%s][code]" % [CODE_BG_COLOR.to_html(true), CODE_TEXT_COLOR.to_html(true)]) \
 		.replace("[/code]", "[/code][/color][/bgcolor]")
 
@@ -624,6 +624,12 @@ func _is_point_outside_area(area: AABB, point: Vector3) -> bool:
 	area.end -= Vector3.ONE
 	return (point.x < area.position.x or point.y < area.position.y or point.z < area.position.z or
 			point.x > area.end.x or point.y > area.end.y or point.z > area.end.z)
+
+func define_rng(generator_data: GaeaData) -> RandomNumberGenerator:
+	var rng = RandomNumberGenerator.new()
+	rng.set_seed(generator_data.generator.seed + salt)
+	seed(generator_data.generator.seed + salt)
+	return rng
 #endregion
 
 

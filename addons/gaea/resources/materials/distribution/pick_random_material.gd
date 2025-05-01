@@ -1,5 +1,6 @@
 @tool
-class_name RandomMaterial
+@icon("../../../assets/types/sampled_material.svg")
+class_name GaeaPickRandomMaterial
 extends GaeaMaterial
 ## A material that randomly selects between multiple materials.
 ##
@@ -7,13 +8,11 @@ extends GaeaMaterial
 ## [br]
 ## Example:[br]
 ## [codeblock]
-## var random_material = RandomMaterial.new()
+## var random_material = GaeaPointwiseRandomMaterial.new()
 ## random_material.materials = [grass_material, stone_material]
 ## random_material.weights = [70.0, 30.0]
 ## # 70% chance for grass, 30% for stone
 ## [/codeblock]
-
-var _random = RandomNumberGenerator.new()
 
 ## An array of materials to randomly choose from.[br]
 ## The probability of each material being selected is determined by its corresponding value in the [member weights] array.
@@ -42,8 +41,8 @@ var _random = RandomNumberGenerator.new()
 
 
 ## Return the random picked material.
-func get_resource() -> GaeaMaterial:
-	var material_index: int = _random.rand_weighted(weights)
+func get_resource(rng: RandomNumberGenerator) -> GaeaMaterial:
+	var material_index: int = rng.rand_weighted(weights)
 
 	if material_index != -1:
 		return materials[material_index]

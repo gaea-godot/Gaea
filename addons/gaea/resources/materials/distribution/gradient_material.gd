@@ -1,7 +1,7 @@
 @tool
-@icon("../../assets/types/material_gradient.svg")
-class_name GaeaMaterialGradient
-extends Resource
+@icon("../../../assets/types/sampled_material.svg")
+class_name GaeaGradientMaterial
+extends GaeaMaterial
 
 
 signal points_sorted
@@ -60,7 +60,8 @@ func _sort_points() -> void:
 	)
 	points_sorted.emit()
 
-func sample(value: float) -> GaeaMaterial:
+
+func get_sampled_resource(rng: RandomNumberGenerator, value: float) -> GaeaMaterial:
 	value = clampf(value, 0.0, 1.0)
 	for idx: int in points.size():
 		var next_point_offset: float

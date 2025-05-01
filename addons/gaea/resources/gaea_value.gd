@@ -26,7 +26,6 @@ enum Type {
 	## [/codeblock]
 	RANGE = 100,
 	MATERIAL = 101, ## A [GaeaMaterial].
-	GRADIENT = 102, ## A [GaeaMaterialGradient].
 	# Dictionary types from 200 to 299
 	DATA = 200, ## A dictionary of the form [code]{Vector3i: float}[/code].
 	MAP = 201, ## A dictionary of the form [code]{Vector3i: GaeaMaterial}[/code].
@@ -110,8 +109,6 @@ static func from_variant_type(type: Variant.Type, _hint: PropertyHint = PROPERTY
 		TYPE_OBJECT:
 			if hint_string == "GaeaMaterial":
 				return Type.MATERIAL
-			elif hint_string == "GaeaMaterialGradient":
-				return Type.GRADIENT
 	return Type.NULL
 
 
@@ -128,7 +125,6 @@ static func from_old_slot_type(old_type: int) -> GaeaValue.Type:
 		5: return GaeaValue.Type.RANGE
 		6: return GaeaValue.Type.BOOLEAN
 		7: return GaeaValue.Type.VECTOR3
-		8: return GaeaValue.Type.GRADIENT
 		-1: return GaeaValue.Type.NULL
 	return GaeaValue.Type.NULL
 
@@ -150,16 +146,14 @@ static func get_default_color(type: Type) -> Color:
 			return Color("f04c7f") # PINK
 		Type.MATERIAL:
 			return Color("eb2f06") # RED
-		Type.GRADIENT:
-			return Color("4834d4") # BLURPLE
 		# Dictionary types
 		Type.DATA:
 			return Color("f0f8ff") # WHITE
 		Type.MAP:
 			return Color("27ae60") # GREEN
 		# Reserved for later use
-		#SlotType.TEXTURE: # ORANGE
-		#	return Color("e67e22")
+		#	return Color("e67e22") # ORANGE
+		#	return Color("4834d4") # BLURPLE
 	return Color.WHITE
 
 
@@ -186,8 +180,6 @@ static func get_display_icon(type: Type) -> Texture2D:
 			return load("uid://wx4ccwofr8yy")
 		Type.MATERIAL:
 			return load("uid://b0vqox8bodse")
-		Type.GRADIENT:
-			return load("uid://lx5rvgl4j7wl")
 		# Dictionary types
 		Type.DATA:
 			return load("uid://dkccxw7yq1mth")
@@ -218,8 +210,6 @@ static func get_default_slot_icon(type: Type) -> Texture2D:
 			return load("uid://dfsmxavxasx7x")
 		Type.MATERIAL:
 			return load("uid://daasmk1v2rpcm")
-		Type.GRADIENT:
-			return load("uid://ccqq5l0ruur37")
 		# Dictionary types
 		Type.DATA:
 			return load("uid://yo87adchyr3w")
