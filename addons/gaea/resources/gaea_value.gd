@@ -87,6 +87,9 @@ static func get_default_value(type: Type) -> Variant:
 			return [] as Array[int]
 		Type.RULES:
 			return {}
+		# Whether or not it's collapsed.
+		Type.CATEGORY:
+			return false
 	return null
 
 
@@ -237,7 +240,7 @@ static func get_editor_for_type(for_type: GaeaValue.Type) -> PackedScene:
 		GaeaValue.Type.VARIABLE_NAME:
 			return preload("uid://bn8i1l4q13pdw")
 		GaeaValue.Type.RANGE:
-			return preload("uid://dy3oumbnydlmp")
+			return preload("uid://t4osuglcgg6l")
 		GaeaValue.Type.BITMASK, GaeaValue.Type.BITMASK_EXCLUSIVE, GaeaValue.Type.FLAGS:
 			return preload("uid://chdg8ey4ln8d1")
 		GaeaValue.Type.CATEGORY:

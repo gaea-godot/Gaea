@@ -3,7 +3,7 @@ class_name GaeaGraphNode
 extends GraphNode
 ## The in-editor representation of a [GaeaNodeResource] to be used in the Gaea bottom panel.
 
-const _PreviewTexture = preload("uid://dns7s4v8lom4t")
+const _PreviewTexture = preload("res://addons/gaea/graph/components/preview_texture.gd")
 
 ## Emitted when a save is needed from the Gaea panel.
 signal save_requested
@@ -31,6 +31,7 @@ var _finished_loading: bool = false : set = set_finished_loading, get = has_fini
 var _finished_rebuilding: bool = true : get = has_finished_rebuilding
 var _editors: Dictionary[StringName, GaeaGraphNodeArgumentEditor]
 var _enum_editors: Array[OptionButton]
+var _last_category: GaeaArgumentCategory
 
 
 func _ready() -> void:
@@ -107,6 +108,7 @@ func _rebuild() -> void:
 	_finished_rebuilding = true
 
 	_set_titlebar()
+	_last_category = null
 
 
 func _add_slots() -> void:
@@ -123,9 +125,14 @@ func _add_slots() -> void:
 
 
 func _add_argument_editor(for_arg: StringName) -> GaeaGraphNodeArgumentEditor:
-	var scene: PackedScene = GaeaValue.get_editor_for_type(resource.get_argument_type(for_arg))
+	var type: GaeaValue.Type = resource.get_argument_type(for_arg)
+	var scene: PackedScene = GaeaValue.get_editor_for_type(type)
 	var node: GaeaGraphNodeArgumentEditor = scene.instantiate()
 	add_child(node)
+	if type == GaeaValue.Type.CATEGORY:
+		_last_category = node
+	elif is_instance_valid(_last_category):
+		_last_category.arguments.append(node)
 	node.initialize(
 		self,
 		resource.get_argument_type(for_arg),
@@ -238,8 +245,13 @@ func _update_arguments_visibility() -> void:
 			continue
 		input_idx += 1
 
-		if child is GaeaGraphNodeArgumentEditor:
-			child.set_editor_visible(not connections.any(_is_connected_to.bind(input_idx)))
+		if child is not GaeaGraphNodeArgumentEditor:
+			continue
+			
+		if is_zero_approx(child.size.y):
+			continue
+		
+		child.set_editor_visible(not connections.any(_is_connected_to.bind(input_idx)))
 
 	auto_shrink()
 
