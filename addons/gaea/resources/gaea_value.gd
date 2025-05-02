@@ -27,6 +27,7 @@ enum Type {
 	RANGE = 100,
 	MATERIAL = 101, ## A [GaeaMaterial].
 	GRADIENT = 102, ## A [GaeaMaterialGradient].
+	TEXTURE = 103, ## A [Texture].
 	# Dictionary types from 200 to 299
 	DATA = 200, ## A dictionary of the form [code]{Vector3i: float}[/code].
 	MAP = 201, ## A dictionary of the form [code]{Vector3i: GaeaMaterial}[/code].
@@ -112,6 +113,8 @@ static func from_variant_type(type: Variant.Type, _hint: PropertyHint = PROPERTY
 				return Type.MATERIAL
 			elif hint_string == "GaeaMaterialGradient":
 				return Type.GRADIENT
+			elif hint_string.begins_with("Texture"):
+				return Type.TEXTURE
 	return Type.NULL
 
 
@@ -158,8 +161,8 @@ static func get_default_color(type: Type) -> Color:
 		Type.MAP:
 			return Color("27ae60") # GREEN
 		# Reserved for later use
-		#SlotType.TEXTURE: # ORANGE
-		#	return Color("e67e22")
+		Type.TEXTURE: # ORANGE
+			return Color("e67e22")
 	return Color.WHITE
 
 
@@ -188,6 +191,8 @@ static func get_display_icon(type: Type) -> Texture2D:
 			return load("uid://b0vqox8bodse")
 		Type.GRADIENT:
 			return load("uid://lx5rvgl4j7wl")
+		Type.TEXTURE:
+			return load("uid://lx5rvgl4j7wl") #TODO: Change
 		# Dictionary types
 		Type.DATA:
 			return load("uid://dkccxw7yq1mth")
@@ -220,6 +225,8 @@ static func get_default_slot_icon(type: Type) -> Texture2D:
 			return load("uid://daasmk1v2rpcm")
 		Type.GRADIENT:
 			return load("uid://ccqq5l0ruur37")
+		Type.TEXTURE:
+			return load("uid://ccqq5l0ruur37")
 		# Dictionary types
 		Type.DATA:
 			return load("uid://yo87adchyr3w")
@@ -249,59 +256,3 @@ static func get_editor_for_type(for_type: GaeaValue.Type) -> PackedScene:
 		GaeaValue.Type.RULES:
 			return preload("uid://dy4n2a5hkaxsb")
 	return preload("uid://i2nwlab8rau")
-
-
-## Get property type hint, this is mostly used with [method Object._validate_property].
-## This will modify the input property object.
-static func apply_property_type_hint(property: Dictionary, type: Type) -> void:
-	match type:
-		GaeaValue.Type.FLOAT:
-			property.type = TYPE_FLOAT
-			property.usage = PROPERTY_USAGE_EDITOR | PROPERTY_USAGE_STORAGE
-		GaeaValue.Type.INT:
-			property.type = TYPE_INT
-			property.usage = PROPERTY_USAGE_EDITOR | PROPERTY_USAGE_STORAGE
-		GaeaValue.Type.VECTOR2:
-			property.type = TYPE_VECTOR2
-			property.usage = PROPERTY_USAGE_EDITOR | PROPERTY_USAGE_STORAGE
-		GaeaValue.Type.VECTOR2I:
-			property.type = TYPE_VECTOR2I
-			property.usage = PROPERTY_USAGE_EDITOR | PROPERTY_USAGE_STORAGE
-		GaeaValue.Type.RANGE:
-			property.type = TYPE_DICTIONARY
-			property.usage = PROPERTY_USAGE_EDITOR | PROPERTY_USAGE_STORAGE
-		GaeaValue.Type.BITMASK, GaeaValue.Type.BITMASK_EXCLUSIVE:
-			property.type = TYPE_INT
-			property.usage = PROPERTY_USAGE_EDITOR | PROPERTY_USAGE_STORAGE
-			property.hint = PROPERTY_HINT_LAYERS_2D_PHYSICS
-		GaeaValue.Type.BOOLEAN:
-			property.type = TYPE_BOOL
-			property.usage = PROPERTY_USAGE_EDITOR | PROPERTY_USAGE_STORAGE
-		GaeaValue.Type.FLAGS:
-			property.type = TYPE_ARRAY
-			property.hint = PROPERTY_HINT_TYPE_STRING
-			property.usage = PROPERTY_USAGE_EDITOR | PROPERTY_USAGE_STORAGE
-			property.hint_string = "%d:" % [TYPE_INT]
-		GaeaValue.Type.VECTOR3:
-			property.type = TYPE_VECTOR3
-			property.usage = PROPERTY_USAGE_EDITOR | PROPERTY_USAGE_STORAGE
-		GaeaValue.Type.VECTOR3I:
-			property.type = TYPE_VECTOR3I
-			property.usage = PROPERTY_USAGE_EDITOR | PROPERTY_USAGE_STORAGE
-		GaeaValue.Type.NEIGHBORS:
-			property.type = TYPE_ARRAY
-			property.hint = PROPERTY_HINT_TYPE_STRING
-			property.usage = PROPERTY_USAGE_EDITOR | PROPERTY_USAGE_STORAGE
-			property.hint_string = "%d:" % [TYPE_VECTOR2I]
-		GaeaValue.Type.DATA:
-			property.type = TYPE_DICTIONARY
-			property.hint = PROPERTY_HINT_DICTIONARY_TYPE
-			property.hint_string = "%d:;%d:" % [TYPE_VECTOR3I, TYPE_FLOAT]
-			property.usage = PROPERTY_USAGE_EDITOR | PROPERTY_USAGE_STORAGE
-		GaeaValue.Type.MAP:
-			property.type = TYPE_DICTIONARY
-			property.hint = PROPERTY_HINT_DICTIONARY_TYPE
-			property.hint_string = "%d:" % [TYPE_VECTOR3I]
-			property.usage = PROPERTY_USAGE_EDITOR | PROPERTY_USAGE_STORAGE
-		GaeaValue.Type.CATEGORY:
-			property.usage = PROPERTY_USAGE_NONE
