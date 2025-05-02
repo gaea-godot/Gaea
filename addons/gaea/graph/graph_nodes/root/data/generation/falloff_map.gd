@@ -9,10 +9,10 @@ class_name GaeaNodeFalloffMap
 ## Multiplying this with a [GaeaNodeSimplexSmooth]'s generation can create island-looking terrains.
 
 enum FalloffShape {
-	Square,
-	RoundedSquare,
-	Circle,
-	Squircle,
+	SQUARE,
+	ROUNDEDSQUARE,
+	CIRCLE,
+	SQUIRCLE,
 }
 
 
@@ -59,7 +59,7 @@ class FalloffSampler:
 	func _on_init():
 		pass
 
-	func cx(x: float) -> float:
+	func normalize_x(x: float) -> float:
 		x -= pos_x
 		if size_x_is_smaller:
 			return remap(x, 0, size_x - 1.0, -1.0, 1.0)
@@ -69,7 +69,7 @@ class FalloffSampler:
 			return remap(size_x - x, 1.0, size_x_ajusted, -1.0, 1.0)
 		return 0
 
-	func cy(y: float) -> float:
+	func normalize_y(y: float) -> float:
 		y -= pos_y
 		if size_y_is_smaller:
 			return remap(y, 0, size_y - 1.0, -1.0, 1.0)
@@ -96,14 +96,14 @@ class FalloffSamplerSquare:
 	extends FalloffSampler
 
 	func _get_sample(x: int, y: int) -> float:
-		return maxf(absf(cx(x)), absf(cy(y)))
+		return maxf(absf(normalize_x(x)), absf(normalize_y(y)))
 
 
 class FalloffSamplerRoundedSquare:
 	extends FalloffSampler
 
 	func _get_sample(x: int, y: int) -> float:
-		return sqrt(cx(x) ** 4 + (cy(y)) ** 4)
+		return sqrt(normalize_x(x) ** 4 + (normalize_y(y)) ** 4)
 
 
 class FalloffSamplerCircle:
@@ -114,14 +114,14 @@ class FalloffSamplerCircle:
 		one_on_sqrt_two = 1.0 / sqrt(2.0)
 
 	func _get_sample(x: int, y: int) -> float:
-		return min(1.0, (cx(x) ** 2 + cy(y) ** 2) * one_on_sqrt_two)
+		return min(1.0, (normalize_x(x) ** 2 + normalize_y(y) ** 2) * one_on_sqrt_two)
 
 
 class FalloffSamplerSquircle:
 	extends FalloffSampler
 
 	func _get_sample(x: int, y: int) -> float:
-		return 1.0 - (1.0 - cx(x) ** 2) * (1.0 - cy(y) ** 2)
+		return 1.0 - (1.0 - normalize_x(x) ** 2) * (1.0 - normalize_y(y) ** 2)
 
 
 func _get_title() -> String:
@@ -171,13 +171,13 @@ func _get_data(output_port: StringName, area: AABB, generator_data: GaeaData) ->
 	var grid: Dictionary[Vector3i, float]
 	var sampler: FalloffSampler
 	match get_enum_selection(0):
-		FalloffShape.Square:
+		FalloffShape.SQUARE:
 			sampler = FalloffSamplerSquare.new(area, start, end)
-		FalloffShape.RoundedSquare:
+		FalloffShape.ROUNDEDSQUARE:
 			sampler = FalloffSamplerRoundedSquare.new(area, start, end)
-		FalloffShape.Circle:
+		FalloffShape.CIRCLE:
 			sampler = FalloffSamplerCircle.new(area, start, end)
-		FalloffShape.Squircle:
+		FalloffShape.SQUIRCLE:
 			sampler = FalloffSamplerSquircle.new(area, start, end)
 
 	for x in _get_axis_range(Axis.X, area):
