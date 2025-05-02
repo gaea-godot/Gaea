@@ -29,11 +29,17 @@ func get_arg_value() -> bool:
 func set_arg_value(new_value: Variant) -> void:
 	if typeof(new_value) != TYPE_BOOL:
 		return
+		
+	if not hint.get("collapsable", true):
+		new_value = false
 
 	_collapse_button.set_pressed(new_value)
 
 
 func _on_label_gui_input(event: InputEvent) -> void:
+	if not hint.get("collapsable", true):
+		return
+		
 	if event is InputEventMouseButton:
 		if not event.is_pressed():
 			return
