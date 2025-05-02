@@ -19,6 +19,5 @@ func _is_sampled() -> bool:
 	return true
 
 
-## Return the random picked material.
-func get_sampled_resource(rng: RandomNumberGenerator, _value: float) -> GaeaMaterial:
+func _get_sampled_resource(rng: RandomNumberGenerator, _value: float) -> GaeaMaterial:
 	return get_resource(rng)
