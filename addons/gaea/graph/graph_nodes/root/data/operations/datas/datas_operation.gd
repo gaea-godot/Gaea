@@ -43,6 +43,8 @@ func _get_description() -> String:
 			return "Multiplies all cells in [param B] with all cells in [param A]."
 		Operation.Divide:
 			return "Adds all cells in [param A] by all cells in [param B]."
+		Operation.Lerp:
+			return "Linearly interpolates between all cells in [param A] and [param B] by [param weight]."
 		_:
 			return super()
 
@@ -76,11 +78,16 @@ func _get_arguments_list() -> Array[StringName]:
 	return OPERATION_DEFINITIONS.get(get_enum_selection(0)).args
 
 
-func _get_argument_type(_arg_name: StringName) -> GaeaValue.Type:
-	if _arg_name == &"weight":
+func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
+	if arg_name == &"weight":
 		return GaeaValue.Type.FLOAT
 	return GaeaValue.Type.DATA
-
+	
+	
+func _get_argument_hint(arg_name: StringName) -> Dictionary[String, Variant]:
+	if arg_name == &"weight":
+		return {"min": 0.0, "max": 1.0}
+	return super(arg_name)
 
 func _on_enum_value_changed(_enum_idx: int, _option_value: int) -> void:
 	notify_argument_list_changed()
