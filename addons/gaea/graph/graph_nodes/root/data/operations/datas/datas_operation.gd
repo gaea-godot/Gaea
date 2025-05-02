@@ -5,10 +5,10 @@ extends GaeaNodeResource
 
 
 enum Operation {
-	Add,
-	Subtract,
-	Multiply,
-	Divide,
+	ADD,
+	SUBTRACT,
+	MULTIPLY,
+	DIVIDE,
 }
 
 class Definition:
@@ -34,13 +34,13 @@ func _get_description() -> String:
 		return "Operation between 2 data grids."
 
 	match get_enum_selection(0):
-		Operation.Add:
+		Operation.ADD:
 			return "Adds all cells in [param B] to all cells in [param A]."
-		Operation.Subtract:
+		Operation.SUBTRACT:
 			return "Adds all cells in [param B] from all cells in [param A]."
-		Operation.Multiply:
+		Operation.MULTIPLY:
 			return "Multiplies all cells in [param B] with all cells in [param A]."
-		Operation.Divide:
+		Operation.DIVIDE:
 			return "Adds all cells in [param A] by all cells in [param B]."
 		_:
 			return super()
@@ -115,13 +115,13 @@ func _get_operation_definitions() -> Dictionary[Operation, Definition]:
 		return OPERATION_DEFINITIONS
 
 	OPERATION_DEFINITIONS = {
-		Operation.Add:
+		Operation.ADD:
 			Definition.new([&"a", &"b"], "A + B", func(a: Variant, b: Variant): return a + b),
-		Operation.Subtract:
+		Operation.SUBTRACT:
 			Definition.new([&"a", &"b"], "A - B", func(a: Variant, b: Variant): return a - b),
-		Operation.Multiply:
+		Operation.MULTIPLY:
 			Definition.new([&"a", &"b"], "A * B", func(a: Variant, b: Variant): return a * b),
-		Operation.Divide:
+		Operation.DIVIDE:
 			Definition.new([&"a", &"b"], "A / B", func(a: Variant, b: Variant): return 0 if is_zero_approx(b) else a / b)
 	}
 	return OPERATION_DEFINITIONS
