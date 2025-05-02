@@ -8,6 +8,8 @@ extends GaeaRenderer
 ## @deprecated: Use [member grid_maps] instead
 var gridmap: GridMap
 
+## Should match the size of the [member generator]'s [member GaeaData.layers] array. Will
+## try to match any generated layers and render it using the corresponding [GridMap].
 @export var grid_maps: Array[GridMap] = []
 
 ## Used to migrate gridmap reference
