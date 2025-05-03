@@ -140,6 +140,6 @@ func _get_operation_definitions() -> Dictionary[Operation, Definition]:
 		Operation.DIVIDE:
 			Definition.new([&"a", &"b"], "A / B", func(a: Variant, b: Variant): return 0 if is_zero_approx(b) else a / b),
 		Operation.LERP:
-			Definition.new([&"a", &"b", &"weight"], "lerp(a, b, weight)", lerp)
+			Definition.new([&"a", &"b", &"weight"], "lerp(a, b, weight)", lerpf)
 	}
 	return OPERATION_DEFINITIONS
