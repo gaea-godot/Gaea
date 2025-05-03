@@ -9,7 +9,7 @@ enum Operation {
 	SUBTRACT,
 	MULTIPLY,
 	DIVIDE,
-  LERP
+	LERP
 }
 
 class Definition:
