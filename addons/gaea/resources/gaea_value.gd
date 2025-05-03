@@ -192,7 +192,7 @@ static func get_display_icon(type: Type) -> Texture2D:
 		Type.GRADIENT:
 			return load("uid://lx5rvgl4j7wl")
 		Type.TEXTURE:
-			return load("uid://lx5rvgl4j7wl") #TODO: Change
+			return EditorInterface.get_base_control().get_theme_icon(&"Image", &"EditorIcons")
 		# Dictionary types
 		Type.DATA:
 			return load("uid://dkccxw7yq1mth")
