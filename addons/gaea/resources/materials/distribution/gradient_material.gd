@@ -45,6 +45,8 @@ signal points_sorted
 				points.get(idx).set(&"offset", value.get(idx))
 
 		_sort_points()
+
+
 @export_storage var points: Array[Dictionary]
 
 
@@ -61,7 +63,7 @@ func _sort_points() -> void:
 	points_sorted.emit()
 
 
-func _get_sampled_resource(rng: RandomNumberGenerator, value: float) -> GaeaMaterial:
+func _get_sampled_resource(_rng: RandomNumberGenerator, value: float) -> GaeaMaterial:
 	value = clampf(value, 0.0, 1.0)
 	for idx: int in points.size():
 		var next_point_offset: float

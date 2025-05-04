@@ -41,7 +41,7 @@ extends GaeaMaterial
 
 
 ## Return the random picked material.
-func get_resource(rng: RandomNumberGenerator) -> GaeaMaterial:
+func _get_resource(rng: RandomNumberGenerator) -> GaeaMaterial:
 	var material_index: int = rng.rand_weighted(weights)
 
 	if material_index != -1:
