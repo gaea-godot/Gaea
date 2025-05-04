@@ -161,8 +161,8 @@ static func get_default_color(type: Type) -> Color:
 		Type.MAP:
 			return Color("27ae60") # GREEN
 		# Reserved for later use
-		Type.TEXTURE: # ORANGE
-			return Color("e67e22")
+		Type.TEXTURE: 
+			return Color("e67e22") # ORANGE
 	return Color.WHITE
 
 

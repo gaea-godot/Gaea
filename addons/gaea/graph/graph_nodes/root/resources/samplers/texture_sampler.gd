@@ -1,7 +1,7 @@
 @tool
-# class_name GaeaNode...
+class_name GaeaNodeTextureSampler
 extends GaeaNodeResource
-## Node description.
+## Samples [param texture] into 4 different data grids for each channel.
 
 
 func _get_title() -> String:
@@ -9,16 +9,16 @@ func _get_title() -> String:
 
 
 func _get_description() -> String:
-	return "Samples [param texture] into 4 different data grids for each channel.\nIf [param apply_noise] is [code]true[/code], and the texture is a noise texture, it'll apply the current seed to it."
+	return "Samples [param texture] into 4 different data grids for each channel."
 
 
 # List of all the arguments, preferably in &"snake_case".
 func _get_arguments_list() -> Array[StringName]:
-	return [&"texture", &"apply_seed"]
+	return [&"texture"]
 
 
-func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
-	return GaeaValue.Type.TEXTURE if arg_name == &"texture" else GaeaValue.Type.BOOLEAN
+func _get_argument_type(_arg_name: StringName) -> GaeaValue.Type:
+	return GaeaValue.Type.TEXTURE
 
 
 # List of all the outputs, preferably in &"snake_case"
@@ -30,7 +30,7 @@ func _get_output_port_display_name(output_name: StringName) -> String:
 	return output_name
 
 
-func _get_output_port_type(output_name: StringName) -> GaeaValue.Type:
+func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.DATA
 
 
@@ -40,10 +40,6 @@ func _get_data(output_port: StringName, area: AABB, generator_data: GaeaData) ->
 	if not is_instance_valid(texture):
 		return {}
 		
-	if _get_arg(&"apply_seed", area, generator_data):
-		if texture is NoiseTexture2D or texture is NoiseTexture3D:
-			texture.noise.seed = generator_data.generator.seed + salt
-			
 	var r_grid: Dictionary
 	var g_grid: Dictionary
 	var b_grid: Dictionary
@@ -54,12 +50,19 @@ func _get_data(output_port: StringName, area: AABB, generator_data: GaeaData) ->
 		slices = [texture.get_image()]
 	elif texture is Texture3D:
 		slices = texture.get_data()
+	
+	if not slices.any(is_instance_valid):
+		return {}
 		
 	for x in _get_axis_range(Axis.X, area):
 		for y in _get_axis_range(Axis.Y, area):
 			for z in _get_axis_range(Axis.Z, area):
 				if slices.size() <= z:
 					break
+					
+				if not is_instance_valid(slices[z]):
+					continue
+					
 				var cell: Vector3i = Vector3i(x, y, z)
 				if not slices[z].get_used_rect().has_point(Vector2i(x, y)):
 					continue

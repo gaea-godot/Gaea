@@ -1,7 +1,7 @@
 @tool
 class_name GaeaNodeTexture3DParameter
 extends GaeaNodeParameter
-## type parameter editable in the inspector.
+## [Texture3D] parameter editable in the inspector.
 
 
 func _get_variant_type() -> int:
