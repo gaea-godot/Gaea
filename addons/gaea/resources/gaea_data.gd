@@ -12,11 +12,11 @@ signal layer_count_modified
 
 ## Flags used for determining what to log during generation. See [member logging].
 enum Log {
-	None=0,
-	Execute=1, ## Log execution data such as current area & current layer.
-	Traverse=2, ## Log traverse data (which nodes are being traversed in the graph).
-	Data=4,  ## Log which data is being generated from which port.
-	Args=8  ## Log which arguments are being grabbed.
+	NONE=0,
+	EXECUTE=1, ## Log execution data such as current area & current layer.
+	TRAVERSE=2, ## Log traverse data (which nodes are being traversed in the graph).
+	DATA=4,  ## Log which data is being generated from which port.
+	ARGS=8  ## Log which arguments are being grabbed.
 }
 
 ## [GaeaLayer]s as seen in the Output node in the graph. Can be used
@@ -28,7 +28,7 @@ enum Log {
 		emit_changed()
 @export_group("Debug")
 ## Selection of what to print in the Output console during generation. See [enum Log].
-@export_flags("Execute", "Traverse", "Data", "Args") var logging:int = Log.None
+@export_flags("Execute", "Traverse", "Data", "Args") var logging:int = Log.NONE
 ## List of all connections between nodes. The dictionaries contain the following properties:
 ## [codeblock]
 ## {
