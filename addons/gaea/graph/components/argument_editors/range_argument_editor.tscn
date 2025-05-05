@@ -15,8 +15,12 @@ corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
 [node name="BaseParameter" instance=ExtResource("1_d46g4")]
+mouse_filter = 2
 vertical = true
 script = ExtResource("1_xfmar")
+
+[node name="Label" parent="." index="0"]
+mouse_filter = 2
 
 [node name="MinSlider" type="HSlider" parent="." index="1"]
 layout_mode = 2
@@ -103,3 +107,5 @@ step = 0.01
 value = 1.0
 allow_greater = true
 allow_lesser = true
+
+[connection signal="gui_input" from="MinSlider" to="." method="_on_min_slider_gui_input"]
