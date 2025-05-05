@@ -20,6 +20,7 @@ func _configure() -> void:
 		spin_box.step = 1
 		
 	h_slider.visible = hint.has("min") and hint.has("max")
+	h_slider.step = spin_box.step
 
 	spin_box.min_value = hint.get("min", 0.0)
 	spin_box.allow_lesser = not hint.has("min")
