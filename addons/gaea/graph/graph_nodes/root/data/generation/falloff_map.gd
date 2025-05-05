@@ -10,7 +10,7 @@ class_name GaeaNodeFalloffMap
 
 enum FalloffShape {
 	SQUARE,
-	ROUNDEDSQUARE,
+	ROUNDED_SQUARE,
 	CIRCLE,
 	SQUIRCLE,
 }
@@ -173,7 +173,7 @@ func _get_data(output_port: StringName, area: AABB, generator_data: GaeaData) ->
 	match get_enum_selection(0):
 		FalloffShape.SQUARE:
 			sampler = FalloffSamplerSquare.new(area, start, end)
-		FalloffShape.ROUNDEDSQUARE:
+		FalloffShape.ROUNDED_SQUARE:
 			sampler = FalloffSamplerRoundedSquare.new(area, start, end)
 		FalloffShape.CIRCLE:
 			sampler = FalloffSamplerCircle.new(area, start, end)
