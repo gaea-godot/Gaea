@@ -326,13 +326,19 @@ func load_save_data(saved_data: Dictionary) -> void:
 	_finished_loading = true
 
 
+func _get_tooltip(_at_position: Vector2) -> String:
+	return resource.get_description()
+
+
 func _make_custom_tooltip(for_text: String) -> Object:
-	for_text = GaeaNodeResource.get_formatted_text(resource.get_description())
+	if for_text.length() == 0:
+		return null
+
 	var rich_text_label: RichTextLabel = RichTextLabel.new()
 	rich_text_label.autowrap_mode = TextServer.AUTOWRAP_WORD
 
 	rich_text_label.bbcode_enabled = true
-	rich_text_label.text = for_text
+	rich_text_label.text = GaeaNodeResource.get_formatted_text(for_text)
 	rich_text_label.fit_content = true
 	rich_text_label.custom_minimum_size.x = 256.0
 	return rich_text_label
