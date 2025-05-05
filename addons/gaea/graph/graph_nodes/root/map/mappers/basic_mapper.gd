@@ -39,7 +39,7 @@ func _get_data(output_port: StringName, area: AABB, generator_data: GaeaData) ->
 	var grid: Dictionary[Vector3i, GaeaMaterial] = {}
 	var grid_data := _get_arg(&"reference_data", area, generator_data) as Dictionary
 	var material := _get_arg(&"material", area, generator_data) as GaeaMaterial
-	var rng = define_rng(generator_data)
+	var rng := define_rng(generator_data)
 
 	if not is_instance_valid(material):
 		_log_error("Invalid material provided", generator_data, generator_data.resources.find(self))

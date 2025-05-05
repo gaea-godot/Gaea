@@ -1,6 +1,5 @@
 @tool
-@icon("../../../assets/types/material.svg")
-class_name GaeaGridMapMaterial
+class_name GridMapGaeaMaterial
 extends GaeaMaterial
 ## Resource used to tell the [GridMapGaeaRenderer] which item from a [GridMap] to place.
 

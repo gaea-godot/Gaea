@@ -1,6 +1,5 @@
 @tool
-@icon("../../../assets/types/material.svg")
-class_name GaeaTileMapMaterial
+class_name TileMapGaeaMaterial
 extends GaeaMaterial
 ## Resource used to tell the [TileMapGaeaRenderer] which tile from a [TileMapLayer] to place.
 

@@ -1,7 +1,7 @@
 @tool
 class_name GridMapGaeaRenderer
 extends GaeaRenderer
-## Renders [GaeaGridMapMaterial]s to a [GridMap].
+## Renders [GridMapGaeaMaterial]s to a [GridMap].
 
 
 ## The [GridMap] this will try to render on.
@@ -27,7 +27,7 @@ func _render(grid: GaeaGrid) -> void:
 			
 		for cell in grid.get_layer(layer_idx):
 			var value = grid.get_layer(layer_idx)[cell]
-			if value is GaeaGridMapMaterial:
+			if value is GridMapGaeaMaterial:
 				grid_maps[layer_idx].set_cell_item(cell, value.item_idx)
 
 

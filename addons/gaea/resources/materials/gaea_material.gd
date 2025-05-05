@@ -8,12 +8,12 @@ extends Resource
 ## This is an abstract class. On its own, it doesn't do anything,
 ## but it can be extended to hold data related to the chosen rendering method.
 ## See [TileMapMaterial] and [GridMapMaterial].
-## It can also be used to hold sub-resources to be selected programmatically. See [GaeaPointwiseRandomMaterial].
+## It can also be used to hold sub-resources to be selected programmatically. See [PointwiseRandomGaeaMaterial].
 
 const RECURSIVE_LIMIT = 10
 
 @export_group("Preview", "preview_")
-## Color used for previews in the graph interface or in the [GaeaGradientMaterial] inspector.
+## Color used for previews in the graph interface or in the [GradientGaeaMaterial] inspector.
 @export var preview_color: Color = Color.TRANSPARENT
 
 

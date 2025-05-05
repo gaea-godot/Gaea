@@ -1,6 +1,5 @@
 @tool
-@icon("../../../assets/types/sampled_material.svg")
-class_name GaeaGradientMaterial
+class_name GradientGaeaMaterial
 extends GaeaMaterial
 
 
@@ -51,6 +50,7 @@ signal points_sorted
 
 
 func _init() -> void:
+	super()
 	points.append({&"material": null, &"offset": 0.0})
 	notify_property_list_changed()
 

@@ -605,7 +605,7 @@ static func get_formatted_text(unformatted_text: String) -> String:
 
 	return param_regex.sub(unformatted_text, "[bgcolor=%s][color=%s]$1[/color][/bgcolor]" % [PARAM_BG_COLOR.to_html(true), PARAM_TEXT_COLOR.to_html(true)], true) \
 		.replace("GaeaMaterial ", "[hint=%s]GaeaMaterial[/hint] " % GAEA_MATERIAL_HINT) \
-		.replace("GaeaGradientMaterial ", "[hint=%s]GaeaGradientMaterial[/hint] " % GAEA_MATERIAL_GRADIENT_HINT) \
+		.replace("GradientGaeaMaterial ", "[hint=%s]GradientGaeaMaterial[/hint] " % GAEA_MATERIAL_GRADIENT_HINT) \
 		.replace("[code]", "[bgcolor=%s][color=%s][code]" % [CODE_BG_COLOR.to_html(true), CODE_TEXT_COLOR.to_html(true)]) \
 		.replace("[/code]", "[/code][/color][/bgcolor]")
 

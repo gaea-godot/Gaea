@@ -56,7 +56,7 @@ func _get_data(output_port: StringName, area: AABB, generator_data: GaeaData) ->
 
 	var grid_data: Dictionary = _get_arg(&"reference_data", area, generator_data)
 	var material: GaeaMaterial = _get_arg(&"material", area, generator_data)
-	var rng = define_rng(generator_data)
+	var rng := define_rng(generator_data)
 	var grid: Dictionary[Vector3i, GaeaMaterial]
 
 	var rules: Dictionary = _get_arg(&"rules", area, generator_data)
