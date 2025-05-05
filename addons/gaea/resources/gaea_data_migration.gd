@@ -45,6 +45,7 @@ static func _process_migration(data: GaeaData, node_map: Dictionary[String, Vari
 						arguments.erase(old_key)
 	data.other.set(&"save_version", new_save_version)
 
+
 ## Migrate data from rework [url=https://github.com/gaea-godot/gaea/pull/344]#344[/url].
 static func _migration_step_from_beta(data: GaeaData):
 	var node_map: Dictionary[String, Variant] = {
