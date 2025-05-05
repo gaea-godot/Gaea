@@ -96,28 +96,28 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.DATA
 
 
-func _get_data(output_port: StringName, area: AABB, generator_data: GaeaData) -> Dictionary:
-	_log_data(output_port, generator_data)
+func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary:
+	_log_data(output_port, graph)
 	var axis_type: AxisType = get_enum_selection(0) as AxisType
 
-	var _starting_position: Vector3 = _get_arg(&"starting_position", area, generator_data)
+	var _starting_position: Vector3 = _get_arg(&"starting_position", area, graph)
 	_starting_position = _starting_position.round()
 
 	var rotation_weights: Dictionary = {
-		PI / 2.0: _get_arg(&"rotate_90_weight", area, generator_data),
-		-PI / 2.0: _get_arg(&"rotate_-90_weight", area, generator_data),
-		PI: _get_arg(&"rotate_180_weight", area, generator_data)
+		PI / 2.0: _get_arg(&"rotate_90_weight", area, graph),
+		-PI / 2.0: _get_arg(&"rotate_-90_weight", area, graph),
+		PI: _get_arg(&"rotate_180_weight", area, graph)
 	}
-	var direction_change_chance: float = float(_get_arg(&"direction_change_chance", area, generator_data)) / 100.0
-	var new_walker_chance: float = float(_get_arg(&"new_walker_chance", area, generator_data)) / 100.0
-	var destroy_walker_chance: float = float(_get_arg(&"destroy_walker_chance", area, generator_data)) / 100.0
-	var bigger_room_chance: float = float(_get_arg(&"bigger_room_chance", area, generator_data)) / 100.0
-	var bigger_room_size_range: Dictionary = _get_arg(&"bigger_room_size_range", area, generator_data)
+	var direction_change_chance: float = float(_get_arg(&"direction_change_chance", area, graph)) / 100.0
+	var new_walker_chance: float = float(_get_arg(&"new_walker_chance", area, graph)) / 100.0
+	var destroy_walker_chance: float = float(_get_arg(&"destroy_walker_chance", area, graph)) / 100.0
+	var bigger_room_chance: float = float(_get_arg(&"bigger_room_chance", area, graph)) / 100.0
+	var bigger_room_size_range: Dictionary = _get_arg(&"bigger_room_size_range", area, graph)
 
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
-	rng.set_seed(generator_data.generator.seed + salt)
-	seed(generator_data.generator.seed + salt)
-	var max_cells: int = _get_arg(&"max_cells", area, generator_data)
+	rng.set_seed(graph.generator.seed + salt)
+	seed(graph.generator.seed + salt)
+	var max_cells: int = _get_arg(&"max_cells", area, graph)
 	max_cells = mini(
 		max_cells,
 		roundi(area.size.x) * (roundi(area.size.y) if axis_type == AxisType.XY else roundi(area.size.z))

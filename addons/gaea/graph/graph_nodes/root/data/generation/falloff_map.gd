@@ -164,10 +164,10 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.DATA
 
 
-func _get_data(output_port: StringName, area: AABB, generator_data: GaeaData) -> Dictionary:
-	_log_data(output_port, generator_data)
-	var start: float = _get_arg(&"start", area, generator_data)
-	var end: float = _get_arg(&"end", area, generator_data)
+func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary:
+	_log_data(output_port, graph)
+	var start: float = _get_arg(&"start", area, graph)
+	var end: float = _get_arg(&"end", area, graph)
 	var grid: Dictionary[Vector3i, float]
 	var sampler: FalloffSampler
 	match get_enum_selection(0):

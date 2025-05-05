@@ -59,31 +59,31 @@ func _get_tree_items() -> Array[GaeaNodeResource]:
 	return array
 
 
-func _get_data(output_port: StringName, area: AABB, generator_data: GaeaData) -> Variant:
-	_log_data(output_port, generator_data)
+func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Variant:
+	_log_data(output_port, graph)
 
 	match get_enum_selection(0):
 		VectorType.VECTOR2:
 			return Vector2(
-				_get_arg(&"x", area, generator_data),
-				_get_arg(&"y", area, generator_data),
+				_get_arg(&"x", area, graph),
+				_get_arg(&"y", area, graph),
 			)
 		VectorType.VECTOR3:
 			return Vector3(
-				_get_arg(&"x", area, generator_data),
-				_get_arg(&"y", area, generator_data),
-				_get_arg(&"z", area, generator_data),
+				_get_arg(&"x", area, graph),
+				_get_arg(&"y", area, graph),
+				_get_arg(&"z", area, graph),
 			)
 		VectorType.VECTOR2I:
 			return Vector2i(
-				_get_arg(&"x", area, generator_data),
-				_get_arg(&"y", area, generator_data),
+				_get_arg(&"x", area, graph),
+				_get_arg(&"y", area, graph),
 			)
 		VectorType.VECTOR3I:
 			return Vector3i(
-				_get_arg(&"x", area, generator_data),
-				_get_arg(&"y", area, generator_data),
-				_get_arg(&"z", area, generator_data),
+				_get_arg(&"x", area, graph),
+				_get_arg(&"y", area, graph),
+				_get_arg(&"z", area, graph),
 			)
 	return null
 

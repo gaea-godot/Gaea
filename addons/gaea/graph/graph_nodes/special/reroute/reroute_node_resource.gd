@@ -44,11 +44,11 @@ func _get_scene() -> PackedScene:
 	return preload("uid://b2rceqo8rtr88")
 
 
-func _get_data(output_port: StringName, area: AABB, generator_data: GaeaData) -> Variant:
-	return _get_arg(output_port, area, generator_data)
+func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Variant:
+	return _get_arg(output_port, area, graph)
 
 
-func _use_caching(_output_port: StringName, _generator_data:GaeaData) -> bool:
+func _use_caching(_output_port: StringName, _graph: GaeaGraph) -> bool:
 	return false
 
 

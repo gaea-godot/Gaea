@@ -4,7 +4,7 @@ extends GaeaRenderer
 ## Renders [TileMapMaterial]s to [TileMapLayer]s.
 
 
-## Should match the size of the [member generator]'s [member GaeaData.layers] array. Will
+## Should match the size of the [member generator]'s [member GaeaGraph.layers] array. Will
 ## try to match any generated layers and render it using the corresponding [TileMapLayer].
 @export var tile_map_layers: Array[TileMapLayer] = []
 

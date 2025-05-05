@@ -34,9 +34,9 @@ const GAEA_MATERIAL_GRADIENT_HINT := "Resource that maps values from 0.0-1.0 to 
 ## The dictionaries contain the following properties:
 ## [codeblock]
 ## {
-##    from_node: int, # Index of the node in [member GaeaData.resources]
+##    from_node: int, # Index of the node in [member GaeaGraph.resources]
 ##    from_port: int, # Index of the port of the node
-##    to_node: int,   # Index of the node in [member GaeaData.resources]
+##    to_node: int,   # Index of the node in [member GaeaGraph.resources]
 ##    to_port: int,   # Index of the port of the node
 ##    keep_alive: bool
 ## }
@@ -365,20 +365,20 @@ func _on_argument_value_changed(arg_name: StringName, new_value: Variant) -> voi
 
 
 #region Args
-## Returns the value of the argument of [param name]. Pass in [param generator_data] to allow overriding with input slots.[br]
+## Returns the value of the argument of [param name]. Pass in [param graph] to allow overriding with input slots.[br]
 ## [param area] is used for values of the type Data or Map. (See [enum GaeaValue.Type]).
-func _get_arg(arg_name: StringName, area: AABB, generator_data: GaeaData) -> Variant:
-	_log_arg(arg_name, generator_data)
+func _get_arg(arg_name: StringName, area: AABB, graph: GaeaGraph) -> Variant:
+	_log_arg(arg_name, graph)
 
 	var connection := _get_argument_connection(arg_name)
 	if not connection.is_empty():
 		var connected_idx = connection.from_node
-		var connected_node = generator_data.resources[connected_idx]
+		var connected_node = graph.resources[connected_idx]
 		var connected_output = connected_node.connection_idx_to_output(connection.from_port)
 		var connected_data = connected_node.traverse(
 			connected_output,
 			area,
-			generator_data
+			graph
 		)
 		if connected_data.has("value"):
 			var connected_value = connected_data.get("value")
@@ -390,7 +390,7 @@ func _get_arg(arg_name: StringName, area: AABB, generator_data: GaeaData) -> Var
 			else:
 				return GaeaValueCast.cast_value(connected_type, _get_argument_type(arg_name), connected_value)
 		else:
-			_log_error("Could not get data from previous node, using default value instead.", generator_data, connected_idx)
+			_log_error("Could not get data from previous node, using default value instead.", graph, connected_idx)
 			return get_argument_default_value(arg_name)
 
 	return arguments.get(arg_name, get_argument_default_value(arg_name))
@@ -399,60 +399,60 @@ func _get_arg(arg_name: StringName, area: AABB, generator_data: GaeaData) -> Var
 
 #region Execution
 ## Traverses the graph using this node's connections, and returns the result for [param output_port].
-func traverse(output_port: StringName, area: AABB, generator_data:GaeaData) -> Variant:
-	_log_traverse(generator_data)
+func traverse(output_port: StringName, area: AABB, graph: GaeaGraph) -> Variant:
+	_log_traverse(graph)
 
 	# Caching
-	var use_caching = _use_caching(output_port, generator_data)
-	if use_caching and _has_cached_data(output_port, generator_data):
-		return _get_cached_data(output_port, generator_data)
+	var use_caching = _use_caching(output_port, graph)
+	if use_caching and _has_cached_data(output_port, graph):
+		return _get_cached_data(output_port, graph)
 
 	# Validation
-	if not _has_inputs_connected(_get_required_arguments(), generator_data):
+	if not _has_inputs_connected(_get_required_arguments(), graph):
 		return {}
 
 	# Get Data
 
 	var results: Dictionary = {
-		&"value": _get_data(output_port, area, generator_data),
+		&"value": _get_data(output_port, area, graph),
 		&"type": _get_output_port_type(output_port)
 	}
 
 	if use_caching:
-		_set_cached_data(output_port, generator_data, results)
+		_set_cached_data(output_port, graph, results)
 	return results
 
 
 ## Returns the data corresponding to [param output_port]. Should be overridden to create custom
 ## behavior for each node.
-func _get_data(_output_port: StringName, _area: AABB, _generator_data: GaeaData) -> Variant:
+func _get_data(_output_port: StringName, _area: AABB, _graph: GaeaGraph) -> Variant:
 	return {}
 #endregion
 
 
 #region Caching
 ## Checks if this node should use caching or not. Can be overridden to disable it.
-func _use_caching(_output_port: StringName, _generator_data:GaeaData) -> bool:
+func _use_caching(_output_port: StringName, _graph: GaeaGraph) -> bool:
 	return true
 
 
 ## Adds or sets data to the cache at GaeaNodeResource, then output_port index.
 ## This is called during [method traverse] if [method _use_caching] returns [code]true[/code],
 ## but can also be called in special cases where you want to manually add cached values.
-func _set_cached_data(output_port: StringName, generator_data:GaeaData, new_data:Dictionary) -> void:
-	var node_cache:Dictionary = generator_data.cache.get_or_add(self, {})
+func _set_cached_data(output_port: StringName, graph: GaeaGraph, new_data:Dictionary) -> void:
+	var node_cache:Dictionary = graph.cache.get_or_add(self, {})
 	node_cache[output_port] = new_data
 
 
 # Checks if the cache has data corresponding to this node, then if it has it for output_port.
-func _has_cached_data(output_port: StringName, generator_data:GaeaData) -> bool:
-	return generator_data.cache.has(self) and generator_data.cache[self].has(output_port)
+func _has_cached_data(output_port: StringName, graph: GaeaGraph) -> bool:
+	return graph.cache.has(self) and graph.cache[self].has(output_port)
 
 
 # Gets cached data by GaeaNodeResource, then output_port index.
 # Assumes that data exists, will error out if it doesn't.
-func _get_cached_data(output_port: StringName, generator_data:GaeaData) -> Dictionary:
-	return generator_data.cache[self][output_port]
+func _get_cached_data(output_port: StringName, graph: GaeaGraph) -> Dictionary:
+	return graph.cache[self][output_port]
 #endregion
 
 
@@ -464,20 +464,20 @@ func _get_required_arguments() -> Array[StringName]:
 
 
 # Returns [code]true[/code] if all [param required] inputs are connected.
-func _has_inputs_connected(required: Array[StringName], generator_data:GaeaData) -> bool:
+func _has_inputs_connected(required: Array[StringName], graph: GaeaGraph) -> bool:
 	for idx in required:
-		if _get_input_resource(idx, generator_data) == null:
+		if _get_input_resource(idx, graph) == null:
 			return false
 	return true
 
 
 # Gets the [GaeaNodeResource] connected to the input of name [param arg_name].
-func _get_input_resource(arg_name: StringName, generator_data:GaeaData) -> GaeaNodeResource:
+func _get_input_resource(arg_name: StringName, graph: GaeaGraph) -> GaeaNodeResource:
 	var connection = _get_argument_connection(arg_name)
 	if connection.is_empty() or connection.from_node == -1:
 		return null
 
-	var data_input_resource: GaeaNodeResource = generator_data.resources.get(connection.from_node)
+	var data_input_resource: GaeaNodeResource = graph.resources.get(connection.from_node)
 	if not is_instance_valid(data_input_resource):
 		return null
 
@@ -515,56 +515,56 @@ func connection_idx_to_output(output_idx: int) -> StringName:
 
 
 #region Logging
-# If enabled in [member GaeaData.logging], log the execution information. (See [enum GaeaData.Log]).
-func _log_execute(message:String, area:AABB, generator_data:GaeaData):
-	if is_instance_valid(generator_data) and generator_data.logging & GaeaData.Log.EXECUTE > 0:
+# If enabled in [member GaeaGraph.logging], log the execution information. (See [enum GaeaGraph.Log]).
+func _log_execute(message:String, area:AABB, graph: GaeaGraph):
+	if is_instance_valid(graph) and graph.logging & GaeaGraph.Log.EXECUTE > 0:
 		message = message.strip_edges()
 		message = message if message == "" else message + " "
 		print("Execute   |   %sArea %s on %s" % [message, area, _get_title()])
 
 
-# If enabled in [member GaeaData.logging], log the layer information. (See [enum GaeaData.Log]).
-func _log_layer(message:String, layer:int, generator_data:GaeaData):
-	if is_instance_valid(generator_data) and generator_data.logging & GaeaData.Log.EXECUTE > 0:
+# If enabled in [member GaeaGraph.logging], log the layer information. (See [enum GaeaGraph.Log]).
+func _log_layer(message:String, layer:int, graph: GaeaGraph):
+	if is_instance_valid(graph) and graph.logging & GaeaGraph.Log.EXECUTE > 0:
 		message = message.strip_edges()
 		message = message if message == "" else message + " "
 		print("Execute   |   %sLayer %d on %s" % [message, layer, _get_title()])
 
 
-# If enabled in [member GaeaData.logging], log the traverse information. (See [enum GaeaData.Log]).
-func _log_traverse(generator_data:GaeaData):
-	if is_instance_valid(generator_data) and generator_data.logging & GaeaData.Log.TRAVERSE > 0:
+# If enabled in [member GaeaGraph.logging], log the traverse information. (See [enum GaeaGraph.Log]).
+func _log_traverse(graph: GaeaGraph):
+	if is_instance_valid(graph) and graph.logging & GaeaGraph.Log.TRAVERSE > 0:
 		print("Traverse  |   %s" % [_get_title()])
 
 
-## If enabled in [member GaeaData.logging], log the data information. (See [enum GaeaData.Log]).
+## If enabled in [member GaeaGraph.logging], log the data information. (See [enum GaeaGraph.Log]).
 ## Should be called in [method _get_data]
-func _log_data(output_port: StringName, generator_data:GaeaData):
-	if is_instance_valid(generator_data) and generator_data.logging & GaeaData.Log.DATA > 0:
+func _log_data(output_port: StringName, graph: GaeaGraph):
+	if is_instance_valid(graph) and graph.logging & GaeaGraph.Log.DATA > 0:
 		print("Data      |   %s from port &\"%s\"" % [_get_title(), output_port])
 
 
-# If enabled in [member GaeaData.logging], log the argument information. (See [enum GaeaData.Log]).
-func _log_arg(arg:String, generator_data:GaeaData):
-	if is_instance_valid(generator_data) and generator_data.logging & GaeaData.Log.ARGS > 0:
+# If enabled in [member GaeaGraph.logging], log the argument information. (See [enum GaeaGraph.Log]).
+func _log_arg(arg:String, graph: GaeaGraph):
+	if is_instance_valid(graph) and graph.logging & GaeaGraph.Log.ARGS > 0:
 		print("Arg       |   %s on %s" % [arg, _get_title()])
 
 
 ## Display a error message in the Output log panel.
 ## If a [param node_idx] is provided, it will display the path and position of the node.
 ## Otherwise, it will display the path of the resource.
-## The [param node_idx] is the index of the node in the generator_data.resources array.
-func _log_error(message:String, generator_data:GaeaData, node_idx: int = -1):
+## The [param node_idx] is the index of the node in the graph.resources array.
+func _log_error(message:String, graph: GaeaGraph, node_idx: int = -1):
 	if node_idx >= 0:
 		printerr("%s:%s in node '%s' - %s" % [
-			generator_data.resources[node_idx].resource_path,
-			generator_data.node_data[node_idx].position,
-			generator_data.resources[node_idx].get_title(),
+			graph.resources[node_idx].resource_path,
+			graph.node_data[node_idx].position,
+			graph.resources[node_idx].get_title(),
 			message,
 		])
 	else:
 		printerr("%s - %s" % [
-			generator_data.resource_path,
+			graph.resource_path,
 			message,
 		])
 #endregion
@@ -625,10 +625,10 @@ func _is_point_outside_area(area: AABB, point: Vector3) -> bool:
 	return (point.x < area.position.x or point.y < area.position.y or point.z < area.position.z or
 			point.x > area.end.x or point.y > area.end.y or point.z > area.end.z)
 
-func define_rng(generator_data: GaeaData) -> RandomNumberGenerator:
+func define_rng(graph: GaeaGraph) -> RandomNumberGenerator:
 	var rng = RandomNumberGenerator.new()
-	rng.set_seed(generator_data.generator.seed + salt)
-	seed(generator_data.generator.seed + salt)
+	rng.set_seed(graph.generator.seed + salt)
+	seed(graph.generator.seed + salt)
 	return rng
 #endregion
 

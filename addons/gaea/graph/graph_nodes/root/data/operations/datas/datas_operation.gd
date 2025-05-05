@@ -106,11 +106,11 @@ func _get_output_port_display_name(_output_name: StringName) -> String:
 
 
 
-func _get_data(output_port: StringName, area: AABB, generator_data: GaeaData) -> Dictionary:
-	_log_data(output_port, generator_data)
+func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary:
+	_log_data(output_port, graph)
 	var operation: Operation = get_enum_selection(0) as Operation
-	var a_grid: Dictionary = _get_arg(&"a", area, generator_data)
-	var b_grid: Dictionary = _get_arg(&"b", area, generator_data)
+	var a_grid: Dictionary = _get_arg(&"a", area, graph)
+	var b_grid: Dictionary = _get_arg(&"b", area, graph)
 	var new_grid: Dictionary[Vector3i, float]
 	var operation_definition: Definition = OPERATION_DEFINITIONS[operation]
 	var static_args: Array
@@ -118,7 +118,7 @@ func _get_data(output_port: StringName, area: AABB, generator_data: GaeaData) ->
 		if _get_argument_type(arg) == GaeaValue.Type.DATA:
 			continue
 			
-		static_args.append(_get_arg(arg, area, generator_data))
+		static_args.append(_get_arg(arg, area, graph))
 	for cell: Vector3i in a_grid:
 		if not b_grid.has(cell):
 			continue

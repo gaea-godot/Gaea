@@ -1,8 +1,8 @@
 @tool
-class_name GaeaDataMigration
+class_name GaeaGraphMigration
 
 
-static func migrate(data: GaeaData):
+static func migrate(data: GaeaGraph):
 	if data.other.get(&"save_version", -1) == -1:
 		_migration_step_from_beta(data)
 	if data.other.get(&"save_version", -1) == 2:
@@ -18,7 +18,7 @@ static func migrate(data: GaeaData):
 ##     - First element: the new UID.
 ##     - Second element: the values to assign in the data array.
 ##     - Third element: the keys to rename in the arguments Dictionary.
-static func _process_migration(data: GaeaData, node_map: Dictionary[String, Variant], new_save_version: int):
+static func _process_migration(data: GaeaGraph, node_map: Dictionary[String, Variant], new_save_version: int):
 	for idx in data.resource_uids.size():
 		var base_uid = data.resource_uids[idx]
 
@@ -46,7 +46,7 @@ static func _process_migration(data: GaeaData, node_map: Dictionary[String, Vari
 	data.other.set(&"save_version", new_save_version)
 
 ## Migrate data from rework [url=https://github.com/gaea-godot/gaea/pull/344]#344[/url].
-static func _migration_step_from_beta(data: GaeaData):
+static func _migration_step_from_beta(data: GaeaGraph):
 	var node_map: Dictionary[String, Variant] = {
 		"uid://bbkdvyxkj2slo": "uid://dol7xviglksx4", #output_node_resource.tres
 		"uid://kdn03ei2yp6e": "uid://bgqqucap4kua4", #reroute_node_resource.tres
@@ -137,7 +137,7 @@ static func _migration_step_from_beta(data: GaeaData):
 
 
 ## Migrate data for material merge [url=https://github.com/gaea-godot/gaea/pull/TBD]#TBD[/url].
-static func _migration_step_material_merge(data: GaeaData):
+static func _migration_step_material_merge(data: GaeaGraph):
 	var node_map: Dictionary[String, Variant] = {
 		"uid://cumythno5ccu3": "uid://cqs1w714pbfql", #root/resources/variables/gradient_parameter.gd
 		"uid://c4yhilhmhasb2": "uid://dux0bq53p61ls", #root/map/mappers/gradient_mapper.gd

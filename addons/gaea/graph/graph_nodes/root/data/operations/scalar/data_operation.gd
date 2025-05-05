@@ -53,16 +53,16 @@ func _get_operation_definitions() -> Dictionary[Operation, Definition]:
 	return definitions
 
 
-func _get_data(output_port: StringName, area: AABB, generator_data: GaeaData) -> Variant:
-	_log_data(output_port, generator_data)
+func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Variant:
+	_log_data(output_port, graph)
 	var operation: Operation = get_enum_selection(0) as Operation
 	var operation_definition: Definition = OPERATION_DEFINITIONS[operation]
 	var args: Array
-	var input_grid: Dictionary = _get_arg(&"a", area, generator_data)
+	var input_grid: Dictionary = _get_arg(&"a", area, graph)
 	for arg_name: StringName in OPERATION_DEFINITIONS[operation].args:
 		if arg_name == &"a":
 			continue
-		args.append(_get_arg(arg_name, area, generator_data))
+		args.append(_get_arg(arg_name, area, graph))
 	var new_grid: Dictionary[Vector3i, float]
 
 	for cell: Vector3i in input_grid:

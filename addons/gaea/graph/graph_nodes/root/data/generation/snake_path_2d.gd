@@ -63,26 +63,26 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.DATA
 
 
-func _get_data(output_port: StringName, area: AABB, generator_data: GaeaData) -> Dictionary:
-	_log_data(output_port, generator_data)
+func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary:
+	_log_data(output_port, graph)
 
 	var direction_weights: Dictionary[Vector2i, float] = {
-		Vector2i.LEFT: _get_arg(&"move_left_weight", area, generator_data),
-		Vector2i.RIGHT: _get_arg(&"move_right_weight", area, generator_data),
-		Vector2i.DOWN: _get_arg(&"move_down_weight", area, generator_data),
+		Vector2i.LEFT: _get_arg(&"move_left_weight", area, graph),
+		Vector2i.RIGHT: _get_arg(&"move_right_weight", area, graph),
+		Vector2i.DOWN: _get_arg(&"move_down_weight", area, graph),
 	}
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
-	var left_flag: int = _get_arg(&"left", area, generator_data)
-	var right_flag: int = _get_arg(&"right", area, generator_data)
-	var down_flag: int = _get_arg(&"down", area, generator_data)
-	var up_flag: int = _get_arg(&"up", area, generator_data)
+	var left_flag: int = _get_arg(&"left", area, graph)
+	var right_flag: int = _get_arg(&"right", area, graph)
+	var down_flag: int = _get_arg(&"down", area, graph)
+	var up_flag: int = _get_arg(&"up", area, graph)
 	var direction_to_flags: Dictionary = {
 		Vector2i.LEFT: left_flag,
 		Vector2i.RIGHT: right_flag,
 		Vector2i.DOWN: down_flag,
 		Vector2i.UP: up_flag
 	}
-	rng.set_seed(generator_data.generator.seed + salt)
+	rng.set_seed(graph.generator.seed + salt)
 
 	var path: Dictionary
 	var grid: Dictionary[Vector3i, float] = {}

@@ -42,9 +42,9 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 
 
 
-func _get_data(output_port: StringName, area: AABB, generator_data: GaeaData) -> Dictionary:
-	_log_data(output_port, generator_data)
+func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary:
+	_log_data(output_port, graph)
 	return {
-		"min": _get_arg(&"min", area, generator_data),
-		"max": _get_arg(&"max", area, generator_data),
+		"min": _get_arg(&"min", area, graph),
+		"max": _get_arg(&"max", area, graph),
 	}

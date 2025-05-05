@@ -60,16 +60,16 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.DATA
 
 
-func _get_data(output_port: StringName, area: AABB, generator_data: GaeaData) -> Dictionary:
-	_log_data(output_port, generator_data)
+func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary:
+	_log_data(output_port, graph)
 
 	var _noise: FastNoiseLite = FastNoiseLite.new()
-	_noise.seed = generator_data.generator.seed + salt
+	_noise.seed = graph.generator.seed + salt
 	_noise.noise_type = get_enum_selection(0) as FastNoiseLite.NoiseType
 
-	_noise.frequency = _get_arg(&"frequency", area, generator_data)
-	_noise.fractal_octaves = _get_arg(&"octaves", area, generator_data)
-	_noise.fractal_lacunarity = _get_arg(&"lacunarity", area, generator_data)
+	_noise.frequency = _get_arg(&"frequency", area, graph)
+	_noise.fractal_octaves = _get_arg(&"octaves", area, graph)
+	_noise.fractal_lacunarity = _get_arg(&"lacunarity", area, graph)
 	var dictionary: Dictionary[Vector3i, float]
 	for x in _get_axis_range(Axis.X, area):
 		for y in _get_axis_range(Axis.Y, area):

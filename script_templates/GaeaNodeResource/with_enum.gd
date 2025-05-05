@@ -48,7 +48,7 @@ func _get_output_port_type(output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.NULL
 
 
-func _get_data(output_port: StringName, area: AABB, generator_data: GaeaData) -> Variant:
-	_log_data(output_port, generator_data)
+func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Variant:
+	_log_data(output_port, graph)
 
 	return null

@@ -5,7 +5,7 @@ class_name GaeaNodeParameter
 ##
 ## Adds a variable of [member type], with [member hint] and [member hint_string], editable in the
 ## inspector, which can be accessed by other nodes through this node's output.[br]
-## Parameters are added to the [member GaeaData.parameters] array.
+## Parameters are added to the [member GaeaGraph.parameters] array.
 
 
 ## See [enum Variant.Type] and equivalents in [method GaeaValue.from_variant_type].
@@ -68,9 +68,9 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.from_variant_type(_get_variant_type(), _get_property_hint(), _get_property_hint_string())
 
 
-func _get_data(output_port: StringName, area: AABB, generator_data: GaeaData) -> Variant:
-	_log_data(output_port, generator_data)
-	var data = generator_data.parameters.get(_get_arg(&"name", area, null))
+func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Variant:
+	_log_data(output_port, graph)
+	var data = graph.parameters.get(_get_arg(&"name", area, null))
 	if data.has("value"):
 		return data.get("value")
 	return {}

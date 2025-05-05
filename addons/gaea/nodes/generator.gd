@@ -6,7 +6,7 @@ extends Node
 ## [GaeaRendered] or used in other ways.
 
 
-## Emitted when [GaeaData] is changed.
+## Emitted when [GaeaGraph] is changed.
 signal data_changed
 @warning_ignore("unused_signal")
 ## Emitted when the graph is done with the generation.
@@ -17,8 +17,8 @@ signal reset_requested
 signal area_erased(area: AABB)
 
 
-## The [GaeaData] used for generation.
-@export var data: GaeaData:
+## The [GaeaGraph] used for generation.
+@export var data: GaeaGraph:
 	set(value):
 		data = value
 		if is_instance_valid(data):

@@ -270,7 +270,7 @@ func auto_shrink() -> void:
 		slot_updated.emit.call_deferred(i)
 
 
-## Returns the data to be saved to [GaeaData]. Includes [member Node.name], [member GraphElement.position_offset] and [member GaeaNodeResource.salt].
+## Returns the data to be saved to [GaeaGraph]. Includes [member Node.name], [member GraphElement.position_offset] and [member GaeaNodeResource.salt].
 func get_save_data() -> Dictionary:
 	var dictionary: Dictionary = {
 		"name": name,

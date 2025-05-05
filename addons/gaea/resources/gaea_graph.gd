@@ -1,10 +1,10 @@
 @tool
 @icon("../assets/data.svg")
-class_name GaeaData
+class_name GaeaGraph
 extends Resource
 ## Resource that holds the saved data for a Gaea graph.
 
-## Current save version used for [GaeaDataMigration].
+## Current save version used for [GaeaGraphMigration].
 const CURRENT_SAVE_VERSION := 3
 
 ## Emitted when the size of [member layers] is changed, or when one of its values is changed.
@@ -118,7 +118,7 @@ func _get(property: StringName) -> Variant:
 func _setup_local_to_scene() -> void:
 	#Data migration from previous version.
 	if other.get(&"save_version", -1) != CURRENT_SAVE_VERSION:
-		GaeaDataMigration.migrate(self)
+		GaeaGraphMigration.migrate(self)
 
 	resources = []
 	for idx in resource_uids.size():

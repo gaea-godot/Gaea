@@ -34,10 +34,10 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.DATA
 
 
-func _passes_filter(input_data: Dictionary, cell: Vector3i, area: AABB, generator_data: GaeaData) -> bool:
-	var flags: Array = _get_arg(&"match_flags", area, generator_data)
-	var exclude_flags: Array = _get_arg(&"exclude_flags", area, generator_data)
-	var match_all: bool = _get_arg(&"match_all", area, generator_data)
+func _passes_filter(input_data: Dictionary, cell: Vector3i, area: AABB, graph: GaeaGraph) -> bool:
+	var flags: Array = _get_arg(&"match_flags", area, graph)
+	var exclude_flags: Array = _get_arg(&"exclude_flags", area, graph)
+	var match_all: bool = _get_arg(&"match_all", area, graph)
 
 	var value: float = input_data[cell]
 	if match_all:

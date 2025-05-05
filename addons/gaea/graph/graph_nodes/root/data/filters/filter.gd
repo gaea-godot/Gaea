@@ -38,15 +38,15 @@ func _is_available() -> bool:
 	return get_type() != GaeaValue.Type.NULL
 
 
-func _get_data(output_port: StringName, area: AABB, generator_data: GaeaData) -> Dictionary:
-	_log_data(output_port, generator_data)
+func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary:
+	_log_data(output_port, graph)
 
-	seed(generator_data.generator.seed + salt)
+	seed(graph.generator.seed + salt)
 
-	var input_data: Dictionary = _get_arg(&"input_grid", area, generator_data)
+	var input_data: Dictionary = _get_arg(&"input_grid", area, graph)
 	var new_data: Dictionary = {}
 	for cell: Vector3i in input_data:
-		if _passes_filter(input_data, cell, area, generator_data):
+		if _passes_filter(input_data, cell, area, graph):
 			new_data.set(cell, input_data.get(cell))
 
 	return new_data
@@ -55,5 +55,5 @@ func _get_data(output_port: StringName, area: AABB, generator_data: GaeaData) ->
 ## Override this method to change the filtering functionality. Should return [code]true[/code]
 ## if the [param cell] in [param input_data] passes the filter, and therefore should be included
 ## in the output.
-func _passes_filter(_input_data: Dictionary, _cell: Vector3i, _area: AABB, _generator_data: GaeaData) -> bool:
+func _passes_filter(_input_data: Dictionary, _cell: Vector3i, _area: AABB, _graph: GaeaGraph) -> bool:
 	return true

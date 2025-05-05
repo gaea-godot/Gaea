@@ -49,7 +49,7 @@ func populate(selected: Array) -> void:
 		var node: GaeaGraphNode = selected.front()
 		var resource: GaeaNodeResource = node.resource
 		if resource is GaeaNodeParameter:
-			var data: GaeaData = panel.get_selected_generator().data
+			var data: GaeaGraph = panel.get_selected_generator().data
 			var parameter: Dictionary = data.parameters.get(node.get_arg_value("name"), {})
 			if parameter.get("value") is Resource:
 				add_separator()
@@ -126,7 +126,7 @@ func _on_id_pressed(id: int) -> void:
 			var node: GaeaGraphNode = graph_edit.get_selected().front()
 			var resource: GaeaNodeResource = node.resource
 			if resource is GaeaNodeParameter:
-				var data: GaeaData = panel.get_selected_generator().data
+				var data: GaeaGraph = panel.get_selected_generator().data
 				var parameter: Dictionary = data.parameters.get(node.get_arg_value("name"), {})
 				var value: Variant = parameter.get("value")
 				if value is Resource and is_instance_valid(value):

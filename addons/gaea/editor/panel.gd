@@ -10,8 +10,8 @@ var is_loading = false
 ## Local position on [GraphEdit] for a node that may be created in the future.
 var _node_creation_target: Vector2 = Vector2.ZERO
 var plugin: EditorPlugin
-var _scroll_offsets: Dictionary[GaeaData, Vector2]
-var _zooms: Dictionary[GaeaData, float]
+var _scroll_offsets: Dictionary[GaeaGraph, Vector2]
+var _zooms: Dictionary[GaeaGraph, float]
 
 @onready var _no_data: Control = $NoData
 @onready var _editor: Control = $Editor
@@ -152,7 +152,7 @@ func _save_data() -> void:
 	var node_data: Array[Dictionary]
 	var other: Dictionary
 
-	other.set(&"save_version", GaeaData.CURRENT_SAVE_VERSION)
+	other.set(&"save_version", GaeaGraph.CURRENT_SAVE_VERSION)
 
 	var children = _graph_edit.get_children()
 	children.sort_custom(func(a: Node, b: Node): return a.name.naturalcasecmp_to(b.name) < 0)
@@ -278,9 +278,9 @@ func _notification(what: int) -> void:
 #endregion
 
 
-#region GaeaData
+#region GaeaGraph
 func _on_new_data_button_pressed() -> void:
-	_selected_generator.data = GaeaData.new()
+	_selected_generator.data = GaeaGraph.new()
 
 
 func _on_data_changed() -> void:
