@@ -8,6 +8,8 @@ class_name GaeaNumberArgumentEditor
 
 
 func _ready() -> void:
+	if is_part_of_edited_scene():
+		return
 	h_slider.add_theme_icon_override(&"grabber", get_theme_icon(&"GuiScrollGrabberHl", &"EditorIcons"))
 
 
