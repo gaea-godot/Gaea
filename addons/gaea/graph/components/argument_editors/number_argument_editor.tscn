@@ -17,7 +17,6 @@ allow_lesser = true
 
 [node name="HSlider" type="HSlider" parent="SpinBox" index="2"]
 unique_name_in_owner = true
-z_index = 1
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
