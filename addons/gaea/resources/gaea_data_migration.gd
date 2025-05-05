@@ -61,15 +61,15 @@ static func _migration_step_from_beta(data: GaeaData):
 		"uid://dhey5y1gvfgxg": "uid://cgjyi804j05dy", #root/data/noise/simplex_smooth_2D.tres
 		"uid://bumgueaiw5d1f": "uid://c3xxswfpt3mny", #root/data/noise/simplex_smooth_3D.tres
 
-		"uid://b5x1wxss4spod": ["uid://c441lj0bi6eyn", {&"enums": [GaeaNodeNumOp.Operation.Add]}, {&"value": &"b"}], #root/data/operations/add.tres
-		"uid://b3q8md2biskfq": ["uid://c441lj0bi6eyn", {&"enums": [GaeaNodeNumOp.Operation.Subtract]}, {&"value": &"b"}], #root/data/operations/substract.tres
-		"uid://coi1put8oap60": ["uid://c441lj0bi6eyn", {&"enums": [GaeaNodeNumOp.Operation.Multiply]}, {&"value": &"b"}], #root/data/operations/multiply.tres
-		"uid://d4f3kftfw2inw": ["uid://c441lj0bi6eyn", {&"enums": [GaeaNodeNumOp.Operation.Divide]}, {&"value": &"b"}], #root/data/operations/divide.tres
+		"uid://b5x1wxss4spod": ["uid://c441lj0bi6eyn", {&"enums": [GaeaNodeNumOp.Operation.ADD]}, {&"value": &"b"}], #root/data/operations/add.tres
+		"uid://b3q8md2biskfq": ["uid://c441lj0bi6eyn", {&"enums": [GaeaNodeNumOp.Operation.SUBTRACT]}, {&"value": &"b"}], #root/data/operations/substract.tres
+		"uid://coi1put8oap60": ["uid://c441lj0bi6eyn", {&"enums": [GaeaNodeNumOp.Operation.MULTIPLY]}, {&"value": &"b"}], #root/data/operations/multiply.tres
+		"uid://d4f3kftfw2inw": ["uid://c441lj0bi6eyn", {&"enums": [GaeaNodeNumOp.Operation.DIVIDE]}, {&"value": &"b"}], #root/data/operations/divide.tres
 
-		"uid://drhtdob82hwua": ["uid://dxsow1o2b4tm3", {&"enums": [GaeaNodeDatasOp.Operation.Add]}], #root/data/operations/add_datas.tres
-		"uid://bb81ds61i41r1": ["uid://dxsow1o2b4tm3", {&"enums": [GaeaNodeDatasOp.Operation.Subtract]}], #root/data/operations/substract_datas.tres
-		"uid://dv5677k1v6n": ["uid://dxsow1o2b4tm3", {&"enums": [GaeaNodeDatasOp.Operation.Multiply]}], #root/data/operations/multiply_datas.tres
-		"uid://f6ycpjqowl41": ["uid://dxsow1o2b4tm3", {&"enums": [GaeaNodeDatasOp.Operation.Divide]}], #root/data/operations/divide_datas.tres
+		"uid://drhtdob82hwua": ["uid://dxsow1o2b4tm3", {&"enums": [GaeaNodeDatasOp.Operation.ADD]}], #root/data/operations/add_datas.tres
+		"uid://bb81ds61i41r1": ["uid://dxsow1o2b4tm3", {&"enums": [GaeaNodeDatasOp.Operation.SUBTRACT]}], #root/data/operations/substract_datas.tres
+		"uid://dv5677k1v6n": ["uid://dxsow1o2b4tm3", {&"enums": [GaeaNodeDatasOp.Operation.MULTIPLY]}], #root/data/operations/multiply_datas.tres
+		"uid://f6ycpjqowl41": ["uid://dxsow1o2b4tm3", {&"enums": [GaeaNodeDatasOp.Operation.DIVIDE]}], #root/data/operations/divide_datas.tres
 
 		"uid://dyk8vkdntdudc": ["uid://fc8vogh4mvhw", {&"enums": [GaeaNodeInput.InputVar.WORLD_SIZE]}], #root/input/world_size.tres
 
@@ -87,10 +87,10 @@ static func _migration_step_from_beta(data: GaeaData):
 		"uid://c2u75oyoi2lne": "uid://br8gcsyc04ksj", #root/map/placing/rules_placer.tres
 		"uid://buu32u5bluejt": "uid://bjmyuomcmtwq6", #root/map/random/random_scatter.tres
 
-		"uid://dtc6nrgjvi8pw": ["uid://yu78bj4he27g", {&"enums": [GaeaNodeNumOp.Operation.Add]}], #root/scalar/operations/add.tres
-		"uid://167vhd3o81mk": ["uid://yu78bj4he27g", {&"enums": [GaeaNodeNumOp.Operation.Subtract]}], #root/scalar/operations/substract.tres
-		"uid://rcvehn8ulhem": ["uid://yu78bj4he27g", {&"enums": [GaeaNodeNumOp.Operation.Multiply]}], #root/scalar/operations/multiply.tres
-		"uid://cs35p7d6oiu4w": ["uid://yu78bj4he27g", {&"enums": [GaeaNodeNumOp.Operation.Divide]}], #root/scalar/operations/divide.tres
+		"uid://dtc6nrgjvi8pw": ["uid://yu78bj4he27g", {&"enums": [GaeaNodeNumOp.Operation.ADD]}], #root/scalar/operations/add.tres
+		"uid://167vhd3o81mk": ["uid://yu78bj4he27g", {&"enums": [GaeaNodeNumOp.Operation.SUBTRACT]}], #root/scalar/operations/substract.tres
+		"uid://rcvehn8ulhem": ["uid://yu78bj4he27g", {&"enums": [GaeaNodeNumOp.Operation.MULTIPLY]}], #root/scalar/operations/multiply.tres
+		"uid://cs35p7d6oiu4w": ["uid://yu78bj4he27g", {&"enums": [GaeaNodeNumOp.Operation.DIVIDE]}], #root/scalar/operations/divide.tres
 
 		"uid://bmjbf86en6cas": "uid://m0m4x6trd11h", #root/other/composition/compose_range.tres
 		"uid://dv28660onn7fl": ["uid://c1koyt7wh4c4v", {&"enums": [GaeaNodeVectorBase.VectorType.VECTOR2]}], #root/vector/composition/compose_vector2.tres
@@ -98,14 +98,14 @@ static func _migration_step_from_beta(data: GaeaData):
 		"uid://o054c8xv8xb": ["uid://b1vu2sfwynxql", {&"enums": [GaeaNodeVectorBase.VectorType.VECTOR2]}], #root/vector/decomposition/decompose_vector2.tres
 		"uid://evg3g607sf40": ["uid://b1vu2sfwynxql", {&"enums": [GaeaNodeVectorBase.VectorType.VECTOR3]}], #root/vector/decomposition/decompose_vector3.tres
 
-		"uid://cm0wp1if8nc6k": ["uid://bclwjwmoudxkh", {&"enums": [GaeaNodeVectorBase.VectorType.VECTOR2, GaeaNodeVectorOp.Operation.Add]}], #root/vector/operations/add_vector2.tres
-		"uid://bq878twqcc5f": ["uid://bclwjwmoudxkh", {&"enums": [GaeaNodeVectorBase.VectorType.VECTOR3, GaeaNodeVectorOp.Operation.Add]}], #root/vector/operations/add_vector3.tres
-		"uid://d20pwbkvqkqnq": ["uid://bclwjwmoudxkh", {&"enums": [GaeaNodeVectorBase.VectorType.VECTOR2, GaeaNodeVectorOp.Operation.Subtract]}], #root/vector/operations/substract_vector2.tres
-		"uid://boe1a3sogwvyw": ["uid://bclwjwmoudxkh", {&"enums": [GaeaNodeVectorBase.VectorType.VECTOR3, GaeaNodeVectorOp.Operation.Subtract]}], #root/vector/operations/substract_vector3.tres
-		"uid://cktjgkxfx8pyh": ["uid://bclwjwmoudxkh", {&"enums": [GaeaNodeVectorBase.VectorType.VECTOR2, GaeaNodeVectorOp.Operation.Multiply]}], #root/vector/operations/multiply_vector2.tres
-		"uid://cq0gpnw7juqpk": ["uid://bclwjwmoudxkh", {&"enums": [GaeaNodeVectorBase.VectorType.VECTOR3, GaeaNodeVectorOp.Operation.Multiply]}], #root/vector/operations/multiply_vector3.tres
-		"uid://cgd05tlepxucw": ["uid://bclwjwmoudxkh", {&"enums": [GaeaNodeVectorBase.VectorType.VECTOR2, GaeaNodeVectorOp.Operation.Divide]}], #root/vector/operations/divide_vector2.tres
-		"uid://hut3x2e74y85": ["uid://bclwjwmoudxkh", {&"enums": [GaeaNodeVectorBase.VectorType.VECTOR3, GaeaNodeVectorOp.Operation.Divide]}], #root/vector/operations/divide_vector3.tres
+		"uid://cm0wp1if8nc6k": ["uid://bclwjwmoudxkh", {&"enums": [GaeaNodeVectorBase.VectorType.VECTOR2, GaeaNodeVectorOp.Operation.ADD]}], #root/vector/operations/add_vector2.tres
+		"uid://bq878twqcc5f": ["uid://bclwjwmoudxkh", {&"enums": [GaeaNodeVectorBase.VectorType.VECTOR3, GaeaNodeVectorOp.Operation.ADD]}], #root/vector/operations/add_vector3.tres
+		"uid://d20pwbkvqkqnq": ["uid://bclwjwmoudxkh", {&"enums": [GaeaNodeVectorBase.VectorType.VECTOR2, GaeaNodeVectorOp.Operation.SUBTRACT]}], #root/vector/operations/substract_vector2.tres
+		"uid://boe1a3sogwvyw": ["uid://bclwjwmoudxkh", {&"enums": [GaeaNodeVectorBase.VectorType.VECTOR3, GaeaNodeVectorOp.Operation.SUBTRACT]}], #root/vector/operations/substract_vector3.tres
+		"uid://cktjgkxfx8pyh": ["uid://bclwjwmoudxkh", {&"enums": [GaeaNodeVectorBase.VectorType.VECTOR2, GaeaNodeVectorOp.Operation.MULTIPLY]}], #root/vector/operations/multiply_vector2.tres
+		"uid://cq0gpnw7juqpk": ["uid://bclwjwmoudxkh", {&"enums": [GaeaNodeVectorBase.VectorType.VECTOR3, GaeaNodeVectorOp.Operation.MULTIPLY]}], #root/vector/operations/multiply_vector3.tres
+		"uid://cgd05tlepxucw": ["uid://bclwjwmoudxkh", {&"enums": [GaeaNodeVectorBase.VectorType.VECTOR2, GaeaNodeVectorOp.Operation.DIVIDE]}], #root/vector/operations/divide_vector2.tres
+		"uid://hut3x2e74y85": ["uid://bclwjwmoudxkh", {&"enums": [GaeaNodeVectorBase.VectorType.VECTOR3, GaeaNodeVectorOp.Operation.DIVIDE]}], #root/vector/operations/divide_vector3.tres
 	}
 
 	for idx in data.resource_uids.size():
