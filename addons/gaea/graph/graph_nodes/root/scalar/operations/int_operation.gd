@@ -18,13 +18,13 @@ func _get_description() -> String:
 		return "Operation between 2 [code]int[/code] numbers."
 
 	match get_enum_selection(0):
-		Operation.Add:
+		Operation.ADD:
 			return "Sums 2 [code]int[/code] numbers."
-		Operation.Subtract:
+		Operation.SUBTRACT:
 			return "Subtracts 2 [code]int[/code] numbers."
-		Operation.Multiply:
+		Operation.MULTIPLY:
 			return "Multiplies 2 [code]int[/code] numbers together."
-		Operation.Divide:
+		Operation.DIVIDE:
 			return "Divides 2 [code]int[/code] numbers together."
 		_:
 			return super()
@@ -32,10 +32,10 @@ func _get_description() -> String:
 
 func _get_operation_definitions() -> Dictionary[Operation, Definition]:
 	var definitions := super()
-	#definitions.erase(Operation.Snapped)
-	definitions.erase(Operation.Ceil)
-	definitions.erase(Operation.Floor)
-	definitions.erase(Operation.Round)
-	definitions.erase(Operation.Smoothstep)
-	definitions.erase(Operation.Remap)
+	#definitions.erase(Operation.SNAPPED)
+	definitions.erase(Operation.CEIL)
+	definitions.erase(Operation.FLOOR)
+	definitions.erase(Operation.ROUND)
+	definitions.erase(Operation.SMOOTHSTEP)
+	definitions.erase(Operation.REMAP)
 	return definitions

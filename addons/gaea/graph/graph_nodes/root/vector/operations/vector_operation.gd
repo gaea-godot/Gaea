@@ -4,10 +4,10 @@ extends GaeaNodeVectorBase
 ## Base class for operations between 2 vectors.
 
 enum Operation {
-	Add,
-	Subtract,
-	Multiply,
-	Divide,
+	ADD,
+	SUBTRACT,
+	MULTIPLY,
+	DIVIDE,
 }
 
 
@@ -33,13 +33,13 @@ func _get_description() -> String:
 		return "Operation between 2 [code]Vector[/code]s."
 
 	match get_enum_selection(1):
-		Operation.Add:
+		Operation.ADD:
 			return "Sums 2 [code]%s[/code]s." % _get_enum_option_display_name(0, get_enum_selection(0))
-		Operation.Subtract:
+		Operation.SUBTRACT:
 			return "Subtracts 2 [code]%s[/code]s." % _get_enum_option_display_name(0, get_enum_selection(0))
-		Operation.Multiply:
+		Operation.MULTIPLY:
 			return "Multiplies 2 [code]%s[/code]s together." % _get_enum_option_display_name(0, get_enum_selection(0))
-		Operation.Divide:
+		Operation.DIVIDE:
 			return "Divides 2 [code]%s[/code]s together." % _get_enum_option_display_name(0, get_enum_selection(0))
 	return ""
 
@@ -130,13 +130,13 @@ func _get_operation_definitions() -> Dictionary[Operation, Definition]:
 		return OPERATION_DEFINITIONS
 
 	OPERATION_DEFINITIONS = {
-		Operation.Add:
+		Operation.ADD:
 			Definition.new([&"a", &"b"], "a + b", func(a: Variant, b: Variant): return a + b),
-		Operation.Subtract:
+		Operation.SUBTRACT:
 			Definition.new([&"a", &"b"], "a - b", func(a: Variant, b: Variant): return a - b),
-		Operation.Multiply:
+		Operation.MULTIPLY:
 			Definition.new([&"a", &"b"], "a * b", func(a: Variant, b: Variant): return a * b),
-		Operation.Divide:
+		Operation.DIVIDE:
 			Definition.new([&"a", &"b"], "a / b", func(a: Variant, b: Variant): return 0 if b.is_zero_approx() else a / b),
 	}
 	return OPERATION_DEFINITIONS

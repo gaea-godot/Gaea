@@ -5,7 +5,7 @@ extends TextureRect
 const SIZE = Vector2i(128, 32)
 const CHECKERBOARD_SIZE = Vector2i(16, 16)
 
-var gradient: GaeaMaterialGradient
+var gradient: GradientGaeaMaterial
 
 
 func _ready() -> void:

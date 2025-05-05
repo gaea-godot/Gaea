@@ -10,24 +10,27 @@ extends GaeaRenderer
 
 
 func _render(grid: GaeaGrid) -> void:
-	var terrains: Dictionary[TileMapMaterial, Array]
+	var terrains: Dictionary[TileMapGaeaMaterial, Array]
+
+	if tile_map_layers.size() == 0:
+		push_warning("No tile map layers set in the renderer")
 
 	for layer_idx in grid.get_layers_count():
 		if tile_map_layers.size() <= layer_idx or not is_instance_valid(tile_map_layers.get(layer_idx)):
 			continue
+
 		for cell in grid.get_layer(layer_idx):
 			var value = grid.get_layer(layer_idx)[cell]
-			if value is TileMapMaterial:
-				if value.type == TileMapMaterial.Type.SINGLE_CELL:
+			if value is TileMapGaeaMaterial:
+				if value.type == TileMapGaeaMaterial.Type.SINGLE_CELL:
 					tile_map_layers[layer_idx].set_cell(Vector2i(cell.x, cell.y), value.source_id, value.atlas_coord, value.alternative_tile)
-				elif value.type == TileMapMaterial.Type.TERRAIN:
+				elif value.type == TileMapGaeaMaterial.Type.TERRAIN:
 					terrains.get_or_add(value, []).append(Vector2i(cell.x, cell.y))
 
-		for material: TileMapMaterial in terrains:
+		for material: TileMapGaeaMaterial in terrains:
 			tile_map_layers[layer_idx].set_cells_terrain_connect(
 				terrains.get(material), material.terrain_set, material.terrain
 			)
-
 
 
 func _on_area_erased(area: AABB) -> void:

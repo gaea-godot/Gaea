@@ -36,14 +36,23 @@ func _get_required_arguments() -> Array[StringName]:
 func _get_data(output_port: StringName, area: AABB, generator_data: GaeaData) -> Dictionary:
 	_log_data(output_port, generator_data)
 
-	var grid_data = _get_arg(&"reference_data", area, generator_data)
-	var material: GaeaMaterial = _get_arg(&"material", area, generator_data)
+	var grid: Dictionary[Vector3i, GaeaMaterial] = {}
+	var grid_data := _get_arg(&"reference_data", area, generator_data) as Dictionary
+	var material := _get_arg(&"material", area, generator_data) as GaeaMaterial
+	var rng := define_rng(generator_data)
 
-	var grid: Dictionary[Vector3i, GaeaMaterial]
+	if not is_instance_valid(material):
+		_log_error("Invalid material provided", generator_data, generator_data.resources.find(self))
+		return grid
+
+	material = material.prepare_sample(rng)
+	if not is_instance_valid(material):
+		_log_error("Recursive limit reached (%d): Invalid material provided at %s" % [GaeaMaterial.RECURSIVE_LIMIT, material.resource_path], generator_data, generator_data.resources.find(self))
+		return grid
 
 	for cell in grid_data:
-		if is_instance_valid(material) and _passes_mapping(grid_data, cell, area, generator_data):
-			grid[cell] = material.get_resource()
+		if _passes_mapping(grid_data, cell, area, generator_data):
+			grid.set(cell, material.execute_sample(rng, grid_data.get(cell)))
 
 	return grid
 

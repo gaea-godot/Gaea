@@ -41,15 +41,19 @@ func _get_data(output_port: StringName, area: AABB, generator_data: GaeaData) ->
 
 	var grid_data: Dictionary = _get_arg(&"reference_data", area, generator_data)
 	var material: GaeaMaterial = _get_arg(&"material", area, generator_data)
-
-	seed(generator_data.generator.seed + salt)
+	var rng := define_rng(generator_data)
 
 	var grid: Dictionary[Vector3i, GaeaMaterial]
 	var cells_to_place_on: Array = grid_data.keys()
 	cells_to_place_on.shuffle()
 	cells_to_place_on.resize(mini(_get_arg(&"amount", area, generator_data), cells_to_place_on.size()))
-
+	
+	material = material.prepare_sample(rng)
+	if not is_instance_valid(material):
+		_log_error("Recursive limit reached (%d): Invalid material provided at %s" % [GaeaMaterial.RECURSIVE_LIMIT, material.resource_path], generator_data, generator_data.resources.find(self))
+		return grid
+	
 	for cell: Vector3i in cells_to_place_on:
-		grid.set(cell, null if not is_instance_valid(material) else material.get_resource())
+		grid.set(cell, material.execute_sample(rng, grid_data.get(cell)))
 
 	return grid
