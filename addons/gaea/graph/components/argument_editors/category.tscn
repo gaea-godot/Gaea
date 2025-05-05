@@ -1,10 +1,10 @@
 [gd_scene load_steps=3 format=3 uid="uid://x6n8ylnxoyno"]
 
-[ext_resource type="Script" uid="uid://b67wud5egfs8o" path="res://addons/gaea/graph/components/argument_editors/category.gd" id="1_4eii5"]
+[ext_resource type="Script" uid="uid://d350t4jl754oy" path="res://addons/gaea/graph/components/argument_editors/category.gd" id="1_4eii5"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kx84v"]
 
-[node name="BaseParameter" type="VBoxContainer"]
+[node name="Category" type="VBoxContainer"]
 offset_right = 42.0
 offset_bottom = 23.0
 script = ExtResource("1_4eii5")
