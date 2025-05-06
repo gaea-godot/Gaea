@@ -3,7 +3,14 @@ extends GaeaGraphNodeArgumentEditor
 class_name GaeaNumberArgumentEditor
 
 
-@onready var spin_box: SpinBox = $SpinBox
+@onready var spin_box: SpinBox = %SpinBox
+@onready var h_slider: HSlider = %HSlider
+
+
+func _ready() -> void:
+	if is_part_of_edited_scene():
+		return
+	h_slider.add_theme_icon_override(&"grabber", get_theme_icon(&"GuiScrollGrabberHl", &"EditorIcons"))
 
 
 func _configure() -> void:
@@ -11,16 +18,21 @@ func _configure() -> void:
 		return
 	await super()
 
-	spin_box.value_changed.connect(argument_value_changed.emit)
-
 	if type == GaeaValue.Type.INT:
 		spin_box.step = 1
+		
+	h_slider.visible = hint.has("min") and hint.has("max")
+	h_slider.step = spin_box.step
 
 	spin_box.min_value = hint.get("min", 0.0)
 	spin_box.allow_lesser = not hint.has("min")
+	h_slider.min_value = spin_box.min_value
+	h_slider.allow_lesser = spin_box.allow_lesser
 
 	spin_box.max_value = hint.get("max", 1.0)
 	spin_box.allow_greater = not hint.has("max")
+	h_slider.max_value = spin_box.max_value
+	h_slider.allow_greater = spin_box.allow_greater
 
 	spin_box.suffix = hint.get("suffix", "")
 	spin_box.prefix = hint.get("prefix", "")
@@ -38,3 +50,13 @@ func set_arg_value(new_value: Variant) -> void:
 	if typeof(new_value) not in [TYPE_FLOAT, TYPE_INT]:
 		return
 	spin_box.value = new_value
+	h_slider.set_value_no_signal(new_value)
+
+
+func _on_h_slider_value_changed(value: float) -> void:
+	spin_box.set_value(value)
+
+
+func _on_spin_box_value_changed(value: float) -> void:
+	argument_value_changed.emit(value)
+	h_slider.set_value_no_signal(value)
