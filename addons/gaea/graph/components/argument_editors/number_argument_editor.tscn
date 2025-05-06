@@ -8,8 +8,27 @@ size_flags_horizontal = 3
 script = ExtResource("2_xix24")
 
 [node name="SpinBox" type="SpinBox" parent="." index="1"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 10
 step = 0.01
 allow_greater = true
 allow_lesser = true
+select_all_on_focus = true
+
+[node name="HSlider" type="HSlider" parent="SpinBox" index="2"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -10.0
+offset_right = -17.5625
+offset_bottom = 6.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_force_pass_scroll_events = false
+
+[connection signal="value_changed" from="SpinBox" to="." method="_on_spin_box_value_changed"]
+[connection signal="value_changed" from="SpinBox/HSlider" to="." method="_on_h_slider_value_changed"]
