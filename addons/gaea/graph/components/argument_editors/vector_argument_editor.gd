@@ -3,9 +3,16 @@ extends GaeaGraphNodeArgumentEditor
 class_name GaeaVector3ArgumentEditor
 
 
-@onready var _x_spin_box: SpinBox = $XSpinBox
-@onready var _y_spin_box: SpinBox = $YSpinBox
-@onready var _z_spin_box: SpinBox = $ZSpinBox
+@onready var _x_spin_box: SpinBox = %XSpinBox
+@onready var _y_spin_box: SpinBox = %YSpinBox
+@onready var _z_spin_box: SpinBox = %ZSpinBox
+@onready var _x_label: Label = %XLabel
+@onready var _y_label: Label = %YLabel
+@onready var _z_label: Label = %ZLabel
+@onready var _x_container: HBoxContainer = $XContainer
+@onready var _y_container: HBoxContainer = $YContainer
+@onready var _z_container: HBoxContainer = $ZContainer
+
 
 
 func _configure() -> void:
@@ -15,14 +22,17 @@ func _configure() -> void:
 	_x_spin_box.value_changed.connect(argument_value_changed.emit)
 	_y_spin_box.value_changed.connect(argument_value_changed.emit)
 	_z_spin_box.value_changed.connect(argument_value_changed.emit)
-
+	_x_label.add_theme_color_override(&"font_color", EditorInterface.get_base_control().get_theme_color("property_color_x", "Editor"))
+	_y_label.add_theme_color_override(&"font_color", EditorInterface.get_base_control().get_theme_color("property_color_y", "Editor"))
+	_z_label.add_theme_color_override(&"font_color", EditorInterface.get_base_control().get_theme_color("property_color_z", "Editor"))
+	
 	if type == GaeaValue.Type.VECTOR2I or type == GaeaValue.Type.VECTOR3I:
 		_x_spin_box.step = 1
 		_y_spin_box.step = 1
 		_z_spin_box.step = 1
 
 	if type == GaeaValue.Type.VECTOR2 or type == GaeaValue.Type.VECTOR2I:
-		_z_spin_box.set_visible.call_deferred(false)
+		_z_container.set_visible.call_deferred(false)
 		graph_node.auto_shrink.call_deferred()
 
 	if hint.has("min"):
@@ -43,6 +53,17 @@ func _configure() -> void:
 	_x_spin_box.allow_greater = not hint.has("max")
 	_y_spin_box.allow_greater = not hint.has("max")
 	_z_spin_box.allow_greater = not hint.has("max")
+	
+	
+func set_editor_visible(value: bool) -> void:
+	for child in get_children():
+		if child == _label:
+			continue
+			
+		if child == _z_container and type in [GaeaValue.Type.VECTOR2, GaeaValue.Type.VECTOR2I]:
+			continue
+			
+		child.set_visible(value)
 
 
 
