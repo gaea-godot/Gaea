@@ -78,6 +78,10 @@ func _rebuild() -> void:
 	if not has_finished_rebuilding():
 		return
 	_finished_rebuilding = false
+	var selected_preview: StringName = &""
+	
+	if is_instance_valid(_preview):
+		selected_preview = _preview.selected_output
 
 	var saved_data := {}
 	if _finished_loading:
@@ -101,10 +105,11 @@ func _rebuild() -> void:
 	if _finished_loading:
 		load_save_data.call_deferred(saved_data)
 	_add_preview_container.call_deferred()
-
-	auto_shrink.call_deferred()
 	remove_invalid_connections_requested.emit.call_deferred()
 	_update_arguments_visibility.call_deferred()
+	if selected_preview.length() > 0:
+		_open_preview.call_deferred(selected_preview)
+
 	_finished_rebuilding = true
 
 	_set_titlebar()
@@ -178,12 +183,33 @@ func _add_output_slot(for_output: StringName) -> GaeaGraphNodeOutput:
 	return node
 
 
+func _get_output_slot(for_output: StringName) -> GaeaGraphNodeOutput:
+	var overridden_idx: int = resource.get_overridden_output_port_idx(for_output)
+	if overridden_idx >= 0:
+		return get_child(overridden_idx)
+
+	var idx = resource.get_arguments_list().size()
+	for output in resource.get_output_ports_list():
+		if output == for_output:
+			return get_child(idx)
+		if resource.get_overridden_output_port_idx(output) == -1:
+			idx += 1
+
+	return null
+
+
 func _add_preview_container() -> void:
 	if is_instance_valid(_preview_container):
 		add_child(_preview_container)
 		_preview_container.add_child(_preview)
 		_preview_container.hide()
 		_preview.update()
+
+
+func _open_preview(for_output: StringName) -> void:
+	var slot = _get_output_slot(for_output)
+	if is_instance_valid(slot):
+		slot.get_toggle_preview_button().set_pressed(true)
 
 
 func _set_titlebar() -> void:

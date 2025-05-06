@@ -4,7 +4,7 @@ extends TextureRect
 
 const RESOLUTION: Vector2i = Vector2i(64, 64)
 
-var selected_output: StringName
+var selected_output: StringName = &""
 var node: GaeaGraphNode
 var slider_container: HBoxContainer
 var slider: HSlider
@@ -17,9 +17,6 @@ func _ready() -> void:
 
 	expand_mode = EXPAND_FIT_HEIGHT
 	stretch_mode = STRETCH_SCALE
-
-	await get_tree().process_frame
-
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 
 	slider_container = HBoxContainer.new()
@@ -61,7 +58,7 @@ func toggle(for_output: StringName) -> void:
 		update()
 	else:
 		if selected_output == for_output:
-			selected_output = ""
+			selected_output = &""
 		get_parent().hide()
 
 	node.auto_shrink.call_deferred()
