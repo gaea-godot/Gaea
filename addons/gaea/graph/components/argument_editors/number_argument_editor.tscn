@@ -13,3 +13,4 @@ size_flags_horizontal = 10
 step = 0.01
 allow_greater = true
 allow_lesser = true
+select_all_on_focus = true
