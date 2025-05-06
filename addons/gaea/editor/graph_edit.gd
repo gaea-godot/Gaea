@@ -16,6 +16,7 @@ func _ready() -> void:
 	if is_part_of_edited_scene():
 		return
 	add_theme_color_override(&"connection_rim_color", Color("141414"))
+	EditorInterface.get_script_editor().editor_script_changed.connect(_on_editor_script_changed)
 
 
 func _on_delete_nodes_request(nodes: Array[StringName]) -> void:
@@ -171,3 +172,19 @@ func local_to_grid(local_position: Vector2, grid_offset: Vector2 = Vector2.ZERO,
 		return local_position.snapped(Vector2.ONE * snapping_distance)
 	else:
 		return local_position
+
+
+func _on_editor_script_changed(script: Script):
+	var editor := EditorInterface.get_script_editor().get_current_editor()
+	if not editor.edited_script_changed.is_connected(_on_edited_script_changed):
+		editor.edited_script_changed.connect(_on_edited_script_changed.bind(script))
+
+
+func _on_edited_script_changed(script: Script):
+	if not script.can_instantiate():
+		return
+
+	for child in get_children():
+		if child is GaeaGraphNode:
+			if script == child.resource.get_script():
+				child._rebuild.call_deferred()

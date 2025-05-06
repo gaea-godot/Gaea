@@ -4,11 +4,14 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i7tyw"]
 
-[node name="BaseParameter" type="HBoxContainer"]
+[node name="BaseParameter" type="BoxContainer"]
 custom_minimum_size = Vector2(0, 32)
+offset_right = 42.0
+offset_bottom = 32.0
 script = ExtResource("1_rylg1")
 
 [node name="Label" type="RichTextLabel" parent="."]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
