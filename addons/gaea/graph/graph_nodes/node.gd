@@ -39,6 +39,15 @@ func _ready() -> void:
 
 	if is_instance_valid(resource):
 		set_tooltip_text("tooltip")
+		if Engine.get_version_info().hex >= 0x040500 and not resource is GaeaNodeReroute:
+			var script = resource.get_script()
+			if is_instance_valid(script):
+				var documentation_button := Button.new()
+				documentation_button.icon = EditorInterface.get_editor_theme().get_icon(&"HelpSearch", &"EditorIcons")
+				documentation_button.flat = true
+				get_titlebar_hbox().add_child(documentation_button)
+				documentation_button.pressed.connect(_open_node_documentation)
+				tree_exiting.connect(documentation_button.pressed.disconnect.bind(_open_node_documentation))
 
 	connections_updated.connect(_update_arguments_visibility)
 	removed.connect(_on_removed)
@@ -354,6 +363,16 @@ func _make_custom_tooltip(for_text: String) -> Object:
 	rich_text_label.fit_content = true
 	rich_text_label.custom_minimum_size.x = 256.0
 	return rich_text_label
+
+
+func _open_node_documentation():
+	var script = resource.get_script()
+	if not is_instance_valid(script):
+		return
+
+	var resource_class_name := (script as GDScript).get_global_name()
+	var script_editor := EditorInterface.get_script_editor()
+	script_editor.goto_help("class_name:%s" % resource_class_name)
 
 
 ## Sets whether or not this node has finished its loading process.

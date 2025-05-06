@@ -13,3 +13,4 @@ visible = false
 [node name="LineEdit" type="LineEdit" parent="." index="1"]
 layout_mode = 2
 size_flags_horizontal = 3
+select_all_on_focus = true

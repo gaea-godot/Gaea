@@ -13,6 +13,7 @@ step = 0.01
 allow_greater = true
 allow_lesser = true
 prefix = "X"
+select_all_on_focus = true
 
 [node name="YSpinBox" type="SpinBox" parent="." index="2"]
 layout_mode = 2
@@ -21,6 +22,7 @@ step = 0.01
 allow_greater = true
 allow_lesser = true
 prefix = "Y"
+select_all_on_focus = true
 
 [node name="ZSpinBox" type="SpinBox" parent="." index="3"]
 layout_mode = 2
@@ -29,3 +31,4 @@ step = 0.01
 allow_greater = true
 allow_lesser = true
 prefix = "Z"
+select_all_on_focus = true

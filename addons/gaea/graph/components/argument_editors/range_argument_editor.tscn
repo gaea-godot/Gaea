@@ -93,6 +93,7 @@ max_value = 1.0
 step = 0.01
 allow_greater = true
 allow_lesser = true
+select_all_on_focus = true
 
 [node name="Label2" type="Label" parent="HBoxContainer" index="2"]
 layout_mode = 2
@@ -107,5 +108,6 @@ step = 0.01
 value = 1.0
 allow_greater = true
 allow_lesser = true
+select_all_on_focus = true
 
 [connection signal="gui_input" from="MinSlider" to="." method="_on_min_slider_gui_input"]
