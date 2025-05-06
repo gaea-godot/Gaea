@@ -12,7 +12,7 @@ layout_mode = 2
 [node name="XLabel" type="Label" parent="XContainer" index="0"]
 unique_name_in_owner = true
 layout_mode = 2
-text = " X"
+text = " x"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -30,7 +30,7 @@ layout_mode = 2
 [node name="YLabel" type="Label" parent="YContainer" index="0"]
 unique_name_in_owner = true
 layout_mode = 2
-text = " Y"
+text = " y"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -48,7 +48,7 @@ layout_mode = 2
 [node name="ZLabel" type="Label" parent="ZContainer" index="0"]
 unique_name_in_owner = true
 layout_mode = 2
-text = " Z"
+text = " z"
 horizontal_alignment = 1
 vertical_alignment = 1
 
