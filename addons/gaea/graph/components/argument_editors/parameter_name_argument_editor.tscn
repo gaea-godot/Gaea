@@ -10,7 +10,13 @@ script = ExtResource("2_ofrdj")
 [node name="Label" parent="." index="0"]
 visible = false
 
-[node name="LineEdit" type="LineEdit" parent="." index="1"]
+[node name="NameLabel" type="Label" parent="." index="1"]
 layout_mode = 2
 size_flags_horizontal = 3
-select_all_on_focus = true
+
+[node name="EditButton" type="Button" parent="." index="2"]
+layout_mode = 2
+tooltip_text = "Edit parameter name."
+flat = true
+
+[connection signal="pressed" from="EditButton" to="." method="_on_edit_button_pressed"]

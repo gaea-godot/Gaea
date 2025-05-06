@@ -7,7 +7,6 @@ var hint: PropertyHint
 var hint_string: String
 
 var previous_name: String
-var _is_invalid_name: bool = false
 
 
 func _on_added() -> void:
@@ -47,28 +46,9 @@ func _on_removed() -> void:
 	generator.data.notify_property_list_changed()
 
 
-func get_save_data() -> Dictionary:
-	var save_data := super()
-	if _is_invalid_name:
-		if previous_name.is_empty():
-			previous_name = resource.get_argument_default_value(&"name")
-		save_data.get(&"arguments").set(&"name", previous_name)
-	return save_data
 
-
-func _on_argument_value_changed(value: Variant, node: GaeaGraphNodeArgumentEditor, arg_name: String) -> void:
+func _on_argument_value_changed(value: Variant, _node: GaeaGraphNodeArgumentEditor, arg_name: String) -> void:
 	if arg_name != "name" and value is not String:
-		return
-
-	if value.is_empty():
-		node.line_edit.text = previous_name
-		return
-
-	node.line_edit.remove_theme_color_override("font_color")
-	_is_invalid_name = false
-	if generator.data.parameters.has(value) and value != previous_name:
-		_is_invalid_name = true
-		node.line_edit.add_theme_color_override("font_color", Color.RED)
 		return
 
 	if value == previous_name:
