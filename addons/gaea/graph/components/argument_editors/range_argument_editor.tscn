@@ -1,37 +1,31 @@
-[gd_scene load_steps=6 format=3 uid="uid://dy3oumbnydlmp"]
+[gd_scene load_steps=6 format=3 uid="uid://t4osuglcgg6l"]
 
+[ext_resource type="PackedScene" uid="uid://i2nwlab8rau" path="res://addons/gaea/graph/components/argument_editors/argument_editor.tscn" id="1_d46g4"]
 [ext_resource type="Script" uid="uid://6jlpafuof6fs" path="res://addons/gaea/graph/components/argument_editors/range_argument_editor.gd" id="1_xfmar"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3xeyn"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_d46g4"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4cr3l"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s1eyg"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jp0mk"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4el5s"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_an6wf"]
 bg_color = Color(1, 1, 1, 0.517647)
 corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
-[node name="RangeParameter" type="VBoxContainer"]
-offset_right = 211.0
-offset_bottom = 43.0
+[node name="BaseParameter" instance=ExtResource("1_d46g4")]
+mouse_filter = 2
+vertical = true
 script = ExtResource("1_xfmar")
 
-[node name="Label" type="RichTextLabel" parent="."]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_styles/normal = SubResource("StyleBoxEmpty_3xeyn")
-bbcode_enabled = true
-text = "Label"
-fit_content = true
+[node name="Label" parent="." index="0"]
+mouse_filter = 2
 
-[node name="MinSlider" type="HSlider" parent="."]
+[node name="MinSlider" type="HSlider" parent="." index="1"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_styles/slider = SubResource("StyleBoxEmpty_4cr3l")
+theme_override_styles/slider = SubResource("StyleBoxEmpty_d46g4")
 max_value = 1.0
 step = 0.01
 allow_greater = true
@@ -39,7 +33,7 @@ allow_lesser = true
 editable = false
 scrollable = false
 
-[node name="MaxSlider" type="HSlider" parent="MinSlider"]
+[node name="MaxSlider" type="HSlider" parent="MinSlider" index="0"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -50,7 +44,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 mouse_filter = 1
-theme_override_styles/slider = SubResource("StyleBoxEmpty_jp0mk")
+theme_override_styles/slider = SubResource("StyleBoxEmpty_s1eyg")
 max_value = 1.0
 step = 0.01
 value = 1.0
@@ -59,7 +53,7 @@ allow_lesser = true
 editable = false
 scrollable = false
 
-[node name="AreaPanel" type="Panel" parent="MinSlider"]
+[node name="AreaPanel" type="Panel" parent="MinSlider" index="1"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -69,9 +63,9 @@ offset_bottom = -4.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_4el5s")
+theme_override_styles/panel = SubResource("StyleBoxFlat_an6wf")
 
-[node name="Panel" type="Panel" parent="MinSlider"]
+[node name="Panel" type="Panel" parent="MinSlider" index="2"]
 show_behind_parent = true
 z_index = -1
 layout_mode = 1
@@ -84,15 +78,15 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." index="2"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer" index="0"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Min"
 
-[node name="MinSpinBox" type="SpinBox" parent="HBoxContainer"]
+[node name="MinSpinBox" type="SpinBox" parent="HBoxContainer" index="1"]
 layout_mode = 2
 size_flags_horizontal = 3
 max_value = 1.0
@@ -100,12 +94,12 @@ step = 0.01
 allow_greater = true
 allow_lesser = true
 
-[node name="Label2" type="Label" parent="HBoxContainer"]
+[node name="Label2" type="Label" parent="HBoxContainer" index="2"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Max"
 
-[node name="MaxSpinBox" type="SpinBox" parent="HBoxContainer"]
+[node name="MaxSpinBox" type="SpinBox" parent="HBoxContainer" index="3"]
 layout_mode = 2
 size_flags_horizontal = 3
 max_value = 1.0

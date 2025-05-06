@@ -1,15 +1,25 @@
 [gd_scene load_steps=3 format=3 uid="uid://x6n8ylnxoyno"]
 
-[ext_resource type="Script" uid="uid://dk8gbt41h5e08" path="res://addons/gaea/graph/components/argument_editors/argument_editor.gd" id="1_kx84v"]
+[ext_resource type="Script" uid="uid://d350t4jl754oy" path="res://addons/gaea/graph/components/argument_editors/category.gd" id="1_4eii5"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kx84v"]
 
-[node name="BaseParameter" type="VBoxContainer"]
+[node name="Category" type="VBoxContainer"]
 offset_right = 42.0
 offset_bottom = 23.0
-script = ExtResource("1_kx84v")
+script = ExtResource("1_4eii5")
 
-[node name="Label" type="RichTextLabel" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="CollapseButton" type="TextureButton" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+toggle_mode = true
+stretch_mode = 3
+
+[node name="Label" type="RichTextLabel" parent="HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -21,3 +31,6 @@ autowrap_mode = 0
 
 [node name="HSeparator" type="HSeparator" parent="."]
 layout_mode = 2
+
+[connection signal="toggled" from="HBoxContainer/CollapseButton" to="." method="_on_collapse_button_toggled"]
+[connection signal="gui_input" from="HBoxContainer/Label" to="." method="_on_label_gui_input"]

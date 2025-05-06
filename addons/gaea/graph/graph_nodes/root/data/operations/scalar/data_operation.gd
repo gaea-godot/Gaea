@@ -13,13 +13,13 @@ func _get_description() -> String:
 		return "Operation between a data grid and a [code]float[/code] number."
 
 	match get_enum_selection(0):
-		Operation.Add:
+		Operation.ADD:
 			return "Adds a [code]float[/code] number to all cells in [param A]."
-		Operation.Subtract:
+		Operation.SUBTRACT:
 			return "Adds a [code]float[/code] number from all cells in [param A]."
-		Operation.Multiply:
+		Operation.MULTIPLY:
 			return "Adds a [code]float[/code] number with all cells in [param A]."
-		Operation.Divide:
+		Operation.DIVIDE:
 			return "Divides all cells in [param A] by a [code]float[/code] number."
 		_:
 			return super() + "\n\nOperates over all cells of [param A], [param a] being the cells' value."
@@ -49,7 +49,7 @@ func _get_operation_definitions() -> Dictionary[Operation, Definition]:
 		definition.output = definition.output.replace(" a", " A")
 		definition.output = definition.output.replace("a,", "A,")
 		definition.output = definition.output.replace("(a)", "(A)")
-	definitions.erase(Operation.Power)
+	definitions.erase(Operation.POWER)
 	return definitions
 
 

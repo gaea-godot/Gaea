@@ -1,5 +1,5 @@
 @tool
-class_name TileMapMaterial
+class_name TileMapGaeaMaterial
 extends GaeaMaterial
 ## Resource used to tell the [TileMapGaeaRenderer] which tile from a [TileMapLayer] to place.
 
@@ -38,3 +38,7 @@ func _validate_property(property: Dictionary) -> void:
 		Type.TERRAIN:
 			if property.name in ["source_id", "atlas_coord", "alternative_tile"]:
 				property.usage = PROPERTY_USAGE_NONE
+
+
+func _is_data() -> bool:
+	return true

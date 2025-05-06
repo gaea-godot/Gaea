@@ -5,11 +5,11 @@ const GradientVisualizer = preload("res://addons/gaea/editor/gradient_visualizer
 
 
 func _can_handle(object: Object) -> bool:
-	return object is GaeaMaterialGradient
+	return object is GradientGaeaMaterial
 
 
 func _parse_begin(object: Object) -> void:
-	if object is GaeaMaterialGradient:
+	if object is GradientGaeaMaterial:
 		var gradient_visualizer := GradientVisualizer.new()
 		gradient_visualizer.gradient = object
 
