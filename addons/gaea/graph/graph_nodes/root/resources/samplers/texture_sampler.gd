@@ -34,9 +34,9 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.DATA
 
 
-func _get_data(output_port: StringName, area: AABB, generator_data: GaeaData) -> Dictionary:
-	_log_data(output_port, generator_data)
-	var texture: Texture = _get_arg(&"texture", area, generator_data)
+func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary:
+	_log_data(output_port, graph)
+	var texture: Texture = _get_arg(&"texture", area, graph)
 	if not is_instance_valid(texture):
 		return {}
 		
@@ -73,9 +73,9 @@ func _get_data(output_port: StringName, area: AABB, generator_data: GaeaData) ->
 				b_grid.set(cell, pixel.b)
 				alpha_grid.set(cell, pixel.a)
 	
-	_set_cached_data(&"r", generator_data, r_grid)
-	_set_cached_data(&"g", generator_data, g_grid)
-	_set_cached_data(&"b", generator_data, b_grid)
-	_set_cached_data(&"a", generator_data, alpha_grid)
+	_set_cached_data(&"r", graph, r_grid)
+	_set_cached_data(&"g", graph, g_grid)
+	_set_cached_data(&"b", graph, b_grid)
+	_set_cached_data(&"a", graph, alpha_grid)
 
-	return _get_cached_data(output_port, generator_data)
+	return _get_cached_data(output_port, graph)

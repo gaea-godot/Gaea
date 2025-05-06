@@ -1,9 +1,9 @@
 [gd_resource type="Resource" script_class="GaeaGraph" load_steps=22 format=3 uid="uid://dowa1yikrbcdj"]
 
-[ext_resource type="Script" uid="uid://e45byecr4gi6" path="res://addons/gaea/resources/materials/tilemap_material.gd" id="1_wtjh4"]
+[ext_resource type="Script" uid="uid://e45byecr4gi6" path="res://addons/gaea/resources/materials/data/tilemap_material.gd" id="1_wtjh4"]
 [ext_resource type="Script" uid="uid://cj08rybcfwlle" path="res://addons/gaea/resources/materials/gaea_material.gd" id="2_du0iw"]
 [ext_resource type="Script" uid="uid://3qsmwhn2sk47" path="res://addons/gaea/resources/gaea_layer.gd" id="2_mfpnn"]
-[ext_resource type="Script" uid="uid://dtocuov1r8agi" path="res://addons/gaea/resources/materials/random_material.gd" id="3_kk1e5"]
+[ext_resource type="Script" uid="uid://dtocuov1r8agi" path="res://addons/gaea/resources/materials/distribution/pointwise_random_material.gd" id="3_kk1e5"]
 [ext_resource type="Script" uid="uid://dae6umbqb872e" path="res://addons/gaea/resources/gaea_graph.gd" id="5_mui55"]
 
 [sub_resource type="Resource" id="Resource_j6vep"]
@@ -136,7 +136,7 @@ metadata/_custom_type_script = "uid://3qsmwhn2sk47"
 
 [resource]
 resource_local_to_scene = true
-script = ExtResource("10_drb3t")
+script = ExtResource("5_mui55")
 layers = Array[ExtResource("2_mfpnn")]([SubResource("Resource_nr2x3"), SubResource("Resource_entu7"), SubResource("Resource_q5q5d")])
 logging = 0
 connections = Array[Dictionary]([{
@@ -390,7 +390,7 @@ node_data = Array[Dictionary]([{
 },
 &"max_cells": 400,
 &"rotate_180_weight": 20,
-&"starting_position": Vector3i(40, 24, 0)
+&"starting_position": Vector3i(40, 22, 0)
 },
 &"enums": [0],
 "name": &"BaseNode10",
@@ -672,7 +672,7 @@ other = {
 "autoshrink": true,
 "name": &"_GraphFrame_29830",
 "position": Vector2(240, 1299),
-"size": Vector2(867, 305),
+"size": Vector2(867, 310),
 "tint_color": Color(0.55, 0.415983, 0.3135, 0.52549),
 "tint_color_enabled": true,
 "title": "Place Chests"
@@ -681,7 +681,7 @@ other = {
 "autoshrink": true,
 "name": &"_GraphFrame_29833",
 "position": Vector2(320, -541),
-"size": Vector2(1000, 950),
+"size": Vector2(1000, 955),
 "tint_color": Color(0.133333, 0.12549, 0.203922, 1),
 "tint_color_enabled": true,
 "title": "Walls"
@@ -690,7 +690,7 @@ other = {
 "autoshrink": true,
 "name": &"_GraphFrame_29836",
 "position": Vector2(280, 559),
-"size": Vector2(743, 670),
+"size": Vector2(743, 675),
 "tint_color": Color(0.0964966, 0.363281, 0.175698, 0.75),
 "tint_color_enabled": true,
 "title": "Add Vegetation"
@@ -699,7 +699,7 @@ other = {
 "autoshrink": true,
 "name": &"_GraphFrame_29839",
 "position": Vector2(-520, 119),
-"size": Vector2(306, 227),
+"size": Vector2(306, 232),
 "tint_color": Color(0.3125, 0.155029, 0.155029, 0.75),
 "tint_color_enabled": true,
 "title": "Get Everything Outside Floor"
@@ -708,12 +708,12 @@ other = {
 "autoshrink": true,
 "name": &"_GraphFrame_29842",
 "position": Vector2(-640, 499),
-"size": Vector2(500, 254),
+"size": Vector2(500, 259),
 "tint_color": Color(0.174225, 0.208835, 0.257812, 0.75),
 "tint_color_enabled": true,
 "title": "Floor"
 })],
-&"save_version": 2
+&"save_version": 3
 }
 Chest = SubResource("Resource_j6vep")
 FloorMaterial = SubResource("Resource_e1h74")
