@@ -9,8 +9,6 @@ class_name GaeaVector3ArgumentEditor
 @onready var _x_label: Label = %XLabel
 @onready var _y_label: Label = %YLabel
 @onready var _z_label: Label = %ZLabel
-@onready var _x_container: HBoxContainer = $XContainer
-@onready var _y_container: HBoxContainer = $YContainer
 @onready var _z_container: HBoxContainer = $ZContainer
 
 
