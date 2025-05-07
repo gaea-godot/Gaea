@@ -578,7 +578,7 @@ func get_scene() -> PackedScene:
 
 ## Virtual method. Should be overridden if the node should use a different scene in the Gaea editor from the base one.
 func _get_scene() -> PackedScene:
-	return preload("uid://b7e2d15kxt2im")
+	return load("uid://b7e2d15kxt2im")
 
 
 func get_scene_script() -> GDScript:
