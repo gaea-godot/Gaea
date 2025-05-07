@@ -25,7 +25,7 @@ func _configure() -> void:
 	_x_label.add_theme_color_override(&"font_color", EditorInterface.get_base_control().get_theme_color("property_color_x", "Editor"))
 	_y_label.add_theme_color_override(&"font_color", EditorInterface.get_base_control().get_theme_color("property_color_y", "Editor"))
 	_z_label.add_theme_color_override(&"font_color", EditorInterface.get_base_control().get_theme_color("property_color_z", "Editor"))
-	
+
 	if type == GaeaValue.Type.VECTOR2I or type == GaeaValue.Type.VECTOR3I:
 		_x_spin_box.step = 1
 		_y_spin_box.step = 1
@@ -53,16 +53,16 @@ func _configure() -> void:
 	_x_spin_box.allow_greater = not hint.has("max")
 	_y_spin_box.allow_greater = not hint.has("max")
 	_z_spin_box.allow_greater = not hint.has("max")
-	
-	
+
+
 func set_editor_visible(value: bool) -> void:
 	for child in get_children():
 		if child == _label:
 			continue
-			
+
 		if child == _z_container and type in [GaeaValue.Type.VECTOR2, GaeaValue.Type.VECTOR2I]:
 			continue
-			
+
 		child.set_visible(value)
 
 
