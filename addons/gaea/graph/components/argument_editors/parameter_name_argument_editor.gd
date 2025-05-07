@@ -63,6 +63,6 @@ func _on_line_edit_text_submitted(new_text: String, line_edit: LineEdit) -> void
 		return
 		
 	name_label.text = new_text
+	graph_node.auto_shrink.call_deferred()
 	argument_value_changed.emit(new_text)
 	line_edit.queue_free()
-	

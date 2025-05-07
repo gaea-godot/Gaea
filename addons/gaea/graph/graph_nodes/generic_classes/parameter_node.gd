@@ -50,6 +50,7 @@ func _on_removed() -> void:
 func _on_argument_value_changed(value: Variant, _node: GaeaGraphNodeArgumentEditor, arg_name: String) -> void:
 	if arg_name != "name" and value is not String:
 		return
+		
 
 	if value == previous_name:
 		return
