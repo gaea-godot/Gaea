@@ -12,7 +12,7 @@ func _configure() -> void:
 	if is_part_of_edited_scene():
 		return
 	await super()
-	
+
 	_edit_button.icon = EditorInterface.get_base_control().get_theme_icon(&"Edit", &"EditorIcons")
 
 
@@ -25,7 +25,7 @@ func get_arg_value() -> String:
 func set_arg_value(new_value: Variant) -> void:
 	if typeof(new_value) not in [TYPE_STRING, TYPE_STRING_NAME]:
 		return
-	
+
 	name_label.text = new_value
 
 
@@ -53,15 +53,15 @@ func _on_line_edit_text_submitted(new_text: String, line_edit: LineEdit) -> void
 	if new_text == name_label.text:
 		line_edit.queue_free()
 		return
-		
+
 	if not new_text.is_valid_ascii_identifier():
 		push_error("Parameter name '%s' is not a valid identifier." % new_text)
 		return
-		
+
 	if graph_node.generator.data.parameters.has(new_text):
 		push_error("Parameter name '%s' matches an already existing parameter." % new_text)
 		return
-		
+
 	name_label.text = new_text
 	graph_node.auto_shrink.call_deferred()
 	argument_value_changed.emit(new_text)

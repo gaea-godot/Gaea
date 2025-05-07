@@ -24,13 +24,17 @@ func _on_added() -> void:
 	if not _finished_loading:
 		push_error("Something went wrong during loading of the variable node '%s'" % resource.get_title())
 
+	_add_parameter.call_deferred()
+
+
+func _add_parameter() -> void:
 	previous_name = get_arg_value(&"name")
 
-	if generator.data.parameters.has(get_arg_value(&"name")):
+	if generator.data.parameters.has(previous_name):
 		return
 
-	generator.data.parameters[get_arg_value(&"name")] = {
-		"name": get_arg_value(&"name"),
+	generator.data.parameters[previous_name] = {
+		"name": previous_name,
 		"type": resource.type,
 		"hint": resource.hint,
 		"hint_string": resource.hint_string,
@@ -50,7 +54,7 @@ func _on_removed() -> void:
 func _on_argument_value_changed(value: Variant, _node: GaeaGraphNodeArgumentEditor, arg_name: String) -> void:
 	if arg_name != "name" and value is not String:
 		return
-		
+
 
 	if value == previous_name:
 		return
@@ -70,6 +74,8 @@ func _get_default_value(for_type: Variant.Type) -> Variant:
 	match for_type:
 		TYPE_FLOAT, TYPE_INT:
 			return 0
+		TYPE_BOOL:
+			return false
 		TYPE_VECTOR2:
 			return Vector2(0, 0)
 		TYPE_VECTOR2I:
