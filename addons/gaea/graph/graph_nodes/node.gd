@@ -197,7 +197,7 @@ func _get_output_slot(for_output: StringName) -> GaeaGraphNodeOutput:
 	if overridden_idx >= 0:
 		return get_child(overridden_idx)
 
-	var idx = resource.get_arguments_list().size()
+	var idx = resource.get_enums_count() + resource.get_arguments_list().size()
 	for output in resource.get_output_ports_list():
 		if output == for_output:
 			return get_child(idx)
