@@ -97,9 +97,9 @@ func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Diction
 
 	match get_enum_selection(0):
 		Operation.UNION:
-			for x in _get_axis_range(Axis.X, area):
-				for y in _get_axis_range(Axis.Y, area):
-					for z in _get_axis_range(Axis.Z, area):
+			for x in _get_axis_range(Vector3i.AXIS_X, area):
+				for y in _get_axis_range(Vector3i.AXIS_Y, area):
+					for z in _get_axis_range(Vector3i.AXIS_Z, area):
 						var cell: Vector3i = Vector3i(x, y, z)
 						for subgrid: Dictionary in grids:
 							if subgrid.get(cell) != null:
@@ -113,9 +113,9 @@ func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Diction
 					else:
 						grid.set(cell, subgrid.get(cell))
 		Operation.COMPLEMENT:
-			for x in _get_axis_range(Axis.X, area):
-				for y in _get_axis_range(Axis.Y, area):
-					for z in _get_axis_range(Axis.Z, area):
+			for x in _get_axis_range(Vector3i.AXIS_X, area):
+				for y in _get_axis_range(Vector3i.AXIS_Y, area):
+					for z in _get_axis_range(Vector3i.AXIS_Z, area):
 						var cell: Vector3i = Vector3i(x, y, z)
 						if grids.front().get(cell) == null:
 							grid.set(cell, 1.0)

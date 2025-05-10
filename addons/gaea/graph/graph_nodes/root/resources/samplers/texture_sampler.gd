@@ -54,9 +54,9 @@ func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Diction
 	if not slices.any(is_instance_valid):
 		return {}
 		
-	for x in _get_axis_range(Axis.X, area):
-		for y in _get_axis_range(Axis.Y, area):
-			for z in _get_axis_range(Axis.Z, area):
+	for x in _get_axis_range(Vector3i.AXIS_X, area):
+		for y in _get_axis_range(Vector3i.AXIS_Y, area):
+			for z in _get_axis_range(Vector3i.AXIS_Z, area):
 				if slices.size() <= z:
 					break
 					

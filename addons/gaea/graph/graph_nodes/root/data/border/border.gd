@@ -58,9 +58,9 @@ func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Diction
 	var input_data: Dictionary[Vector3i, float] = _get_arg(&"data", area, graph)
 
 	var border: Dictionary[Vector3i, float] = {}
-	for x in _get_axis_range(Axis.X, area):
-		for y in _get_axis_range(Axis.Y, area):
-			for z in _get_axis_range(Axis.Z, area):
+	for x in _get_axis_range(Vector3i.AXIS_X, area):
+		for y in _get_axis_range(Vector3i.AXIS_Y, area):
+			for z in _get_axis_range(Vector3i.AXIS_Z, area):
 				var cell: Vector3i = Vector3i(x, y, z)
 				if (inside and input_data.get(cell) == null) or (not inside and input_data.get(cell) != null):
 					continue

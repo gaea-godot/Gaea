@@ -71,9 +71,9 @@ func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Diction
 	_noise.fractal_octaves = _get_arg(&"octaves", area, graph)
 	_noise.fractal_lacunarity = _get_arg(&"lacunarity", area, graph)
 	var dictionary: Dictionary[Vector3i, float]
-	for x in _get_axis_range(Axis.X, area):
-		for y in _get_axis_range(Axis.Y, area):
-			for z in _get_axis_range(Axis.Z, area):
+	for x in _get_axis_range(Vector3i.AXIS_X, area):
+		for y in _get_axis_range(Vector3i.AXIS_Y, area):
+			for z in _get_axis_range(Vector3i.AXIS_Z, area):
 				dictionary[Vector3i(x, y, z)] = (_get_noise_value(Vector3i(x, y, z), _noise) + 1.0) / 2.0
 	return dictionary
 

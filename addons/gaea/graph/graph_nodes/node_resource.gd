@@ -58,13 +58,6 @@ var tree_name_override: String = "" : set = set_tree_name_override
 @export_storage var default_value_overrides: Dictionary[StringName, Variant]
 @export_storage var default_enum_value_overrides: Dictionary[int, int]
 
-## Used in [method _get_axis_range].
-enum Axis {
-	X,
-	Y,
-	Z
-}
-
 
 func notify_argument_list_changed() -> void:
 	argument_list_changed.emit()
@@ -590,11 +583,11 @@ func _get_scene_script() -> GDScript:
 
 
 ## Returns an array of points in the [param axis] of [param area].
-func _get_axis_range(axis: Axis, area: AABB) -> Array:
+func _get_axis_range(axis: Vector3i.Axis, area: AABB) -> Array:
 	match axis:
-		Axis.X: return range(area.position.x, area.end.x)
-		Axis.Y: return range(area.position.y, area.end.y)
-		Axis.Z: return range(area.position.z, area.end.z)
+		Vector3i.AXIS_X: return range(area.position.x, area.end.x)
+		Vector3i.AXIS_Y: return range(area.position.y, area.end.y)
+		Vector3i.AXIS_Z: return range(area.position.z, area.end.z)
 	return []
 
 

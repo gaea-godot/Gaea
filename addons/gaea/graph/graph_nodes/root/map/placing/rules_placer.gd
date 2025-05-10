@@ -66,9 +66,9 @@ func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Diction
 		_log_error("Recursive limit reached (%d): Invalid material provided at %s" % [GaeaMaterial.RECURSIVE_LIMIT, material.resource_path], graph, graph.resources.find(self))
 		return grid
 
-	for x in _get_axis_range(Axis.X, area):
-		for y in _get_axis_range(Axis.Y, area):
-			for z in _get_axis_range(Axis.Z, area):
+	for x in _get_axis_range(Vector3i.AXIS_X, area):
+		for y in _get_axis_range(Vector3i.AXIS_Y, area):
+			for z in _get_axis_range(Vector3i.AXIS_Z, area):
 				var place: bool = true
 				var cell: Vector3i = Vector3i(x, y, z)
 				for offset: Vector2i in rules:

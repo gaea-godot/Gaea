@@ -180,7 +180,7 @@ func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Diction
 		FalloffShape.SQUIRCLE:
 			sampler = FalloffSamplerSquircle.new(area, start, end)
 
-	for x in _get_axis_range(Axis.X, area):
-		for y in _get_axis_range(Axis.Y, area):
+	for x in _get_axis_range(Vector3i.AXIS_X, area):
+		for y in _get_axis_range(Vector3i.AXIS_Y, area):
 			grid[Vector3i(x, y, 0)] = sampler.sample(x, y)
 	return grid
