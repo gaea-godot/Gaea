@@ -41,7 +41,7 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 
 
 func _get_scene() -> PackedScene:
-	return preload("uid://b2rceqo8rtr88")
+	return load("uid://b2rceqo8rtr88")
 
 
 func _get_data(output_port: StringName, area: AABB, generator_data: GaeaData) -> Variant:

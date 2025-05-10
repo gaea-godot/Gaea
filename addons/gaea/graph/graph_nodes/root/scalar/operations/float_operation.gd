@@ -14,13 +14,13 @@ func _get_description() -> String:
 		return "Operation between 2 [code]float[/code] numbers."
 
 	match get_enum_selection(0):
-		Operation.Add:
+		Operation.ADD:
 			return "Sums 2 [code]float[/code] numbers."
-		Operation.Subtract:
+		Operation.SUBTRACT:
 			return "Subtracts 2 [code]float[/code] numbers."
-		Operation.Multiply:
+		Operation.MULTIPLY:
 			return "Multiplies 2 [code]float[/code] numbers together."
-		Operation.Divide:
+		Operation.DIVIDE:
 			return "Divides 2 [code]float[/code] numbers together."
 		_:
 			return super()

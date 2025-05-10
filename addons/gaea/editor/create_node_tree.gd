@@ -83,13 +83,22 @@ func _populate_dict_with_files(folder_path: String, dict: Dictionary) -> Diction
 
 
 		if file_name.ends_with(".gd"):
-			var resource: GaeaNodeResource = load(file_path).new()
-			if resource is GaeaNodeResource:
-				if resource.is_available():
-					var sub_idx: int = 0
-					for item in resource.get_tree_items():
-						sub_idx += 1
-						dict.get_or_add(item.get_tree_name() + str(idx) + str(sub_idx), item)
+			var script := load(file_path)
+			if script is GDScript:
+				var is_valid_node_resource := false
+				var base_script: GDScript = script
+				while is_instance_valid(base_script):
+					base_script = base_script.get_base_script()
+					if base_script == GaeaNodeResource:
+						is_valid_node_resource = true
+						break
+				if is_valid_node_resource:
+					var resource: GaeaNodeResource = script.new()
+					if resource.is_available():
+						var sub_idx: int = 0
+						for item in resource.get_tree_items():
+							sub_idx += 1
+							dict.get_or_add(item.get_tree_name() + str(idx) + str(sub_idx), item)
 		file_name = dir.get_next()
 
 	dict.sort()

@@ -1,7 +1,6 @@
 @tool
-@icon("../../assets/types/material_gradient.svg")
-class_name GaeaMaterialGradient
-extends Resource
+class_name GradientGaeaMaterial
+extends GaeaMaterial
 
 
 signal points_sorted
@@ -45,10 +44,13 @@ signal points_sorted
 				points.get(idx).set(&"offset", value.get(idx))
 
 		_sort_points()
+
+
 @export_storage var points: Array[Dictionary]
 
 
 func _init() -> void:
+	super()
 	points.append({&"material": null, &"offset": 0.0})
 	notify_property_list_changed()
 
@@ -60,7 +62,8 @@ func _sort_points() -> void:
 	)
 	points_sorted.emit()
 
-func sample(value: float) -> GaeaMaterial:
+
+func _get_sampled_resource(_rng: RandomNumberGenerator, value: float) -> GaeaMaterial:
 	value = clampf(value, 0.0, 1.0)
 	for idx: int in points.size():
 		var next_point_offset: float

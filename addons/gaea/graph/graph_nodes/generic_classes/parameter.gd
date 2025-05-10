@@ -81,4 +81,4 @@ func _is_available() -> bool:
 
 
 func _get_scene_script() -> GDScript:
-	return preload("uid://cdihgtg613ft2")
+	return load("uid://cdihgtg613ft2")

@@ -517,7 +517,7 @@ func connection_idx_to_output(output_idx: int) -> StringName:
 #region Logging
 # If enabled in [member GaeaData.logging], log the execution information. (See [enum GaeaData.Log]).
 func _log_execute(message:String, area:AABB, generator_data:GaeaData):
-	if is_instance_valid(generator_data) and generator_data.logging & GaeaData.Log.Execute > 0:
+	if is_instance_valid(generator_data) and generator_data.logging & GaeaData.Log.EXECUTE > 0:
 		message = message.strip_edges()
 		message = message if message == "" else message + " "
 		print("Execute   |   %sArea %s on %s" % [message, area, _get_title()])
@@ -525,7 +525,7 @@ func _log_execute(message:String, area:AABB, generator_data:GaeaData):
 
 # If enabled in [member GaeaData.logging], log the layer information. (See [enum GaeaData.Log]).
 func _log_layer(message:String, layer:int, generator_data:GaeaData):
-	if is_instance_valid(generator_data) and generator_data.logging & GaeaData.Log.Execute > 0:
+	if is_instance_valid(generator_data) and generator_data.logging & GaeaData.Log.EXECUTE > 0:
 		message = message.strip_edges()
 		message = message if message == "" else message + " "
 		print("Execute   |   %sLayer %d on %s" % [message, layer, _get_title()])
@@ -533,20 +533,20 @@ func _log_layer(message:String, layer:int, generator_data:GaeaData):
 
 # If enabled in [member GaeaData.logging], log the traverse information. (See [enum GaeaData.Log]).
 func _log_traverse(generator_data:GaeaData):
-	if is_instance_valid(generator_data) and generator_data.logging & GaeaData.Log.Traverse > 0:
+	if is_instance_valid(generator_data) and generator_data.logging & GaeaData.Log.TRAVERSE > 0:
 		print("Traverse  |   %s" % [_get_title()])
 
 
 ## If enabled in [member GaeaData.logging], log the data information. (See [enum GaeaData.Log]).
 ## Should be called in [method _get_data]
 func _log_data(output_port: StringName, generator_data:GaeaData):
-	if is_instance_valid(generator_data) and generator_data.logging & GaeaData.Log.Data > 0:
+	if is_instance_valid(generator_data) and generator_data.logging & GaeaData.Log.DATA > 0:
 		print("Data      |   %s from port &\"%s\"" % [_get_title(), output_port])
 
 
 # If enabled in [member GaeaData.logging], log the argument information. (See [enum GaeaData.Log]).
 func _log_arg(arg:String, generator_data:GaeaData):
-	if is_instance_valid(generator_data) and generator_data.logging & GaeaData.Log.Args > 0:
+	if is_instance_valid(generator_data) and generator_data.logging & GaeaData.Log.ARGS > 0:
 		print("Arg       |   %s on %s" % [arg, _get_title()])
 
 
@@ -578,7 +578,7 @@ func get_scene() -> PackedScene:
 
 ## Virtual method. Should be overridden if the node should use a different scene in the Gaea editor from the base one.
 func _get_scene() -> PackedScene:
-	return preload("uid://b7e2d15kxt2im")
+	return load("uid://b7e2d15kxt2im")
 
 
 func get_scene_script() -> GDScript:
@@ -605,7 +605,7 @@ static func get_formatted_text(unformatted_text: String) -> String:
 
 	return param_regex.sub(unformatted_text, "[bgcolor=%s][color=%s]$1[/color][/bgcolor]" % [PARAM_BG_COLOR.to_html(true), PARAM_TEXT_COLOR.to_html(true)], true) \
 		.replace("GaeaMaterial ", "[hint=%s]GaeaMaterial[/hint] " % GAEA_MATERIAL_HINT) \
-		.replace("GaeaMaterialGradient ", "[hint=%s]GaeaMaterialGradient[/hint] " % GAEA_MATERIAL_GRADIENT_HINT) \
+		.replace("GradientGaeaMaterial ", "[hint=%s]GradientGaeaMaterial[/hint] " % GAEA_MATERIAL_GRADIENT_HINT) \
 		.replace("[code]", "[bgcolor=%s][color=%s][code]" % [CODE_BG_COLOR.to_html(true), CODE_TEXT_COLOR.to_html(true)]) \
 		.replace("[/code]", "[/code][/color][/bgcolor]")
 
@@ -624,6 +624,12 @@ func _is_point_outside_area(area: AABB, point: Vector3) -> bool:
 	area.end -= Vector3.ONE
 	return (point.x < area.position.x or point.y < area.position.y or point.z < area.position.z or
 			point.x > area.end.x or point.y > area.end.y or point.z > area.end.z)
+
+func define_rng(generator_data: GaeaData) -> RandomNumberGenerator:
+	var rng = RandomNumberGenerator.new()
+	rng.set_seed(generator_data.generator.seed + salt)
+	seed(generator_data.generator.seed + salt)
+	return rng
 #endregion
 
 

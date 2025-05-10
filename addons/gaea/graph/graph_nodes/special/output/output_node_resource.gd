@@ -89,7 +89,7 @@ func execute(area: AABB, generator_data: GaeaData, generator: GaeaGenerator) -> 
 
 # Custom scene that dynamically adds layer slots.
 func _get_scene_script() -> GDScript:
-	return preload("uid://34dullcgrsk7")
+	return load("uid://34dullcgrsk7")
 
 
 ## Output nodes have a special titlebar color.
