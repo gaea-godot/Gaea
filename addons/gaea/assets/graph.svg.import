@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bljmraidqpfmv"
-path="res://.godot/imported/data.svg-9b870d975b8eec1602dd85e8c511a86d.ctex"
+uid="uid://cerisdpavr7v3"
+path="res://.godot/imported/graph.svg-1c6a07e8e4f149d39732c11596729e01.ctex"
 metadata={
 "has_editor_variant": true,
 "vram_texture": false
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://addons/gaea/assets/data.svg"
-dest_files=["res://.godot/imported/data.svg-9b870d975b8eec1602dd85e8c511a86d.ctex"]
+source_file="res://addons/gaea/assets/graph.svg"
+dest_files=["res://.godot/imported/graph.svg-1c6a07e8e4f149d39732c11596729e01.ctex"]
 
 [params]
 

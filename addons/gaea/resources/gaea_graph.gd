@@ -1,5 +1,5 @@
 @tool
-@icon("../assets/data.svg")
+@icon("../assets/graph.svg")
 class_name GaeaGraph
 extends Resource
 ## Resource that holds the saved data for a Gaea graph.
