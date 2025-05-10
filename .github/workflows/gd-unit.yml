@@ -1,5 +1,4 @@
-name: ci-pr-example
-run-name: ${{ github.head_ref || github.ref_name }}-ci-pr-example
+name: GHA
 
 on:
   pull_request:
@@ -10,13 +9,13 @@ on:
 
 
 concurrency:
-  group: ci-pr-example${{ github.event.number }}
+  group: ${{ github.workflow }}|${{ github.ref_name }}
   cancel-in-progress: true
 
 
 jobs:
   unit-test:
-    name: "CI Unit Test"
+    name: "Generation Testing"
     runs-on: 'ubuntu-22.04'
     timeout-minutes: 10 # The overall timeout
     permissions:
@@ -36,7 +35,7 @@ jobs:
         with:
           godot-version: '4.4.1'
           paths: |
-            res://testing/
+            res://testing/generation
           timeout: 5
-          report-name: test_report.xml      
+          report-name: generation_report.xml      
 
