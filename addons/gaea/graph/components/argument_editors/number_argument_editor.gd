@@ -24,15 +24,17 @@ func _configure() -> void:
 	h_slider.visible = hint.has("min") and hint.has("max")
 	h_slider.step = spin_box.step
 
-	spin_box.min_value = hint.get("min", 0.0)
-	spin_box.allow_lesser = not hint.has("min")
-	h_slider.min_value = spin_box.min_value
-	h_slider.allow_lesser = spin_box.allow_lesser
+	if hint.has("min"):
+		spin_box.min_value = hint.get("min")
+		spin_box.allow_lesser = false
+		h_slider.min_value = spin_box.min_value
+		h_slider.allow_lesser = spin_box.allow_lesser
 
-	spin_box.max_value = hint.get("max", 1.0)
-	spin_box.allow_greater = not hint.has("max")
-	h_slider.max_value = spin_box.max_value
-	h_slider.allow_greater = spin_box.allow_greater
+	if hint.has("max"):
+		spin_box.max_value = hint.get("max")
+		spin_box.allow_greater = false
+		h_slider.max_value = spin_box.max_value
+		h_slider.allow_greater = spin_box.allow_greater
 
 	spin_box.suffix = hint.get("suffix", "")
 	spin_box.prefix = hint.get("prefix", "")
