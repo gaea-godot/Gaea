@@ -7,3 +7,5 @@
 /addons/** !export-ignore
 /addons/gdscript_formatter export-ignore
 /addons/gdscript_formatter/** export-ignore
+/addons/gdUnit4/ export-ignore
+/addons/gdUnit4/** export-ignore
