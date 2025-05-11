@@ -63,6 +63,10 @@ func _sort_points() -> void:
 	points_sorted.emit()
 
 
+func _is_sampled() -> bool:
+	return true
+
+
 func _get_sampled_resource(_rng: RandomNumberGenerator, value: float) -> GaeaMaterial:
 	value = clampf(value, 0.0, 1.0)
 	for idx: int in points.size():
