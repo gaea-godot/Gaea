@@ -32,7 +32,7 @@ func delete_nodes(nodes: Array[StringName]) -> void:
 			for connection in node.connections:
 				disconnect_node(connection.from_node, connection.from_port, connection.to_node, connection.to_port)
 			node.removed.emit()
-		elif node is GraphFrame:
+		elif node is GaeaGraphFrame:
 			for attached in get_attached_nodes_of_frame(node.name):
 				attached_elements.erase(attached)
 		node.queue_free()

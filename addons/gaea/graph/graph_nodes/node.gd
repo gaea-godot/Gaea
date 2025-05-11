@@ -88,7 +88,7 @@ func _rebuild() -> void:
 		return
 	_finished_rebuilding = false
 	var selected_preview: StringName = &""
-	
+
 	if is_instance_valid(_preview):
 		selected_preview = _preview.selected_output
 
@@ -282,10 +282,10 @@ func _update_arguments_visibility() -> void:
 
 		if child is not GaeaGraphNodeArgumentEditor:
 			continue
-			
+
 		if is_zero_approx(child.size.y):
 			continue
-		
+
 		child.set_editor_visible(not connections.any(_is_connected_to.bind(input_idx)))
 
 	auto_shrink()

@@ -53,7 +53,7 @@ var resources: Array[GaeaNodeResource]
 ## [br][color=yellow][b]Warning:[/b][/color] Setting this directly can break your saved graph.
 ## Use [method set_parameter] instead.
 @export_storage var parameters: Dictionary[StringName, Variant]
-## Other saved data, such as [GraphFrame] information.
+## Other saved data, such as [GaeaGraphFrame] information.
 ## [br][color=yellow][b]Warning:[/b][/color] Setting this directly can break your saved graph.
 @export_storage var other: Dictionary
 

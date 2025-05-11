@@ -34,7 +34,7 @@ func populate(selected: Array) -> void:
 		if graph_edit.attached_elements.has(node.name):
 			add_item("Detach from Parent Frame", Action.DETACH)
 			break
-	if selected.front() is GraphFrame and selected.size() == 1:
+	if selected.front() is GaeaGraphFrame and selected.size() == 1:
 		add_separator()
 		add_item("Rename Frame", Action.RENAME)
 		add_check_item("Enable Auto Shrink", Action.ENABLE_AUTO_SHRINK)
@@ -67,54 +67,25 @@ func _on_id_pressed(id: int) -> void:
 		Action.RENAME:
 			var selected: Array = graph_edit.get_selected()
 			var node: GraphElement = selected.front()
-			if node is GraphFrame:
-				var line_edit: LineEdit = LineEdit.new()
-				line_edit.text = node.title
-				line_edit.select_all()
-				line_edit.expand_to_text_length = true
-				line_edit.position = owner.get_local_mouse_position()
-				line_edit.text_submitted.connect(node.set_title)
-				line_edit.text_submitted.connect(line_edit.queue_free.unbind(1), CONNECT_DEFERRED)
-				line_edit.focus_exited.connect(line_edit.queue_free)
-				owner.add_child(line_edit)
-				line_edit.grab_click_focus()
-				line_edit.grab_focus()
+			if node is GaeaGraphFrame:
+				node.start_rename(owner)
 
 		Action.TINT:
 			var selected: Array = graph_edit.get_selected()
 			var node: GraphElement = selected.front()
-			if node is GraphFrame:
-				var _popup: PopupPanel = PopupPanel.new()
-				_popup.position = owner.get_global_mouse_position() as Vector2i
-
-				var vbox_container: VBoxContainer = VBoxContainer.new()
-
-				var color_picker: ColorPicker = ColorPicker.new()
-				color_picker.color_changed.connect(node.set_tint_color)
-				color_picker.color = node.tint_color
-
-				var ok_button: Button = Button.new()
-				ok_button.text = "OK"
-				ok_button.pressed.connect(_popup.queue_free)
-
-				vbox_container.add_child(color_picker)
-				vbox_container.add_child(ok_button)
-
-				_popup.add_child(vbox_container)
-
-				owner.add_child(_popup)
-				_popup.popup()
+			if node is GaeaGraphFrame:
+				node.start_tint_color_change(owner)
 		Action.ENABLE_TINT:
 			set_item_checked(idx, not is_item_checked(idx))
 			var selected: Array = graph_edit.get_selected()
 			var node: GraphElement = selected.front()
-			if node is GraphFrame:
+			if node is GaeaGraphFrame:
 				node.set_tint_color_enabled(is_item_checked(idx))
 		Action.ENABLE_AUTO_SHRINK:
 			set_item_checked(idx, not is_item_checked(idx))
 			var selected: Array = graph_edit.get_selected()
 			var node: GraphElement = selected.front()
-			if node is GraphFrame:
+			if node is GaeaGraphFrame:
 				node.set_autoshrink_enabled(is_item_checked(idx))
 		Action.DETACH:
 			var selected: Array = graph_edit.get_selected()

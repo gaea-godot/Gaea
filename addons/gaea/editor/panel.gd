@@ -158,13 +158,12 @@ func _save_data() -> void:
 	children.sort_custom(func(a: Node, b: Node): return a.name.naturalcasecmp_to(b.name) < 0)
 	for child in children:
 		if child is GaeaGraphNode:
-
 			resource_uids.append(ResourceUID.id_to_text(
 				ResourceLoader.get_resource_uid(child.resource.get_script().get_path())
 			))
 			resources.append(child.resource)
-		elif child is GraphFrame:
-			other.get_or_add(&"frames", []).append(_get_frame_save_data(child))
+		elif child is GaeaGraphFrame:
+			other.get_or_add(&"frames", []).append(child.get_save_data())
 
 	for connection in connections:
 		var from_node: GraphNode = _graph_edit.get_node(NodePath(connection.from_node))
@@ -185,19 +184,6 @@ func _save_data() -> void:
 	_selected_generator.data.other = other
 
 	EditorInterface.mark_scene_as_unsaved()
-
-
-func _get_frame_save_data(frame: GraphFrame) -> Dictionary[String, Variant]:
-	return {
-				&"title": frame.title,
-				&"tint_color": frame.tint_color,
-				&"tint_color_enabled": frame.tint_color_enabled,
-				&"position": frame.position_offset,
-				&"attached": _graph_edit.get_attached_nodes_of_frame(frame.name),
-				&"size": frame.size,
-				&"autoshrink": frame.autoshrink_enabled,
-				&"name": frame.name
-	}
 
 
 
@@ -245,15 +231,9 @@ func _load_connections(connections: Array[Dictionary]) -> void:
 
 
 func _load_frame(frame_data: Dictionary) -> void:
-	var new_frame: GraphFrame = GraphFrame.new()
-	new_frame.title = frame_data.get(&"title", "Frame")
-	new_frame.position_offset = frame_data.get(&"position", Vector2.ZERO)
-	new_frame.size = frame_data.get(&"size", Vector2(64, 64))
-	new_frame.tint_color = frame_data.get(&"tint_color", new_frame.tint_color)
-	new_frame.tint_color_enabled = frame_data.get(&"tint_color_enabled", false)
-	new_frame.name = frame_data.get_or_add(&"name", new_frame.name)
-	new_frame.autoshrink_enabled = frame_data.get(&"autoshrink", true)
+	var new_frame: GaeaGraphFrame = GaeaGraphFrame.new()
 	_graph_edit.add_child(new_frame)
+	new_frame.load_save_data(frame_data)
 
 
 func _load_node(resource: GaeaNodeResource, saved_data: Dictionary) -> GraphNode:
@@ -347,12 +327,9 @@ func _on_tree_node_selected_for_creation(resource: GaeaNodeResource) -> void:
 func _on_tree_special_node_selected_for_creation(id: StringName) -> void:
 	match id:
 		&"frame":
-			var new_frame: GraphFrame = GraphFrame.new()
-			new_frame.size = Vector2(512, 256)
+			var new_frame: GaeaGraphFrame = GaeaGraphFrame.new()
 			new_frame.set_position_offset((_graph_edit.get_local_mouse_position() + _graph_edit.scroll_offset) / _graph_edit.zoom)
-			new_frame.title = "Frame"
 			_graph_edit.add_child(new_frame)
-			new_frame.name = new_frame.name.replace("@", "_")
 			_save_data.call_deferred()
 	_create_node_popup.hide()
 
