@@ -667,52 +667,52 @@ parameters = Dictionary[StringName, Variant]({
 }
 })
 other = {
-&"frames": [Dictionary[String, Variant]({
-"attached": Array[StringName]([&"_GraphNode_52358", &"_GraphNode_41449", &"_GraphNode_42530"]),
-"autoshrink": true,
-"name": &"_GraphFrame_29830",
-"position": Vector2(240, 1299),
-"size": Vector2(874, 312),
-"tint_color": Color(0.55, 0.415983, 0.3135, 0.52549),
-"tint_color_enabled": true,
-"title": "Place Chests"
-}), Dictionary[String, Variant]({
-"attached": Array[StringName]([&"_GraphNode_46695", &"_GraphNode_73053", &"_GraphNode_52516", &"_GraphNode_52321", &"_GraphNode_46758", &"_GraphNode_27754", &"_GraphNode_25394", &"_GraphNode_25313", &"BaseNode3", &"_GraphNode_27761"]),
-"autoshrink": true,
-"name": &"_GraphFrame_29833",
-"position": Vector2(320, -541),
-"size": Vector2(1000, 952),
-"tint_color": Color(0.133333, 0.12549, 0.203922, 1),
-"tint_color_enabled": true,
-"title": "Walls"
-}), Dictionary[String, Variant]({
-"attached": Array[StringName]([&"_GraphNode_29883", &"_GraphNode_30001", &"_GraphNode_52441", &"_GraphNode_30041", &"_GraphNode_27793", &"_GraphNode_40715", &"BaseNode"]),
-"autoshrink": true,
-"name": &"_GraphFrame_29836",
-"position": Vector2(280, 559),
-"size": Vector2(750, 672),
-"tint_color": Color(0.0964966, 0.363281, 0.175698, 0.75),
-"tint_color_enabled": true,
-"title": "Add Vegetation"
-}), Dictionary[String, Variant]({
-"attached": Array[StringName]([&"_GraphNode_46623"]),
-"autoshrink": true,
-"name": &"_GraphFrame_29839",
-"position": Vector2(-520, 119),
-"size": Vector2(306, 231),
-"tint_color": Color(0.3125, 0.155029, 0.155029, 0.75),
-"tint_color_enabled": true,
-"title": "Get Everything Outside Floor"
-}), Dictionary[String, Variant]({
-"attached": Array[StringName]([&"BaseNode9", &"BaseNode13"]),
-"autoshrink": true,
-"name": &"_GraphFrame_29842",
-"position": Vector2(-640, 499),
-"size": Vector2(500, 256),
-"tint_color": Color(0.174225, 0.208835, 0.257812, 0.75),
-"tint_color_enabled": true,
-"title": "Floor"
-})],
+&"frames": [{
+&"attached": Array[StringName]([&"_GraphNode_52358", &"_GraphNode_41449", &"_GraphNode_42530"]),
+&"autoshrink": true,
+&"name": &"_GraphFrame_29830",
+&"position": Vector2(240, 1299),
+&"size": Vector2(874, 312),
+&"tint_color": Color(0.55, 0.415983, 0.3135, 0.52549),
+&"tint_color_enabled": true,
+&"title": "Place Chests"
+}, {
+&"attached": Array[StringName]([&"_GraphNode_46695", &"_GraphNode_73053", &"_GraphNode_52516", &"_GraphNode_52321", &"_GraphNode_46758", &"_GraphNode_27754", &"_GraphNode_25394", &"_GraphNode_25313", &"BaseNode3", &"_GraphNode_27761"]),
+&"autoshrink": true,
+&"name": &"_GraphFrame_29833",
+&"position": Vector2(320, -541),
+&"size": Vector2(1000, 952),
+&"tint_color": Color(0.133333, 0.12549, 0.203922, 1),
+&"tint_color_enabled": true,
+&"title": "Walls"
+}, {
+&"attached": Array[StringName]([&"_GraphNode_29883", &"_GraphNode_30001", &"_GraphNode_52441", &"_GraphNode_30041", &"_GraphNode_27793", &"_GraphNode_40715", &"BaseNode"]),
+&"autoshrink": true,
+&"name": &"_GraphFrame_29836",
+&"position": Vector2(280, 559),
+&"size": Vector2(750, 672),
+&"tint_color": Color(0.0964966, 0.363281, 0.175698, 0.75),
+&"tint_color_enabled": true,
+&"title": "Add Vegetation"
+}, {
+&"attached": Array[StringName]([&"_GraphNode_46623"]),
+&"autoshrink": true,
+&"name": &"_GraphFrame_29839",
+&"position": Vector2(-520, 119),
+&"size": Vector2(306, 231),
+&"tint_color": Color(0.3125, 0.155029, 0.155029, 0.75),
+&"tint_color_enabled": true,
+&"title": "Get Everything Outside Floor"
+}, {
+&"attached": Array[StringName]([&"BaseNode9", &"BaseNode13"]),
+&"autoshrink": true,
+&"name": &"_GraphFrame_29842",
+&"position": Vector2(-640, 499),
+&"size": Vector2(500, 256),
+&"tint_color": Color(0.174225, 0.208835, 0.257812, 0.75),
+&"tint_color_enabled": true,
+&"title": "Floor"
+}],
 &"save_version": 3
 }
 Chest = SubResource("Resource_j6vep")
