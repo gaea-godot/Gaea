@@ -14,7 +14,7 @@ concurrency:
 
 
 jobs:
-  unit-test:
+  generate_test:
     name: "Generation Testing"
     runs-on: 'ubuntu-22.04'
     timeout-minutes: 10 # The overall timeout
@@ -38,7 +38,7 @@ jobs:
             res://testing/generation
           timeout: 5
           publish-report: false
-  unit-test:
+  warning_check:
     name: "_get_arguments_list Warning"
     runs-on: 'ubuntu-22.04'
     timeout-minutes: 10 # The overall timeout
