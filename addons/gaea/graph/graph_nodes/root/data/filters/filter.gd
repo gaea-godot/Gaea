@@ -39,8 +39,6 @@ func _is_available() -> bool:
 
 
 func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary:
-	_log_data(output_port, graph)
-
 	seed(graph.generator.seed + salt)
 
 	var input_data: Dictionary = _get_arg(&"input_grid", area, graph)

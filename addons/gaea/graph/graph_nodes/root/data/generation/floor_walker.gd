@@ -97,7 +97,6 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 
 
 func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary:
-	_log_data(output_port, graph)
 	var axis_type: AxisType = get_enum_selection(0) as AxisType
 
 	var _starting_position: Vector3 = _get_arg(&"starting_position", area, graph)

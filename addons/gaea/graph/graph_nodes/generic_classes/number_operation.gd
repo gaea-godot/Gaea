@@ -130,7 +130,6 @@ func _get_output_port_display_name(_output_name: StringName) -> String:
 
 
 func _get_data(output_port: StringName, _area: AABB, graph: GaeaGraph) -> Variant:
-	_log_data(output_port, graph)
 	var operation: Operation = get_enum_selection(0) as Operation
 	var args: Array
 	for arg_name: StringName in OPERATION_DEFINITIONS[operation].args:

@@ -60,8 +60,6 @@ func _get_tree_items() -> Array[GaeaNodeResource]:
 
 
 func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Variant:
-	_log_data(output_port, graph)
-
 	match get_enum_selection(0):
 		VectorType.VECTOR2:
 			return Vector2(

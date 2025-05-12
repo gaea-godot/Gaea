@@ -84,7 +84,6 @@ func _on_enum_value_changed(_enum_idx: int, _option_value: int) -> void:
 
 
 func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary:
-	_log_data(output_port, graph)
 	var grids: Array[Dictionary] = []
 	for arg in _get_arguments_list():
 		var _grid: Dictionary = _get_arg(arg, area, graph)

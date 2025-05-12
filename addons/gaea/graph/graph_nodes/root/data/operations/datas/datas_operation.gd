@@ -82,8 +82,8 @@ func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
 	if arg_name == &"weight":
 		return GaeaValue.Type.FLOAT
 	return GaeaValue.Type.DATA
-	
-	
+
+
 func _get_argument_hint(arg_name: StringName) -> Dictionary[String, Variant]:
 	if arg_name == &"weight":
 		return {"min": 0.0, "max": 1.0}
@@ -107,7 +107,6 @@ func _get_output_port_display_name(_output_name: StringName) -> String:
 
 
 func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary:
-	_log_data(output_port, graph)
 	var operation: Operation = get_enum_selection(0) as Operation
 	var a_grid: Dictionary = _get_arg(&"a", area, graph)
 	var b_grid: Dictionary = _get_arg(&"b", area, graph)
@@ -117,7 +116,7 @@ func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Diction
 	for arg in operation_definition.args:
 		if _get_argument_type(arg) == GaeaValue.Type.DATA:
 			continue
-			
+
 		static_args.append(_get_arg(arg, area, graph))
 	for cell: Vector3i in a_grid:
 		if not b_grid.has(cell):

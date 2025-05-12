@@ -34,8 +34,6 @@ func _get_required_arguments() -> Array[StringName]:
 
 
 func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary:
-	_log_data(output_port, graph)
-
 	var grid: Dictionary[Vector3i, GaeaMaterial] = {}
 	var grid_data := _get_arg(&"reference_data", area, graph) as Dictionary
 	var material := _get_arg(&"material", area, graph) as GaeaMaterial

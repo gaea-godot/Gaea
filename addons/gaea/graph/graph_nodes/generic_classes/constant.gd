@@ -34,5 +34,4 @@ func _get_overridden_output_port_idx(_output_name: StringName) -> int:
 
 
 func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Variant:
-	_log_data(output_port, graph)
 	return _get_arg(&"value", area, graph)

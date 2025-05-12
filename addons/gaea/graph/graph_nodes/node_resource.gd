@@ -406,6 +406,7 @@ func traverse(output_port: StringName, area: AABB, graph: GaeaGraph) -> Variant:
 
 	# Get Data
 
+	_log_data(output_port, graph)
 	var results: Dictionary = {
 		&"value": _get_data(output_port, area, graph),
 		&"type": _get_output_port_type(output_port)

@@ -64,8 +64,6 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 
 
 func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary:
-	_log_data(output_port, graph)
-
 	var direction_weights: Dictionary[Vector2i, float] = {
 		Vector2i.LEFT: _get_arg(&"move_left_weight", area, graph),
 		Vector2i.RIGHT: _get_arg(&"move_right_weight", area, graph),

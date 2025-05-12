@@ -29,8 +29,6 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 
 
 func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary:
-	_log_data(output_port, graph)
-
 	var grid: Dictionary[Vector3i, float]
 	var value: float = _get_arg(&"value", area, graph)
 	for x in _get_axis_range(Vector3i.AXIS_X, area):

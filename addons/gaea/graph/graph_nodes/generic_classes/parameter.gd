@@ -69,7 +69,6 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 
 
 func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Variant:
-	_log_data(output_port, graph)
 	var data = graph.parameters.get(_get_arg(&"name", area, null))
 	if data.has("value"):
 		return data.get("value")

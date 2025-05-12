@@ -60,7 +60,6 @@ func _get_tree_items() -> Array[GaeaNodeResource]:
 
 
 func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> float:
-	_log_data(output_port, graph)
 	return _get_arg(&"vector", area, graph)[output_port]
 
 

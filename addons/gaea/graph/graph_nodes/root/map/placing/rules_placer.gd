@@ -52,8 +52,6 @@ func _get_required_arguments() -> Array[StringName]:
 
 
 func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary:
-	_log_data(output_port, graph)
-
 	var grid_data: Dictionary = _get_arg(&"reference_data", area, graph)
 	var material: GaeaMaterial = _get_arg(&"material", area, graph)
 	var rng := define_rng(graph)
