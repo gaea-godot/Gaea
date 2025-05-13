@@ -10,7 +10,6 @@ extends GaeaRenderer
 
 
 func _render(grid: GaeaGrid) -> void:
-
 	if tile_map_layers.size() == 0:
 		push_warning("No tile map layers set in the renderer")
 
