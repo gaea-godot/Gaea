@@ -10,12 +10,12 @@ extends GaeaRenderer
 
 
 func _render(grid: GaeaGrid) -> void:
-	var terrains: Dictionary[TileMapGaeaMaterial, Array]
 
 	if tile_map_layers.size() == 0:
 		push_warning("No tile map layers set in the renderer")
 
 	for layer_idx in grid.get_layers_count():
+		var terrains: Dictionary[TileMapGaeaMaterial, Array] = {}
 		if tile_map_layers.size() <= layer_idx or not is_instance_valid(tile_map_layers.get(layer_idx)):
 			continue
 
