@@ -90,7 +90,7 @@ func test_has_description() -> void:
 			.override_failure_message("Description of node at %s is empty" % node.get_script().resource_path)
 
 
-
+## Check that all nodes have a valid scene.
 func test_node_scene() -> void:
 	for node in nodes_in_root:
 		await assert_object(node.get_scene())\
