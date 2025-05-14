@@ -8,8 +8,6 @@ func before() -> void:
 	nodes_in_root = _get_nodes_in_folder("res://addons/gaea/graph/graph_nodes/root/")
 
 
-# An array of arrays to match the syntax of parameterized tests in GdUnit4.
-# See https://mikeschulze.github.io/gdUnit4/advanced_testing/paramerized_tests/
 func _get_nodes_in_folder(folder_path: String) -> Array[GaeaNodeResource]:
 	var dir := DirAccess.open(folder_path)
 	var array: Array[GaeaNodeResource]
@@ -44,6 +42,13 @@ func _get_nodes_in_folder(folder_path: String) -> Array[GaeaNodeResource]:
 
 	return array
 
+
+## Tests that no `GaeaNodeResource`s in the root push the `_get_arguments_list` warning.
+func test_node_warnings() -> void:
+	for node in nodes_in_root:
+		await assert_failure_await(func(): assert_error(node.get_arguments_list)\
+			.is_push_warning(("_get_arguments_list wasn't overridden in %s, node will have no arguments." % node.get_script().resource_path))
+			)
 
 ## Tests that no `GaeaNodeResource`s in the root are unnamed.
 func test_are_untitled() -> void:
