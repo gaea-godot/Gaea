@@ -80,3 +80,10 @@ func test_null_type() -> void:
 				.is_in(GaeaValue.Type.values())\
 				.is_not_equal(GaeaValue.Type.NULL)\
 				.override_failure_message("Type of output %s of node at %s is invalid or null" % [output, node.get_script().resource_path])
+
+
+func test_has_description() -> void:
+	for node in nodes_in_root:
+		await assert_str(node.get_description())\
+			.is_not_empty()\
+			.override_failure_message("Description of node at %s is empty" % node.get_script().resource_path)
