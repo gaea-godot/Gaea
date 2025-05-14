@@ -18,3 +18,5 @@ scenes/test/*
 
 # Editor-specific ignores
 .vscode/*
+
+GdUnitRunner.cfg
