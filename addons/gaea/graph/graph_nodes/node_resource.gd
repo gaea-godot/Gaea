@@ -532,7 +532,6 @@ func _log_traverse(graph: GaeaGraph):
 
 
 ## If enabled in [member GaeaGraph.logging], log the data information. (See [enum GaeaGraph.Log]).
-## Should be called in [method _get_data]
 func _log_data(output_port: StringName, graph: GaeaGraph):
 	if is_instance_valid(graph) and graph.logging & GaeaGraph.Log.DATA > 0:
 		print("Data      |   %s from port &\"%s\"" % [_get_title(), output_port])
