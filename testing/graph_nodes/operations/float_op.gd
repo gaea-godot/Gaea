@@ -3,57 +3,112 @@ extends GdUnitTestSuite
 
 var node: GaeaNodeFloatOp
 
-class Result:
-	var inputs: Array[float]
-	var expected: float
-	func _init(inp, expc) -> void:
-		inputs = inp
-		expected = expc
-
-# Of the form Operation: [tests]
-static var EXPECTED: Dictionary[GaeaNodeFloatOp.Operation, Array] = {
-	GaeaNodeFloatOp.Operation.ADD: 
-		[Result.new([2.0, 1.0], 3.0), Result.new([1.0, -0.5], 0.5)],
-	GaeaNodeFloatOp.Operation.SUBTRACT: 
-		[Result.new([2.0, 1.0], 1.0), Result.new([1.0, -0.5], 1.5)],
-}
-
 
 func before() -> void:
 	node = GaeaNodeFloatOp.new()
 
 
+func _assert_operation_result(args: Array[float], expected: float) -> void:
+	for i in node.get_arguments_list().size():
+		node.set_argument_value(node.get_arguments_list()[i], args[i])
+	var result: float = node._get_data(&"result", AABB(), null)
+	assert_float(result)\
+		.override_failure_message(
+			"[b]GaeaNodeFloatOp[/b] returned an unexpected value with operation [b]%s[/b]."
+			% GaeaNodeFloatOp.Operation.keys()[node.get_enum_selection(0)]
+			)\
+		.append_failure_message("Arguments: %s\n Expected result: %s\n Returned result: %s" % [args, expected, result])\
+		.is_equal(expected)
+
+
 func test_add() -> void:
 	node.set_enum_value(0, GaeaNodeFloatOp.Operation.ADD)
-	node.set_argument_value(&"a", 2.0)
-	node.set_argument_value(&"b", 1.0)
-	await assert_float(node._get_data(&"result", AABB(), null)).is_equal(3.0)
-	node.set_argument_value(&"a", -0.5)
-	await assert_float(node._get_data(&"result", AABB(), null)).is_equal(0.5)
+	_assert_operation_result([2.0, 1.0], 3.0)
+	_assert_operation_result([1.0, -0.5], 0.5)
 
 
 func test_subtract() -> void:
 	node.set_enum_value(0, GaeaNodeFloatOp.Operation.SUBTRACT)
-	node.set_argument_value(&"a", 2.0)
-	node.set_argument_value(&"b", 1.0)
-	await assert_float(node._get_data(&"result", AABB(), null)).is_equal(1.0)
-	node.set_argument_value(&"a", -0.5)
-	await assert_float(node._get_data(&"result", AABB(), null)).is_equal(-1.5)
+	_assert_operation_result([2.0, 1.0], 1.0)
+	_assert_operation_result([1.0, -0.5], 1.5)
 
 
 func test_multiply() -> void:
 	node.set_enum_value(0, GaeaNodeFloatOp.Operation.MULTIPLY)
-	node.set_argument_value(&"a", 2.0)
-	node.set_argument_value(&"b", 4.0)
-	await assert_float(node._get_data(&"result", AABB(), null)).is_equal(8.0)
-	node.set_argument_value(&"a", -0.5)
-	await assert_float(node._get_data(&"result", AABB(), null)).is_equal(-2.0)
+	_assert_operation_result([4.0, 2.0], 8.0)
+	_assert_operation_result([4.0, -2.0], -8.0)
 
 
 func test_divide() -> void:
 	node.set_enum_value(0, GaeaNodeFloatOp.Operation.DIVIDE)
-	node.set_argument_value(&"a", 4.0)
-	node.set_argument_value(&"b", 2.0)
-	await assert_float(node._get_data(&"result", AABB(), null)).is_equal(2.0)
-	node.set_argument_value(&"a", -5.0)
-	await assert_float(node._get_data(&"result", AABB(), null)).is_equal(-2.5)
+	_assert_operation_result([2.0, 1.0], 2.0)
+	_assert_operation_result([1.0, -0.5], -2.0)
+
+
+func test_power() -> void:
+	node.set_enum_value(0, GaeaNodeFloatOp.Operation.POWER)
+	_assert_operation_result([2.0, 2.0], 4.0)
+	_assert_operation_result([1.0, 0.0], 1.0)
+	_assert_operation_result([2.0, -1.0], 0.5)
+
+
+func test_min_and_max() -> void:
+	node.set_enum_value(0, GaeaNodeFloatOp.Operation.MAX)
+	_assert_operation_result([1.0, 2.0], 2.0)
+
+	node.set_enum_value(0, GaeaNodeFloatOp.Operation.MIN)
+	_assert_operation_result([1.0, 2.0], 1.0)
+
+
+func test_abs() -> void:
+	node.set_enum_value(0, GaeaNodeFloatOp.Operation.ABS)
+	_assert_operation_result([-2.0], 2.0)
+
+
+func test_rounding() -> void:
+	node.set_enum_value(0, GaeaNodeFloatOp.Operation.CEIL)
+	_assert_operation_result([0.5], 1.0)
+
+	node.set_enum_value(0, GaeaNodeFloatOp.Operation.FLOOR)
+	_assert_operation_result([0.5], 0.0)
+
+	node.set_enum_value(0, GaeaNodeFloatOp.Operation.ROUND)
+	_assert_operation_result([0.4], 0.0)
+	_assert_operation_result([0.6], 1.0)
+
+
+func test_clamp() -> void:
+	node.set_enum_value(0, GaeaNodeFloatOp.Operation.CLAMP)
+	_assert_operation_result([0.5, 0.0, 1.0], 0.5)
+	_assert_operation_result([-INF, 0.0, 1.0], 0.0)
+	_assert_operation_result([INF, 0.0, 1.0], 1.0)
+
+
+func test_remap() -> void:
+	node.set_enum_value(0, GaeaNodeFloatOp.Operation.REMAP)
+	_assert_operation_result([0.5, 0.0, 1.0, 2.0, 4.0], 3.0)
+
+
+func test_sign() -> void:
+	node.set_enum_value(0, GaeaNodeFloatOp.Operation.SIGN)
+	_assert_operation_result([1.0], 1.0)
+	_assert_operation_result([-1.0], -1.0)
+	_assert_operation_result([0.0], 0.0)
+
+
+func test_smoothstep() -> void:
+	node.set_enum_value(0, GaeaNodeFloatOp.Operation.SMOOTHSTEP)
+	_assert_operation_result([0.0, 1.0, 0.9], smoothstep(0.0, 1.0, 0.9))
+
+
+func test_step() -> void:
+	node.set_enum_value(0, GaeaNodeFloatOp.Operation.STEP)
+	_assert_operation_result([0.6, 0.5], 1.0)
+	_assert_operation_result([0.4, 0.5], 0.0)
+	_assert_operation_result([0.5, 0.5], 1.0)
+
+
+func test_wrap() -> void:
+	node.set_enum_value(0, GaeaNodeFloatOp.Operation.WRAP)
+	_assert_operation_result([1.5, 0.0, 1.0], 0.5)
+	_assert_operation_result([0.5, 0.0, 1.0], 0.5)
