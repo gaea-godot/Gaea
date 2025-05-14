@@ -16,13 +16,10 @@ func _get_nodes_in_folder(folder_path: String) -> Array[GaeaNodeResource]:
 
 	dir.list_dir_begin()
 	var file_name := dir.get_next()
-	var idx: int = 0
 	while file_name != "":
 		if not dir.current_is_dir() and not file_name.ends_with(".gd"):
 			file_name = dir.get_next()
 			continue
-
-		idx += 1
 
 		var file_path = folder_path + file_name
 		if dir.current_is_dir():
@@ -41,17 +38,15 @@ func _get_nodes_in_folder(folder_path: String) -> Array[GaeaNodeResource]:
 				if is_valid_node_resource:
 					var resource: GaeaNodeResource = script.new()
 					if resource.is_available():
-						var sub_idx: int = 0
 						for item in resource.get_tree_items():
-							sub_idx += 1
 							array.append(item)
 		file_name = dir.get_next()
 
 	return array
 
 
-## Tests that no `GaeaNodeResource`s in the root push the `_get_arguments_list` warning.
-func test_node_warnings() -> void:
+## Tests that no `GaeaNodeResource`s in the root are unnamed.
+func test_are_untitled() -> void:
 	for node in nodes_in_root:
-		await assert_failure_await(func(): assert_error(node.get_arguments_list)\
-			.is_push_warning(("_get_arguments_list wasn't overridden in %s, node will have no arguments." % node.get_script().resource_path)))
+		await assert_str(node.get_title()).is_not_equal("Unnamed")\
+			.override_failure_message("Node at %s is unnamed" % node.get_script().resource_path)
