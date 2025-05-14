@@ -6,13 +6,11 @@ const NODES_PATH := "res://addons/gaea/graph/graph_nodes/root/"
 var nodes_in_root: Array[GaeaNodeResource]
 
 
-func before() -> void:
-	nodes_in_root = _get_nodes_in_folder(NODES_PATH)
 
 
 func _get_nodes_in_folder(folder_path: String) -> Array[GaeaNodeResource]:
 	var dir := DirAccess.open(folder_path)
-	var array: Array[GaeaNodeResource]
+	var array: Array[GaeaNodeResource] = []
 
 	dir.list_dir_begin()
 	var file_name := dir.get_next()
@@ -27,7 +25,15 @@ func _get_nodes_in_folder(folder_path: String) -> Array[GaeaNodeResource]:
 
 		if file_name.ends_with(".gd"):
 			var script := load(file_path)
-			if script is GDScript:
+			assert_bool(script.can_instantiate())\
+				.override_failure_message("Script at [b]%s[/b] couldn't compile." % _get_node_path(script))\
+				.is_true()
+
+			assert_bool(script.is_tool())\
+				.override_failure_message("Script at [b]%s[/b] isn't a tool script." % _get_node_path(script))\
+				.is_true()
+
+			if script is GDScript and script.is_tool():
 				var is_valid_node_resource := false
 				var base_script: GDScript = script
 				while is_instance_valid(base_script):
@@ -45,8 +51,16 @@ func _get_nodes_in_folder(folder_path: String) -> Array[GaeaNodeResource]:
 	return array
 
 
-func _get_node_path(node: GaeaNodeResource) -> String:
-	return node.get_script().resource_path.trim_prefix(NODES_PATH)
+func _get_node_path(object: Object) -> String:
+	if object is Script:
+		return object.resource_path.trim_prefix(NODES_PATH)
+	return object.get_script().resource_path.trim_prefix(NODES_PATH)
+
+
+## Tests that all nodes' scripts can be instantiated and are tool.
+## Also populates the [member nodes_in_root] array.
+func test_script_compilation() -> void:
+	nodes_in_root = _get_nodes_in_folder(NODES_PATH)
 
 
 ## Tests that no `GaeaNodeResource`s in the root push the `_get_arguments_list` warning.
@@ -66,7 +80,7 @@ func test_for_untitled() -> void:
 ## Tests that all nodes have outputs.
 func test_has_outputs() -> void:
 	for node in nodes_in_root:
-		await assert_array(node.get_output_ports_list())\
+		assert_array(node.get_output_ports_list())\
 			.override_failure_message("Node at [b]%s[/b] has no outputs." % _get_node_path(node))\
 			.is_not_empty()
 
