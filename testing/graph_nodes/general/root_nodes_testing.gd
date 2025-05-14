@@ -1,11 +1,13 @@
 extends GdUnitTestSuite
 
 
+const NODES_PATH := "res://addons/gaea/graph/graph_nodes/root/"
+
 var nodes_in_root: Array[GaeaNodeResource]
 
 
 func before() -> void:
-	nodes_in_root = _get_nodes_in_folder("res://addons/gaea/graph/graph_nodes/root/")
+	nodes_in_root = _get_nodes_in_folder(NODES_PATH)
 
 
 func _get_nodes_in_folder(folder_path: String) -> Array[GaeaNodeResource]:
@@ -43,6 +45,10 @@ func _get_nodes_in_folder(folder_path: String) -> Array[GaeaNodeResource]:
 	return array
 
 
+func _get_node_path(node: GaeaNodeResource) -> String:
+	return node.get_script().resource_path.trim_prefix(NODES_PATH)
+
+
 ## Tests that no `GaeaNodeResource`s in the root push the `_get_arguments_list` warning.
 func test_is_arguments_list_overriden() -> void:
 	for node in nodes_in_root:
@@ -51,15 +57,17 @@ func test_is_arguments_list_overriden() -> void:
 			)
 
 ## Tests that no `GaeaNodeResource`s in the root are unnamed.
-func test_are_untitled() -> void:
+func test_for_untitled() -> void:
 	for node in nodes_in_root:
-		await assert_str(node.get_title()).is_not_equal("Unnamed")\
-			.override_failure_message("Node at %s is unnamed" % node.get_script().resource_path)
+		await assert_str(node.get_title())\
+			.override_failure_message("Node at [b]%s[/b] is unnamed" % _get_node_path(node))\
+			.is_not_equal("Unnamed")
 
 ## Tests that all nodes have outputs.
 func test_has_outputs() -> void:
 	for node in nodes_in_root:
-		await func(): assert_array(node.get_output_ports_list())\
+		await assert_array(node.get_output_ports_list())\
+			.override_failure_message("Node at [b]%s[/b] has no outputs." % _get_node_path(node))\
 			.is_not_empty()
 
 
@@ -67,32 +75,41 @@ func test_has_outputs() -> void:
 func test_null_type() -> void:
 	for node in nodes_in_root:
 		await assert_int(node.get_type())\
+			.override_failure_message("Type of node at [b]%s[/b] is not a valid type." % _get_node_path(node))\
 			.is_in(GaeaValue.Type.values())\
-			.is_not_equal(GaeaValue.Type.NULL)\
-			.override_failure_message("Type of node at %s is invalid or null" % node.get_script().resource_path)
+			.override_failure_message("Type of node at [b]%s[/b] is null." % _get_node_path(node))\
+			.is_not_equal(GaeaValue.Type.NULL)
 		for argument in node.get_arguments_list():
 			await assert_int(node.get_argument_type(argument))\
+				.override_failure_message("Type of argument [b]%s[/b] is invalid." % argument)\
+				.append_failure_message("Node at [b]%s[/b]." % _get_node_path(node))\
 				.is_in(GaeaValue.Type.values())\
-				.is_not_equal(GaeaValue.Type.NULL)\
-				.override_failure_message("Type of argument %s of node at %s is invalid or null" % [argument, node.get_script().resource_path])
+				.override_failure_message("Type of argument [b]%s[/b] is null." % argument)\
+				.append_failure_message("Node at [b]%s[/b]." % _get_node_path(node))\
+				.is_not_equal(GaeaValue.Type.NULL)
 		for output in node.get_output_ports_list():
 			await assert_int(node.get_output_port_type(output))\
+				.override_failure_message("Type of output [b]%s[/b] is invalid." % output)\
+				.append_failure_message("Node at [b]%s[/b]." % _get_node_path(node))\
 				.is_in(GaeaValue.Type.values())\
-				.is_not_equal(GaeaValue.Type.NULL)\
-				.override_failure_message("Type of output %s of node at %s is invalid or null" % [output, node.get_script().resource_path])
+				.override_failure_message("Type of output [b]%s[/b] is null." % output)\
+				.append_failure_message("Node at [b]%s[/b]." % _get_node_path(node))\
+				.is_not_equal(GaeaValue.Type.NULL)
 
 
 ## Check that all nodes have descriptions.
 func test_has_description() -> void:
 	for node in nodes_in_root:
 		await assert_str(node.get_description())\
-			.is_not_empty()\
-			.override_failure_message("Description of node at %s is empty" % node.get_script().resource_path)
+			.override_failure_message("Description of node at [b]%s[/b] is empty." % _get_node_path(node))\
+			.is_not_empty()
 
 
 ## Check that all nodes have a valid scene.
 func test_node_scene() -> void:
 	for node in nodes_in_root:
 		await assert_object(node.get_scene())\
+			.override_failure_message("_get_scene at [b]%s[/b] returns null." % _get_node_path(node))\
 			.is_not_null()\
+			.override_failure_message("_get_scene at [b]%s[/b] isn't a PackedScene." % _get_node_path(node))\
 			.is_instanceof(PackedScene)
