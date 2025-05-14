@@ -44,7 +44,7 @@ func _get_nodes_in_folder(folder_path: String) -> Array[GaeaNodeResource]:
 
 
 ## Tests that no `GaeaNodeResource`s in the root push the `_get_arguments_list` warning.
-func test_node_warnings() -> void:
+func test_is_arguments_list_overriden() -> void:
 	for node in nodes_in_root:
 		await assert_failure_await(func(): assert_error(node.get_arguments_list)\
 			.is_push_warning(("_get_arguments_list wasn't overridden in %s, node will have no arguments." % node.get_script().resource_path))
@@ -55,3 +55,28 @@ func test_are_untitled() -> void:
 	for node in nodes_in_root:
 		await assert_str(node.get_title()).is_not_equal("Unnamed")\
 			.override_failure_message("Node at %s is unnamed" % node.get_script().resource_path)
+
+
+func test_has_outputs() -> void:
+	for node in nodes_in_root:
+		await func(): assert_array(node.get_output_ports_list())\
+			.is_not_empty()
+
+
+## Tests that no `GaeaNodeResource`s in the root have an invalid or null type.
+func test_null_type() -> void:
+	for node in nodes_in_root:
+		await assert_int(node.get_type())\
+			.is_in(GaeaValue.Type.values())\
+			.is_not_equal(GaeaValue.Type.NULL)\
+			.override_failure_message("Type of node at %s is invalid or null" % node.get_script().resource_path)
+		for argument in node.get_arguments_list():
+			await assert_int(node.get_argument_type(argument))\
+				.is_in(GaeaValue.Type.values())\
+				.is_not_equal(GaeaValue.Type.NULL)\
+				.override_failure_message("Type of argument %s of node at %s is invalid or null" % [argument, node.get_script().resource_path])
+		for output in node.get_output_ports_list():
+			await assert_int(node.get_output_port_type(output))\
+				.is_in(GaeaValue.Type.values())\
+				.is_not_equal(GaeaValue.Type.NULL)\
+				.override_failure_message("Type of output %s of node at %s is invalid or null" % [output, node.get_script().resource_path])
