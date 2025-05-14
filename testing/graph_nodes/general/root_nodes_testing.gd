@@ -88,3 +88,11 @@ func test_has_description() -> void:
 		await assert_str(node.get_description())\
 			.is_not_empty()\
 			.override_failure_message("Description of node at %s is empty" % node.get_script().resource_path)
+
+
+
+func test_node_scene() -> void:
+	for node in nodes_in_root:
+		await assert_object(node.get_scene())\
+			.is_not_null()\
+			.is_instanceof(PackedScene)
