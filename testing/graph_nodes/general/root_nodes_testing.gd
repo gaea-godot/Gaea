@@ -75,7 +75,7 @@ func test_for_untitled() -> void:
 	for node in nodes_in_root:
 		await assert_str(node.get_title())\
 			.override_failure_message("Node at [b]%s[/b] is unnamed" % _get_node_path(node))\
-			.is_not_equal("Unnamed")
+			.is_not_equal("Unnamed").is_not_equal("")
 
 ## Tests that all nodes have outputs.
 func test_has_outputs() -> void:
