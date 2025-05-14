@@ -75,7 +75,7 @@ func _get_type_of_input(input: InputVar) -> GaeaValue.Type:
 		_: return GaeaValue.Type.NULL
 
 
-func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Variant:
+func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Variant:
 	match get_enum_selection(0):
 		InputVar.WORLD_SIZE: return graph.generator.world_size
 		InputVar.AREA_SIZE: return area.size

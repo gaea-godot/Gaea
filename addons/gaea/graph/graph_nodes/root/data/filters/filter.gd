@@ -38,7 +38,7 @@ func _is_available() -> bool:
 	return get_type() != GaeaValue.Type.NULL
 
 
-func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary:
+func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary:
 	seed(graph.generator.seed + salt)
 
 	var input_data: Dictionary = _get_arg(&"input_grid", area, graph)

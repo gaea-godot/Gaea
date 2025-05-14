@@ -68,7 +68,7 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.from_variant_type(_get_variant_type(), _get_property_hint(), _get_property_hint_string())
 
 
-func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Variant:
+func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Variant:
 	var data = graph.parameters.get(_get_arg(&"name", area, null))
 	if data.has("value"):
 		return data.get("value")
