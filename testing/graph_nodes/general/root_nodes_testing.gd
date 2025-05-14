@@ -56,7 +56,7 @@ func test_are_untitled() -> void:
 		await assert_str(node.get_title()).is_not_equal("Unnamed")\
 			.override_failure_message("Node at %s is unnamed" % node.get_script().resource_path)
 
-
+## Tests that all nodes have outputs.
 func test_has_outputs() -> void:
 	for node in nodes_in_root:
 		await func(): assert_array(node.get_output_ports_list())\
@@ -82,6 +82,7 @@ func test_null_type() -> void:
 				.override_failure_message("Type of output %s of node at %s is invalid or null" % [output, node.get_script().resource_path])
 
 
+## Check that all nodes have descriptions.
 func test_has_description() -> void:
 	for node in nodes_in_root:
 		await assert_str(node.get_description())\
