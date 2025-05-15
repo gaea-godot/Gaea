@@ -20,11 +20,12 @@ func _assert_operation_result(args: Array[Variant], expected: float) -> void:
 	for cell in grid:
 		var result: float = grid.get(cell)
 		assert_float(result)\
-			.override_failure_message(
-				"[b]GaeaNodeDataOp[/b] returned an unexpected value with operation [b]%s[/b]."
-				% GaeaNodeDataOp.Operation.keys()[node.get_enum_selection(0)]
-				)\
+			.override_failure_message(_get_failure_message())\
 			.append_failure_message(
 				"Arguments: %s\n Expected result: %s\n Returned result: %s\n At cell: %s"
 				 % [args, expected, result, cell])\
 			.is_equal(expected)
+
+
+func _get_failure_message() -> String:
+	return "[b]GaeaNodeDataOp[/b] returned an unexpected value with operation [b]%s[/b]." % GaeaNodeDataOp.Operation.keys()[node.get_enum_selection(0)]

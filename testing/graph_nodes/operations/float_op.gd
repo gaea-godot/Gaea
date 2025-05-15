@@ -5,6 +5,9 @@ extends "res://testing/graph_nodes/operations/num_op.gd"
 func before():
 	node = GaeaNodeFloatOp.new()
 
+func _get_failure_message() -> String:
+	return "[b]GaeaNodeFloatOp[/b] returned an unexpected value with operation [b]%s[/b]." % GaeaNodeFloatOp.Operation.keys()[node.get_enum_selection(0)]
+
 
 func test_add() -> void:
 	node.set_enum_value(0, GaeaNodeFloatOp.Operation.ADD)
