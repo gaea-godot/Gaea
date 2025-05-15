@@ -21,6 +21,8 @@ func _get_description() -> String:
 			return "Adds a [code]float[/code] number with all cells in [param A]."
 		Operation.DIVIDE:
 			return "Divides all cells in [param A] by a [code]float[/code] number."
+		Operation.POWER:
+			return super().replace("base", "a") + "\n\nOperates over all cells of [param A], [param a] being the cells' value."
 		_:
 			return super() + "\n\nOperates over all cells of [param A], [param a] being the cells' value."
 
@@ -49,7 +51,8 @@ func _get_operation_definitions() -> Dictionary[Operation, Definition]:
 		definition.output = definition.output.replace(" a", " A")
 		definition.output = definition.output.replace("a,", "A,")
 		definition.output = definition.output.replace("(a)", "(A)")
-	definitions.erase(Operation.POWER)
+		definition.output = definition.output.replace("base", "A")
+	definitions[Operation.POWER].args[0] = &"a"
 	return definitions
 
 
@@ -64,7 +67,10 @@ func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Variant
 			continue
 		args.append(_get_arg(arg_name, area, graph))
 	var new_grid: Dictionary[Vector3i, float]
+	var grid_value_pos: int = _get_arguments_list().find(&"a")
 
 	for cell: Vector3i in input_grid:
-		new_grid.set(cell, operation_definition.conversion.callv([input_grid[cell]] + args))
+		var cell_args = args.duplicate()
+		cell_args.insert(grid_value_pos, input_grid[cell])
+		new_grid.set(cell, 99)
 	return new_grid

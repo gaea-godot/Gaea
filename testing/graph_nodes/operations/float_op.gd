@@ -1,24 +1,9 @@
-extends GdUnitTestSuite
+extends "res://testing/graph_nodes/operations/num_op.gd"
 
 
-var node: GaeaNodeFloatOp
 
-
-func before() -> void:
+func before():
 	node = GaeaNodeFloatOp.new()
-
-
-func _assert_operation_result(args: Array[float], expected: float) -> void:
-	for i in node.get_arguments_list().size():
-		node.set_argument_value(node.get_arguments_list()[i], args[i])
-	var result: float = node._get_data(&"result", AABB(), null)
-	assert_float(result)\
-		.override_failure_message(
-			"[b]GaeaNodeFloatOp[/b] returned an unexpected value with operation [b]%s[/b]."
-			% GaeaNodeFloatOp.Operation.keys()[node.get_enum_selection(0)]
-			)\
-		.append_failure_message("Arguments: %s\n Expected result: %s\n Returned result: %s" % [args, expected, result])\
-		.is_equal(expected)
 
 
 func test_add() -> void:
