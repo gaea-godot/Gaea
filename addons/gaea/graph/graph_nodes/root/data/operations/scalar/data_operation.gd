@@ -72,5 +72,5 @@ func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Variant
 	for cell: Vector3i in input_grid:
 		var cell_args = args.duplicate()
 		cell_args.insert(grid_value_pos, input_grid[cell])
-		new_grid.set(cell, 99)
+		new_grid.set(cell, operation_definition.conversion.callv(cell_args))
 	return new_grid
