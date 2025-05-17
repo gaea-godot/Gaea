@@ -1,14 +1,20 @@
 @tool
 class_name GaeaNodeToHeight
 extends GaeaNodeResource
-## Node description.
-
+## Transforms [param reference_data] into a new data grid where the height of each column is determined by [param height_offset] + ([param reference_data] * [param displacement_intensity])
+##
+## For each cell in [param reference_data]'s [param reference_y] row, it'll get the [code]float[/code] value,
+## multiply it by [param displacement_intensity] and add [param height_offset] to it. This will be
+## the column's height, and every cell below that height (inclusive) will be full while every cell above
+## will be empty.[br][br]
+## This functions to create a heightmap, which can be used to create 2D side-view or
+## 3D terrain.[br][br]
+## [b]Note: Keep in mind the y axis in Godot is negative for up in 2D and down in 3D.[/b]
 
 enum Type {
-	TYPE_2D, TYPE_3D
+	TYPE_2D, ## Referenced data will only take into account the x coordinate of the cell.
+	TYPE_3D ## Referenced data will take into account both the x and the z coordinates of the cell.
 }
-
-var type: Type
 
 
 func _get_title() -> String:
@@ -20,9 +26,9 @@ func _get_description() -> String:
 	[param height_offset] + ([param reference_data] * [param displacement_intensity]).\n"
 	match get_enum_selection(0):
 		Type.TYPE_2D:
-			desc += "\nReferences all the x values of the [param reference_y] column."
+			desc += "\nReferences all the x values of the [param reference_y] row."
 		Type.TYPE_3D:
-			desc += "\nReferences all the x,z values of the [param reference_y] column."
+			desc += "\nReferences all the x,z values of the [param reference_y] row."
 	return desc
 
 
@@ -83,7 +89,7 @@ func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Varian
 	var height_offset: int = _get_arg(&"height_offset", area, graph)
 	var displacement: int = _get_arg(&"displacement_intensity", area, graph)
 	var data: Dictionary[Vector3i, float] = {}
-	var type: Type = get_enum_selection(0)
+	var type: Type = get_enum_selection(0) as Type
 
 	for x in _get_axis_range(Vector3i.AXIS_X, area):
 		if not reference_data.has(Vector3i(x, row, 0)):
