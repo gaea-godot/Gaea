@@ -68,7 +68,6 @@ func _is_sampled() -> bool:
 
 
 func _get_sampled_resource(_rng: RandomNumberGenerator, value: float) -> GaeaMaterial:
-	value = clampf(value, 0.0, 1.0)
 	for idx: int in points.size():
 		var next_point_offset: float
 		if (idx + 1) >= points.size():
