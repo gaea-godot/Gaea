@@ -59,19 +59,24 @@ func _get_enum_option_display_name(_enum_idx: int, option_value: int) -> String:
 # List of all the arguments, preferably in &"snake_case".
 func _get_arguments_list() -> Array[StringName]:
 	return [&"reference_data", &"reference_y",
-			&"height_offset", &"displacement_intensity"]
+			&"height_offset", &"displacement_intensity",
+			&"gradient_intensity"]
 
 
 func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
 	match arg_name:
 		&"reference_data": return GaeaValue.Type.DATA
+		&"gradient_intensity": return GaeaValue.Type.FLOAT
 		_: return GaeaValue.Type.INT
 
 
 func _get_argument_default_value(arg_name: StringName) -> Variant:
 	match arg_name:
 		&"displacement_intensity": return 16
+		&"gradient_intensity": return 1.0
 	return super(arg_name)
+
+
 
 
 # List of all the outputs, preferably in &"snake_case"
@@ -88,8 +93,13 @@ func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictio
 	var row: int = _get_arg(&"reference_y", area, graph)
 	var height_offset: int = _get_arg(&"height_offset", area, graph)
 	var displacement: int = _get_arg(&"displacement_intensity", area, graph)
+	var gradient_intensity: float = _get_arg(&"gradient_intensity", area, graph)
 	var data: Dictionary[Vector3i, float] = {}
 	var type: Type = get_enum_selection(0) as Type
+
+	var remap_offset: float = 0.0
+	if not is_zero_approx(gradient_intensity):
+		remap_offset = 64.0 / gradient_intensity
 
 	for x in _get_axis_range(Vector3i.AXIS_X, area):
 		if not reference_data.has(Vector3i(x, row, 0)):
@@ -98,6 +108,12 @@ func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictio
 		for z in z_range:
 			var height: int = floor(reference_data[Vector3i(x, row, z)] * displacement + height_offset)
 			for y in _get_axis_range(Vector3i.AXIS_Y, area):
-				if (y >= -height and type == Type.TYPE_2D) or (y <= height and type == Type.TYPE_3D):
-					data[Vector3i(x, y, z)] = 1.0
+				if y >= -height and type == Type.TYPE_2D:
+					data[Vector3i(x, y, z)] = 1.0 if is_zero_approx(remap_offset) else remap(
+						y, -height + remap_offset, -height, 0, 1.0
+					)
+				elif y <= height and type == Type.TYPE_3D:
+					data[Vector3i(x, y, z)] = 1.0 if is_zero_approx(remap_offset) else remap(
+						y, height, height - remap_offset, 1.0, 0.0
+					)
 	return data
