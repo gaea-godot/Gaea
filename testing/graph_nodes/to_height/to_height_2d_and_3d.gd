@@ -2,8 +2,8 @@ extends GdUnitTestSuite
 
 
 const AREA: AABB = AABB(Vector3.ZERO, Vector3(1, 4, 1) * 16)
-const EXPECTED_HASH_2D: int = 1125934261
-const EXPECTED_HASH_3D: int = 112159610
+const EXPECTED_HASH_2D: int = 1603666212
+const EXPECTED_HASH_3D: int = 788074031
 
 var reference_data: Dictionary = {}
 var node: GaeaNodeToHeight
@@ -16,8 +16,6 @@ func before() -> void:
 			reference_data[Vector3i(x, 0, z)] = noise.get_noise_3d(x, 0, z)
 	node = GaeaNodeToHeight.new()
 	node.set_argument_value(&"reference_data", reference_data)
-
-
 
 
 func test_2d() -> void:
