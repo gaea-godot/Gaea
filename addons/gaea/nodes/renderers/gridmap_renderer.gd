@@ -24,7 +24,7 @@ func _render(grid: GaeaGrid) -> void:
 	for layer_idx in grid.get_layers_count():
 		if grid_maps.size() <= layer_idx or not is_instance_valid(grid_maps.get(layer_idx)):
 			continue
-			
+
 		for cell in grid.get_layer(layer_idx):
 			var value = grid.get_layer(layer_idx)[cell]
 			if value is GridMapGaeaMaterial:
@@ -40,4 +40,5 @@ func _on_area_erased(area: AABB) -> void:
 
 
 func _reset() -> void:
-	gridmap.clear()
+	for grid in grid_maps:
+		grid.clear()
