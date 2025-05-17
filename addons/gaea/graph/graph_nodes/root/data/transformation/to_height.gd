@@ -16,7 +16,25 @@ func _get_title() -> String:
 
 
 func _get_description() -> String:
-	return "Node description."
+	var desc: String =  "Transforms [param reference_data] into a new data grid where the height of each column is determined by\
+	[param height_offset] + ([param reference_data] * [param displacement_intensity]).\n"
+	match get_enum_selection(0):
+		Type.TYPE_2D:
+			desc += "\nReferences all the x values of the [param reference_y] column."
+		Type.TYPE_3D:
+			desc += "\nReferences all the x,z values of the [param reference_y] column."
+	return desc
+
+
+func _get_tree_items() -> Array[GaeaNodeResource]:
+	var items: Array[GaeaNodeResource]
+	for type in Type.values():
+		var item: GaeaNodeToHeight = get_script().new()
+		item.set_tree_name_override(_get_title() + _get_enum_option_display_name(0, type))
+		item.set_default_enum_value_override(0, type)
+		items.append(item)
+
+	return items
 
 
 func _get_enums_count() -> int:
