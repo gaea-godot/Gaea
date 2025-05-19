@@ -1,0 +1,184 @@
+[gd_scene load_steps=15 format=3 uid="uid://xfcy8wwh3sd7"]
+
+[ext_resource type="Script" uid="uid://cpvk61ewx6ejo" path="res://testing/rendering/tilemap_test_scene.gd" id="1_d86qw"]
+[ext_resource type="Script" uid="uid://d4feanreabm81" path="res://addons/gaea/nodes/generator.gd" id="2_gi0gd"]
+[ext_resource type="Script" uid="uid://3qsmwhn2sk47" path="res://addons/gaea/resources/gaea_layer.gd" id="3_frm4e"]
+[ext_resource type="Script" uid="uid://e45byecr4gi6" path="res://addons/gaea/resources/materials/data/tilemap_material.gd" id="4_1kltg"]
+[ext_resource type="Script" uid="uid://dae6umbqb872e" path="res://addons/gaea/resources/gaea_graph.gd" id="5_kmg7b"]
+[ext_resource type="Script" uid="uid://b4x16tyyfihmb" path="res://addons/gaea/nodes/renderers/tilemap_renderer.gd" id="6_ay818"]
+[ext_resource type="Texture2D" uid="uid://druqwrm3nwuao" path="res://scenes/walker_demo/tileset.png" id="7_q3jyc"]
+
+[sub_resource type="Resource" id="Resource_yypbs"]
+script = ExtResource("3_frm4e")
+enabled = true
+
+[sub_resource type="Resource" id="Resource_6wvsa"]
+script = ExtResource("3_frm4e")
+enabled = true
+metadata/_custom_type_script = "uid://3qsmwhn2sk47"
+
+[sub_resource type="Resource" id="Resource_brphb"]
+script = ExtResource("4_1kltg")
+type = 0
+source_id = 0
+atlas_coord = Vector2i(0, 0)
+alternative_tile = 0
+preview_color = Color(0.65503, 0.0713978, 0.683211, 1)
+metadata/_custom_type_script = "uid://e45byecr4gi6"
+
+[sub_resource type="Resource" id="Resource_cxykr"]
+script = ExtResource("4_1kltg")
+type = 0
+source_id = 0
+atlas_coord = Vector2i(1, 0)
+alternative_tile = 0
+preview_color = Color(0.947701, 0.668957, 0.320149, 1)
+metadata/_custom_type_script = "uid://e45byecr4gi6"
+
+[sub_resource type="Resource" id="Resource_ohuek"]
+resource_local_to_scene = true
+script = ExtResource("5_kmg7b")
+layers = Array[ExtResource("3_frm4e")]([SubResource("Resource_yypbs"), SubResource("Resource_6wvsa")])
+logging = 0
+connections = Array[Dictionary]([{
+"from_node": 1,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 2,
+"to_port": 0
+}, {
+"from_node": 1,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 3,
+"to_port": 0
+}, {
+"from_node": 4,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 2,
+"to_port": 1
+}, {
+"from_node": 5,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 3,
+"to_port": 1
+}, {
+"from_node": 2,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 0,
+"to_port": 0
+}, {
+"from_node": 3,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 0,
+"to_port": 1
+}])
+resource_uids = Array[String](["uid://dol7xviglksx4", "uid://cgjyi804j05dy", "uid://djjvx650evm0n", "uid://djjvx650evm0n", "uid://cqs1w714pbfql", "uid://cqs1w714pbfql"])
+node_data = Array[Dictionary]([{
+&"arguments": {},
+&"enums": [],
+"name": &"BaseNode",
+"position": Vector2(0, 0),
+"salt": 326923984
+}, {
+&"arguments": {},
+&"enums": [1],
+"name": &"_GraphNode_32292",
+"position": Vector2(-920, -180),
+"salt": 3798772802
+}, {
+&"arguments": {
+&"range": {
+"max": 1.0,
+"min": 0.5
+}
+},
+&"enums": [],
+"name": &"_GraphNode_32393",
+"position": Vector2(-500, -180),
+"salt": 3380315837
+}, {
+&"arguments": {
+&"range": {
+"max": 0.5,
+"min": 0.0
+}
+},
+&"enums": [],
+"name": &"_GraphNode_32467",
+"position": Vector2(-500, 80),
+"salt": 3647513594
+}, {
+&"arguments": {
+&"name": "Grass"
+},
+&"enums": [],
+"name": &"_GraphNode_32546",
+"position": Vector2(-720, -200),
+"salt": 2975531569
+}, {
+&"arguments": {
+&"name": "Sand"
+},
+&"enums": [],
+"name": &"_GraphNode_32551",
+"position": Vector2(-740, 160),
+"salt": 199162274
+}])
+parameters = Dictionary[StringName, Variant]({
+&"Grass": {
+"hint": 17,
+"hint_string": "GaeaMaterial",
+"name": "Grass",
+"type": 24,
+"usage": 4,
+"value": SubResource("Resource_brphb")
+},
+&"Sand": {
+"hint": 17,
+"hint_string": "GaeaMaterial",
+"name": "Sand",
+"type": 24,
+"usage": 4,
+"value": SubResource("Resource_cxykr")
+}
+})
+other = {
+&"save_version": 3
+}
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ljnpl"]
+texture = ExtResource("7_q3jyc")
+texture_region_size = Vector2i(8, 8)
+0:0/0 = 0
+1:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_aqo21"]
+tile_size = Vector2i(8, 8)
+sources/0 = SubResource("TileSetAtlasSource_ljnpl")
+
+[node name="TilemapTest" type="Node2D"]
+script = ExtResource("1_d86qw")
+
+[node name="GaeaGenerator" type="Node" parent="."]
+script = ExtResource("2_gi0gd")
+data = SubResource("Resource_ohuek")
+seed = 337133513
+random_seed_on_generate = false
+metadata/_custom_type_script = "uid://d4feanreabm81"
+
+[node name="TileMapGaeaRenderer" type="Node" parent="." node_paths=PackedStringArray("tile_map_layers", "generator")]
+script = ExtResource("6_ay818")
+tile_map_layers = [NodePath("../TileMapLayer"), NodePath("../TileMapLayer2")]
+generator = NodePath("../GaeaGenerator")
+metadata/_custom_type_script = "uid://b4x16tyyfihmb"
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_set = SubResource("TileSet_aqo21")
+
+[node name="TileMapLayer2" type="TileMapLayer" parent="."]
+tile_set = SubResource("TileSet_aqo21")
