@@ -41,4 +41,5 @@ func _on_area_erased(area: AABB) -> void:
 
 func _reset() -> void:
 	for grid in grid_maps:
-		grid.clear()
+		if is_instance_valid(grid):
+			grid.clear()
