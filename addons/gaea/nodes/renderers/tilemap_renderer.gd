@@ -41,4 +41,6 @@ func _on_area_erased(area: AABB) -> void:
 
 func _reset() -> void:
 	for tile_map_layer in tile_map_layers:
+		if not is_instance_valid(tile_map_layer):
+			continue
 		tile_map_layer.clear()
