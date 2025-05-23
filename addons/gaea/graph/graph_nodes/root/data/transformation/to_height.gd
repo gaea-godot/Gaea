@@ -56,7 +56,6 @@ func _get_enum_option_display_name(_enum_idx: int, option_value: int) -> String:
 
 
 
-# List of all the arguments, preferably in &"snake_case".
 func _get_arguments_list() -> Array[StringName]:
 	return [&"reference_data", &"reference_y",
 			&"height_offset", &"displacement_intensity",
@@ -78,8 +77,6 @@ func _get_argument_default_value(arg_name: StringName) -> Variant:
 
 
 
-
-# List of all the outputs, preferably in &"snake_case"
 func _get_output_ports_list() -> Array[StringName]:
 	return [&"data"]
 
@@ -99,7 +96,7 @@ func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictio
 
 	var remap_offset: float = 0.0
 	if not is_zero_approx(gradient_intensity):
-		remap_offset = 64.0 / gradient_intensity
+		remap_offset = 100.0 / gradient_intensity
 
 	for x in _get_axis_range(Vector3i.AXIS_X, area):
 		if not reference_data.has(Vector3i(x, row, 0)):
