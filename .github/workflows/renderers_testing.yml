@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   warning_check:
-    name: "Renderers Testing"
+    name: "Rendering Testing"
     runs-on: 'ubuntu-22.04'
     timeout-minutes: 10 # The overall timeout
     permissions:
