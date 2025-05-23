@@ -1,6 +1,6 @@
 [gd_scene load_steps=15 format=3 uid="uid://xfcy8wwh3sd7"]
 
-[ext_resource type="Script" uid="uid://cpvk61ewx6ejo" path="res://testing/rendering/tilemap_test_scene.gd" id="1_d86qw"]
+[ext_resource type="Script" uid="uid://cpvk61ewx6ejo" path="res://testing/rendering/renderer_test_scene.gd" id="1_d86qw"]
 [ext_resource type="Script" uid="uid://d4feanreabm81" path="res://addons/gaea/nodes/generator.gd" id="2_gi0gd"]
 [ext_resource type="Script" uid="uid://3qsmwhn2sk47" path="res://addons/gaea/resources/gaea_layer.gd" id="3_frm4e"]
 [ext_resource type="Script" uid="uid://e45byecr4gi6" path="res://addons/gaea/resources/materials/data/tilemap_material.gd" id="4_1kltg"]
@@ -161,7 +161,7 @@ texture_region_size = Vector2i(8, 8)
 tile_size = Vector2i(8, 8)
 sources/0 = SubResource("TileSetAtlasSource_ljnpl")
 
-[node name="TilemapTest" type="Node2D"]
+[node name="TilemapTest2" type="Node2D"]
 script = ExtResource("1_d86qw")
 
 [node name="GaeaGenerator" type="Node" parent="."]
@@ -171,7 +171,7 @@ seed = 337133513
 random_seed_on_generate = false
 metadata/_custom_type_script = "uid://d4feanreabm81"
 
-[node name="TileMapGaeaRenderer" type="Node" parent="." node_paths=PackedStringArray("tile_map_layers", "generator")]
+[node name="Renderer" type="Node" parent="." node_paths=PackedStringArray("tile_map_layers", "generator")]
 script = ExtResource("6_ay818")
 tile_map_layers = [NodePath("../TileMapLayer"), NodePath("../TileMapLayer2")]
 generator = NodePath("../GaeaGenerator")

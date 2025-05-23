@@ -51,13 +51,13 @@ func test_small_area() -> void:
 	var grass_hash: int = scene.renderer.tile_map_layers[0].get_used_cells_by_id(0, Vector2i(0, 0)).hash()
 	assert_int(grass_hash)\
 		.override_failure_message("Layer 0 rendering of [b]TileMapGaeaRenderer[/b] area not working as expected.")\
-		.append_failure_message("Produced hash:%s\n Expected hash:%s" % [grass_hash, GRASS_TILES_HASH])\
+		.append_failure_message("Produced hash:%s\n Expected hash:%s" % [grass_hash, GRASS_TILES_HASH_SMALL])\
 		.is_equal(GRASS_TILES_HASH_SMALL)
 
 	var sand_hash: int = scene.renderer.tile_map_layers[1].get_used_cells_by_id(0, Vector2i(1, 0)).hash()
 	assert_int(sand_hash)\
 		.override_failure_message("Layer 1 rendering of [b]TileMapGaeaRenderer[/b] area not working as expected.")\
-		.append_failure_message("Produced hash:%s\n Expected hash:%s" % [sand_hash, SAND_TILES_HASH])\
+		.append_failure_message("Produced hash:%s\n Expected hash:%s" % [sand_hash, SAND_TILES_HASH_SMALL])\
 		.is_equal(SAND_TILES_HASH_SMALL)
 
 	assert_vector(scene.renderer.tile_map_layers[0].get_used_rect().size)\
