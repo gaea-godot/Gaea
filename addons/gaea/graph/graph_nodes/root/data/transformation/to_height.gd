@@ -98,10 +98,10 @@ func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictio
 	if not is_zero_approx(gradient_intensity):
 		remap_offset = 100.0 / gradient_intensity
 
+	var z_range: Array = [0] if (type == Type.TYPE_2D) else (_get_axis_range(Vector3i.AXIS_Z, area))
 	for x in _get_axis_range(Vector3i.AXIS_X, area):
 		if not reference_data.has(Vector3i(x, row, 0)):
 			continue
-		var z_range: Array = [0] if (type == Type.TYPE_2D) else (_get_axis_range(Vector3i.AXIS_Z, area))
 		for z in z_range:
 			var height: int = floor(reference_data[Vector3i(x, row, z)] * displacement + height_offset)
 			for y in _get_axis_range(Vector3i.AXIS_Y, area):
