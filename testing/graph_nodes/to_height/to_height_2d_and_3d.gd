@@ -23,7 +23,6 @@ func test_2d() -> void:
 	node.set_enum_value(0, GaeaNodeToHeight.Type.TYPE_2D)
 	node.set_argument_value(&"height_offset", -4)
 	var generated_data: Dictionary = node._get_data(&"data", AREA, null)
-	print(generated_data)
 	assert_dict(generated_data)\
 		.override_failure_message("Empty result from [b]GaeaNodeToHeight2D[/b].")\
 		.is_not_empty()
