@@ -91,7 +91,8 @@ func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictio
 		if not _grid.is_empty():
 			grids.append(_grid)
 
-	var grid: Dictionary = {}
+	var grid: Dictionary = GaeaValue.get_default_value(_get_output_port_type(_output_port))
+
 	if grids.is_empty():
 		return grid
 

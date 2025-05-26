@@ -75,11 +75,11 @@ static func get_default_value(type: Type) -> Variant:
 			return Vector3i.ZERO
 		# Simple types
 		Type.RANGE:
-			return {"min": 0.0, "max": 1.0}
+			return {"min": 0.0, "max": 1.0} as Dictionary[String, float]
 		Type.DATA:
 			return {} as Dictionary[Vector3i, float]
 		Type.MAP:
-			return {} as Dictionary[Vector3i, Variant]
+			return {} as Dictionary[Vector3i, GaeaMaterial]
 		# Inner types
 		Type.NEIGHBORS:
 			return [] as Array[Vector2i]
