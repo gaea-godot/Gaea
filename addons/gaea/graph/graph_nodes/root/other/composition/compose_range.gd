@@ -41,8 +41,7 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.RANGE
 
 
-
-func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary:
+func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary[String, float]:
 	return {
 		"min": _get_arg(&"min", area, graph),
 		"max": _get_arg(&"max", area, graph),

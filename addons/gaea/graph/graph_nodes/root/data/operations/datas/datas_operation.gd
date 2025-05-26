@@ -106,7 +106,7 @@ func _get_output_port_display_name(_output_name: StringName) -> String:
 
 
 
-func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary:
+func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary[Vector3i, float]:
 	var operation: Operation = get_enum_selection(0) as Operation
 	var a_grid: Dictionary = _get_arg(&"a", area, graph)
 	var b_grid: Dictionary = _get_arg(&"b", area, graph)

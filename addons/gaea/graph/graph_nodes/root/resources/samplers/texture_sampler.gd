@@ -34,15 +34,15 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.DATA
 
 
-func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary:
+func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary[String, float]:
 	var texture: Texture = _get_arg(&"texture", area, graph)
 	if not is_instance_valid(texture):
 		return {}
 
-	var r_grid: Dictionary
-	var g_grid: Dictionary
-	var b_grid: Dictionary
-	var alpha_grid: Dictionary
+	var r_grid: Dictionary[String, float]
+	var g_grid: Dictionary[String, float]
+	var b_grid: Dictionary[String, float]
+	var alpha_grid: Dictionary[String, float]
 
 	var slices: Array[Image] # Only one is texture is 2D
 	if texture is Texture2D:

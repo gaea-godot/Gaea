@@ -85,7 +85,7 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.DATA
 
 
-func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary:
+func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary[Vector3i, float]:
 	var reference_data: Dictionary = _get_arg(&"reference_data", area, graph)
 	var row: int = _get_arg(&"reference_y", area, graph)
 	var height_offset: int = _get_arg(&"height_offset", area, graph)

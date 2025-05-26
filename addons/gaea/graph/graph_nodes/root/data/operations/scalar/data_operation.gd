@@ -56,7 +56,7 @@ func _get_operation_definitions() -> Dictionary[Operation, Definition]:
 	return definitions
 
 
-func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Variant:
+func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary[Vector3i, float]:
 	var operation: Operation = get_enum_selection(0) as Operation
 	var operation_definition: Definition = OPERATION_DEFINITIONS[operation]
 	var args: Array
