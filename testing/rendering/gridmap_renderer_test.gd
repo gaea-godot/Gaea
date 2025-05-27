@@ -68,7 +68,6 @@ func test_small_area() -> void:
 		.append_failure_message("Produced hash:%s\n Expected hash:%s" % [item_2_hash, ITEM_2_TILES_HASH])\
 		.is_equal(ITEM_2_TILES_HASH_SMALL)
 
-#
 func test_null_layer() -> void:
 	scene.renderer.grid_maps[1] = null
 	assert_error(scene.generator.generate)\
