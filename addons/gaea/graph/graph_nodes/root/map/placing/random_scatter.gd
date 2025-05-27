@@ -52,7 +52,7 @@ func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictio
 		_log_error(
 			"Recursive limit reached (%d): Invalid material provided at %s" % [GaeaMaterial.RECURSIVE_LIMIT, material.resource_path],
 			graph,
-			graph.resources.find(self)
+			id
 		)
 		return grid
 

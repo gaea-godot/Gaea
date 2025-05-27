@@ -53,12 +53,26 @@ func start_tint_color_change(gaea_panel: Control) -> void:
 
 ## Returns the data to be saved to [GaeaGraph]. Includes [member GraphFrame.title], [member GraphFrame.tint_color], [member GraphFrame.autoshrink_enabled], etc.
 func get_save_data() -> Dictionary:
+	var attached_names: Array[StringName] = get_parent().get_attached_nodes_of_frame(name)
+	var attached: Array[int] = []
+	# Has to be separated because frames don't have ids.
+	var attached_frames: Array[StringName] = []
+
+	for attached_name in attached_names:
+		var node: GraphElement = get_parent().get_node(NodePath(attached_name))
+		if node is GaeaGraphNode:
+			attached.append(node.resource.id)
+		elif node is GaeaGraphFrame:
+			attached_frames.append(node.name)
+
+
 	return {
 		&"title": title,
 		&"tint_color": tint_color,
 		&"tint_color_enabled": tint_color_enabled,
 		&"position": position_offset,
-		&"attached": get_parent().get_attached_nodes_of_frame(name),
+		&"attached": attached,
+		&"attached_frames": attached_frames,
 		&"size": size,
 		&"autoshrink": autoshrink_enabled,
 		&"name": name

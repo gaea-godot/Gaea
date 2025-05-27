@@ -48,17 +48,17 @@ func generate() -> void:
 ## Generate an [param area] using the graph saved in [member data].
 func generate_area(area: AABB) -> void:
 	data.generator = self
-	var connections: Array[Dictionary] = data.connections
+	var connections: Array[Dictionary] = data._connections
 	var output_resource: GaeaNodeOutput
 
-	for resource in data.resources:
+	for resource in data.get_nodes():
 		resource.connections.clear()
 		if resource is GaeaNodeOutput:
 			output_resource = resource
 
 	for idx in connections.size():
 		var connection: Dictionary = connections[idx]
-		var resource: GaeaNodeResource = data.resources[connection.to_node]
+		var resource: GaeaNodeResource = data.get_node(connection.to_node)
 		resource.connections.append(connection)
 
 	output_resource.execute(

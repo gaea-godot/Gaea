@@ -5,7 +5,7 @@ extends Resource
 ## Resource that holds the saved data for a Gaea graph.
 
 ## Current save version used for [GaeaGraphMigration].
-const CURRENT_SAVE_VERSION := 3
+const CURRENT_SAVE_VERSION := 4
 
 ## Emitted when the size of [member layers] is changed, or when one of its values is changed.
 signal layer_count_modified
@@ -40,22 +40,40 @@ enum Log {
 ## }
 ## [/codeblock]
 ## [br][color=yellow][b]Warning:[/b][/color] Setting this directly can break your saved graph.
-@export_storage var connections: Array[Dictionary]
+@export var _connections: Array[Dictionary]
+## @deprecated
+## Kept for migration of old save data.
+var connections: Array[Dictionary]
 ## List of all UIDs of the [GaeaNodeResource]s in the graph.
 ## [br][color=yellow][b]Warning:[/b][/color] Setting this directly can break your saved graph.
-@export_storage var resource_uids: Array[String]
-## Used for migration of old save data.
+@export_storage var _resource_uids: Dictionary[int, String]
+## @deprecated
+## Kept for migration of old save data.
+var resource_uids: Array[String]
+## @deprecated
+## Kept for migration of old save data.
 var resources: Array[GaeaNodeResource]
+## Used during generation to keep track of node resources.
+var _resources: Dictionary[int, GaeaNodeResource]
 ## Saved data for each [GaeaNodeResource] such as position in the graph and changed arguments.
 ## [br][color=yellow][b]Warning:[/b][/color] Setting this directly can break your saved graph.
-@export_storage var node_data: Array[Dictionary]
+@export_storage var _node_data: Dictionary[int, Dictionary]
+## @deprecated
+## Kept for migration of old save data.
+var node_data: Array[Dictionary]
 ## List of parameters created with [GaeaNodeParameter].
 ## [br][color=yellow][b]Warning:[/b][/color] Setting this directly can break your saved graph.
 ## Use [method set_parameter] instead.
-@export_storage var parameters: Dictionary[StringName, Variant]
+@export_storage var _parameters: Dictionary[StringName, Variant]
+## @deprecated
+## Kept for migration of old save data.
+var parameters: Dictionary[StringName, Variant]
 ## Other saved data, such as [GaeaGraphFrame] information.
 ## [br][color=yellow][b]Warning:[/b][/color] Setting this directly can break your saved graph.
-@export_storage var other: Dictionary
+@export_storage var _other: Dictionary
+## @deprecated
+## Kept for migration of old save data.
+var other: Dictionary
 
 ## The currently related generator.
 var generator: GaeaGenerator
@@ -66,6 +84,61 @@ var cache: Dictionary[GaeaNodeResource, Dictionary] = {}
 func _init() -> void:
 	resource_local_to_scene = true
 	notify_property_list_changed()
+
+
+func add_node(node: GaeaNodeResource, position: Vector2, id: int) -> void:
+	_resource_uids.set(id,
+		ResourceUID.id_to_text(
+				ResourceLoader.get_resource_uid(node.get_script().get_path())
+		)
+	)
+
+	var _save_data: Dictionary = {
+		&"position": position,
+		&"salt": randi()
+	}
+
+
+func get_node(id: int) -> GaeaNodeResource:
+	return _resources.get(id)
+
+
+func get_nodes() -> Array[GaeaNodeResource]:
+	return _resources.keys()
+
+
+func set_node_data(id: int, data: Dictionary) -> void:
+	_node_data.set(id, data)
+
+
+func get_node_data(id: int) -> Dictionary:
+	return _node_data.get(id, {})
+
+
+func get_ids() -> Array[int]:
+	return _resources.keys()
+
+
+func add_connection(from_id: int, from_port: int, to_id: int, to_port: int) -> void:
+	_connections.append({
+		"from_node": from_id,
+		"from_port": from_port,
+		"to_node": to_id,
+		"to_port": to_port
+	})
+
+
+func get_connections_to(id: int) -> void:
+	return _connections.filter(
+		func(value: Dictionary): return value.get("to_node", NAN) == id
+	)
+
+
+func get_connections_from(id: int) -> void:
+	return _connections.filter(
+		func(value: Dictionary): return value.get("from_node", NAN) == id
+	)
+
 
 ## Get the parameter of [param name] from [member parameters].
 func get_parameter(name: StringName) -> Variant:
@@ -120,13 +193,15 @@ func _setup_local_to_scene() -> void:
 	if other.get(&"save_version", -1) != CURRENT_SAVE_VERSION:
 		GaeaGraphMigration.migrate(self)
 
-	resources = []
-	for idx in resource_uids.size():
-		var base_uid = resource_uids[idx]
-		var data: Dictionary = node_data[idx]
+	_resources.clear()
+	for id in _resource_uids.keys():
+		var base_uid: String = _resource_uids.get(id, "")
+		if base_uid == "":
+			continue
+		var data: Dictionary = _node_data.get(id, {})
 		var resource: GaeaNodeResource = load(base_uid).new()
 		if not resource is GaeaNodeResource:
 			push_error("Something went wrong, the resource at %s is not a GaeaNodeResource" % base_uid)
 			return
 		resource._load_save_data(data)
-		resources.append(resource)
+		_resources.set(id, resource)

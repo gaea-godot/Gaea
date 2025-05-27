@@ -321,9 +321,9 @@ func auto_shrink() -> void:
 ## Returns the data to be saved to [GaeaGraph]. Includes [member Node.name], [member GraphElement.position_offset] and [member GaeaNodeResource.salt].
 func get_save_data() -> Dictionary:
 	var dictionary: Dictionary = {
-		"name": name,
-		"position": position_offset,
-		"salt": resource.salt
+		&"name": name,
+		&"position": position_offset,
+		&"salt": resource.salt
 	}
 	dictionary.set(&"arguments", {})
 	for argument in resource.get_arguments_list():
@@ -348,17 +348,17 @@ func get_save_data() -> Dictionary:
 
 ## Loads data with the same format as seen in [method get_save_data].
 func load_save_data(saved_data: Dictionary) -> void:
-	if saved_data.has("position"):
+	if saved_data.has(&"position"):
 		position_offset = saved_data.position
 
-	if saved_data.has("enums"):
-		for enum_idx: int in saved_data.get("enums").size():
+	if saved_data.has(&"enums"):
+		for enum_idx: int in saved_data.get(&"enums").size():
 			_enum_editors[enum_idx].select(
 				_enum_editors[enum_idx].get_item_index(saved_data.get("enums")[enum_idx])
 			)
 
-	if saved_data.has("arguments"):
-		var arguments = saved_data.get("arguments")
+	if saved_data.has(&"arguments"):
+		var arguments = saved_data.get(&"arguments")
 		for argument: StringName in resource.get_arguments_list():
 			var editor: GaeaGraphNodeArgumentEditor = _editors.get(argument)
 			if not is_instance_valid(editor):

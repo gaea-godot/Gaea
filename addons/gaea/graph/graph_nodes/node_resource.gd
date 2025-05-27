@@ -54,6 +54,8 @@ var enum_selections: Array
 ## An additional value added to the generation's seed to prevent
 ## duplicates of the same node from having the same randomness. (See [member GaeaGenerator.seed]).
 var salt: int = 0
+## Id in the [GaeaGraph] save data.
+var id: int = 0
 ## If empty, [method _get_title] will be used instead.
 var tree_name_override: String = "" : set = set_tree_name_override
 @export_storage var default_value_overrides: Dictionary[StringName, Variant]
@@ -362,8 +364,8 @@ func _get_arg(arg_name: StringName, area: AABB, graph: GaeaGraph) -> Variant:
 
 	var connection := _get_argument_connection(arg_name)
 	if not connection.is_empty():
-		var connected_idx = connection.from_node
-		var connected_node = graph.resources[connected_idx]
+		var connected_id = connection.from_node
+		var connected_node = graph.get_node(connected_id)
 		var connected_output = connected_node.connection_idx_to_output(connection.from_port)
 		var connected_data = connected_node.traverse(
 			connected_output,
@@ -380,7 +382,7 @@ func _get_arg(arg_name: StringName, area: AABB, graph: GaeaGraph) -> Variant:
 			else:
 				return GaeaValueCast.cast_value(connected_type, _get_argument_type(arg_name), connected_value)
 		else:
-			_log_error("Could not get data from previous node, using default value instead.", graph, connected_idx)
+			_log_error("Could not get data from previous node, using default value instead.", graph, connected_id)
 			return get_argument_default_value(arg_name)
 
 	return arguments.get(arg_name, get_argument_default_value(arg_name))
@@ -468,7 +470,7 @@ func _get_input_resource(arg_name: StringName, graph: GaeaGraph) -> GaeaNodeReso
 	if connection.is_empty() or connection.from_node == -1:
 		return null
 
-	var data_input_resource: GaeaNodeResource = graph.resources.get(connection.from_node)
+	var data_input_resource: GaeaNodeResource = graph.get_node(connection.from_node)
 	if not is_instance_valid(data_input_resource):
 		return null
 
@@ -547,9 +549,9 @@ func _log_arg(arg:String, graph: GaeaGraph):
 func _log_error(message:String, graph: GaeaGraph, node_idx: int = -1):
 	if node_idx >= 0:
 		printerr("%s:%s in node '%s' - %s" % [
-			graph.resources[node_idx].resource_path,
-			graph.node_data[node_idx].position,
-			graph.resources[node_idx].get_title(),
+			graph.get_node(node_idx).resource_path,
+			graph.get_node_data(node_idx).position,
+			graph.get_node(node_idx).get_title(),
 			message,
 		])
 	else:

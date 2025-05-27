@@ -7,6 +7,8 @@ static func migrate(data: GaeaGraph):
 		_migration_step_from_beta(data)
 	if data.other.get(&"save_version", -1) == 2:
 		_migration_step_material_merge(data)
+	if data.other.get(&"save_version", -1) <= 3:
+		_migration_step_node_ids(data)
 	push_warning("Gaea graph migrated from previous save file format. Please save your project and reload.")
 
 
@@ -144,3 +146,50 @@ static func _migration_step_material_merge(data: GaeaGraph):
 		"c4yhilhmhasb2": "dux0bq53p61ls", #root/map/mappers/gradient_mapper.gd
 	}
 	_process_migration(data, node_map, 3)
+
+
+static func _migration_step_node_ids(data: GaeaGraph):
+	if not data.node_data.is_empty():
+		var _node_data: Dictionary[int, Dictionary]
+		for idx in data.node_data.size():
+			_node_data.set(idx, data.node_data[idx])
+		data._node_data = _node_data
+
+	if not data.resource_uids.is_empty():
+		var _resource_uids: Dictionary[int, String]
+		for idx in data.node_data.size():
+			_resource_uids.set(idx, data.resource_uids[idx])
+		data._resource_uids = _resource_uids
+
+	if not data.connections.is_empty():
+		data._connections = data.connections.duplicate()
+	if not data.other.is_empty():
+		data._other = data.other.duplicate()
+	if not data.parameters.is_empty():
+		data._parameters = data.parameters.duplicate()
+
+	data.connections.clear()
+	data.other.clear()
+	data.parameters.clear()
+
+	for frame_data: Dictionary in data._other.get(&"frames"):
+		var new_attached: Array[int]
+		var attached_frames: Array[StringName]
+		for attached_name: StringName in frame_data.get(&"attached"):
+			var node_data_idx: int = data._node_data.values().find_custom(
+				func(node_data: Dictionary): return node_data.get(&"name", &"") == attached_name
+			)
+			if node_data_idx != -1:
+				var id: int = data._node_data.find_key(data._node_data.values()[node_data_idx])
+				new_attached.append(id)
+			else:
+				var frame_data_idx: int = data._other.get(&"frames").find_custom(
+					func(node_data: Dictionary): return node_data.get(&"name", &"") == attached_name
+				)
+				if frame_data_idx != -1:
+					attached_frames.append(attached_name)
+		frame_data[&"attached"] = new_attached
+		frame_data[&"attached_frames"] = attached_frames
+
+
+	data._other.set(&"save_version", 4)
