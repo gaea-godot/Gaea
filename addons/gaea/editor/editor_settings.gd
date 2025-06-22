@@ -25,11 +25,12 @@ const CONFIGURABLE_SLOT_COLORS := {
 	GaeaValue.Type.MAP: "map",
 }
 
-var editor_settings: EditorSettings
+var editor_settings
 
 
 func add_settings() -> void:
-	editor_settings = EditorInterface.get_editor_settings()
+	var editor_interface = Engine.get_singleton("EditorInterface")
+	editor_settings = editor_interface.get_editor_settings()
 	_add_setting(LINE_CURVATURE, 0.5, {
 		"type": TYPE_FLOAT,
 		"hint": PROPERTY_HINT_RANGE,
@@ -84,13 +85,15 @@ func _add_setting(key: String, default_value: Variant, property_info: Dictionary
 
 
 static func get_configured_output_color() -> Color:
-	return EditorInterface.get_editor_settings().get_setting(OUTPUT_TITLE_COLOR)
+	var editor_interface = Engine.get_singleton("EditorInterface")
+	return editor_interface.get_editor_settings().get_setting(OUTPUT_TITLE_COLOR)
 
 
 static func get_configured_color_for_value_type(value_type: GaeaValue.Type) -> Color:
 	if not CONFIGURABLE_SLOT_COLORS.has(value_type):
 		return Color.WHITE
-	var settings = EditorInterface.get_editor_settings()
+	var editor_interface = Engine.get_singleton("EditorInterface")
+	var settings = editor_interface.get_editor_settings()
 	var setting_path = COLOR_BASE % CONFIGURABLE_SLOT_COLORS.get(value_type)
 	if settings.has_setting(setting_path):
 		return settings.get_setting(setting_path)
@@ -100,7 +103,8 @@ static func get_configured_color_for_value_type(value_type: GaeaValue.Type) -> C
 static func get_configured_icon_for_value_type(value_type: GaeaValue.Type) -> Texture:
 	if not CONFIGURABLE_SLOT_COLORS.has(value_type):
 		return preload("res://addons/gaea/assets/slots/circle.svg")
-	var settings = EditorInterface.get_editor_settings()
+	var editor_interface = Engine.get_singleton("EditorInterface")
+	var settings = editor_interface.get_editor_settings()
 	var setting_path = ICON_BASE % CONFIGURABLE_SLOT_COLORS.get(value_type)
 	if settings.has_setting(setting_path):
 		var loaded: Object = load(settings.get_setting(setting_path))
@@ -110,16 +114,20 @@ static func get_configured_icon_for_value_type(value_type: GaeaValue.Type) -> Te
 
 
 static func get_line_curvature() -> float:
-	return EditorInterface.get_editor_settings().get_setting(LINE_CURVATURE)
+	var editor_interface = Engine.get_singleton("EditorInterface")
+	return editor_interface.get_editor_settings().get_setting(LINE_CURVATURE)
 
 
 static func get_line_thickness() -> float:
-	return EditorInterface.get_editor_settings().get_setting(LINE_THICKNESS)
+	var editor_interface = Engine.get_singleton("EditorInterface")
+	return editor_interface.get_editor_settings().get_setting(LINE_THICKNESS)
 
 
 static func get_minimap_opacity() -> float:
-	return EditorInterface.get_editor_settings().get_setting(MINIMAP_OPACITY)
+	var editor_interface = Engine.get_singleton("EditorInterface")
+	return editor_interface.get_editor_settings().get_setting(MINIMAP_OPACITY)
 
 
 static func get_grid_pattern() -> int:
-	return EditorInterface.get_editor_settings().get_setting(GRID_PATTERN)
+	var editor_interface = Engine.get_singleton("EditorInterface")
+	return editor_interface.get_editor_settings().get_setting(GRID_PATTERN)

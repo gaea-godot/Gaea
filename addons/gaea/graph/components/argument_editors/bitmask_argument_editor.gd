@@ -6,11 +6,10 @@ class_name GaeaBitsArgumentEditor
 @onready var drop_button: TextureButton = $DropButton
 
 
-
 func _configure() -> void:
 	if is_part_of_edited_scene():
 		return
-	await super()
+	await super ()
 	var button_group: ButtonGroup = ButtonGroup.new()
 	for button: Button in grid_container.get_children():
 		button.text = str(button.get_index() + 1)
@@ -21,7 +20,8 @@ func _configure() -> void:
 
 		button.toggled.connect(_on_value_changed.unbind(1))
 
-	drop_button.texture_normal = EditorInterface.get_base_control().get_theme_icon(&"GuiOptionArrow", &"EditorIcons")
+	var editor_interface = Engine.get_singleton("EditorInterface")
+	drop_button.texture_normal = editor_interface.get_base_control().get_theme_icon(&"GuiOptionArrow", &"EditorIcons")
 	drop_button.toggled.connect(_on_drop_button_toggled)
 
 
@@ -37,8 +37,8 @@ func _on_value_changed() -> void:
 
 
 func get_arg_value() -> Variant:
-	if super() != null:
-		return super()
+	if super () != null:
+		return super ()
 
 	if type != GaeaValue.Type.FLAGS:
 		var num: int = 0

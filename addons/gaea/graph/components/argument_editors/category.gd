@@ -11,18 +11,19 @@ func _configure() -> void:
 	if is_part_of_edited_scene():
 		return
 
-	_collapse_button.texture_normal = EditorInterface.get_base_control().get_theme_icon(&"GuiTreeArrowDown", &"EditorIcons")
-	_collapse_button.texture_pressed = EditorInterface.get_base_control().get_theme_icon(&"GuiTreeArrowRight", &"EditorIcons")
+	var editor_interface = Engine.get_singleton("EditorInterface")
+	_collapse_button.texture_normal = editor_interface.get_base_control().get_theme_icon(&"GuiTreeArrowDown", &"EditorIcons")
+	_collapse_button.texture_pressed = editor_interface.get_base_control().get_theme_icon(&"GuiTreeArrowRight", &"EditorIcons")
 	_collapse_button.visible = hint.get("collapsable", true)
 	
 
 func set_label_text(new_text: String) -> void:
-	super("[b]%s[/b]" % new_text)
+	super ("[b]%s[/b]" % new_text)
 	
 	
 func get_arg_value() -> bool:
-	if super() != null:
-		return super()
+	if super () != null:
+		return super ()
 	return _collapse_button.button_pressed
 	
 

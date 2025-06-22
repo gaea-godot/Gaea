@@ -7,18 +7,18 @@ class_name GaeaParameterNameArgumentEditor
 @onready var _edit_button: Button = $EditButton
 
 
-
 func _configure() -> void:
 	if is_part_of_edited_scene():
 		return
-	await super()
+	await super ()
 
-	_edit_button.icon = EditorInterface.get_base_control().get_theme_icon(&"Edit", &"EditorIcons")
+	var editor_interface = Engine.get_singleton("EditorInterface")
+	_edit_button.icon = editor_interface.get_base_control().get_theme_icon(&"Edit", &"EditorIcons")
 
 
 func get_arg_value() -> String:
-	if super() != null:
-		return super()
+	if super () != null:
+		return super ()
 	return name_label.text
 
 
@@ -43,8 +43,9 @@ func _on_edit_button_pressed() -> void:
 
 
 func _on_line_edit_text_changed(new_text: String, line_edit: LineEdit) -> void:
+	var editor_interface = Engine.get_singleton("EditorInterface")
 	if (graph_node.generator.data.parameters.has(new_text) and new_text != name_label.text) or not new_text.is_valid_identifier():
-		line_edit.add_theme_color_override(&"font_color", EditorInterface.get_base_control().get_theme_color(&"error_color", &"Editor"))
+		line_edit.add_theme_color_override(&"font_color", editor_interface.get_base_control().get_theme_color(&"error_color", &"Editor"))
 	else:
 		line_edit.remove_theme_color_override(&"font_color")
 

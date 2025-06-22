@@ -27,8 +27,8 @@ var connections: Array[Dictionary]
 static var _titlebar_styleboxes: Dictionary[GaeaValue.Type, Dictionary]
 var _preview: _PreviewTexture
 var _preview_container: VBoxContainer
-var _finished_loading: bool = false : set = set_finished_loading, get = has_finished_loading
-var _finished_rebuilding: bool = true : get = has_finished_rebuilding
+var _finished_loading: bool = false: set = set_finished_loading, get = has_finished_loading
+var _finished_rebuilding: bool = true: get = has_finished_rebuilding
 var _editors: Dictionary[StringName, GaeaGraphNodeArgumentEditor]
 var _enum_editors: Array[OptionButton]
 var _last_category: GaeaArgumentCategory
@@ -43,7 +43,8 @@ func _ready() -> void:
 			var script = resource.get_script()
 			if is_instance_valid(script):
 				var documentation_button := Button.new()
-				documentation_button.icon = EditorInterface.get_editor_theme().get_icon(&"HelpSearch", &"EditorIcons")
+				var editor_interface = Engine.get_singleton("EditorInterface")
+				documentation_button.icon = editor_interface.get_editor_theme().get_icon(&"HelpSearch", &"EditorIcons")
 				documentation_button.flat = true
 				get_titlebar_hbox().add_child(documentation_button)
 				documentation_button.pressed.connect(_open_node_documentation)
@@ -396,8 +397,9 @@ func _open_node_documentation():
 	if not is_instance_valid(script):
 		return
 
-	var resource_class_name := (script as GDScript).get_global_name()
-	var script_editor := EditorInterface.get_script_editor()
+	var resource_class_name = (script as GDScript).get_global_name()
+	var editor_interface = Engine.get_singleton("EditorInterface")
+	var script_editor = editor_interface.get_script_editor()
 	script_editor.goto_help("class_name:%s" % resource_class_name)
 
 

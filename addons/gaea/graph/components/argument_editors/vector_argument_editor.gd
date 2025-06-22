@@ -12,17 +12,17 @@ class_name GaeaVector3ArgumentEditor
 @onready var _z_container: HBoxContainer = $ZContainer
 
 
-
 func _configure() -> void:
 	if is_part_of_edited_scene():
 		return
-	await super()
+	await super ()
 	_x_spin_box.value_changed.connect(argument_value_changed.emit)
 	_y_spin_box.value_changed.connect(argument_value_changed.emit)
 	_z_spin_box.value_changed.connect(argument_value_changed.emit)
-	_x_label.add_theme_color_override(&"font_color", EditorInterface.get_base_control().get_theme_color("property_color_x", "Editor"))
-	_y_label.add_theme_color_override(&"font_color", EditorInterface.get_base_control().get_theme_color("property_color_y", "Editor"))
-	_z_label.add_theme_color_override(&"font_color", EditorInterface.get_base_control().get_theme_color("property_color_z", "Editor"))
+	var editor_interface = Engine.get_singleton("EditorInterface")
+	_x_label.add_theme_color_override(&"font_color", editor_interface.get_base_control().get_theme_color("property_color_x", "Editor"))
+	_y_label.add_theme_color_override(&"font_color", editor_interface.get_base_control().get_theme_color("property_color_y", "Editor"))
+	_z_label.add_theme_color_override(&"font_color", editor_interface.get_base_control().get_theme_color("property_color_z", "Editor"))
 
 	if type == GaeaValue.Type.VECTOR2I or type == GaeaValue.Type.VECTOR3I:
 		_x_spin_box.step = 1
@@ -64,10 +64,9 @@ func set_editor_visible(value: bool) -> void:
 		child.set_visible(value)
 
 
-
 func get_arg_value() -> Variant:
-	if super() != null:
-		return super()
+	if super () != null:
+		return super ()
 	match type:
 		GaeaValue.Type.VECTOR2:
 			return Vector2(_x_spin_box.value, _y_spin_box.value)

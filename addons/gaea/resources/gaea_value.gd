@@ -157,7 +157,7 @@ static func get_default_color(type: Type) -> Color:
 			return Color("f0f8ff") # WHITE
 		Type.MAP:
 			return Color("27ae60") # GREEN
-		Type.TEXTURE: 
+		Type.TEXTURE:
 			return Color("e67e22") # ORANGE
 	return Color.WHITE
 
@@ -186,7 +186,8 @@ static func get_display_icon(type: Type) -> Texture2D:
 		Type.MATERIAL:
 			return load("uid://b0vqox8bodse")
 		Type.TEXTURE:
-			return EditorInterface.get_base_control().get_theme_icon(&"Image", &"EditorIcons")
+			var editor_interface = Engine.get_singleton("EditorInterface")
+			return editor_interface.get_base_control().get_theme_icon(&"Image", &"EditorIcons")
 		# Dictionary types
 		Type.DATA:
 			return load("uid://dkccxw7yq1mth")

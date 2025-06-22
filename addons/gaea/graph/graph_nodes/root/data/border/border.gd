@@ -29,13 +29,13 @@ func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
 		&"data": return GaeaValue.Type.DATA
 		&"neighbors": return GaeaValue.Type.NEIGHBORS
 		&"inside": return GaeaValue.Type.BOOLEAN
-	return super(arg_name)
+	return super (arg_name)
 
 
 func _get_argument_default_value(arg_name: StringName) -> Variant:
 	match arg_name:
 		&"neighbors": return [Vector2i.RIGHT, Vector2i.LEFT, Vector2i.UP, Vector2i.DOWN]
-	return super(arg_name)
+	return super (arg_name)
 
 
 func _get_output_ports_list() -> Array[StringName]:
@@ -51,7 +51,7 @@ func _get_required_arguments() -> Array[StringName]:
 
 
 func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary[Vector3i, float]:
-	var neighbors: Array[Vector2i] = _get_arg(&"neighbors", area, graph)
+	var neighbors: Array = _get_arg(&"neighbors", area, graph)
 	var inside: bool = _get_arg(&"inside", area, graph)
 	var input_data: Dictionary[Vector3i, float] = _get_arg(&"data", area, graph)
 
