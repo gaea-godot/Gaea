@@ -1,0 +1,4 @@
+[submodule "demos"]
+	path = demos
+	url = https://github.com/gaea-godot/gaea-demos
+	branch = 2.0
