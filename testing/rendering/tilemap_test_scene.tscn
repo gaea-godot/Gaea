@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://e45byecr4gi6" path="res://addons/gaea/resources/materials/data/tilemap_material.gd" id="4_1kltg"]
 [ext_resource type="Script" uid="uid://dae6umbqb872e" path="res://addons/gaea/resources/gaea_graph.gd" id="5_kmg7b"]
 [ext_resource type="Script" uid="uid://b4x16tyyfihmb" path="res://addons/gaea/nodes/renderers/tilemap_renderer.gd" id="6_ay818"]
-[ext_resource type="Texture2D" uid="uid://druqwrm3nwuao" path="res://scenes/walker_demo/tileset.png" id="7_q3jyc"]
+[ext_resource type="Texture2D" uid="uid://druqwrm3nwuao" path="res://testing/tileset.png" id="7_q3jyc"]
 
 [sub_resource type="Resource" id="Resource_brphb"]
 script = ExtResource("4_1kltg")
