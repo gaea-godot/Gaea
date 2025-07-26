@@ -4,7 +4,6 @@ extends GdUnitTestSuite
 var first_grid: GaeaGrid
 
 
-
 func test_has_generated() -> void:
 	var scene = load("uid://dh5c2eomfri6n").instantiate()
 	var _runner := scene_runner(scene)
@@ -22,7 +21,7 @@ func test_generations_match() -> void:
 
 
 func test_generations_dont_match() -> void:
-	var scene = load("uid://di7u4f3idjdd").instantiate()
+	var scene = load("uid://dh5c2eomfri6n").instantiate()
 	var _runner := scene_runner(scene)
 	await scene.test_generation(1)
 	var second_grid: GaeaGrid = scene.last_grid
