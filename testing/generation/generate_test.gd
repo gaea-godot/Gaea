@@ -16,7 +16,7 @@ func test_has_generated() -> void:
 
 
 func test_generations_match() -> void:
-	var scene = load("uid://dh5c2eomfri6n").instantiate()
+	var scene = load(test_scene).instantiate()
 	var _runner := scene_runner(scene)
 	await scene.test_generation()
 	var second_grid: GaeaGrid = scene.last_grid
