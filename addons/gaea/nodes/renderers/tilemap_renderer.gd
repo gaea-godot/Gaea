@@ -31,7 +31,7 @@ func _render(grid: GaeaGrid) -> void:
 
 		for terrain_material: TileMapGaeaMaterial in terrains:
 			tile_map_layers[layer_idx].set_cells_terrain_connect(
-				terrains.get(terrain_material), terrain_material.terrain_set, terrain_material.terrain
+				terrains.get(terrain_material), terrain_material.terrain_set, terrain_material.terrain, false
 			)
 
 		for pattern_material: TileMapGaeaMaterial in patterns:
