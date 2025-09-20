@@ -77,9 +77,8 @@ static func elapsed(p_time_ms :int) -> String:
 	return "%dms" % local_time_._millisecond
 
 
-@warning_ignore("integer_division")
 # create from epoch timestamp in ms
-func _init(time :int) -> void:
+func _init(time: int) -> void:
 	_time = time
 	@warning_ignore("integer_division")
 	_hour  =  (time / MILLIS_PER_HOUR) % 24
