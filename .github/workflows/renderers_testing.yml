@@ -33,7 +33,7 @@ jobs:
       # run tests by using the gdUnit4-action with Godot version 4.2.1 and the latest GdUnit4 release 
       - uses: MikeSchulze/gdUnit4-action@v1.1.6
         with:
-          godot-version: '4.4.1'
+          godot-version: '4.5'
           paths: |
             res://testing/rendering
           timeout: 5
