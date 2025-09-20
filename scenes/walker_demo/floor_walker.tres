@@ -8,28 +8,22 @@
 
 [sub_resource type="Resource" id="Resource_j6vep"]
 script = ExtResource("1_wtjh4")
-type = 0
 source_id = 1
 atlas_coord = Vector2i(2, 1)
-alternative_tile = 0
 preview_color = Color(0.548666, 0.952075, 0.652068, 1)
 metadata/_custom_type_script = "uid://e45byecr4gi6"
 
 [sub_resource type="Resource" id="Resource_o0o4j"]
 script = ExtResource("1_wtjh4")
-type = 0
 source_id = 1
 atlas_coord = Vector2i(0, 1)
-alternative_tile = 0
 preview_color = Color(0.85098, 0.580392, 0.341176, 1)
 metadata/_custom_type_script = "uid://e45byecr4gi6"
 
 [sub_resource type="Resource" id="Resource_h5ves"]
 script = ExtResource("1_wtjh4")
-type = 0
 source_id = 1
 atlas_coord = Vector2i(0, 2)
-alternative_tile = 0
 preview_color = Color(0.847059, 0.623529, 0.4, 1)
 metadata/_custom_type_script = "uid://e45byecr4gi6"
 
@@ -42,19 +36,15 @@ metadata/_custom_type_script = "uid://dtocuov1r8agi"
 
 [sub_resource type="Resource" id="Resource_lm46c"]
 script = ExtResource("1_wtjh4")
-type = 0
 source_id = 1
 atlas_coord = Vector2i(2, 3)
-alternative_tile = 0
 preview_color = Color(0.627481, 0.227889, 0.838571, 1)
 metadata/_custom_type_script = "uid://e45byecr4gi6"
 
 [sub_resource type="Resource" id="Resource_jlmdo"]
 script = ExtResource("1_wtjh4")
-type = 0
 source_id = 1
 atlas_coord = Vector2i(2, 4)
-alternative_tile = 0
 preview_color = Color(0.483951, 0.769272, 0.838571, 1)
 metadata/_custom_type_script = "uid://e45byecr4gi6"
 
@@ -67,19 +57,15 @@ metadata/_custom_type_script = "uid://dtocuov1r8agi"
 
 [sub_resource type="Resource" id="Resource_qtqn2"]
 script = ExtResource("1_wtjh4")
-type = 0
 source_id = 1
 atlas_coord = Vector2i(0, 3)
-alternative_tile = 0
 preview_color = Color(0.838571, 0.466981, 0.473734, 1)
 metadata/_custom_type_script = "uid://e45byecr4gi6"
 
 [sub_resource type="Resource" id="Resource_wbro0"]
 script = ExtResource("1_wtjh4")
-type = 0
 source_id = 1
 atlas_coord = Vector2i(1, 3)
-alternative_tile = 0
 preview_color = Color(0.834095, 0.838571, 0.515955, 1)
 metadata/_custom_type_script = "uid://e45byecr4gi6"
 
@@ -92,53 +78,43 @@ metadata/_custom_type_script = "uid://dtocuov1r8agi"
 
 [sub_resource type="Resource" id="Resource_30ot8"]
 script = ExtResource("1_wtjh4")
-type = 0
 source_id = 1
 atlas_coord = Vector2i(2, 2)
-alternative_tile = 0
 preview_color = Color(0.248195, 0.605651, 0.342506, 1)
 metadata/_custom_type_script = "uid://e45byecr4gi6"
 
 [sub_resource type="Resource" id="Resource_payrb"]
 script = ExtResource("1_wtjh4")
-type = 0
 source_id = 1
 atlas_coord = Vector2i(1, 2)
-alternative_tile = 0
 preview_color = Color(0.773438, 0.20493, 0.228018, 1)
 metadata/_custom_type_script = "uid://e45byecr4gi6"
 
 [sub_resource type="Resource" id="Resource_kk1e5"]
 script = ExtResource("1_wtjh4")
-type = 0
 source_id = 1
 atlas_coord = Vector2i(1, 1)
-alternative_tile = 0
 preview_color = Color(0.270588, 0.156863, 0.235294, 1)
 metadata/_custom_type_script = "uid://e45byecr4gi6"
 
 [sub_resource type="Resource" id="Resource_nr2x3"]
 resource_name = "Floor"
 script = ExtResource("2_mfpnn")
-enabled = true
 
 [sub_resource type="Resource" id="Resource_entu7"]
 resource_name = "Walls"
 script = ExtResource("2_mfpnn")
-enabled = true
 metadata/_custom_type_script = "uid://3qsmwhn2sk47"
 
 [sub_resource type="Resource" id="Resource_q5q5d"]
 resource_name = "Decorations"
 script = ExtResource("2_mfpnn")
-enabled = true
 metadata/_custom_type_script = "uid://3qsmwhn2sk47"
 
 [resource]
 resource_local_to_scene = true
 script = ExtResource("5_mui55")
 layers = Array[ExtResource("2_mfpnn")]([SubResource("Resource_nr2x3"), SubResource("Resource_entu7"), SubResource("Resource_q5q5d")])
-logging = 0
 connections = Array[Dictionary]([{
 "from_node": 4,
 "from_port": 0,

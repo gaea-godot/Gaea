@@ -34,7 +34,7 @@ func _on_added() -> void:
 	titlebar_hbox.mouse_exited.connect(_set_icon_opacity.bind(0.0))
 
 	_validate_connections()
-	
+
 	on_type_changed()
 
 
