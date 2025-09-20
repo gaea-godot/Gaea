@@ -30,9 +30,12 @@ func delete_nodes(nodes: Array[StringName]) -> void:
 		if node is GaeaGraphNode:
 			if node.resource is GaeaNodeOutput:
 				continue
+
 			for connection in node.connections:
 				disconnect_node(connection.from_node, connection.from_port, connection.to_node, connection.to_port)
+
 			node.removed.emit()
+			generator.data.remove_node(node.resource.id)
 		elif node is GaeaGraphFrame:
 			for attached in get_attached_nodes_of_frame(node.name):
 				attached_elements.erase(attached)
@@ -40,7 +43,6 @@ func delete_nodes(nodes: Array[StringName]) -> void:
 		await node.tree_exited
 
 	connection_update_requested.emit()
-	save_requested.emit.call_deferred()
 
 
 func _on_connection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
@@ -79,8 +81,6 @@ func _on_connection_request(from_node: StringName, from_port: int, to_node: Stri
 
 	if to_graph_node.has_finished_loading():
 		to_graph_node.notify_connections_updated.call_deferred()
-
-	save_requested.emit()
 
 
 func _on_disconnection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:

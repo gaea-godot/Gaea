@@ -109,6 +109,13 @@ func add_frame(position: Vector2, id: int) -> void:
 	})
 
 
+func remove_node(id: int) -> void:
+	for connection in get_connections_to(id) + get_connections_from(id):
+		remove_connection_dict(connection)
+	_node_data.erase(id)
+	_resources.erase(id)
+
+
 func set_node_position(position: Vector2, id: int) -> void:
 	if not _node_data.has(id):
 		return
@@ -154,22 +161,30 @@ func add_connection(from_id: int, from_port: int, to_id: int, to_port: int) -> v
 
 
 func remove_connection(from_id: int, from_port: int, to_id: int, to_port: int) -> void:
-	var connection: Dictionary = {
+	_connections.erase({
 		"from_node": from_id,
 		"from_port": from_port,
 		"to_node": to_id,
 		"to_port": to_port
-		}
-	_connections.erase(connection)
+		})
 
 
-func get_connections_to(id: int) -> void:
+func remove_connection_dict(connection: Dictionary) -> void:
+	remove_connection(
+		connection.get("from_node", -9999),
+		connection.get("from_port", -9999),
+		connection.get("to_node", -9999),
+		connection.get("to_port", -9999)
+	)
+
+
+func get_connections_to(id: int) -> Array[Dictionary]:
 	return _connections.filter(
 		func(value: Dictionary): return value.get("to_node", NAN) == id
 	)
 
 
-func get_connections_from(id: int) -> void:
+func get_connections_from(id: int) -> Array[Dictionary]:
 	return _connections.filter(
 		func(value: Dictionary): return value.get("from_node", NAN) == id
 	)

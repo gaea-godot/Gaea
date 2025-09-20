@@ -156,7 +156,6 @@ func _load_data() -> void:
 		if not is_instance_valid(_selected_generator.data.get_node(id)):
 			continue
 		var saved_data = _selected_generator.data._node_data.get(id, {})
-		print(id)
 		match saved_data.get(&"type", GaeaGraph.NodeType.NODE):
 			GaeaGraph.NodeType.FRAME:
 				_load_frame(saved_data)
@@ -205,7 +204,6 @@ func _load_frame(frame_data: Dictionary) -> void:
 
 
 func _load_node(resource: GaeaNodeResource, saved_data: Dictionary, id: int) -> GraphNode:
-	prints(id, resource)
 	var node: GaeaGraphNode = resource.get_scene().instantiate()
 	if resource.get_scene_script() != null:
 		node.set_script(resource.get_scene_script())
