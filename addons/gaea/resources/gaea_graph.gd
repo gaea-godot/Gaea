@@ -127,6 +127,19 @@ func set_node_argument(arg_name: StringName, value: Variant, id: int) -> void:
 	get_node_data(id).get_or_add(&"arguments", {}).set(arg_name, value)
 
 
+func attach_node_to_frame(node_id: int, frame_id: int) -> void:
+	if node_id == frame_id:
+		return
+
+	var attached_array: Array = get_node_data(frame_id).get_or_add(&"attached", [])
+	if not attached_array.has(node_id):
+		attached_array.append(node_id)
+
+
+func deattach_node_from_frame(node_id: int, frame_id: int) -> void:
+	get_node_data(frame_id).get(&"attached", []).erase(node_id)
+
+
 func get_node(id: int) -> GaeaNodeResource:
 	return _resources.get(id)
 
@@ -148,7 +161,7 @@ func get_node_data(id: int) -> Dictionary:
 
 
 func get_ids() -> Array[int]:
-	return _resources.keys()
+	return _node_data.keys()
 
 
 func add_connection(from_id: int, from_port: int, to_id: int, to_port: int) -> void:

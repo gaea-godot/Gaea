@@ -39,6 +39,7 @@ func delete_nodes(nodes: Array[StringName]) -> void:
 		elif node is GaeaGraphFrame:
 			for attached in get_attached_nodes_of_frame(node.name):
 				attached_elements.erase(attached)
+			generator.data.remove_node(node.id)
 		node.queue_free()
 		await node.tree_exited
 
@@ -164,7 +165,13 @@ func _on_graph_elements_linked_to_frame_request(elements: Array, frame: StringNa
 
 func _on_element_attached_to_frame(element: StringName, frame: StringName) -> void:
 	attached_elements.set(element, frame)
-	save_requested.emit()
+	var node: GraphElement = get_node(NodePath(element))
+	var frame_node: GaeaGraphFrame = get_node(NodePath(frame))
+
+	if node is GaeaGraphNode:
+		generator.data.attach_node_to_frame(node.resource.id, frame_node.id)
+	elif node is GaeaGraphFrame:
+		generator.data.attach_node_to_frame(node.id, frame_node.id)
 
 
 func _is_node_hover_valid(from_node: StringName, _from_port: int, to_node: StringName, _to_port: int) -> bool:

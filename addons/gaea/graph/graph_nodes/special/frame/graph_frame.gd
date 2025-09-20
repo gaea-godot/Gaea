@@ -2,16 +2,24 @@ class_name GaeaGraphFrame
 extends GraphFrame
 
 
+var id: int
+var generator: GaeaGenerator
+
 func _ready() -> void:
 	if title.is_empty():
 		title = "Title"
 	size = Vector2(512, 256)
 	name = name.replace("@", "_")
 	autoshrink_changed.connect(_on_autoshrink_changed.unbind(1))
+	dragged.connect(_on_dragged)
 
 
 func _on_autoshrink_changed() -> void:
 	resizable = not autoshrink_enabled
+
+
+func _on_dragged(from: Vector2, to: Vector2) -> void:
+	generator.data.set_node_position(to, id)
 
 
 func start_rename(gaea_panel: Control) -> void:
