@@ -108,6 +108,13 @@ func add_frame(position: Vector2, id: int) -> void:
 	})
 
 
+func set_node_position(position: Vector2, id: int) -> void:
+	if not _node_data.has(id):
+		return
+
+	get_node_data(id).set(&"position", position)
+
+
 func get_node(id: int) -> GaeaNodeResource:
 	return _resources.get(id)
 

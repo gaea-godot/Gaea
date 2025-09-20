@@ -9,3 +9,5 @@ offset_bottom = 55.0
 theme_override_constants/separation = 4
 title = "Node"
 script = ExtResource("1_67l81")
+
+[connection signal="dragged" from="." to="." method="_on_dragged"]
