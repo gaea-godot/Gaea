@@ -59,7 +59,7 @@ var resources: Array[GaeaNodeResource]
 var _resources: Dictionary[int, GaeaNodeResource]
 ## Saved data for each [GaeaNodeResource] such as position in the graph and changed arguments.
 ## [br][color=yellow][b]Warning:[/b][/color] Setting this directly can break your saved graph.
-@export_storage var _node_data: Dictionary[int, Dictionary]
+@export var _node_data: Dictionary[int, Dictionary]
 ## @deprecated
 ## Kept for migration of old save data.
 var node_data: Array[Dictionary]
@@ -89,6 +89,7 @@ func _init() -> void:
 
 
 func add_node(node: GaeaNodeResource, position: Vector2, id: int) -> void:
+	_resources.set(id, node)
 	_node_data.set(id,
 	{
 		&"type": NodeType.NODE,
@@ -117,6 +118,10 @@ func set_node_position(position: Vector2, id: int) -> void:
 
 func get_node(id: int) -> GaeaNodeResource:
 	return _resources.get(id)
+
+
+func get_id(node: GaeaNodeResource) -> int:
+	return _resources.find_key(node)
 
 
 func get_nodes() -> Array[GaeaNodeResource]:
