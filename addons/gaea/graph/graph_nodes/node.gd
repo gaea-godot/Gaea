@@ -260,6 +260,7 @@ func _set_arg_value(arg_name: StringName, value: Variant) -> void:
 func _on_argument_value_changed(value: Variant, _node: GaeaGraphNodeArgumentEditor, arg_name: String) -> void:
 	if _finished_loading:
 		resource.set_argument_value(arg_name, value)
+		generator.data.set_node_argument(arg_name, value, resource.id)
 		save_requested.emit()
 		if is_instance_valid(_preview):
 			_preview.update()

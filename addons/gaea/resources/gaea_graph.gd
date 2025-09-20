@@ -123,6 +123,10 @@ func set_node_position(position: Vector2, id: int) -> void:
 	get_node_data(id).set(&"position", position)
 
 
+func set_node_argument(arg_name: StringName, value: Variant, id: int) -> void:
+	get_node_data(id).get_or_add(&"arguments", {}).set(arg_name, value)
+
+
 func get_node(id: int) -> GaeaNodeResource:
 	return _resources.get(id)
 
@@ -140,7 +144,7 @@ func set_node_data(id: int, data: Dictionary) -> void:
 
 
 func get_node_data(id: int) -> Dictionary:
-	return _node_data.get(id, {})
+	return _node_data.get_or_add(id, {})
 
 
 func get_ids() -> Array[int]:
