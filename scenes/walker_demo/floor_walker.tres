@@ -648,7 +648,7 @@ other = {
 &"autoshrink": true,
 &"name": &"_GraphFrame_29830",
 &"position": Vector2(240, 1299),
-&"size": Vector2(874, 312),
+&"size": Vector2(874, 315),
 &"tint_color": Color(0.55, 0.415983, 0.3135, 0.52549),
 &"tint_color_enabled": true,
 &"title": "Place Chests"
@@ -657,7 +657,7 @@ other = {
 &"autoshrink": true,
 &"name": &"_GraphFrame_29833",
 &"position": Vector2(320, -541),
-&"size": Vector2(1000, 952),
+&"size": Vector2(1000, 955),
 &"tint_color": Color(0.133333, 0.12549, 0.203922, 1),
 &"tint_color_enabled": true,
 &"title": "Walls"
@@ -666,7 +666,7 @@ other = {
 &"autoshrink": true,
 &"name": &"_GraphFrame_29836",
 &"position": Vector2(280, 559),
-&"size": Vector2(750, 672),
+&"size": Vector2(750, 675),
 &"tint_color": Color(0.0964966, 0.363281, 0.175698, 0.75),
 &"tint_color_enabled": true,
 &"title": "Add Vegetation"
@@ -675,7 +675,7 @@ other = {
 &"autoshrink": true,
 &"name": &"_GraphFrame_29839",
 &"position": Vector2(-520, 119),
-&"size": Vector2(306, 231),
+&"size": Vector2(306, 234),
 &"tint_color": Color(0.3125, 0.155029, 0.155029, 0.75),
 &"tint_color_enabled": true,
 &"title": "Get Everything Outside Floor"
@@ -684,7 +684,7 @@ other = {
 &"autoshrink": true,
 &"name": &"_GraphFrame_29842",
 &"position": Vector2(-640, 499),
-&"size": Vector2(500, 256),
+&"size": Vector2(500, 259),
 &"tint_color": Color(0.174225, 0.208835, 0.257812, 0.75),
 &"tint_color_enabled": true,
 &"title": "Floor"

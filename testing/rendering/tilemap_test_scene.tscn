@@ -10,28 +10,19 @@
 
 [sub_resource type="Resource" id="Resource_yypbs"]
 script = ExtResource("3_frm4e")
-enabled = true
 
 [sub_resource type="Resource" id="Resource_6wvsa"]
 script = ExtResource("3_frm4e")
-enabled = true
 metadata/_custom_type_script = "uid://3qsmwhn2sk47"
 
 [sub_resource type="Resource" id="Resource_brphb"]
 script = ExtResource("4_1kltg")
-type = 0
-source_id = 0
-atlas_coord = Vector2i(0, 0)
-alternative_tile = 0
 preview_color = Color(0.65503, 0.0713978, 0.683211, 1)
 metadata/_custom_type_script = "uid://e45byecr4gi6"
 
 [sub_resource type="Resource" id="Resource_cxykr"]
 script = ExtResource("4_1kltg")
-type = 0
-source_id = 0
 atlas_coord = Vector2i(1, 0)
-alternative_tile = 0
 preview_color = Color(0.947701, 0.668957, 0.320149, 1)
 metadata/_custom_type_script = "uid://e45byecr4gi6"
 
@@ -39,7 +30,6 @@ metadata/_custom_type_script = "uid://e45byecr4gi6"
 resource_local_to_scene = true
 script = ExtResource("5_kmg7b")
 layers = Array[ExtResource("3_frm4e")]([SubResource("Resource_yypbs"), SubResource("Resource_6wvsa")])
-logging = 0
 connections = Array[Dictionary]([{
 "from_node": 1,
 "from_port": 0,
