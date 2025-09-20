@@ -36,6 +36,10 @@ func _get_tree_items() -> Array[GaeaNodeResource]:
 	return items
 
 
+func _get_argument_type(_arg_name: StringName) -> GaeaValue.Type:
+	return GaeaValue.Type.NULL
+
+
 func _get_enums_count() -> int:
 	return 1
 

@@ -1,4 +1,5 @@
 @tool
+@abstract
 class_name GaeaNodeNumOp
 extends GaeaNodeResource
 ## Base class for operations between 2 numbers.

@@ -36,7 +36,7 @@ func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
 		&"reference_data": return GaeaValue.Type.DATA
 		&"material": return GaeaValue.Type.MATERIAL
 		&"rules": return GaeaValue.Type.RULES
-	return super(arg_name)
+	return GaeaValue.Type.NULL
 
 
 func _get_output_ports_list() -> Array[StringName]:

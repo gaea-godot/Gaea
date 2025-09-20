@@ -1,5 +1,6 @@
 @tool
 @icon("../../assets/renderer.svg")
+@abstract
 class_name GaeaRenderer
 extends Node
 ## Renders the [member generator]'s result into the game.
@@ -40,19 +41,19 @@ func _connect_signals() -> void:
 
 
 ## Should be overridden with custom behavior for rendering the [param grid].
-func _render(_grid: GaeaGrid) -> void:
-	pass
+@abstract
+func _render(_grid: GaeaGrid) -> void
 
 
 ## Should be overridden with custom behavior for erasing the rendered [param area].
-func _on_area_erased(_area: AABB) -> void:
-	pass
+@abstract
+func _on_area_erased(_area: AABB) -> void
 
 
 ## Should be overridden with custom behavior to clear/_reset the previously-rendered generation.
-## Should return the _render to a 'default' state,
-func _reset() -> void:
-	pass
+## Should return the _render to a 'default' state.
+@abstract
+func _reset() -> void
 
 
 ## Public version of [method _render].

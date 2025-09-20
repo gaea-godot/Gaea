@@ -1,5 +1,6 @@
 @tool
 @icon("../../assets/gaea_node_resource.svg")
+@abstract
 class_name GaeaNodeResource
 extends Resource
 ## A node in a Gaea graph.
@@ -145,6 +146,9 @@ func get_arguments_list() -> Array[StringName]:
 
 ## Public version of [method _get_argument_type]. Prefer to override that method over this one.
 func get_argument_type(arg_name: StringName) -> GaeaValue.Type:
+	if arg_name.begins_with(&"CATEGORY"):
+		return GaeaValue.Type.CATEGORY
+
 	return _get_argument_type(arg_name)
 
 
@@ -199,9 +203,8 @@ func is_available() -> bool:
 
 
 ## Override this method to define the name shown in the title bar of this node.
-## Defining this method is [b]optional[/b], but recommended. If not defined, the title will be "Unnamed".
-func _get_title() -> String:
-	return "Unnamed"
+## Defining this method is [b]required[/b].
+@abstract func _get_title() -> String
 
 
 ## Override this method to define the description shown in the 'Create Node' dialog and in a
@@ -255,18 +258,13 @@ func _get_enum_default_value(enum_idx: int) -> int:
 ## Override this method to define the arguments and inputs that will be available in the node.
 ## Should be a list of (preferably) [code]snake_case[/code] names.[br][br]
 ## Defining this method is [b]required[/b].
-func _get_arguments_list() -> Array[StringName]:
-	push_warning("_get_arguments_list wasn't overridden in %s, node will have no arguments." % get_script().resource_path)
-	return []
+@abstract func _get_arguments_list() -> Array[StringName]
 
 
 ## Override this method to define the type of the arguments defined in [method _get_arguments_list].[br][br]
 ## Defining this method is [b]required[/b].
-func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
-	if arg_name.begins_with(&"CATEGORY"):
-		return GaeaValue.Type.CATEGORY
-
-	return GaeaValue.Type.NULL
+@abstract
+func _get_argument_type(arg_name: StringName) -> GaeaValue.Type
 
 
 ## Override this method if you want to change the display name for any arguments in [method _get_arguments_list].[br][br]
@@ -298,8 +296,7 @@ func _has_input_slot(arg_name: StringName) -> bool:
 
 ## Override this method to define the outputs this node will have.[br][br]
 ## Defining this method is [b]required[/b].
-func _get_output_ports_list() -> Array[StringName]:
-	return []
+@abstract func _get_output_ports_list() -> Array[StringName]
 
 
 ## Override this method to define the display name for any outputs in [method _get_output_ports_list].[br][br]
@@ -310,8 +307,7 @@ func _get_output_port_display_name(output_name: StringName) -> String:
 
 ## Override this method to define the type of the outputs defined in [method _get_output_ports_list].[br][br]
 ## Defining this method is [b]required[/b].
-func _get_output_port_type(output_name: StringName) -> GaeaValue.Type:
-	return GaeaValue.Type.NULL
+@abstract func _get_output_port_type(output_name: StringName) -> GaeaValue.Type
 
 
 ## If this returns a value higher than 0, the output slot for [param output_name] will be

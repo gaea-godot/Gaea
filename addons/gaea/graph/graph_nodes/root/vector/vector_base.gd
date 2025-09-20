@@ -1,4 +1,5 @@
 @tool
+@abstract
 class_name GaeaNodeVectorBase
 extends GaeaNodeResource
 ## Base class for vector operation nodes.

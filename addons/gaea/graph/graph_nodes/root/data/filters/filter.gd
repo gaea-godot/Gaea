@@ -1,4 +1,5 @@
 @tool
+@abstract
 extends GaeaNodeResource
 class_name GaeaNodeFilter
 ## Abstract class used for filter nodes.
@@ -11,7 +12,7 @@ func _get_arguments_list() -> Array[StringName]:
 func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
 	if arg_name == &"input_grid":
 		return get_type()
-	return super(arg_name)
+	return GaeaValue.Type.NULL
 
 
 func _get_argument_display_name(arg_name: StringName) -> String:

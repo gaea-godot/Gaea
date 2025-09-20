@@ -35,7 +35,7 @@ func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
 		&"left", &"right", &"down", &"up":
 			return GaeaValue.Type.BITMASK_EXCLUSIVE
 
-	return super(arg_name)
+	return GaeaValue.Type.NULL
 
 
 func _get_argument_default_value(arg_name: StringName) -> Variant:

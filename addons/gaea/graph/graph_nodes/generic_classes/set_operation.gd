@@ -1,4 +1,5 @@
 @tool
+@abstract
 class_name GaeaNodeSetOp
 extends GaeaNodeResource
 
@@ -59,7 +60,7 @@ func _get_arguments_list() -> Array[StringName]:
 		Operation.UNION, Operation.INTERSECTION: return [&"a", &"b", &"c", &"d"]
 		Operation.COMPLEMENT: return [&"a"]
 		Operation.DIFFERENCE: return [&"a", &"b"]
-	return super()
+	return []
 
 
 func _get_argument_type(_arg_name: StringName) -> GaeaValue.Type:

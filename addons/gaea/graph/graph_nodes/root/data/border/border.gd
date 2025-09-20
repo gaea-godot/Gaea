@@ -29,7 +29,7 @@ func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
 		&"data": return GaeaValue.Type.DATA
 		&"neighbors": return GaeaValue.Type.NEIGHBORS
 		&"inside": return GaeaValue.Type.BOOLEAN
-	return super (arg_name)
+	return GaeaValue.Type.NULL
 
 
 func _get_argument_default_value(arg_name: StringName) -> Variant:
