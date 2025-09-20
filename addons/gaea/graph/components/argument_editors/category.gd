@@ -15,22 +15,22 @@ func _configure() -> void:
 	_collapse_button.texture_normal = editor_interface.get_base_control().get_theme_icon(&"GuiTreeArrowDown", &"EditorIcons")
 	_collapse_button.texture_pressed = editor_interface.get_base_control().get_theme_icon(&"GuiTreeArrowRight", &"EditorIcons")
 	_collapse_button.visible = hint.get("collapsable", true)
-	
+
 
 func set_label_text(new_text: String) -> void:
 	super ("[b]%s[/b]" % new_text)
-	
-	
+
+
 func get_arg_value() -> bool:
 	if super () != null:
 		return super ()
 	return _collapse_button.button_pressed
-	
+
 
 func set_arg_value(new_value: Variant) -> void:
 	if typeof(new_value) != TYPE_BOOL:
 		return
-		
+
 	if not hint.get("collapsable", true):
 		new_value = false
 
@@ -40,14 +40,14 @@ func set_arg_value(new_value: Variant) -> void:
 func _on_label_gui_input(event: InputEvent) -> void:
 	if not hint.get("collapsable", true):
 		return
-		
+
 	if event is InputEventMouseButton:
 		if not event.is_pressed():
 			return
-		
+
 		if not event.button_index == MOUSE_BUTTON_LEFT:
 			return
-			
+
 		_collapse_button.set_pressed(not _collapse_button.button_pressed)
 
 

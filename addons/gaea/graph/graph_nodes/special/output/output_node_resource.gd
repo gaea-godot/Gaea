@@ -100,5 +100,6 @@ func get_title_color() -> Color:
 func _get_output_ports_list() -> Array[StringName]:
 	return []
 
-func _get_output_port_type(output_name: StringName) -> GaeaValue.Type:
+
+func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.NULL

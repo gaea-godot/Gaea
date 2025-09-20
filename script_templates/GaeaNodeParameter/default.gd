@@ -1,6 +1,6 @@
 @tool
 # class_name GaeaNode...Parameter
-extends GaeaNodeResource
+extends GaeaNodeParameter
 ## type parameter editable in the inspector.
 
 

@@ -32,7 +32,7 @@ func _get_arguments_list() -> Array[StringName]:
 
 
 func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
-	return super(arg_name)
+	return GaeaValue.Type.NULL
 
 
 func _get_argument_default_value(arg_name: StringName) -> Variant:
