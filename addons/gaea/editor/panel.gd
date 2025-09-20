@@ -106,6 +106,7 @@ func populate(node: GaeaGenerator) -> void:
 		_selected_generator.data_changed.disconnect(_on_data_changed)
 
 	_selected_generator = node
+	_graph_edit.generator = node
 
 	if not _selected_generator.data_changed.is_connected(_on_data_changed):
 		_selected_generator.data_changed.connect(_on_data_changed)
@@ -144,45 +145,6 @@ func _remove_children() -> void:
 
 func _save_data() -> void:
 	return
-	if is_loading or not is_instance_valid(_selected_generator) or not is_instance_valid(_selected_generator.data):
-		return
-
-	var resource_uids: Dictionary[int, String]
-	var resources: Dictionary[int, GaeaNodeResource]
-	var connections: Array[Dictionary] = _graph_edit.get_connection_list()
-	var other: Dictionary
-
-	other.set(&"save_version", GaeaGraph.CURRENT_SAVE_VERSION)
-
-	var children = _graph_edit.get_children()
-	for child in children:
-		if child is GaeaGraphNode:
-			resource_uids.set(child.resource.id, ResourceUID.id_to_text(
-				ResourceLoader.get_resource_uid(child.resource.get_script().get_path())
-			))
-			resources.set(child.resource.id, child.resource)
-		elif child is GaeaGraphFrame:
-			other.get_or_add(&"frames", []).append(child.get_save_data())
-
-	for connection in connections:
-		var from_node: GraphNode = _graph_edit.get_node(NodePath(connection.from_node))
-		var to_node: GraphNode = _graph_edit.get_node(NodePath(connection.to_node))
-
-		connection.from_node = from_node.resource.id
-		connection.to_node = to_node.resource.id
-
-	for resource in resources.values():
-		var save_data = resource.node.get_save_data()
-		resource.arguments = save_data.get("arguments", {})
-		_selected_generator.data.set_node_data(resource.id, save_data)
-
-	#_selected_generator.data._connections = connections
-	#_selected_generator.data._resources = resources
-	#_selected_generator.data._resource_uids = resource_uids
-	#_selected_generator.data._node_data = node_data
-	#_selected_generator.data.other = other
-
-	#EditorInterface.mark_scene_as_unsaved()
 
 
 

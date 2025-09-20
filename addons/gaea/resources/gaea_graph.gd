@@ -45,7 +45,7 @@ enum NodeType {
 ## }
 ## [/codeblock]
 ## [br][color=yellow][b]Warning:[/b][/color] Setting this directly can break your saved graph.
-@export_storage var _connections: Array[Dictionary]
+@export var _connections: Array[Dictionary]
 ## @deprecated
 ## Kept for migration of old save data.
 var connections: Array[Dictionary]
@@ -129,12 +129,26 @@ func get_ids() -> Array[int]:
 
 
 func add_connection(from_id: int, from_port: int, to_id: int, to_port: int) -> void:
-	_connections.append({
+	var connection: Dictionary = {
 		"from_node": from_id,
 		"from_port": from_port,
 		"to_node": to_id,
 		"to_port": to_port
-	})
+		}
+	if _connections.has(connection):
+		return
+
+	_connections.append(connection)
+
+
+func remove_connection(from_id: int, from_port: int, to_id: int, to_port: int) -> void:
+	var connection: Dictionary = {
+		"from_node": from_id,
+		"from_port": from_port,
+		"to_node": to_id,
+		"to_port": to_port
+		}
+	_connections.erase(connection)
 
 
 func get_connections_to(id: int) -> void:

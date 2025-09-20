@@ -6,6 +6,7 @@ signal connection_update_requested
 signal save_requested
 
 var attached_elements: Dictionary
+var generator: GaeaGenerator
 
 func _init() -> void:
 	for cast in GaeaValueCast.get_cast_list():
@@ -46,10 +47,11 @@ func _on_connection_request(from_node: StringName, from_port: int, to_node: Stri
 	if is_nodes_connected_relatively(from_node, to_node):
 		return
 
-	var target_node: GaeaGraphNode = get_node(NodePath(to_node))
+	var to_graph_node: GaeaGraphNode = get_node(NodePath(to_node))
+	var from_graph_node: GaeaGraphNode = get_node(NodePath(from_node))
 
-	if target_node is GaeaGraphNode:
-		for connection in target_node.connections:
+	if to_graph_node is GaeaGraphNode:
+		for connection in to_graph_node.connections:
 			if connection.to_port == to_port:
 				disconnection_request.emit(
 					connection.from_node,
@@ -57,6 +59,7 @@ func _on_connection_request(from_node: StringName, from_port: int, to_node: Stri
 					connection.to_node,
 					connection.to_port
 				)
+
 	else:
 		for connection: Dictionary in get_connection_list():
 			if connection.to_node == to_node and connection.to_port == to_port:
@@ -68,13 +71,14 @@ func _on_connection_request(from_node: StringName, from_port: int, to_node: Stri
 				)
 
 	connect_node(from_node, from_port, to_node, to_port)
+	generator.data.add_connection(from_graph_node.resource.id, from_port, to_graph_node.resource.id, to_port)
 	connection_update_requested.emit()
 
-	if get_node(NodePath(from_node)).has_finished_loading():
-		get_node(NodePath(from_node)).notify_connections_updated.call_deferred()
+	if from_graph_node.has_finished_loading():
+		from_graph_node.notify_connections_updated.call_deferred()
 
-	if target_node.has_finished_loading():
-		target_node.notify_connections_updated.call_deferred()
+	if to_graph_node.has_finished_loading():
+		to_graph_node.notify_connections_updated.call_deferred()
 
 	save_requested.emit()
 
@@ -83,12 +87,18 @@ func _on_disconnection_request(from_node: StringName, from_port: int, to_node: S
 	disconnect_node(from_node, from_port, to_node, to_port)
 	connection_update_requested.emit()
 
-	if get_node(NodePath(from_node)).has_finished_loading():
-		get_node(NodePath(from_node)).notify_connections_updated.call_deferred()
-	if get_node(NodePath(to_node)).has_finished_loading():
-		get_node(NodePath(to_node)).notify_connections_updated.call_deferred()
+	var to_graph_node: GaeaGraphNode = get_node(NodePath(to_node))
+	var from_graph_node: GaeaGraphNode = get_node(NodePath(from_node))
+
+	generator.data.remove_connection(from_graph_node.resource.id, from_port, to_graph_node.resource.id, to_port)
+
+	if from_graph_node.has_finished_loading():
+		from_graph_node.notify_connections_updated.call_deferred()
+	if to_graph_node.has_finished_loading():
+		to_graph_node.notify_connections_updated.call_deferred()
 
 	save_requested.emit()
+
 
 func remove_invalid_connections() -> void:
 	for connection in get_connection_list():
