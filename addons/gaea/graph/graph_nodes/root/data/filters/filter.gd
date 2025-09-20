@@ -35,10 +35,6 @@ func _get_output_port_display_name(output_name: StringName) -> String:
 	return super(output_name)
 
 
-func _is_available() -> bool:
-	return get_type() != GaeaValue.Type.NULL
-
-
 func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary:
 	seed(graph.generator.seed + salt)
 

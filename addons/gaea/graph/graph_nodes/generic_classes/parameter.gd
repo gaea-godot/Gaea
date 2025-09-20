@@ -1,4 +1,5 @@
 @tool
+@abstract
 extends GaeaNodeResource
 class_name GaeaNodeParameter
 ## Generic class for [b]TypeParameter[/b] nodes. See [enum GaeaValue.Type].

@@ -84,7 +84,3 @@ func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Varian
 				_get_arg(&"z", area, graph),
 			)
 	return null
-
-
-func _is_available() -> bool:
-	return true

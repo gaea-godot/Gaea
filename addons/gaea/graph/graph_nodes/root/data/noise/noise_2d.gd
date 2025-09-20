@@ -14,7 +14,3 @@ func _get_description() -> String:
 
 func _get_noise_value(cell: Vector3i, noise: FastNoiseLite) -> float:
 	return noise.get_noise_2d(cell.x, cell.y)
-
-
-func _is_available() -> bool:
-	return true

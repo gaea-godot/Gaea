@@ -23,10 +23,6 @@ func _has_input_slot(_arg_name: StringName) -> bool:
 	return false
 
 
-func _is_available() -> bool:
-	return get_type() != GaeaValue.Type.NULL
-
-
 func _get_output_ports_list() -> Array[StringName]:
 	return [&"constant"]
 

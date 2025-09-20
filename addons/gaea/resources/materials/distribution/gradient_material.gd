@@ -67,6 +67,10 @@ func _is_sampled() -> bool:
 	return true
 
 
+func _is_data() -> bool:
+	return false
+
+
 func _get_sampled_resource(_rng: RandomNumberGenerator, value: float) -> GaeaMaterial:
 	for idx: int in points.size():
 		var next_point_offset: float

@@ -112,11 +112,6 @@ func _get_argument_type(_arg_name: StringName) -> GaeaValue.Type:
 
 
 
-
-func _is_available() -> bool:
-	return get_type() != GaeaValue.Type.NULL
-
-
 func _on_enum_value_changed(_enum_idx: int, _option_value: int) -> void:
 	notify_argument_list_changed()
 

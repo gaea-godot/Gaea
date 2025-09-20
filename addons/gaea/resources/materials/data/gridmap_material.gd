@@ -10,5 +10,9 @@ extends GaeaMaterial
 @export var orientation: int = 0
 
 
+func _is_sampled() -> bool:
+	return false
+
+
 func _is_data() -> bool:
 	return true

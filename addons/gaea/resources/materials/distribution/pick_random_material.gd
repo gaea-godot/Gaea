@@ -39,6 +39,14 @@ extends GaeaMaterial
 			weights = value
 
 
+func _is_sampled() -> bool:
+	return false
+
+
+func _is_data() -> bool:
+	return false
+
+
 ## Return the random picked material.
 func _get_resource(rng: RandomNumberGenerator) -> GaeaMaterial:
 	var material_index: int = rng.rand_weighted(weights)

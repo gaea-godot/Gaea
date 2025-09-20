@@ -1,5 +1,6 @@
 @tool
 @icon("../../assets/types/material.svg")
+@abstract
 class_name GaeaMaterial
 extends Resource
 ## Used to tell the [GaeaRenderer] what to draw at a specific point.
@@ -28,8 +29,7 @@ func is_sampled() -> bool:
 
 
 ## Whether or not this material is sampled for each cell.
-func _is_sampled() -> bool:
-	return false
+@abstract func _is_sampled() -> bool
 
 
 ## Public version of [method _is_data]. Prefer overriding that method instead of this one.
@@ -38,8 +38,7 @@ func is_data() -> bool:
 
 
 ## Whether or not this material is a valid data material for the renderer.
-func _is_data() -> bool:
-	return false
+@abstract func _is_data() -> bool
 
 
 ## Public version of [method _get_sampled_resource]. Prefer overriding that method instead of this one.

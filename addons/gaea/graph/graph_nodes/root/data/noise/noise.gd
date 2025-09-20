@@ -1,4 +1,5 @@
 @tool
+@abstract
 extends GaeaNodeResource
 class_name GaeaNodeNoise
 ## Creates a grid of values from [code]0.0[/code] to [code]1.0[/code] based on a noise algorithm.
@@ -75,10 +76,6 @@ func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictio
 				dictionary[Vector3i(x, y, z)] = (_get_noise_value(Vector3i(x, y, z), _noise) + 1.0) / 2.0
 	return dictionary
 
-
-# Hide from the 'Create Node' dialog because this is the base class and only the 2D and 3D versions should show.
-func _is_available() -> bool:
-	return false
 
 
 func _get_noise_value(_cell: Vector3i, _noise: FastNoiseLite) -> float:

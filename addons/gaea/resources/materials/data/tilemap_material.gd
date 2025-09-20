@@ -6,7 +6,7 @@ extends GaeaMaterial
 enum Type {
 	SINGLE_CELL, ## Tile is just a single cell in the TileMap. Requires a [param source_id] and a [param atlas_coord]. Can optionally be an [param alternative_tile].
 	TERRAIN,  ## Tile is a terrain from a terrain set. Allows for autotiling. Requires a [param terrain_set] and a [param terrain]
-	PATTERN  ## Tile is a pattern of cell. Requires a [param pattern_index] and a [param pattern_offset]. 
+	PATTERN  ## Tile is a pattern of cell. Requires a [param pattern_index] and a [param pattern_offset].
 }
 
 ## Determines how the [TileMapGaeaRenderer] uses this material.
@@ -45,6 +45,10 @@ func _validate_property(property: Dictionary) -> void:
 	if type != Type.PATTERN:
 		if property.name.begins_with("pattern"):
 			property.usage = PROPERTY_USAGE_NONE
+
+
+func _is_sampled() -> bool:
+	return false
 
 
 func _is_data() -> bool:

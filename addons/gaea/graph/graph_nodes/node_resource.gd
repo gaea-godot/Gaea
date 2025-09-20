@@ -319,8 +319,9 @@ func _get_overridden_output_port_idx(output_name: StringName) -> int:
 
 
 ## If this returns [code]false[/code], this node won't show up in the 'Create Node' dialog.
+## By default, it hides nodes with the [annotation @GDScript.@abstract] annotation.
 func _is_available() -> bool:
-	return true
+	return not get_script().is_abstract()
 
 
 func set_enum_value(enum_idx: int, option_value: int) -> void:
