@@ -44,12 +44,6 @@ func get_save_data() -> Dictionary:
 	return data
 
 
-func load_save_data(saved_data: Dictionary) -> void:
-	if saved_data.has("type"):
-		resource.type = saved_data.get("type")
-	super(saved_data)
-
-
 func on_type_changed():
 	var type = resource.get_type()
 	var color = GaeaValue.get_color(type)

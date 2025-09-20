@@ -45,7 +45,7 @@ const GAEA_MATERIAL_GRADIENT_HINT := "Resource that maps values from 0.0-1.0 to 
 var connections: Array[Dictionary]
 ## The related [GaeaGraphNode] for editing in the Gaea graph editor.
 ## This is null during runtime.
-var node: GaeaGraphNode
+var node: GraphElement
 ## A Dictionary holding the values of the arguments
 ## where the keys are their names.
 var arguments: Dictionary
@@ -204,6 +204,11 @@ func is_available() -> bool:
 	return _is_available()
 
 
+## Public version of [method _get_custom_saved_data]. Prefer to override that method over this one.
+func get_custom_saved_data() -> Dictionary[StringName, Variant]:
+	return _get_custom_saved_data()
+
+
 ## Override this method to define the name shown in the title bar of this node.
 ## Defining this method is [b]required[/b].
 @abstract func _get_title() -> String
@@ -326,6 +331,11 @@ func _is_available() -> bool:
 	return not get_script().is_abstract()
 
 
+## Override to append custom data to the saved data in [GaeaGraph._node_data].
+func _get_custom_saved_data() -> Dictionary[StringName, Variant]:
+	return {}
+
+
 func set_enum_value(enum_idx: int, option_value: int) -> void:
 	if enum_idx >= enum_selections.size():
 		for idx in _get_enums_count():
@@ -352,6 +362,9 @@ func set_argument_value(arg_name: StringName, new_value: Variant) -> void:
 ## [method notify_arguments_list_changed] to rebuild the node.
 func _on_argument_value_changed(arg_name: StringName, new_value: Variant) -> void:
 	return
+
+
+
 
 
 

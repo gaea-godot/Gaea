@@ -53,5 +53,9 @@ func _use_caching(_output_port: StringName, _graph: GaeaGraph) -> bool:
 
 
 func _load_save_data(saved_data: Dictionary) -> void:
-	type = saved_data.get("type", GaeaValue.Type.NULL)
+	type = saved_data.get(&"reroute_type", GaeaValue.Type.NULL)
 	super(saved_data)
+
+
+func _get_custom_saved_data() -> Dictionary[StringName, Variant]:
+	return {&"reroute_type": type}

@@ -19,6 +19,11 @@ enum Log {
 	ARGS=8  ## Log which arguments are being grabbed.
 }
 
+enum NodeType {
+	NODE,
+	FRAME
+}
+
 ## [GaeaLayer]s as seen in the Output node in the graph. Can be used
 ## to allow more than one [GaeaMaterial] in a single tile.
 @export var layers: Array[GaeaLayer] = [GaeaLayer.new()] :
@@ -40,13 +45,10 @@ enum Log {
 ## }
 ## [/codeblock]
 ## [br][color=yellow][b]Warning:[/b][/color] Setting this directly can break your saved graph.
-@export var _connections: Array[Dictionary]
+@export_storage var _connections: Array[Dictionary]
 ## @deprecated
 ## Kept for migration of old save data.
 var connections: Array[Dictionary]
-## List of all UIDs of the [GaeaNodeResource]s in the graph.
-## [br][color=yellow][b]Warning:[/b][/color] Setting this directly can break your saved graph.
-@export_storage var _resource_uids: Dictionary[int, String]
 ## @deprecated
 ## Kept for migration of old save data.
 var resource_uids: Array[String]
@@ -87,16 +89,23 @@ func _init() -> void:
 
 
 func add_node(node: GaeaNodeResource, position: Vector2, id: int) -> void:
-	_resource_uids.set(id,
-		ResourceUID.id_to_text(
-				ResourceLoader.get_resource_uid(node.get_script().get_path())
-		)
-	)
-
-	var _save_data: Dictionary = {
+	_node_data.set(id,
+	{
+		&"type": NodeType.NODE,
 		&"position": position,
-		&"salt": randi()
-	}
+		&"salt": randi(),
+		&"uid": ResourceUID.id_to_text(
+					ResourceLoader.get_resource_uid(node.get_script().get_path())
+				)
+	}.merged(node.get_custom_saved_data()))
+
+
+func add_frame(position: Vector2, id: int) -> void:
+	_node_data.set(id,
+	{
+		&"type": NodeType.FRAME,
+		&"position": position,
+	})
 
 
 func get_node(id: int) -> GaeaNodeResource:
@@ -104,7 +113,7 @@ func get_node(id: int) -> GaeaNodeResource:
 
 
 func get_nodes() -> Array[GaeaNodeResource]:
-	return _resources.keys()
+	return _resources.values()
 
 
 func set_node_data(id: int, data: Dictionary) -> void:
@@ -140,12 +149,12 @@ func get_connections_from(id: int) -> void:
 	)
 
 
-## Get the parameter of [param name] from [member parameters].
+## Get the parameter of [param name] from [member _parameters].
 func get_parameter(name: StringName) -> Variant:
 	return _get(name)
 
 
-## Set the parameter of [param name] from [member parameters] to [param value].
+## Set the parameter of [param name] from [member _parameters] to [param value].
 func set_parameter(name: StringName, value: Variant) -> void:
 	_set(name, value)
 
@@ -157,9 +166,9 @@ func _get_property_list() -> Array[Dictionary]:
 		"type": TYPE_NIL,
 		"usage": PROPERTY_USAGE_GROUP,
 	})
-	for variable in parameters.values():
+	for variable in _parameters.values():
 		if variable == null:
-			parameters.erase(parameters.find_key(variable))
+			_parameters.erase(_parameters.find_key(variable))
 			continue
 
 		list.append(variable)
@@ -168,7 +177,7 @@ func _get_property_list() -> Array[Dictionary]:
 
 
 func _set(property: StringName, value: Variant) -> bool:
-	for variable in parameters.values():
+	for variable in _parameters.values():
 		if variable == null:
 			continue
 
@@ -179,7 +188,7 @@ func _set(property: StringName, value: Variant) -> bool:
 
 
 func _get(property: StringName) -> Variant:
-	for variable in parameters.values():
+	for variable in _parameters.values():
 		if variable == null:
 			continue
 
@@ -194,9 +203,9 @@ func _setup_local_to_scene() -> void:
 		GaeaGraphMigration.migrate(self)
 
 	_resources.clear()
-	for id in _resource_uids.keys():
-		var base_uid: String = _resource_uids.get(id, "")
-		if base_uid == "":
+	for id in _node_data.keys():
+		var base_uid: String = get_node_data(id).get(&"uid", "")
+		if base_uid.is_empty():
 			continue
 		var data: Dictionary = _node_data.get(id, {})
 		var resource: GaeaNodeResource = load(base_uid).new()

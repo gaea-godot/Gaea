@@ -152,14 +152,11 @@ static func _migration_step_node_ids(data: GaeaGraph):
 	if not data.node_data.is_empty():
 		var _node_data: Dictionary[int, Dictionary]
 		for idx in data.node_data.size():
-			_node_data.set(idx, data.node_data[idx])
-		data._node_data = _node_data
+			var _data = data.node_data[idx].duplicate() as Dictionary[StringName, Variant]
+			_data.set(&"uid", data.resource_uids[idx])
+			_node_data.set(idx, _data)
 
-	if not data.resource_uids.is_empty():
-		var _resource_uids: Dictionary[int, String]
-		for idx in data.node_data.size():
-			_resource_uids.set(idx, data.resource_uids[idx])
-		data._resource_uids = _resource_uids
+			data._node_data.set(idx, _node_data[idx])
 
 	if not data.connections.is_empty():
 		data._connections = data.connections.duplicate()
@@ -172,7 +169,7 @@ static func _migration_step_node_ids(data: GaeaGraph):
 	data.other.clear()
 	data.parameters.clear()
 
-	for frame_data: Dictionary in data._other.get(&"frames"):
+	for frame_data: Dictionary in data._other.get(&"frames", {}):
 		var new_attached: Array[int]
 		var attached_frames: Array[StringName]
 		for attached_name: StringName in frame_data.get(&"attached"):
@@ -190,6 +187,7 @@ static func _migration_step_node_ids(data: GaeaGraph):
 					attached_frames.append(attached_name)
 		frame_data[&"attached"] = new_attached
 		frame_data[&"attached_frames"] = attached_frames
+
 
 
 	data._other.set(&"save_version", 4)
