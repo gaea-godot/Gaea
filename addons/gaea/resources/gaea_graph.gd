@@ -45,7 +45,7 @@ enum NodeType {
 ## }
 ## [/codeblock]
 ## [br][color=yellow][b]Warning:[/b][/color] Setting this directly can break your saved graph.
-@export var _connections: Array[Dictionary]
+@export_storage var _connections: Array[Dictionary]
 ## @deprecated
 ## Kept for migration of old save data.
 var connections: Array[Dictionary]
@@ -59,7 +59,7 @@ var resources: Array[GaeaNodeResource]
 var _resources: Dictionary[int, GaeaNodeResource]
 ## Saved data for each [GaeaNodeResource] such as position in the graph and changed arguments.
 ## [br][color=yellow][b]Warning:[/b][/color] Setting this directly can break your saved graph.
-@export var _node_data: Dictionary[int, Dictionary]
+@export_storage var _node_data: Dictionary[int, Dictionary]
 ## @deprecated
 ## Kept for migration of old save data.
 var node_data: Array[Dictionary]
@@ -125,6 +125,10 @@ func set_node_position(position: Vector2, id: int) -> void:
 
 func set_node_argument(arg_name: StringName, value: Variant, id: int) -> void:
 	get_node_data(id).get_or_add(&"arguments", {}).set(arg_name, value)
+
+
+func set_node_data_value(key: StringName, value: Variant, id: int) -> void:
+	get_node_data(id).set(key, value)
 
 
 func attach_node_to_frame(node_id: int, frame_id: int) -> void:

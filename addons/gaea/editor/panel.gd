@@ -206,6 +206,7 @@ func _load_frame(frame_data: Dictionary) -> GaeaGraphFrame:
 
 func _load_node(resource: GaeaNodeResource, saved_data: Dictionary, id: int) -> GraphNode:
 	var node: GaeaGraphNode = resource.get_scene().instantiate()
+	resource.load_save_data(saved_data)
 	if resource.get_scene_script() != null:
 		node.set_script(resource.get_scene_script())
 
@@ -213,7 +214,6 @@ func _load_node(resource: GaeaNodeResource, saved_data: Dictionary, id: int) -> 
 	node.generator = get_selected_generator()
 	node.remove_invalid_connections_requested.connect(_graph_edit.remove_invalid_connections)
 	_graph_edit.add_child(node)
-	node.save_requested.connect(_save_data)
 	node.resource.id = id
 
 	if is_instance_valid(node):
@@ -290,7 +290,6 @@ func _add_node(resource: GaeaNodeResource, local_grid_position: Vector2) -> Grap
 	if node is GaeaGraphNode:
 		node.generator = get_selected_generator()
 		node.remove_invalid_connections_requested.connect(_graph_edit.remove_invalid_connections)
-		node.save_requested.connect(_save_data)
 
 	node.resource = resource
 	node.position_offset = local_grid_position
@@ -319,14 +318,17 @@ func _on_tree_special_node_selected_for_creation(id: StringName) -> void:
 
 
 func _on_new_reroute_requested(connection: Dictionary) -> void:
-	var reroute: GaeaGraphNode = _add_node(GaeaNodeReroute.new(), Vector2.ZERO)
+	var resource: GaeaNodeReroute = GaeaNodeReroute.new()
+	var from_node: GraphNode = _graph_edit.get_node(NodePath(connection.from_node))
+	resource.type = from_node.get_output_port_type(connection.from_port) as GaeaValue.Type
+	var reroute: GaeaGraphNode = _add_node(resource, Vector2.ZERO)
 
 	var offset = - reroute.get_output_port_position(0)
 	offset.y -= reroute.get_slot_custom_icon_right(0).get_size().y * 0.5
 	reroute.set_position_offset(_graph_edit.local_to_grid(_node_creation_target, offset))
 
-	var from_node: GraphNode = _graph_edit.get_node(NodePath(connection.from_node))
-	reroute.resource.type = from_node.get_output_port_type(connection.from_port) as GaeaValue.Type
+	_selected_generator.data.set_node_position(reroute.position_offset, reroute.resource.id)
+
 
 	_graph_edit.disconnection_request.emit.call_deferred(
 		connection.from_node, connection.from_port,

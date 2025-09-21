@@ -13,6 +13,8 @@ var has_no_input: bool = false:
 	set(new_value):
 		has_no_input = new_value
 		queue_redraw()
+	get:
+		return connections.size() == 0
 
 #region init
 func _on_added() -> void:
@@ -21,8 +23,6 @@ func _on_added() -> void:
 
 	resource.node = self
 	resource.argument_list_changed.connect(on_type_changed)
-
-	connections_updated.connect(_validate_connections)
 
 	var titlebar_hbox = get_titlebar_hbox()
 	var titlebar_label = titlebar_hbox.get_child(0)
@@ -33,14 +33,12 @@ func _on_added() -> void:
 	titlebar_hbox.mouse_entered.connect(_set_icon_opacity.bind(1.0))
 	titlebar_hbox.mouse_exited.connect(_set_icon_opacity.bind(0.0))
 
-	_validate_connections()
-
 	on_type_changed()
 
 
 func get_save_data() -> Dictionary:
 	var data = super()
-	data.set("type", resource.get_type())
+	data.set(&"reroute_type", resource.get_type())
 	return data
 
 
@@ -51,6 +49,8 @@ func on_type_changed():
 	set_slot_type_left(0, type)
 	set_slot_type_right(0, type)
 	set_slot_custom_icon_right(0, GaeaValue.get_slot_icon(type))
+	generator.data.set_node_data_value(&"reroute_type", resource.get_type(), resource.id)
+
 #endregion
 
 
@@ -139,7 +139,3 @@ func _set_icon_opacity(value: float):
 	tween = create_tween()
 	tween.tween_property(self, "icon_opacity", value, 0.3)
 #endregion
-
-
-func _validate_connections():
-	has_no_input = connections.size() == 0
