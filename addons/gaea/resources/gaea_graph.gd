@@ -279,7 +279,7 @@ func _get(property: StringName) -> Variant:
 
 func _setup_local_to_scene() -> void:
 	#Data migration from previous version.
-	if other.get(&"save_version", -1) != CURRENT_SAVE_VERSION:
+	if _other.get(&"save_version", other.get(&"save_version", -1)) != CURRENT_SAVE_VERSION:
 		GaeaGraphMigration.migrate(self)
 
 	_resources.clear()

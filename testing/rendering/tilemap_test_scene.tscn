@@ -8,13 +8,6 @@
 [ext_resource type="Script" uid="uid://b4x16tyyfihmb" path="res://addons/gaea/nodes/renderers/tilemap_renderer.gd" id="6_ay818"]
 [ext_resource type="Texture2D" uid="uid://druqwrm3nwuao" path="res://scenes/walker_demo/tileset.png" id="7_q3jyc"]
 
-[sub_resource type="Resource" id="Resource_yypbs"]
-script = ExtResource("3_frm4e")
-
-[sub_resource type="Resource" id="Resource_6wvsa"]
-script = ExtResource("3_frm4e")
-metadata/_custom_type_script = "uid://3qsmwhn2sk47"
-
 [sub_resource type="Resource" id="Resource_brphb"]
 script = ExtResource("4_1kltg")
 preview_color = Color(0.65503, 0.0713978, 0.683211, 1)
@@ -26,11 +19,18 @@ atlas_coord = Vector2i(1, 0)
 preview_color = Color(0.947701, 0.668957, 0.320149, 1)
 metadata/_custom_type_script = "uid://e45byecr4gi6"
 
+[sub_resource type="Resource" id="Resource_yypbs"]
+script = ExtResource("3_frm4e")
+
+[sub_resource type="Resource" id="Resource_6wvsa"]
+script = ExtResource("3_frm4e")
+metadata/_custom_type_script = "uid://3qsmwhn2sk47"
+
 [sub_resource type="Resource" id="Resource_ohuek"]
 resource_local_to_scene = true
 script = ExtResource("5_kmg7b")
 layers = Array[ExtResource("3_frm4e")]([SubResource("Resource_yypbs"), SubResource("Resource_6wvsa")])
-connections = Array[Dictionary]([{
+_connections = Array[Dictionary]([{
 "from_node": 1,
 "from_port": 0,
 "keep_alive": false,
@@ -66,60 +66,116 @@ connections = Array[Dictionary]([{
 "keep_alive": false,
 "to_node": 0,
 "to_port": 1
+}, {
+"from_node": 1,
+"from_port": 0,
+"to_node": 2,
+"to_port": 0
+}, {
+"from_node": 1,
+"from_port": 0,
+"to_node": 3,
+"to_port": 0
+}, {
+"from_node": 4,
+"from_port": 0,
+"to_node": 2,
+"to_port": 1
+}, {
+"from_node": 5,
+"from_port": 0,
+"to_node": 3,
+"to_port": 1
+}, {
+"from_node": 2,
+"from_port": 0,
+"to_node": 0,
+"to_port": 0
+}, {
+"from_node": 3,
+"from_port": 0,
+"to_node": 0,
+"to_port": 1
 }])
-resource_uids = Array[String](["uid://dol7xviglksx4", "uid://cgjyi804j05dy", "uid://djjvx650evm0n", "uid://djjvx650evm0n", "uid://cqs1w714pbfql", "uid://cqs1w714pbfql"])
-node_data = Array[Dictionary]([{
-&"arguments": {},
-&"enums": [],
-"name": &"BaseNode",
-"position": Vector2(0, 0),
-"salt": 326923984
-}, {
-&"arguments": {},
+_node_data = Dictionary[int, Dictionary]({
+0: {
+&"position": Vector2(0, 0),
+&"salt": 3121952052,
+&"type": 0,
+&"uid": "uid://dol7xviglksx4"
+},
+1: {
 &"enums": [1],
-"name": &"_GraphNode_32292",
-"position": Vector2(-920, -180),
-"salt": 3798772802
-}, {
+&"position": Vector2(-920, -180),
+&"salt": 2523299010,
+&"type": 0,
+&"uid": "uid://cgjyi804j05dy"
+},
+2: {
 &"arguments": {
+&"material": null,
 &"range": {
 "max": 1.0,
 "min": 0.5
-}
 },
-&"enums": [],
-"name": &"_GraphNode_32393",
-"position": Vector2(-500, -180),
-"salt": 3380315837
-}, {
+&"reference_data": Dictionary[Vector3i, float]({})
+},
+&"position": Vector2(-500, -180),
+&"salt": 2789148070,
+&"type": 0,
+&"uid": "uid://djjvx650evm0n"
+},
+3: {
 &"arguments": {
+&"material": null,
 &"range": {
 "max": 0.5,
 "min": 0.0
-}
 },
-&"enums": [],
-"name": &"_GraphNode_32467",
-"position": Vector2(-500, 80),
-"salt": 3647513594
-}, {
+&"reference_data": Dictionary[Vector3i, float]({})
+},
+&"position": Vector2(-500, 80),
+&"salt": 1228340443,
+&"type": 0,
+&"uid": "uid://djjvx650evm0n"
+},
+4: {
 &"arguments": {
 &"name": "Grass"
 },
-&"enums": [],
-"name": &"_GraphNode_32546",
-"position": Vector2(-720, -200),
-"salt": 2975531569
-}, {
+&"position": Vector2(-720, -200),
+&"salt": 1369664547,
+&"type": 0,
+&"uid": "uid://cqs1w714pbfql"
+},
+5: {
 &"arguments": {
 &"name": "Sand"
 },
-&"enums": [],
-"name": &"_GraphNode_32551",
-"position": Vector2(-740, 160),
-"salt": 199162274
-}])
-parameters = Dictionary[StringName, Variant]({
+&"position": Vector2(-740, 160),
+&"salt": 1877998662,
+&"type": 0,
+&"uid": "uid://cqs1w714pbfql"
+},
+6: {
+&"attached": [8, 7],
+&"name": &"_GraphFrame_34166",
+&"position": Vector2(-1580, -280),
+&"type": 1
+},
+7: {
+&"name": &"_GraphFrame_34169",
+&"position": Vector2(-1600, -200),
+&"type": 1
+},
+8: {
+&"attached": [6],
+&"name": &"_GraphFrame_36464",
+&"position": Vector2(-1580, -300),
+&"type": 1
+}
+})
+_parameters = Dictionary[StringName, Variant]({
 &"Grass": {
 "hint": 17,
 "hint_string": "GaeaMaterial",
@@ -137,8 +193,8 @@ parameters = Dictionary[StringName, Variant]({
 "value": SubResource("Resource_cxykr")
 }
 })
-other = {
-&"save_version": 3
+_other = {
+&"save_version": 4
 }
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ljnpl"]

@@ -4,32 +4,26 @@
 [ext_resource type="Script" uid="uid://cj08rybcfwlle" path="res://addons/gaea/resources/materials/gaea_material.gd" id="2_du0iw"]
 [ext_resource type="Script" uid="uid://3qsmwhn2sk47" path="res://addons/gaea/resources/gaea_layer.gd" id="2_mfpnn"]
 [ext_resource type="Script" uid="uid://dtocuov1r8agi" path="res://addons/gaea/resources/materials/distribution/pointwise_random_material.gd" id="3_kk1e5"]
-[ext_resource type="Script" uid="uid://dae6umbqb872e" path="res://addons/gaea/resources/gaea_graph.gd" id="10_drb3t"]
+[ext_resource type="Script" uid="uid://dae6umbqb872e" path="res://addons/gaea/resources/gaea_graph.gd" id="5_mui55"]
 
 [sub_resource type="Resource" id="Resource_j6vep"]
 script = ExtResource("1_wtjh4")
-type = 0
 source_id = 1
 atlas_coord = Vector2i(2, 1)
-alternative_tile = 0
 preview_color = Color(0.548666, 0.952075, 0.652068, 1)
 metadata/_custom_type_script = "uid://e45byecr4gi6"
 
 [sub_resource type="Resource" id="Resource_o0o4j"]
 script = ExtResource("1_wtjh4")
-type = 0
 source_id = 1
 atlas_coord = Vector2i(0, 1)
-alternative_tile = 0
 preview_color = Color(0.85098, 0.580392, 0.341176, 1)
 metadata/_custom_type_script = "uid://e45byecr4gi6"
 
 [sub_resource type="Resource" id="Resource_h5ves"]
 script = ExtResource("1_wtjh4")
-type = 0
 source_id = 1
 atlas_coord = Vector2i(0, 2)
-alternative_tile = 0
 preview_color = Color(0.847059, 0.623529, 0.4, 1)
 metadata/_custom_type_script = "uid://e45byecr4gi6"
 
@@ -42,19 +36,15 @@ metadata/_custom_type_script = "uid://dtocuov1r8agi"
 
 [sub_resource type="Resource" id="Resource_lm46c"]
 script = ExtResource("1_wtjh4")
-type = 0
 source_id = 1
 atlas_coord = Vector2i(2, 3)
-alternative_tile = 0
 preview_color = Color(0.627481, 0.227889, 0.838571, 1)
 metadata/_custom_type_script = "uid://e45byecr4gi6"
 
 [sub_resource type="Resource" id="Resource_jlmdo"]
 script = ExtResource("1_wtjh4")
-type = 0
 source_id = 1
 atlas_coord = Vector2i(2, 4)
-alternative_tile = 0
 preview_color = Color(0.483951, 0.769272, 0.838571, 1)
 metadata/_custom_type_script = "uid://e45byecr4gi6"
 
@@ -67,19 +57,15 @@ metadata/_custom_type_script = "uid://dtocuov1r8agi"
 
 [sub_resource type="Resource" id="Resource_qtqn2"]
 script = ExtResource("1_wtjh4")
-type = 0
 source_id = 1
 atlas_coord = Vector2i(0, 3)
-alternative_tile = 0
 preview_color = Color(0.838571, 0.466981, 0.473734, 1)
 metadata/_custom_type_script = "uid://e45byecr4gi6"
 
 [sub_resource type="Resource" id="Resource_wbro0"]
 script = ExtResource("1_wtjh4")
-type = 0
 source_id = 1
 atlas_coord = Vector2i(1, 3)
-alternative_tile = 0
 preview_color = Color(0.834095, 0.838571, 0.515955, 1)
 metadata/_custom_type_script = "uid://e45byecr4gi6"
 
@@ -92,53 +78,43 @@ metadata/_custom_type_script = "uid://dtocuov1r8agi"
 
 [sub_resource type="Resource" id="Resource_30ot8"]
 script = ExtResource("1_wtjh4")
-type = 0
 source_id = 1
 atlas_coord = Vector2i(2, 2)
-alternative_tile = 0
 preview_color = Color(0.248195, 0.605651, 0.342506, 1)
 metadata/_custom_type_script = "uid://e45byecr4gi6"
 
 [sub_resource type="Resource" id="Resource_payrb"]
 script = ExtResource("1_wtjh4")
-type = 0
 source_id = 1
 atlas_coord = Vector2i(1, 2)
-alternative_tile = 0
 preview_color = Color(0.773438, 0.20493, 0.228018, 1)
 metadata/_custom_type_script = "uid://e45byecr4gi6"
 
 [sub_resource type="Resource" id="Resource_kk1e5"]
 script = ExtResource("1_wtjh4")
-type = 0
 source_id = 1
 atlas_coord = Vector2i(1, 1)
-alternative_tile = 0
 preview_color = Color(0.270588, 0.156863, 0.235294, 1)
 metadata/_custom_type_script = "uid://e45byecr4gi6"
 
 [sub_resource type="Resource" id="Resource_nr2x3"]
 resource_name = "Floor"
 script = ExtResource("2_mfpnn")
-enabled = true
 
 [sub_resource type="Resource" id="Resource_entu7"]
 resource_name = "Walls"
 script = ExtResource("2_mfpnn")
-enabled = true
 metadata/_custom_type_script = "uid://3qsmwhn2sk47"
 
 [sub_resource type="Resource" id="Resource_q5q5d"]
 resource_name = "Decorations"
 script = ExtResource("2_mfpnn")
-enabled = true
 metadata/_custom_type_script = "uid://3qsmwhn2sk47"
 
 [resource]
 resource_local_to_scene = true
-script = ExtResource("10_drb3t")
+script = ExtResource("5_mui55")
 layers = Array[ExtResource("2_mfpnn")]([SubResource("Resource_nr2x3"), SubResource("Resource_entu7"), SubResource("Resource_q5q5d")])
-logging = 0
 _connections = Array[Dictionary]([{
 "from_node": 4,
 "from_port": 0,
@@ -146,61 +122,61 @@ _connections = Array[Dictionary]([{
 "to_node": 2,
 "to_port": 1
 }, {
-"from_node": 25,
+"from_node": 23,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 23,
-"to_port": 1
-}, {
-"from_node": 30,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 23,
-"to_port": 0
-}, {
-"from_node": 33,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 27,
-"to_port": 1
-}, {
-"from_node": 27,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 29,
-"to_port": 0
-}, {
-"from_node": 32,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 6,
+"to_node": 21,
 "to_port": 1
 }, {
 "from_node": 28,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 7,
-"to_port": 1
+"to_node": 21,
+"to_port": 0
 }, {
 "from_node": 31,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 17,
+"to_node": 25,
 "to_port": 1
 }, {
-"from_node": 17,
+"from_node": 25,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 18,
+"to_node": 27,
 "to_port": 0
 }, {
+"from_node": 30,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 6,
+"to_port": 1
+}, {
+"from_node": 26,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 7,
+"to_port": 1
+}, {
 "from_node": 29,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 15,
+"to_port": 1
+}, {
+"from_node": 15,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 16,
+"to_port": 0
+}, {
+"from_node": 27,
 "from_port": 0,
 "keep_alive": false,
 "to_node": 5,
 "to_port": 1
 }, {
-"from_node": 24,
+"from_node": 22,
 "from_port": 0,
 "keep_alive": false,
 "to_node": 5,
@@ -209,7 +185,7 @@ _connections = Array[Dictionary]([{
 "from_node": 8,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 27,
+"to_node": 25,
 "to_port": 0
 }, {
 "from_node": 9,
@@ -227,49 +203,37 @@ _connections = Array[Dictionary]([{
 "from_node": 10,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 11,
+"to_node": 15,
 "to_port": 0
 }, {
 "from_node": 11,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 17,
+"to_node": 12,
 "to_port": 0
 }, {
 "from_node": 12,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 13,
-"to_port": 0
-}, {
-"from_node": 13,
-"from_port": 0,
-"keep_alive": false,
 "to_node": 5,
 "to_port": 0
 }, {
-"from_node": 26,
+"from_node": 24,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 14,
-"to_port": 0
-}, {
-"from_node": 14,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 10,
+"to_node": 13,
 "to_port": 0
 }, {
 "from_node": 2,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 12,
+"to_node": 11,
 "to_port": 0
 }, {
 "from_node": 3,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 26,
+"to_node": 24,
 "to_port": 0
 }, {
 "from_node": 3,
@@ -278,29 +242,23 @@ _connections = Array[Dictionary]([{
 "to_node": 2,
 "to_port": 0
 }, {
+"from_node": 14,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 22,
+"to_port": 0
+}, {
 "from_node": 16,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 24,
-"to_port": 0
-}, {
-"from_node": 18,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 24,
+"to_node": 22,
 "to_port": 1
 }, {
-"from_node": 23,
+"from_node": 21,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 24,
+"to_node": 22,
 "to_port": 2
-}, {
-"from_node": 15,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 30,
-"to_port": 0
 }, {
 "from_node": 9,
 "from_port": 0,
@@ -314,7 +272,7 @@ _connections = Array[Dictionary]([{
 "to_node": 6,
 "to_port": 0
 }, {
-"from_node": 14,
+"from_node": 13,
 "from_port": 0,
 "keep_alive": false,
 "to_node": 9,
@@ -323,16 +281,16 @@ _connections = Array[Dictionary]([{
 "from_node": 7,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 29,
+"to_node": 27,
 "to_port": 1
 }, {
 "from_node": 6,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 29,
+"to_node": 27,
 "to_port": 2
 }, {
-"from_node": 22,
+"from_node": 20,
 "from_port": 0,
 "keep_alive": false,
 "to_node": 0,
@@ -341,28 +299,16 @@ _connections = Array[Dictionary]([{
 "from_node": 0,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 16,
+"to_node": 14,
 "to_port": 0
 }, {
-"from_node": 19,
+"from_node": 17,
 "from_port": 0,
 "keep_alive": false,
-"to_node": 20,
+"to_node": 18,
 "to_port": 0
 }, {
-"from_node": 20,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 21,
-"to_port": 0
-}, {
-"from_node": 21,
-"from_port": 0,
-"keep_alive": false,
-"to_node": 0,
-"to_port": 0
-}, {
-"from_node": 3,
+"from_node": 18,
 "from_port": 0,
 "keep_alive": false,
 "to_node": 19,
@@ -371,39 +317,231 @@ _connections = Array[Dictionary]([{
 "from_node": 19,
 "from_port": 0,
 "keep_alive": false,
+"to_node": 0,
+"to_port": 0
+}, {
+"from_node": 3,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 17,
+"to_port": 0
+}, {
+"from_node": 18,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 28,
+"to_port": 0
+}, {
+"from_node": 13,
+"from_port": 0,
+"keep_alive": false,
+"to_node": 10,
+"to_port": 0
+}, {
+"from_node": 11,
+"from_port": 0,
+"to_node": 12,
+"to_port": 0
+}, {
+"from_node": 17,
+"from_port": 0,
+"to_node": 18,
+"to_port": 0
+}, {
+"from_node": 3,
+"from_port": 0,
+"to_node": 2,
+"to_port": 0
+}, {
+"from_node": 0,
+"from_port": 0,
+"to_node": 14,
+"to_port": 0
+}, {
+"from_node": 27,
+"from_port": 0,
+"to_node": 5,
+"to_port": 1
+}, {
+"from_node": 15,
+"from_port": 0,
+"to_node": 16,
+"to_port": 0
+}, {
+"from_node": 22,
+"from_port": 0,
+"to_node": 5,
+"to_port": 2
+}, {
+"from_node": 16,
+"from_port": 0,
+"to_node": 22,
+"to_port": 1
+}, {
+"from_node": 18,
+"from_port": 0,
+"to_node": 19,
+"to_port": 0
+}, {
+"from_node": 3,
+"from_port": 0,
+"to_node": 24,
+"to_port": 0
+}, {
+"from_node": 6,
+"from_port": 0,
+"to_node": 27,
+"to_port": 2
+}, {
+"from_node": 24,
+"from_port": 0,
+"to_node": 13,
+"to_port": 0
+}, {
+"from_node": 9,
+"from_port": 0,
+"to_node": 7,
+"to_port": 0
+}, {
+"from_node": 14,
+"from_port": 0,
+"to_node": 22,
+"to_port": 0
+}, {
+"from_node": 10,
+"from_port": 0,
 "to_node": 15,
+"to_port": 0
+}, {
+"from_node": 12,
+"from_port": 0,
+"to_node": 5,
+"to_port": 0
+}, {
+"from_node": 23,
+"from_port": 0,
+"to_node": 21,
+"to_port": 1
+}, {
+"from_node": 28,
+"from_port": 0,
+"to_node": 21,
+"to_port": 0
+}, {
+"from_node": 29,
+"from_port": 0,
+"to_node": 15,
+"to_port": 1
+}, {
+"from_node": 25,
+"from_port": 0,
+"to_node": 27,
+"to_port": 0
+}, {
+"from_node": 13,
+"from_port": 0,
+"to_node": 9,
+"to_port": 0
+}, {
+"from_node": 26,
+"from_port": 0,
+"to_node": 7,
+"to_port": 1
+}, {
+"from_node": 4,
+"from_port": 0,
+"to_node": 2,
+"to_port": 1
+}, {
+"from_node": 18,
+"from_port": 0,
+"to_node": 28,
+"to_port": 0
+}, {
+"from_node": 9,
+"from_port": 0,
+"to_node": 1,
+"to_port": 0
+}, {
+"from_node": 7,
+"from_port": 0,
+"to_node": 27,
+"to_port": 1
+}, {
+"from_node": 8,
+"from_port": 0,
+"to_node": 25,
+"to_port": 0
+}, {
+"from_node": 9,
+"from_port": 0,
+"to_node": 8,
+"to_port": 0
+}, {
+"from_node": 13,
+"from_port": 0,
+"to_node": 10,
+"to_port": 0
+}, {
+"from_node": 20,
+"from_port": 0,
+"to_node": 0,
+"to_port": 1
+}, {
+"from_node": 2,
+"from_port": 0,
+"to_node": 11,
+"to_port": 0
+}, {
+"from_node": 19,
+"from_port": 0,
+"to_node": 0,
+"to_port": 0
+}, {
+"from_node": 21,
+"from_port": 0,
+"to_node": 22,
+"to_port": 2
+}, {
+"from_node": 31,
+"from_port": 0,
+"to_node": 25,
+"to_port": 1
+}, {
+"from_node": 3,
+"from_port": 0,
+"to_node": 17,
+"to_port": 0
+}, {
+"from_node": 30,
+"from_port": 0,
+"to_node": 6,
+"to_port": 1
+}, {
+"from_node": 1,
+"from_port": 0,
+"to_node": 6,
 "to_port": 0
 }])
 _node_data = Dictionary[int, Dictionary]({
 0: {
-&"arguments": {
-&"material": null,
-&"reference_data": Dictionary[Vector3i, float]({})
-},
-&"enums": [],
-"name": &"BaseNode",
-"position": Vector2(580, 600),
-"salt": 3983864631,
+&"position": Vector2(580, 600),
+&"reroute_type": 200,
+&"salt": 1281804609,
+&"type": 0,
 &"uid": "uid://dux0bq53p61ls"
 },
 1: {
-&"arguments": {},
-&"enums": [],
-"name": &"BaseNode3",
-"position": Vector2(480, 80),
-"salt": 0,
-"type": 200,
+&"position": Vector2(480, 80),
+&"reroute_type": 200,
+&"salt": 3611365378,
+&"type": 0,
 &"uid": "uid://bgqqucap4kua4"
 },
 2: {
-&"arguments": {
-&"material": null,
-&"reference_data": Dictionary[Vector3i, float]({})
-},
-&"enums": [],
-"name": &"BaseNode9",
-"position": Vector2(-340, 540),
-"salt": 845489457,
+&"position": Vector2(-340, 540),
+&"salt": 3171459431,
+&"type": 0,
 &"uid": "uid://dux0bq53p61ls"
 },
 3: {
@@ -417,39 +555,32 @@ _node_data = Dictionary[int, Dictionary]({
 },
 &"destroy_walker_chance": 5,
 &"direction_change_chance": 50,
-&"max_cells": 150,
+&"max_cells": 400,
 &"new_walker_chance": 5,
 &"rotate_-90_weight": 40,
 &"rotate_180_weight": 20,
 &"rotate_90_weight": 40,
-&"starting_position": Vector3i(24, 24, 0)
+&"starting_position": Vector3i(40, 22, 0)
 },
 &"enums": [0],
-"name": &"BaseNode10",
-"position": Vector2(-1340, 40),
-"salt": 2719450087,
+&"position": Vector2(-1340, 40),
+&"salt": 3016342326,
+&"type": 0,
 &"uid": "uid://blx812352t3jj"
 },
 4: {
 &"arguments": {
 &"name": "FloorMaterial"
 },
-&"enums": [],
-"name": &"BaseNode13",
-"position": Vector2(-600, 640),
-"salt": 3203641953,
+&"position": Vector2(-600, 640),
+&"salt": 767509671,
+&"type": 0,
 &"uid": "uid://cqs1w714pbfql"
 },
 5: {
-&"arguments": {
-&"0": Dictionary[Vector3i, Variant]({}),
-&"1": Dictionary[Vector3i, Variant]({}),
-&"2": Dictionary[Vector3i, Variant]({})
-},
-&"enums": [],
-"name": &"BaseNode14",
-"position": Vector2(1780, 500),
-"salt": 2045614114,
+&"position": Vector2(1780, 500),
+&"salt": 3625523347,
+&"type": 0,
 &"uid": "uid://dol7xviglksx4"
 },
 6: {
@@ -461,10 +592,9 @@ Vector2i(0, -1): false,
 Vector2i(0, 0): true
 }
 },
-&"enums": [],
-"name": &"_GraphNode_25313",
-"position": Vector2(740, 80),
-"salt": 581472843,
+&"position": Vector2(740, 80),
+&"salt": 1495093600,
+&"type": 0,
 &"uid": "uid://br8gcsyc04ksj"
 },
 7: {
@@ -476,96 +606,64 @@ Vector2i(0, -1): true,
 Vector2i(0, 0): false
 }
 },
-&"enums": [],
-"name": &"_GraphNode_25394",
-"position": Vector2(740, -260),
-"salt": 380881962,
+&"position": Vector2(740, -260),
+&"salt": 3516146884,
+&"type": 0,
 &"uid": "uid://br8gcsyc04ksj"
 },
 8: {
-&"arguments": {},
-&"enums": [],
-"name": &"_GraphNode_27754",
-"position": Vector2(480, -500),
-"salt": 0,
-"type": 200,
+&"position": Vector2(480, -500),
+&"reroute_type": 200,
+&"salt": 678442594,
+&"type": 0,
 &"uid": "uid://bgqqucap4kua4"
 },
 9: {
-&"arguments": {},
-&"enums": [],
-"name": &"_GraphNode_27761",
-"position": Vector2(360, -260),
-"salt": 0,
-"type": 200,
+&"position": Vector2(360, -260),
+&"reroute_type": 200,
+&"salt": 756854048,
+&"type": 0,
 &"uid": "uid://bgqqucap4kua4"
 },
 10: {
-&"arguments": {},
-&"enums": [],
-"name": &"_GraphNode_27785",
-"position": Vector2(180, 580),
-"salt": 0,
-"type": 200,
+&"position": Vector2(340, 900),
+&"reroute_type": 200,
+&"salt": 3015456637,
+&"type": 0,
 &"uid": "uid://bgqqucap4kua4"
 },
 11: {
-&"arguments": {},
-&"enums": [],
-"name": &"_GraphNode_27793",
-"position": Vector2(340, 900),
-"salt": 0,
-"type": 200,
+&"position": Vector2(180, 400),
+&"reroute_type": 201,
+&"salt": 1586859802,
+&"type": 0,
 &"uid": "uid://bgqqucap4kua4"
 },
 12: {
-&"arguments": {},
-&"enums": [],
-"name": &"_GraphNode_27818",
-"position": Vector2(180, 400),
-"salt": 0,
-"type": 201,
+&"position": Vector2(1060, 400),
+&"reroute_type": 201,
+&"salt": 1947407544,
+&"type": 0,
 &"uid": "uid://bgqqucap4kua4"
 },
 13: {
-&"arguments": {},
-&"enums": [],
-"name": &"_GraphNode_27825",
-"position": Vector2(1060, 400),
-"salt": 0,
-"type": 201,
+&"position": Vector2(-120, 200),
+&"reroute_type": 200,
+&"salt": 3052279972,
+&"type": 0,
 &"uid": "uid://bgqqucap4kua4"
 },
 14: {
-&"arguments": {},
-&"enums": [],
-"name": &"_GraphNode_27832",
-"position": Vector2(-120, 200),
-"salt": 0,
-"type": 200,
-&"uid": "uid://bgqqucap4kua4"
-},
-15: {
-&"arguments": {},
-&"enums": [],
-"name": &"_GraphNode_27969",
-"position": Vector2(-560, 880),
-"salt": 0,
-"type": 200,
-&"uid": "uid://bgqqucap4kua4"
-},
-16: {
 &"arguments": {
 &"chance": 15,
-&"input_grid": Dictionary[Vector3i, Variant]({})
+&"input_grid": Dictionary[Vector3i, ExtResource("2_du0iw")]({})
 },
-&"enums": [],
-"name": &"_GraphNode_29883",
-"position": Vector2(800, 600),
-"salt": 2691821230,
+&"position": Vector2(800, 600),
+&"salt": 2358541352,
+&"type": 0,
 &"uid": "uid://coh5skum82ue3"
 },
-17: {
+15: {
 &"arguments": {
 &"material": null,
 &"reference_data": Dictionary[Vector3i, float]({}),
@@ -574,140 +672,108 @@ Vector2i(0, -1): false,
 Vector2i(0, 0): false
 }
 },
-&"enums": [],
-"name": &"_GraphNode_30001",
-"position": Vector2(540, 900),
-"salt": 4142241368,
+&"position": Vector2(540, 900),
+&"salt": 3616165836,
+&"type": 0,
 &"uid": "uid://br8gcsyc04ksj"
 },
-18: {
+16: {
 &"arguments": {
 &"chance": 5,
-&"input_grid": Dictionary[Vector3i, Variant]({})
+&"input_grid": Dictionary[Vector3i, ExtResource("2_du0iw")]({})
 },
-&"enums": [],
-"name": &"_GraphNode_30041",
-"position": Vector2(820, 900),
-"salt": 2125879735,
+&"position": Vector2(820, 900),
+&"salt": 3035053752,
+&"type": 0,
 &"uid": "uid://coh5skum82ue3"
 },
+17: {
+&"position": Vector2(-740, 720),
+&"reroute_type": 200,
+&"salt": 3487820493,
+&"type": 0,
+&"uid": "uid://bgqqucap4kua4"
+},
+18: {
+&"position": Vector2(-140, 720),
+&"reroute_type": 200,
+&"salt": 3258591072,
+&"type": 0,
+&"uid": "uid://bgqqucap4kua4"
+},
 19: {
-&"arguments": {},
-&"enums": [],
-"name": &"_GraphNode_30931",
-"position": Vector2(-740, 720),
-"salt": 0,
-"type": 200,
+&"position": Vector2(60, 600),
+&"reroute_type": 200,
+&"salt": 3122158193,
+&"type": 0,
 &"uid": "uid://bgqqucap4kua4"
 },
 20: {
-&"arguments": {},
-&"enums": [],
-"name": &"_GraphNode_30936",
-"position": Vector2(-140, 720),
-"salt": 0,
-"type": 200,
-&"uid": "uid://bgqqucap4kua4"
-},
-21: {
-&"arguments": {},
-&"enums": [],
-"name": &"_GraphNode_30941",
-"position": Vector2(60, 600),
-"salt": 0,
-"type": 200,
-&"uid": "uid://bgqqucap4kua4"
-},
-22: {
 &"arguments": {
 &"name": "Vegetation"
 },
-&"enums": [],
-"name": &"_GraphNode_40715",
-"position": Vector2(320, 680),
-"salt": 3147852408,
+&"position": Vector2(320, 680),
+&"salt": 3340540429,
+&"type": 0,
 &"uid": "uid://cqs1w714pbfql"
 },
-23: {
+21: {
 &"arguments": {
 &"amount": 2,
 &"material": null,
 &"reference_data": Dictionary[Vector3i, float]({})
 },
-&"enums": [],
-"name": &"_GraphNode_41449",
-"position": Vector2(900, 1360),
-"salt": 308118276,
+&"position": Vector2(900, 1360),
+&"salt": 119598181,
+&"type": 0,
 &"uid": "uid://bjmyuomcmtwq6"
 },
-24: {
-&"arguments": {
-&"a": Dictionary[Vector3i, Variant]({}),
-&"b": Dictionary[Vector3i, Variant]({}),
-&"c": Dictionary[Vector3i, Variant]({}),
-&"d": Dictionary[Vector3i, Variant]({})
-},
+22: {
 &"enums": [0],
-"name": &"_GraphNode_41949",
-"position": Vector2(1260, 820),
-"salt": 1022077936,
+&"position": Vector2(1260, 820),
+&"salt": 2416308312,
+&"type": 0,
 &"uid": "uid://d2f6bjkxcn7jl"
 },
-25: {
+23: {
 &"arguments": {
 &"name": "Chest"
 },
-&"enums": [],
-"name": &"_GraphNode_42530",
-"position": Vector2(660, 1440),
-"salt": 3043193593,
+&"position": Vector2(660, 1440),
+&"salt": 4086502635,
+&"type": 0,
 &"uid": "uid://cqs1w714pbfql"
+},
+24: {
+&"enums": [2],
+&"position": Vector2(-480, 160),
+&"salt": 606917712,
+&"type": 0,
+&"uid": "uid://0vv1gfyt6147"
+},
+25: {
+&"position": Vector2(740, -500),
+&"salt": 510406764,
+&"type": 0,
+&"uid": "uid://dux0bq53p61ls"
 },
 26: {
 &"arguments": {
-&"a": Dictionary[Vector3i, float]({})
-},
-&"enums": [2],
-"name": &"_GraphNode_46623",
-"position": Vector2(-480, 160),
-"salt": 1095001467,
-&"uid": "uid://0vv1gfyt6147"
-},
-27: {
-&"arguments": {
-&"material": null,
-&"reference_data": Dictionary[Vector3i, float]({})
-},
-&"enums": [],
-"name": &"_GraphNode_46695",
-"position": Vector2(740, -500),
-"salt": 1095001467,
-&"uid": "uid://dux0bq53p61ls"
-},
-28: {
-&"arguments": {
 &"name": "WallBelow"
 },
-&"enums": [],
-"name": &"_GraphNode_46758",
-"position": Vector2(520, -180),
-"salt": 1065991013,
+&"position": Vector2(520, -180),
+&"salt": 2511457905,
+&"type": 0,
 &"uid": "uid://cqs1w714pbfql"
 },
-29: {
-&"arguments": {
-&"a": Dictionary[Vector3i, Variant]({}),
-&"b": Dictionary[Vector3i, Variant]({}),
-&"c": Dictionary[Vector3i, Variant]({}),
-&"d": Dictionary[Vector3i, Variant]({})
-},
+27: {
 &"enums": [0],
-"name": &"_GraphNode_52321",
-"position": Vector2(1120, -180),
-"salt": 1380013154,
+&"position": Vector2(1120, -180),
+&"salt": 2877069353,
+&"type": 0,
 &"uid": "uid://d2f6bjkxcn7jl"
 },
-30: {
+28: {
 &"arguments": {
 &"distance_range": {
 "max": 64.0,
@@ -716,83 +782,82 @@ Vector2i(0, 0): false
 &"input_grid": Dictionary[Vector3i, float]({}),
 &"to_point": Vector3(24, 24, 0)
 },
-&"enums": [],
-"name": &"_GraphNode_52358",
-"position": Vector2(280, 1340),
-"salt": 2767213228,
+&"position": Vector2(280, 1340),
+&"salt": 3307878279,
+&"type": 0,
 &"uid": "uid://dnj3grm2qv20y"
 },
-31: {
+29: {
 &"arguments": {
 &"name": "SpikyVegetation"
 },
-&"enums": [],
-"name": &"_GraphNode_52441",
-"position": Vector2(320, 980),
-"salt": 2702524083,
+&"position": Vector2(320, 980),
+&"salt": 3293793570,
+&"type": 0,
 &"uid": "uid://cqs1w714pbfql"
 },
-32: {
+30: {
 &"arguments": {
 &"name": "WallAbove"
 },
-&"enums": [],
-"name": &"_GraphNode_52516",
-"position": Vector2(520, 160),
-"salt": 2224158555,
+&"position": Vector2(520, 160),
+&"salt": 3032277154,
+&"type": 0,
 &"uid": "uid://cqs1w714pbfql"
 },
-33: {
+31: {
 &"arguments": {
 &"name": "WallMaterial"
 },
-&"enums": [],
-"name": &"_GraphNode_73053",
-"position": Vector2(520, -420),
-"salt": 3078290440,
+&"position": Vector2(520, -420),
+&"salt": 4100497101,
+&"type": 0,
 &"uid": "uid://cqs1w714pbfql"
 },
+32: {
+&"attached": [28, 21, 23],
+&"autoshrink": true,
+&"position": Vector2(240, 1299),
+&"tint_color": Color(0.55, 0.415983, 0.3135, 0.52549),
+&"tint_color_enabled": true,
+&"title": "Place Chests",
+&"type": 1
+},
+33: {
+&"attached": [25, 31, 30, 27, 26, 8, 7, 6, 1, 9],
+&"autoshrink": true,
+&"position": Vector2(320, -541),
+&"tint_color": Color(0.133333, 0.12549, 0.203922, 1),
+&"tint_color_enabled": true,
+&"title": "Walls",
+&"type": 1
+},
 34: {
-&"position": Vector2(0, 0),
-&"salt": 3080364305,
-&"type": 0,
-&"uid": "uid://bgqqucap4kua4"
+&"attached": [14, 15, 29, 16, 10, 20, 0],
+&"autoshrink": true,
+&"position": Vector2(280, 559),
+&"tint_color": Color(0.0964966, 0.363281, 0.175698, 0.75),
+&"tint_color_enabled": true,
+&"title": "Add Vegetation",
+&"type": 1
 },
 35: {
-&"position": Vector2(0, 0),
-&"salt": 283069550,
-&"type": 0,
-&"uid": "uid://bgqqucap4kua4"
+&"attached": [24],
+&"autoshrink": true,
+&"position": Vector2(-520, 119),
+&"tint_color": Color(0.3125, 0.155029, 0.155029, 0.75),
+&"tint_color_enabled": true,
+&"title": "Get Everything Outside Floor",
+&"type": 1
 },
 36: {
-&"position": Vector2(0, 0),
-&"salt": 2943575507,
-&"type": 0,
-&"uid": "uid://bgqqucap4kua4"
-},
-37: {
-&"position": Vector2(-620, 1120),
-&"salt": 2214474669,
-&"type": 0,
-&"uid": "uid://coltk43t8om1t"
-},
-38: {
-&"position": Vector2(-880, 960),
-&"salt": 4120813630,
-&"type": 0,
-&"uid": "uid://coltk43t8om1t"
-},
-39: {
-&"position": Vector2(0, 0),
-&"salt": 44130989,
-&"type": 0,
-&"uid": "uid://bgqqucap4kua4"
-},
-40: {
-&"position": Vector2(0, 0),
-&"salt": 2025832021,
-&"type": 0,
-&"uid": "uid://bgqqucap4kua4"
+&"attached": [2, 4],
+&"autoshrink": true,
+&"position": Vector2(-640, 499),
+&"tint_color": Color(0.174225, 0.208835, 0.257812, 0.75),
+&"tint_color_enabled": true,
+&"title": "Floor",
+&"type": 1
 }
 })
 _parameters = Dictionary[StringName, Variant]({

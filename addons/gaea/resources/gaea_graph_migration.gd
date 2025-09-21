@@ -3,13 +3,13 @@ class_name GaeaGraphMigration
 
 
 static func migrate(data: GaeaGraph):
-	if data.other.get(&"save_version", -1) == -1:
+	if data.other.get(&"save_version", data._other.get(&"save_version", -1)) == -1:
 		_migration_step_from_beta(data)
-	if data.other.get(&"save_version", -1) == 2:
+	if data.other.get(&"save_version", data._other.get(&"save_version", -1)) == 2:
 		_migration_step_material_merge(data)
-	if data.other.get(&"save_version", -1) <= 3:
+	if data.other.get(&"save_version", data._other.get(&"save_version", -1)) <= 3:
 		_migration_step_node_ids(data)
-	push_warning("Gaea graph migrated from previous save file format. Please save your project and reload.")
+	push_warning("Gaea graph (%s) migrated from previous save file format. Please save your project and reload." % data.resource_path)
 
 
 ## [param node_map] Contains all migration data.
@@ -174,9 +174,13 @@ static func _migration_step_node_ids(data: GaeaGraph):
 	data.parameters.clear()
 
 	var _frames: Dictionary[int, Dictionary]
-	for frame_data: Dictionary in data._other.get(&"frames", []):
+	for frame_data: Dictionary in data.other.get(&"frames", []):
 		var _frame_id: int = data.get_next_id()
 		data.add_frame(frame_data[&"position"], _frame_id)
+		data.set_node_data_value(&"tint_color_enabled", frame_data.get(&"tint_color_enabled", false), _frame_id)
+		data.set_node_data_value(&"tint_color", frame_data.get(&"tint_color", Color("4d4d4dbf")), _frame_id)
+		data.set_node_data_value(&"autoshrink", frame_data.get(&"autoshrink", true), _frame_id)
+		data.set_node_data_value(&"title", frame_data.get(&"title", "Title"), _frame_id)
 		_frames[_frame_id] = frame_data
 
 

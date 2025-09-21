@@ -9,13 +9,13 @@ func _ready() -> void:
 	if title.is_empty():
 		title = "Title"
 	size = Vector2(512, 256)
-	name = name.replace("@", "_")
 	autoshrink_changed.connect(_on_autoshrink_changed.unbind(1))
 	dragged.connect(_on_dragged)
 
 
 func _on_autoshrink_changed() -> void:
 	resizable = not autoshrink_enabled
+	generator.data.set_node_data_value(&"autoshrink", autoshrink_enabled, id)
 
 
 func _on_dragged(_from: Vector2, to: Vector2) -> void:
@@ -29,12 +29,17 @@ func start_rename(gaea_panel: Control) -> void:
 	line_edit.select_all_on_focus = true
 	line_edit.expand_to_text_length = true
 	line_edit.position = gaea_panel.get_local_mouse_position()
-	line_edit.text_submitted.connect(set_title)
+	line_edit.text_submitted.connect(_on_rename_text_submitted, CONNECT_ONE_SHOT)
 	line_edit.text_submitted.connect(line_edit.queue_free.unbind(1), CONNECT_DEFERRED)
 	line_edit.focus_exited.connect(line_edit.queue_free)
 	gaea_panel.add_child(line_edit)
 	line_edit.grab_click_focus()
 	line_edit.grab_focus()
+
+
+func _on_rename_text_submitted(new_text: String) -> void:
+	set_title(new_text)
+	generator.data.set_node_data_value(&"title", title, id)
 
 
 func start_tint_color_change(gaea_panel: Control) -> void:
@@ -44,7 +49,7 @@ func start_tint_color_change(gaea_panel: Control) -> void:
 	var vbox_container: VBoxContainer = VBoxContainer.new()
 
 	var color_picker: ColorPicker = ColorPicker.new()
-	color_picker.color_changed.connect(set_tint_color)
+	color_picker.color_changed.connect(_on_color_changed)
 	color_picker.color = tint_color
 
 	var ok_button: Button = Button.new()
@@ -59,12 +64,17 @@ func start_tint_color_change(gaea_panel: Control) -> void:
 	gaea_panel.add_child(_popup)
 	_popup.popup()
 
+
+func _on_color_changed(new_color: Color) -> void:
+	set_tint_color(new_color)
+	generator.data.set_node_data_value(&"tint_color", new_color, id)
+
+
 ## Loads data with the same format as seen in [method get_save_data].
 func load_save_data(saved_data: Dictionary) -> void:
-	title = saved_data.get(&"title", "Frame")
+	title = saved_data.get(&"title", "Title")
 	position_offset = saved_data.get(&"position", Vector2.ZERO)
 	size = saved_data.get(&"size", Vector2(512, 256))
 	tint_color = saved_data.get(&"tint_color", tint_color)
 	tint_color_enabled = saved_data.get(&"tint_color_enabled", false)
-	name = saved_data.get_or_add(&"name", name)
 	autoshrink_enabled = saved_data.get(&"autoshrink", true)
