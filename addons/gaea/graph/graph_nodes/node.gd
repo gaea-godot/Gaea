@@ -391,5 +391,5 @@ func has_finished_rebuilding() -> bool:
 	return _finished_rebuilding
 
 
-func _on_dragged(from: Vector2, to: Vector2) -> void:
+func _on_dragged(_from: Vector2, to: Vector2) -> void:
 	generator.data.set_node_position(to, resource.id)
