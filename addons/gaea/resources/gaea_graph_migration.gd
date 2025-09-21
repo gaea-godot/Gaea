@@ -150,44 +150,52 @@ static func _migration_step_material_merge(data: GaeaGraph):
 
 static func _migration_step_node_ids(data: GaeaGraph):
 	if not data.node_data.is_empty():
-		var _node_data: Dictionary[int, Dictionary]
 		for idx in data.node_data.size():
-			var _data = data.node_data[idx].duplicate() as Dictionary[StringName, Variant]
-			_data.set(&"uid", data.resource_uids[idx])
-			_node_data.set(idx, _data)
+			var _node_data = data.node_data[idx]
+			var _resource: GaeaNodeResource = load(data.resource_uids[idx]).new()
+			var _position: Vector2 = _node_data.get("position", Vector2.ZERO)
+			data.add_node(_resource, _position, idx)
+			for arg_name: StringName in _node_data.get(&"arguments", {}):
+				var _value: Variant = _node_data.get(&"arguments").get(arg_name)
+				data.set_node_argument(arg_name, _value, idx)
 
-			data._node_data.set(idx, _node_data[idx])
+			for enum_idx: int in _node_data.get(&"enums", []).size():
+				data.set_node_enum(enum_idx, _node_data.get(&"enums")[enum_idx], idx)
+
+			if _node_data.has("type"):
+				data.set_node_data_value(&"reroute_type", _node_data.get("type"), idx)
 
 	if not data.connections.is_empty():
 		data._connections = data.connections.duplicate()
-	if not data.other.is_empty():
-		data._other = data.other.duplicate()
 	if not data.parameters.is_empty():
 		data._parameters = data.parameters.duplicate()
 
 	data.connections.clear()
-	data.other.clear()
 	data.parameters.clear()
 
-	for frame_data: Dictionary in data._other.get(&"frames", {}):
-		var new_attached: Array[int]
-		var attached_frames: Array[StringName]
-		for attached_name: StringName in frame_data.get(&"attached"):
-			var node_data_idx: int = data._node_data.values().find_custom(
+	var _frames: Dictionary[int, Dictionary]
+	for frame_data: Dictionary in data._other.get(&"frames", []):
+		var _frame_id: int = data.get_next_id()
+		data.add_frame(frame_data[&"position"], _frame_id)
+		_frames[_frame_id] = frame_data
+
+
+	for frame_id in _frames.keys():
+		var _frame_data := _frames[frame_id]
+		for attached_name: StringName in _frame_data.get(&"attached"):
+			var node_data_idx: int = data.node_data.find_custom(
 				func(node_data: Dictionary): return node_data.get(&"name", &"") == attached_name
 			)
 			if node_data_idx != -1:
 				var id: int = data._node_data.find_key(data._node_data.values()[node_data_idx])
-				new_attached.append(id)
+				data.attach_node_to_frame(id, frame_id)
 			else:
-				var frame_data_idx: int = data._other.get(&"frames").find_custom(
+				var _frame_data_idx: int = _frames.values().find_custom(
 					func(node_data: Dictionary): return node_data.get(&"name", &"") == attached_name
 				)
-				if frame_data_idx != -1:
-					attached_frames.append(attached_name)
-		frame_data[&"attached"] = new_attached
-		frame_data[&"attached_frames"] = attached_frames
+				var _other_frame_id: int = _frames.keys()[_frame_data_idx]
+				if _other_frame_id != -1:
+					data.attach_node_to_frame(_other_frame_id, frame_id)
 
-
-
+	data.other.clear()
 	data._other.set(&"save_version", 4)

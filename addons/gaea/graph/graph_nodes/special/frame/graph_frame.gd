@@ -18,8 +18,9 @@ func _on_autoshrink_changed() -> void:
 	resizable = not autoshrink_enabled
 
 
-func _on_dragged(from: Vector2, to: Vector2) -> void:
-	generator.data.set_node_position(to, id)
+func _on_dragged(_from: Vector2, to: Vector2) -> void:
+	if is_instance_valid(generator):
+		generator.data.set_node_position(to, id)
 
 
 func start_rename(gaea_panel: Control) -> void:
@@ -37,54 +38,26 @@ func start_rename(gaea_panel: Control) -> void:
 
 
 func start_tint_color_change(gaea_panel: Control) -> void:
-		var _popup: PopupPanel = PopupPanel.new()
-		_popup.position = gaea_panel.get_global_mouse_position() as Vector2i
+	var _popup: PopupPanel = PopupPanel.new()
+	_popup.position = gaea_panel.get_global_mouse_position() as Vector2i
 
-		var vbox_container: VBoxContainer = VBoxContainer.new()
+	var vbox_container: VBoxContainer = VBoxContainer.new()
 
-		var color_picker: ColorPicker = ColorPicker.new()
-		color_picker.color_changed.connect(set_tint_color)
-		color_picker.color = tint_color
+	var color_picker: ColorPicker = ColorPicker.new()
+	color_picker.color_changed.connect(set_tint_color)
+	color_picker.color = tint_color
 
-		var ok_button: Button = Button.new()
-		ok_button.text = "OK"
-		ok_button.pressed.connect(_popup.queue_free)
+	var ok_button: Button = Button.new()
+	ok_button.text = "OK"
+	ok_button.pressed.connect(_popup.queue_free)
 
-		vbox_container.add_child(color_picker)
-		vbox_container.add_child(ok_button)
+	vbox_container.add_child(color_picker)
+	vbox_container.add_child(ok_button)
 
-		_popup.add_child(vbox_container)
+	_popup.add_child(vbox_container)
 
-		gaea_panel.add_child(_popup)
-		_popup.popup()
-
-
-## Returns the data to be saved to [GaeaGraph]. Includes [member GraphFrame.title], [member GraphFrame.tint_color], [member GraphFrame.autoshrink_enabled], etc.
-func get_save_data() -> Dictionary:
-	var attached_names: Array[StringName] = get_parent().get_attached_nodes_of_frame(name)
-	var attached: Array[int] = []
-	# Has to be separated because frames don't have ids.
-	var attached_frames: Array[StringName] = []
-
-	for attached_name in attached_names:
-		var node: GraphElement = get_parent().get_node(NodePath(attached_name))
-		if node is GaeaGraphNode:
-			attached.append(node.resource.id)
-		elif node is GaeaGraphFrame:
-			attached_frames.append(node.name)
-
-
-	return {
-		&"title": title,
-		&"tint_color": tint_color,
-		&"tint_color_enabled": tint_color_enabled,
-		&"position": position_offset,
-		&"attached": attached,
-		&"attached_frames": attached_frames,
-		&"size": size,
-		&"autoshrink": autoshrink_enabled,
-		&"name": name
-	}
+	gaea_panel.add_child(_popup)
+	_popup.popup()
 
 ## Loads data with the same format as seen in [method get_save_data].
 func load_save_data(saved_data: Dictionary) -> void:

@@ -161,7 +161,7 @@ func _load_data() -> void:
 				var frame: GaeaGraphFrame = _load_frame(saved_data)
 				frame.id = id
 				frame.generator = _selected_generator
-				_load_attached_elements.bind(saved_data.get(&"attached"), frame.name).call_deferred()
+				_load_attached_elements.bind(saved_data.get(&"attached", []), frame.name).call_deferred()
 			GaeaGraph.NodeType.NODE:
 				var node: GaeaGraphNode = _load_node(_selected_generator.data.get_node(id), saved_data, id)
 
@@ -225,10 +225,17 @@ func _load_node(resource: GaeaNodeResource, saved_data: Dictionary, id: int) -> 
 func _load_attached_elements(attached: Array, frame_name: StringName) -> void:
 	for id: int in attached:
 		var node_resource: GaeaNodeResource = _selected_generator.data.get_node(id)
+		var node: GraphElement
 		if not is_instance_valid(node_resource):
-			continue
+			var _graph_children := _graph_edit.get_children()
+			var _attached_frame_idx := _graph_children.find_custom(
+				func(node: Node) -> bool: return node is GaeaGraphFrame and node.id == id
+			)
+			if _attached_frame_idx != -1:
+				node = _graph_children[_attached_frame_idx]
+		else:
+			node = node_resource.node
 
-		var node: GaeaGraphNode = node_resource.node
 		if not is_instance_valid(node):
 			continue
 
@@ -307,11 +314,14 @@ func _on_tree_node_selected_for_creation(resource: GaeaNodeResource) -> void:
 func _on_tree_special_node_selected_for_creation(id: StringName) -> void:
 	match id:
 		&"frame":
+			var frame_id: int = _selected_generator.data.get_next_id()
 			_selected_generator.data.add_frame(
 				_graph_edit.local_to_grid(_node_creation_target),
-				_selected_generator.data._node_data.size()
+				frame_id
 			)
 			var node: GaeaGraphFrame = GaeaGraphFrame.new()
+			node.generator = _selected_generator
+			node.id = frame_id
 			node.position_offset = _graph_edit.local_to_grid(_node_creation_target)
 			_graph_edit.add_child(node)
 	_create_node_popup.hide()

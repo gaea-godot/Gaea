@@ -160,7 +160,16 @@ func _on_graph_elements_linked_to_frame_request(elements: Array, frame: StringNa
 	for element in elements:
 		attach_graph_element_to_frame(element, frame)
 		_on_element_attached_to_frame(element, frame)
-	save_requested.emit.call_deferred()
+
+
+func detach_element_from_frame(element: StringName) -> void:
+	detach_graph_element_from_frame(element)
+	var node: GraphElement = get_node(NodePath(element))
+	if node is GaeaGraphNode:
+		generator.data.deattach_node_from_frame(node.resource.id)
+	elif node is GaeaGraphFrame:
+		generator.data.deattach_node_from_frame(node.id)
+	attached_elements.erase(element)
 
 
 func _on_element_attached_to_frame(element: StringName, frame: StringName) -> void:

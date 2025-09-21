@@ -95,7 +95,7 @@ func _rebuild() -> void:
 
 	var saved_data := {}
 	if _finished_loading:
-		saved_data = get_save_data()
+		saved_data = generator.data.get_node_data(resource.id)
 		resource.enum_selections = saved_data.get("enums", [])
 	_editors.clear()
 
@@ -268,8 +268,9 @@ func _on_argument_value_changed(value: Variant, _node: GaeaGraphNodeArgumentEdit
 
 func _on_enum_value_changed(option_idx: int, enum_idx: int, button: OptionButton) -> void:
 	if _finished_loading:
-		resource.set_enum_value(enum_idx, button.get_item_id(option_idx))
-		save_requested.emit()
+		var value := button.get_item_id(option_idx)
+		resource.set_enum_value(enum_idx, value)
+		generator.data.set_node_enum(enum_idx, value, resource.id)
 		if is_instance_valid(_preview):
 			_preview.update()
 
@@ -317,34 +318,6 @@ func auto_shrink() -> void:
 	await get_tree().process_frame
 	for i: int in get_child_count():
 		slot_updated.emit.call_deferred(i)
-
-
-## Returns the data to be saved to [GaeaGraph]. Includes [member Node.name], [member GraphElement.position_offset] and [member GaeaNodeResource.salt].
-func get_save_data() -> Dictionary:
-	var dictionary: Dictionary = {
-		&"name": name,
-		&"position": position_offset,
-		&"salt": resource.salt
-	}
-	dictionary.set(&"arguments", {})
-	for argument in resource.get_arguments_list():
-		var value: Variant = get_arg_value(argument)
-		if value == null:
-			continue
-		if typeof(value) != typeof(resource.get_argument_default_value(argument)):
-			dictionary[&"arguments"][argument] = resource.get_argument_default_value(argument)
-			continue
-		if value != resource.get_argument_default_value(argument):
-			dictionary[&"arguments"][argument] = get_arg_value(argument)
-
-	dictionary.set(&"enums", [])
-	for enum_idx in resource.get_enums_count():
-		if _enum_editors.size() <= enum_idx:
-			dictionary[&"enums"].append(resource.get_enum_default_value(enum_idx))
-		else:
-			dictionary[&"enums"].append(_enum_editors[enum_idx].get_selected_id())
-
-	return dictionary
 
 
 ## Loads data with the same format as seen in [method get_save_data].

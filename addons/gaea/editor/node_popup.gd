@@ -91,8 +91,7 @@ func _on_id_pressed(id: int) -> void:
 			var selected: Array = graph_edit.get_selected()
 			for node: GraphElement in selected:
 				if graph_edit.attached_elements.has(node.name):
-					graph_edit.detach_graph_element_from_frame(node.name)
-					graph_edit.attached_elements.erase(node.name)
+					graph_edit.detach_element_from_frame(node.name)
 		Action.OPEN_IN_INSPECTOR:
 			var node: GaeaGraphNode = graph_edit.get_selected().front()
 			var resource: GaeaNodeResource = node.resource

@@ -36,12 +36,6 @@ func _on_added() -> void:
 	on_type_changed()
 
 
-func get_save_data() -> Dictionary:
-	var data = super()
-	data.set(&"reroute_type", resource.get_type())
-	return data
-
-
 func on_type_changed():
 	var type = resource.get_type()
 	var color = GaeaValue.get_color(type)
