@@ -201,7 +201,7 @@ func get_next_id() -> int:
 
 
 ## Connects the specified nodes and ports.[br]
-## [br][color=yellow][b]Warning:[/b][/color] This connection could be invalid, and it won't work correctly.
+## [br][color=yellow][b]Warning:[/b][/color] This connection could be invalid, and it won't work correctly if so.
 func connect_nodes(from_id: int, from_port: int, to_id: int, to_port: int) -> void:
 	var connection: Dictionary = {
 		"from_node": from_id,

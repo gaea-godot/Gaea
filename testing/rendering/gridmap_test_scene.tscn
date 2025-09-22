@@ -66,19 +66,9 @@ _connections = Array[Dictionary]([{
 "to_node": 0,
 "to_port": 0
 }, {
-"from_node": 4,
-"from_port": 0,
-"to_node": 3,
-"to_port": 1
-}, {
 "from_node": 5,
 "from_port": 0,
 "to_node": 2,
-"to_port": 1
-}, {
-"from_node": 3,
-"from_port": 0,
-"to_node": 0,
 "to_port": 1
 }, {
 "from_node": 2,
@@ -88,12 +78,22 @@ _connections = Array[Dictionary]([{
 }, {
 "from_node": 1,
 "from_port": 0,
-"to_node": 3,
+"to_node": 2,
 "to_port": 0
+}, {
+"from_node": 3,
+"from_port": 0,
+"to_node": 0,
+"to_port": 1
+}, {
+"from_node": 4,
+"from_port": 0,
+"to_node": 3,
+"to_port": 1
 }, {
 "from_node": 1,
 "from_port": 0,
-"to_node": 2,
+"to_node": 3,
 "to_port": 0
 }])
 _node_data = Dictionary[int, Dictionary]({
