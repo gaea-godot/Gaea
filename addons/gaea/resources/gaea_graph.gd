@@ -146,12 +146,18 @@ func set_node_data_value(key: StringName, value: Variant, id: int) -> void:
 	get_node_data(id).set(key, value)
 
 
+## Gets the specified node's saved data of [param key].[br]
+## It's found under [member _node_data][[param id]][[param key]].
+func get_node_data_value(key: StringName, id: int, default: Variant = null) -> Variant:
+	return get_node_data(id).get(key, default)
+
+
 ## Attaches the specified node to the specified frame.
 func attach_node_to_frame(node_id: int, frame_id: int) -> void:
 	if node_id == frame_id:
 		return
 
-	var attached_array: Array = get_node_data(frame_id).get_or_add(&"attached", [])
+	var attached_array: Array[int] = get_node_data(frame_id).get_or_add(&"attached", [] as Array[int])
 	if not attached_array.has(node_id):
 		attached_array.append(node_id)
 
@@ -168,6 +174,11 @@ func detach_node_from_frame(node_id: int) -> void:
 ## Returns the node with specified [param id].
 func get_node(id: int) -> GaeaNodeResource:
 	return _resources.get(id)
+
+
+## Returns [code]true[/code] if the node exists (which means, [member _node_data] has that [param id]).
+func has_node(id: int) -> bool:
+	return _node_data.has(id)
 
 
 ## Returns a list of all nodes in the graph (excluding frames).
@@ -203,17 +214,15 @@ func get_next_id() -> int:
 ## Connects the specified nodes and ports.[br]
 ## [br][color=yellow][b]Warning:[/b][/color] This connection could be invalid, and it won't work correctly if so.
 func connect_nodes(from_id: int, from_port: int, to_id: int, to_port: int) -> void:
-	var connection: Dictionary = {
+	if has_connection(from_id, from_port, to_id, to_port):
+		return
+
+	_connections.append({
 		"from_node": from_id,
 		"from_port": from_port,
 		"to_node": to_id,
 		"to_port": to_port
-		}
-
-	if _connections.has(connection):
-		return
-
-	_connections.append(connection)
+	})
 
 
 ## Disconnects the specified nodes and ports, if the connection exists.
@@ -224,6 +233,11 @@ func disconnect_nodes(from_id: int, from_port: int, to_id: int, to_port: int) ->
 		"to_node": to_id,
 		"to_port": to_port
 		})
+
+
+## Returns all connections in the graph.
+func get_all_connections() -> Array[Dictionary]:
+	return _connections
 
 
 ## Returns all connections to the specified node.
@@ -240,7 +254,19 @@ func get_connections_to(id: int, port: int = -1) -> Array[Dictionary]:
 func get_connections_from(id: int, port: int = -1) -> Array[Dictionary]:
 	return _connections.filter(
 		func(value: Dictionary):
-				return (value.get("to_node", NAN) == id and (port < 0 or port == value.get("from_port", -1)))
+				return (value.get("from_node", NAN) == id and (port < 0 or port == value.get("from_port", -1)))
+	)
+
+
+## Returns [code]true[/code] if the specified connection exists.
+func has_connection(from_id: int, from_port: int, to_id: int, to_port: int) -> bool:
+	return _connections.has(
+		{
+			"from_node": from_id,
+			"from_port": from_port,
+			"to_node": to_id,
+			"to_port": to_port
+		}
 	)
 
 

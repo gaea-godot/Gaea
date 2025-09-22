@@ -1,0 +1,40 @@
+name: GHA
+
+on:
+  pull_request:
+    paths-ignore:
+      - '**.yml'
+      - '**.md'
+  workflow_dispatch:
+
+
+concurrency:
+  group: ${{ github.workflow }}|${{ github.ref_name }}-other
+  cancel-in-progress: true
+
+
+jobs:
+  warning_check:
+    name: "Other Testing"
+    runs-on: 'ubuntu-22.04'
+    timeout-minutes: 10 # The overall timeout
+    permissions:
+      actions: write
+      checks: write
+      contents: write
+      pull-requests: write
+      statuses: write
+
+    steps:
+      # checkout your repository
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+      # run tests by using the gdUnit4-action with Godot version 4.2.1 and the latest GdUnit4 release 
+      - uses: MikeSchulze/gdUnit4-action@v1.1.6
+        with:
+          godot-version: '4.5'
+          paths: |
+            res://testing/other
+          timeout: 5
+          publish-report: false
