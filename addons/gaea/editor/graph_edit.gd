@@ -73,7 +73,7 @@ func _on_connection_request(from_node: StringName, from_port: int, to_node: Stri
 				)
 
 	connect_node(from_node, from_port, to_node, to_port)
-	generator.data.add_connection(from_graph_node.resource.id, from_port, to_graph_node.resource.id, to_port)
+	generator.data.connect_nodes(from_graph_node.resource.id, from_port, to_graph_node.resource.id, to_port)
 	connection_update_requested.emit()
 
 	if from_graph_node.has_finished_loading():
@@ -90,7 +90,7 @@ func _on_disconnection_request(from_node: StringName, from_port: int, to_node: S
 	var to_graph_node: GaeaGraphNode = get_node(NodePath(to_node))
 	var from_graph_node: GaeaGraphNode = get_node(NodePath(from_node))
 
-	generator.data.remove_connection(from_graph_node.resource.id, from_port, to_graph_node.resource.id, to_port)
+	generator.data.disconnect_nodes(from_graph_node.resource.id, from_port, to_graph_node.resource.id, to_port)
 
 	if from_graph_node.has_finished_loading():
 		from_graph_node.notify_connections_updated.call_deferred()
@@ -161,9 +161,9 @@ func detach_element_from_frame(element: StringName) -> void:
 	detach_graph_element_from_frame(element)
 	var node: GraphElement = get_node(NodePath(element))
 	if node is GaeaGraphNode:
-		generator.data.deattach_node_from_frame(node.resource.id)
+		generator.data.detach_node_from_frame(node.resource.id)
 	elif node is GaeaGraphFrame:
-		generator.data.deattach_node_from_frame(node.id)
+		generator.data.detach_node_from_frame(node.id)
 	attached_elements.erase(element)
 
 

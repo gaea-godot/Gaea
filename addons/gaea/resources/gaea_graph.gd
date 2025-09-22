@@ -41,40 +41,33 @@ enum NodeType {
 ##    from_port: int, # Index of the port of the node
 ##    to_node: int,   # Index of the node in [member resources]
 ##    to_port: int,   # Index of the port of the node
-##    keep_alive: bool
 ## }
 ## [/codeblock]
 ## [br][color=yellow][b]Warning:[/b][/color] Setting this directly can break your saved graph.
 @export_storage var _connections: Array[Dictionary]
-## @deprecated
-## Kept for migration of old save data.
+## @deprecated: Kept for migration of old save data.
 var connections: Array[Dictionary]
-## @deprecated
-## Kept for migration of old save data.
+## @deprecated: Kept for migration of old save data.
 var resource_uids: Array[String]
-## @deprecated
-## Kept for migration of old save data.
+## @deprecated: Kept for migration of old save data.
 var resources: Array[GaeaNodeResource]
 ## Used during generation to keep track of node resources.
 var _resources: Dictionary[int, GaeaNodeResource]
 ## Saved data for each [GaeaNodeResource] such as position in the graph and changed arguments.
 ## [br][color=yellow][b]Warning:[/b][/color] Setting this directly can break your saved graph.
 @export_storage var _node_data: Dictionary[int, Dictionary]
-## @deprecated
-## Kept for migration of old save data.
+## @deprecated: Kept for migration of old save data.
 var node_data: Array[Dictionary]
 ## List of parameters created with [GaeaNodeParameter].
 ## [br][color=yellow][b]Warning:[/b][/color] Setting this directly can break your saved graph.
 ## Use [method set_parameter] instead.
 @export_storage var _parameters: Dictionary[StringName, Variant]
-## @deprecated
-## Kept for migration of old save data.
+## @deprecated: Kept for migration of old save data.
 var parameters: Dictionary[StringName, Variant]
 ## Other saved data, such as [GaeaGraphFrame] information.
 ## [br][color=yellow][b]Warning:[/b][/color] Setting this directly can break your saved graph.
 @export_storage var _other: Dictionary
-## @deprecated
-## Kept for migration of old save data.
+## @deprecated: Kept for migration of old save data.
 var other: Dictionary
 
 ## The currently related generator.
@@ -88,6 +81,8 @@ func _init() -> void:
 	notify_property_list_changed()
 
 
+## Adds a new [param node] to the graph at [param position], identifiable with [param id].[br]
+## Its data is saved in [member _node_data] and loaded by the panel.
 func add_node(node: GaeaNodeResource, position: Vector2, id: int) -> void:
 	_resources.set(id, node)
 	_node_data.set(id,
@@ -101,6 +96,8 @@ func add_node(node: GaeaNodeResource, position: Vector2, id: int) -> void:
 	}.merged(node.get_custom_saved_data()))
 
 
+## Adds a new frame at [param position], identifiable with [param id].[br]
+## Its data is saved in [member _node_data].
 func add_frame(position: Vector2, id: int) -> void:
 	_node_data.set(id,
 	{
@@ -109,13 +106,20 @@ func add_frame(position: Vector2, id: int) -> void:
 	})
 
 
+## Removes the specified node.
 func remove_node(id: int) -> void:
 	for connection in get_connections_to(id) + get_connections_from(id):
-		remove_connection_dict(connection)
+		disconnect_nodes(
+			connection.get("from_node", -9999),
+			connection.get("from_port", -9999),
+			connection.get("to_node", -9999),
+			connection.get("to_port", -9999)
+		)
 	_node_data.erase(id)
 	_resources.erase(id)
 
 
+## Sets the specified node's position in the graph to [param position].
 func set_node_position(position: Vector2, id: int) -> void:
 	if not _node_data.has(id):
 		return
@@ -123,20 +127,26 @@ func set_node_position(position: Vector2, id: int) -> void:
 	get_node_data(id).set(&"position", position)
 
 
+## Sets the specified node's argument of [param arg_name] to [param value].
 func set_node_argument(arg_name: StringName, value: Variant, id: int) -> void:
 	get_node_data(id).get_or_add(&"arguments", {}).set(arg_name, value)
 
 
+## Sets the specified node's enum value at [param enum_idx] to [param value]
+## (and resizes the enums array if necessary).
 func set_node_enum(enum_idx: int, value: int, id: int) -> void:
 	var node_enums: Array = get_node_data(id).get_or_add(&"enums", [])
 	node_enums.resize(enum_idx + 1)
 	node_enums.set(enum_idx, value)
 
 
+## Sets the specified node's saved data to [param value].[br]
+## It's found under [member _node_data][[param id]][[param key]].
 func set_node_data_value(key: StringName, value: Variant, id: int) -> void:
 	get_node_data(id).set(key, value)
 
 
+## Attaches the specified node to the specified frame.
 func attach_node_to_frame(node_id: int, frame_id: int) -> void:
 	if node_id == frame_id:
 		return
@@ -146,7 +156,8 @@ func attach_node_to_frame(node_id: int, frame_id: int) -> void:
 		attached_array.append(node_id)
 
 
-func deattach_node_from_frame(node_id: int) -> void:
+## Detaches the specified node from its parent frame.
+func detach_node_from_frame(node_id: int) -> void:
 	var frame_idx: int = _node_data.values().find_custom(
 		func(data: Dictionary) -> bool: return data.get(&"attached", []).has(node_id)
 	)
@@ -154,30 +165,33 @@ func deattach_node_from_frame(node_id: int) -> void:
 		_node_data.values()[frame_idx][&"attached"].erase(node_id)
 
 
+## Returns the node with specified [param id].
 func get_node(id: int) -> GaeaNodeResource:
 	return _resources.get(id)
 
 
-func get_id(node: GaeaNodeResource) -> int:
-	return _resources.find_key(node)
-
-
+## Returns a list of all nodes in the graph (excluding frames).
 func get_nodes() -> Array[GaeaNodeResource]:
 	return _resources.values()
 
 
+## Sets the saved data for the specified node to [param data].[br]
+## [br][color=yellow][b]Warning:[/b][/color] Setting this directly could break your graph.
 func set_node_data(id: int, data: Dictionary) -> void:
 	_node_data.set(id, data)
 
 
+## Returns the saved data for the specified node.
 func get_node_data(id: int) -> Dictionary:
 	return _node_data.get_or_add(id, {})
 
 
+## Returns all node identifiers.
 func get_ids() -> Array[int]:
 	return _node_data.keys()
 
 
+## Returns the next available id.
 func get_next_id() -> int:
 	var _ids := get_ids()
 	var _next_id := 0
@@ -186,20 +200,24 @@ func get_next_id() -> int:
 	return _next_id
 
 
-func add_connection(from_id: int, from_port: int, to_id: int, to_port: int) -> void:
+## Connects the specified nodes and ports.[br]
+## [br][color=yellow][b]Warning:[/b][/color] This connection could be invalid, and it won't work correctly.
+func connect_nodes(from_id: int, from_port: int, to_id: int, to_port: int) -> void:
 	var connection: Dictionary = {
 		"from_node": from_id,
 		"from_port": from_port,
 		"to_node": to_id,
 		"to_port": to_port
 		}
+
 	if _connections.has(connection):
 		return
 
 	_connections.append(connection)
 
 
-func remove_connection(from_id: int, from_port: int, to_id: int, to_port: int) -> void:
+## Disconnects the specified nodes and ports, if the connection exists.
+func disconnect_nodes(from_id: int, from_port: int, to_id: int, to_port: int) -> void:
 	_connections.erase({
 		"from_node": from_id,
 		"from_port": from_port,
@@ -208,33 +226,30 @@ func remove_connection(from_id: int, from_port: int, to_id: int, to_port: int) -
 		})
 
 
-func remove_connection_dict(connection: Dictionary) -> void:
-	remove_connection(
-		connection.get("from_node", -9999),
-		connection.get("from_port", -9999),
-		connection.get("to_node", -9999),
-		connection.get("to_port", -9999)
-	)
-
-
-func get_connections_to(id: int) -> Array[Dictionary]:
+## Returns all connections to the specified node.
+## If [param port] is positive, it only returns connections to that port.
+func get_connections_to(id: int, port: int = -1) -> Array[Dictionary]:
 	return _connections.filter(
-		func(value: Dictionary): return value.get("to_node", NAN) == id
+		func(value: Dictionary):
+			return (value.get("to_node", NAN) == id and (port < 0 or port == value.get("to_port", -1)))
 	)
 
 
-func get_connections_from(id: int) -> Array[Dictionary]:
+## Returns all connections from the specified node.
+## If [param port] is positive, it only returns connections from that port.
+func get_connections_from(id: int, port: int = -1) -> Array[Dictionary]:
 	return _connections.filter(
-		func(value: Dictionary): return value.get("from_node", NAN) == id
+		func(value: Dictionary):
+				return (value.get("to_node", NAN) == id and (port < 0 or port == value.get("from_port", -1)))
 	)
 
 
-## Get the parameter of [param name] from [member _parameters].
+## Returns the specified parameter's value.
 func get_parameter(name: StringName) -> Variant:
 	return _get(name)
 
 
-## Set the parameter of [param name] from [member _parameters] to [param value].
+## Sets the specified parameter from [member _parameters] to [param value].
 func set_parameter(name: StringName, value: Variant) -> void:
 	_set(name, value)
 
