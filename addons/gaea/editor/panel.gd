@@ -123,8 +123,6 @@ func populate(node: GaeaGenerator) -> void:
 
 
 func unpopulate() -> void:
-	_save_data()
-
 	if is_instance_valid(_selected_generator):
 		if is_instance_valid(_selected_generator.data) and _selected_generator.data.layer_count_modified.is_connected(_update_output_node):
 			_selected_generator.data.layer_count_modified.disconnect(_update_output_node)
@@ -141,11 +139,6 @@ func _remove_children() -> void:
 		if child is GraphElement:
 			child.queue_free()
 			await child.tree_exited
-
-
-func _save_data() -> void:
-	return
-
 
 
 func _load_data() -> void:
@@ -172,7 +165,6 @@ func _load_data() -> void:
 
 	if not has_output_node:
 		_output_node = _add_node(GaeaNodeOutput.new(), Vector2.ZERO)
-		_save_data.call_deferred()
 
 	# If scroll offset is saved, set it to that. Else, center the output node.
 	_graph_edit.set_scroll_offset(_scroll_offsets.get(_selected_generator.data, _output_node.size * 0.5 - _graph_edit.get_rect().size * 0.5))
@@ -241,11 +233,6 @@ func _load_attached_elements(attached: Array, frame_name: StringName) -> void:
 
 		_graph_edit.attach_graph_element_to_frame(node.name, frame_name)
 		_graph_edit._on_element_attached_to_frame(node.name, frame_name)
-
-
-func _notification(what: int) -> void:
-	if what == NOTIFICATION_EDITOR_PRE_SAVE and not is_part_of_edited_scene():
-		_save_data()
 #endregion
 
 
@@ -405,18 +392,11 @@ func _on_graph_edit_connection_to_empty(_from_node: StringName, _from_port: int,
 
 #region Buttons
 func _on_generate_button_pressed() -> void:
-	_save_data()
-
 	_selected_generator.generate()
 
 
 func _on_reload_node_tree_button_pressed() -> void:
 	_create_node_tree.populate()
-
-
-func _on_save_button_pressed() -> void:
-	_save_data()
-
 
 func _on_load_button_pressed() -> void:
 	_file_dialog.popup_centered()
