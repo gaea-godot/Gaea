@@ -66,7 +66,6 @@ func _on_argument_value_changed(value: Variant, _node: GaeaGraphNodeArgumentEdit
 	previous_name = value
 
 	generator.data.notify_property_list_changed()
-	save_requested.emit.call_deferred()
 
 
 

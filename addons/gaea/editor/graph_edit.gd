@@ -3,7 +3,6 @@ extends GraphEdit
 
 
 signal connection_update_requested
-signal save_requested
 
 var attached_elements: Dictionary
 var generator: GaeaGenerator
@@ -98,8 +97,6 @@ func _on_disconnection_request(from_node: StringName, from_port: int, to_node: S
 	if to_graph_node.has_finished_loading():
 		to_graph_node.notify_connections_updated.call_deferred()
 
-	save_requested.emit()
-
 
 func remove_invalid_connections() -> void:
 	for connection in get_connection_list():
@@ -126,8 +123,6 @@ func remove_invalid_connections() -> void:
 			to_node.notify_connections_updated.call_deferred()
 			from_node.notify_connections_updated.call_deferred()
 			continue
-
-	save_requested.emit()
 
 
 func is_nodes_connected_relatively(from_node: StringName, to_node: StringName) -> bool:

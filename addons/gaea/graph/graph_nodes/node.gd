@@ -5,8 +5,6 @@ extends GraphNode
 
 const _PreviewTexture = preload("res://addons/gaea/graph/components/preview_texture.gd")
 
-## Emitted when a save is needed from the Gaea panel.
-signal save_requested
 ## Emitted when connections to this node are updated.
 signal connections_updated
 ## Emitted when this node is removed from the graph.
@@ -262,7 +260,6 @@ func _on_argument_value_changed(value: Variant, _node: GaeaGraphNodeArgumentEdit
 	if _finished_loading:
 		resource.set_argument_value(arg_name, value)
 		generator.data.set_node_argument(arg_name, value, resource.id)
-		save_requested.emit()
 		if is_instance_valid(_preview):
 			_preview.update()
 
@@ -297,10 +294,6 @@ func _update_arguments_visibility() -> void:
 
 func _on_removed() -> void:
 	pass
-
-
-func _request_save() -> void:
-	save_requested.emit()
 
 
 ## Emit [signal connections_updated].
