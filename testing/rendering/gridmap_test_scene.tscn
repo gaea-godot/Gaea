@@ -7,35 +7,29 @@
 [ext_resource type="Script" uid="uid://dae6umbqb872e" path="res://addons/gaea/resources/gaea_graph.gd" id="5_3nkuh"]
 [ext_resource type="Script" uid="uid://x3nlfb00jxsh" path="res://addons/gaea/nodes/renderers/gridmap_renderer.gd" id="6_hkk2t"]
 
-[sub_resource type="Resource" id="Resource_yypbs"]
-script = ExtResource("3_jjey7")
-enabled = true
-
-[sub_resource type="Resource" id="Resource_6wvsa"]
-script = ExtResource("3_jjey7")
-enabled = true
-metadata/_custom_type_script = "uid://3qsmwhn2sk47"
-
 [sub_resource type="Resource" id="Resource_hkk2t"]
 script = ExtResource("4_ipl51")
 item_idx = 1
-orientation = 0
 preview_color = Color(0.542449, 0.0442967, 0.0128016, 1)
 metadata/_custom_type_script = "uid://cs0htewp12cyu"
 
 [sub_resource type="Resource" id="Resource_hwmwi"]
 script = ExtResource("4_ipl51")
-item_idx = 0
-orientation = 0
 preview_color = Color(0.932592, 0.828194, 0.821028, 1)
 metadata/_custom_type_script = "uid://cs0htewp12cyu"
+
+[sub_resource type="Resource" id="Resource_yypbs"]
+script = ExtResource("3_jjey7")
+
+[sub_resource type="Resource" id="Resource_6wvsa"]
+script = ExtResource("3_jjey7")
+metadata/_custom_type_script = "uid://3qsmwhn2sk47"
 
 [sub_resource type="Resource" id="Resource_jjey7"]
 resource_local_to_scene = true
 script = ExtResource("5_3nkuh")
 layers = Array[ExtResource("3_jjey7")]([SubResource("Resource_yypbs"), SubResource("Resource_6wvsa")])
-logging = 0
-connections = Array[Dictionary]([{
+_connections = Array[Dictionary]([{
 "from_node": 1,
 "from_port": 0,
 "keep_alive": false,
@@ -72,59 +66,64 @@ connections = Array[Dictionary]([{
 "to_node": 0,
 "to_port": 0
 }])
-resource_uids = Array[String](["uid://dol7xviglksx4", "uid://c3xxswfpt3mny", "uid://djjvx650evm0n", "uid://djjvx650evm0n", "uid://cqs1w714pbfql", "uid://cqs1w714pbfql"])
-node_data = Array[Dictionary]([{
-&"arguments": {},
-&"enums": [],
-"name": &"BaseNode",
-"position": Vector2(180, -20),
-"salt": 2117873859
-}, {
-&"arguments": {},
+_node_data = Dictionary[int, Dictionary]({
+0: {
+&"position": Vector2(180, -20),
+&"salt": 2117873859,
+&"type": 0,
+&"uid": "uid://dol7xviglksx4"
+},
+1: {
 &"enums": [1],
-"name": &"_GraphNode_54741",
-"position": Vector2(-700, -80),
-"salt": 2400641126
-}, {
+&"position": Vector2(-700, -80),
+&"salt": 2400641126,
+&"type": 0,
+&"uid": "uid://c3xxswfpt3mny"
+},
+2: {
 &"arguments": {
 &"range": {
 "max": 0.5,
 "min": 0.0
 }
 },
-&"enums": [],
-"name": &"_GraphNode_55381",
-"position": Vector2(-420, -180),
-"salt": 2144635037
-}, {
+&"position": Vector2(-420, -180),
+&"salt": 2144635037,
+&"type": 0,
+&"uid": "uid://djjvx650evm0n"
+},
+3: {
 &"arguments": {
 &"range": {
 "max": 1.0,
 "min": 0.5
 }
 },
-&"enums": [],
-"name": &"_GraphNode_55455",
-"position": Vector2(-360, 100),
-"salt": 2552265059
-}, {
+&"position": Vector2(-360, 100),
+&"salt": 2552265059,
+&"type": 0,
+&"uid": "uid://djjvx650evm0n"
+},
+4: {
 &"arguments": {
 &"name": "MaterialParameter"
 },
-&"enums": [],
-"name": &"_GraphNode_55838",
-"position": Vector2(-640, 200),
-"salt": 4011417297
-}, {
+&"position": Vector2(-640, 200),
+&"salt": 4011417297,
+&"type": 0,
+&"uid": "uid://cqs1w714pbfql"
+},
+5: {
 &"arguments": {
 &"name": "MaterialParameter2"
 },
-&"enums": [],
-"name": &"_GraphNode_55879",
-"position": Vector2(-660, -200),
-"salt": 1653582949
-}])
-parameters = Dictionary[StringName, Variant]({
+&"position": Vector2(-660, -200),
+&"salt": 1653582949,
+&"type": 0,
+&"uid": "uid://cqs1w714pbfql"
+}
+})
+_parameters = Dictionary[StringName, Variant]({
 &"MaterialParameter": {
 "hint": 17,
 "hint_string": "GaeaMaterial",
@@ -142,8 +141,8 @@ parameters = Dictionary[StringName, Variant]({
 "value": SubResource("Resource_hwmwi")
 }
 })
-other = {
-&"save_version": 3
+_other = {
+&"save_version": 4
 }
 
 [sub_resource type="BoxMesh" id="BoxMesh_ipl51"]

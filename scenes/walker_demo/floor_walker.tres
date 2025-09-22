@@ -338,85 +338,10 @@ _connections = Array[Dictionary]([{
 "to_node": 10,
 "to_port": 0
 }, {
-"from_node": 17,
-"from_port": 0,
-"to_node": 18,
-"to_port": 0
-}, {
-"from_node": 0,
-"from_port": 0,
-"to_node": 14,
-"to_port": 0
-}, {
-"from_node": 15,
-"from_port": 0,
-"to_node": 16,
-"to_port": 0
-}, {
-"from_node": 16,
-"from_port": 0,
-"to_node": 22,
-"to_port": 1
-}, {
-"from_node": 3,
-"from_port": 0,
-"to_node": 24,
-"to_port": 0
-}, {
-"from_node": 24,
-"from_port": 0,
-"to_node": 13,
-"to_port": 0
-}, {
-"from_node": 14,
-"from_port": 0,
-"to_node": 22,
-"to_port": 0
-}, {
-"from_node": 12,
-"from_port": 0,
-"to_node": 5,
-"to_port": 0
-}, {
-"from_node": 28,
+"from_node": 23,
 "from_port": 0,
 "to_node": 21,
-"to_port": 0
-}, {
-"from_node": 25,
-"from_port": 0,
-"to_node": 27,
-"to_port": 0
-}, {
-"from_node": 26,
-"from_port": 0,
-"to_node": 7,
 "to_port": 1
-}, {
-"from_node": 18,
-"from_port": 0,
-"to_node": 28,
-"to_port": 0
-}, {
-"from_node": 7,
-"from_port": 0,
-"to_node": 27,
-"to_port": 1
-}, {
-"from_node": 9,
-"from_port": 0,
-"to_node": 8,
-"to_port": 0
-}, {
-"from_node": 20,
-"from_port": 0,
-"to_node": 0,
-"to_port": 1
-}, {
-"from_node": 19,
-"from_port": 0,
-"to_node": 0,
-"to_port": 0
 }, {
 "from_node": 31,
 "from_port": 0,
@@ -428,19 +353,19 @@ _connections = Array[Dictionary]([{
 "to_node": 6,
 "to_port": 1
 }, {
-"from_node": 11,
+"from_node": 29,
 "from_port": 0,
-"to_node": 12,
-"to_port": 0
+"to_node": 15,
+"to_port": 1
 }, {
 "from_node": 27,
 "from_port": 0,
 "to_node": 5,
 "to_port": 1
 }, {
-"from_node": 18,
+"from_node": 8,
 "from_port": 0,
-"to_node": 19,
+"to_node": 25,
 "to_port": 0
 }, {
 "from_node": 9,
@@ -448,24 +373,24 @@ _connections = Array[Dictionary]([{
 "to_node": 7,
 "to_port": 0
 }, {
-"from_node": 23,
+"from_node": 11,
 "from_port": 0,
-"to_node": 21,
-"to_port": 1
-}, {
-"from_node": 13,
-"from_port": 0,
-"to_node": 9,
+"to_node": 12,
 "to_port": 0
 }, {
-"from_node": 9,
+"from_node": 24,
 "from_port": 0,
-"to_node": 1,
+"to_node": 13,
 "to_port": 0
 }, {
-"from_node": 13,
+"from_node": 3,
 "from_port": 0,
-"to_node": 10,
+"to_node": 24,
+"to_port": 0
+}, {
+"from_node": 14,
+"from_port": 0,
+"to_node": 22,
 "to_port": 0
 }, {
 "from_node": 21,
@@ -478,20 +403,105 @@ _connections = Array[Dictionary]([{
 "to_node": 6,
 "to_port": 0
 }, {
-"from_node": 22,
+"from_node": 7,
 "from_port": 0,
-"to_node": 5,
-"to_port": 2
+"to_node": 27,
+"to_port": 1
 }, {
-"from_node": 10,
+"from_node": 20,
 "from_port": 0,
-"to_node": 15,
+"to_node": 0,
+"to_port": 1
+}, {
+"from_node": 17,
+"from_port": 0,
+"to_node": 18,
+"to_port": 0
+}, {
+"from_node": 19,
+"from_port": 0,
+"to_node": 0,
+"to_port": 0
+}, {
+"from_node": 18,
+"from_port": 0,
+"to_node": 28,
 "to_port": 0
 }, {
 "from_node": 4,
 "from_port": 0,
 "to_node": 2,
 "to_port": 1
+}, {
+"from_node": 25,
+"from_port": 0,
+"to_node": 27,
+"to_port": 0
+}, {
+"from_node": 15,
+"from_port": 0,
+"to_node": 16,
+"to_port": 0
+}, {
+"from_node": 9,
+"from_port": 0,
+"to_node": 8,
+"to_port": 0
+}, {
+"from_node": 12,
+"from_port": 0,
+"to_node": 5,
+"to_port": 0
+}, {
+"from_node": 3,
+"from_port": 0,
+"to_node": 2,
+"to_port": 0
+}, {
+"from_node": 9,
+"from_port": 0,
+"to_node": 1,
+"to_port": 0
+}, {
+"from_node": 6,
+"from_port": 0,
+"to_node": 27,
+"to_port": 2
+}, {
+"from_node": 18,
+"from_port": 0,
+"to_node": 19,
+"to_port": 0
+}, {
+"from_node": 13,
+"from_port": 0,
+"to_node": 10,
+"to_port": 0
+}, {
+"from_node": 26,
+"from_port": 0,
+"to_node": 7,
+"to_port": 1
+}, {
+"from_node": 10,
+"from_port": 0,
+"to_node": 15,
+"to_port": 0
+}, {
+"from_node": 16,
+"from_port": 0,
+"to_node": 22,
+"to_port": 1
+}, {
+"from_node": 0,
+"from_port": 0,
+"to_node": 14,
+"to_port": 0
+}, {
+"from_node": 28,
+"from_port": 0,
+"to_node": 21,
+"to_port": 0
 }, {
 "from_node": 2,
 "from_port": 0,
@@ -500,47 +510,37 @@ _connections = Array[Dictionary]([{
 }, {
 "from_node": 3,
 "from_port": 0,
-"to_node": 2,
-"to_port": 0
-}, {
-"from_node": 29,
-"from_port": 0,
-"to_node": 15,
-"to_port": 1
-}, {
-"from_node": 3,
-"from_port": 0,
 "to_node": 17,
 "to_port": 0
 }, {
-"from_node": 8,
+"from_node": 13,
 "from_port": 0,
-"to_node": 25,
+"to_node": 9,
 "to_port": 0
 }, {
-"from_node": 6,
+"from_node": 22,
 "from_port": 0,
-"to_node": 27,
+"to_node": 5,
 "to_port": 2
 }])
 _node_data = Dictionary[int, Dictionary]({
 0: {
 &"position": Vector2(580, 600),
 &"reroute_type": 200,
-&"salt": 1281804609,
+&"salt": 3983864631,
 &"type": 0,
 &"uid": "uid://dux0bq53p61ls"
 },
 1: {
 &"position": Vector2(480, 80),
 &"reroute_type": 200,
-&"salt": 3611365378,
+&"salt": 0,
 &"type": 0,
 &"uid": "uid://bgqqucap4kua4"
 },
 2: {
 &"position": Vector2(-340, 540),
-&"salt": 3171459431,
+&"salt": 845489457,
 &"type": 0,
 &"uid": "uid://dux0bq53p61ls"
 },
@@ -564,7 +564,7 @@ _node_data = Dictionary[int, Dictionary]({
 },
 &"enums": [0],
 &"position": Vector2(-1340, 40),
-&"salt": 3016342326,
+&"salt": 2719450087,
 &"type": 0,
 &"uid": "uid://blx812352t3jj"
 },
@@ -573,13 +573,13 @@ _node_data = Dictionary[int, Dictionary]({
 &"name": "FloorMaterial"
 },
 &"position": Vector2(-600, 640),
-&"salt": 767509671,
+&"salt": 3203641953,
 &"type": 0,
 &"uid": "uid://cqs1w714pbfql"
 },
 5: {
 &"position": Vector2(1780, 500),
-&"salt": 3625523347,
+&"salt": 2045614114,
 &"type": 0,
 &"uid": "uid://dol7xviglksx4"
 },
@@ -593,7 +593,7 @@ Vector2i(0, 0): true
 }
 },
 &"position": Vector2(740, 80),
-&"salt": 1495093600,
+&"salt": 581472843,
 &"type": 0,
 &"uid": "uid://br8gcsyc04ksj"
 },
@@ -607,49 +607,49 @@ Vector2i(0, 0): false
 }
 },
 &"position": Vector2(740, -260),
-&"salt": 3516146884,
+&"salt": 380881962,
 &"type": 0,
 &"uid": "uid://br8gcsyc04ksj"
 },
 8: {
 &"position": Vector2(480, -500),
 &"reroute_type": 200,
-&"salt": 678442594,
+&"salt": 0,
 &"type": 0,
 &"uid": "uid://bgqqucap4kua4"
 },
 9: {
 &"position": Vector2(360, -260),
 &"reroute_type": 200,
-&"salt": 756854048,
+&"salt": 0,
 &"type": 0,
 &"uid": "uid://bgqqucap4kua4"
 },
 10: {
 &"position": Vector2(340, 900),
 &"reroute_type": 200,
-&"salt": 3015456637,
+&"salt": 0,
 &"type": 0,
 &"uid": "uid://bgqqucap4kua4"
 },
 11: {
 &"position": Vector2(180, 400),
 &"reroute_type": 201,
-&"salt": 1586859802,
+&"salt": 0,
 &"type": 0,
 &"uid": "uid://bgqqucap4kua4"
 },
 12: {
 &"position": Vector2(1060, 400),
 &"reroute_type": 201,
-&"salt": 1947407544,
+&"salt": 0,
 &"type": 0,
 &"uid": "uid://bgqqucap4kua4"
 },
 13: {
 &"position": Vector2(-120, 200),
 &"reroute_type": 200,
-&"salt": 3052279972,
+&"salt": 0,
 &"type": 0,
 &"uid": "uid://bgqqucap4kua4"
 },
@@ -659,7 +659,7 @@ Vector2i(0, 0): false
 &"input_grid": Dictionary[Vector3i, ExtResource("2_du0iw")]({})
 },
 &"position": Vector2(800, 600),
-&"salt": 2358541352,
+&"salt": 2691821230,
 &"type": 0,
 &"uid": "uid://coh5skum82ue3"
 },
@@ -673,7 +673,7 @@ Vector2i(0, 0): false
 }
 },
 &"position": Vector2(540, 900),
-&"salt": 3616165836,
+&"salt": 4142241368,
 &"type": 0,
 &"uid": "uid://br8gcsyc04ksj"
 },
@@ -683,28 +683,28 @@ Vector2i(0, 0): false
 &"input_grid": Dictionary[Vector3i, ExtResource("2_du0iw")]({})
 },
 &"position": Vector2(820, 900),
-&"salt": 3035053752,
+&"salt": 2125879735,
 &"type": 0,
 &"uid": "uid://coh5skum82ue3"
 },
 17: {
 &"position": Vector2(-740, 720),
 &"reroute_type": 200,
-&"salt": 3487820493,
+&"salt": 0,
 &"type": 0,
 &"uid": "uid://bgqqucap4kua4"
 },
 18: {
 &"position": Vector2(-140, 720),
 &"reroute_type": 200,
-&"salt": 3258591072,
+&"salt": 0,
 &"type": 0,
 &"uid": "uid://bgqqucap4kua4"
 },
 19: {
 &"position": Vector2(60, 600),
 &"reroute_type": 200,
-&"salt": 3122158193,
+&"salt": 0,
 &"type": 0,
 &"uid": "uid://bgqqucap4kua4"
 },
@@ -713,7 +713,7 @@ Vector2i(0, 0): false
 &"name": "Vegetation"
 },
 &"position": Vector2(320, 680),
-&"salt": 3340540429,
+&"salt": 3147852408,
 &"type": 0,
 &"uid": "uid://cqs1w714pbfql"
 },
@@ -724,14 +724,14 @@ Vector2i(0, 0): false
 &"reference_data": Dictionary[Vector3i, float]({})
 },
 &"position": Vector2(900, 1360),
-&"salt": 119598181,
+&"salt": 308118276,
 &"type": 0,
 &"uid": "uid://bjmyuomcmtwq6"
 },
 22: {
 &"enums": [0],
 &"position": Vector2(1260, 820),
-&"salt": 2416308312,
+&"salt": 1022077936,
 &"type": 0,
 &"uid": "uid://d2f6bjkxcn7jl"
 },
@@ -740,20 +740,20 @@ Vector2i(0, 0): false
 &"name": "Chest"
 },
 &"position": Vector2(660, 1440),
-&"salt": 4086502635,
+&"salt": 3043193593,
 &"type": 0,
 &"uid": "uid://cqs1w714pbfql"
 },
 24: {
 &"enums": [2],
 &"position": Vector2(-480, 160),
-&"salt": 606917712,
+&"salt": 1095001467,
 &"type": 0,
 &"uid": "uid://0vv1gfyt6147"
 },
 25: {
 &"position": Vector2(740, -500),
-&"salt": 510406764,
+&"salt": 1095001467,
 &"type": 0,
 &"uid": "uid://dux0bq53p61ls"
 },
@@ -762,14 +762,14 @@ Vector2i(0, 0): false
 &"name": "WallBelow"
 },
 &"position": Vector2(520, -180),
-&"salt": 2511457905,
+&"salt": 1065991013,
 &"type": 0,
 &"uid": "uid://cqs1w714pbfql"
 },
 27: {
 &"enums": [0],
 &"position": Vector2(1120, -180),
-&"salt": 2877069353,
+&"salt": 1380013154,
 &"type": 0,
 &"uid": "uid://d2f6bjkxcn7jl"
 },
@@ -783,7 +783,7 @@ Vector2i(0, 0): false
 &"to_point": Vector3(24, 24, 0)
 },
 &"position": Vector2(280, 1340),
-&"salt": 3307878279,
+&"salt": 2767213228,
 &"type": 0,
 &"uid": "uid://dnj3grm2qv20y"
 },
@@ -792,7 +792,7 @@ Vector2i(0, 0): false
 &"name": "SpikyVegetation"
 },
 &"position": Vector2(320, 980),
-&"salt": 3293793570,
+&"salt": 2702524083,
 &"type": 0,
 &"uid": "uid://cqs1w714pbfql"
 },
@@ -801,7 +801,7 @@ Vector2i(0, 0): false
 &"name": "WallAbove"
 },
 &"position": Vector2(520, 160),
-&"salt": 3032277154,
+&"salt": 2224158555,
 &"type": 0,
 &"uid": "uid://cqs1w714pbfql"
 },
@@ -810,7 +810,7 @@ Vector2i(0, 0): false
 &"name": "WallMaterial"
 },
 &"position": Vector2(520, -420),
-&"salt": 4100497101,
+&"salt": 3078290440,
 &"type": 0,
 &"uid": "uid://cqs1w714pbfql"
 },

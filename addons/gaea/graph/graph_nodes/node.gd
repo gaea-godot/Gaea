@@ -82,6 +82,7 @@ func _on_added() -> void:
 	title = resource.get_title()
 	if resource.salt == 0:
 		resource.salt = randi()
+		generator.data.set_node_data_value(&"salt", resource.salt, resource.id)
 
 
 func _rebuild() -> void:

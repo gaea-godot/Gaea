@@ -69,45 +69,45 @@ _connections = Array[Dictionary]([{
 }, {
 "from_node": 1,
 "from_port": 0,
-"to_node": 2,
-"to_port": 0
-}, {
-"from_node": 1,
-"from_port": 0,
 "to_node": 3,
 "to_port": 0
-}, {
-"from_node": 4,
-"from_port": 0,
-"to_node": 2,
-"to_port": 1
 }, {
 "from_node": 5,
 "from_port": 0,
 "to_node": 3,
 "to_port": 1
 }, {
-"from_node": 2,
-"from_port": 0,
-"to_node": 0,
-"to_port": 0
-}, {
 "from_node": 3,
 "from_port": 0,
 "to_node": 0,
 "to_port": 1
+}, {
+"from_node": 4,
+"from_port": 0,
+"to_node": 2,
+"to_port": 1
+}, {
+"from_node": 1,
+"from_port": 0,
+"to_node": 2,
+"to_port": 0
+}, {
+"from_node": 2,
+"from_port": 0,
+"to_node": 0,
+"to_port": 0
 }])
 _node_data = Dictionary[int, Dictionary]({
 0: {
 &"position": Vector2(0, 0),
-&"salt": 3121952052,
+&"salt": 326923984,
 &"type": 0,
 &"uid": "uid://dol7xviglksx4"
 },
 1: {
 &"enums": [1],
 &"position": Vector2(-920, -180),
-&"salt": 2523299010,
+&"salt": 3798772802,
 &"type": 0,
 &"uid": "uid://cgjyi804j05dy"
 },
@@ -121,7 +121,7 @@ _node_data = Dictionary[int, Dictionary]({
 &"reference_data": Dictionary[Vector3i, float]({})
 },
 &"position": Vector2(-500, -180),
-&"salt": 2789148070,
+&"salt": 3380315837,
 &"type": 0,
 &"uid": "uid://djjvx650evm0n"
 },
@@ -135,7 +135,7 @@ _node_data = Dictionary[int, Dictionary]({
 &"reference_data": Dictionary[Vector3i, float]({})
 },
 &"position": Vector2(-500, 80),
-&"salt": 1228340443,
+&"salt": 3647513594,
 &"type": 0,
 &"uid": "uid://djjvx650evm0n"
 },
@@ -144,7 +144,7 @@ _node_data = Dictionary[int, Dictionary]({
 &"name": "Grass"
 },
 &"position": Vector2(-720, -200),
-&"salt": 1369664547,
+&"salt": 2975531569,
 &"type": 0,
 &"uid": "uid://cqs1w714pbfql"
 },
@@ -153,26 +153,9 @@ _node_data = Dictionary[int, Dictionary]({
 &"name": "Sand"
 },
 &"position": Vector2(-740, 160),
-&"salt": 1877998662,
+&"salt": 199162274,
 &"type": 0,
 &"uid": "uid://cqs1w714pbfql"
-},
-6: {
-&"attached": [8, 7],
-&"name": &"_GraphFrame_34166",
-&"position": Vector2(-1580, -280),
-&"type": 1
-},
-7: {
-&"name": &"_GraphFrame_34169",
-&"position": Vector2(-1600, -200),
-&"type": 1
-},
-8: {
-&"attached": [6],
-&"name": &"_GraphFrame_36464",
-&"position": Vector2(-1580, -300),
-&"type": 1
 }
 })
 _parameters = Dictionary[StringName, Variant]({

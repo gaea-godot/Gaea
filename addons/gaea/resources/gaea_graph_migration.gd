@@ -155,6 +155,7 @@ static func _migration_step_node_ids(data: GaeaGraph):
 			var _resource: GaeaNodeResource = load(data.resource_uids[idx]).new()
 			var _position: Vector2 = _node_data.get("position", Vector2.ZERO)
 			data.add_node(_resource, _position, idx)
+			data.set_node_data_value(&"salt", _node_data.get(&"salt", data.get_node_data(idx)[&"salt"]), idx)
 			for arg_name: StringName in _node_data.get(&"arguments", {}):
 				var _value: Variant = _node_data.get(&"arguments").get(arg_name)
 				data.set_node_argument(arg_name, _value, idx)
