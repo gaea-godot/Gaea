@@ -8,7 +8,7 @@ on:
 
 jobs:
   gdlint:
-    name: GdLint
+    name: Gaea
     runs-on: 'ubuntu-22.04'
     timeout-minutes: 5
 
@@ -18,12 +18,12 @@ jobs:
         with:
           lfs: true
 
-      - name: Setup GDLint
+      - name: "Setup GDLint"
         uses: Scony/godot-gdscript-toolkit@master
         with:
           version: 4.3.3
 
-      - name: Run GDLint
+      - name: "Run GDLint"
         id: run-gdlint
         shell: bash
         run: |
@@ -33,7 +33,7 @@ jobs:
           gdlint addons/gdUnit4/nodes/ | tee reports/gdlint/nodes.txt
           gdlint addons/gdUnit4/resources/ | tee reports/gdlint/resources.txt
 
-      - name: Upload GDLint Report
+      - name: "Upload GDLint Report"
         if: failure()
         uses: actions/upload-artifact@v4
         with:

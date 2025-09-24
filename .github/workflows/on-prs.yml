@@ -21,7 +21,7 @@ jobs:
     uses: ./.github/workflows/gdlint.yml
 
 #  generation_testing:
-#    name: '🐞 Generation Testing'
+#    name: '🐞 Generation'
 #    uses: ./.github/workflows/generation_testing.yml
 #    
 #    permissions:
@@ -32,7 +32,7 @@ jobs:
 #      statuses: write
 #    
 #  nodes_testing:
-#    name: '🐞 Node Testing'
+#    name: '🐞 Nodes'
 #    uses: ./.github/workflows/nodes_testing.yml
 #    
 #    permissions:
@@ -43,7 +43,7 @@ jobs:
 #      statuses: write
 #    
 #  renderers_testing:
-#    name: '🐞 Renderers Testing'
+#    name: '🐞 Renderers'
 #    uses: ./.github/workflows/renderers_testing.yml
 #    
 #    permissions:

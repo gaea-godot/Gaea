@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
   warning_check:
-    name: "Node Testing"
+    name: Tests
     runs-on: 'ubuntu-22.04'
     timeout-minutes: 10 # The overall timeout
     permissions:
