@@ -1,4 +1,4 @@
-name: gdlint
+name: GHA
 
 run-name: ${{ github.head_ref || github.ref_name }}-gdlint
 
