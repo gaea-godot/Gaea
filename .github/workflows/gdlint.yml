@@ -12,7 +12,7 @@ on:
 jobs:
   gdlint:
     name: GdLint
-    runs-on: ${{ inputs.os }}
+    runs-on: 'ubuntu-22.04'
     timeout-minutes: 5
 
     steps:
