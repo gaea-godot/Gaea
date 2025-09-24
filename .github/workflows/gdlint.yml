@@ -1,0 +1,54 @@
+name: gdlint
+
+run-name: ${{ github.head_ref || github.ref_name }}-gdlint
+
+on: # yamllint disable-line rule:truthy
+  workflow_call:
+    inputs:
+      os:
+        required: false
+        type: string
+        default: "ubuntu-22.04"
+  workflow_dispatch:
+    inputs:
+      os:
+        description: 'Defines the type of machine to run the job on.'
+        required: false
+        type: string
+        default: "ubuntu-22.04"
+
+jobs:
+  gdlint:
+    name: GdLint
+    runs-on: ${{ inputs.os }}
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout GdUnit Repository
+        uses: actions/checkout@v5
+        with:
+          lfs: true
+
+      - name: Setup GDLint
+        uses: Scony/godot-gdscript-toolkit@master
+        with:
+          version: 4.3.3
+
+      - name: Run GDLint
+        id: run-gdlint
+        shell: bash
+        run: |
+          mkdir -p reports/gdlint/
+          gdlint addons/gaea/editor/ | tee reports/gdlint/editor.txt
+          gdlint addons/gdUnit4/graph/ | tee reports/gdlint/graph.txt
+          gdlint addons/gdUnit4/nodes/ | tee reports/gdlint/nodes.txt
+          gdlint addons/gdUnit4/resources/ | tee reports/gdlint/resources.txt
+
+      - name: Upload GDLint Report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gdlint.txt
+          path: reports/gdlint/**
+          if-no-files-found: error
+          compression-level: 0 # no compression
