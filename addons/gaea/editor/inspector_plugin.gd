@@ -1,6 +1,5 @@
 extends EditorInspectorPlugin
 
-
 const GradientVisualizer = preload("res://addons/gaea/editor/gradient_visualizer.gd")
 
 

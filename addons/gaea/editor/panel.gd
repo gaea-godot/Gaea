@@ -1,11 +1,14 @@
 @tool
 extends Control
 
-const _LinkPopup = preload("uid://btt4eqjkp5pyf")
+const LinkPopup = preload("uid://btt4eqjkp5pyf")
 
-var _selected_generator: GaeaGenerator = null: get = get_selected_generator
-var _output_node: GaeaGraphNode
+var plugin: EditorPlugin
 var is_loading = false
+
+var _selected_generator: GaeaGenerator = null:
+	get = get_selected_generator
+var _output_node: GaeaGraphNode
 
 ## Local position on [GraphEdit] for a node that may be created in the future.
 var _node_creation_target: Vector2 = Vector2.ZERO
@@ -17,7 +20,7 @@ var plugin: EditorPlugin
 @onready var _create_node_popup: Window = %CreateNodePopup
 @onready var _create_node_panel: Panel = %CreateNodePanel
 @onready var _node_popup: PopupMenu = %NodePopup
-@onready var _link_popup: _LinkPopup = %LinkPopup
+@onready var _link_popup: LinkPopup = %LinkPopup
 @onready var _create_node_tree: Tree = %CreateNodeTree
 @onready var _search_bar: LineEdit = %SearchBar
 @onready var _save_button: Button = %SaveButton
@@ -46,10 +49,18 @@ func _ready() -> void:
 	_reload_parameters_list_button.icon = preload("../assets/reload_variables_list.svg")
 	_save_button.icon = EditorInterface.get_base_control().get_theme_icon(&"Save", &"EditorIcons")
 	_load_button.icon = EditorInterface.get_base_control().get_theme_icon(&"Load", &"EditorIcons")
-	_window_popout_button.icon = EditorInterface.get_base_control().get_theme_icon(&"MakeFloating", &"EditorIcons")
-	_online_docs_button.icon = EditorInterface.get_base_control().get_theme_icon(&"ExternalLink", &"EditorIcons")
-	_create_node_panel.add_theme_stylebox_override(&"panel", EditorInterface.get_base_control().get_theme_stylebox(&"panel", &"PopupPanel"))
-	_about_button.icon = EditorInterface.get_base_control().get_theme_icon(&"NodeInfo", &"EditorIcons")
+	_window_popout_button.icon = EditorInterface.get_base_control().get_theme_icon(
+		&"MakeFloating", &"EditorIcons"
+	)
+	_online_docs_button.icon = EditorInterface.get_base_control().get_theme_icon(
+		&"ExternalLink", &"EditorIcons"
+	)
+	_create_node_panel.add_theme_stylebox_override(
+		&"panel", EditorInterface.get_base_control().get_theme_stylebox(&"panel", &"PopupPanel")
+	)
+	_about_button.icon = EditorInterface.get_base_control().get_theme_icon(
+		&"NodeInfo", &"EditorIcons"
+	)
 	_about_button.pressed.connect(_about_window.popup_centered)
 	_about_window.plugin = plugin
 	_about_window.initialize()
@@ -83,11 +94,11 @@ func _on_graph_edit_gui_input(event: InputEvent) -> void:
 				_popup_link_context_menu_at_mouse(connection)
 				return
 
-			var _selected: Array = _graph_edit.get_selected()
-			if _selected.is_empty():
+			var selected: Array = _graph_edit.get_selected()
+			if selected.is_empty():
 				_popup_create_node_menu_at_mouse()
 			else:
-				_popup_node_context_menu_at_mouse(_selected)
+				_popup_node_context_menu_at_mouse(selected)
 
 
 func _on_visibility_changed() -> void:
@@ -95,6 +106,7 @@ func _on_visibility_changed() -> void:
 	_graph_edit.set_grid_pattern(GaeaEditorSettings.get_grid_pattern())
 	_graph_edit.set_connection_lines_thickness(GaeaEditorSettings.get_line_thickness())
 	_graph_edit.set_minimap_opacity(GaeaEditorSettings.get_minimap_opacity())
+
 
 #endregion
 
@@ -105,7 +117,10 @@ func populate(node: GaeaGenerator) -> void:
 	await _remove_children()
 	_output_node = null
 
-	if is_instance_valid(_selected_generator) and _selected_generator.data_changed.is_connected(_on_data_changed):
+	if (
+		is_instance_valid(_selected_generator)
+		and _selected_generator.data_changed.is_connected(_on_data_changed)
+	):
 		_selected_generator.data_changed.disconnect(_on_data_changed)
 
 	_selected_generator = node
@@ -127,7 +142,10 @@ func populate(node: GaeaGenerator) -> void:
 
 func unpopulate() -> void:
 	if is_instance_valid(_selected_generator):
-		if is_instance_valid(_selected_generator.data) and _selected_generator.data.layer_count_modified.is_connected(_update_output_node):
+		if (
+			is_instance_valid(_selected_generator.data)
+			and _selected_generator.data.layer_count_modified.is_connected(_update_output_node)
+		):
 			_selected_generator.data.layer_count_modified.disconnect(_update_output_node)
 		if _selected_generator.data_changed.is_connected(_on_data_changed):
 			_selected_generator.data_changed.disconnect(_on_data_changed)
@@ -165,7 +183,6 @@ func _load_data() -> void:
 					has_output_node = true
 					_output_node = node
 
-
 	if not has_output_node:
 		_output_node = _add_node(GaeaNodeOutput.new(), Vector2.ZERO)
 
@@ -195,7 +212,9 @@ func _load_connections(connections: Array[Dictionary]) -> void:
 			continue
 		if to_node.get_input_port_count() <= connection.to_port:
 			continue
-		_graph_edit.connection_request.emit(from_node.name, connection.from_port, to_node.name, connection.to_port)
+		_graph_edit.connection_request.emit(
+			from_node.name, connection.from_port, to_node.name, connection.to_port
+		)
 
 
 func _load_frame(frame_data: Dictionary) -> GaeaGraphFrame:
@@ -252,6 +271,8 @@ func _on_new_data_button_pressed() -> void:
 
 func _on_data_changed() -> void:
 	populate(_selected_generator)
+
+
 #endregion
 
 
@@ -327,25 +348,48 @@ func _on_new_reroute_requested(connection: Dictionary) -> void:
 	resource.type = from_node.get_output_port_type(connection.from_port) as GaeaValue.Type
 	var reroute: GaeaGraphNode = _add_node(resource, Vector2.ZERO)
 
-	var offset = - reroute.get_output_port_position(0)
+	var offset = -reroute.get_output_port_position(0)
 	offset.y -= reroute.get_slot_custom_icon_right(0).get_size().y * 0.5
 	reroute.set_position_offset(_graph_edit.local_to_grid(_node_creation_target, offset))
 
 	_selected_generator.data.set_node_position(reroute.resource.id, reroute.position_offset)
 
 
-	_graph_edit.disconnection_request.emit.call_deferred(
-		connection.from_node, connection.from_port,
-		connection.to_node, connection.to_port,
+	(
+		_graph_edit
+		.disconnection_request
+		.emit
+		.call_deferred(
+			connection.from_node,
+			connection.from_port,
+			connection.to_node,
+			connection.to_port,
+		)
 	)
-	_graph_edit.connection_request.emit.call_deferred(
-		connection.from_node, connection.from_port,
-		reroute.name, 0,
+	(
+		_graph_edit
+		.connection_request
+		.emit
+		.call_deferred(
+			connection.from_node,
+			connection.from_port,
+			reroute.name,
+			0,
+		)
 	)
-	_graph_edit.connection_request.emit.call_deferred(
-		reroute.name, 0,
-		connection.to_node, connection.to_port,
+	(
+		_graph_edit
+		.connection_request
+		.emit
+		.call_deferred(
+			reroute.name,
+			0,
+			connection.to_node,
+			connection.to_port,
+		)
 	)
+
+
 #endregion
 
 
@@ -367,6 +411,8 @@ func _popup_link_context_menu_at_mouse(connection: Dictionary) -> void:
 	if not EditorInterface.get_editor_settings().get_setting("interface/editor/single_window_mode"):
 		_link_popup.position += get_window().position
 	_link_popup.popup()
+
+
 #endregion
 
 
@@ -376,6 +422,8 @@ func _update_output_node() -> void:
 		await _output_node.update_slots()
 		await get_tree().process_frame
 		_graph_edit.remove_invalid_connections()
+
+
 #endregion
 
 
@@ -392,8 +440,12 @@ func update_connections() -> void:
 		to_node.connections.append(connection)
 
 
-func _on_graph_edit_connection_to_empty(_from_node: StringName, _from_port: int, _release_position: Vector2) -> void:
+func _on_graph_edit_connection_to_empty(
+	_from_node: StringName, _from_port: int, _release_position: Vector2
+) -> void:
 	_popup_create_node_menu_at_mouse()
+
+
 #endregion
 
 
@@ -414,7 +466,10 @@ func _on_file_dialog_file_selected(path: String) -> void:
 
 
 func _on_reload_parameters_list_button_pressed() -> void:
-	if not is_instance_valid(_selected_generator) or not is_instance_valid(_selected_generator.data):
+	if (
+		not is_instance_valid(_selected_generator)
+		or not is_instance_valid(_selected_generator.data)
+	):
 		return
 
 	var existing_parameters: Array[String]
@@ -478,13 +533,23 @@ func _on_window_popout_button_pressed() -> void:
 func _get_multiwindow_support_tooltip_text() -> String:
 	# Adapted from https://github.com/godotengine/godot/blob/a8598cd8e261716fa3addb6f10bb57c03a061be9/editor/editor_node.cpp#L4725-L4737
 	if EditorInterface.get_editor_settings().get_setting("interface/editor/single_window_mode"):
-		return tr("Multi-window support is not available because Interface > Editor > Single Window Mode is enabled in the editor settings.")
-	elif not EditorInterface.get_editor_settings().get_setting("interface/multi_window/enable"):
-		return tr("Multi-window support is not available because Interface > Multi Window > Enable is disabled in the editor settings.")
-	elif DisplayServer.has_feature(DisplayServer.FEATURE_SUBWINDOWS):
-		return tr("Multi-window support is not available because the `--single-window` command line argument was used to start the editor.")
-	else:
-		return tr("Multi-window support is not available because the current platform doesn't support multiple windows.")
+		return tr(
+			"Multi-window support is not available because Interface > Editor > Single Window Mode is enabled in the editor settings."
+		)
+
+	if not EditorInterface.get_editor_settings().get_setting("interface/multi_window/enable"):
+		return tr(
+			"Multi-window support is not available because Interface > Multi Window > Enable is disabled in the editor settings."
+		)
+
+	if DisplayServer.has_feature(DisplayServer.FEATURE_SUBWINDOWS):
+		return tr(
+			"Multi-window support is not available because the `--single-window` command line argument was used to start the editor."
+		)
+
+	return tr(
+		"Multi-window support is not available because the current platform doesn't support multiple windows."
+	)
 
 
 func _on_window_close_requested(original_parent: Control, window: Window) -> void:
@@ -492,6 +557,8 @@ func _on_window_close_requested(original_parent: Control, window: Window) -> voi
 	window.queue_free()
 	_window_popout_button.show()
 	_window_popout_separator.show()
+
+
 #endregion
 #endregion
 
@@ -505,11 +572,20 @@ func update_bottom_note():
 	var mouse_position = _graph_edit.get_local_mouse_position()
 	if get_rect().has_point(mouse_position):
 		_bottom_note_label.visible = true
-		_bottom_note_label.text = "%s" % [
-			Vector2i(_graph_edit.local_to_grid(_graph_edit.get_local_mouse_position(), Vector2.ZERO, false))
-		]
+		_bottom_note_label.text = (
+			"%s"
+			% [
+				Vector2i(
+					_graph_edit.local_to_grid(
+						_graph_edit.get_local_mouse_position(), Vector2.ZERO, false
+					)
+				)
+			]
+		)
 	else:
 		_bottom_note_label.visible = false
+
+
 #endregion
 
 

@@ -1,11 +1,11 @@
 @tool
 extends GraphEdit
 
-
 signal connection_update_requested
 
 var attached_elements: Dictionary
 var generator: GaeaGenerator
+
 
 func _init() -> void:
 	for cast in GaeaValueCast.get_cast_list():
@@ -31,8 +31,12 @@ func delete_nodes(nodes: Array[StringName]) -> void:
 				continue
 
 			for connection in node.connections:
-				disconnect_node(connection.from_node, connection.from_port, connection.to_node, connection.to_port)
-
+				disconnect_node(
+					connection.from_node,
+					connection.from_port,
+					connection.to_node,
+					connection.to_port
+				)
 			node.removed.emit()
 			generator.data.remove_node(node.resource.id)
 		elif node is GaeaGraphFrame:
@@ -45,7 +49,9 @@ func delete_nodes(nodes: Array[StringName]) -> void:
 	connection_update_requested.emit()
 
 
-func _on_connection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
+func _on_connection_request(
+	from_node: StringName, from_port: int, to_node: StringName, to_port: int
+) -> void:
 	if is_nodes_connected_relatively(from_node, to_node):
 		return
 
@@ -94,7 +100,9 @@ func _on_connection_request(from_node: StringName, from_port: int, to_node: Stri
 		to_graph_node.notify_connections_updated.call_deferred()
 
 
-func _on_disconnection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
+func _on_disconnection_request(
+	from_node: StringName, from_port: int, to_node: StringName, to_port: int
+) -> void:
 	disconnect_node(from_node, from_port, to_node, to_port)
 	connection_update_requested.emit()
 
@@ -109,28 +117,40 @@ func _on_disconnection_request(from_node: StringName, from_port: int, to_node: S
 		to_graph_node.notify_connections_updated.call_deferred()
 
 
+
 func remove_invalid_connections() -> void:
 	for connection in get_connection_list():
 		var to_node: GaeaGraphNode = get_node(NodePath(connection.to_node))
 		var from_node: GaeaGraphNode = get_node(NodePath(connection.from_node))
 
-
 		if not is_instance_valid(from_node) or not is_instance_valid(to_node):
-			disconnect_node(connection.from_node, connection.from_port, connection.to_node, connection.to_port)
+			disconnect_node(
+				connection.from_node, connection.from_port, connection.to_node, connection.to_port
+			)
 			continue
 
 		if to_node.get_input_port_count() <= connection.to_port:
-			disconnect_node(connection.from_node, connection.from_port, connection.to_node, connection.to_port)
+			disconnect_node(
+				connection.from_node, connection.from_port, connection.to_node, connection.to_port
+			)
 			continue
 
 		if from_node.get_output_port_count() <= connection.from_port:
-			disconnect_node(connection.from_node, connection.from_port, connection.to_node, connection.to_port)
+			disconnect_node(
+				connection.from_node, connection.from_port, connection.to_node, connection.to_port
+			)
 			continue
 
-		var from_type: GaeaValue.Type = from_node.get_output_port_type(connection.from_port) as GaeaValue.Type
-		var to_type: GaeaValue.Type = to_node.get_input_port_type(connection.to_port) as GaeaValue.Type
+		var from_type: GaeaValue.Type = (
+			from_node.get_output_port_type(connection.from_port) as GaeaValue.Type
+		)
+		var to_type: GaeaValue.Type = (
+			to_node.get_input_port_type(connection.to_port) as GaeaValue.Type
+		)
 		if not is_valid_connection_type(from_type, to_type) and from_type != to_type:
-			disconnect_node(connection.from_node, connection.from_port, connection.to_node, connection.to_port)
+			disconnect_node(
+				connection.from_node, connection.from_port, connection.to_node, connection.to_port
+			)
 			to_node.notify_connections_updated.call_deferred()
 			from_node.notify_connections_updated.call_deferred()
 			continue
@@ -148,9 +168,10 @@ func is_nodes_connected_relatively(from_node: StringName, to_node: StringName) -
 					return true
 	return false
 
+
 func get_selected() -> Array:
-	return get_children().filter(func(child: Node) -> bool:
-		return child is GraphElement and child.selected
+	return get_children().filter(
+		func(child: Node) -> bool: return child is GraphElement and child.selected
 	)
 
 
@@ -189,7 +210,9 @@ func _on_element_attached_to_frame(element: StringName, frame: StringName) -> vo
 		generator.data.attach_node_to_frame(node.id, frame_node.id)
 
 
-func _is_node_hover_valid(from_node: StringName, _from_port: int, to_node: StringName, _to_port: int) -> bool:
+func _is_node_hover_valid(
+	from_node: StringName, _from_port: int, to_node: StringName, _to_port: int
+) -> bool:
 	if from_node == to_node:
 		return false
 	return true
@@ -197,13 +220,15 @@ func _is_node_hover_valid(from_node: StringName, _from_port: int, to_node: Strin
 
 ## This function converts a local position to a grid position based on the current zoom level and scroll offset.
 ## It also applies snapping if enabled in the GraphEdit.
-func local_to_grid(local_position: Vector2, grid_offset: Vector2 = Vector2.ZERO, enable_snapping: bool = true) -> Vector2:
+func local_to_grid(
+	local_position: Vector2, grid_offset: Vector2 = Vector2.ZERO, enable_snapping: bool = true
+) -> Vector2:
 	local_position = (local_position + scroll_offset) / zoom
 	local_position += grid_offset
 	if enable_snapping and snapping_enabled:
 		return local_position.snapped(Vector2.ONE * snapping_distance)
-	else:
-		return local_position
+
+	return local_position
 
 
 func _on_editor_script_changed(script: Script):

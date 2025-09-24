@@ -1,16 +1,13 @@
 @tool
 extends PopupMenu
 
-enum Action {
-	DISCONNECT,
-	INSERT_NEW_REROUTE
-}
+signal new_reroute_requested(connection: Dictionary)
+
+enum Action { DISCONNECT, INSERT_NEW_REROUTE }
 
 @export var graph_edit: GraphEdit
 
 var current_connection: Dictionary
-
-signal new_reroute_requested(connection: Dictionary)
 
 
 func _ready() -> void:
@@ -25,6 +22,7 @@ func populate(connection: Dictionary) -> void:
 	add_item("Disconnect", Action.DISCONNECT)
 	add_item("Insert New Reroute", Action.INSERT_NEW_REROUTE)
 	size = get_contents_minimum_size()
+
 
 func _on_id_pressed(id: int) -> void:
 	match id:

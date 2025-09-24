@@ -1,7 +1,6 @@
 @tool
 extends Window
 
-
 @onready var cancel_button: Button = %CancelButton
 @onready var tool_button: Button = %ToolButton
 @onready var tool_popup: PopupMenu = %ToolPopup

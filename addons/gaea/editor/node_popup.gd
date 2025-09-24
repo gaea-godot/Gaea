@@ -1,22 +1,12 @@
 @tool
 extends PopupMenu
 
+signal create_node_popup_requested
 
-enum Action {
-	ADD,
-	DELETE,
-	RENAME,
-	ENABLE_TINT,
-	TINT,
-	DETACH,
-	ENABLE_AUTO_SHRINK,
-	OPEN_IN_INSPECTOR
-}
+enum Action {ADD, DELETE, RENAME, ENABLE_TINT, TINT, DETACH, ENABLE_AUTO_SHRINK, OPEN_IN_INSPECTOR}
 
 @export var panel: Control
 @export var graph_edit: GraphEdit
-
-signal create_node_popup_requested
 
 
 func _ready() -> void:
@@ -43,7 +33,9 @@ func populate(selected: Array) -> void:
 		set_item_disabled(get_item_index(Action.TINT), not selected.front().tint_color_enabled)
 
 		set_item_checked(get_item_index(Action.ENABLE_TINT), selected.front().tint_color_enabled)
-		set_item_checked(get_item_index(Action.ENABLE_AUTO_SHRINK), selected.front().autoshrink_enabled)
+		set_item_checked(
+			get_item_index(Action.ENABLE_AUTO_SHRINK), selected.front().autoshrink_enabled
+		)
 		size = get_contents_minimum_size()
 	if selected.front() is GaeaGraphNode and selected.size() == 1:
 		var node: GaeaGraphNode = selected.front()

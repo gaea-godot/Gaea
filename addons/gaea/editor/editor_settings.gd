@@ -2,6 +2,7 @@
 class_name GaeaEditorSettings
 extends RefCounted
 
+const CIRCLE := preload("res://addons/gaea/assets/slots/circle.svg")
 
 const LINE_CURVATURE := "gaea/graph/line_curvature"
 const LINE_THICKNESS := "gaea/graph/line_thickness"
@@ -60,27 +61,24 @@ func add_settings() -> void:
 		"type": TYPE_INT
 	})
 
-	_add_setting(OUTPUT_TITLE_COLOR, Color("632639"), {"type": TYPE_COLOR, "hint": PROPERTY_HINT_COLOR_NO_ALPHA})
+	_add_setting(
+		OUTPUT_TITLE_COLOR,
+		Color("632639"),
+		{"type": TYPE_COLOR, "hint": PROPERTY_HINT_COLOR_NO_ALPHA}
+	)
 
 	for slot_type: GaeaValue.Type in CONFIGURABLE_SLOT_COLORS.keys():
 		_add_setting(
 			COLOR_BASE % CONFIGURABLE_SLOT_COLORS.get(slot_type),
 			GaeaValue.get_default_color(slot_type),
-			{
-				"type": TYPE_COLOR,
-				"hint": PROPERTY_HINT_COLOR_NO_ALPHA
-			}
+			{"type": TYPE_COLOR, "hint": PROPERTY_HINT_COLOR_NO_ALPHA}
 		)
 
 	for slot_type: GaeaValue.Type in CONFIGURABLE_SLOT_COLORS.keys():
 		_add_setting(
 			ICON_BASE % CONFIGURABLE_SLOT_COLORS.get(slot_type),
 			GaeaValue.get_default_slot_icon(slot_type).resource_path,
-			{
-				"type": TYPE_STRING,
-				"hint": PROPERTY_HINT_FILE,
-				"hint_string": "*.png,*.jpg,*.svg"
-			}
+			{"type": TYPE_STRING, "hint": PROPERTY_HINT_FILE, "hint_string": "*.png,*.jpg,*.svg"}
 		)
 
 
@@ -110,7 +108,7 @@ static func get_configured_color_for_value_type(value_type: GaeaValue.Type) -> C
 
 static func get_configured_icon_for_value_type(value_type: GaeaValue.Type) -> Texture:
 	if not CONFIGURABLE_SLOT_COLORS.has(value_type):
-		return preload("res://addons/gaea/assets/slots/circle.svg")
+		return CIRCLE
 	var editor_interface = Engine.get_singleton("EditorInterface")
 	var settings = editor_interface.get_editor_settings()
 	var setting_path = ICON_BASE % CONFIGURABLE_SLOT_COLORS.get(value_type)
@@ -118,7 +116,7 @@ static func get_configured_icon_for_value_type(value_type: GaeaValue.Type) -> Te
 		var loaded: Object = load(settings.get_setting(setting_path))
 		if loaded is Texture:
 			return loaded
-	return preload("res://addons/gaea/assets/slots/circle.svg")
+	return CIRCLE
 
 
 static func get_line_curvature() -> float:

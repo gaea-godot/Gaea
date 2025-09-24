@@ -1,7 +1,6 @@
 @tool
 extends Tree
 
-
 signal node_selected_for_creation(resource: GaeaNodeResource)
 signal special_node_selected_for_creation(id: StringName)
 
@@ -23,7 +22,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 			_select_next_visible(
 				get_selected() if get_selected() != null else get_root(),
 				1 if not event.is_shift_pressed() else -1
-				)
+			)
 
 
 func populate() -> void:
@@ -31,11 +30,11 @@ func populate() -> void:
 	var root: TreeItem = create_item()
 	hide_root = true
 	tree_dictionary = _populate_dict_with_files(NODES_FOLDER_PATH, {})
-	tree_dictionary["Special"] = {
-		"Frame": &"frame"
-	}
+	tree_dictionary["Special"] = {"Frame": &"frame"}
 	if not GaeaProjectSettings.get_custom_nodes_path().is_empty():
-		tree_dictionary = _populate_dict_with_files(GaeaProjectSettings.get_custom_nodes_path(), tree_dictionary)
+		tree_dictionary = _populate_dict_with_files(
+			GaeaProjectSettings.get_custom_nodes_path(), tree_dictionary
+		)
 	_populate_from_dictionary(tree_dictionary, root)
 	root.set_collapsed_recursive(true)
 	root.set_collapsed(false)
@@ -81,7 +80,6 @@ func _populate_dict_with_files(folder_path: String, dict: Dictionary) -> Diction
 		if dir.current_is_dir():
 			_populate_dict_with_files(file_path + "/", dict.get_or_add(tree_name, {}))
 
-
 		if file_name.ends_with(".gd"):
 			var script := load(file_path)
 			if script is GDScript:
@@ -122,10 +120,13 @@ func _on_create_button_pressed() -> void:
 func _on_item_selected() -> void:
 	var item: TreeItem = get_selected()
 	if item.get_metadata(0) is GaeaNodeResource:
-		description_label.set_text(GaeaNodeResource.get_formatted_text(item.get_metadata(0).get_description()))
+		description_label.set_text(
+			GaeaNodeResource.get_formatted_text(item.get_metadata(0).get_description())
+		)
 	elif item.get_metadata(0) is StringName:
 		match item.get_metadata(0):
-			&"frame": description_label.set_text("A rectangular area for better organziation.")
+			&"frame":
+				description_label.set_text("A rectangular area for better organziation.")
 
 
 func _on_nothing_selected() -> void:
@@ -170,7 +171,9 @@ func _select_next_visible(from: TreeItem, direction: int = 1) -> void:
 	if not is_instance_valid(from):
 		return
 
-	var item: TreeItem = (from.get_next_visible(true) if direction == 1 else from.get_prev_visible(true))
+	var item: TreeItem = (
+		from.get_next_visible(true) if direction == 1 else from.get_prev_visible(true)
+	)
 	if not is_instance_valid(item):
 		return
 
