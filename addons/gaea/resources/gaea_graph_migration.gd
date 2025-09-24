@@ -50,6 +50,7 @@ static func _process_migration(data: GaeaGraph, node_map: Dictionary[String, Var
 
 ## Migrate data from rework [url=https://github.com/gaea-godot/gaea/pull/344]#344[/url].
 static func _migration_step_from_beta(data: GaeaGraph):
+	#gdlint:disable = max-line-length
 	var node_map: Dictionary[String, Variant] = {
 		"bbkdvyxkj2slo": "dol7xviglksx4", #output_node_resource.tres
 		"kdn03ei2yp6e": "bgqqucap4kua4", #reroute_node_resource.tres
@@ -136,6 +137,7 @@ static func _migration_step_from_beta(data: GaeaGraph):
 		"cgd05tlepxucw": ["bclwjwmoudxkh", {&"enums": [GaeaNodeVectorBase.VectorType.VECTOR2, GaeaNodeVectorOp.Operation.DIVIDE]}], #root/vector/operations/divide_vector2.tres
 		"hut3x2e74y85": ["bclwjwmoudxkh", {&"enums": [GaeaNodeVectorBase.VectorType.VECTOR3, GaeaNodeVectorOp.Operation.DIVIDE]}], #root/vector/operations/divide_vector3.tres
 	}
+	#gdlint:enable = max-line-length
 	_process_migration(data, node_map, 2)
 
 

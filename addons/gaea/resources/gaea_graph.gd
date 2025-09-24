@@ -4,8 +4,6 @@ class_name GaeaGraph
 extends Resource
 ## Resource that holds the saved data for a Gaea graph.
 
-## Current save version used for [GaeaGraphMigration].
-const CURRENT_SAVE_VERSION := 4
 
 ## Emitted when the size of [member layers] is changed, or when one of its values is changed.
 signal layer_count_modified
@@ -23,6 +21,9 @@ enum NodeType {
 	NODE,
 	FRAME
 }
+
+## Current save version used for [GaeaGraphMigration].
+const CURRENT_SAVE_VERSION := 4
 
 ## [GaeaLayer]s as seen in the Output node in the graph. Can be used
 ## to allow more than one [GaeaMaterial] in a single tile.
@@ -69,6 +70,8 @@ var scroll_offset: Vector2 = Vector2(NAN, NAN)
 ## in the current session.
 var zoom: float = 1.0
 
+## Used for migration of old save data.
+var resources: Array[GaeaNodeResource]
 ## The currently related generator.
 var generator: GaeaGenerator
 ## Cache used during generation to avoid recalculating data unnecessarily.

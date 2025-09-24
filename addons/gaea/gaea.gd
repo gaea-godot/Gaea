@@ -50,9 +50,9 @@ func _get_unsaved_status(for_scene):
 
 func _on_selection_changed() -> void:
 	if Engine.is_editor_hint():
-		var _selected: Array[Node] = _editor_selection.get_selected_nodes()
+		var selected: Array[Node] = _editor_selection.get_selected_nodes()
 
-		if _selected.size() == 1 and _selected.front() is GaeaGenerator:
+		if selected.size() == 1 and selected.front() is GaeaGenerator:
 			_panel_button.show()
 			make_bottom_panel_item_visible(_container)
 			_panel.populate(_selected.front())

@@ -119,7 +119,8 @@ static func from_variant_type(type: Variant.Type, _hint: PropertyHint = PROPERTY
 		TYPE_OBJECT:
 			if hint_string == "GaeaMaterial":
 				return Type.MATERIAL
-			elif hint_string.begins_with("Texture"):
+
+			if hint_string.begins_with("Texture"):
 				return Type.TEXTURE
 	return Type.NULL
 
@@ -231,7 +232,7 @@ static func get_default_slot_icon(type: Type) -> Texture2D:
 			return load("uid://yo87adchyr3w")
 		Type.MAP:
 			return load("uid://d2rmsal7c6sdi")
-	return load("uid://dqob6v3dudlri")
+	return null
 
 
 static func get_editor_for_type(for_type: GaeaValue.Type) -> PackedScene:
