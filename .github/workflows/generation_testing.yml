@@ -1,10 +1,7 @@
 name: GHA
 
 on:
-  pull_request:
-    paths-ignore:
-      - '**.yml'
-      - '**.md'
+  workflow_call:
   workflow_dispatch:
 
 

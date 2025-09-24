@@ -3,10 +3,7 @@ name: GHA
 run-name: ${{ github.head_ref || github.ref_name }}-gdlint
 
 on:
-  pull_request:
-    paths-ignore:
-      - '**.yml'
-      - '**.md'
+  workflow_call:
   workflow_dispatch:
 
 jobs:
