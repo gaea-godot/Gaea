@@ -2,20 +2,12 @@ name: gdlint
 
 run-name: ${{ github.head_ref || github.ref_name }}-gdlint
 
-on: # yamllint disable-line rule:truthy
-  workflow_call:
-    inputs:
-      os:
-        required: false
-        type: string
-        default: "ubuntu-22.04"
+on:
+  pull_request:
+    paths-ignore:
+      - '**.yml'
+      - '**.md'
   workflow_dispatch:
-    inputs:
-      os:
-        description: 'Defines the type of machine to run the job on.'
-        required: false
-        type: string
-        default: "ubuntu-22.04"
 
 jobs:
   gdlint:
