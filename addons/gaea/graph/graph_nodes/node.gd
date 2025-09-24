@@ -11,6 +11,8 @@ signal connections_updated
 signal removed
 signal remove_invalid_connections_requested
 
+const PreviewTexture = preload("res://addons/gaea/graph/components/preview_texture.gd")
+
 ## The [GaeaNodeResource] this acts as an editor of.
 @export var resource: GaeaNodeResource
 
@@ -20,16 +22,21 @@ var generator: GaeaGenerator
 ## Used by the generator during runtime. This list is updated
 ## from [method update_connections] method.
 var connections: Array[Dictionary]
-# Holds a cache of the generated titlebar styleboxes for each [enum GaeaValue.Type].
-# Updated if the type's color changes.
-static var _titlebar_styleboxes: Dictionary[GaeaValue.Type, Dictionary]
-var _preview: _PreviewTexture
+
+var _preview: PreviewTexture
 var _preview_container: VBoxContainer
-var _finished_loading: bool = false: set = set_finished_loading, get = has_finished_loading
-var _finished_rebuilding: bool = true: get = has_finished_rebuilding
+var _finished_loading: bool = false:
+	set = set_finished_loading,
+	get = has_finished_loading
+var _finished_rebuilding: bool = true:
+	get = has_finished_rebuilding
 var _editors: Dictionary[StringName, GaeaGraphNodeArgumentEditor]
 var _enum_editors: Array[OptionButton]
 var _last_category: GaeaArgumentCategory
+
+# Holds a cache of the generated titlebar styleboxes for each [enum GaeaValue.Type].
+# Updated if the type's color changes.
+static var _titlebar_styleboxes: Dictionary[GaeaValue.Type, Dictionary]
 
 
 func _ready() -> void:
@@ -42,11 +49,15 @@ func _ready() -> void:
 			if is_instance_valid(script):
 				var documentation_button := Button.new()
 				var editor_interface = Engine.get_singleton("EditorInterface")
-				documentation_button.icon = editor_interface.get_editor_theme().get_icon(&"HelpSearch", &"EditorIcons")
+				documentation_button.icon = editor_interface.get_editor_theme().get_icon(
+					&"HelpSearch", &"EditorIcons"
+				)
 				documentation_button.flat = true
 				get_titlebar_hbox().add_child(documentation_button)
 				documentation_button.pressed.connect(_open_node_documentation)
-				tree_exiting.connect(documentation_button.pressed.disconnect.bind(_open_node_documentation))
+				tree_exiting.connect(
+					documentation_button.pressed.disconnect.bind(_open_node_documentation)
+				)
 
 	connections_updated.connect(_update_arguments_visibility)
 	removed.connect(_on_removed)
@@ -68,7 +79,7 @@ func _on_added() -> void:
 			option_button.set_item_icon(
 				option_button.get_item_index(option),
 				resource.get_enum_option_icon(enum_idx, option)
-				)
+			)
 		option_button.select(option_button.get_item_index(resource.get_enum_selection(enum_idx)))
 
 		add_child(option_button)
@@ -184,7 +195,7 @@ func _add_output_slot(for_output: StringName) -> GaeaGraphNodeOutput:
 
 		if not is_instance_valid(_preview):
 			_preview_container = VBoxContainer.new()
-			_preview = _PreviewTexture.new()
+			_preview = PreviewTexture.new()
 			_preview.node = self
 			generator.generation_finished.connect(_preview.update.unbind(1))
 
@@ -228,12 +239,25 @@ func _set_titlebar() -> void:
 	if type != GaeaValue.Type.NULL:
 		remove_theme_stylebox_override("titlebar")
 		remove_theme_stylebox_override("titlebar_selected")
-		if not _titlebar_styleboxes.has(type) or _titlebar_styleboxes.get(type).get("for_color", Color.TRANSPARENT) != resource.get_title_color():
+		if (
+			not _titlebar_styleboxes.has(type)
+			or (
+				_titlebar_styleboxes.get(type).get("for_color", Color.TRANSPARENT)
+				!= resource.get_title_color()
+			)
+		):
 			titlebar = get_theme_stylebox("titlebar", "GraphNode").duplicate()
 			titlebar_selected = get_theme_stylebox("titlebar_selected", "GraphNode").duplicate()
 			titlebar.bg_color = titlebar.bg_color.blend(Color(resource.get_title_color(), 0.3))
 			titlebar_selected.bg_color = titlebar.bg_color
-			_titlebar_styleboxes.set(type, {"titlebar": titlebar, "selected": titlebar_selected, "for_color": resource.get_title_color()})
+			_titlebar_styleboxes.set(
+				type,
+				{
+					"titlebar": titlebar,
+					"selected": titlebar_selected,
+					"for_color": resource.get_title_color()
+				}
+			)
 		else:
 			titlebar = _titlebar_styleboxes.get(type).get("titlebar")
 			titlebar_selected = _titlebar_styleboxes.get(type).get("selected")
@@ -256,7 +280,9 @@ func _set_arg_value(arg_name: StringName, value: Variant) -> void:
 		editor.set_arg_value(value)
 
 
-func _on_argument_value_changed(value: Variant, _node: GaeaGraphNodeArgumentEditor, arg_name: String) -> void:
+func _on_argument_value_changed(
+	value: Variant, _node: GaeaGraphNodeArgumentEditor, arg_name: String
+) -> void:
 	if _finished_loading:
 		resource.set_argument_value(arg_name, value)
 		generator.data.set_node_argument(resource.id, arg_name, value)
@@ -336,7 +362,6 @@ func load_save_data(saved_data: Dictionary) -> void:
 
 			if arguments.get(argument) != null:
 				editor.set_arg_value(arguments.get(argument))
-
 
 	_finished_loading = true
 

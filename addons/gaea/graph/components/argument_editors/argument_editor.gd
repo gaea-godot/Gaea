@@ -23,7 +23,13 @@ var hint: Dictionary[String, Variant]
 
 
 ## Sets the corresponding variables.
-func initialize(for_graph_node: GaeaGraphNode, for_type: GaeaValue.Type, display_name: String, default_value: Variant, for_hint: Dictionary) -> void:
+func initialize(
+	for_graph_node: GaeaGraphNode,
+	for_type: GaeaValue.Type,
+	display_name: String,
+	default_value: Variant,
+	for_hint: Dictionary
+) -> void:
 	graph_node = for_graph_node
 	type = for_type
 	set_label_text(display_name)

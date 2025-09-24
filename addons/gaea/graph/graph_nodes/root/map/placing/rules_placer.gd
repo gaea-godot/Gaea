@@ -1,6 +1,7 @@
 @tool
-extends GaeaNodeResource
 class_name GaeaNodeRulesPlacer
+extends GaeaNodeResource
+#gdlint:disable = max-line-length
 ## Places [param material] on every world cell that follows [param rules] based on [param reference_data].
 ## [img]res://addons/gaea/assets/cross.svg[/img] means data DOESN'T have a cell there,
 ## [img]res://addons/gaea/assets/check.svg[/img] means the opposite.
@@ -11,10 +12,12 @@ class_name GaeaNodeRulesPlacer
 ## You can also think about it as the outlined cell having an offset of [code](0,0)[/code].[br]
 ## For every offset:[br]
 ## - If the editor has no icon, that offset has no rule. It is ignored.[br]
-##     - If the offset is marked as [img]res://addons/gaea/assets/check.svg[/img], that offset has to have a corresponding cell in [param reference_data] to qualify as "following the rules".[br]
+##     - If the offset is marked as [img]res://addons/gaea/assets/check.svg[/img],
+## that offset has to have a corresponding cell in [param reference_data] to qualify as "following the rules".[br]
 ##     - If the offset is marked as [img]res://addons/gaea/assets/cross.svg[/img], it's the opposite.[br]
 ## If a cell doesn't follow all the rules for each offset, it won't qualify. Otherwise, the outputted [param map]
 ## will have [param material] there.
+#gdlint:enable = max-line-length
 
 
 func _get_title() -> String:
@@ -22,9 +25,10 @@ func _get_title() -> String:
 
 
 func _get_description() -> String:
-	return "Places [param material] on every world cell that follows [param rules] based
-on [param reference_data].\n[img]res://addons/gaea/assets/cross.svg[/img] means data DOESN'T have a cell there,\
- [img]res://addons/gaea/assets/check.svg[/img] means the opposite."
+	return """Places [param material] on every world cell that follows [param rules] based on [param reference_data].
+[img]res://addons/gaea/assets/cross.svg[/img] means data DOESN'T have a cell there,\
+[img]res://addons/gaea/assets/check.svg[/img] means the opposite."""
+
 
 
 func _get_arguments_list() -> Array[StringName]:

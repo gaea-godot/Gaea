@@ -4,7 +4,6 @@ class_name GaeaNodeVectorBase
 extends GaeaNodeResource
 ## Base class for vector operation nodes.
 
-
 enum VectorType {
 	VECTOR2 = GaeaValue.Type.VECTOR2,
 	VECTOR3 = GaeaValue.Type.VECTOR3,
@@ -23,7 +22,8 @@ func _get_enums_count() -> int:
 
 func _get_enum_options(enum_idx: int) -> Dictionary:
 	match enum_idx:
-		0: return VectorType
+		0:
+			return VectorType
 	return {}
 
 

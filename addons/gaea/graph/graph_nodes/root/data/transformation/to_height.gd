@@ -1,6 +1,7 @@
 @tool
 class_name GaeaNodeToHeight
 extends GaeaNodeResource
+#gdlint:disable = max-line-length
 ## Transforms [param reference_data] into a new data grid where the height of each column is determined by [param height_offset] + ([param reference_data] * [param displacement_intensity])
 ##
 ## For each cell in [param reference_data]'s [param reference_y] row, it'll get the [code]float[/code] value,
@@ -10,6 +11,7 @@ extends GaeaNodeResource
 ## This functions to create a heightmap, which can be used to create 2D side-view or
 ## 3D terrain.[br][br]
 ## [b]Note: Keep in mind the y axis in Godot is negative for up in 2D and down in 3D.[/b]
+#gdlint:enable = max-line-length
 
 enum Type {
 	TYPE_2D, ## Referenced data will only take into account the x coordinate of the cell.
@@ -22,13 +24,13 @@ func _get_title() -> String:
 
 
 func _get_description() -> String:
-	var desc: String =  "Transforms [param reference_data] into a new data grid where the height of each column is determined by\
-	[param height_offset] + ([param reference_data] * [param displacement_intensity]).\n"
+	var desc: String = """Transforms [param reference_data] into a new data grid \
+where the height of each column is determined by [param height_offset] + ([param reference_data] * [param displacement_intensity])."""
 	match get_enum_selection(0):
 		Type.TYPE_2D:
-			desc += "\nReferences all the x values of the [param reference_y] row."
+			desc += "\n\nReferences all the x values of the [param reference_y] row."
 		Type.TYPE_3D:
-			desc += "\nReferences all the x,z values of the [param reference_y] row."
+			desc += "\n\nReferences all the x,z values of the [param reference_y] row."
 	return desc
 
 

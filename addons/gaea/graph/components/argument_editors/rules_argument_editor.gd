@@ -1,6 +1,6 @@
 @tool
-extends GaeaGraphNodeArgumentEditor
 class_name GaeaRulesArgumentEditor
+extends GaeaGraphNodeArgumentEditor
 
 @onready var grid_container: GridContainer = $GridContainer
 

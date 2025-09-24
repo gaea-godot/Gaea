@@ -1,6 +1,6 @@
 @tool
-extends GaeaNodeMapper
 class_name GaeaNodeValueMapper
+extends GaeaNodeMapper
 ## Maps every cell in [param data] equal to [param value] to [param material].
 ##
 ## Uses [method @GlobalScope.is_equal_approx] to avoid floating point precision problems.
@@ -20,7 +20,8 @@ func _get_arguments_list() -> Array[StringName]:
 
 func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
 	match arg_name:
-		&"value": return GaeaValue.Type.FLOAT
+		&"value":
+			return GaeaValue.Type.FLOAT
 	return super(arg_name)
 
 

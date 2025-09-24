@@ -1,6 +1,6 @@
 @tool
-extends GaeaNodeMapper
 class_name GaeaNodeThresholdMapper
+extends GaeaNodeMapper
 ## Maps every cell of [param data] of a value in [param range] to [param material].
 
 
@@ -18,7 +18,8 @@ func _get_arguments_list() -> Array[StringName]:
 
 func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
 	match arg_name:
-		&"range": return GaeaValue.Type.RANGE
+		&"range":
+			return GaeaValue.Type.RANGE
 	return super(arg_name)
 
 

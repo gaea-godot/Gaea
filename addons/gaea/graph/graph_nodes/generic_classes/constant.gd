@@ -1,7 +1,7 @@
 @tool
 @abstract
-extends GaeaNodeResource
 class_name GaeaNodeConstant
+extends GaeaNodeResource
 ## Generic class for [b]TypeConstant[/b] nodes. See [enum GaeaValue.Type].
 ##
 ## Accepts no inputs and has only one output, [param value].

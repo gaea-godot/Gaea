@@ -13,7 +13,6 @@ extends Resource
 ##
 ## @tutorial(Anatomy of a Graph): https://gaea-godot.github.io/gaea-docs/#/2.0/tutorials/anatomy-of-a-graph
 
-
 @warning_ignore_start("unused_parameter")
 @warning_ignore_start("unused_signal")
 
@@ -30,6 +29,9 @@ const CODE_BG_COLOR := Color("8080801a")
 const GAEA_MATERIAL_HINT := "Resource used to tell GaeaRenderers what to place."
 const GAEA_MATERIAL_GRADIENT_HINT := "Resource that maps values from 0.0-1.0 to certain GaeaMaterials."
 #endregion
+
+@export_storage var default_value_overrides: Dictionary[StringName, Variant]
+@export_storage var default_enum_value_overrides: Dictionary[int, int]
 
 ## List of all connections to this node. Doesn't include connections [i]from[/i] this node.[br]
 ## The dictionaries contain the following properties:
@@ -59,9 +61,8 @@ var rng: RandomNumberGenerator
 ## Id in the [GaeaGraph] save data.
 var id: int = 0
 ## If empty, [method _get_title] will be used instead.
-var tree_name_override: String = "": set = set_tree_name_override
-@export_storage var default_value_overrides: Dictionary[StringName, Variant]
-@export_storage var default_enum_value_overrides: Dictionary[int, int]
+var tree_name_override: String = "":
+	set = set_tree_name_override
 
 ## Used in [_get_preview_simulation_size].
 enum SimSize
@@ -176,6 +177,7 @@ func get_argument_display_name(arg_name: StringName) -> String:
 func get_argument_default_value(arg_name: StringName) -> Variant:
 	return default_value_overrides.get(arg_name, _get_argument_default_value(arg_name))
 
+
 ## Public version of [method _get_argument_hint]. Prefer to override that method over this one.
 func get_argument_hint(arg_name: StringName) -> Dictionary[String, Variant]:
 	return _get_argument_hint(arg_name)
@@ -254,12 +256,13 @@ func _get_preview_simulation_size() -> SimSize:
 
 ## Override this method to define the options available for the added enums.[br][br]
 ## The returned [Dictionary] should be [code]{String: int}[/code]. Built-in enums can be used directly.
-func _get_enum_options(idx: int) -> Dictionary:
+func _get_enum_options(_idx: int) -> Dictionary:
 	return {}
 
 
 ## Override this method if you want to change the display name for the options in the added enums.[br][br]
-## Defining this method is [b]optional[/b]. If not defined, the name will be [code]_get_enum_options(enum_idx).find_key(option_value).capitalize()[/code].
+## Defining this method is [b]optional[/b].
+## If not defined, the name will be [code]_get_enum_options(enum_idx).find_key(option_value).capitalize()[/code].
 func _get_enum_option_display_name(enum_idx: int, option_value: int) -> String:
 	var options := _get_enum_options(enum_idx)
 	var key = options.find_key(option_value)
@@ -270,7 +273,7 @@ func _get_enum_option_display_name(enum_idx: int, option_value: int) -> String:
 
 ## Override this method if you want to add icons to the options in the added enums.[br][br]
 ## Defining this method is [b]optional[/b].
-func _get_enum_option_icon(enum_idx: int, option_value: int) -> Texture:
+func _get_enum_option_icon(_enum_idx: int, _option_value: int) -> Texture:
 	return null
 
 
@@ -285,11 +288,9 @@ func _get_enum_default_value(enum_idx: int) -> int:
 ## Defining this method is [b]required[/b].
 @abstract func _get_arguments_list() -> Array[StringName]
 
-
 ## Override this method to define the type of the arguments defined in [method _get_arguments_list].[br][br]
 ## Defining this method is [b]required[/b].
-@abstract
-func _get_argument_type(arg_name: StringName) -> GaeaValue.Type
+@abstract func _get_argument_type(arg_name: StringName) -> GaeaValue.Type
 
 
 ## Override this method if you want to change the display name for any arguments in [method _get_arguments_list].[br][br]
@@ -299,7 +300,8 @@ func _get_argument_display_name(arg_name: StringName) -> String:
 
 
 ## Override this method to define the default value of the arguments defined in [method _get_arguments_list].[br][br]
-## Defining this method is [b]optional[/b], but recommended. If not defined, the used default value will be the one in [method GaeaValue.get_default_value]
+## Defining this method is [b]optional[/b], but recommended.
+## If not defined, the used default value will be the one in [method GaeaValue.get_default_value]
 ## corresponding to the argument's type.
 func _get_argument_default_value(arg_name: StringName) -> Variant:
 	return GaeaValue.get_default_value(_get_argument_type(arg_name))
@@ -308,14 +310,14 @@ func _get_argument_default_value(arg_name: StringName) -> Variant:
 ## Override this method to change the way the editors for the arguments behave. For example,
 ## if the returned [Dictionary] has a [code]"min"[/code] key, [GaeaNumberArgumentEditor] will not be able to go below that number.[br][br]
 ## Defining this method is [b]optional[/b].
-func _get_argument_hint(arg_name: StringName) -> Dictionary[String, Variant]:
+func _get_argument_hint(_arg_name: StringName) -> Dictionary[String, Variant]:
 	return {}
 
 
 ## Override this method to determine whether or not arguments can be connected to.[br]
 ## [b]Note[/b]: Some argument types can't have input slots. See [method GaeaValue.is_wireable].[br][br]
 ## Defining this method is [b]optional[/b]. If not defined, it'll always be true.
-func _has_input_slot(arg_name: StringName) -> bool:
+func _has_input_slot(_arg_name: StringName) -> bool:
 	return true
 
 
@@ -339,7 +341,7 @@ func _get_output_port_display_name(output_name: StringName) -> String:
 ## added in that index instead of below the arguments.[br][br]
 ## Overriding this method is [b]dangerous[/b]. Outputs should still follow the same order as in
 ## [method _get_output_list]; and the slot won't have a display name nor a preview.
-func _get_overridden_output_port_idx(output_name: StringName) -> int:
+func _get_overridden_output_port_idx(_output_name: StringName) -> int:
 	return -1
 
 
@@ -366,7 +368,7 @@ func set_enum_value(enum_idx: int, option_value: int) -> void:
 
 ## Called when an enum is changed in the editor. When overridden,
 ## [method super] should [b]always[/b] be called at the head of the function.
-func _on_enum_value_changed(enum_idx: int, option_value: int) -> void:
+func _on_enum_value_changed(_enum_idx: int, _option_value: int) -> void:
 	return
 
 
@@ -378,7 +380,7 @@ func set_argument_value(arg_name: StringName, new_value: Variant) -> void:
 
 ## Called when an enum is changed in the editor. Does nothing by default, but can be used to call
 ## [method notify_arguments_list_changed] to rebuild the node.
-func _on_argument_value_changed(arg_name: StringName, new_value: Variant) -> void:
+func _on_argument_value_changed(_arg_name: StringName, _new_value: Variant) -> void:
 	return
 
 
@@ -393,25 +395,32 @@ func _get_arg(arg_name: StringName, area: AABB, graph: GaeaGraph) -> Variant:
 		var connected_id = connection.from_node
 		var connected_node = graph.get_node(connected_id)
 		var connected_output = connected_node.connection_idx_to_output(connection.from_port)
-		var connected_data = connected_node.traverse(
-			connected_output,
-			area,
-			graph
-		)
+		var connected_data = connected_node.traverse(connected_output, area, graph)
 		if connected_data.has("value"):
 			var connected_value = connected_data.get("value")
-			var connected_type: GaeaValue.Type = connected_node.get_output_port_type(connected_output)
+			var connected_type: GaeaValue.Type = connected_node.get_output_port_type(
+				connected_output
+			)
 			if connected_data.has("type"):
 				connected_type = connected_data.get("type")
+
 			if connected_type == _get_argument_type(arg_name):
 				return connected_value
-			else:
-				return GaeaValueCast.cast_value(connected_type, _get_argument_type(arg_name), connected_value)
-		else:
-			_log_error("Could not get data from previous node, using default value instead.", graph, connected_id)
-			return get_argument_default_value(arg_name)
+
+			return GaeaValueCast.cast_value(
+				connected_type, _get_argument_type(arg_name), connected_value
+			)
+
+		_log_error(
+			"Could not get data from previous node, using default value instead.",
+			graph,
+			connected_id
+		)
+		return get_argument_default_value(arg_name)
 
 	return arguments.get(arg_name, get_argument_default_value(arg_name))
+
+
 #endregion
 
 
@@ -473,6 +482,8 @@ func _has_cached_data(output_port: StringName, graph: GaeaGraph) -> bool:
 ## See also [method has_cached_data]
 func _get_cached_data(output_port: StringName, graph: GaeaGraph) -> Variant:
 	return graph.cache[self][output_port]
+
+
 #endregion
 
 
@@ -502,6 +513,8 @@ func _get_input_resource(arg_name: StringName, graph: GaeaGraph) -> GaeaNodeReso
 		return null
 
 	return data_input_resource
+
+
 #endregion
 
 
@@ -526,7 +539,10 @@ func _get_argument_connection(arg_name: StringName) -> Dictionary:
 
 func _filter_has_input(arg_name: StringName) -> bool:
 	return GaeaValue.is_wireable(_get_argument_type(arg_name)) and _has_input_slot(arg_name)
+
+
 #endregion
+
 
 #region Output connections
 ## Returns the connection idx of [param output].
@@ -539,6 +555,8 @@ func connection_idx_to_output(output_idx: int) -> StringName:
 	if _get_output_ports_list().size() <= output_idx:
 		return &""
 	return _get_output_ports_list().get(output_idx)
+
+
 #endregion
 
 
@@ -568,7 +586,7 @@ func _log_traverse(graph: GaeaGraph):
 ## If enabled in [member GaeaGraph.logging], log the data information. (See [enum GaeaGraph.Log]).
 func _log_data(output_port: StringName, graph: GaeaGraph):
 	if is_instance_valid(graph) and graph.logging & GaeaGraph.Log.DATA > 0:
-		print("Data      |   %s from port &\"%s\"" % [_get_title(), output_port])
+		print('Data      |   %s from port &"%s"' % [_get_title(), output_port])
 
 
 # If enabled in [member GaeaGraph.logging], log the argument information. (See [enum GaeaGraph.Log]).
@@ -590,10 +608,17 @@ func _log_error(message: String, graph: GaeaGraph, node_idx: int = -1):
 			message,
 		])
 	else:
-		printerr("%s - %s" % [
-			graph.resource_path,
-			message,
-		])
+		printerr(
+			(
+				"%s - %s"
+				% [
+					graph.resource_path,
+					message,
+				]
+			)
+		)
+
+
 #endregion
 
 
@@ -619,9 +644,12 @@ func _get_scene_script() -> GDScript:
 ## Returns an array of points in the [param axis] of [param area].
 func _get_axis_range(axis: Vector3i.Axis, area: AABB) -> Array:
 	match axis:
-		Vector3i.AXIS_X: return range(area.position.x, area.end.x)
-		Vector3i.AXIS_Y: return range(area.position.y, area.end.y)
-		Vector3i.AXIS_Z: return range(area.position.z, area.end.z)
+		Vector3i.AXIS_X:
+			return range(area.position.x, area.end.x)
+		Vector3i.AXIS_Y:
+			return range(area.position.y, area.end.y)
+		Vector3i.AXIS_Z:
+			return range(area.position.z, area.end.z)
 	return []
 
 
@@ -630,11 +658,30 @@ static func get_formatted_text(unformatted_text: String) -> String:
 	var param_regex = RegEx.new()
 	param_regex.compile("\\[param ([^\\]]+)\\]")
 
-	return param_regex.sub(unformatted_text, "[bgcolor=%s][color=%s]$1[/color][/bgcolor]" % [PARAM_BG_COLOR.to_html(true), PARAM_TEXT_COLOR.to_html(true)], true) \
-		.replace("GaeaMaterial ", "[hint=%s]GaeaMaterial[/hint] " % GAEA_MATERIAL_HINT) \
-		.replace("GradientGaeaMaterial ", "[hint=%s]GradientGaeaMaterial[/hint] " % GAEA_MATERIAL_GRADIENT_HINT) \
-		.replace("[code]", "[bgcolor=%s][color=%s][code]" % [CODE_BG_COLOR.to_html(true), CODE_TEXT_COLOR.to_html(true)]) \
-		.replace("[/code]", "[/code][/color][/bgcolor]")
+	return (
+		param_regex
+		. sub(
+			unformatted_text,
+			(
+				"[bgcolor=%s][color=%s]$1[/color][/bgcolor]"
+				% [PARAM_BG_COLOR.to_html(true), PARAM_TEXT_COLOR.to_html(true)]
+			),
+			true
+		)
+		. replace("GaeaMaterial ", "[hint=%s]GaeaMaterial[/hint] " % GAEA_MATERIAL_HINT)
+		. replace(
+			"GradientGaeaMaterial ",
+			"[hint=%s]GradientGaeaMaterial[/hint] " % GAEA_MATERIAL_GRADIENT_HINT
+		)
+		. replace(
+			"[code]",
+			(
+				"[bgcolor=%s][color=%s][code]"
+				% [CODE_BG_COLOR.to_html(true), CODE_TEXT_COLOR.to_html(true)]
+			)
+		)
+		. replace("[/code]", "[/code][/color][/bgcolor]")
+	)
 
 
 ## Returns the corresponding node icon to be used in the 'Create Node' list.
@@ -655,8 +702,15 @@ func get_title_color() -> Color:
 
 func _is_point_outside_area(area: AABB, point: Vector3) -> bool:
 	area.end -= Vector3.ONE
-	return (point.x < area.position.x or point.y < area.position.y or point.z < area.position.z or
-			point.x > area.end.x or point.y > area.end.y or point.z > area.end.z)
+	return (
+		point.x < area.position.x
+		or point.y < area.position.y
+		or point.z < area.position.z
+		or point.x > area.end.x
+		or point.y > area.end.y
+		or point.z > area.end.z
+	)
+
 
 func _define_rng(graph: GaeaGraph) -> void:
 	rng = RandomNumberGenerator.new()

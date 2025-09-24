@@ -1,7 +1,10 @@
 @tool
-extends GaeaGraphNodeArgumentEditor
 class_name GaeaVector3ArgumentEditor
+extends GaeaGraphNodeArgumentEditor
 
+const VALID_TYPES := [
+	GaeaValue.Type.VECTOR2, GaeaValue.Type.VECTOR2I, GaeaValue.Type.VECTOR3, GaeaValue.Type.VECTOR3I
+]
 
 @onready var _x_spin_box: SpinBox = %XSpinBox
 @onready var _y_spin_box: SpinBox = %YSpinBox
@@ -20,9 +23,18 @@ func _configure() -> void:
 	_y_spin_box.value_changed.connect(_on_slider_changed_value.unbind(1))
 	_z_spin_box.value_changed.connect(_on_slider_changed_value.unbind(1))
 	var editor_interface = Engine.get_singleton("EditorInterface")
-	_x_label.add_theme_color_override(&"font_color", editor_interface.get_base_control().get_theme_color("property_color_x", "Editor"))
-	_y_label.add_theme_color_override(&"font_color", editor_interface.get_base_control().get_theme_color("property_color_y", "Editor"))
-	_z_label.add_theme_color_override(&"font_color", editor_interface.get_base_control().get_theme_color("property_color_z", "Editor"))
+	_x_label.add_theme_color_override(
+		&"font_color",
+		editor_interface.get_base_control().get_theme_color("property_color_x", "Editor")
+	)
+	_y_label.add_theme_color_override(
+		&"font_color",
+		editor_interface.get_base_control().get_theme_color("property_color_y", "Editor")
+	)
+	_z_label.add_theme_color_override(
+		&"font_color",
+		editor_interface.get_base_control().get_theme_color("property_color_z", "Editor")
+	)
 
 	if type == GaeaValue.Type.VECTOR2I or type == GaeaValue.Type.VECTOR3I:
 		_x_spin_box.step = 1
@@ -69,8 +81,8 @@ func set_editor_visible(value: bool) -> void:
 
 
 func get_arg_value() -> Variant:
-	if super () != null:
-		return super ()
+	if super() != null:
+		return super()
 	match type:
 		GaeaValue.Type.VECTOR2:
 			return Vector2(_x_spin_box.value, _y_spin_box.value)
@@ -85,12 +97,7 @@ func get_arg_value() -> Variant:
 
 func set_arg_value(new_value: Variant) -> void:
 	var new_value_type = typeof(new_value)
-	if not typeof(new_value) in [
-		GaeaValue.Type.VECTOR2,
-		GaeaValue.Type.VECTOR2I,
-		GaeaValue.Type.VECTOR3,
-		GaeaValue.Type.VECTOR3I
-	]:
+	if not (typeof(new_value) in VALID_TYPES):
 		return
 
 	_x_spin_box.value = float(new_value.x)

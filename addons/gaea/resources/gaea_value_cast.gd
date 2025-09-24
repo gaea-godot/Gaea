@@ -1,5 +1,6 @@
 @tool
-class_name GaeaValueCast extends RefCounted
+class_name GaeaValueCast
+extends RefCounted
 
 ## List of casting methods, the first Dictionary key is "from type" and the second is "to type"
 ## and the value is the transform [Callable].

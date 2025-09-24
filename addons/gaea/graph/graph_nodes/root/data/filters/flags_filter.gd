@@ -1,6 +1,6 @@
 @tool
-extends GaeaNodeFilter
 class_name GaeaNodeFlagsFilter
+extends GaeaNodeFilter
 ## Filters [param data] to only the cells that match the flag conditions.
 ##
 ## Flags are [code]int[/code]s, so the filtering is done with the rounded value
@@ -24,9 +24,12 @@ func _get_arguments_list() -> Array[StringName]:
 
 func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
 	match arg_name:
-		&"match_all": return GaeaValue.Type.BOOLEAN
-		&"match_flags": return GaeaValue.Type.FLAGS
-		&"exclude_flags": return GaeaValue.Type.FLAGS
+		&"match_all":
+			return GaeaValue.Type.BOOLEAN
+		&"match_flags":
+			return GaeaValue.Type.FLAGS
+		&"exclude_flags":
+			return GaeaValue.Type.FLAGS
 	return super(arg_name)
 
 
@@ -40,10 +43,13 @@ func _passes_filter(input_data: Dictionary, cell: Vector3i, area: AABB, graph: G
 	var match_all: bool = _get_arg(&"match_all", area, graph)
 
 	var value: float = input_data[cell]
+	var matches_excluded_flags := exclude_flags.any(_matches_flag.bind(value))
 	if match_all:
-		return flags.all(_matches_flag.bind(value)) and not exclude_flags.any(_matches_flag.bind(value))
-	else:
-		return flags.any(_matches_flag.bind(value)) and not exclude_flags.any(_matches_flag.bind(value))
+		var matches_all_flags := flags.all(_matches_flag.bind(value))
+		return matches_all_flags and not matches_excluded_flags
+
+	var matches_any_flags := flags.any(_matches_flag.bind(value))
+	return matches_any_flags and not matches_excluded_flags
 
 
 func _matches_flag(value: float, flag: int) -> bool:

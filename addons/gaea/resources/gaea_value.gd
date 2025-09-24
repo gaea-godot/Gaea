@@ -1,5 +1,6 @@
 @tool
-class_name GaeaValue extends RefCounted
+class_name GaeaValue
+extends RefCounted
 ## Holds information about value types in Gaea.
 ##
 ## @tutorial(Anatomy of a Graph#Slot Types): https://gaea-godot.github.io/gaea-docs/#/2.0/tutorials/anatomy-of-a-graph?id=slot-types

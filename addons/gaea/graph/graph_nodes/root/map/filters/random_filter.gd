@@ -8,6 +8,5 @@ func _get_description() -> String:
 	return super().replace("data", "map")
 
 
-
 func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.MAP

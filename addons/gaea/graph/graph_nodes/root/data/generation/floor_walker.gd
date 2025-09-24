@@ -1,6 +1,7 @@
 @tool
-extends GaeaNodeResource
 class_name GaeaNodeFloorWalker
+extends GaeaNodeResource
+#gdlint:disable = max-line-length
 ## Generates a floor by using [b]walkers[/b], which move around and
 ## set cells where they walk to [code]1.0[/code], while changing direction and/or spawning new walkers.
 ##
@@ -12,17 +13,15 @@ class_name GaeaNodeFloorWalker
 ## When a size of [param max_cells] is reached, the generation will stop.[br][br]
 ## This is how [url=https://nuclearthrone.com]Nuclear Throne[/url] does its generation,
 ## for example, as seen [url=https://web.archive.org/web/20151009004931/https://www.vlambeer.com/2013/04/02/random-level-generation-in-wasteland-kings/]here[/url].
+#gdlint:enable = max-line-length
 
-
-enum AxisType {
-	XY, XZ
-}
+enum AxisType { XY, XZ }
 
 
 ## Walker as used in [GaeaNodeFloorWalker].
 class Walker:
-	var dir: Vector3 ## Current direction, should be in 90-degrees angles.
-	var pos: Vector3 ## Current position, should be rounded.
+	var dir: Vector3  ## Current direction, should be in 90-degrees angles.
+	var pos: Vector3  ## Current position, should be rounded.
 
 
 func _get_title() -> String:
@@ -30,7 +29,8 @@ func _get_title() -> String:
 
 
 func _get_description() -> String:
-	return "Generates a floor by using [b]walkers[/b], which move around and set cells where they walk to [code]1.0[/code], while changing direction and/or spawning new walkers."
+	return """Generates a floor by using [b]walkers[/b], which move around and set cells \
+where they walk to [code]1.0[/code], while changing direction and/or spawning new walkers."""
 
 
 func _get_enums_count() -> int:
@@ -46,10 +46,20 @@ func _get_enum_option_display_name(_enum_idx: int, option_value: int) -> String:
 
 
 func _get_arguments_list() -> Array[StringName]:
-	return [&"max_cells", &"starting_position",
-			&"CATEGORY_DIRECTION_CHANCES", &"direction_change_chance", &"rotate_90_weight", &"rotate_-90_weight", &"rotate_180_weight",
-			&"CATEGORY_WALKER_CHANCE", &"new_walker_chance", &"destroy_walker_chance", &"bigger_room_chance", &"bigger_room_size_range"
-			]
+	return [
+		&"max_cells",
+		&"starting_position",
+		&"CATEGORY_DIRECTION_CHANCES",
+		&"direction_change_chance",
+		&"rotate_90_weight",
+		&"rotate_-90_weight",
+		&"rotate_180_weight",
+		&"CATEGORY_WALKER_CHANCE",
+		&"new_walker_chance",
+		&"destroy_walker_chance",
+		&"bigger_room_chance",
+		&"bigger_room_size_range"
+	]
 
 
 func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
@@ -67,14 +77,19 @@ func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
 
 func _get_argument_default_value(arg_name: StringName) -> Variant:
 	match arg_name:
-		&"max_cells": return 100
-		&"direction_change_chance": return 50
-		&"rotate_90_weight", &"rotate_-90_weight", &"rotate_180_weight": return 40
-		&"new_walker_chance", &"destroy_walker_chance": return 5
-		&"bigger_room_chance": return 15
-		&"bigger_room_size_range": return {"min": 2, "max": 3}
+		&"max_cells":
+			return 100
+		&"direction_change_chance":
+			return 50
+		&"rotate_90_weight", &"rotate_-90_weight", &"rotate_180_weight":
+			return 40
+		&"new_walker_chance", &"destroy_walker_chance":
+			return 5
+		&"bigger_room_chance":
+			return 15
+		&"bigger_room_size_range":
+			return {"min": 2, "max": 3}
 	return super(arg_name)
-
 
 
 func _get_output_ports_list() -> Array[StringName]:
@@ -84,9 +99,11 @@ func _get_output_ports_list() -> Array[StringName]:
 func _get_argument_hint(arg_name: StringName) -> Dictionary[String, Variant]:
 	if arg_name == &"bigger_room_size_range":
 		return {"min": 1, "max": 5, "suffix": "²", "step": 1, "allow_lesser": false}
-	elif arg_name.ends_with(&"chance"):
+
+	if arg_name.ends_with(&"chance"):
 		return {"suffix": "%", "min": 0, "max": 100}
-	elif arg_name.ends_with(&"weight") or arg_name == &"max_cells":
+
+	if arg_name.ends_with(&"weight") or arg_name == &"max_cells":
 		return {"min": 0}
 
 	return super(arg_name)
@@ -104,70 +121,85 @@ func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictio
 	_log_data(_output_port, graph)
 	var axis_type: AxisType = get_enum_selection(0) as AxisType
 
-	var _starting_position: Vector3 = _get_arg(&"starting_position", area, graph)
-	_starting_position = _starting_position.round()
+	var starting_position: Vector3 = _get_arg(&"starting_position", area, graph)
+	starting_position = starting_position.round()
 
 	var rotation_weights: Dictionary = {
 		PI / 2.0: _get_arg(&"rotate_90_weight", area, graph),
 		-PI / 2.0: _get_arg(&"rotate_-90_weight", area, graph),
 		PI: _get_arg(&"rotate_180_weight", area, graph)
 	}
-	var direction_change_chance: float = float(_get_arg(&"direction_change_chance", area, graph)) / 100.0
+	var direction_change_chance: float = (
+		float(_get_arg(&"direction_change_chance", area, graph)) / 100.0
+	)
 	var new_walker_chance: float = float(_get_arg(&"new_walker_chance", area, graph)) / 100.0
-	var destroy_walker_chance: float = float(_get_arg(&"destroy_walker_chance", area, graph)) / 100.0
+	var destroy_walker_chance: float = (
+		float(_get_arg(&"destroy_walker_chance", area, graph)) / 100.0
+	)
 	var bigger_room_chance: float = float(_get_arg(&"bigger_room_chance", area, graph)) / 100.0
 	var bigger_room_size_range: Dictionary = _get_arg(&"bigger_room_size_range", area, graph)
 
 	var max_cells: int = _get_arg(&"max_cells", area, graph)
 	max_cells = mini(
 		max_cells,
-		roundi(area.size.x) * (roundi(area.size.y) if axis_type == AxisType.XY else roundi(area.size.z))
+		(
+			roundi(area.size.x)
+			* (roundi(area.size.y) if axis_type == AxisType.XY else roundi(area.size.z))
+		)
 	)
 
-	var _walkers: Array[Walker]
-	var _walked_cells: Array[Vector3i]
+	var walkers: Array[Walker]
+	var walked_cells: Array[Vector3i]
 
 	var iterations: int = 0
 
-	_add_walker(_starting_position, _walkers)
+	_add_walker(starting_position, walkers)
 
-	while iterations < 10000 and _walked_cells.size() < max_cells:
-		for walker in _walkers:
-
-			if rng.randf() <= destroy_walker_chance and _walkers.size() > 1:
-				_walkers.erase(walker)
+	while iterations < 10000 and walked_cells.size() < max_cells:
+		for walker in walkers:
+			if rng.randf() <= destroy_walker_chance and walkers.size() > 1:
+				walkers.erase(walker)
 				continue
 
 			if rng.randf() <= new_walker_chance:
-				_add_walker(walker.pos, _walkers)
+				_add_walker(walker.pos, walkers)
 
 			if rng.randf() <= direction_change_chance:
-				var direction:int = rng.rand_weighted(rotation_weights.values())
+				var direction: int = rng.rand_weighted(rotation_weights.values())
 				walker.dir = walker.dir.rotated(
 					Vector3(0, 0, 1) if axis_type == AxisType.XY else Vector3(0, 1, 0),
 					rotation_weights.keys()[direction]
 					).round()
 
 			if rng.randf() <= bigger_room_chance:
-				var size: int = rng.randi_range(bigger_room_size_range.min, bigger_room_size_range.max)
-				for cell in _get_square_room(walker.pos, Vector3(size, size if axis_type == AxisType.XY else 1, size if axis_type == AxisType.XZ else 1)):
+				var size: int = rng.randi_range(
+					bigger_room_size_range.min, bigger_room_size_range.max
+				)
+				for cell in _get_square_room(
+					walker.pos,
+					Vector3(
+						size,
+						size if axis_type == AxisType.XY else 1,
+						size if axis_type == AxisType.XZ else 1
+					)
+				):
 					cell = cell.clamp(area.position, area.end - Vector3.ONE)
-					if not _walked_cells.has(Vector3i(cell)):
-						_walked_cells.append(Vector3i(cell))
+					if not walked_cells.has(Vector3i(cell)):
+						walked_cells.append(Vector3i(cell))
 
 			walker.pos += walker.dir
-			walker.pos = walker.pos.clamp(area.position, area.end - Vector3.ONE )
+			walker.pos = walker.pos.clamp(area.position, area.end - Vector3.ONE)
 
-			if not _walked_cells.has(Vector3i(walker.pos)):
-				_walked_cells.append(Vector3i(walker.pos))
+			if not walked_cells.has(Vector3i(walker.pos)):
+				walked_cells.append(Vector3i(walker.pos))
 
-			if _walked_cells.size() >= max_cells:
+			if walked_cells.size() >= max_cells:
 				break
 
 		iterations += 1
 
 	var grid: Dictionary[Vector3i, float]
-	for cell in _walked_cells:
+	for cell in walked_cells:
 		grid[cell] = 1.0
 
 	return grid
@@ -176,11 +208,15 @@ func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictio
 func _add_walker(pos: Vector3, array: Array[Walker]) -> void:
 	var walker: Walker = Walker.new()
 	walker.pos = pos
-	walker.dir = [
-		Vector3.LEFT,
-		Vector3.RIGHT,
-		Vector3.DOWN if get_enum_selection(0) == AxisType.XY else Vector3.FORWARD,
-		Vector3.UP if get_enum_selection(0) == AxisType.XY else Vector3.BACK].pick_random()
+	walker.dir = (
+		[
+			Vector3.LEFT,
+			Vector3.RIGHT,
+			Vector3.DOWN if get_enum_selection(0) == AxisType.XY else Vector3.FORWARD,
+			Vector3.UP if get_enum_selection(0) == AxisType.XY else Vector3.BACK
+		]
+		. pick_random()
+	)
 	array.append(walker)
 
 

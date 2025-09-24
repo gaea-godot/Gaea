@@ -1,6 +1,6 @@
 @tool
-extends GaeaNodeFilter
 class_name GaeaNodeRandomFilter
+extends GaeaNodeFilter
 ## Randomly filters [param data] to only the cells that pass the [param chance] check.
 
 
@@ -18,19 +18,22 @@ func _get_arguments_list() -> Array[StringName]:
 
 func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
 	match arg_name:
-		&"chance": return GaeaValue.Type.INT
+		&"chance":
+			return GaeaValue.Type.INT
 	return super(arg_name)
 
 
 func _get_argument_default_value(arg_name: StringName) -> Variant:
 	match arg_name:
-		&"chance": return 50
+		&"chance":
+			return 50
 	return super(arg_name)
 
 
 func _get_argument_hint(arg_name: StringName) -> Dictionary[String, Variant]:
 	match arg_name:
-		&"chance": return {"suffix": "%", "min": 0, "max": 100}
+		&"chance":
+			return {"suffix": "%", "min": 0, "max": 100}
 	return super(arg_name)
 
 

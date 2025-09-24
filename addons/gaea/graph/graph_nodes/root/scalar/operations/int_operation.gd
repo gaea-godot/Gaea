@@ -4,7 +4,6 @@ extends GaeaNodeNumOp
 ## [int] operation.
 
 
-
 func _get_title() -> String:
 	return "IntOp"
 

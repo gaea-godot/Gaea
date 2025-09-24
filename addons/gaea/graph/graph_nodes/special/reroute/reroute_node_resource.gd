@@ -1,6 +1,6 @@
 @tool
-extends GaeaNodeResource
 class_name GaeaNodeReroute
+extends GaeaNodeResource
 ## Allows rerouting a connection within the Gaea graph.
 ##
 ## Can be placed by pressing [kbd]Right Click[/kbd] in a connection wire and selecting the option,
@@ -27,6 +27,8 @@ func _get_arguments_list() -> Array[StringName]:
 
 func _get_argument_type(_arg_name: StringName) -> GaeaValue.Type:
 	return type
+
+
 #endregion
 
 
@@ -37,6 +39,8 @@ func _get_output_ports_list() -> Array[StringName]:
 
 func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return type
+
+
 #endregion
 
 

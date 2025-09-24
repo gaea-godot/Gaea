@@ -1,6 +1,6 @@
 @tool
-extends GaeaNodeMapper
 class_name GaeaNodeFlagsMapper
+extends GaeaNodeMapper
 ## Maps every cell of [param data] that matches the flag conditions to [param material].
 ##
 ## Flags are [code]int[/code]s, so the filtering is done with the rounded value
@@ -24,9 +24,12 @@ func _get_arguments_list() -> Array[StringName]:
 
 func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
 	match arg_name:
-		&"match_all": return GaeaValue.Type.BOOLEAN
-		&"match_flags": return GaeaValue.Type.FLAGS
-		&"exclude_flags": return GaeaValue.Type.FLAGS
+		&"match_all":
+			return GaeaValue.Type.BOOLEAN
+		&"match_flags":
+			return GaeaValue.Type.FLAGS
+		&"exclude_flags":
+			return GaeaValue.Type.FLAGS
 	return super(arg_name)
 
 
@@ -36,10 +39,13 @@ func _passes_mapping(grid_data: Dictionary, cell: Vector3i, area: AABB, graph: G
 	var exclude_flags: Array = _get_arg(&"exclude_flags", area, graph)
 
 	var value: float = grid_data.get(cell)
+	var matches_excluded_flags := exclude_flags.any(_matches_flag.bind(value))
 	if match_all:
-		return flags.all(_matches_flag.bind(value)) and not exclude_flags.any(_matches_flag.bind(value))
-	else:
-		return flags.any(_matches_flag.bind(value)) and not exclude_flags.any(_matches_flag.bind(value))
+		var matches_all_flags := flags.all(_matches_flag.bind(value))
+		return matches_all_flags and not matches_excluded_flags
+
+	var matches_any_flags := flags.any(_matches_flag.bind(value))
+	return matches_any_flags and not matches_excluded_flags
 
 
 func _matches_flag(value: float, flag: int) -> bool:

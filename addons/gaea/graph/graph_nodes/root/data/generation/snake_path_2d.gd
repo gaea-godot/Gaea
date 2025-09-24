@@ -1,6 +1,6 @@
 @tool
-extends GaeaNodeResource
 class_name GaeaNodeSnakePath2D
+extends GaeaNodeResource
 ## Generates a path that goes from the top of the world to the bottom,
 ## with each cell consisting of flags that indicate their exits (up, down, left, right).
 ##
@@ -20,12 +20,21 @@ func _get_title() -> String:
 
 
 func _get_description() -> String:
-	return "Generates a path that goes from the top of the world to the bottom, with each cell consisting of flags that indicate their exits (up, down, left, right)."
+	return """Generates a path that goes from the top of the world to the bottom, \
+with each cell consisting of flags that indicate their exits (up, down, left, right)."""
 
 
 func _get_arguments_list() -> Array[StringName]:
-	return [&"move_left_weight", &"move_right_weight", &"move_down_weight",
-			&"CATEGORY_FLAGS", &"left", &"right", &"down", &"up"]
+	return [
+		&"move_left_weight",
+		&"move_right_weight",
+		&"move_down_weight",
+		&"CATEGORY_FLAGS",
+		&"left",
+		&"right",
+		&"down",
+		&"up"
+	]
 
 
 func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
@@ -40,11 +49,16 @@ func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
 
 func _get_argument_default_value(arg_name: StringName) -> Variant:
 	match arg_name:
-		&"move_left_weight", &"move_right_weight", &"move_down_weight": return 40
-		&"left": return 1
-		&"right": return 2
-		&"down": return 4
-		&"up": return 8
+		&"move_left_weight", &"move_right_weight", &"move_down_weight":
+			return 40
+		&"left":
+			return 1
+		&"right":
+			return 2
+		&"down":
+			return 4
+		&"up":
+			return 8
 	return super(arg_name)
 
 
@@ -63,7 +77,9 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.DATA
 
 
-func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary[Vector3i, float]:
+func _get_data(
+	_output_port: StringName, area: AABB, graph: GaeaGraph
+) -> Dictionary[Vector3i, float]:
 	var direction_weights: Dictionary[Vector2i, float] = {
 		Vector2i.LEFT: _get_arg(&"move_left_weight", area, graph),
 		Vector2i.RIGHT: _get_arg(&"move_right_weight", area, graph),

@@ -1,20 +1,22 @@
 @tool
 @abstract
-extends GaeaNodeResource
 class_name GaeaNodeParameter
+extends GaeaNodeResource
 ## Generic class for [b]TypeParameter[/b] nodes. See [enum GaeaValue.Type].
 ##
 ## Adds a variable of [member type], with [member hint] and [member hint_string], editable in the
 ## inspector, which can be accessed by other nodes through this node's output.[br]
 ## Parameters are added to the [member GaeaGraph._parameters] array.
 
-
 ## See [enum Variant.Type] and equivalents in [method GaeaValue.from_variant_type].
-var type: int: get = _get_variant_type
+var type: int:
+	get = _get_variant_type
 ## See [enum PropertyHint].
-var hint: PropertyHint: get = _get_property_hint
+var hint: PropertyHint:
+	get = _get_property_hint
 ## See [enum PropertyHint].
-var hint_string: String: get = _get_property_hint_string
+var hint_string: String:
+	get = _get_property_hint_string
 
 
 ## Override this method to determine the [enum Variant.Type] for the variable this node adds.[br][br]
@@ -49,12 +51,12 @@ func _get_available_name(from: String) -> String:
 	if not is_instance_valid(node):
 		return ""
 
-	var _available_name: String = from
-	var _suffix: int = 1
-	while node.generator.data.has_parameter(_available_name):
-		_suffix += 1
-		_available_name = "%s%s" % [from, _suffix]
-	return _available_name
+	var available_name: String = from
+	var suffix: int = 1
+	while node.generator.data.parameters.has(available_name):
+		suffix += 1
+		available_name = "%s%s" % [from, suffix]
+	return available_name
 
 
 func _get_output_ports_list() -> Array[StringName]:
@@ -66,7 +68,9 @@ func _get_overridden_output_port_idx(_output_name: StringName) -> int:
 
 
 func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
-	return GaeaValue.from_variant_type(_get_variant_type(), _get_property_hint(), _get_property_hint_string())
+	return GaeaValue.from_variant_type(
+		_get_variant_type(), _get_property_hint(), _get_property_hint_string()
+	)
 
 
 func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Variant:

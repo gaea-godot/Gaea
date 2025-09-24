@@ -22,9 +22,15 @@ func _get_description() -> String:
 		Operation.DIVIDE:
 			return "Divides all cells in [param A] by a [code]float[/code] number."
 		Operation.POWER:
-			return super().replace("base", "a") + "\n\nOperates over all cells of [param A], [param a] being the cells' value."
+			return (
+				super().replace("base", "a")
+				+ "\n\nOperates over all cells of [param A], [param a] being the cells' value."
+			)
 		_:
-			return super() + "\n\nOperates over all cells of [param A], [param a] being the cells' value."
+			return (
+				super()
+				+ "\n\nOperates over all cells of [param A], [param a] being the cells' value."
+			)
 
 
 func _get_argument_display_name(arg_name: StringName) -> String:
@@ -56,12 +62,14 @@ func _get_operation_definitions() -> Dictionary[Operation, Definition]:
 	return definitions
 
 
-func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary[Vector3i, float]:
+func _get_data(
+	_output_port: StringName, area: AABB, graph: GaeaGraph
+) -> Dictionary[Vector3i, float]:
 	var operation: Operation = get_enum_selection(0) as Operation
-	var operation_definition: Definition = OPERATION_DEFINITIONS[operation]
+	var operation_definition: Definition = operation_definitions[operation]
 	var args: Array
 	var input_grid: Dictionary = _get_arg(&"a", area, graph)
-	for arg_name: StringName in OPERATION_DEFINITIONS[operation].args:
+	for arg_name: StringName in operation_definitions[operation].args:
 		if arg_name == &"a":
 			continue
 		args.append(_get_arg(arg_name, area, graph))

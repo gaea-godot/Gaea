@@ -1,7 +1,6 @@
 @tool
 extends GaeaGraphNode
 
-
 var tween: Tween
 
 var icon_opacity: float = 0.0:
@@ -15,6 +14,7 @@ var has_no_input: bool = false:
 		queue_redraw()
 	get:
 		return connections.size() == 0
+
 
 #region init
 func _on_added() -> void:
@@ -55,28 +55,42 @@ func _on_removed() -> void:
 
 	if connections.size() == 1:
 		input_connection = connections[0]
-		graph_edit.disconnection_request.emit(
-			input_connection.from_node,
-			input_connection.from_port,
-			input_connection.to_node,
-			input_connection.to_port,
+		(
+			graph_edit
+			.disconnection_request
+			.emit(
+				input_connection.from_node,
+				input_connection.from_port,
+				input_connection.to_node,
+				input_connection.to_port,
+			)
 		)
 
 	for connection in graph_edit.connections:
 		if connection.from_node == name and connection.from_port == 0:
-			graph_edit.disconnection_request.emit(
-				connection.from_node,
-				connection.from_port,
-				connection.to_node,
-				connection.to_port,
-			)
-			if not input_connection.is_empty():
-				graph_edit.connection_request.emit(
-					input_connection.from_node,
-					input_connection.from_port,
+			(
+				graph_edit
+				.disconnection_request
+				.emit(
+					connection.from_node,
+					connection.from_port,
 					connection.to_node,
 					connection.to_port,
 				)
+			)
+			if not input_connection.is_empty():
+				(
+					graph_edit
+					.connection_request
+					.emit(
+						input_connection.from_node,
+						input_connection.from_port,
+						connection.to_node,
+						connection.to_port,
+					)
+				)
+
+
 #endregion
 
 
@@ -97,10 +111,7 @@ func _draw_port(slot_index: int, pos: Vector2i, left: bool, color: Color) -> voi
 
 	draw_texture_rect(
 		port_icon,
-		Rect2(
-			center_pos + icon_offset * editor_scale,
-			port_icon.get_size() * editor_scale
-		),
+		Rect2(center_pos + icon_offset * editor_scale, port_icon.get_size() * editor_scale),
 		false,
 		color
 	)
@@ -132,4 +143,6 @@ func _set_icon_opacity(value: float):
 		tween.kill()
 	tween = create_tween()
 	tween.tween_property(self, "icon_opacity", value, 0.3)
+
+
 #endregion

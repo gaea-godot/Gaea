@@ -4,6 +4,8 @@ extends GaeaGraphNodeArgumentEditor
 
 var arguments: Array[GaeaGraphNodeArgumentEditor]
 
+@onready var _collapse_button: TextureButton = %CollapseButton
+
 
 func _configure() -> void:
 	if is_part_of_edited_scene():

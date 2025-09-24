@@ -1,6 +1,6 @@
 @tool
-extends GaeaNodeResource
 class_name GaeaNodeFalloffMap
+extends GaeaNodeResource
 ## Returns a grid that goes from higher values in the center to lower in the borders.
 ## Rate can be adjusted with [param start] and [param end].
 ##
@@ -14,7 +14,6 @@ enum FalloffShape {
 	CIRCLE,
 	SQUIRCLE,
 }
-
 
 @abstract class FalloffSampler:
 	var area: AABB
@@ -84,8 +83,10 @@ enum FalloffShape {
 
 		if value < start:
 			return 1.0
-		elif value > end:
+
+		if value > end:
 			return 0.0
+
 		return smoothstep(1.0, 0.0, inverse_lerp(start, end, value))
 
 	@abstract func _get_sample(_x: int, _y: int) -> float
@@ -128,7 +129,9 @@ func _get_title() -> String:
 
 
 func _get_description() -> String:
-	return "Returns a grid that goes from higher values in the center to lower in the borders.\nRate can be adjusted with [param start] and [param end]."
+	return """Returns a grid that goes from higher values in the center to lower in the borders.
+Rate can be adjusted with [param start] and [param end]."""
+
 
 func _get_enums_count() -> int:
 	return 1
@@ -163,7 +166,9 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.DATA
 
 
-func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary[Vector3i, float]:
+func _get_data(
+	_output_port: StringName, area: AABB, graph: GaeaGraph
+) -> Dictionary[Vector3i, float]:
 	var start: float = _get_arg(&"start", area, graph)
 	var end: float = _get_arg(&"end", area, graph)
 	var grid: Dictionary[Vector3i, float]

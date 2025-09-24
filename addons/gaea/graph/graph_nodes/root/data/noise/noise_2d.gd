@@ -1,7 +1,6 @@
 @tool
-extends GaeaNodeNoise
 class_name GaeaNodeNoise2D
-
+extends GaeaNodeNoise
 
 
 func _get_title() -> String:

@@ -1,7 +1,6 @@
 @tool
 extends TextureRect
 
-
 const RESOLUTION: Vector2i = Vector2i(64, 64)
 
 var selected_output: StringName = &""
@@ -56,7 +55,9 @@ func _ready() -> void:
 func toggle(for_output: StringName) -> void:
 	if not get_parent().visible:
 		get_parent().show()
-		slider_container.visible = node.resource.get_output_port_type(for_output) == GaeaValue.Type.DATA
+		slider_container.visible = (
+			node.resource.get_output_port_type(for_output) == GaeaValue.Type.DATA
+		)
 		selected_output = for_output
 		update()
 	else:

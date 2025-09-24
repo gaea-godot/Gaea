@@ -1,11 +1,18 @@
 @tool
-extends GaeaGraphNodeArgumentEditor
 class_name GaeaNeighborArgumentEditor
+extends GaeaGraphNodeArgumentEditor
 
-
-const DIRECTIONS = [Vector2i.UP + Vector2i.LEFT		, Vector2i.UP	, Vector2i.UP + Vector2i.RIGHT,
-					Vector2i.LEFT					, Vector2i.ZERO	, Vector2i.RIGHT,
-					Vector2i.DOWN + Vector2i.LEFT	, Vector2i.DOWN	, Vector2i.DOWN + Vector2i.RIGHT]
+const DIRECTIONS = [
+	Vector2i.UP + Vector2i.LEFT,
+	Vector2i.UP,
+	Vector2i.UP + Vector2i.RIGHT,
+	Vector2i.LEFT,
+	Vector2i.ZERO,
+	Vector2i.RIGHT,
+	Vector2i.DOWN + Vector2i.LEFT,
+	Vector2i.DOWN,
+	Vector2i.DOWN + Vector2i.RIGHT
+]
 
 @onready var grid_container: GridContainer = $GridContainer
 

@@ -1,7 +1,7 @@
 @tool
 @abstract
-extends GaeaNodeResource
 class_name GaeaNodeFilter
+extends GaeaNodeResource
 ## Abstract class used for filter nodes.
 
 
@@ -49,5 +49,7 @@ func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictio
 ## Override this method to change the filtering functionality. Should return [code]true[/code]
 ## if the [param cell] in [param input_data] passes the filter, and therefore should be included
 ## in the output.
-func _passes_filter(_input_data: Dictionary, _cell: Vector3i, _area: AABB, _graph: GaeaGraph) -> bool:
+func _passes_filter(
+	_input_data: Dictionary, _cell: Vector3i, _area: AABB, _graph: GaeaGraph
+) -> bool:
 	return true

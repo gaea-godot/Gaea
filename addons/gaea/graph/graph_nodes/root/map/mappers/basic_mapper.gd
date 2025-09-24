@@ -1,6 +1,6 @@
 @tool
-extends GaeaNodeMapper
 class_name GaeaNodeBasicMapper
+extends GaeaNodeMapper
 ## Maps all non-empty cells in [param data] to [param material].
 
 

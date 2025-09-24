@@ -1,7 +1,6 @@
 @tool
 extends GaeaGraphNode
 
-
 var type: Variant.Type
 var hint: PropertyHint
 var hint_string: String
@@ -39,8 +38,9 @@ func _on_removed() -> void:
 	generator.data.notify_property_list_changed()
 
 
-
-func _on_argument_value_changed(value: Variant, _node: GaeaGraphNodeArgumentEditor, arg_name: String) -> void:
+func _on_argument_value_changed(
+	value: Variant, _node: GaeaGraphNodeArgumentEditor, arg_name: String
+) -> void:
 	if arg_name != "name" and value is not String:
 		return
 
@@ -50,7 +50,6 @@ func _on_argument_value_changed(value: Variant, _node: GaeaGraphNodeArgumentEdit
 	if generator.data.rename_parameter(current_name, value) == OK:
 		current_name = value
 		generator.data.set_node_argument(resource.id, &"name", current_name)
-
 
 
 func _get_default_value(for_type: Variant.Type) -> Variant:

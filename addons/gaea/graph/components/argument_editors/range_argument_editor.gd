@@ -1,6 +1,6 @@
 @tool
-extends GaeaGraphNodeArgumentEditor
 class_name GaeaRangeArgumentEditor
+extends GaeaGraphNodeArgumentEditor
 
 
 
@@ -28,11 +28,11 @@ func _configure() -> void:
 	range_slider.allow_lesser = false
 	range_slider.allow_greater = false
 
-	min_spin_box.suffix = hint.get("suffix", "")
-	max_spin_box.suffix = min_spin_box.suffix
+	_min_spin_box.suffix = hint.get("suffix", "")
+	_max_spin_box.suffix = _min_spin_box.suffix
 
-	min_spin_box.prefix = hint.get("prefix", "")
-	max_spin_box.prefix = min_spin_box.prefix
+	_min_spin_box.prefix = hint.get("prefix", "")
+	_max_spin_box.prefix = _min_spin_box.prefix
 
 	min_spin_box.value_changed.connect(_on_spin_box_changed_value.unbind(1))
 	max_spin_box.value_changed.connect(_on_spin_box_changed_value.unbind(1))
