@@ -30,6 +30,6 @@ jobs:
     
   renderers_testing:
     name: '🐞 Renderers Testing'
-    uses: ./.github/workflows/renderes_testing.yml
+    uses: ./.github/workflows/renderers_testing.yml
     
 
