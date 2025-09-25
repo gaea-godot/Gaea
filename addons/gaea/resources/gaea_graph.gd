@@ -110,10 +110,10 @@ func add_frame(position: Vector2, id: int) -> void:
 func remove_node(id: int) -> void:
 	for connection in get_connections_to(id) + get_connections_from(id):
 		disconnect_nodes(
-			connection.get("from_node", -9999),
-			connection.get("from_port", -9999),
-			connection.get("to_node", -9999),
-			connection.get("to_port", -9999)
+			connection.get("from_node"),
+			connection.get("from_port"),
+			connection.get("to_node"),
+			connection.get("to_port")
 		)
 	_node_data.erase(id)
 	_resources.erase(id)
