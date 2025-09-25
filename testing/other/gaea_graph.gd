@@ -14,7 +14,7 @@ func test_graph_creation() -> void:
 
 
 func test_add_node() -> void:
-	graph.add_node(GaeaNodeOutput.new(), Vector2.ZERO, 0)
+	graph.add_node(GaeaNodeDatasOp.new(), Vector2.ZERO, 0)
 	assert_array(graph.get_nodes())\
 		.override_failure_message("Graph's node resources list is empty after adding node.")\
 		.is_not_empty()
@@ -37,7 +37,7 @@ func test_add_node() -> void:
 	if is_failure():
 		return
 
-	graph.add_node(GaeaNodeBasicMapper.new(), Vector2(-50, 0), graph.get_next_id())
+	graph.add_node(GaeaNodeTextureSampler.new(), Vector2(-50, 0), graph.get_next_id())
 	var _nodes := graph.get_nodes()
 	assert_array(_nodes)\
 		.override_failure_message("Graph's node resources list has unexpected size.")\
@@ -47,7 +47,7 @@ func test_add_node() -> void:
 
 func test_connection() -> void:
 	graph.connect_nodes(1, 0, 0, 0)
-	graph.connect_nodes(1, 1, 0, 0)
+	graph.connect_nodes(1, 1, 0, 1)
 
 	assert_bool(graph.has_connection(1, 0, 0, 0))\
 		.override_failure_message("Graph's [code]has_connection()[/code] returned [code]false[/code] on connection that should exist.")\

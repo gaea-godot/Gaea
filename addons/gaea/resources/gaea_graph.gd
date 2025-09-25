@@ -218,9 +218,16 @@ func connect_nodes(from_id: int, from_port: int, to_id: int, to_port: int) -> Er
 		return ERR_ALREADY_EXISTS
 
 	var from_node: GaeaNodeResource = get_node(from_id)
-	var from_type: GaeaValue.Type = from_node.get_output_port_type(from_node.connection_idx_to_output(from_port))
+	var output: StringName = from_node.connection_idx_to_output(from_port)
+	if output.is_empty():
+		return ERR_CANT_CONNECT
+	var from_type: GaeaValue.Type = from_node.get_output_port_type(output)
+
 	var to_node: GaeaNodeResource = get_node(to_id)
-	var to_type: GaeaValue.Type = to_node.get_argument_type(to_node.connection_idx_to_argument(to_port))
+	var argument: StringName = to_node.connection_idx_to_argument(to_port)
+	if argument.is_empty():
+		return ERR_CANT_CONNECT
+	var to_type: GaeaValue.Type = to_node.get_argument_type(argument)
 
 	if not GaeaValueCast.is_valid_connection(from_type, to_type):
 		return ERR_CANT_CONNECT
