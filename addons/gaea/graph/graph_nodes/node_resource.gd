@@ -643,6 +643,6 @@ func load_save_data(saved_data: Dictionary) -> void:
 
 
 func _load_save_data(saved_data: Dictionary) -> void:
-	salt = saved_data.get(&"salt", randi())
+	salt = saved_data.get(&"salt", 0)
 	arguments = saved_data.get(&"arguments", {})
 	enum_selections = saved_data.get(&"enums", [])

@@ -275,7 +275,7 @@ func _clamp_popup_in_window(popup: Window, main_window: Window) -> void:
 
 func _add_node(resource: GaeaNodeResource, local_grid_position: Vector2) -> GraphNode:
 	var id: int = _selected_generator.data._node_data.size()
-	_selected_generator.data.add_node(resource.duplicate(), local_grid_position, id)
+	_selected_generator.data.add_node(resource, local_grid_position, id)
 
 	var node: GaeaGraphNode = resource.get_scene().instantiate()
 	if resource.get_scene_script() != null:
