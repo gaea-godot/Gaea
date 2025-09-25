@@ -221,7 +221,7 @@ func _load_attached_elements(attached: Array, frame_name: StringName) -> void:
 		if not is_instance_valid(node_resource):
 			var _graph_children := _graph_edit.get_children()
 			var _attached_frame_idx := _graph_children.find_custom(
-				func(node: Node) -> bool: return node is GaeaGraphFrame and node.id == id
+				func(child: Node) -> bool: return child is GaeaGraphFrame and child.id == id
 			)
 			if _attached_frame_idx != -1:
 				node = _graph_children[_attached_frame_idx]
