@@ -72,8 +72,19 @@ func _on_connection_request(from_node: StringName, from_port: int, to_node: Stri
 					connection.to_port
 				)
 
+	var error := generator.data.connect_nodes(
+		from_graph_node.resource.id,
+		from_port,
+		to_graph_node.resource.id,
+		to_port
+	)
+
+	# The already exists error is valid in this case since this function
+	# also handles connection loading.
+	if error != OK and error != ERR_ALREADY_EXISTS:
+		return
 	connect_node(from_node, from_port, to_node, to_port)
-	generator.data.connect_nodes(from_graph_node.resource.id, from_port, to_graph_node.resource.id, to_port)
+
 	connection_update_requested.emit()
 
 	if from_graph_node.has_finished_loading():

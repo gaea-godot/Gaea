@@ -492,6 +492,14 @@ func _get_input_resource(arg_name: StringName, graph: GaeaGraph) -> GaeaNodeReso
 
 
 #region Argument Connections
+## Returns the [StringName] corresponding to [param argument_idx].
+func connection_idx_to_argument(argument_idx: int) -> StringName:
+	var filtered_argument_list := _get_arguments_list().filter(_filter_has_input)
+	if filtered_argument_list.size() <= argument_idx:
+		return &""
+	return filtered_argument_list[argument_idx]
+
+
 func _get_argument_connection(arg_name: StringName) -> Dictionary:
 	var idx = _get_arguments_list().filter(_filter_has_input).find(arg_name)
 	if idx == -1:

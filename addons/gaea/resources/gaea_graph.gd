@@ -108,7 +108,7 @@ func add_frame(position: Vector2, id: int) -> void:
 
 ## Removes the specified node.
 func remove_node(id: int) -> void:
-	for connection in get_connections_to(id) + get_connections_from(id):
+	for connection in get_node_connections(id):
 		disconnect_nodes(
 			connection.get("from_node"),
 			connection.get("from_port"),
@@ -211,12 +211,31 @@ func get_next_id() -> int:
 	return _next_id
 
 
-## Connects the specified nodes and ports.[br]
-## [br][color=yellow][b]Warning:[/b][/color] This connection could be invalid, and it won't work correctly if so.
-func connect_nodes(from_id: int, from_port: int, to_id: int, to_port: int) -> void:
+## Attempts to connect the specified nodes and ports. If the connection already exists or is invalid,
+## returns an error.[br]
+func connect_nodes(from_id: int, from_port: int, to_id: int, to_port: int) -> Error:
 	if has_connection(from_id, from_port, to_id, to_port):
-		return
+		return ERR_ALREADY_EXISTS
 
+	var from_node: GaeaNodeResource = get_node(from_id)
+	var from_type: GaeaValue.Type = from_node.get_output_port_type(from_node.connection_idx_to_output(from_port))
+	var to_node: GaeaNodeResource = get_node(to_id)
+	var to_type: GaeaValue.Type = to_node.get_argument_type(to_node.connection_idx_to_argument(to_port))
+
+	if not GaeaValueCast.is_valid_connection(from_type, to_type):
+		return ERR_CANT_CONNECT
+
+	_connections.append({
+		"from_node": from_id,
+		"from_port": from_port,
+		"to_node": to_id,
+		"to_port": to_port
+	})
+	return OK
+
+## Forcefully connects the specified nodes and ports.
+## [br][color=yellow][b]Warning:[/b][/color] This connection could be invalid, and it won't work correctly if so.
+func force_connect_nodes(from_id: int, from_port: int, to_id: int, to_port: int) -> void:
 	_connections.append({
 		"from_node": from_id,
 		"from_port": from_port,
@@ -232,12 +251,17 @@ func disconnect_nodes(from_id: int, from_port: int, to_id: int, to_port: int) ->
 		"from_port": from_port,
 		"to_node": to_id,
 		"to_port": to_port
-		})
+	})
 
 
 ## Returns all connections in the graph.
 func get_all_connections() -> Array[Dictionary]:
 	return _connections
+
+
+## Returns all connections to and from the specified node.
+func get_node_connections(id: int) -> Array[Dictionary]:
+	return get_connections_to(id) + get_connections_from(id)
 
 
 ## Returns all connections to the specified node.

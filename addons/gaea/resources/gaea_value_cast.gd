@@ -73,6 +73,12 @@ static func get_cast_list() -> Array[Array]:
 	return casts
 
 
+## Returns [code]true[/code] if a connection of a [param from] output and a [param to] input is valid.
+static func is_valid_connection(from: GaeaValue.Type, to: GaeaValue.Type) -> bool:
+	# Not sure how good of an idea it is to rebuild the `get_cast_list()` array every time.
+	return from == to or ([from, to] in get_cast_list())
+
+
 ## Transforms [param value] from [param from_type] to [param to_type]. If there's no way to do so,
 ## produces an error.
 static func cast_value(from_type: GaeaValue.Type, to_type: GaeaValue.Type, value: Variant) -> Variant:
