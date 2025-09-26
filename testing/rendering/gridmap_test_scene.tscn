@@ -175,9 +175,7 @@ _parameters = Dictionary[StringName, Variant]({
 "value": SubResource("Resource_hwmwi")
 }
 })
-_other = {
-&"save_version": 4
-}
+save_version = 4
 
 [sub_resource type="BoxMesh" id="BoxMesh_ipl51"]
 

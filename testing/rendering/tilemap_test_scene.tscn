@@ -176,9 +176,7 @@ _parameters = Dictionary[StringName, Variant]({
 "value": SubResource("Resource_cxykr")
 }
 })
-_other = {
-&"save_version": 4
-}
+save_version = 4
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ljnpl"]
 texture = ExtResource("7_q3jyc")
