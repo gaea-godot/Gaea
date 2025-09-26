@@ -3,11 +3,11 @@ class_name GaeaGraphMigration
 
 
 static func migrate(data: GaeaGraph):
-	if data.other.get(&"save_version", data._other.get(&"save_version", -1)) == -1:
+	if data.save_version == -1:
 		_migration_step_from_beta(data)
-	if data.other.get(&"save_version", data._other.get(&"save_version", -1)) == 2:
+	if data.save_version == 2:
 		_migration_step_material_merge(data)
-	if data.other.get(&"save_version", data._other.get(&"save_version", -1)) <= 3:
+	if data.save_version <= 3:
 		_migration_step_node_ids(data)
 	push_warning("Gaea graph (%s) migrated from previous save file format. Please save your project and reload." % data.resource_path)
 
@@ -45,7 +45,7 @@ static func _process_migration(data: GaeaGraph, node_map: Dictionary[String, Var
 						var arguments: Dictionary = data.node_data[idx].get(&"arguments")
 						arguments.set(target_data[2].get(old_key), arguments.get(old_key))
 						arguments.erase(old_key)
-	data.other.set(&"save_version", new_save_version)
+	data.save_version = new_save_version
 
 
 ## Migrate data from rework [url=https://github.com/gaea-godot/gaea/pull/344]#344[/url].
@@ -203,4 +203,4 @@ static func _migration_step_node_ids(data: GaeaGraph):
 					data.attach_node_to_frame(_other_frame_id, frame_id)
 
 	data.other.clear()
-	data._other.set(&"save_version", 4)
+	data.save_version = 4

@@ -64,11 +64,10 @@ var node_data: Array[Dictionary]
 @export_storage var _parameters: Dictionary[StringName, Variant]
 ## @deprecated: Kept for migration of old save data.
 var parameters: Dictionary[StringName, Variant]
-## Other saved data, such as [GaeaGraphFrame] information.
-## [br][color=yellow][b]Warning:[/b][/color] Setting this directly can break your saved graph.
-@export_storage var _other: Dictionary
 ## @deprecated: Kept for migration of old save data.
 var other: Dictionary
+## The current save version, used for migrating checks.
+@export_storage var save_version: int = -1
 
 ## The currently related generator.
 var generator: GaeaGenerator
@@ -351,7 +350,8 @@ func _get(property: StringName) -> Variant:
 
 func _setup_local_to_scene() -> void:
 	#Data migration from previous version.
-	if _other.get(&"save_version", other.get(&"save_version", -1)) != CURRENT_SAVE_VERSION:
+	save_version = other.get(&"save_version", save_version)
+	if save_version != CURRENT_SAVE_VERSION:
 		GaeaGraphMigration.migrate(self)
 
 	_resources.clear()
