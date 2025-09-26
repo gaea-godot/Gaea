@@ -139,7 +139,7 @@ static func _migration_step_from_beta(data: GaeaGraph):
 	_process_migration(data, node_map, 2)
 
 
-## Migrate data for material merge [url=https://github.com/gaea-godot/gaea/pull/TBD]#TBD[/url].
+## Migrate data for material merge [url=https://github.com/gaea-godot/gaea/pull/359]#359[/url].
 static func _migration_step_material_merge(data: GaeaGraph):
 	var node_map: Dictionary[String, Variant] = {
 		"cumythno5ccu3": "cqs1w714pbfql", #root/resources/variables/gradient_parameter.gd
@@ -148,6 +148,7 @@ static func _migration_step_material_merge(data: GaeaGraph):
 	_process_migration(data, node_map, 3)
 
 
+## Migrate data for new saving system [url=https://github.com/gaea-godot/gaea/pull/435]#435[/url].
 static func _migration_step_node_ids(data: GaeaGraph):
 	if not data.node_data.is_empty():
 		for idx in data.node_data.size():
