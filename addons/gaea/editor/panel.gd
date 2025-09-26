@@ -172,7 +172,7 @@ func _load_data() -> void:
 
 
 	# from_node and to_node are indexes in the resources array
-	_load_connections.call_deferred(_selected_generator.data._connections)
+	_load_connections.call_deferred(_selected_generator.data.get_all_connections())
 
 	update_connections()
 	is_loading = false

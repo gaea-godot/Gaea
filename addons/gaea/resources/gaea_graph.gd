@@ -44,7 +44,7 @@ enum NodeType {
 ## }
 ## [/codeblock]
 ## [br][color=yellow][b]Warning:[/b][/color] Setting this directly can break your saved graph.
-@export_storage var _connections: Array[Dictionary]
+@export_storage var _connections: Array[StringName]
 ## @deprecated: Kept for migration of old save data.
 var connections: Array[Dictionary]
 ## @deprecated: Kept for migration of old save data.
@@ -231,73 +231,65 @@ func connect_nodes(from_id: int, from_port: int, to_id: int, to_port: int) -> Er
 	if not GaeaValue.is_valid_connection(from_type, to_type):
 		return ERR_CANT_CONNECT
 
-	_connections.append({
-		"from_node": from_id,
-		"from_port": from_port,
-		"to_node": to_id,
-		"to_port": to_port
-	})
+	_connections.append(&"%s-%s-%s-%s" % [from_id, from_port, to_id, to_port])
 	return OK
 
 ## Forcefully connects the specified nodes and ports.
 ## [br][color=yellow][b]Warning:[/b][/color] This connection could be invalid, and it won't work correctly if so.
 func force_connect_nodes(from_id: int, from_port: int, to_id: int, to_port: int) -> void:
-	_connections.append({
-		"from_node": from_id,
-		"from_port": from_port,
-		"to_node": to_id,
-		"to_port": to_port
-	})
+	_connections.append(&"%s-%s-%s-%s" % [from_id, from_port, to_id, to_port])
 
 
 ## Disconnects the specified nodes and ports, if the connection exists.
 func disconnect_nodes(from_id: int, from_port: int, to_id: int, to_port: int) -> void:
-	_connections.erase({
-		"from_node": from_id,
-		"from_port": from_port,
-		"to_node": to_id,
-		"to_port": to_port
-	})
+	_connections.erase(&"%s-%s-%s-%s" % [from_id, from_port, to_id, to_port])
 
 
-## Returns all connections in the graph.
+## Returns the saved connection (as a string) converted into a connection dictionary.
+func get_connection_dictionary(connection_string: StringName) -> Dictionary[String, int]:
+	var split_string := connection_string.split("-")
+	return {
+		"from_node": int(split_string[0]),
+		"from_port": int(split_string[1]),
+		"to_node": int(split_string[2]),
+		"to_port": int(split_string[3])
+	}
+
+
+## Returns all connections in the graph as dictionaries.
 func get_all_connections() -> Array[Dictionary]:
-	return _connections
+	var all_connections: Array[Dictionary]
+	for connection_string in _connections:
+		all_connections.append(get_connection_dictionary(connection_string))
+	return all_connections
 
 
-## Returns all connections to and from the specified node.
+## Returns all connections to and from the specified node as dictionaries.
 func get_node_connections(id: int) -> Array[Dictionary]:
 	return get_connections_to(id) + get_connections_from(id)
 
 
-## Returns all connections to the specified node.
+## Returns all connections to the specified node as dictionaries.
 ## If [param port] is positive, it only returns connections to that port.
 func get_connections_to(id: int, port: int = -1) -> Array[Dictionary]:
-	return _connections.filter(
+	return get_all_connections().filter(
 		func(value: Dictionary):
 			return (value.get("to_node", NAN) == id and (port < 0 or port == value.get("to_port", -1)))
-	)
+	) as Array[Dictionary]
 
 
-## Returns all connections from the specified node.
+## Returns all connections from the specified node as dictionaries.
 ## If [param port] is positive, it only returns connections from that port.
 func get_connections_from(id: int, port: int = -1) -> Array[Dictionary]:
-	return _connections.filter(
+	return get_all_connections().filter(
 		func(value: Dictionary):
 				return (value.get("from_node", NAN) == id and (port < 0 or port == value.get("from_port", -1)))
-	)
+	) as Array[Dictionary]
 
 
 ## Returns [code]true[/code] if the specified connection exists.
 func has_connection(from_id: int, from_port: int, to_id: int, to_port: int) -> bool:
-	return _connections.has(
-		{
-			"from_node": from_id,
-			"from_port": from_port,
-			"to_node": to_id,
-			"to_port": to_port
-		}
-	)
+	return _connections.has(&"%s-%s-%s-%s" % [from_id, from_port, to_id, to_port])
 
 
 ## Returns the specified parameter's value.

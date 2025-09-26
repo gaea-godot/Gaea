@@ -168,7 +168,13 @@ static func _migration_step_node_ids(data: GaeaGraph):
 				data.set_node_data_value(&"reroute_type", _node_data.get("type"), idx)
 
 	if not data.connections.is_empty():
-		data._connections = data.connections.duplicate()
+		for connection in data.connections:
+			data.force_connect_nodes(
+				connection["from_node"],
+				connection["from_port"],
+				connection["to_node"],
+				connection["to_port"]
+			)
 	if not data.parameters.is_empty():
 		data._parameters = data.parameters.duplicate()
 
