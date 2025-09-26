@@ -156,7 +156,7 @@ func attach_node_to_frame(node_id: int, frame_id: int) -> void:
 	if node_id == frame_id:
 		return
 
-	var attached_array: Array[int] = get_node_data(frame_id).get_or_add(&"attached", [] as Array[int])
+	var attached_array: Array = get_node_data(frame_id).get_or_add(&"attached", [] as Array[int])
 	if not attached_array.has(node_id):
 		attached_array.append(node_id)
 
@@ -164,7 +164,7 @@ func attach_node_to_frame(node_id: int, frame_id: int) -> void:
 ## Detaches the specified node from its parent frame.
 func detach_node_from_frame(node_id: int) -> void:
 	var frame_idx: int = _node_data.values().find_custom(
-		func(data: Dictionary) -> bool: return data.get(&"attached", []).has(node_id)
+		func(data: Dictionary) -> bool: return data.get(&"attached", [] as Array[int]).has(node_id)
 	)
 	if frame_idx != -1:
 		_node_data.values()[frame_idx][&"attached"].erase(node_id)

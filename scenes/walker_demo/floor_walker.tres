@@ -911,9 +911,7 @@ _parameters = Dictionary[StringName, Variant]({
 "value": SubResource("Resource_kk1e5")
 }
 })
-_other = {
-&"save_version": 4
-}
+save_version = 4
 Chest = SubResource("Resource_j6vep")
 FloorMaterial = SubResource("Resource_e1h74")
 SpikyVegetation = SubResource("Resource_y3srg")
