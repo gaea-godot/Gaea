@@ -19,7 +19,7 @@ var slot_idx: int
 ## Hint as declared in [GaeaNodeResource._get_argument_hint].
 var hint: Dictionary[String, Variant]
 
-@onready var _label: RichTextLabel = %Label
+@onready var _label: RichTextLabel = get_node_or_null(NodePath("%Label"))
 
 
 ## Sets the corresponding variables.
