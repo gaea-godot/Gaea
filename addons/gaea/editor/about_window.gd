@@ -18,6 +18,8 @@ func initialize() -> void:
 		return
 
 	_version_label.text = "Gaea %s" % plugin.get_plugin_version()
+	_version_label.uri = "https://github.com/gaea-godot/gaea/releases/tag/%s" % plugin.get_plugin_version()
+	_version_label.tooltip_text = _version_label.uri
 	_contributors_panel.add_theme_stylebox_override(&"panel", EditorInterface.get_base_control().get_theme_stylebox(&"LaunchPadNormal", &"EditorStyles"))
 	for child in _main_vbox.get_children():
 		if child is not PanelContainer:

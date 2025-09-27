@@ -452,7 +452,7 @@ func _on_reload_parameters_list_button_pressed() -> void:
 
 
 func _on_online_docs_button_pressed() -> void:
-	OS.shell_open("https://gaea-godot.github.io/gaea-docs/#/")
+	OS.shell_open("https://gaea-docs.readthedocs.io/")
 
 
 #region Popout Window

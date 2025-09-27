@@ -5,6 +5,7 @@
 
 [node name="Window" type="AcceptDialog"]
 auto_translate_mode = 1
+oversampling_override = 1.0
 title = "Thanks for using Gaea!"
 initial_position = 1
 size = Vector2i(512, 384)
