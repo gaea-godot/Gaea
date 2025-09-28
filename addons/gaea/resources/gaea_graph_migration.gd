@@ -175,8 +175,8 @@ static func _migration_step_node_ids(data: GaeaGraph):
 				connection["to_node"],
 				connection["to_port"]
 			)
-	if not data.parameters.is_empty():
-		data._parameters = data.parameters.duplicate()
+	for param in data.parameters.keys():
+		data.add_parameter(param, data.paramaters[param])
 
 	data.connections.clear()
 	data.parameters.clear()

@@ -6,7 +6,7 @@ class_name GaeaNodeParameter
 ##
 ## Adds a variable of [member type], with [member hint] and [member hint_string], editable in the
 ## inspector, which can be accessed by other nodes through this node's output.[br]
-## Parameters are added to the [member GaeaGraph.parameters] array.
+## Parameters are added to the [member GaeaGraph._parameters] array.
 
 
 ## See [enum Variant.Type] and equivalents in [method GaeaValue.from_variant_type].
@@ -51,7 +51,7 @@ func _get_available_name(from: String) -> String:
 
 	var _available_name: String = from
 	var _suffix: int = 1
-	while node.generator.data.parameters.has(_available_name):
+	while node.generator.data.has_parameter(_available_name):
 		_suffix += 1
 		_available_name = "%s%s" % [from, _suffix]
 	return _available_name

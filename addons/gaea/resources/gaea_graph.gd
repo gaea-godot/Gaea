@@ -55,7 +55,7 @@ var node_data: Array[Dictionary]
 ## List of parameters created with [GaeaNodeParameter].
 ## [br][color=yellow][b]Warning:[/b][/color] Setting this directly can break your saved graph.
 ## Use [method set_parameter] instead.
-@export_storage var _parameters: Dictionary[StringName, Variant]
+@export_storage var _parameters: Dictionary[StringName, Variant] : get = get_parameter_list
 ## @deprecated: Kept for migration of old save data.
 var parameters: Dictionary[StringName, Variant]
 ## @deprecated: Kept for migration of old save data.
@@ -299,6 +299,54 @@ func get_parameter(name: StringName) -> Variant:
 ## Sets the specified parameter from [member _parameters] to [param value].
 func set_parameter(name: StringName, value: Variant) -> void:
 	_set(name, value)
+
+
+## Returns [code]true[/code] if a parameter of that name exists.
+func has_parameter(name: StringName) -> bool:
+	return _parameters.has(name)
+
+
+## Returns the specified parameter's info dictionary.
+## Follows the format in [method Object.get_property_list].[br]
+## If it doesn't exist, returns an empty dictionary.
+func get_parameter_dictionary(name: StringName) -> Dictionary:
+	return _parameters.get(name, {})
+
+
+## Returns [member _parameters].
+func get_parameter_list() -> Dictionary:
+	return _parameters
+
+
+## Adds [param parameter] to [member _parameters] with [param name]. Should match
+## the format in [method Object.get_property_list].[br]
+## Returns an error if a parameter with that name already exists.
+func add_parameter(name: StringName, parameter: Dictionary) -> Error:
+	if has_parameter(name):
+		return ERR_ALREADY_EXISTS
+
+	_parameters[name] = parameter
+	notify_property_list_changed()
+	return OK
+
+
+## Renames the specified parameter from [param old_name] to [param new_name].[br]
+## If a parameter of [param new_name] already exists, fails and returns an error.
+func rename_parameter(old_name: StringName, new_name: StringName) -> Error:
+	var dictionary := get_parameter_dictionary(old_name)
+	dictionary.name = new_name
+	var error := add_parameter(new_name, dictionary)
+	if error != OK:
+		return error
+
+	remove_parameter(old_name)
+	notify_property_list_changed()
+	return OK
+
+
+## Removes the parameter of [param name].
+func remove_parameter(name: StringName) -> void:
+	_parameters.erase(name)
 
 
 func _get_property_list() -> Array[Dictionary]:

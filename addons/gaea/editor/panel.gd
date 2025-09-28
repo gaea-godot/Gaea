@@ -418,11 +418,11 @@ func _on_reload_parameters_list_button_pressed() -> void:
 			existing_parameters.append(node.get_arg_value("name"))
 
 
-	for param in _selected_generator.data.parameters:
+	for param in _selected_generator.data.get_parameter_list().keys():
 		if param in existing_parameters:
 			continue
 
-		_selected_generator.data.parameters.erase(param)
+		_selected_generator.data.remove_parameter(param)
 	_selected_generator.notify_property_list_changed()
 
 
