@@ -103,3 +103,7 @@ func _get_output_ports_list() -> Array[StringName]:
 
 func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.NULL
+
+
+func _get_data(_output_port: StringName, _area: AABB, _graph: GaeaGraph) -> Variant:
+	return null
