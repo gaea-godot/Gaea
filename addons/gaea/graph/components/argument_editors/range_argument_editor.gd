@@ -59,6 +59,10 @@ func _configure_min_max_spin_box() -> void:
 
 
 func _on_spin_box_changed_value() -> void:
+	if min_spin_box.value > max_spin_box.value:
+		max_spin_box.set_value_no_signal(min_spin_box.value)
+	elif max_spin_box.value < min_spin_box.value:
+		min_spin_box.set_value_no_signal(max_spin_box.value)
 	range_slider.set_range(min_spin_box.value, max_spin_box.value)
 
 
