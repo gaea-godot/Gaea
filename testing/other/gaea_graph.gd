@@ -37,7 +37,7 @@ func test_add_node() -> void:
 	if is_failure():
 		return
 
-	graph.add_node(GaeaNodeTextureSampler.new(), Vector2(-50, 0), graph.get_next_id())
+	graph.add_node(GaeaNodeTextureSampler.new(), Vector2(-50, 0), graph.get_next_available_id())
 	var _nodes := graph.get_nodes()
 	assert_array(_nodes)\
 		.override_failure_message("Graph's node resources list has unexpected size.")\

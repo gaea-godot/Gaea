@@ -74,9 +74,10 @@ func _init() -> void:
 	notify_property_list_changed()
 
 
-## Adds a new [param node] to the graph at [param position], identifiable with [param id].[br]
+## Adds a new [param node] to the graph at [param position], identifiable with [param id].
+## If [param id] is not passed, [method get_next_available_id] will be used. Returns the node's id.[br]
 ## Its data is saved in [member _node_data] and loaded by the panel.
-func add_node(node: GaeaNodeResource, position: Vector2, id: int) -> void:
+func add_node(node: GaeaNodeResource, position: Vector2, id: int = get_next_available_id()) -> int:
 	_resources.set(id, node)
 	_node_data.set(id,
 	{
@@ -87,16 +88,19 @@ func add_node(node: GaeaNodeResource, position: Vector2, id: int) -> void:
 					ResourceLoader.get_resource_uid(node.get_script().get_path())
 				)
 	}.merged(node.get_custom_saved_data()))
+	return id
 
 
-## Adds a new frame at [param position], identifiable with [param id].[br]
+## Adds a new frame at [param position], identifiable with [param id].
+## If [param id] is not passed, [method get_next_available_id] will be used. Returns the frame's id.[br]
 ## Its data is saved in [member _node_data].
-func add_frame(position: Vector2, id: int) -> void:
+func add_frame(position: Vector2, id: int = get_next_available_id()) -> int:
 	_node_data.set(id,
 	{
 		&"type": NodeType.FRAME,
 		&"position": position,
 	})
+	return id
 
 
 ## Removes the specified node.
@@ -197,7 +201,7 @@ func get_ids() -> Array[int]:
 
 
 ## Returns the next available id.
-func get_next_id() -> int:
+func get_next_available_id() -> int:
 	var _ids := get_ids()
 	var _next_id := 0
 	while _next_id in _ids:

@@ -183,8 +183,7 @@ static func _migration_step_node_ids(data: GaeaGraph):
 
 	var _frames: Dictionary[int, Dictionary]
 	for frame_data: Dictionary in data.other.get(&"frames", []):
-		var _frame_id: int = data.get_next_id()
-		data.add_frame(frame_data[&"position"], _frame_id)
+		var _frame_id: int = data.add_frame(frame_data[&"position"])
 		data.set_node_data_value(&"tint_color_enabled", frame_data.get(&"tint_color_enabled", false), _frame_id)
 		data.set_node_data_value(&"tint_color", frame_data.get(&"tint_color", Color("4d4d4dbf")), _frame_id)
 		data.set_node_data_value(&"autoshrink", frame_data.get(&"autoshrink", true), _frame_id)

@@ -274,8 +274,7 @@ func _clamp_popup_in_window(popup: Window, main_window: Window) -> void:
 
 
 func _add_node(resource: GaeaNodeResource, local_grid_position: Vector2) -> GraphNode:
-	var id: int = _selected_generator.data._node_data.size()
-	_selected_generator.data.add_node(resource, local_grid_position, id)
+	var id := _selected_generator.data.add_node(resource, local_grid_position)
 
 	var node: GaeaGraphNode = resource.get_scene().instantiate()
 	if resource.get_scene_script() != null:
@@ -301,17 +300,17 @@ func _on_tree_node_selected_for_creation(resource: GaeaNodeResource) -> void:
 func _on_tree_special_node_selected_for_creation(id: StringName) -> void:
 	match id:
 		&"frame":
-			var frame_id: int = _selected_generator.data.get_next_id()
-			_selected_generator.data.add_frame(
-				_graph_edit.local_to_grid(_node_creation_target),
-				frame_id
-			)
-			var node: GaeaGraphFrame = GaeaGraphFrame.new()
-			node.generator = _selected_generator
-			node.id = frame_id
-			node.position_offset = _graph_edit.local_to_grid(_node_creation_target)
-			_graph_edit.add_child(node)
+			_add_frame()
 	_create_node_popup.hide()
+
+
+func _add_frame() -> void:
+	var id: int = _selected_generator.data.add_frame(_graph_edit.local_to_grid(_node_creation_target))
+	var node: GaeaGraphFrame = GaeaGraphFrame.new()
+	node.generator = _selected_generator
+	node.id = id
+	node.position_offset = _graph_edit.local_to_grid(_node_creation_target)
+	_graph_edit.add_child(node)
 
 
 func _on_new_reroute_requested(connection: Dictionary) -> void:
