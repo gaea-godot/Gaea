@@ -200,10 +200,10 @@ func get_ids() -> Array[int]:
 	return _node_data.keys()
 
 
-## Returns the next available id.
+## Returns an available id.
 func get_next_available_id() -> int:
 	var _ids := get_ids()
-	var _next_id := 0
+	var _next_id := _ids.size()
 	while _next_id in _ids:
 		_next_id += 1
 	return _next_id
