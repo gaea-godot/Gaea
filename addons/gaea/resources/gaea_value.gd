@@ -47,7 +47,6 @@ static func is_wireable(type: Type) -> bool:
 
 ## Returns [code]true[/code] if a connection of a [param from] output and a [param to] input is valid.
 static func is_valid_connection(from: GaeaValue.Type, to: GaeaValue.Type) -> bool:
-	# Not sure how good of an idea it is to rebuild the `get_cast_list()` array every time.
 	return from == to or (GaeaValueCast.get_cast_methods().has(from) and GaeaValueCast.get_cast_methods().get(from).has(to))
 
 
