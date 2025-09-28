@@ -117,7 +117,7 @@ func remove_node(id: int) -> void:
 
 
 ## Sets the specified node's position in the graph to [param position].
-func set_node_position(position: Vector2, id: int) -> void:
+func set_node_position(id: int, position: Vector2) -> void:
 	if not _node_data.has(id):
 		return
 
@@ -125,13 +125,13 @@ func set_node_position(position: Vector2, id: int) -> void:
 
 
 ## Sets the specified node's argument of [param arg_name] to [param value].
-func set_node_argument(arg_name: StringName, value: Variant, id: int) -> void:
+func set_node_argument(id: int, arg_name: StringName, value: Variant) -> void:
 	get_node_data(id).get_or_add(&"arguments", {}).set(arg_name, value)
 
 
 ## Sets the specified node's enum value at [param enum_idx] to [param value]
 ## (and resizes the enums array if necessary).
-func set_node_enum(enum_idx: int, value: int, id: int) -> void:
+func set_node_enum(id: int, enum_idx: int, value: int) -> void:
 	var node_enums: Array = get_node_data(id).get_or_add(&"enums", [])
 	if node_enums.size() <= enum_idx:
 		node_enums.resize(enum_idx + 1)
@@ -140,13 +140,13 @@ func set_node_enum(enum_idx: int, value: int, id: int) -> void:
 
 ## Sets the specified node's saved data to [param value].[br]
 ## It's found under [member _node_data][[param id]][[param key]].
-func set_node_data_value(key: StringName, value: Variant, id: int) -> void:
+func set_node_data_value(id: int, key: StringName, value: Variant) -> void:
 	get_node_data(id).set(key, value)
 
 
 ## Gets the specified node's saved data of [param key].[br]
 ## It's found under [member _node_data][[param id]][[param key]].
-func get_node_data_value(key: StringName, id: int, default: Variant = null) -> Variant:
+func get_node_data_value(id: int, key: StringName, default: Variant = null) -> Variant:
 	return get_node_data(id).get(key, default)
 
 

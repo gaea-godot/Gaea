@@ -156,16 +156,16 @@ static func _migration_step_node_ids(data: GaeaGraph):
 			var _resource: GaeaNodeResource = load(data.resource_uids[idx]).new()
 			var _position: Vector2 = _node_data.get("position", Vector2.ZERO)
 			data.add_node(_resource, _position, idx)
-			data.set_node_data_value(&"salt", _node_data.get(&"salt", data.get_node_data(idx)[&"salt"]), idx)
+			data.set_node_data_value(idx, &"salt", _node_data.get(&"salt", data.get_node_data(idx)[&"salt"]))
 			for arg_name: StringName in _node_data.get(&"arguments", {}):
 				var _value: Variant = _node_data.get(&"arguments").get(arg_name)
-				data.set_node_argument(arg_name, _value, idx)
+				data.set_node_argument(idx, arg_name, _value)
 
 			for enum_idx: int in _node_data.get(&"enums", []).size():
-				data.set_node_enum(enum_idx, _node_data.get(&"enums")[enum_idx], idx)
+				data.set_node_enum(idx, enum_idx, _node_data.get(&"enums")[enum_idx])
 
 			if _node_data.has("type"):
-				data.set_node_data_value(&"reroute_type", _node_data.get("type"), idx)
+				data.set_node_data_value(idx, &"reroute_type", _node_data.get("type"))
 
 	if not data.connections.is_empty():
 		for connection in data.connections:
@@ -184,10 +184,10 @@ static func _migration_step_node_ids(data: GaeaGraph):
 	var _frames: Dictionary[int, Dictionary]
 	for frame_data: Dictionary in data.other.get(&"frames", []):
 		var _frame_id: int = data.add_frame(frame_data[&"position"])
-		data.set_node_data_value(&"tint_color_enabled", frame_data.get(&"tint_color_enabled", false), _frame_id)
-		data.set_node_data_value(&"tint_color", frame_data.get(&"tint_color", Color("4d4d4dbf")), _frame_id)
-		data.set_node_data_value(&"autoshrink", frame_data.get(&"autoshrink", true), _frame_id)
-		data.set_node_data_value(&"title", frame_data.get(&"title", "Title"), _frame_id)
+		data.set_node_data_value(_frame_id, &"tint_color_enabled", frame_data.get(&"tint_color_enabled", false))
+		data.set_node_data_value(_frame_id, &"tint_color", frame_data.get(&"tint_color", Color("4d4d4dbf")))
+		data.set_node_data_value(_frame_id, &"autoshrink", frame_data.get(&"autoshrink", true))
+		data.set_node_data_value(_frame_id, &"title", frame_data.get(&"title", "Title"))
 		_frames[_frame_id] = frame_data
 
 

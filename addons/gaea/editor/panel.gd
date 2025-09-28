@@ -323,7 +323,7 @@ func _on_new_reroute_requested(connection: Dictionary) -> void:
 	offset.y -= reroute.get_slot_custom_icon_right(0).get_size().y * 0.5
 	reroute.set_position_offset(_graph_edit.local_to_grid(_node_creation_target, offset))
 
-	_selected_generator.data.set_node_position(reroute.position_offset, reroute.resource.id)
+	_selected_generator.data.set_node_position(reroute.resource.id, reroute.position_offset)
 
 
 	_graph_edit.disconnection_request.emit.call_deferred(

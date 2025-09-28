@@ -80,7 +80,7 @@ func _on_added() -> void:
 	title = resource.get_title()
 	if resource.salt == 0:
 		resource.salt = randi()
-		generator.data.set_node_data_value(&"salt", resource.salt, resource.id)
+		generator.data.set_node_data_value(resource.id, &"salt", resource.salt)
 
 
 func _rebuild() -> void:
@@ -259,7 +259,7 @@ func _set_arg_value(arg_name: StringName, value: Variant) -> void:
 func _on_argument_value_changed(value: Variant, _node: GaeaGraphNodeArgumentEditor, arg_name: String) -> void:
 	if _finished_loading:
 		resource.set_argument_value(arg_name, value)
-		generator.data.set_node_argument(arg_name, value, resource.id)
+		generator.data.set_node_argument(resource.id, arg_name, value)
 		if is_instance_valid(_preview):
 			_preview.update()
 
@@ -268,7 +268,7 @@ func _on_enum_value_changed(option_idx: int, enum_idx: int, button: OptionButton
 	if _finished_loading:
 		var value := button.get_item_id(option_idx)
 		resource.set_enum_value(enum_idx, value)
-		generator.data.set_node_enum(enum_idx, value, resource.id)
+		generator.data.set_node_enum(resource.id, enum_idx, value)
 		if is_instance_valid(_preview):
 			_preview.update()
 
@@ -387,4 +387,4 @@ func has_finished_rebuilding() -> bool:
 
 
 func _on_dragged(_from: Vector2, to: Vector2) -> void:
-	generator.data.set_node_position(to, resource.id)
+	generator.data.set_node_position(resource.id, to)

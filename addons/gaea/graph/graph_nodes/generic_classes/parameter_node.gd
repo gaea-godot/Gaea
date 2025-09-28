@@ -22,7 +22,7 @@ func _on_added() -> void:
 
 func _add_parameter() -> void:
 	current_name = get_arg_value(&"name")
-	generator.data.set_node_argument(&"name", current_name, resource.id)
+	generator.data.set_node_argument(resource.id, &"name", current_name)
 
 	generator.data.add_parameter(current_name, {
 		"name": current_name,

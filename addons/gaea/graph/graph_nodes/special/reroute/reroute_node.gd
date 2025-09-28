@@ -43,7 +43,7 @@ func on_type_changed():
 	set_slot_type_left(0, type)
 	set_slot_type_right(0, type)
 	set_slot_custom_icon_right(0, GaeaValue.get_slot_icon(type))
-	generator.data.set_node_data_value(&"reroute_type", resource.get_type(), resource.id)
+	generator.data.set_node_data_value(resource.id, &"reroute_type", resource.get_type())
 
 #endregion
 

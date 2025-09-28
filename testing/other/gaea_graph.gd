@@ -108,7 +108,7 @@ func test_frame() -> void:
 		return
 
 	graph.attach_node_to_frame(0, 2)
-	var _attached: Array[int] = graph.get_node_data_value(&"attached", 2, [])
+	var _attached: Array[int] = graph.get_node_data_value(2, &"attached", [])
 	assert_array(_attached)\
 		.override_failure_message("Frame's attached list has unexpected size.")\
 		.append_failure_message("Current: %s\nExpected: %s" % [_attached.size(), 1])\
@@ -121,7 +121,7 @@ func test_frame() -> void:
 		return
 
 	graph.detach_node_from_frame(0)
-	_attached = graph.get_node_data_value(&"attached", 2, [9])
+	_attached = graph.get_node_data_value(2, &"attached", [9])
 	assert_array(_attached)\
 		.override_failure_message("Frame's attached list is not empty after detaching node.")\
 		.is_empty()
