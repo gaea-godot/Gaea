@@ -22,6 +22,7 @@ func _on_added() -> void:
 
 func _add_parameter() -> void:
 	current_name = get_arg_value(&"name")
+	generator.data.set_node_argument(&"name", current_name, resource.id)
 
 	generator.data.add_parameter(current_name, {
 		"name": current_name,
@@ -34,7 +35,7 @@ func _add_parameter() -> void:
 
 
 func _on_removed() -> void:
-	generator.data.remove_parameter(get_arg_value("name"))
+	generator.data.remove_parameter(get_arg_value(&"name"))
 	generator.data.notify_property_list_changed()
 
 

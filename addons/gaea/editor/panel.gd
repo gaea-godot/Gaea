@@ -294,7 +294,7 @@ func _add_node(resource: GaeaNodeResource, local_grid_position: Vector2) -> Grap
 
 func _on_tree_node_selected_for_creation(resource: GaeaNodeResource) -> void:
 	_create_node_popup.hide()
-	_add_node(resource, _graph_edit.local_to_grid(_node_creation_target))
+	_add_node(resource.duplicate(), _graph_edit.local_to_grid(_node_creation_target))
 
 
 func _on_tree_special_node_selected_for_creation(id: StringName) -> void:
