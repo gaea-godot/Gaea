@@ -129,7 +129,8 @@ func set_node_argument(arg_name: StringName, value: Variant, id: int) -> void:
 ## (and resizes the enums array if necessary).
 func set_node_enum(enum_idx: int, value: int, id: int) -> void:
 	var node_enums: Array = get_node_data(id).get_or_add(&"enums", [])
-	node_enums.resize(enum_idx + 1)
+	if node_enums.size() <= enum_idx:
+		node_enums.resize(enum_idx + 1)
 	node_enums.set(enum_idx, value)
 
 
