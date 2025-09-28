@@ -34,15 +34,9 @@ enum NodeType {
 @export_group("Debug")
 ## Selection of what to print in the Output console during generation. See [enum Log].
 @export_flags("Execute", "Traverse", "Data", "Args") var logging:int = Log.NONE
-## List of all connections between nodes. The dictionaries contain the following properties:
-## [codeblock]
-## {
-##    from_node: int, # Index of the node in [member resources]
-##    from_port: int, # Index of the port of the node
-##    to_node: int,   # Index of the node in [member resources]
-##    to_port: int,   # Index of the port of the node
-## }
-## [/codeblock]
+## List of all connections between nodes. They're saved with the format
+## "from_node-from_port-to_node-to_port" (ex.: 1-0-2-1). That format
+## can be converted into a connections dictionary using various methods in this class.[br]
 ## [br][color=yellow][b]Warning:[/b][/color] Setting this directly can break your saved graph.
 @export_storage var _connections: Array[StringName]
 ## @deprecated: Kept for migration of old save data.
