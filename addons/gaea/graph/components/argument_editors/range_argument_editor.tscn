@@ -34,6 +34,8 @@ custom_minimum_size = Vector2(0, 12)
 layout_mode = 2
 script = ExtResource("3_an6wf")
 end_value = 1.0
+allow_greater = true
+allow_lesser = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2

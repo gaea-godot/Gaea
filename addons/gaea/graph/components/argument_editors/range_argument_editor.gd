@@ -80,6 +80,7 @@ func set_arg_value(new_value: Variant) -> void:
 		return
 	range_slider.start_value = new_value.get("min", 0.0)
 	range_slider.end_value = new_value.get("max", 1.0)
+	prints(new_value, range_slider.start_value, range_slider.end_value)
 
 
 func _on_range_slider_value_changed(start_value: float, end_value: float) -> void:
