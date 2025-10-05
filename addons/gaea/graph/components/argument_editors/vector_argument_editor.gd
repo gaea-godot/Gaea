@@ -16,9 +16,9 @@ func _configure() -> void:
 	if is_part_of_edited_scene():
 		return
 	await super ()
-	_x_spin_box.value_changed.connect(argument_value_changed.emit)
-	_y_spin_box.value_changed.connect(argument_value_changed.emit)
-	_z_spin_box.value_changed.connect(argument_value_changed.emit)
+	_x_spin_box.value_changed.connect(_on_slider_changed_value.unbind(1))
+	_y_spin_box.value_changed.connect(_on_slider_changed_value.unbind(1))
+	_z_spin_box.value_changed.connect(_on_slider_changed_value.unbind(1))
 	var editor_interface = Engine.get_singleton("EditorInterface")
 	_x_label.add_theme_color_override(&"font_color", editor_interface.get_base_control().get_theme_color("property_color_x", "Editor"))
 	_y_label.add_theme_color_override(&"font_color", editor_interface.get_base_control().get_theme_color("property_color_y", "Editor"))
@@ -51,6 +51,10 @@ func _configure() -> void:
 	_x_spin_box.allow_greater = not hint.has("max")
 	_y_spin_box.allow_greater = not hint.has("max")
 	_z_spin_box.allow_greater = not hint.has("max")
+
+
+func _on_slider_changed_value() -> void:
+	argument_value_changed.emit(get_arg_value());
 
 
 func set_editor_visible(value: bool) -> void:
