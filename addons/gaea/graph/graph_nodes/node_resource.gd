@@ -398,7 +398,9 @@ func _get_arg(arg_name: StringName, area: AABB, graph: GaeaGraph) -> Variant:
 			_log_error("Could not get data from previous node, using default value instead.", graph, connected_id)
 			return get_argument_default_value(arg_name)
 
-	return arguments.get(arg_name, get_argument_default_value(arg_name))
+	var arg_value = arguments.get(arg_name, get_argument_default_value(arg_name))
+	_log_arg(arg_name, graph, arg_value)
+	return arg_value
 #endregion
 
 
@@ -558,9 +560,12 @@ func _log_data(output_port: StringName, graph: GaeaGraph):
 
 
 # If enabled in [member GaeaGraph.logging], log the argument information. (See [enum GaeaGraph.Log]).
-func _log_arg(arg:String, graph: GaeaGraph):
+func _log_arg(arg:String, graph: GaeaGraph, value:Variant = null):
 	if is_instance_valid(graph) and graph.logging & GaeaGraph.Log.ARGS > 0:
-		print("Arg       |   %s on %s" % [arg, _get_title()])
+		if (value == null):
+			print("Arg       |   %s on %s" % [arg, _get_title()])
+		else:
+			print("Arg       |   %s on %s: %s" % [arg, _get_title(), value])
 
 
 ## Display a error message in the Output log panel.
