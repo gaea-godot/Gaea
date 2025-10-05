@@ -113,9 +113,6 @@ func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictio
 	var bigger_room_chance: float = float(_get_arg(&"bigger_room_chance", area, graph)) / 100.0
 	var bigger_room_size_range: Dictionary = _get_arg(&"bigger_room_size_range", area, graph)
 
-	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
-	rng.set_seed(graph.generator.seed + salt)
-	seed(graph.generator.seed + salt)
 	var max_cells: int = _get_arg(&"max_cells", area, graph)
 	max_cells = mini(
 		max_cells,

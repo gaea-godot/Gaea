@@ -69,7 +69,6 @@ func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictio
 		Vector2i.RIGHT: _get_arg(&"move_right_weight", area, graph),
 		Vector2i.DOWN: _get_arg(&"move_down_weight", area, graph),
 	}
-	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	var left_flag: int = _get_arg(&"left", area, graph)
 	var right_flag: int = _get_arg(&"right", area, graph)
 	var down_flag: int = _get_arg(&"down", area, graph)
@@ -80,7 +79,6 @@ func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictio
 		Vector2i.DOWN: down_flag,
 		Vector2i.UP: up_flag
 	}
-	rng.set_seed(graph.generator.seed + salt)
 
 	var path: Dictionary
 	var grid: Dictionary[Vector3i, float] = {}

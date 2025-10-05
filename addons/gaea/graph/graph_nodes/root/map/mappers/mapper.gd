@@ -29,7 +29,6 @@ func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictio
 	var grid: Dictionary[Vector3i, GaeaMaterial] = {}
 	var grid_data := _get_arg(&"reference_data", area, graph) as Dictionary
 	var material := _get_arg(&"material", area, graph) as GaeaMaterial
-	var rng := define_rng(graph)
 
 	if not is_instance_valid(material):
 		_log_error("Invalid material provided", graph, graph.resources.find(self))

@@ -36,8 +36,6 @@ func _get_output_port_display_name(output_name: StringName) -> String:
 
 
 func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary:
-	seed(graph.generator.seed + salt)
-
 	var input_data: Dictionary = _get_arg(&"input_grid", area, graph)
 	var new_data: Dictionary = GaeaValue.get_default_value(_get_output_port_type(_output_port))
 
