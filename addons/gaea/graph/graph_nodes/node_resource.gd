@@ -54,6 +54,8 @@ var enum_selections: Array
 ## An additional value added to the generation's seed to prevent
 ## duplicates of the same node from having the same randomness. (See [member GaeaGenerator.seed]).
 var salt: int = 0
+## The RandomNumberGenerator that gets defined every time data is asked of this node.
+var rng: RandomNumberGenerator
 ## Id in the [GaeaGraph] save data.
 var id: int = 0
 ## If empty, [method _get_title] will be used instead.
@@ -418,6 +420,7 @@ func traverse(output_port: StringName, area: AABB, graph: GaeaGraph) -> Variant:
 
 	# Get Data
 
+	_define_rng(graph)
 	_log_data(output_port, graph)
 	var results: Dictionary = {
 		&"value": _get_data(output_port, area, graph),
@@ -638,11 +641,10 @@ func _is_point_outside_area(area: AABB, point: Vector3) -> bool:
 	return (point.x < area.position.x or point.y < area.position.y or point.z < area.position.z or
 			point.x > area.end.x or point.y > area.end.y or point.z > area.end.z)
 
-func define_rng(graph: GaeaGraph) -> RandomNumberGenerator:
-	var rng = RandomNumberGenerator.new()
+func _define_rng(graph: GaeaGraph) -> void:
+	rng = RandomNumberGenerator.new()
 	rng.set_seed(graph.generator.seed + salt)
-	seed(graph.generator.seed + salt)
-	return rng
+	seed(rng.seed)
 #endregion
 
 
