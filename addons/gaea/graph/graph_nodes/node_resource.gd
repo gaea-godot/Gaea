@@ -417,7 +417,6 @@ func traverse(output_port: StringName, area: AABB, graph: GaeaGraph) -> Variant:
 		return {}
 
 	# Get Data
-
 	_define_rng(graph)
 	_log_data(output_port, graph)
 	var results: Dictionary = {
