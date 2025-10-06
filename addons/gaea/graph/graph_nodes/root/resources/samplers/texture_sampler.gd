@@ -42,7 +42,7 @@ func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Diction
 	var r_grid: Dictionary[Vector3i, float]
 	var g_grid: Dictionary[Vector3i, float]
 	var b_grid: Dictionary[Vector3i, float]
-	var alpha_grid: Dictionary[Vector3i, float]
+	var a_grid: Dictionary[Vector3i, float]
 
 	var slices: Array[Image] # Only one is texture is 2D
 	if texture is Texture2D:
@@ -70,11 +70,11 @@ func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Diction
 				r_grid.set(cell, pixel.r)
 				g_grid.set(cell, pixel.g)
 				b_grid.set(cell, pixel.b)
-				alpha_grid.set(cell, pixel.a)
+				a_grid.set(cell, pixel.a)
 
-	set_cached_data(&"r", graph, r_grid)
-	set_cached_data(&"g", graph, g_grid)
-	set_cached_data(&"b", graph, b_grid)
-	set_cached_data(&"a", graph, alpha_grid)
+	_set_cached_data(&"r", graph, r_grid)
+	_set_cached_data(&"g", graph, g_grid)
+	_set_cached_data(&"b", graph, b_grid)
+	_set_cached_data(&"a", graph, a_grid)
 
-	return get_cached_data(output_port, graph)
+	return _get_cached_data(output_port, graph)

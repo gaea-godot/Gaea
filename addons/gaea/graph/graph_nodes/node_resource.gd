@@ -411,14 +411,14 @@ func traverse(output_port: StringName, area: AABB, graph: GaeaGraph) -> Variant:
 	# Get Data with caching
 	var data: Variant
 	var use_caching = _use_caching(output_port, graph)
-	if use_caching and has_cached_data(output_port, graph):
-		data = get_cached_data(output_port, graph)
+	if use_caching and _has_cached_data(output_port, graph):
+		data = _get_cached_data(output_port, graph)
 	else:
 		_define_rng(graph)
 		_log_data(output_port, graph)
 		data = _get_data(output_port, area, graph)
 		if use_caching:
-			set_cached_data(output_port, graph, data)
+			_set_cached_data(output_port, graph, data)
 
 	return {
 		&"value": data,
@@ -442,20 +442,20 @@ func _use_caching(_output_port: StringName, _graph: GaeaGraph) -> bool:
 ## Adds or sets data to the cache at GaeaNodeResource, then output_port index.
 ## This is called during [method traverse] if [method _use_caching] returns [code]true[/code],
 ## but can also be called in special cases where you want to manually add cached values.
-func set_cached_data(output_port: StringName, graph: GaeaGraph, new_data: Variant) -> void:
+func _set_cached_data(output_port: StringName, graph: GaeaGraph, new_data: Variant) -> void:
 	var node_cache: Dictionary = graph.cache.get_or_add(self, {})
 	node_cache[output_port] = new_data
 
 
 ## Checks if the cache has data corresponding to this node, then if it has it for output_port.
-func has_cached_data(output_port: StringName, graph: GaeaGraph) -> bool:
+func _has_cached_data(output_port: StringName, graph: GaeaGraph) -> bool:
 	return graph.cache.has(self) and graph.cache[self].has(output_port)
 
 
 ## Gets cached data by GaeaNodeResource, then output_port index.
 ## Assumes that data exists, will error out if it doesn't.
 ## See also [method has_cached_data]
-func get_cached_data(output_port: StringName, graph: GaeaGraph) -> Variant:
+func _get_cached_data(output_port: StringName, graph: GaeaGraph) -> Variant:
 	return graph.cache[self][output_port]
 #endregion
 
