@@ -66,6 +66,7 @@ var other: Dictionary
 ## The currently related generator.
 var generator: GaeaGenerator
 ## Cache used during generation to avoid calculating data more than once when unnecessary.
+## The inner dictionary keys is the slot output_port name and the value the cached data.
 var cache: Dictionary[GaeaNodeResource, Dictionary] = {}
 
 

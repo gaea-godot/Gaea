@@ -72,9 +72,9 @@ func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Diction
 				b_grid.set(cell, pixel.b)
 				alpha_grid.set(cell, pixel.a)
 
-	_set_cached_data(&"r", graph, r_grid)
-	_set_cached_data(&"g", graph, g_grid)
-	_set_cached_data(&"b", graph, b_grid)
-	_set_cached_data(&"a", graph, alpha_grid)
+	set_cached_data(&"r", graph, r_grid)
+	set_cached_data(&"g", graph, g_grid)
+	set_cached_data(&"b", graph, b_grid)
+	set_cached_data(&"a", graph, alpha_grid)
 
-	return _get_cached_data(output_port, graph)
+	return get_cached_data(output_port, graph)
