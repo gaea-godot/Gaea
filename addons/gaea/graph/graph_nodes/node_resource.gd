@@ -65,8 +65,8 @@ var tree_name_override: String = "": set = set_tree_name_override
 
 ## Used in [_get_preview_simulation_size].
 enum SimSize
-{ 
-	PREVIEW, 
+{
+	PREVIEW,
 	WORLD
 }
 
@@ -637,9 +637,14 @@ static func get_formatted_text(unformatted_text: String) -> String:
 		.replace("[/code]", "[/code][/color][/bgcolor]")
 
 
+## Can be overriden to change the icon in the 'Create Node' tree.
+func _get_icon() -> Texture2D:
+	return GaeaValue.get_display_icon(get_type())
+
+
 ## Returns the corresponding type icon.
 func get_icon() -> Texture2D:
-	return GaeaValue.get_display_icon(get_type())
+	return _get_icon()
 
 
 ## Returns the corresponding type color.

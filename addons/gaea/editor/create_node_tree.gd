@@ -54,7 +54,7 @@ func _populate_from_dictionary(dictionary: Dictionary, parent_item: TreeItem) ->
 			tree_item.set_metadata(0, value)
 			if value is GaeaNodeResource:
 				tree_item.set_text(0, value.get_tree_name())
-				tree_item.set_icon(0, GaeaValue.get_display_icon(value.get_type()))
+				tree_item.set_icon(0, value.get_icon())
 				tree_item.set_icon_max_width(0, 16)
 
 
