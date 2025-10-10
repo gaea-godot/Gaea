@@ -6,8 +6,6 @@ extends Node2D
 var last_grid: GaeaGrid
 
 
-
-
 ## Used for integration testing.
 func test_generation(fixed_seed: int = 0) -> void:
 	gaea_generator.world_size = Vector3i(45, 45, 1)

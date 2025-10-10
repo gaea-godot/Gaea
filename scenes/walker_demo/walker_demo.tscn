@@ -1,12 +1,12 @@
 [gd_scene load_steps=8 format=4 uid="uid://di7u4f3idjdd"]
 
-[ext_resource type="Script" uid="uid://b76kqpu3u6dms" path="res://scenes/walker_demo/walker_demo.gd" id="1_m3j1j"]
+[ext_resource type="Script" uid="uid://b76kqpu3u6dms" path="res://scenes/demo_scene.gd" id="1_m3j1j"]
 [ext_resource type="Script" uid="uid://d4feanreabm81" path="res://addons/gaea/nodes/generator.gd" id="2_o228a"]
 [ext_resource type="Resource" uid="uid://dowa1yikrbcdj" path="res://scenes/walker_demo/floor_walker.tres" id="3_0q7la"]
 [ext_resource type="Texture2D" uid="uid://druqwrm3nwuao" path="res://scenes/walker_demo/tileset.png" id="4_evla3"]
 [ext_resource type="Script" uid="uid://b4x16tyyfihmb" path="res://addons/gaea/nodes/renderers/tilemap_renderer.gd" id="5_h41y8"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cntqm"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_m3j1j"]
 texture = ExtResource("4_evla3")
 texture_region_size = Vector2i(8, 8)
 0:0/0 = 0
@@ -360,7 +360,7 @@ tile_size = Vector2i(8, 8)
 terrain_set_0/mode = 0
 terrain_set_0/terrain_0/name = "Walls"
 terrain_set_0/terrain_0/color = Color(0.5, 0.34375, 0.25, 1)
-sources/1 = SubResource("TileSetAtlasSource_cntqm")
+sources/1 = SubResource("TileSetAtlasSource_m3j1j")
 
 [node name="TestScene" type="Node2D"]
 script = ExtResource("1_m3j1j")
