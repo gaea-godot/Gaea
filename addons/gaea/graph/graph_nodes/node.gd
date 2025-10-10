@@ -265,12 +265,11 @@ func _on_argument_value_changed(value: Variant, _node: GaeaGraphNodeArgumentEdit
 
 
 func _on_enum_value_changed(option_idx: int, enum_idx: int, button: OptionButton) -> void:
-	if _finished_loading:
-		var value := button.get_item_id(option_idx)
-		resource.set_enum_value(enum_idx, value)
-		generator.data.set_node_enum(resource.id, enum_idx, value)
-		if is_instance_valid(_preview):
-			_preview.update()
+	var value := button.get_item_id(option_idx)
+	resource.set_enum_value(enum_idx, value)
+	generator.data.set_node_enum(resource.id, enum_idx, value)
+	if is_instance_valid(_preview):
+		_preview.update()
 
 
 # Makes argument editors invisible if there's a wire connected to their input slot.
