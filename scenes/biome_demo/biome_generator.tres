@@ -4,24 +4,11 @@
 [ext_resource type="Script" uid="uid://e45byecr4gi6" path="res://addons/gaea/resources/materials/data/tilemap_material.gd" id="1_ol5n2"]
 [ext_resource type="Script" uid="uid://dae6umbqb872e" path="res://addons/gaea/resources/gaea_graph.gd" id="2_ol5n2"]
 
-[sub_resource type="Resource" id="Resource_r6uv1"]
-script = ExtResource("1_ol5n2")
-source_id = 1
-atlas_coord = Vector2i(2, 0)
-preview_color = Color(0.6177216, 0.01335287, 0.9811075, 1)
-metadata/_custom_type_script = "uid://e45byecr4gi6"
-
 [sub_resource type="Resource" id="Resource_8kp2f"]
 script = ExtResource("1_ol5n2")
 source_id = 1
 atlas_coord = Vector2i(1, 0)
 preview_color = Color(0.6041867, 0.97914654, 0.8709597, 1)
-metadata/_custom_type_script = "uid://e45byecr4gi6"
-
-[sub_resource type="Resource" id="Resource_gj0cr"]
-script = ExtResource("1_ol5n2")
-source_id = 1
-preview_color = Color(0.10027484, 0.8890293, 0.7697469, 1)
 metadata/_custom_type_script = "uid://e45byecr4gi6"
 
 [sub_resource type="Resource" id="Resource_w2cpm"]
@@ -31,11 +18,24 @@ atlas_coord = Vector2i(0, 1)
 preview_color = Color(0.16464359, 0.57292366, 0.27162978, 1)
 metadata/_custom_type_script = "uid://e45byecr4gi6"
 
+[sub_resource type="Resource" id="Resource_gj0cr"]
+script = ExtResource("1_ol5n2")
+source_id = 1
+preview_color = Color(0.10027484, 0.8890293, 0.7697469, 1)
+metadata/_custom_type_script = "uid://e45byecr4gi6"
+
 [sub_resource type="Resource" id="Resource_0v7o5"]
 script = ExtResource("1_ol5n2")
 source_id = 1
 atlas_coord = Vector2i(1, 1)
 preview_color = Color(0.08615351, 0.120662466, 0.13496454, 1)
+metadata/_custom_type_script = "uid://e45byecr4gi6"
+
+[sub_resource type="Resource" id="Resource_yn4p0"]
+script = ExtResource("1_ol5n2")
+source_id = 1
+atlas_coord = Vector2i(2, 0)
+preview_color = Color(0.49410063, 0.43005708, 0.91616744, 1)
 metadata/_custom_type_script = "uid://e45byecr4gi6"
 
 [sub_resource type="Resource" id="Resource_ol5n2"]
@@ -338,6 +338,7 @@ _parameters = Dictionary[StringName, Variant]({
 "name": &"Ocean",
 "type": 24,
 "usage": 4,
-"value": SubResource("Resource_r6uv1")
+"value": SubResource("Resource_yn4p0")
 }
 })
+save_version = 4
