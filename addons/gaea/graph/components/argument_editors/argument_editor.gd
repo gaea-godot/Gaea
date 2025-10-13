@@ -27,11 +27,11 @@ func initialize(for_graph_node: GaeaGraphNode, for_type: GaeaValue.Type, display
 	graph_node = for_graph_node
 	type = for_type
 	set_label_text(display_name)
-	set_arg_value(default_value)
 	slot_idx = get_index()
 	hint = for_hint
 
 	_configure()
+	set_arg_value(default_value)
 
 
 func _configure() -> void:
