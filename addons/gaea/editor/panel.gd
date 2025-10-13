@@ -167,7 +167,8 @@ func _load_data() -> void:
 	_load_scroll_offset.call_deferred(
 		_output_node.size * 0.5 - _graph_edit.get_rect().size * 0.5
 	)
-		# from_node and to_node are indexes in the resources array
+	
+	# from_node and to_node are indexes in the resources array
 	_load_connections.call_deferred(_selected_generator.data.get_all_connections())
 
 	update_connections()
