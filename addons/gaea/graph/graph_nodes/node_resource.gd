@@ -637,12 +637,13 @@ static func get_formatted_text(unformatted_text: String) -> String:
 		.replace("[/code]", "[/code][/color][/bgcolor]")
 
 
-## Can be overriden to change the icon in the 'Create Node' tree.
+## Returns the corresponding node icon to be used in the 'Create Node' list.
+## If not overriden, returns the default icon for the node's type.
 func _get_icon() -> Texture2D:
 	return GaeaValue.get_display_icon(get_type())
 
 
-## Returns the corresponding type icon.
+## Public version of [method _get_icon].
 func get_icon() -> Texture2D:
 	return _get_icon()
 
