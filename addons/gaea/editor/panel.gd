@@ -34,6 +34,10 @@ var plugin: EditorPlugin
 
 
 #region Built-in & Input
+static func instantiate() -> Node:
+	return load("uid://dngytsjlmkfg7").instantiate()
+
+
 func _ready() -> void:
 	if is_part_of_edited_scene():
 		return
@@ -97,6 +101,7 @@ func _on_visibility_changed() -> void:
 
 #region Saving and Loading
 func populate(node: GaeaGenerator) -> void:
+	plugin.show_bottom_panel()
 	await _remove_children()
 	_output_node = null
 
@@ -246,7 +251,6 @@ func _on_new_data_button_pressed() -> void:
 
 
 func _on_data_changed() -> void:
-	_remove_children()
 	populate(_selected_generator)
 #endregion
 
