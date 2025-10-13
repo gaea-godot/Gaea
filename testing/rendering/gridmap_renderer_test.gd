@@ -18,8 +18,8 @@ func before() -> void:
 
 func test_full_area() -> void:
 	scene.generator.generate()
-	await scene.generator.generation_finished
-
+	await scene.renderer.render_finished
+	
 	var item_1_cells_used: Array[Vector3i] = scene.renderer.grid_maps[0].get_used_cells_by_item(0)
 	assert_array(item_1_cells_used).is_not_empty()
 	var item_1_hash: int = item_1_cells_used.hash()
