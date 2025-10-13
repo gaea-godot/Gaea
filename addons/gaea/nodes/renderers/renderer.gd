@@ -58,6 +58,7 @@ func reset() -> void:
 	render_reset.emit()
 	
 
+## Public version of [method _erase_area].
 func erase_area(area: AABB) -> void:
 	_erase_area(area)
 	area_erased.emit(area)
@@ -77,8 +78,3 @@ func _erase_area(_area: AABB) -> void
 ## Should return the render to a 'default' state.
 @abstract
 func _reset() -> void
-
-
-## Public version of [method _render].
-func render_custom(grid: GaeaGrid) -> void:
-	_render(grid)
