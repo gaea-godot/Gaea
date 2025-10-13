@@ -31,7 +31,7 @@ func _render(grid: GaeaGrid) -> void:
 				grid_maps[layer_idx].set_cell_item(cell, value.item_idx)
 
 
-func _on_area_erased(area: AABB) -> void:
+func _erase_area(area: AABB) -> void:
 	for x in range(area.position.x, area.end.x):
 		for y in range(area.position.y, area.end.y):
 			for z in range(area.position.z, area.end.z):
