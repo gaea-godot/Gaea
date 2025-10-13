@@ -62,6 +62,12 @@ var parameters: Dictionary[StringName, Variant]
 var other: Dictionary
 ## The current save version, used for migrating checks.
 @export_storage var save_version: int = -1
+## The graph's [member GraphEdit.scroll_offset]. Only saved
+## in the current session.
+var scroll_offset: Vector2 = Vector2(NAN, NAN)
+## The graph's [member GraphEdit.zoom]. Only saved
+## in the current session.
+var zoom: float = 1.0
 
 ## The currently related generator.
 var generator: GaeaGenerator

@@ -10,8 +10,6 @@ var is_loading = false
 ## Local position on [GraphEdit] for a node that may be created in the future.
 var _node_creation_target: Vector2 = Vector2.ZERO
 var plugin: EditorPlugin
-var _scroll_offsets: Dictionary[GaeaGraph, Vector2]
-var _zooms: Dictionary[GaeaGraph, float]
 
 @onready var _no_data: Control = $NoData
 @onready var _editor: Control = $Editor
@@ -166,16 +164,21 @@ func _load_data() -> void:
 	if not has_output_node:
 		_output_node = _add_node(GaeaNodeOutput.new(), Vector2.ZERO)
 
-	# If scroll offset is saved, set it to that. Else, center the output node.
-	_graph_edit.set_scroll_offset(_scroll_offsets.get(_selected_generator.data, _output_node.size * 0.5 - _graph_edit.get_rect().size * 0.5))
-	_graph_edit.set_zoom(_zooms.get(_selected_generator.data, 1.0))
-
-
-	# from_node and to_node are indexes in the resources array
+	_load_scroll_offset.call_deferred(
+		_output_node.size * 0.5 - _graph_edit.get_rect().size * 0.5
+	)
+		# from_node and to_node are indexes in the resources array
 	_load_connections.call_deferred(_selected_generator.data.get_all_connections())
 
 	update_connections()
-	is_loading = false
+	set_deferred(&"is_loading", false)
+	
+	
+func _load_scroll_offset(default_offset: Vector2) -> void:
+	if is_nan(_selected_generator.data.scroll_offset.x):
+		_selected_generator.data.scroll_offset = default_offset
+	_graph_edit.set_scroll_offset(_selected_generator.data.scroll_offset)
+	_graph_edit.set_zoom(_selected_generator.data.zoom)
 
 
 func _load_connections(connections: Array[Dictionary]) -> void:
@@ -506,7 +509,10 @@ func update_bottom_note():
 
 
 func _on_graph_edit_scroll_offset_changed(offset: Vector2) -> void:
+	if is_loading:
+		return
+		
 	if is_instance_valid(_selected_generator):
 		if is_instance_valid(_selected_generator.data):
-			_scroll_offsets.set(_selected_generator.data, offset)
-			_zooms.set(_selected_generator.data, _graph_edit.zoom)
+			_selected_generator.data.scroll_offset = offset
+			_selected_generator.data.zoom = _graph_edit.zoom
