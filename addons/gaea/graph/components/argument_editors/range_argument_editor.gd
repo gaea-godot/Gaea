@@ -28,11 +28,11 @@ func _configure() -> void:
 	range_slider.allow_lesser = false
 	range_slider.allow_greater = false
 
-	_min_spin_box.suffix = hint.get("suffix", "")
-	_max_spin_box.suffix = _min_spin_box.suffix
+	min_spin_box.suffix = hint.get("suffix", "")
+	max_spin_box.suffix = min_spin_box.suffix
 
-	_min_spin_box.prefix = hint.get("prefix", "")
-	_max_spin_box.prefix = _min_spin_box.prefix
+	min_spin_box.prefix = hint.get("prefix", "")
+	max_spin_box.prefix = max_spin_box.prefix
 
 	min_spin_box.value_changed.connect(_on_spin_box_changed_value.unbind(1))
 	max_spin_box.value_changed.connect(_on_spin_box_changed_value.unbind(1))
@@ -63,7 +63,7 @@ func _on_spin_box_changed_value() -> void:
 		max_spin_box.set_value_no_signal(min_spin_box.value)
 	elif max_spin_box.value < min_spin_box.value:
 		min_spin_box.set_value_no_signal(max_spin_box.value)
-	
+
 	if max_spin_box.value > range_slider.max_value:
 		range_slider.max_value = max_spin_box.value
 	if min_spin_box.value < range_slider.min_value:

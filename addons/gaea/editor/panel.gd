@@ -3,7 +3,6 @@ extends Control
 
 const LinkPopup = preload("uid://btt4eqjkp5pyf")
 
-var plugin: EditorPlugin
 var is_loading = false
 
 var _selected_generator: GaeaGenerator = null:
@@ -189,14 +188,14 @@ func _load_data() -> void:
 	_load_scroll_offset.call_deferred(
 		_output_node.size * 0.5 - _graph_edit.get_rect().size * 0.5
 	)
-	
+
 	# from_node and to_node are indexes in the resources array
 	_load_connections.call_deferred(_selected_generator.data.get_all_connections())
 
 	update_connections()
 	set_deferred(&"is_loading", false)
-	
-	
+
+
 func _load_scroll_offset(default_offset: Vector2) -> void:
 	if is_nan(_selected_generator.data.scroll_offset.x):
 		_selected_generator.data.scroll_offset = default_offset
@@ -592,7 +591,7 @@ func update_bottom_note():
 func _on_graph_edit_scroll_offset_changed(offset: Vector2) -> void:
 	if is_loading:
 		return
-		
+
 	if is_instance_valid(_selected_generator):
 		if is_instance_valid(_selected_generator.data):
 			_selected_generator.data.scroll_offset = offset

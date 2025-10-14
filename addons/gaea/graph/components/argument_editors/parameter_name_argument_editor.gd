@@ -43,7 +43,7 @@ func _on_edit_button_pressed() -> void:
 
 func _on_line_edit_text_changed(new_text: String, line_edit: LineEdit) -> void:
 	var editor_interface = Engine.get_singleton("EditorInterface")
-	if (graph_node.generator.data.has_parameter(new_text) and new_text != name_label.text) or not new_text.is_valid_identifier():
+	if (graph_node.generator.data.has_parameter(new_text) and new_text != _name_label.text) or not new_text.is_valid_identifier():
 		line_edit.add_theme_color_override(&"font_color", editor_interface.get_base_control().get_theme_color(&"error_color", &"Editor"))
 	else:
 		line_edit.remove_theme_color_override(&"font_color")

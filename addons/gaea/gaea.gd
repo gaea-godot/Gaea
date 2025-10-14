@@ -55,7 +55,7 @@ func _on_selection_changed() -> void:
 		if selected.size() == 1 and selected.front() is GaeaGenerator:
 			_panel_button.show()
 			make_bottom_panel_item_visible(_container)
-			_panel.populate(_selected.front())
+			_panel.populate(selected.front())
 		else:
 			if is_instance_valid(_panel.get_selected_generator()):
 				_panel_button.hide()

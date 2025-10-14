@@ -70,8 +70,6 @@ var scroll_offset: Vector2 = Vector2(NAN, NAN)
 ## in the current session.
 var zoom: float = 1.0
 
-## Used for migration of old save data.
-var resources: Array[GaeaNodeResource]
 ## The currently related generator.
 var generator: GaeaGenerator
 ## Cache used during generation to avoid recalculating data unnecessarily.
