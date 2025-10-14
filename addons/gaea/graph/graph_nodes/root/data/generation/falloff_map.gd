@@ -166,9 +166,7 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.DATA
 
 
-func _get_data(
-	_output_port: StringName, area: AABB, graph: GaeaGraph
-) -> Dictionary[Vector3i, float]:
+func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary[Vector3i, float]:
 	var start: float = _get_arg(&"start", area, graph)
 	var end: float = _get_arg(&"end", area, graph)
 	var grid: Dictionary[Vector3i, float]

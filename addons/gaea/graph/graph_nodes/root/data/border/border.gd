@@ -54,9 +54,7 @@ func _get_required_arguments() -> Array[StringName]:
 	return [&"data"]
 
 
-func _get_data(
-	_output_port: StringName, area: AABB, graph: GaeaGraph
-) -> Dictionary[Vector3i, float]:
+func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary[Vector3i, float]:
 	var neighbors: Array = _get_arg(&"neighbors", area, graph)
 	var inside: bool = _get_arg(&"inside", area, graph)
 	var input_data: Dictionary[Vector3i, float] = _get_arg(&"data", area, graph)

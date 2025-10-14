@@ -63,9 +63,7 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.DATA
 
 
-func _get_data(
-	_output_port: StringName, area: AABB, graph: GaeaGraph
-) -> Dictionary[Vector3i, float]:
+func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary[Vector3i, float]:
 	var noise: FastNoiseLite = FastNoiseLite.new()
 	noise.seed = graph.generator.seed + salt
 	noise.noise_type = get_enum_selection(0) as FastNoiseLite.NoiseType

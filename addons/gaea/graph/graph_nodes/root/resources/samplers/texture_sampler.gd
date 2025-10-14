@@ -34,9 +34,7 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.DATA
 
 
-func _get_data(
-	output_port: StringName, area: AABB, graph: GaeaGraph
-) -> Dictionary[Vector3i, float]:
+func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary[Vector3i, float]:
 	var texture: Texture = _get_arg(&"texture", area, graph)
 	if not is_instance_valid(texture):
 		return {}
