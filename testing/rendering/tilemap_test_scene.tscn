@@ -30,6 +30,7 @@ metadata/_custom_type_script = "uid://3qsmwhn2sk47"
 resource_local_to_scene = true
 script = ExtResource("5_kmg7b")
 layers = Array[ExtResource("3_frm4e")]([SubResource("Resource_yypbs"), SubResource("Resource_6wvsa")])
+save_version = 4
 _connections = Array[StringName]([&"1-0-2-0", &"1-0-3-0", &"4-0-2-1", &"5-0-3-1", &"2-0-0-0", &"3-0-0-1"])
 _node_data = Dictionary[int, Dictionary]({
 0: {
@@ -47,10 +48,12 @@ _node_data = Dictionary[int, Dictionary]({
 },
 2: {
 &"arguments": {
+&"material": null,
 &"range": {
 "max": 1.0,
 "min": 0.5
-}
+},
+&"reference_data": Dictionary[Vector3i, float]({})
 },
 &"position": Vector2(-500, -180),
 &"salt": 3380315837,
@@ -59,10 +62,12 @@ _node_data = Dictionary[int, Dictionary]({
 },
 3: {
 &"arguments": {
+&"material": null,
 &"range": {
 "max": 0.5,
 "min": 0.0
-}
+},
+&"reference_data": Dictionary[Vector3i, float]({})
 },
 &"position": Vector2(-500, 80),
 &"salt": 3647513594,
@@ -106,7 +111,6 @@ _parameters = Dictionary[StringName, Variant]({
 "value": SubResource("Resource_cxykr")
 }
 })
-save_version = 4
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ljnpl"]
 texture = ExtResource("7_q3jyc")
