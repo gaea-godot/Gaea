@@ -3,7 +3,6 @@ class_name GaeaGraphNode
 extends GraphNode
 ## The in-editor representation of a [GaeaNodeResource] to be used in the Gaea bottom panel.
 
-const _PreviewTexture = preload("res://addons/gaea/graph/components/preview_texture.gd")
 
 ## Emitted when connections to this node are updated.
 signal connections_updated

@@ -20,6 +20,13 @@ signal argument_list_changed
 signal argument_value_changed(arg_name: StringName, new_value: Variant)
 signal enum_value_changed(enum_idx: int, option_value: int)
 
+## Used in [_get_preview_simulation_size].
+enum SimSize
+{
+	PREVIEW,
+	WORLD
+}
+
 #region Description Formatting
 const PARAM_TEXT_COLOR := Color("cdbff0")
 const PARAM_BG_COLOR := Color("bfbfbf1a")
@@ -64,12 +71,6 @@ var id: int = 0
 var tree_name_override: String = "":
 	set = set_tree_name_override
 
-## Used in [_get_preview_simulation_size].
-enum SimSize
-{
-	PREVIEW,
-	WORLD
-}
 
 func notify_argument_list_changed() -> void:
 	argument_list_changed.emit()
