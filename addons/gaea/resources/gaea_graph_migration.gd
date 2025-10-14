@@ -154,20 +154,20 @@ static func _migration_step_material_merge(data: GaeaGraph):
 static func _migration_step_node_ids(data: GaeaGraph):
 	if not data.node_data.is_empty():
 		for idx in data.node_data.size():
-			var _node_data = data.node_data[idx]
-			var _resource: GaeaNodeResource = load(data.resource_uids[idx]).new()
-			var _position: Vector2 = _node_data.get("position", Vector2.ZERO)
-			data.add_node(_resource, _position, idx)
-			data.set_node_data_value(idx, &"salt", _node_data.get(&"salt", data.get_node_data(idx)[&"salt"]))
-			for arg_name: StringName in _node_data.get(&"arguments", {}):
-				var _value: Variant = _node_data.get(&"arguments").get(arg_name)
-				data.set_node_argument(idx, arg_name, _value)
+			var node_data = data.node_data[idx]
+			var resource: GaeaNodeResource = load(data.resource_uids[idx]).new()
+			var position: Vector2 = node_data.get("position", Vector2.ZERO)
+			data.add_node(resource, position, idx)
+			data.set_node_data_value(idx, &"salt", node_data.get(&"salt", data.get_node_data(idx)[&"salt"]))
+			for arg_name: StringName in node_data.get(&"arguments", {}):
+				var value: Variant = node_data.get(&"arguments").get(arg_name)
+				data.set_node_argument(idx, arg_name, value)
 
-			for enum_idx: int in _node_data.get(&"enums", []).size():
-				data.set_node_enum(idx, enum_idx, _node_data.get(&"enums")[enum_idx])
+			for enum_idx: int in node_data.get(&"enums", []).size():
+				data.set_node_enum(idx, enum_idx, node_data.get(&"enums")[enum_idx])
 
-			if _node_data.has("type"):
-				data.set_node_data_value(idx, &"reroute_type", _node_data.get("type"))
+			if node_data.has("type"):
+				data.set_node_data_value(idx, &"reroute_type", node_data.get("type"))
 
 	if not data.connections.is_empty():
 		for connection in data.connections:
@@ -183,19 +183,19 @@ static func _migration_step_node_ids(data: GaeaGraph):
 	data.connections.clear()
 	data.parameters.clear()
 
-	var _frames: Dictionary[int, Dictionary]
+	var frames: Dictionary[int, Dictionary]
 	for frame_data: Dictionary in data.other.get(&"frames", []):
-		var _frame_id: int = data.add_frame(frame_data[&"position"])
-		data.set_node_data_value(_frame_id, &"tint_color_enabled", frame_data.get(&"tint_color_enabled", false))
-		data.set_node_data_value(_frame_id, &"tint_color", frame_data.get(&"tint_color", Color("4d4d4dbf")))
-		data.set_node_data_value(_frame_id, &"autoshrink", frame_data.get(&"autoshrink", true))
-		data.set_node_data_value(_frame_id, &"title", frame_data.get(&"title", "Title"))
-		_frames[_frame_id] = frame_data
+		var frame_id: int = data.add_frame(frame_data[&"position"])
+		data.set_node_data_value(frame_id, &"tint_color_enabled", frame_data.get(&"tint_color_enabled", false))
+		data.set_node_data_value(frame_id, &"tint_color", frame_data.get(&"tint_color", Color("4d4d4dbf")))
+		data.set_node_data_value(frame_id, &"autoshrink", frame_data.get(&"autoshrink", true))
+		data.set_node_data_value(frame_id, &"title", frame_data.get(&"title", "Title"))
+		frames[frame_id] = frame_data
 
 
-	for frame_id in _frames.keys():
-		var _frame_data := _frames[frame_id]
-		for attached_name: StringName in _frame_data.get(&"attached"):
+	for frame_id in frames.keys():
+		var frame_data := frames[frame_id]
+		for attached_name: StringName in frame_data.get(&"attached"):
 			var node_data_idx: int = data.node_data.find_custom(
 				func(node_data: Dictionary): return node_data.get(&"name", &"") == attached_name
 			)
@@ -203,12 +203,12 @@ static func _migration_step_node_ids(data: GaeaGraph):
 				var id: int = data._node_data.find_key(data._node_data.values()[node_data_idx])
 				data.attach_node_to_frame(id, frame_id)
 			else:
-				var _frame_data_idx: int = _frames.values().find_custom(
+				var frame_data_idx: int = frames.values().find_custom(
 					func(node_data: Dictionary): return node_data.get(&"name", &"") == attached_name
 				)
-				var _other_frame_id: int = _frames.keys()[_frame_data_idx]
-				if _other_frame_id != -1:
-					data.attach_node_to_frame(_other_frame_id, frame_id)
+				var other_frame_id: int = frames.keys()[frame_data_idx]
+				if other_frame_id != -1:
+					data.attach_node_to_frame(other_frame_id, frame_id)
 
 	data.other.clear()
 	data.save_version = 4
