@@ -111,11 +111,10 @@ func _get_minimum_size() -> Vector2:
 			maxi(slider_min_size.y, maxi(grabber_size_low.y, grabber_size_high.y)),
 		)
 
-	else:
-		return Vector2i(
-			maxi(slider_min_size.x, maxi(grabber_size_low.x, grabber_size_high.x)),
-			maxi(slider_min_size.y, grabber_size_low.y + grabber_size_high.y),
-		)
+	return Vector2i(
+		maxi(slider_min_size.x, maxi(grabber_size_low.x, grabber_size_high.x)),
+		maxi(slider_min_size.y, grabber_size_low.y + grabber_size_high.y),
+	)
 
 
 func _draw() -> void:
@@ -402,15 +401,15 @@ func _update_theme_cache() -> void:
 func _theme_icon_get_or_fallback(icon_name: StringName, theme_type: StringName, theme_type_fallback: StringName) -> Texture2D:
 	if has_theme_icon(name, theme_type):
 		return get_theme_icon(icon_name, theme_type)
-	else:
-		return get_theme_icon(icon_name, theme_type_fallback)
+
+	return get_theme_icon(icon_name, theme_type_fallback)
 
 
 func _theme_stylebox_get_or_fallback(icon_name: StringName, theme_type: StringName, theme_type_fallback: StringName) -> StyleBox:
 	if has_theme_stylebox(name, theme_type):
 		return get_theme_stylebox(icon_name, theme_type)
-	else:
-		return get_theme_stylebox(icon_name, theme_type_fallback)
+
+	return get_theme_stylebox(icon_name, theme_type_fallback)
 
 
 func _set_bounds(low: float, high: float) -> void:
@@ -448,18 +447,20 @@ func _get_grabber_icon(element: Element) -> Texture2D:
 		Element.GRABBER_LOW:
 			if not editable:
 				return _theme_cache.grabber_icon_low_disabled
-			elif _highlight_element == Element.GRABBER_LOW:
+
+			if _highlight_element == Element.GRABBER_LOW:
 				return _theme_cache.grabber_icon_low_highlight
-			else:
-				return _theme_cache.grabber_icon_low
+
+			return _theme_cache.grabber_icon_low
 
 		Element.GRABBER_HIGH:
 			if not editable:
 				return _theme_cache.grabber_icon_high_disabled
-			elif _highlight_element == Element.GRABBER_HIGH:
+
+			if _highlight_element == Element.GRABBER_HIGH:
 				return _theme_cache.grabber_icon_high_highlight
-			else:
-				return _theme_cache.grabber_icon_high
+
+			return _theme_cache.grabber_icon_high
 
 	return null
 
@@ -467,8 +468,8 @@ func _get_grabber_icon(element: Element) -> Texture2D:
 func _get_grabber_area_style() -> StyleBox:
 	if _highlight_element == Element.GRABBER_AREA:
 		return _theme_cache.grabber_area_highlight
-	else:
-		return _theme_cache.grabber_area
+
+	return _theme_cache.grabber_area
 
 
 func _get_grabber_rect(element: Element) -> Rect2i:
@@ -590,7 +591,7 @@ func _get_element_at_point(point: Vector2) -> Element:
 
 		return Element.GRABBER_LOW
 
-	elif grabber_rect_high.has_point(point):
+	if grabber_rect_high.has_point(point):
 		var rect := Rect2(_get_grabber_rect(Element.GRABBER_HIGH))
 
 		match _orientation:
@@ -604,7 +605,7 @@ func _get_element_at_point(point: Vector2) -> Element:
 
 		return Element.GRABBER_HIGH
 
-	elif range_rect.has_point(point):
+	if range_rect.has_point(point):
 		var rect := Rect2(_get_grabber_rect(Element.GRABBER_LOW))
 		_drag_range = end_value - start_value
 

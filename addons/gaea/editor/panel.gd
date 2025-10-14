@@ -4,6 +4,7 @@ extends Control
 const LinkPopup = preload("uid://btt4eqjkp5pyf")
 
 var is_loading = false
+var plugin: EditorPlugin
 
 var _selected_generator: GaeaGenerator = null:
 	get = get_selected_generator
@@ -11,7 +12,6 @@ var _output_node: GaeaGraphNode
 
 ## Local position on [GraphEdit] for a node that may be created in the future.
 var _node_creation_target: Vector2 = Vector2.ZERO
-var plugin: EditorPlugin
 
 @onready var _no_data: Control = $NoData
 @onready var _editor: Control = $Editor
@@ -246,12 +246,12 @@ func _load_attached_elements(attached: Array, frame_name: StringName) -> void:
 		var node_resource: GaeaNodeResource = _selected_generator.data.get_node(id)
 		var node: GraphElement
 		if not is_instance_valid(node_resource):
-			var _graph_children := _graph_edit.get_children()
-			var _attached_frame_idx := _graph_children.find_custom(
+			var graph_children := _graph_edit.get_children()
+			var attached_frame_idx := graph_children.find_custom(
 				func(child: Node) -> bool: return child is GaeaGraphFrame and child.id == id
 			)
-			if _attached_frame_idx != -1:
-				node = _graph_children[_attached_frame_idx]
+			if attached_frame_idx != -1:
+				node = graph_children[attached_frame_idx]
 		else:
 			node = node_resource.node
 
