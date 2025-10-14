@@ -32,49 +32,54 @@ const CURRENT_SAVE_VERSION := 4
 		layers = value
 		layer_count_modified.emit()
 		emit_changed()
+
 @export_group("Debug")
 ## Selection of what to print in the Output console during generation. See [enum Log].
 @export_flags("Execute", "Traverse", "Data", "Args") var logging:int = Log.NONE
+
+## The current save version, used for migrating checks.
+@export_storage var save_version: int = -1
 ## List of all connections between nodes. They're saved with the format
 ## "from_node-from_port-to_node-to_port" (ex.: 1-0-2-1). That format
 ## can be converted into a connections dictionary using various methods in this class.[br]
 ## [br][color=yellow][b]Warning:[/b][/color] Setting this directly can break your saved graph.
 @export_storage var _connections: Array[StringName]
+## Saved data for each [GaeaNodeResource] such as position in the graph and changed arguments.
+## [br][color=yellow][b]Warning:[/b][/color] Setting this directly can break your saved graph.
+@export_storage var _node_data: Dictionary[int, Dictionary]
+## List of parameters created with [GaeaNodeParameter].
+## [br][color=yellow][b]Warning:[/b][/color] Setting this directly can break your saved graph.
+## Use [method set_parameter] instead.
+@export_storage var _parameters: Dictionary[StringName, Variant] : get = get_parameter_list
+
 ## @deprecated: Kept for migration of old save data.
 var connections: Array[Dictionary]
 ## @deprecated: Kept for migration of old save data.
 var resource_uids: Array[String]
 ## @deprecated: Kept for migration of old save data.
 var resources: Array[GaeaNodeResource]
-## Used during generation to keep track of node resources.
-var _resources: Dictionary[int, GaeaNodeResource]
-## Saved data for each [GaeaNodeResource] such as position in the graph and changed arguments.
-## [br][color=yellow][b]Warning:[/b][/color] Setting this directly can break your saved graph.
-@export_storage var _node_data: Dictionary[int, Dictionary]
 ## @deprecated: Kept for migration of old save data.
 var node_data: Array[Dictionary]
-## List of parameters created with [GaeaNodeParameter].
-## [br][color=yellow][b]Warning:[/b][/color] Setting this directly can break your saved graph.
-## Use [method set_parameter] instead.
-@export_storage var _parameters: Dictionary[StringName, Variant] : get = get_parameter_list
 ## @deprecated: Kept for migration of old save data.
 var parameters: Dictionary[StringName, Variant]
 ## @deprecated: Kept for migration of old save data.
 var other: Dictionary
-## The current save version, used for migrating checks.
-@export_storage var save_version: int = -1
+
 ## The graph's [member GraphEdit.scroll_offset]. Only saved
 ## in the current session.
 var scroll_offset: Vector2 = Vector2(NAN, NAN)
 ## The graph's [member GraphEdit.zoom]. Only saved
 ## in the current session.
 var zoom: float = 1.0
-
 ## The currently related generator.
 var generator: GaeaGenerator
 ## Cache used during generation to avoid recalculating data unnecessarily.
 ## The inner dictionary keys are the slot output port names, and the values are the cached data.
 var cache: Dictionary[GaeaNodeResource, Dictionary] = {}
+
+## Used during generation to keep track of node resources.
+var _resources: Dictionary[int, GaeaNodeResource]
+
 
 
 func _init() -> void:
@@ -210,11 +215,11 @@ func get_ids() -> Array[int]:
 
 ## Returns an available id.
 func get_next_available_id() -> int:
-	var _ids := get_ids()
-	var _next_id := _ids.size()
-	while _next_id in _ids:
-		_next_id += 1
-	return _next_id
+	var ids := get_ids()
+	var next_id := ids.size()
+	while next_id in ids:
+		next_id += 1
+	return next_id
 
 
 ## Attempts to connect the specified nodes and ports. If the connection already exists or is invalid,

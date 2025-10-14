@@ -44,8 +44,8 @@ func _exit_tree() -> void:
 func _get_unsaved_status(for_scene):
 	if for_scene.is_empty():
 		return "Save changes in Gaea before closing?"
-	else:
-		return "Scene %s has changes from Gaea. Save before closing?" % for_scene.get_file()
+
+	return "Scene %s has changes from Gaea. Save before closing?" % for_scene.get_file()
 
 
 func _on_selection_changed() -> void:
