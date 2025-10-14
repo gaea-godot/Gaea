@@ -20,37 +20,47 @@ jobs:
     name: '📝 GDLint'
     uses: ./.github/workflows/gdlint.yml
 
-#  generation_testing:
-#    name: '🐞 Generation'
-#    uses: ./.github/workflows/generation_testing.yml
-#    
-#    permissions:
-#      actions: write
-#      checks: write
-#      contents: write
-#      pull-requests: write
-#      statuses: write
-#    
-#  nodes_testing:
-#    name: '🐞 Nodes'
-#    uses: ./.github/workflows/nodes_testing.yml
-#    
-#    permissions:
-#      actions: write
-#      checks: write
-#      contents: write
-#      pull-requests: write
-#      statuses: write
-#    
-#  renderers_testing:
-#    name: '🐞 Renderers'
-#    uses: ./.github/workflows/renderers_testing.yml
-#    
-#    permissions:
-#      actions: write
-#      checks: write
-#      contents: write
-#      pull-requests: write
-#      statuses: write
+  generation_testing:
+    name: '🐞 Generation'
+    uses: ./.github/workflows/generation_testing.yml
     
+    permissions:
+      actions: write
+      checks: write
+      contents: write
+      pull-requests: write
+      statuses: write
+    
+  nodes_testing:
+    name: '🐞 Nodes'
+    uses: ./.github/workflows/nodes_testing.yml
+    
+    permissions:
+      actions: write
+      checks: write
+      contents: write
+      pull-requests: write
+      statuses: write
+    
+  renderers_testing:
+    name: '🐞 Renderers'
+    uses: ./.github/workflows/renderers_testing.yml
+    
+    permissions:
+      actions: write
+      checks: write
+      contents: write
+      pull-requests: write
+      statuses: write
+    
+  other_testing:
+    name: '🐞 Other'
+    uses: ./.github/workflows/other_testing.yml
+    
+    permissions:
+      actions: write
+      checks: write
+      contents: write
+      pull-requests: write
+      statuses: write
 
