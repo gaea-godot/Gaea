@@ -232,6 +232,7 @@ static func get_default_slot_icon(type: Type) -> Texture2D:
 			return load("uid://yo87adchyr3w")
 		Type.MAP:
 			return load("uid://d2rmsal7c6sdi")
+	push_warning("No slot icon found for type %s" % type)
 	return null
 
 

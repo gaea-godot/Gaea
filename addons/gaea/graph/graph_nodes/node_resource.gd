@@ -227,7 +227,8 @@ func get_custom_saved_data() -> Dictionary[StringName, Variant]:
 
 ## Override this method to define the name shown in the title bar of this node.
 ## Defining this method is [b]required[/b].
-@abstract func _get_title() -> String
+@abstract
+func _get_title() -> String
 
 
 ## Override this method to define the description shown in the 'Create Node' dialog and in a
@@ -287,11 +288,13 @@ func _get_enum_default_value(enum_idx: int) -> int:
 ## Override this method to define the arguments and inputs that will be available in the node.
 ## Should be a list of (preferably) [code]snake_case[/code] names.[br][br]
 ## Defining this method is [b]required[/b].
-@abstract func _get_arguments_list() -> Array[StringName]
+@abstract
+func _get_arguments_list() -> Array[StringName]
 
 ## Override this method to define the type of the arguments defined in [method _get_arguments_list].[br][br]
 ## Defining this method is [b]required[/b].
-@abstract func _get_argument_type(arg_name: StringName) -> GaeaValue.Type
+@abstract
+func _get_argument_type(arg_name: StringName) -> GaeaValue.Type
 
 
 ## Override this method if you want to change the display name for any arguments in [method _get_arguments_list].[br][br]
@@ -324,7 +327,8 @@ func _has_input_slot(_arg_name: StringName) -> bool:
 
 ## Override this method to define the outputs this node will have.[br][br]
 ## Defining this method is [b]required[/b].
-@abstract func _get_output_ports_list() -> Array[StringName]
+@abstract
+func _get_output_ports_list() -> Array[StringName]
 
 
 ## Override this method to define the display name for any outputs in [method _get_output_ports_list].[br][br]
@@ -335,7 +339,8 @@ func _get_output_port_display_name(output_name: StringName) -> String:
 
 ## Override this method to define the type of the outputs defined in [method _get_output_ports_list].[br][br]
 ## Defining this method is [b]required[/b].
-@abstract func _get_output_port_type(output_name: StringName) -> GaeaValue.Type
+@abstract
+func _get_output_port_type(output_name: StringName) -> GaeaValue.Type
 
 
 ## If this returns a value higher than 0, the output slot for [param output_name] will be
@@ -609,15 +614,10 @@ func _log_error(message: String, graph: GaeaGraph, node_idx: int = -1):
 			message,
 		])
 	else:
-		printerr(
-			(
-				"%s - %s"
-				% [
-					graph.resource_path,
-					message,
-				]
-			)
-		)
+		printerr("%s - %s" % [
+			graph.resource_path,
+			message,
+		])
 
 
 #endregion
@@ -658,30 +658,25 @@ func _get_axis_range(axis: Vector3i.Axis, area: AABB) -> Array:
 static func get_formatted_text(unformatted_text: String) -> String:
 	var param_regex = RegEx.new()
 	param_regex.compile("\\[param ([^\\]]+)\\]")
+	var param_bg_html := PARAM_BG_COLOR.to_html(true)
+	var param_text_html := PARAM_TEXT_COLOR.to_html(true)
+	var code_bg_html := CODE_BG_COLOR.to_html(true)
+	var code_text_html := CODE_TEXT_COLOR.to_html(true)
 
 	return (
 		param_regex
-		. sub(
-			unformatted_text,
-			(
-				"[bgcolor=%s][color=%s]$1[/color][/bgcolor]"
-				% [PARAM_BG_COLOR.to_html(true), PARAM_TEXT_COLOR.to_html(true)]
-			),
+		.sub(unformatted_text,
+			"[bgcolor=%s][color=%s]$1[/color][/bgcolor]" % [param_bg_html, param_text_html],
 			true
 		)
-		. replace("GaeaMaterial ", "[hint=%s]GaeaMaterial[/hint] " % GAEA_MATERIAL_HINT)
-		. replace(
-			"GradientGaeaMaterial ",
-			"[hint=%s]GradientGaeaMaterial[/hint] " % GAEA_MATERIAL_GRADIENT_HINT
+		.replace("GaeaMaterial ", "[hint=%s]GaeaMaterial[/hint] " % GAEA_MATERIAL_HINT)
+		.replace(
+			"GradientGaeaMaterial ", "[hint=%s]GradientGaeaMaterial[/hint] " % GAEA_MATERIAL_GRADIENT_HINT
 		)
-		. replace(
-			"[code]",
-			(
-				"[bgcolor=%s][color=%s][code]"
-				% [CODE_BG_COLOR.to_html(true), CODE_TEXT_COLOR.to_html(true)]
-			)
+		.replace(
+			"[code]", "[bgcolor=%s][color=%s][code]" % [code_bg_html, code_text_html]
 		)
-		. replace("[/code]", "[/code][/color][/bgcolor]")
+		.replace("[/code]", "[/code][/color][/bgcolor]")
 	)
 
 

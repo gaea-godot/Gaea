@@ -3,7 +3,16 @@ extends PopupMenu
 
 signal create_node_popup_requested
 
-enum Action {ADD, DELETE, RENAME, ENABLE_TINT, TINT, DETACH, ENABLE_AUTO_SHRINK, OPEN_IN_INSPECTOR}
+enum Action {
+	ADD,
+	DELETE,
+	RENAME,
+	ENABLE_TINT,
+	TINT,
+	DETACH,
+	ENABLE_AUTO_SHRINK,
+	OPEN_IN_INSPECTOR
+}
 
 @export var panel: Control
 @export var graph_edit: GraphEdit

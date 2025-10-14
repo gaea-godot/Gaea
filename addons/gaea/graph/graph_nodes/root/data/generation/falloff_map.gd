@@ -15,7 +15,8 @@ enum FalloffShape {
 	SQUIRCLE,
 }
 
-@abstract class FalloffSampler:
+@abstract
+class FalloffSampler:
 	var area: AABB
 	var start: float
 	var end: float
@@ -89,7 +90,8 @@ enum FalloffShape {
 
 		return smoothstep(1.0, 0.0, inverse_lerp(start, end, value))
 
-	@abstract func _get_sample(_x: int, _y: int) -> float
+	@abstract
+	func _get_sample(_x: int, _y: int) -> float
 
 
 class FalloffSamplerSquare:

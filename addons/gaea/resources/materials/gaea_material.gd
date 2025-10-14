@@ -29,7 +29,8 @@ func is_sampled() -> bool:
 
 
 ## Whether or not this material is sampled for each cell.
-@abstract func _is_sampled() -> bool
+@abstract
+func _is_sampled() -> bool
 
 
 ## Public version of [method _is_data]. Prefer overriding that method instead of this one.
@@ -38,7 +39,8 @@ func is_data() -> bool:
 
 
 ## Whether or not this material is a valid data material for the renderer.
-@abstract func _is_data() -> bool
+@abstract
+func _is_data() -> bool
 
 
 ## Public version of [method _get_sampled_resource]. Prefer overriding that method instead of this one.
