@@ -50,13 +50,13 @@ func _connect_signals() -> void:
 func render(grid: GaeaGrid) -> void:
 	_render(grid)
 	render_finished.emit()
-	
+
 
 ## Public version of [method _reset].
 func reset() -> void:
 	_reset()
 	render_reset.emit()
-	
+
 
 ## Public version of [method _erase_area].
 func erase_area(area: AABB) -> void:
