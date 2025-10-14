@@ -21,7 +21,7 @@ jobs:
       - name: "Setup GDLint"
         uses: Scony/godot-gdscript-toolkit@master
         with:
-          version: 4.3.3
+          version: 4.5.0
 
       - name: "Run GDLint"
         id: run-gdlint
