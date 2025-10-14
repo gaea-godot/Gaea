@@ -32,7 +32,7 @@ jobs:
       statuses: write
     
   nodes_testing:
-    name: '🐞 Nodes'
+    name: '🐞 Node'
     uses: ./.github/workflows/nodes_testing.yml
     
     permissions:
@@ -52,7 +52,7 @@ jobs:
       contents: write
       pull-requests: write
       statuses: write
-    
+  
   other_testing:
     name: '🐞 Other'
     uses: ./.github/workflows/other_testing.yml
@@ -63,4 +63,5 @@ jobs:
       contents: write
       pull-requests: write
       statuses: write
+    
 
