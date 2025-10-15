@@ -69,20 +69,20 @@ func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictio
 				if is_inside_border or is_outside_border:
 					continue
 
+				var filter: Callable
+				if not inside:
+					filter = func(neighbor: Vector2i) -> bool:
+						return input_data.get(neighbor) != null
+				else:
+					filter = func(neighbor: Vector2i) -> bool:
+						return input_data.get(neighbor) == null
+
 				for n: Vector2i in neighbors:
-					if not inside:
-						var neighboring_cell: Vector3i = Vector3i(
-							cell.x - n.x, cell.y - n.y, cell.z
-						)
-						if input_data.get(neighboring_cell) != null:
-							border.set(cell, 1)
-							break
-					else:
-						var neighboring_cell: Vector3i = Vector3i(
-							cell.x - n.x, cell.y - n.y, cell.z
-						)
-						if input_data.get(neighboring_cell) == null:
-							border.set(cell, 1)
-							break
+					var neighboring_cell: Vector3i = Vector3i(
+						cell.x - n.x, cell.y - n.y, cell.z
+					)
+					if filter.call(neighboring_cell):
+						border.set(cell, 1)
+						break
 
 	return border
