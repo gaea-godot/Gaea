@@ -2,7 +2,7 @@
 class_name GaeaEditorSettings
 extends RefCounted
 
-const CIRCLE := preload("res://addons/gaea/assets/slots/circle.svg")
+const CIRCLE := preload("uid://dqob6v3dudlri")
 
 const LINE_CURVATURE := "gaea/graph/line_curvature"
 const LINE_THICKNESS := "gaea/graph/line_thickness"

@@ -3,7 +3,7 @@ extends EditorPlugin
 
 
 const BottomPanel = preload("uid://dpbmowgfmnxe5")
-const InspectorPlugin = preload("res://addons/gaea/editor/inspector_plugin.gd")
+const InspectorPlugin = preload("uid://bpg2cpobusnnl")
 
 var _container: MarginContainer
 var _panel: BottomPanel

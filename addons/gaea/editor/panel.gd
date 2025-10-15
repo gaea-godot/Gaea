@@ -44,8 +44,8 @@ func _ready() -> void:
 	if is_part_of_edited_scene():
 		return
 
-	_reload_node_tree_button.icon = preload("../assets/reload_tree.svg")
-	_reload_parameters_list_button.icon = preload("../assets/reload_variables_list.svg")
+	_reload_node_tree_button.icon = preload("uid://crs5x6wghxmmb")
+	_reload_parameters_list_button.icon = preload("uid://cwg7oy4i2cbwq")
 	_save_button.icon = EditorInterface.get_base_control().get_theme_icon(&"Save", &"EditorIcons")
 	_load_button.icon = EditorInterface.get_base_control().get_theme_icon(&"Load", &"EditorIcons")
 	_window_popout_button.icon = EditorInterface.get_base_control().get_theme_icon(

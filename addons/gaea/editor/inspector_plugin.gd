@@ -1,6 +1,6 @@
 extends EditorInspectorPlugin
 
-const GradientVisualizer = preload("res://addons/gaea/editor/gradient_visualizer.gd")
+const GradientVisualizer = preload("uid://cwaqlwiy2t1pe")
 
 
 func _can_handle(object: Object) -> bool:

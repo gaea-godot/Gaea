@@ -10,7 +10,7 @@ signal connections_updated
 signal removed
 signal remove_invalid_connections_requested
 
-const PreviewTexture = preload("res://addons/gaea/graph/components/preview_texture.gd")
+const PreviewTexture = preload("uid://dns7s4v8lom4t")
 
 ## The [GaeaNodeResource] this acts as an editor of.
 @export var resource: GaeaNodeResource
