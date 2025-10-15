@@ -293,7 +293,7 @@ func _draw_grabber_area(grabber_area: Rect2) -> void:
 	draw_style_box(
 		middle_tick,
 		Rect2i(
-			Vector2(grabber_area.get_center().x - (min_size.x / 2.0), grabber_area.position.y),
+			Vector2(grabber_area.get_center().x - (min_size.x * 0.5), grabber_area.position.y),
 			Vector2(4, grabber_area.size.y)
 		)
 	)

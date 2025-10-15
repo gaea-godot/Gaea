@@ -76,7 +76,7 @@ func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictio
 		for y in _get_axis_range(Vector3i.AXIS_Y, area):
 			for z in _get_axis_range(Vector3i.AXIS_Z, area):
 				var noise_value := _get_noise_value(Vector3i(x, y, z), noise)
-				dictionary[Vector3i(x, y, z)] = (noise_value + 1.0) / 2.0
+				dictionary[Vector3i(x, y, z)] = (noise_value + 1.0) * 0.5
 	return dictionary
 
 

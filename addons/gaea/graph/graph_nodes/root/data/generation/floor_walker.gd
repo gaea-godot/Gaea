@@ -125,8 +125,8 @@ func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictio
 	starting_position = starting_position.round()
 
 	var rotation_weights: Dictionary = {
-		PI / 2.0: _get_arg(&"rotate_90_weight", area, graph),
-		-PI / 2.0: _get_arg(&"rotate_-90_weight", area, graph),
+		PI * 0.5: _get_arg(&"rotate_90_weight", area, graph),
+		-PI * 0.5: _get_arg(&"rotate_-90_weight", area, graph),
 		PI: _get_arg(&"rotate_180_weight", area, graph)
 	}
 	var direction_change_chance: float = (
