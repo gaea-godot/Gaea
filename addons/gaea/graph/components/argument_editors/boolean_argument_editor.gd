@@ -14,8 +14,6 @@ func _configure() -> void:
 
 
 func get_arg_value() -> bool:
-	if super() != null:
-		return super()
 	return check_box.button_pressed
 
 

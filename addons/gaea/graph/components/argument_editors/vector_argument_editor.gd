@@ -81,8 +81,6 @@ func set_editor_visible(value: bool) -> void:
 
 
 func get_arg_value() -> Variant:
-	if super() != null:
-		return super()
 	match type:
 		GaeaValue.Type.VECTOR2:
 			return Vector2(_x_spin_box.value, _y_spin_box.value)

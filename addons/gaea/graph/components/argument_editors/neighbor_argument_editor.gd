@@ -30,9 +30,6 @@ func _on_value_changed() -> void:
 
 
 func get_arg_value() -> Array[Vector2i]:
-	if super() != null:
-		return super()
-
 	var value: Array[Vector2i]
 	for button: CheckBox in grid_container.get_children():
 		if button.button_pressed:

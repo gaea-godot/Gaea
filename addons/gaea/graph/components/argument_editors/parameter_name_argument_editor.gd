@@ -16,8 +16,6 @@ func _configure() -> void:
 
 
 func get_arg_value() -> String:
-	if super() != null:
-		return super()
 	return _name_label.text
 
 

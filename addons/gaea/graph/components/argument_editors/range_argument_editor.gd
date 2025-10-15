@@ -72,8 +72,6 @@ func _on_spin_box_changed_value() -> void:
 
 
 func get_arg_value() -> Dictionary:
-	if super() != null:
-		return super()
 	return {
 		"min": _range_slider.start_value,
 		"max": _range_slider.end_value

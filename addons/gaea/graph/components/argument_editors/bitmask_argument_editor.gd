@@ -39,9 +39,6 @@ func _on_value_changed() -> void:
 
 
 func get_arg_value() -> Variant:
-	if super() != null:
-		return super()
-
 	if type == GaeaValue.Type.FLAGS:
 		var flags: Array[int] = []
 		for button: Button in grid_container.get_children():

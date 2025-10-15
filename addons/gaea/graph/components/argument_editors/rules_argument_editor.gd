@@ -19,8 +19,6 @@ func _on_value_changed() -> void:
 
 
 func get_arg_value() -> Dictionary:
-	if super() != null:
-		return super()
 	var dict: Dictionary
 	for button: CheckBox in grid_container.get_children():
 		if button.button_pressed:
