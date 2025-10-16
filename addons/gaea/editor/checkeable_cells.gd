@@ -19,7 +19,7 @@ const CROSS = preload("uid://cl81d05sq3dmb")
 		circumference = value
 		custom_minimum_size = circumference * CELL_SIZE
 		queue_redraw()
-@export var spin_box: SpinBox
+@export var z_slider: VSlider
 
 
 var _states: Dictionary[Vector3i, bool] : set = set_states, get = get_states
@@ -32,10 +32,10 @@ var _current_z: int = 0 :
 
 func _ready() -> void:
 	_checkbox_icon = get_theme_icon(&"unchecked", &"CheckBox")
-	spin_box.value = 0
-	spin_box.min_value = -roundi((float(circumference) * 0.5) - 1)
-	spin_box.max_value = roundi(float(circumference) * 0.5) - 1
-	spin_box.value_changed.connect(func(value: float): _current_z = roundi(value))
+	z_slider.value = 0
+	z_slider.min_value = -roundi((float(circumference) * 0.5) - 1)
+	z_slider.max_value = roundi(float(circumference) * 0.5) - 1
+	z_slider.value_changed.connect(func(value: float): _current_z = roundi(value))
 
 
 func set_pressed(cells: Array) -> void:
