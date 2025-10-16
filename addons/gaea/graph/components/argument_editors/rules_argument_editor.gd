@@ -2,7 +2,8 @@
 class_name GaeaRulesArgumentEditor
 extends GaeaGraphNodeArgumentEditor
 
-@onready var grid_container: GridContainer = $GridContainer
+
+@onready var cells: Control = %Cells
 
 
 func _configure() -> void:
@@ -10,35 +11,17 @@ func _configure() -> void:
 		return
 	await super()
 
-	for button: CheckBox in grid_container.get_children():
-		button.toggled.connect(_on_value_changed.unbind(1))
-
-
-func _on_value_changed() -> void:
-	argument_value_changed.emit(get_arg_value())
-
 
 func get_arg_value() -> Dictionary:
-	var dict: Dictionary
-	for button: CheckBox in grid_container.get_children():
-		if button.button_pressed:
-			dict.set(_get_button_pos(button.get_index()), button.current_state)
-	return dict
+	return cells.get_states()
 
 
 func set_arg_value(new_value: Variant) -> void:
 	if typeof(new_value) != TYPE_DICTIONARY:
 		return
 
-	for button: CheckBox in grid_container.get_children():
-		var pos: Vector2i = _get_button_pos(button.get_index())
-		if new_value.has(pos):
-			button.set_state(true, new_value.get(pos))
-		else:
-			button.set_state(false, true)
+	cells.set_states(new_value)
 
 
-func _get_button_pos(idx: int) -> Vector2i:
-	var row: int = ceili((float(idx) + 1.0) / 5.0)
-	var column: int = roundi((idx + 1.0) - ((floori(float(idx + 1.0) / 5.0)) * 5.0))
-	return Vector2i(column, row) - Vector2i(3, 3)
+func _on_cells_cell_pressed() -> void:
+	argument_value_changed.emit(get_arg_value())

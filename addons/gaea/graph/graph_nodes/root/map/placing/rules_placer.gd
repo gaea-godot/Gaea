@@ -77,13 +77,12 @@ func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictio
 			for z in _get_axis_range(Vector3i.AXIS_Z, area):
 				var place: bool = true
 				var cell: Vector3i = Vector3i(x, y, z)
-				for offset: Vector2i in rules:
-					var offset_3d: Vector3i = Vector3i(offset.x, offset.y, 0)
-					if _is_point_outside_area(area, cell + offset_3d):
+				for offset: Vector3i in rules:
+					if _is_point_outside_area(area, cell + offset):
 						place = false
 						break
 
-					if (grid_data.get(cell + offset_3d) != null) != rules.get(offset):
+					if (grid_data.get(cell + offset) != null) != rules.get(offset):
 						place = false
 						break
 				if place:

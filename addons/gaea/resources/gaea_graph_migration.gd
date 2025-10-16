@@ -9,6 +9,8 @@ static func migrate(data: GaeaGraph):
 		_migration_step_material_merge(data)
 	if data.save_version <= 3:
 		_migration_step_node_ids(data)
+	if data.save_version == 4:
+		_migration_step_3d_neighbors_and_rules(data)
 	push_warning("Gaea graph (%s) migrated from previous save file format. Please save your project and reload." % data.resource_path)
 
 
@@ -212,3 +214,41 @@ static func _migration_step_node_ids(data: GaeaGraph):
 
 	data.other.clear()
 	data.save_version = 4
+
+
+static func _migration_step_3d_neighbors_and_rules(data: GaeaGraph):
+	for node_id in data.get_ids():
+		var node_data := data.get_node_data(node_id)
+		var arguments: Dictionary = node_data.get(&"arguments", {})
+		for arg_name: StringName in arguments:
+			var argument = arguments[arg_name]
+
+			if argument is Array:
+				if argument.is_empty():
+					continue
+
+				var type: int = argument.get_typed_builtin()
+				if type == TYPE_NIL:
+					type = typeof(argument.front())
+
+				## Migrate old 2D-based neighbors to 3D.
+				if type == TYPE_VECTOR2I:
+					var new_argument: Array[Vector3i]
+					for cell in argument:
+						new_argument.append(Vector3i(cell.x, cell.y, 0))
+					data.set_node_argument(node_id, arg_name, new_argument)
+			elif argument is Dictionary:
+				if argument.is_empty():
+					continue
+
+				var key_type: int = argument.get_typed_key_builtin()
+				if key_type == TYPE_NIL:
+					key_type = typeof(argument.keys().front())
+
+				## Migrate old 2D-based rules to 3D.
+				if key_type == TYPE_VECTOR2I:
+					var new_argument: Dictionary[Vector3i, bool]
+					for cell in argument:
+						new_argument[Vector3i(cell.x, cell.y, 0)] = argument[cell]
+					data.set_node_argument(node_id, arg_name, new_argument)
+	data.save_version = 5

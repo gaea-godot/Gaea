@@ -71,15 +71,15 @@ func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictio
 
 				var filter: Callable
 				if not inside:
-					filter = func(neighbor: Vector2i) -> bool:
+					filter = func(neighbor: Vector3i) -> bool:
 						return input_sample.get(neighbor) != null
 				else:
-					filter = func(neighbor: Vector2i) -> bool:
+					filter = func(neighbor: Vector3i) -> bool:
 						return input_sample.get(neighbor) == null
 
-				for n: Vector2i in neighbors:
+				for n: Vector3i in neighbors:
 					var neighboring_cell: Vector3i = Vector3i(
-						cell.x - n.x, cell.y - n.y, cell.z
+						cell.x - n.x, cell.y - n.y, cell.z - n.z
 					)
 					if filter.call(neighboring_cell):
 						border.set(cell, 1)

@@ -88,7 +88,7 @@ static func get_default_value(type: Type) -> Variant:
 			return {} as Dictionary[Vector3i, GaeaMaterial]
 		# Inner types
 		Type.NEIGHBORS:
-			return [] as Array[Vector2i]
+			return [] as Array[Vector3i]
 		Type.FLAGS:
 			return [] as Array[int]
 		Type.RULES:

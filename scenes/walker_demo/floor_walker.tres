@@ -115,7 +115,7 @@ metadata/_custom_type_script = "uid://3qsmwhn2sk47"
 resource_local_to_scene = true
 script = ExtResource("5_mui55")
 layers = Array[ExtResource("2_mfpnn")]([SubResource("Resource_nr2x3"), SubResource("Resource_entu7"), SubResource("Resource_q5q5d")])
-save_version = 4
+save_version = 5
 _connections = Array[StringName]([&"4-0-2-1", &"23-0-21-1", &"28-0-21-0", &"31-0-25-1", &"25-0-27-0", &"30-0-6-1", &"26-0-7-1", &"29-0-15-1", &"15-0-16-0", &"27-0-5-1", &"22-0-5-2", &"8-0-25-0", &"9-0-8-0", &"9-0-7-0", &"10-0-15-0", &"11-0-12-0", &"12-0-5-0", &"24-0-13-0", &"2-0-11-0", &"3-0-24-0", &"3-0-2-0", &"14-0-22-0", &"16-0-22-1", &"21-0-22-2", &"9-0-1-0", &"1-0-6-0", &"13-0-9-0", &"7-0-27-1", &"6-0-27-2", &"20-0-0-1", &"0-0-14-0", &"17-0-18-0", &"18-0-19-0", &"19-0-0-0", &"3-0-17-0", &"18-0-28-0", &"13-0-10-0"])
 _node_data = Dictionary[int, Dictionary]({
 0: {
@@ -181,10 +181,10 @@ _node_data = Dictionary[int, Dictionary]({
 &"arguments": {
 &"material": null,
 &"reference_data": Dictionary[Vector3i, float]({}),
-&"rules": {
-Vector2i(0, -1): false,
-Vector2i(0, 0): true
-}
+&"rules": Dictionary[Vector3i, bool]({
+Vector3i(0, -1, 0): false,
+Vector3i(0, 0, 0): true
+})
 },
 &"position": Vector2(740, 80),
 &"salt": 581472843,
@@ -195,10 +195,10 @@ Vector2i(0, 0): true
 &"arguments": {
 &"material": null,
 &"reference_data": Dictionary[Vector3i, float]({}),
-&"rules": {
-Vector2i(0, -1): true,
-Vector2i(0, 0): false
-}
+&"rules": Dictionary[Vector3i, bool]({
+Vector3i(0, -1, 0): true,
+Vector3i(0, 0, 0): false
+})
 },
 &"position": Vector2(740, -260),
 &"salt": 380881962,
@@ -261,10 +261,10 @@ Vector2i(0, 0): false
 &"arguments": {
 &"material": null,
 &"reference_data": Dictionary[Vector3i, float]({}),
-&"rules": {
-Vector2i(0, -1): false,
-Vector2i(0, 0): false
-}
+&"rules": Dictionary[Vector3i, bool]({
+Vector3i(0, -1, 0): false,
+Vector3i(0, 0, 0): false
+})
 },
 &"position": Vector2(540, 900),
 &"salt": 4142241368,
