@@ -1,11 +1,11 @@
 @tool
-class_name GaeaNodeDataSetOp
+class_name GaeaNodeSampleSetOp
 extends GaeaNodeSetOp
 ## Sample version of [GaeaNodeSetOp].
 
 
 func _get_title() -> String:
-	return "DataSetOp"
+	return "SampleSetOp"
 
 
 func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
