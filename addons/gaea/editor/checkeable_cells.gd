@@ -40,6 +40,7 @@ func _ready() -> void:
 	mouse_exited.connect(queue_redraw)
 
 
+
 func set_pressed(cells: Array) -> void:
 	cells = Array(cells, TYPE_VECTOR3I, &"", null)
 	for cell in cells:
