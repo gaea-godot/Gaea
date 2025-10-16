@@ -1,7 +1,7 @@
 @tool
 class_name GaeaNodeValueMapper
 extends GaeaNodeMapper
-## Maps every cell in [param data] equal to [param value] to [param material].
+## Maps every cell in [param sample] equal to [param value] to [param material].
 ##
 ## Uses [method @GlobalScope.is_equal_approx] to avoid floating point precision problems.
 
@@ -11,7 +11,7 @@ func _get_title() -> String:
 
 
 func _get_description() -> String:
-	return "Maps every cell of [param reference_data] equal to [param value] to [param material]."
+	return "Maps every cell of [param reference] equal to [param value] to [param material]."
 
 
 func _get_arguments_list() -> Array[StringName]:

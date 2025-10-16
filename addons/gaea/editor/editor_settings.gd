@@ -24,7 +24,7 @@ const CONFIGURABLE_SLOT_COLORS := {
 	GaeaValue.Type.RANGE: "range",
 	GaeaValue.Type.MATERIAL: "material",
 	GaeaValue.Type.TEXTURE: "texture",
-	GaeaValue.Type.DATA: "data",
+	GaeaValue.Type.SAMPLE: "sample",
 	GaeaValue.Type.MAP: "map",
 }
 

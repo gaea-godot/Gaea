@@ -1,7 +1,7 @@
 @tool
-class_name GaeaNodeDatasOp
+class_name GaeaNodeSamplesOp
 extends GaeaNodeResource
-## Operation between 2 data grids.
+## Operation between 2 sample grids.
 
 enum Operation { ADD, SUBTRACT, MULTIPLY, DIVIDE, LERP }
 
@@ -23,12 +23,12 @@ var operation_definitions: Dictionary[Operation, Definition]:
 
 
 func _get_title() -> String:
-	return "DatasOp"
+	return "SamplesOp"
 
 
 func _get_description() -> String:
-	if get_tree_name() == "DatasOp" and not is_instance_valid(node):
-		return "Operation between 2 data grids."
+	if get_tree_name() == "SamplesOp" and not is_instance_valid(node):
+		return "Operation between 2 sample grids."
 
 	match get_enum_selection(0):
 		Operation.ADD:
@@ -52,7 +52,7 @@ func _get_tree_items() -> Array[GaeaNodeResource]:
 		var item: GaeaNodeResource = get_script().new()
 		var operation_name: String = Operation.find_key(operation).to_pascal_case()
 		var output_name: String = operation_definitions[operation].output
-		var tree_name := "%sDatas (%s)" % [operation_name, output_name]
+		var tree_name := "%sSamples (%s)" % [operation_name, output_name]
 		item.set_tree_name_override(tree_name)
 		item.set_default_enum_value_override(0, operation)
 		items.append(item)
@@ -80,7 +80,7 @@ func _get_arguments_list() -> Array[StringName]:
 func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
 	if arg_name == &"weight":
 		return GaeaValue.Type.FLOAT
-	return GaeaValue.Type.DATA
+	return GaeaValue.Type.SAMPLE
 
 
 func _get_argument_hint(arg_name: StringName) -> Dictionary[String, Variant]:
@@ -98,7 +98,7 @@ func _get_output_ports_list() -> Array[StringName]:
 
 
 func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
-	return GaeaValue.Type.DATA
+	return GaeaValue.Type.SAMPLE
 
 
 func _get_output_port_display_name(_output_name: StringName) -> String:
@@ -113,7 +113,7 @@ func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictio
 	var operation_definition: Definition = operation_definitions[operation]
 	var static_args: Array
 	for arg in operation_definition.args:
-		if _get_argument_type(arg) == GaeaValue.Type.DATA:
+		if _get_argument_type(arg) == GaeaValue.Type.SAMPLE:
 			continue
 
 		static_args.append(_get_arg(arg, area, graph))

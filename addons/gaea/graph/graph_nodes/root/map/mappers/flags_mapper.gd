@@ -1,10 +1,10 @@
 @tool
 class_name GaeaNodeFlagsMapper
 extends GaeaNodeMapper
-## Maps every cell of [param data] that matches the flag conditions to [param material].
+## Maps every cell of [param sample] that matches the flag conditions to [param material].
 ##
 ## Flags are [code]int[/code]s, so the filtering is done with the rounded value
-## of each cell of [param data], using a bitwise [code]AND[/code].[br]
+## of each cell of [param sample], using a bitwise [code]AND[/code].[br]
 ## If [param match_all] is [code]false[/code], the value has to pass the filter for only
 ## one of the flags in [param match_flags] to be mapped.[br]
 ## If a value matches [b]any[/b] of the [param exclude_flags], the cell's excluded from the output.
@@ -15,7 +15,7 @@ func _get_title() -> String:
 
 
 func _get_description() -> String:
-	return "Maps every cell of [param reference_data] that matches the flag conditions to [param material]."
+	return "Maps every cell of [param reference] that matches the flag conditions to [param material]."
 
 
 func _get_arguments_list() -> Array[StringName]:

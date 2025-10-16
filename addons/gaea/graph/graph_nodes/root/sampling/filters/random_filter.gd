@@ -1,7 +1,7 @@
 @tool
 class_name GaeaNodeRandomFilter
 extends GaeaNodeFilter
-## Randomly filters [param data] to only the cells that pass the [param chance] check.
+## Randomly filters [param sample] to only the cells that pass the [param chance] check.
 
 
 func _get_title() -> String:
@@ -9,7 +9,7 @@ func _get_title() -> String:
 
 
 func _get_description() -> String:
-	return "Filters [param data] to only the cells that pass the [param chance] check."
+	return "Filters [param sample] to only the cells that pass the [param chance] check."
 
 
 func _get_arguments_list() -> Array[StringName]:
@@ -38,7 +38,7 @@ func _get_argument_hint(arg_name: StringName) -> Dictionary[String, Variant]:
 
 
 func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
-	return GaeaValue.Type.DATA
+	return GaeaValue.Type.SAMPLE
 
 
 func _passes_filter(_input_data: Dictionary, _cell: Vector3i, area: AABB, graph: GaeaGraph) -> bool:

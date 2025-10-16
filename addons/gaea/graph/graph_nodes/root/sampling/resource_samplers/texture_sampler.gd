@@ -1,7 +1,7 @@
 @tool
 class_name GaeaNodeTextureSampler
 extends GaeaNodeResource
-## Samples [param texture] into 4 different data grids for each channel.
+## Samples [param texture] into 4 different sample grids for each channel.
 
 
 func _get_title() -> String:
@@ -9,7 +9,7 @@ func _get_title() -> String:
 
 
 func _get_description() -> String:
-	return "Samples [param texture] into 4 different data grids for each channel."
+	return "Samples [param texture] into 4 different sample grids for each channel."
 
 
 # List of all the arguments, preferably in &"snake_case".
@@ -31,7 +31,7 @@ func _get_output_port_display_name(output_name: StringName) -> String:
 
 
 func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
-	return GaeaValue.Type.DATA
+	return GaeaValue.Type.SAMPLE
 
 
 func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary[Vector3i, float]:

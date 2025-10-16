@@ -29,7 +29,7 @@ enum Type {
 	MATERIAL = 101, ## A [GaeaMaterial].
 	TEXTURE = 102, ## A [Texture].
 	# Dictionary types from 200 to 299
-	DATA = 200, ## A dictionary of the form [code]{Vector3i: float}[/code].
+	SAMPLE = 200, ## A dictionary of the form [code]{Vector3i: float}[/code].
 	MAP = 201, ## A dictionary of the form [code]{Vector3i: GaeaMaterial}[/code].
 	# Inner types (can't be on wire) from 300 to 399
 	BITMASK = 300, ## Int representing a bitmask.
@@ -53,7 +53,7 @@ static func is_valid_connection(from: GaeaValue.Type, to: GaeaValue.Type) -> boo
 
 ## Returns whether [param type] can be previewed in the editor.
 static func has_preview(type: Type) -> bool:
-	return type == Type.MAP or type == Type.DATA
+	return type == Type.MAP or type == Type.SAMPLE
 
 
 ## Returns the configured color for slots of [param type].
@@ -82,7 +82,7 @@ static func get_default_value(type: Type) -> Variant:
 		# Simple types
 		Type.RANGE:
 			return {"min": 0.0, "max": 1.0} as Dictionary[String, float]
-		Type.DATA:
+		Type.SAMPLE:
 			return {} as Dictionary[Vector3i, float]
 		Type.MAP:
 			return {} as Dictionary[Vector3i, GaeaMaterial]
@@ -130,7 +130,7 @@ static func from_variant_type(type: Variant.Type, _hint: PropertyHint = PROPERTY
 ## Should be removed in the 2.0 release.
 static func from_old_slot_type(old_type: int) -> GaeaValue.Type:
 	match old_type:
-		0: return GaeaValue.Type.DATA
+		0: return GaeaValue.Type.SAMPLE
 		1: return GaeaValue.Type.MAP
 		2: return GaeaValue.Type.MATERIAL
 		3: return GaeaValue.Type.VECTOR2
@@ -160,7 +160,7 @@ static func get_default_color(type: Type) -> Color:
 		Type.MATERIAL:
 			return Color("eb2f06") # RED
 		# Dictionary types
-		Type.DATA:
+		Type.SAMPLE:
 			return Color("f0f8ff") # WHITE
 		Type.MAP:
 			return Color("27ae60") # GREEN
@@ -196,7 +196,7 @@ static func get_display_icon(type: Type) -> Texture2D:
 			var editor_interface = Engine.get_singleton("EditorInterface")
 			return editor_interface.get_base_control().get_theme_icon(&"Image", &"EditorIcons")
 		# Dictionary types
-		Type.DATA:
+		Type.SAMPLE:
 			return load("uid://dkccxw7yq1mth")
 		Type.MAP:
 			return load("uid://c2i5wqidu1r1o")
@@ -228,7 +228,7 @@ static func get_default_slot_icon(type: Type) -> Texture2D:
 		Type.TEXTURE:
 			return load("uid://ccqq5l0ruur37")
 		# Dictionary types
-		Type.DATA:
+		Type.SAMPLE:
 			return load("uid://yo87adchyr3w")
 		Type.MAP:
 			return load("uid://d2rmsal7c6sdi")

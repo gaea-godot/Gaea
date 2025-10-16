@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dkccxw7yq1mth"
-path="res://.godot/imported/data_grid.svg-4c7ee9512a775e48a1c35cf04d5d9c7d.ctex"
+path="res://.godot/imported/sample.svg-f8c03a970c8b90c4f2514b48d10cedd4.ctex"
 metadata={
 "has_editor_variant": true,
 "vram_texture": false
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://addons/gaea/assets/types/data_grid.svg"
-dest_files=["res://.godot/imported/data_grid.svg-4c7ee9512a775e48a1c35cf04d5d9c7d.ctex"]
+source_file="res://addons/gaea/assets/types/sample.svg"
+dest_files=["res://.godot/imported/sample.svg-f8c03a970c8b90c4f2514b48d10cedd4.ctex"]
 
 [params]
 

@@ -6,11 +6,11 @@ extends GaeaNodeResource
 
 
 func _get_arguments_list() -> Array[StringName]:
-	return [&"reference_data", &"material"]
+	return [&"reference", &"material"]
 
 
 func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
-	return GaeaValue.Type.DATA if arg_name == &"reference_data" else GaeaValue.Type.MATERIAL
+	return GaeaValue.Type.SAMPLE if arg_name == &"reference" else GaeaValue.Type.MATERIAL
 
 
 func _get_output_ports_list() -> Array[StringName]:
@@ -22,12 +22,12 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 
 
 func _get_required_arguments() -> Array[StringName]:
-	return [&"reference_data", &"material"]
+	return [&"reference", &"material"]
 
 
 func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary[Vector3i, GaeaMaterial]:
 	var grid: Dictionary[Vector3i, GaeaMaterial] = {}
-	var grid_data := _get_arg(&"reference_data", area, graph) as Dictionary
+	var grid_data := _get_arg(&"reference", area, graph) as Dictionary
 	var material := _get_arg(&"material", area, graph) as GaeaMaterial
 
 	if not is_instance_valid(material):

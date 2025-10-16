@@ -14,7 +14,7 @@ func test_graph_creation() -> void:
 
 
 func test_add_node() -> void:
-	graph.add_node(GaeaNodeDatasOp.new(), Vector2.ZERO, 0)
+	graph.add_node(GaeaNodeSamplesOp.new(), Vector2.ZERO, 0)
 	assert_array(graph.get_nodes())\
 		.override_failure_message("Graph's node resources list is empty after adding node.")\
 		.is_not_empty()

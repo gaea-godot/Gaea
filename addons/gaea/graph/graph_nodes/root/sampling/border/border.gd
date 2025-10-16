@@ -1,15 +1,15 @@
 @tool
 class_name GaeaNodeBorder2D
 extends GaeaNodeResource
-## Returns the border of [param data]. If [param inside] is [code]true[/code], returns the inner border.
+## Returns the border of [param sample]. If [param inside] is [code]true[/code], returns the inner border.
 ##
 ## Loops through all the points in the generation area.[br]
 ## - If [param inside] is [code]false[/code],
-## returns only the points that don't exist in [param data]
+## returns only the points that don't exist in [param sample]
 ## and that have a value in all the [param neighbors] offsets.[br]
 ## - If [param inside] is [code]true[/code],
-## it'll return instead the cells in [param data] that have empty points in all the [param neighbors] offsets.[br][br]
-## Output data is a grid of [code]1.0[/code]s.
+## it'll return instead the cells in [param sample] that have empty points in all the [param neighbors] offsets.[br][br]
+## Output sample is a grid of [code]1.0[/code]s.
 
 
 func _get_title() -> String:
@@ -17,17 +17,17 @@ func _get_title() -> String:
 
 
 func _get_description() -> String:
-	return "Returns the border of [param data]. If [param inside] is [code]true[/code], returns the inner border."
+	return "Returns the border of [param sample]. If [param inside] is [code]true[/code], returns the inner border."
 
 
 func _get_arguments_list() -> Array[StringName]:
-	return [&"data", &"neighbors", &"inside"]
+	return [&"sample", &"neighbors", &"inside"]
 
 
 func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
 	match arg_name:
-		&"data":
-			return GaeaValue.Type.DATA
+		&"sample":
+			return GaeaValue.Type.SAMPLE
 		&"neighbors":
 			return GaeaValue.Type.NEIGHBORS
 		&"inside":
@@ -47,17 +47,17 @@ func _get_output_ports_list() -> Array[StringName]:
 
 
 func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
-	return GaeaValue.Type.DATA
+	return GaeaValue.Type.SAMPLE
 
 
 func _get_required_arguments() -> Array[StringName]:
-	return [&"data"]
+	return [&"sample"]
 
 
 func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary[Vector3i, float]:
 	var neighbors: Array = _get_arg(&"neighbors", area, graph)
 	var inside: bool = _get_arg(&"inside", area, graph)
-	var input_data: Dictionary[Vector3i, float] = _get_arg(&"data", area, graph)
+	var input_data: Dictionary[Vector3i, float] = _get_arg(&"sample", area, graph)
 
 	var border: Dictionary[Vector3i, float] = {}
 	for x in _get_axis_range(Vector3i.AXIS_X, area):

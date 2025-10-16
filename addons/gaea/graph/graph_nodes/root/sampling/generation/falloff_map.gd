@@ -161,11 +161,11 @@ func _get_argument_default_value(arg_name: StringName) -> Variant:
 
 
 func _get_output_ports_list() -> Array[StringName]:
-	return [&"data"]
+	return [&"sample"]
 
 
 func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
-	return GaeaValue.Type.DATA
+	return GaeaValue.Type.SAMPLE
 
 
 func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary[Vector3i, float]:

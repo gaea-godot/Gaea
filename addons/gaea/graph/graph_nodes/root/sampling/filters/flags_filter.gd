@@ -1,10 +1,10 @@
 @tool
 class_name GaeaNodeFlagsFilter
 extends GaeaNodeFilter
-## Filters [param data] to only the cells that match the flag conditions.
+## Filters [param sample] to only the cells that match the flag conditions.
 ##
 ## Flags are [code]int[/code]s, so the filtering is done with the rounded value
-## of each cell of [param data], using a bitwise [code]AND[/code].[br]
+## of each cell of [param sample], using a bitwise [code]AND[/code].[br]
 ## If [param match_all] is [code]false[/code], the value has to pass the filter for only
 ## one of the flags in [param match_flags].[br]
 ## If a value matches [b]any[/b] of the [param exclude_flags], it doesn't pass the filter.
@@ -15,7 +15,7 @@ func _get_title() -> String:
 
 
 func _get_description() -> String:
-	return "Filters [param data] to only the cells that match the flag conditions."
+	return "Filters [param sample] to only the cells that match the flag conditions."
 
 
 func _get_arguments_list() -> Array[StringName]:
@@ -34,7 +34,7 @@ func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
 
 
 func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
-	return GaeaValue.Type.DATA
+	return GaeaValue.Type.SAMPLE
 
 
 func _passes_filter(input_data: Dictionary, cell: Vector3i, area: AABB, graph: GaeaGraph) -> bool:

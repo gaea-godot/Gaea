@@ -96,10 +96,10 @@ static func _migration_step_from_beta(data: GaeaGraph):
 		"coi1put8oap60": ["c441lj0bi6eyn", {&"enums": [GaeaNodeNumOp.Operation.MULTIPLY]}, {&"value": &"b"}], #root/data/operations/multiply.tres
 		"d4f3kftfw2inw": ["c441lj0bi6eyn", {&"enums": [GaeaNodeNumOp.Operation.DIVIDE]}, {&"value": &"b"}], #root/data/operations/divide.tres
 
-		"drhtdob82hwua": ["dxsow1o2b4tm3", {&"enums": [GaeaNodeDatasOp.Operation.ADD]}], #root/data/operations/add_datas.tres
-		"bb81ds61i41r1": ["dxsow1o2b4tm3", {&"enums": [GaeaNodeDatasOp.Operation.SUBTRACT]}], #root/data/operations/substract_datas.tres
-		"dv5677k1v6n": ["dxsow1o2b4tm3", {&"enums": [GaeaNodeDatasOp.Operation.MULTIPLY]}], #root/data/operations/multiply_datas.tres
-		"f6ycpjqowl41": ["dxsow1o2b4tm3", {&"enums": [GaeaNodeDatasOp.Operation.DIVIDE]}], #root/data/operations/divide_datas.tres
+		"drhtdob82hwua": ["dxsow1o2b4tm3", {&"enums": [GaeaNodeSamplesOp.Operation.ADD]}], #root/data/operations/add_datas.tres
+		"bb81ds61i41r1": ["dxsow1o2b4tm3", {&"enums": [GaeaNodeSamplesOp.Operation.SUBTRACT]}], #root/data/operations/substract_datas.tres
+		"dv5677k1v6n": ["dxsow1o2b4tm3", {&"enums": [GaeaNodeSamplesOp.Operation.MULTIPLY]}], #root/data/operations/multiply_datas.tres
+		"f6ycpjqowl41": ["dxsow1o2b4tm3", {&"enums": [GaeaNodeSamplesOp.Operation.DIVIDE]}], #root/data/operations/divide_datas.tres
 
 		"dyk8vkdntdudc": ["fc8vogh4mvhw", {&"enums": [GaeaNodeInput.InputVar.WORLD_SIZE]}], #root/input/world_size.tres
 

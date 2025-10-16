@@ -2,9 +2,9 @@
 class_name GaeaNodeToHeight
 extends GaeaNodeResource
 #gdlint:disable = max-line-length
-## Transforms [param reference_data] into a new data grid where the height of each column is determined by [param height_offset] + ([param reference_data] * [param displacement_intensity])
+## Transforms [param reference] into a new sample grid where the height of each column is determined by [param height_offset] + ([param reference] * [param displacement_intensity])
 ##
-## For each cell in [param reference_data]'s [param reference_y] row, it'll get the [code]float[/code] value,
+## For each cell in [param reference]'s [param reference_y] row, it'll get the [code]float[/code] value,
 ## multiply it by [param displacement_intensity] and add [param height_offset] to it. This will be
 ## the column's height, and every cell below that height (inclusive) will be full while every cell above
 ## will be empty.[br][br]
@@ -14,8 +14,8 @@ extends GaeaNodeResource
 #gdlint:enable = max-line-length
 
 enum Type {
-	TYPE_2D, ## Referenced data will only take into account the x coordinate of the cell.
-	TYPE_3D ## Referenced data will take into account both the x and the z coordinates of the cell.
+	TYPE_2D, ## Referenced sample will only take into account the x coordinate of the cell.
+	TYPE_3D ## Referenced sample will take into account both the x and the z coordinates of the cell.
 }
 
 
@@ -24,8 +24,8 @@ func _get_title() -> String:
 
 
 func _get_description() -> String:
-	var desc: String = """Transforms [param reference_data] into a new data grid \
-where the height of each column is determined by [param height_offset] + ([param reference_data] * [param displacement_intensity])."""
+	var desc: String = """Transforms [param reference] into a new sample grid \
+where the height of each column is determined by [param height_offset] + ([param reference] * [param displacement_intensity])."""
 	match get_enum_selection(0):
 		Type.TYPE_2D:
 			desc += "\n\nReferences all the x values of the [param reference_y] row."
@@ -59,14 +59,14 @@ func _get_enum_option_display_name(_enum_idx: int, option_value: int) -> String:
 
 
 func _get_arguments_list() -> Array[StringName]:
-	return [&"reference_data", &"reference_y",
+	return [&"reference", &"reference_y",
 			&"height_offset", &"displacement_intensity",
 			&"gradient_intensity"]
 
 
 func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
 	match arg_name:
-		&"reference_data": return GaeaValue.Type.DATA
+		&"reference": return GaeaValue.Type.SAMPLE
 		&"gradient_intensity": return GaeaValue.Type.FLOAT
 		_: return GaeaValue.Type.INT
 
@@ -80,20 +80,20 @@ func _get_argument_default_value(arg_name: StringName) -> Variant:
 
 
 func _get_output_ports_list() -> Array[StringName]:
-	return [&"data"]
+	return [&"sample"]
 
 
 func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
-	return GaeaValue.Type.DATA
+	return GaeaValue.Type.SAMPLE
 
 
 func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary[Vector3i, float]:
-	var reference_data: Dictionary = _get_arg(&"reference_data", area, graph)
+	var reference: Dictionary = _get_arg(&"reference", area, graph)
 	var row: int = _get_arg(&"reference_y", area, graph)
 	var height_offset: int = _get_arg(&"height_offset", area, graph)
 	var displacement: int = _get_arg(&"displacement_intensity", area, graph)
 	var gradient_intensity: float = _get_arg(&"gradient_intensity", area, graph)
-	var data: Dictionary[Vector3i, float] = {}
+	var sample: Dictionary[Vector3i, float] = {}
 	var type: Type = get_enum_selection(0) as Type
 
 	var remap_offset: float = 0.0
@@ -102,17 +102,17 @@ func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictio
 
 	var z_range: Array = [0] if (type == Type.TYPE_2D) else (_get_axis_range(Vector3i.AXIS_Z, area))
 	for x in _get_axis_range(Vector3i.AXIS_X, area):
-		if not reference_data.has(Vector3i(x, row, 0)):
+		if not reference.has(Vector3i(x, row, 0)):
 			continue
 		for z in z_range:
-			var height: int = floor(reference_data[Vector3i(x, row, z)] * displacement + height_offset)
+			var height: int = floor(reference[Vector3i(x, row, z)] * displacement + height_offset)
 			for y in _get_axis_range(Vector3i.AXIS_Y, area):
 				if y >= -height and type == Type.TYPE_2D:
-					data[Vector3i(x, y, z)] = 1.0 if is_zero_approx(remap_offset) else remap(
+					sample[Vector3i(x, y, z)] = 1.0 if is_zero_approx(remap_offset) else remap(
 						y, -height + remap_offset, -height, 0, 1.0
 					)
 				elif y <= height and type == Type.TYPE_3D:
-					data[Vector3i(x, y, z)] = 1.0 if is_zero_approx(remap_offset) else remap(
+					sample[Vector3i(x, y, z)] = 1.0 if is_zero_approx(remap_offset) else remap(
 						y, height, height - remap_offset, 1.0, 0.0
 					)
-	return data
+	return sample

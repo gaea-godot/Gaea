@@ -2,8 +2,8 @@
 class_name GaeaNodeRulesPlacer
 extends GaeaNodeResource
 #gdlint:disable = max-line-length
-## Places [param material] on every world cell that follows [param rules] based on [param reference_data].
-## [img]res://addons/gaea/assets/cross.svg[/img] means data DOESN'T have a cell there,
+## Places [param material] on every world cell that follows [param rules] based on [param reference].
+## [img]res://addons/gaea/assets/cross.svg[/img] means sample DOESN'T have a cell there,
 ## [img]res://addons/gaea/assets/check.svg[/img] means the opposite.
 ##
 ## For every cell in the generation area, it checks that it follows [param rules]. If it does,
@@ -13,7 +13,7 @@ extends GaeaNodeResource
 ## For every offset:[br]
 ## - If the editor has no icon, that offset has no rule. It is ignored.[br]
 ##     - If the offset is marked as [img]res://addons/gaea/assets/check.svg[/img],
-## that offset has to have a corresponding cell in [param reference_data] to qualify as "following the rules".[br]
+## that offset has to have a corresponding cell in [param reference] to qualify as "following the rules".[br]
 ##     - If the offset is marked as [img]res://addons/gaea/assets/cross.svg[/img], it's the opposite.[br]
 ## If a cell doesn't follow all the rules for each offset, it won't qualify. Otherwise, the outputted [param map]
 ## will have [param material] there.
@@ -25,19 +25,19 @@ func _get_title() -> String:
 
 
 func _get_description() -> String:
-	return """Places [param material] on every world cell that follows [param rules] based on [param reference_data].
-[img]res://addons/gaea/assets/cross.svg[/img] means data DOESN'T have a cell there,\
+	return """Places [param material] on every world cell that follows [param rules] based on [param reference].
+[img]res://addons/gaea/assets/cross.svg[/img] means sample DOESN'T have a cell there,\
 [img]res://addons/gaea/assets/check.svg[/img] means the opposite."""
 
 
 
 func _get_arguments_list() -> Array[StringName]:
-	return [&"reference_data", &"material", &"rules"]
+	return [&"reference", &"material", &"rules"]
 
 
 func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
 	match arg_name:
-		&"reference_data": return GaeaValue.Type.DATA
+		&"reference": return GaeaValue.Type.SAMPLE
 		&"material": return GaeaValue.Type.MATERIAL
 		&"rules": return GaeaValue.Type.RULES
 	return GaeaValue.Type.NULL
@@ -52,11 +52,11 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 
 
 func _get_required_arguments() -> Array[StringName]:
-	return [&"reference_data", &"material"]
+	return [&"reference", &"material"]
 
 
 func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary[Vector3i, GaeaMaterial]:
-	var grid_data: Dictionary = _get_arg(&"reference_data", area, graph)
+	var grid_data: Dictionary = _get_arg(&"reference", area, graph)
 	var material: GaeaMaterial = _get_arg(&"material", area, graph)
 	var grid: Dictionary[Vector3i, GaeaMaterial]
 

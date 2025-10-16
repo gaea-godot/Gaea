@@ -1,16 +1,16 @@
 @tool
-class_name GaeaNodeDataOp
+class_name GaeaNodeSampleOp
 extends GaeaNodeNumOp
-## Operations between all the cells of a data grid and a [float] number.
+## Operations between all the cells of a sample grid and a [float] number.
 
 
 func _get_title() -> String:
-	return "DataOp"
+	return "SampleOp"
 
 
 func _get_description() -> String:
-	if get_tree_name() == "DataOp" and not is_instance_valid(node):
-		return "Operation between a data grid and a [code]float[/code] number."
+	if get_tree_name() == "SampleOp" and not is_instance_valid(node):
+		return "Operation between a sample grid and a [code]float[/code] number."
 
 	match get_enum_selection(0):
 		Operation.ADD:
@@ -41,12 +41,12 @@ func _get_argument_display_name(arg_name: StringName) -> String:
 
 func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
 	if arg_name == &"a":
-		return GaeaValue.Type.DATA
+		return GaeaValue.Type.SAMPLE
 	return GaeaValue.Type.FLOAT
 
 
 func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
-	return GaeaValue.Type.DATA
+	return GaeaValue.Type.SAMPLE
 
 
 func _get_operation_definitions() -> Dictionary[Operation, Definition]:

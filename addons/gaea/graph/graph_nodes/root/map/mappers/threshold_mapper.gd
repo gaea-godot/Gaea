@@ -1,7 +1,7 @@
 @tool
 class_name GaeaNodeThresholdMapper
 extends GaeaNodeMapper
-## Maps every cell of [param data] of a value in [param range] to [param material].
+## Maps every cell of [param sample] of a value in [param range] to [param material].
 
 
 func _get_title() -> String:
@@ -9,7 +9,7 @@ func _get_title() -> String:
 
 
 func _get_description() -> String:
-	return "Maps every cell of [param reference_data] of a value in [param range] to [param material]."
+	return "Maps every cell of [param reference] of a value in [param range] to [param material]."
 
 
 func _get_arguments_list() -> Array[StringName]:
