@@ -37,6 +37,7 @@ z_slider = NodePath("../ZSlider")
 layout_mode = 2
 size_flags_vertical = 3
 tooltip_text = "The z value of the cells you're currently editing."
+mouse_force_pass_scroll_events = false
 theme_override_constants/center_grabber = 1
 theme_override_styles/slider = SubResource("StyleBoxFlat_2g0rj")
 theme_override_styles/grabber_area = SubResource("StyleBoxEmpty_2g0rj")
