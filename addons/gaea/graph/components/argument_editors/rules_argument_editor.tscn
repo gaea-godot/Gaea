@@ -14,7 +14,6 @@ layout_mode = 2
 unique_name_in_owner = true
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
-tooltip_text = "Left click to set to true, right click to set to false."
 script = ExtResource("4_3xcok")
 simple = false
 show_origin = true

@@ -92,7 +92,7 @@ static func get_default_value(type: Type) -> Variant:
 		Type.FLAGS:
 			return [] as Array[int]
 		Type.RULES:
-			return {}
+			return {} as Dictionary[Vector3i, bool]
 		# Whether or not it's collapsed.
 		Type.CATEGORY:
 			return false

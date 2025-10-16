@@ -38,7 +38,8 @@ func _ready() -> void:
 	spin_box.value_changed.connect(func(value: float): _current_z = roundi(value))
 
 
-func set_pressed(cells: Array[Vector3i]) -> void:
+func set_pressed(cells: Array) -> void:
+	cells = Array(cells, TYPE_VECTOR3I, &"", null)
 	for cell in cells:
 		_states[cell] = true
 
@@ -57,8 +58,12 @@ func get_states() -> Dictionary[Vector3i, bool]:
 
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
+		tooltip_text = ""
+		if not simple:
+			tooltip_text = "Left click to set to true, right click to set to false.\n"
 		var cell := _to_relative(_point_to_cell(event.position))
-		tooltip_text = "Left click to set to true, right click to set to false.\n%s" % cell
+		tooltip_text += str(cell)
+
 	if event is InputEventMouseButton:
 		if event.button_index not in [MOUSE_BUTTON_LEFT, MOUSE_BUTTON_RIGHT]:
 			return

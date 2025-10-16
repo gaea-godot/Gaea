@@ -24,14 +24,7 @@ func set_arg_value(new_value: Variant) -> void:
 	if typeof(new_value) != TYPE_ARRAY:
 		return
 
-	var converted_value: Array[Vector3i]
-	if new_value is Array[Vector2i]:
-		for cell in new_value:
-			converted_value.append(Vector3i(cell.x, cell.y, 0))
-		cells.set_pressed(converted_value)
-		argument_value_changed.emit(converted_value)
-	else:
-		cells.set_pressed(new_value)
+	cells.set_pressed(new_value)
 
 
 func _on_cell_pressed() -> void:

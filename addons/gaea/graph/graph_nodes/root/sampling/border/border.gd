@@ -38,7 +38,7 @@ func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
 func _get_argument_default_value(arg_name: StringName) -> Variant:
 	match arg_name:
 		&"neighbors":
-			return [Vector2i.RIGHT, Vector2i.LEFT, Vector2i.UP, Vector2i.DOWN]
+			return [Vector3i.RIGHT, Vector3i.LEFT, Vector3i.UP, Vector3i.DOWN]
 	return super(arg_name)
 
 
