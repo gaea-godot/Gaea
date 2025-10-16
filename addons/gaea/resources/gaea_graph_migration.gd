@@ -7,7 +7,7 @@ static func migrate(data: GaeaGraph):
 		_migration_step_from_beta(data)
 	if data.save_version == 2:
 		_migration_step_material_merge(data)
-	if data.save_version <= 3:
+	if data.save_version == 3:
 		_migration_step_node_ids(data)
 	if data.save_version == 4:
 		_migration_step_3d_neighbors_and_rules(data)
@@ -228,10 +228,10 @@ static func _migration_step_3d_neighbors_and_rules(data: GaeaGraph):
 					continue
 
 				var type: int = argument.get_typed_builtin()
-				if type == TYPE_NIL:
+				if type == TYPE_NIL: # If the array is not typed, infer the type from first element.
 					type = typeof(argument.front())
 
-				## Migrate old 2D-based neighbors to 3D.
+				# Migrate old 2D-based neighbors to 3D.
 				if type == TYPE_VECTOR2I:
 					var new_argument: Array[Vector3i]
 					for cell in argument:
@@ -242,10 +242,10 @@ static func _migration_step_3d_neighbors_and_rules(data: GaeaGraph):
 					continue
 
 				var key_type: int = argument.get_typed_key_builtin()
-				if key_type == TYPE_NIL:
+				if key_type == TYPE_NIL: # If the dict is not typed, infer the type from first key.
 					key_type = typeof(argument.keys().front())
 
-				## Migrate old 2D-based rules to 3D.
+				# Migrate old 2D-based rules to 3D.
 				if key_type == TYPE_VECTOR2I:
 					var new_argument: Dictionary[Vector3i, bool]
 					for cell in argument:
