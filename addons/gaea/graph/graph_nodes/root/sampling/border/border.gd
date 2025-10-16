@@ -57,25 +57,25 @@ func _get_required_arguments() -> Array[StringName]:
 func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary[Vector3i, float]:
 	var neighbors: Array = _get_arg(&"neighbors", area, graph)
 	var inside: bool = _get_arg(&"inside", area, graph)
-	var input_data: Dictionary[Vector3i, float] = _get_arg(&"sample", area, graph)
+	var input_sample: Dictionary[Vector3i, float] = _get_arg(&"sample", area, graph)
 
 	var border: Dictionary[Vector3i, float] = {}
 	for x in _get_axis_range(Vector3i.AXIS_X, area):
 		for y in _get_axis_range(Vector3i.AXIS_Y, area):
 			for z in _get_axis_range(Vector3i.AXIS_Z, area):
 				var cell: Vector3i = Vector3i(x, y, z)
-				var is_inside_border := inside and input_data.get(cell) == null
-				var is_outside_border := not inside and input_data.get(cell) != null
+				var is_inside_border := inside and input_sample.get(cell) == null
+				var is_outside_border := not inside and input_sample.get(cell) != null
 				if is_inside_border or is_outside_border:
 					continue
 
 				var filter: Callable
 				if not inside:
 					filter = func(neighbor: Vector2i) -> bool:
-						return input_data.get(neighbor) != null
+						return input_sample.get(neighbor) != null
 				else:
 					filter = func(neighbor: Vector2i) -> bool:
-						return input_data.get(neighbor) == null
+						return input_sample.get(neighbor) == null
 
 				for n: Vector2i in neighbors:
 					var neighboring_cell: Vector3i = Vector3i(
