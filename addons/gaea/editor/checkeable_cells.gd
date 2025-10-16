@@ -37,6 +37,8 @@ func _ready() -> void:
 	z_slider.max_value = roundi(float(circumference) * 0.5) - 1
 	z_slider.value_changed.connect(func(value: float): _current_z = roundi(value))
 
+	mouse_exited.connect(queue_redraw)
+
 
 func set_pressed(cells: Array) -> void:
 	cells = Array(cells, TYPE_VECTOR3I, &"", null)
@@ -63,6 +65,7 @@ func _gui_input(event: InputEvent) -> void:
 			tooltip_text = "Left click to set to true, right click to set to false.\n"
 		var cell := _to_relative(_point_to_cell(event.position))
 		tooltip_text += str(cell)
+		queue_redraw()
 
 	if event is InputEventMouseButton:
 		if event.button_index not in [MOUSE_BUTTON_LEFT, MOUSE_BUTTON_RIGHT]:
@@ -100,6 +103,7 @@ func _to_relative(cell: Vector2i) -> Vector3i:
 
 
 func _draw() -> void:
+	var cell_mouse_pos := _to_relative(_point_to_cell(get_local_mouse_position()))
 	for x in circumference:
 		for y in circumference:
 			var color := Color.GRAY
@@ -108,11 +112,8 @@ func _draw() -> void:
 			var icon: Texture2D = null
 			var rect: Rect2 = Rect2(Vector2(cell) * CELL_SIZE, CELL_SIZE)
 
-			if relative_cell == Vector3i.ZERO:
-				if not show_origin:
-					continue
-
-				color = Color.WHITE
+			if relative_cell == cell_mouse_pos:
+				color = color.lightened(0.85)
 
 			if _states.has(relative_cell):
 				if _states.get(relative_cell) == true:
@@ -120,7 +121,20 @@ func _draw() -> void:
 				else:
 					icon = CROSS
 
+			if relative_cell == Vector3i.ZERO:
+				if not show_origin:
+					continue
+
+				# Origin point
+				if not is_instance_valid(icon): # Hide when it's checked/crossed because it looks ugly.
+					draw_circle(
+						Vector2(cell) * CELL_SIZE + (CELL_SIZE * 0.5),
+						CELL_SIZE.x * 0.1,
+						Color(color, 0.5),
+						true, -1.0, true
+					)
 			draw_texture_rect(_checkbox_icon, rect, false, color)
+
 			if is_instance_valid(icon):
 				draw_texture_rect(
 					icon,
