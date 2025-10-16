@@ -56,7 +56,7 @@ func _get_argument_default_value(arg_name: StringName) -> Variant:
 
 
 func _get_output_ports_list() -> Array[StringName]:
-	return [&"sample"]
+	return [&"noise"]
 
 
 func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:

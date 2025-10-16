@@ -21,7 +21,7 @@ func _get_argument_type(_arg_name: StringName) -> GaeaValue.Type:
 
 
 func _get_output_ports_list() -> Array[StringName]:
-	return [&"sample"]
+	return [&"result"]
 
 
 func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:

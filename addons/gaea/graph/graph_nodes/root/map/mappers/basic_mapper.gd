@@ -1,7 +1,7 @@
 @tool
 class_name GaeaNodeBasicMapper
 extends GaeaNodeMapper
-## Maps all non-empty cells in [param sample] to [param material].
+## Maps all non-empty cells in [param reference] to [param material].
 
 
 func _get_title() -> String:
