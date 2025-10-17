@@ -22,15 +22,16 @@ func get_arg_value() -> bool:
 	return self.folded
 
 
-func set_arg_value(new_value: Variant) -> void:
+func set_arg_value(new_value: Variant) -> Error:
 	if typeof(new_value) != TYPE_BOOL:
-		return
+		return ERR_INVALID_DATA
 
 	if not hint.get("collapsable", true):
 		new_value = false
 
 	self.folded = new_value
 	_on_folding_changed(new_value)
+	return OK
 
 
 func _on_folding_changed(is_folded: bool) -> void:

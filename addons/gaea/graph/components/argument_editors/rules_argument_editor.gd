@@ -16,11 +16,12 @@ func get_arg_value() -> Dictionary:
 	return cells.get_states()
 
 
-func set_arg_value(new_value: Variant) -> void:
+func set_arg_value(new_value: Variant) -> Error:
 	if typeof(new_value) != TYPE_DICTIONARY:
-		return
+		return ERR_INVALID_DATA
 
 	cells.set_states(new_value)
+	return OK
 
 
 func _on_cells_cell_pressed() -> void:

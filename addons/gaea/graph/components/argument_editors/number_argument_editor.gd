@@ -47,11 +47,13 @@ func get_arg_value() -> Variant:
 	return int(spin_box.value)
 
 
-func set_arg_value(new_value: Variant) -> void:
+func set_arg_value(new_value: Variant) -> Error:
 	if typeof(new_value) not in [TYPE_FLOAT, TYPE_INT]:
-		return
+		return ERR_INVALID_DATA
+
 	spin_box.value = new_value
 	h_slider.set_value_no_signal(new_value)
+	return OK
 
 
 func _on_h_slider_value_changed(value: float) -> void:

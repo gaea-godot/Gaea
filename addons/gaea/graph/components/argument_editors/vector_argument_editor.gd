@@ -93,10 +93,10 @@ func get_arg_value() -> Variant:
 	return null
 
 
-func set_arg_value(new_value: Variant) -> void:
+func set_arg_value(new_value: Variant) -> Error:
 	var new_value_type = typeof(new_value)
 	if not (typeof(new_value) in VALID_TYPES):
-		return
+		return ERR_INVALID_DATA
 
 	_x_spin_box.value = float(new_value.x)
 	_y_spin_box.value = float(new_value.y)
@@ -104,3 +104,4 @@ func set_arg_value(new_value: Variant) -> void:
 		_z_spin_box.value = float(new_value.z)
 	else:
 		_z_spin_box.value = 0.0
+	return OK

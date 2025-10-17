@@ -78,11 +78,13 @@ func get_arg_value() -> Dictionary:
 	}
 
 
-func set_arg_value(new_value: Variant) -> void:
+func set_arg_value(new_value: Variant) -> Error:
 	if typeof(new_value) != TYPE_DICTIONARY:
-		return
+		return ERR_INVALID_DATA
+
 	_min_spin_box.value = new_value.get("min", 0.0)
 	_max_spin_box.value = new_value.get("max", 1.0)
+	return OK
 
 
 func _on_range_slider_value_changed(start_value: float, end_value: float) -> void:

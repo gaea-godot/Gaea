@@ -29,7 +29,7 @@ func initialize(
 	display_name: String,
 	default_value: Variant,
 	for_hint: Dictionary
-) -> void:
+) -> Error:
 	graph_node = for_graph_node
 	type = for_type
 	set_label_text(display_name)
@@ -37,7 +37,7 @@ func initialize(
 	hint = for_hint
 
 	_configure()
-	set_arg_value(default_value)
+	return set_arg_value(default_value)
 
 
 func _configure() -> void:
@@ -66,8 +66,8 @@ func get_arg_value() -> Variant:
 
 
 ## Override to allow setting the value in the editor.
-func set_arg_value(_new_value: Variant) -> void:
-	pass
+func set_arg_value(_new_value: Variant) -> Error:
+	return FAILED
 
 
 ## Set this parameter's name label text to [param new_text]

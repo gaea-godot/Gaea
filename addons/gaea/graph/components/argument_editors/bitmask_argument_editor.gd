@@ -53,16 +53,17 @@ func get_arg_value() -> Variant:
 	return num
 
 
-func set_arg_value(new_value: Variant) -> void:
+func set_arg_value(new_value: Variant) -> Error:
 	if type != GaeaValue.Type.FLAGS:
 		if typeof(new_value) != TYPE_INT:
-			return
+			return ERR_INVALID_DATA
 
 		for button: Button in grid_container.get_children():
 			button.set_pressed_no_signal(new_value & (1 << button.get_index()))
 	else:
 		if typeof(new_value) != TYPE_ARRAY:
-			return
+			return ERR_INVALID_DATA
 
 		for button: Button in grid_container.get_children():
 			button.set_pressed_no_signal(new_value.has(1 << button.get_index()))
+	return OK

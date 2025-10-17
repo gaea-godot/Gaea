@@ -20,11 +20,12 @@ func get_arg_value() -> Array[Vector3i]:
 	return cells.get_pressed_cells()
 
 
-func set_arg_value(new_value: Variant) -> void:
+func set_arg_value(new_value: Variant) -> Error:
 	if typeof(new_value) != TYPE_ARRAY:
-		return
+		return ERR_INVALID_DATA
 
 	cells.set_pressed(new_value)
+	return OK
 
 
 func _on_cell_pressed() -> void:

@@ -19,11 +19,12 @@ func get_arg_value() -> String:
 	return _name_label.text
 
 
-func set_arg_value(new_value: Variant) -> void:
+func set_arg_value(new_value: Variant) -> Error:
 	if typeof(new_value) not in [TYPE_STRING, TYPE_STRING_NAME]:
-		return
+		return ERR_INVALID_DATA
 
 	_name_label.text = new_value
+	return OK
 
 
 func _on_edit_button_pressed() -> void:
