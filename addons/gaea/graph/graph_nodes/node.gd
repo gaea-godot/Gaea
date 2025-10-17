@@ -167,10 +167,11 @@ func _add_argument_editor(for_arg: StringName) -> GaeaGraphNodeArgumentEditor:
 		resource.get_argument_hint(for_arg)
 	)
 
-	if error:
-		var saved_data := generator.data.get_node_data(resource.id)
-		if saved_data.get(&"arguments", {}).has(for_arg):
-			generator.data.remove_node_argument(resource.id, for_arg)
+	if error == ERR_INVALID_DATA:
+		# Saved data was of an invalid type, so we'll just remove it, and reset it to the default value.
+		generator.data.remove_node_argument(resource.id, for_arg)
+		resource.arguments.erase(for_arg)
+		node.set_arg_value(resource.get_argument_default_value(for_arg))
 
 	if resource.has_input_slot(for_arg):
 		node.add_input_slot()
