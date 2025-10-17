@@ -157,13 +157,20 @@ func _add_argument_editor(for_arg: StringName) -> GaeaGraphNodeArgumentEditor:
 		_last_category = node
 	elif is_instance_valid(_last_category):
 		_last_category.arguments.append(node)
-	node.initialize(
+
+
+	var error: Error = node.initialize(
 		self,
 		resource.get_argument_type(for_arg),
 		resource.get_argument_display_name(for_arg),
 		resource.arguments.get(for_arg, resource.get_argument_default_value(for_arg)),
 		resource.get_argument_hint(for_arg)
 	)
+
+	if error:
+		var saved_data := generator.data.get_node_data(resource.id)
+		if saved_data.get(&"arguments", {}).has(for_arg):
+			generator.data.remove_node_argument(resource.id, for_arg)
 
 	if resource.has_input_slot(for_arg):
 		node.add_input_slot()
@@ -189,6 +196,8 @@ func _add_output_slot(for_output: StringName) -> GaeaGraphNodeOutput:
 		resource.get_output_port_type(for_output),
 		resource.get_output_port_display_name(for_output)
 	)
+
+
 	if GaeaValue.has_preview(resource.get_output_port_type(for_output)):
 		node.get_toggle_preview_button().show()
 

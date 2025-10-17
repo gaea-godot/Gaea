@@ -142,6 +142,10 @@ func set_node_argument(id: int, arg_name: StringName, value: Variant) -> void:
 	get_node_data(id).get_or_add(&"arguments", {}).set(arg_name, value)
 
 
+func remove_node_argument(id: int, arg_name: StringName) -> void:
+	get_node_data(id).get(&"arguments", {}).erase(arg_name)
+
+
 ## Sets the specified node's enum value at [param enum_idx] to [param value]
 ## (and resizes the enums array if necessary).
 func set_node_enum(id: int, enum_idx: int, value: int) -> void:
