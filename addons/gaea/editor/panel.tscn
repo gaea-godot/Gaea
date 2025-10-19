@@ -391,6 +391,7 @@ exclusive = true
 [connection signal="pressed" from="Editor/VBoxContainer/HBoxContainer/GenerateButton" to="." method="_on_generate_button_pressed"]
 [connection signal="pressed" from="Editor/VBoxContainer/HBoxContainer/OnlineDocsButton" to="." method="_on_online_docs_button_pressed"]
 [connection signal="pressed" from="Editor/VBoxContainer/HBoxContainer/WindowPopoutButton" to="." method="_on_window_popout_button_pressed"]
+[connection signal="connection_from_empty" from="Editor/VBoxContainer/GraphEdit" to="." method="_on_graph_edit_connection_from_empty"]
 [connection signal="connection_request" from="Editor/VBoxContainer/GraphEdit" to="Editor/VBoxContainer/GraphEdit" method="_on_connection_request"]
 [connection signal="connection_to_empty" from="Editor/VBoxContainer/GraphEdit" to="." method="_on_graph_edit_connection_to_empty"]
 [connection signal="connection_update_requested" from="Editor/VBoxContainer/GraphEdit" to="." method="update_connections"]

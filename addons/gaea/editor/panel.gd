@@ -12,6 +12,9 @@ var _output_node: GaeaGraphNode
 
 ## Local position on [GraphEdit] for a node that may be created in the future.
 var _node_creation_target: Vector2 = Vector2.ZERO
+var _created_node_connect_to: GaeaGraphNode = null
+var _created_node_connect_to_port: int = -1
+var _dragged_from_left: bool = false
 
 @onready var _no_data: Control = $NoData
 @onready var _editor: Control = $Editor
@@ -282,9 +285,21 @@ func _popup_create_node_menu_at_mouse() -> void:
 	if not EditorInterface.get_editor_settings().get_setting("interface/editor/single_window_mode"):
 		_create_node_popup.position += get_window().position
 	_clamp_popup_in_window(_create_node_popup, get_window())
+	_create_node_popup.create_node_tree.remove_filter(&"type")
+	_create_node_popup.create_node_tree.apply_filters(false)
 	_create_node_popup.popup()
 	_search_bar.grab_focus()
 	_search_bar.select_all()
+
+
+func _popup_create_and_connect_node(node: GaeaGraphNode, type: GaeaValue.Type) -> void:
+	_popup_create_node_menu_at_mouse()
+	_create_node_popup.filter_to_connect_type(type, _dragged_from_left)
+	_created_node_connect_to = node
+	_create_node_popup.close_requested.connect(
+		func() -> void:
+			_created_node_connect_to = null, CONNECT_ONE_SHOT
+	)
 
 
 func _clamp_popup_in_window(popup: Window, main_window: Window) -> void:
@@ -321,8 +336,59 @@ func _add_node(resource: GaeaNodeResource, local_grid_position: Vector2) -> Grap
 
 
 func _on_tree_node_selected_for_creation(resource: GaeaNodeResource) -> void:
-	_create_node_popup.hide()
-	_add_node(resource.duplicate(), _graph_edit.local_to_grid(_node_creation_target))
+	var node := _add_node(resource.duplicate(), _graph_edit.local_to_grid(_node_creation_target))
+
+	if node is GaeaGraphNode and is_instance_valid(_created_node_connect_to):
+		var to_port := 0
+		var slot_name: StringName
+		var type: GaeaValue.Type
+		var new_node_port_amount: int
+		if _dragged_from_left:
+			slot_name = _created_node_connect_to.resource.connection_idx_to_argument(
+				_created_node_connect_to_port
+			)
+			type = _created_node_connect_to.resource.get_argument_type(slot_name)
+			new_node_port_amount = node.resource._get_output_ports_list().size()
+		else:
+			slot_name = _created_node_connect_to.resource.connection_idx_to_output(
+				_created_node_connect_to_port
+			)
+			type = _created_node_connect_to.resource.get_output_port_type(slot_name)
+			new_node_port_amount = node.resource.get_arguments_list().size()
+
+		while to_port < new_node_port_amount:
+			var other_slot_name: StringName
+			var other_type: GaeaValue.Type
+			if _dragged_from_left:
+				other_slot_name = node.resource.connection_idx_to_output(to_port)
+				other_type = node.resource.get_output_port_type(other_slot_name)
+			else:
+				other_slot_name = node.resource.connection_idx_to_argument(to_port)
+				other_type = node.resource.get_argument_type(other_slot_name)
+
+			if GaeaValue.is_valid_connection(
+				other_type if _dragged_from_left else type,
+				type if _dragged_from_left else other_type
+			):
+				break
+			to_port += 1
+
+		if to_port < node.resource.get_arguments_list().size():
+			if _dragged_from_left:
+				_graph_edit.connection_request.emit(
+					node.name,
+					to_port,
+					_created_node_connect_to.name,
+					_created_node_connect_to_port
+				)
+			else:
+				_graph_edit.connection_request.emit(
+					_created_node_connect_to.name,
+					_created_node_connect_to_port,
+					node.name,
+					to_port
+				)
+	_create_node_popup.close_requested.emit()
 
 
 func _on_tree_special_node_selected_for_creation(id: StringName) -> void:
@@ -440,9 +506,28 @@ func update_connections() -> void:
 
 
 func _on_graph_edit_connection_to_empty(
-	_from_node: StringName, _from_port: int, _release_position: Vector2
+	from_node: StringName, from_port: int, _release_position: Vector2
 ) -> void:
-	_popup_create_node_menu_at_mouse()
+	var node: GaeaGraphNode = _graph_edit.get_node(NodePath(from_node))
+	var type: GaeaValue.Type = node.resource.get_output_port_type(
+		node.resource.connection_idx_to_output(from_port)
+	)
+	_created_node_connect_to_port = from_port
+	_dragged_from_left = false
+	_popup_create_and_connect_node(node, type)
+
+
+func _on_graph_edit_connection_from_empty(
+	to_node: StringName, to_port: int, _release_position: Vector2
+) -> void:
+	var node: GaeaGraphNode = _graph_edit.get_node(NodePath(to_node))
+	var type: GaeaValue.Type = node.resource.get_argument_type(
+		node.resource.connection_idx_to_argument(to_port)
+	)
+	_created_node_connect_to_port = to_port
+	_dragged_from_left = true
+	_popup_create_and_connect_node(node, type)
+
 
 
 #endregion

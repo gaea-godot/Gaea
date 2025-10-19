@@ -163,6 +163,9 @@ func get_arguments_list() -> Array[StringName]:
 
 ## Public version of [method _get_argument_type]. Prefer to override that method over this one.
 func get_argument_type(arg_name: StringName) -> GaeaValue.Type:
+	if arg_name.is_empty():
+		return GaeaValue.Type.NULL
+
 	if arg_name.begins_with(&"CATEGORY"):
 		return GaeaValue.Type.CATEGORY
 
@@ -527,6 +530,9 @@ func _get_input_resource(arg_name: StringName, graph: GaeaGraph) -> GaeaNodeReso
 #region Argument Connections
 ## Returns the [StringName] corresponding to [param argument_idx].
 func connection_idx_to_argument(argument_idx: int) -> StringName:
+	if argument_idx < 0:
+		return &""
+
 	var filtered_argument_list := _get_arguments_list().filter(_filter_has_input)
 	if filtered_argument_list.size() <= argument_idx:
 		return &""
@@ -560,6 +566,7 @@ func output_to_connection_idx(output: StringName) -> int:
 func connection_idx_to_output(output_idx: int) -> StringName:
 	if _get_output_ports_list().size() <= output_idx:
 		return &""
+
 	return _get_output_ports_list().get(output_idx)
 
 

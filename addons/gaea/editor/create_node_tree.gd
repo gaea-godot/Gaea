@@ -9,6 +9,8 @@ const NODES_FOLDER_PATH: String = "res://addons/gaea/graph/graph_nodes/root/"
 @export var description_label: RichTextLabel
 var tree_dictionary: Dictionary
 
+var filters: Dictionary[StringName, Callable]
+
 
 func _ready() -> void:
 	if is_part_of_edited_scene():
@@ -138,27 +140,79 @@ func _on_search_bar_text_changed(new_text: String) -> void:
 		get_root().set_collapsed_recursive(true)
 		get_root().collapsed = false
 		deselect_all()
+		remove_filter(&"text")
+		apply_filters(false)
 	else:
 		get_root().set_collapsed_recursive(false)
+		add_filter(
+			(func(item: TreeItem, text: String) -> bool:
+				return text.is_subsequence_ofn(item.get_text(0)) or text.is_empty()).bind(new_text),
+				&"text"
+		)
 
+
+func filter_to_input_type(type: GaeaValue.Type) -> void:
+	add_filter(
+		(func(item: TreeItem, match_type: GaeaValue.Type) -> bool:
+			if item.get_metadata(0) is not GaeaNodeResource:
+				return false
+
+			var node: GaeaNodeResource = item.get_metadata(0)
+			for argument in node.get_arguments_list():
+				if node.has_input_slot(argument) and GaeaValue.is_valid_connection(
+					match_type, node.get_argument_type(argument)
+				):
+					return true
+
+			return false).bind(type),
+			&"type"
+	)
+
+
+
+func filter_to_output_type(type: GaeaValue.Type) -> void:
+	add_filter(
+		(func(item: TreeItem, match_type: GaeaValue.Type) -> bool:
+			if item.get_metadata(0) is not GaeaNodeResource:
+				return false
+
+			var node: GaeaNodeResource = item.get_metadata(0)
+			for argument in node.get_output_ports_list():
+				if GaeaValue.is_valid_connection(
+					node.get_output_port_type(argument), match_type
+				):
+					return true
+
+			return false).bind(type),
+			&"type"
+	)
+
+
+func add_filter(filter: Callable, id: StringName) -> void:
+	filters[id] = filter
+	apply_filters(true)
+
+
+func remove_filter(id: StringName) -> void:
+	filters.erase(id)
+
+
+func apply_filters(scroll_to_first_found: bool) -> void:
 	var item: TreeItem = get_root()
 	var first_item_found: TreeItem = null
 
 	while item.get_next_in_tree() != null:
 		item = item.get_next_in_tree()
-		if new_text.is_empty():
+		var item_matched = filters.values().all(func(f: Callable) -> bool: return f.call(item))
+		if item_matched and item.is_selectable(0):
+			if first_item_found == null:
+				first_item_found = item
 			item.visible = true
+			_show_parents_recursive(item)
 		else:
-			var item_matched = new_text.is_subsequence_ofn(item.get_text(0))
-			if item_matched and item.is_selectable(0):
-				if first_item_found == null:
-					first_item_found = item
-				item.visible = true
-				_show_parents_recursive(item)
-			else:
-				item.visible = false
+			item.visible = false
 
-	if first_item_found:
+	if first_item_found and scroll_to_first_found:
 		scroll_to_item(first_item_found, true)
 		first_item_found.select(0)
 		ensure_cursor_is_visible()
