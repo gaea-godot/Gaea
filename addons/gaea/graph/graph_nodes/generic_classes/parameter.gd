@@ -53,7 +53,7 @@ func _get_available_name(from: String) -> String:
 
 	var available_name: String = from
 	var suffix: int = 1
-	while node.generator.data.parameters.has(available_name):
+	while node.generator.data.has_parameter(available_name):
 		suffix += 1
 		available_name = "%s%s" % [from, suffix]
 	return available_name
