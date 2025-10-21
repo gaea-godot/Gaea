@@ -2,6 +2,7 @@
 extends GraphEdit
 
 signal connection_update_requested
+signal duplication_requested(nodes: Array)
 
 var attached_elements: Dictionary
 var generator: GaeaGenerator
@@ -245,3 +246,9 @@ func _on_edited_script_changed(script: Script):
 		if child is GaeaGraphNode:
 			if script == child.resource.get_script():
 				child._rebuild.call_deferred()
+
+
+func _on_duplicate_nodes_request() -> void:
+	duplication_requested.emit(get_selected())
+
+

@@ -18,8 +18,9 @@ enum Log {
 }
 
 enum NodeType {
-	NODE,
-	FRAME
+	NODE, ## A [GaeaNodeResource].
+	FRAME, ## A [GaeaGraphFrame]
+	NONE = -1 ## Returned by [method get_node_type] if no type is found.
 }
 
 ## Current save version used for [GaeaGraphMigration].
@@ -91,6 +92,7 @@ func _init() -> void:
 ## If [param id] is not passed, [method get_next_available_id] will be used. Returns the node's id.[br]
 ## Its data is saved in [member _node_data] and loaded by the panel.
 func add_node(node: GaeaNodeResource, position: Vector2, id: int = get_next_available_id()) -> int:
+	node.id = id
 	_resources.set(id, node)
 	_node_data.set(id,
 	{
@@ -102,6 +104,27 @@ func add_node(node: GaeaNodeResource, position: Vector2, id: int = get_next_avai
 				)
 	}.merged(node.get_custom_saved_data()))
 	return id
+
+
+## Copies the specified node to the specified position with the specified id. Returns the copy's id.[br]
+## If the node to be copied doesn't exist, does nothing and returns -1.
+func copy_node(id: int, to_position: Vector2, copy_id: int = get_next_available_id()) -> int:
+	if not has_node(id):
+		return -1
+
+	if get_node_type(id) == NodeType.FRAME:
+		add_frame(to_position, copy_id)
+	else:
+		add_node(get_node(id).duplicate(), to_position, copy_id)
+	
+	var original_node_data := get_node_data(id)
+	set_node_data(copy_id, original_node_data.duplicate())
+	if get_node_type(copy_id) == NodeType.FRAME:
+		set_node_data_value(copy_id, &"attached", [])
+	# Set the position again because it got overriden before.
+	set_node_position(copy_id, to_position)
+	return copy_id
+
 
 
 ## Adds a new frame at [param position], identifiable with [param id].
@@ -199,6 +222,11 @@ func has_node(id: int) -> bool:
 ## Returns a list of all nodes in the graph (excluding frames).
 func get_nodes() -> Array[GaeaNodeResource]:
 	return _resources.values()
+
+
+## Returns the specified node's [enum NodeType].
+func get_node_type(id: int) -> NodeType:
+	return get_node_data(id).get(&"type", NodeType.NONE)
 
 
 ## Sets the saved data for the specified node to [param data].[br]
