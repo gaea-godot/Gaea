@@ -78,7 +78,7 @@ func on_added_to_graph(graph: GaeaGraph) -> void:
 	_on_added_to_graph(graph)
 
 
-## Called by [method GaeaGraph.add_node].
+## Called when the node is added to [param graph], by [method GaeaGraph.add_node].
 func _on_added_to_graph(_graph: GaeaGraph) -> void:
 	pass
 
