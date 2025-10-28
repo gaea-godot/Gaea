@@ -258,7 +258,7 @@ func _get_copy_data(nodes: Array) -> GaeaNodesCopy:
 
 			copy_data.add_node(
 				selected.resource.id,
-				selected.resource.duplicate(),
+				selected.resource.duplicate_deep(),
 				selected.position_offset,
 				selected.generator.data.get_node_data(selected.resource.id).duplicate_deep()
 			)
@@ -277,7 +277,7 @@ func _get_copy_data(nodes: Array) -> GaeaNodesCopy:
 func _on_duplicate_nodes_request() -> void:
 	var copy_data := _get_copy_data(get_selected())
 	copy_requested.emit(copy_data)
-	paste_requested.emit(copy_data.get_origin() + Vector2(8, 8))
+	paste_requested.emit(copy_data.get_origin() + Vector2(snapping_distance, snapping_distance))
 
 
 func _on_copy_nodes_request() -> void:
