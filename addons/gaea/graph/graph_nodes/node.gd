@@ -355,6 +355,8 @@ func load_save_data(saved_data: Dictionary) -> void:
 
 	if saved_data.has(&"enums"):
 		for enum_idx: int in saved_data.get(&"enums").size():
+			if enum_idx >= _enum_editors.size():
+				break
 			_enum_editors[enum_idx].select(
 				_enum_editors[enum_idx].get_item_index(saved_data.get("enums")[enum_idx])
 			)

@@ -72,6 +72,17 @@ var tree_name_override: String = "":
 	set = set_tree_name_override
 
 
+
+## Public version of [method _on_added_to_graph].
+func on_added_to_graph(graph: GaeaGraph) -> void:
+	_on_added_to_graph(graph)
+
+
+## Called by [method GaeaGraph.add_node].
+func _on_added_to_graph(graph: GaeaGraph) -> void:
+	pass
+
+
 func notify_argument_list_changed() -> void:
 	argument_list_changed.emit()
 

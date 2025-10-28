@@ -103,28 +103,16 @@ func add_node(node: GaeaNodeResource, position: Vector2, id: int = get_next_avai
 					ResourceLoader.get_resource_uid(node.get_script().get_path())
 				)
 	}.merged(node.get_custom_saved_data()))
+	node.on_added_to_graph.call_deferred(self)
 	return id
 
 
-## Copies the specified node to the specified position with the specified id. Returns the copy's id.[br]
-## If the node to be copied doesn't exist, does nothing and returns -1.
-func copy_node(id: int, to_position: Vector2, copy_id: int = get_next_available_id()) -> int:
-	if not has_node(id):
-		return -1
-
-	if get_node_type(id) == NodeType.FRAME:
-		add_frame(to_position, copy_id)
-	else:
-		add_node(get_node(id).duplicate(), to_position, copy_id)
-	
-	var original_node_data := get_node_data(id)
-	set_node_data(copy_id, original_node_data.duplicate())
-	if get_node_type(copy_id) == NodeType.FRAME:
-		set_node_data_value(copy_id, &"attached", [])
-	# Set the position again because it got overriden before.
-	set_node_position(copy_id, to_position)
-	return copy_id
-
+func add_node_with_data(node: GaeaNodeResource, data: Dictionary, id: int = get_next_available_id()) -> int:
+	add_node(node, data.get(&"position", Vector2.ZERO), id)
+	set_node_data(id, data)
+	if is_instance_valid(get_node(id)):
+		get_node(id).load_save_data(data)
+	return id
 
 
 ## Adds a new frame at [param position], identifiable with [param id].
@@ -136,6 +124,11 @@ func add_frame(position: Vector2, id: int = get_next_available_id()) -> int:
 		&"type": NodeType.FRAME,
 		&"position": position,
 	})
+	return id
+
+
+func add_frame_with_data(data: Dictionary, id: int = get_next_available_id()) -> int:
+	_node_data.set(id, data)
 	return id
 
 
@@ -152,6 +145,51 @@ func remove_node(id: int) -> void:
 	_resources.erase(id)
 
 
+
+func paste_nodes(copy: GaeaNodesCopy, at_position: Vector2) -> Array[int]:
+	var offset: Vector2 = at_position - copy.get_origin()
+	var id_mapping: Dictionary[int, int]
+	var frames: Array[int]
+
+	# First add the nodes.
+	for id in copy.get_nodes_info():
+		var copy_id: int = -1
+		match copy.get_node_type(id):
+			NodeType.NODE:
+				copy_id = add_node_with_data(copy.get_node_resource(id), copy.get_node_data(id))
+				set_node_data_value(copy_id, &"salt", randi())
+			NodeType.FRAME:
+				copy_id = add_frame_with_data(copy.get_node_data(id))
+				frames.append(copy_id)
+		set_node_position(copy_id, copy.get_node_position(id) + offset)
+		id_mapping.set(id, copy_id)
+
+	# Then attach any new frames to their relevant frame (if a frame and a node attached to it are copied).
+	for frame_id in frames:
+		var attached: Array = get_node_data_value(frame_id, &"attached", []).duplicate()
+		detach_all_nodes_from_frame(frame_id)
+
+		for attached_id in attached:
+			if id_mapping.has(attached_id):
+				attach_node_to_frame(
+					id_mapping.get(attached_id),
+					frame_id
+				)
+
+	# This is done last so the nodes are attached to the right frame and connected to the right nodes.
+	for connection in copy.get_connections():
+		var from_node: int = connection.get(&"from_node", -1)
+		var to_node: int = connection.get(&"to_node", -1)
+		if id_mapping.has(from_node) and id_mapping.has(to_node):
+			connect_nodes(
+				id_mapping.get(connection.get(&"from_node")),
+				connection.get(&"from_port"),
+				id_mapping.get(connection.get(&"to_node")),
+				connection.get(&"to_port")
+			)
+	return id_mapping.values()
+
+
 ## Sets the specified node's position in the graph to [param position].
 func set_node_position(id: int, position: Vector2) -> void:
 	if not _node_data.has(id):
@@ -163,6 +201,12 @@ func set_node_position(id: int, position: Vector2) -> void:
 ## Sets the specified node's argument of [param arg_name] to [param value].
 func set_node_argument(id: int, arg_name: StringName, value: Variant) -> void:
 	get_node_data(id).get_or_add(&"arguments", {}).set(arg_name, value)
+
+
+## Returns the specified node's argument of [param arg_name], defaulting to [param default_value]
+## if it doesn't have one.
+func get_node_argument(id: int, arg_name: StringName, default_value: Variant = null) -> Variant:
+	return get_node_data(id).get(&"arguments", {}).get(arg_name, default_value)
 
 
 func remove_node_argument(id: int, arg_name: StringName) -> void:
@@ -207,6 +251,10 @@ func detach_node_from_frame(node_id: int) -> void:
 	)
 	if frame_idx != -1:
 		_node_data.values()[frame_idx][&"attached"].erase(node_id)
+
+
+func detach_all_nodes_from_frame(frame_id: int) -> void:
+	set_node_data_value(frame_id, &"attached", [])
 
 
 ## Returns the node with specified [param id].

@@ -2,7 +2,8 @@
 extends GraphEdit
 
 signal connection_update_requested
-signal duplication_requested(nodes: Array)
+signal copy_requested(copy_data: GaeaNodesCopy)
+signal paste_requested(at_position: Vector2)
 
 var attached_elements: Dictionary
 var generator: GaeaGenerator
@@ -248,7 +249,45 @@ func _on_edited_script_changed(script: Script):
 				child._rebuild.call_deferred()
 
 
+func _get_copy_data(nodes: Array) -> GaeaNodesCopy:
+	var copy_data: GaeaNodesCopy = GaeaNodesCopy.new()
+	for selected in nodes:
+		if selected is GaeaGraphNode:
+			if selected.resource is GaeaNodeOutput:
+				continue
+
+			copy_data.add_node(
+				selected.resource.id,
+				selected.resource.duplicate(),
+				selected.position_offset,
+				selected.generator.data.get_node_data(selected.resource.id).duplicate_deep()
+			)
+			copy_data.add_connections(selected.generator.data.get_node_connections(selected.resource.id).duplicate())
+		elif selected is GaeaGraphFrame:
+			copy_data.add_frame(
+				selected.id,
+				selected.position_offset,
+				selected.generator.data.get_node_data(selected.id).duplicate_deep()
+			)
+	return copy_data
+
+
+
+
 func _on_duplicate_nodes_request() -> void:
-	duplication_requested.emit(get_selected())
+	var copy_data := _get_copy_data(get_selected())
+	copy_requested.emit(copy_data)
+	paste_requested.emit(copy_data.get_origin() + Vector2(8, 8))
 
 
+func _on_copy_nodes_request() -> void:
+	copy_requested.emit(_get_copy_data(get_selected()))
+
+
+func _on_paste_nodes_request() -> void:
+	paste_requested.emit(local_to_grid(get_local_mouse_position()))
+
+
+func _on_cut_nodes_request() -> void:
+	copy_requested.emit(_get_copy_data(get_selected()))
+	delete_nodes(get_selected_names())

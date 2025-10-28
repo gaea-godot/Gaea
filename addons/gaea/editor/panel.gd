@@ -15,6 +15,7 @@ var _node_creation_target: Vector2 = Vector2.ZERO
 var _created_node_connect_to: GaeaGraphNode = null
 var _created_node_connect_to_port: int = -1
 var _dragged_from_left: bool = false
+var _current_copy_data: GaeaNodesCopy
 
 @onready var _no_data: Control = $NoData
 @onready var _editor: Control = $Editor
@@ -320,17 +321,26 @@ func _instantiate_node(id: int) -> GraphElement:
 		node.load_save_data.call_deferred(saved_data)
 
 	node.resource = resource
+	resource.id = id
 	node.generator = get_selected_generator()
 	node.position_offset = get_selected_generator().data.get_node_data_value(id, &"position")
 	_graph_edit.add_child(node)
-	
+
 	return node
 
 
 
-func _copy_node(id: int, to_position: Vector2) -> GraphElement:
-	var copy_id := _selected_generator.data.copy_node(id, to_position)
-	return _instantiate_node(copy_id)
+func _paste_nodes(at_position: Vector2, data: GaeaNodesCopy = _current_copy_data) -> void:
+	for node in _graph_edit.get_selected():
+		node.selected = false
+
+	var copy_ids := _selected_generator.data.paste_nodes(data, at_position)
+	var connections: Array[Dictionary]
+	for id in copy_ids:
+		_instantiate_node(id).selected = true
+		connections.append_array(_selected_generator.data.get_node_connections(id))
+
+	_load_connections.call_deferred(connections)
 
 
 
@@ -678,22 +688,5 @@ func _on_graph_edit_scroll_offset_changed(offset: Vector2) -> void:
 			_selected_generator.data.zoom = _graph_edit.zoom
 
 
-
-func _on_graph_edit_duplication_requested(nodes: Array) -> void:
-	for node in nodes:
-		var copy: GraphElement = null
-		var id: int
-		
-		if node is GaeaGraphNode:
-			if node.resource is GaeaNodeOutput:
-				continue
-			
-			id = node.resource.id
-		elif node is GaeaGraphFrame:
-			id = node.id
-		
-		copy = _copy_node(id, node.position_offset + Vector2(8, 8))
-		node.selected = false
-		copy.selected = true
-		
-
+func _on_graph_edit_copy_requested(copy_data: GaeaNodesCopy) -> void:
+	_current_copy_data = copy_data
