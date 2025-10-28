@@ -5,7 +5,12 @@ signal create_node_popup_requested
 
 enum Action {
 	ADD,
+	CUT,
+	COPY,
+	PASTE,
+	DUPLICATE,
 	DELETE,
+	CLEAR_BUFFER,
 	RENAME,
 	ENABLE_TINT,
 	TINT,
@@ -28,11 +33,27 @@ func _ready() -> void:
 func populate(selected: Array) -> void:
 	add_item("Add Node", Action.ADD)
 	add_separator()
+	add_item("Copy", Action.COPY)
+	add_item("Paste", Action.PASTE)
+	set_item_disabled(Action.PASTE, not is_instance_valid(panel.copy_buffer))
+	add_item("Duplicate", Action.DUPLICATE)
+	add_item("Cut", Action.CUT)
 	add_item("Delete", Action.DELETE)
+	add_item("Clear Copy Buffer", Action.CLEAR_BUFFER)
+
 	for node: GraphElement in selected:
 		if graph_edit.attached_elements.has(node.name):
+			add_separator()
 			add_item("Detach from Parent Frame", Action.DETACH)
 			break
+
+	if selected.is_empty():
+		set_item_disabled(get_item_index(Action.DUPLICATE), true)
+		set_item_disabled(get_item_index(Action.COPY), true)
+		set_item_disabled(get_item_index(Action.CUT), true)
+		set_item_disabled(get_item_index(Action.DELETE), true)
+		return
+
 	if selected.front() is GaeaGraphFrame and selected.size() == 1:
 		add_separator()
 		add_item("Rename Frame", Action.RENAME)
@@ -46,6 +67,7 @@ func populate(selected: Array) -> void:
 			get_item_index(Action.ENABLE_AUTO_SHRINK), selected.front().autoshrink_enabled
 		)
 		size = get_contents_minimum_size()
+
 	if selected.front() is GaeaGraphNode and selected.size() == 1:
 		var node: GaeaGraphNode = selected.front()
 		var resource: GaeaNodeResource = node.resource
@@ -62,8 +84,18 @@ func _on_id_pressed(id: int) -> void:
 	match id:
 		Action.ADD:
 			create_node_popup_requested.emit()
+		Action.COPY:
+			graph_edit.copy_nodes_request.emit()
+		Action.PASTE:
+			graph_edit.paste_nodes_request.emit()
+		Action.DUPLICATE:
+			graph_edit.duplicate_nodes_request.emit()
+		Action.CUT:
+			graph_edit.cut_nodes_request.emit()
 		Action.DELETE:
 			graph_edit.delete_nodes(graph_edit.get_selected_names())
+		Action.CLEAR_BUFFER:
+			panel.copy_buffer = null
 
 		Action.RENAME:
 			var selected: Array = graph_edit.get_selected()

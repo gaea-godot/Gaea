@@ -15,14 +15,14 @@ var _node_creation_target: Vector2 = Vector2.ZERO
 var _created_node_connect_to: GaeaGraphNode = null
 var _created_node_connect_to_port: int = -1
 var _dragged_from_left: bool = false
-var _current_copy_data: GaeaNodesCopy
+var copy_buffer: GaeaNodesCopy
 
 @onready var _no_data: Control = $NoData
 @onready var _editor: Control = $Editor
 @onready var _graph_edit: GraphEdit = %GraphEdit
 @onready var _create_node_popup: Window = %CreateNodePopup
 @onready var _create_node_panel: Panel = %CreateNodePanel
-@onready var _node_popup: PopupMenu = %NodePopup
+@onready var _context_menu: PopupMenu = %ContextMenu
 @onready var _link_popup: LinkPopup = %LinkPopup
 @onready var _create_node_tree: Tree = %CreateNodeTree
 @onready var _search_bar: LineEdit = %SearchBar
@@ -98,7 +98,7 @@ func _on_graph_edit_gui_input(event: InputEvent) -> void:
 				return
 
 			var selected: Array = _graph_edit.get_selected()
-			if selected.is_empty():
+			if selected.is_empty() and not is_instance_valid(copy_buffer):
 				_popup_create_node_menu_at_mouse()
 			else:
 				_popup_node_context_menu_at_mouse(selected)
@@ -330,7 +330,7 @@ func _instantiate_node(id: int) -> GraphElement:
 
 
 
-func _paste_nodes(at_position: Vector2, data: GaeaNodesCopy = _current_copy_data) -> void:
+func _paste_nodes(at_position: Vector2, data: GaeaNodesCopy = copy_buffer) -> void:
 	for node in _graph_edit.get_selected():
 		node.selected = false
 
@@ -465,12 +465,12 @@ func _on_new_reroute_requested(connection: Dictionary) -> void:
 
 #region Popups
 func _popup_node_context_menu_at_mouse(selected_nodes: Array) -> void:
-	_node_popup.clear()
-	_node_popup.populate(selected_nodes)
-	_node_popup.position = Vector2i(get_global_mouse_position())
+	_context_menu.clear()
+	_context_menu.populate(selected_nodes)
+	_context_menu.position = Vector2i(get_global_mouse_position())
 	if not EditorInterface.get_editor_settings().get_setting("interface/editor/single_window_mode"):
-		_node_popup.position += get_window().position
-	_node_popup.popup()
+		_context_menu.position += get_window().position
+	_context_menu.popup()
 
 
 func _popup_link_context_menu_at_mouse(connection: Dictionary) -> void:
@@ -688,5 +688,5 @@ func _on_graph_edit_scroll_offset_changed(offset: Vector2) -> void:
 			_selected_generator.data.zoom = _graph_edit.zoom
 
 
-func _on_graph_edit_copy_requested(copy_data: GaeaNodesCopy) -> void:
-	_current_copy_data = copy_data
+func _on_graph_edit_copy_requested(data: GaeaNodesCopy) -> void:
+	copy_buffer = data

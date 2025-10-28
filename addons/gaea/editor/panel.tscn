@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://bedt1m4gyyvyv" path="res://addons/gaea/editor/graph_edit.gd" id="2_cdav6"]
 [ext_resource type="Script" uid="uid://coi2pynbl5ehe" path="res://addons/gaea/editor/create_node_tree.gd" id="2_vpeaa"]
 [ext_resource type="Texture2D" uid="uid://cwg7oy4i2cbwq" path="res://addons/gaea/assets/reload_variables_list.svg" id="3_dhpru"]
-[ext_resource type="Script" uid="uid://bybvolyg1u0v4" path="res://addons/gaea/editor/node_popup.gd" id="4_vtsfx"]
+[ext_resource type="Script" uid="uid://bybvolyg1u0v4" path="res://addons/gaea/editor/context_menu.gd" id="4_vtsfx"]
 [ext_resource type="Script" uid="uid://cqd2rkam5cs3d" path="res://addons/gaea/editor/create_node_popup.gd" id="5_nbnm7"]
 [ext_resource type="Script" uid="uid://btt4eqjkp5pyf" path="res://addons/gaea/editor/link_popup.gd" id="7_dhpru"]
 [ext_resource type="PackedScene" uid="uid://dcec3sivqmbjf" path="res://addons/gaea/editor/about_window.tscn" id="9_affj1"]
@@ -343,7 +343,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Cancel"
 
-[node name="NodePopup" type="PopupMenu" parent="Editor" node_paths=PackedStringArray("panel", "graph_edit")]
+[node name="ContextMenu" type="PopupMenu" parent="Editor" node_paths=PackedStringArray("panel", "graph_edit")]
 unique_name_in_owner = true
 size = Vector2i(100, 124)
 item_count = 6
@@ -417,6 +417,6 @@ exclusive = true
 [connection signal="nothing_selected" from="Editor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" to="Editor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_nothing_selected"]
 [connection signal="special_node_selected_for_creation" from="Editor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" to="." method="_on_tree_special_node_selected_for_creation"]
 [connection signal="pressed" from="Editor/CreateNodePopup/MainContentContainer/VBox/HBoxContainer/CreateButton" to="Editor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_create_button_pressed"]
-[connection signal="create_node_popup_requested" from="Editor/NodePopup" to="." method="_popup_create_node_menu_at_mouse"]
+[connection signal="create_node_popup_requested" from="Editor/ContextMenu" to="." method="_popup_create_node_menu_at_mouse"]
 [connection signal="new_reroute_requested" from="Editor/LinkPopup" to="." method="_on_new_reroute_requested"]
 [connection signal="file_selected" from="FileDialog" to="." method="_on_file_dialog_file_selected"]
