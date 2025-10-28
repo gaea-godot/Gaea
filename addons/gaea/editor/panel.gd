@@ -5,6 +5,7 @@ const LinkPopup = preload("uid://btt4eqjkp5pyf")
 
 var is_loading = false
 var plugin: EditorPlugin
+var copy_buffer: GaeaNodesCopy
 
 var _selected_generator: GaeaGenerator = null:
 	get = get_selected_generator
@@ -15,7 +16,6 @@ var _node_creation_target: Vector2 = Vector2.ZERO
 var _created_node_connect_to: GaeaGraphNode = null
 var _created_node_connect_to_port: int = -1
 var _dragged_from_left: bool = false
-var copy_buffer: GaeaNodesCopy
 
 @onready var _no_data: Control = $NoData
 @onready var _editor: Control = $Editor
