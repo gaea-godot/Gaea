@@ -79,7 +79,7 @@ func on_added_to_graph(graph: GaeaGraph) -> void:
 
 
 ## Called by [method GaeaGraph.add_node].
-func _on_added_to_graph(graph: GaeaGraph) -> void:
+func _on_added_to_graph(_graph: GaeaGraph) -> void:
 	pass
 
 
