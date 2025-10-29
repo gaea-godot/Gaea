@@ -139,3 +139,113 @@ func test_remove_node() -> void:
 		.override_failure_message("Graph's node resources list has unexpected size.")\
 		.append_failure_message("Current: %s\nExpected: %s" % [_nodes.size(), 1])\
 		.has_size(1)
+
+
+func _add_nodes_for_copy_paste_test() -> void:
+	var constant_id := graph.add_node(GaeaNodeIntConstant.new(), Vector2.ZERO)
+	graph.set_node_argument(constant_id, &"value", 4)
+
+	var floor_walker_id := graph.add_node(GaeaNodeFloorWalker.new(), Vector2.ZERO)
+	graph.connect_nodes(constant_id, 0, floor_walker_id, 0)
+
+	var frame_id := graph.add_frame(Vector2.ZERO)
+	graph.attach_node_to_frame(constant_id, frame_id)
+	graph.attach_node_to_frame(floor_walker_id, frame_id)
+
+
+func test_copy_paste() -> void:
+	_add_nodes_for_copy_paste_test()
+
+	var ids := graph.get_ids()
+	var copy := GaeaNodesCopy.new()
+	for id in ids:
+		if graph.get_node_type(id) == GaeaGraph.NodeType.NODE:
+			copy.add_node(
+				id,
+				graph.get_node(id).duplicate(),
+				graph.get_node_data_value(id, &"position"),
+				graph.get_node_data(id).duplicate(true)
+			)
+
+			copy.add_connections(graph.get_connections_to(id))
+		else:
+			copy.add_frame(
+				id,
+				graph.get_node_data_value(id, &"position"),
+				graph.get_node_data(id).duplicate(true)
+			)
+
+	var id_mapping: Dictionary[int, int]
+	var copy_ids := graph.paste_nodes(copy, copy.get_origin() + Vector2(24, 24))
+	for idx in copy_ids.size():
+		id_mapping[ids[idx]] = copy_ids[idx]
+
+	assert_array(ids)\
+		.override_failure_message("Amount of copied nodes is different from original.")\
+		.has_size(copy_ids.size())
+
+	for original_id in id_mapping.keys():
+		var copy_id: int = id_mapping.get(original_id)
+		for argument in graph.get_node_data_value(original_id, &"arguments", {}):
+			var original_value = graph.get_node_argument(original_id, argument, 1)
+			var copied_value = graph.get_node_argument(copy_id, argument, 2)
+			assert_bool(original_value == copied_value)\
+				.override_failure_message(
+					"Copied node's argument [b]%s[/b] was not copied correctly." % argument
+				)\
+				.append_failure_message(
+					"Original: %s\nCopied: %s" % [original_value, copied_value]
+				)\
+				.is_true()
+
+		var original_connections := graph.get_connections_to(original_id)
+		var copied_connections := graph.get_connections_to(copy_id)
+		assert_array(original_connections)\
+			.override_failure_message("Connections were not copied correctly (amount is different).")\
+			.has_size(copied_connections.size())
+
+		for connection_idx in original_connections.size():
+			var original_connection := original_connections[connection_idx]
+			var copied_connection := copied_connections[connection_idx]
+			assert_int(id_mapping.get(original_connection[&"to_node"]))\
+				.override_failure_message("Connection was not copied correctly (to_node)")\
+				.append_failure_message(
+					"Original Connection: %s\nCopied Connection: %s" % [original_connection, copied_connection]
+				)\
+				.is_equal(copied_connection[&"to_node"])
+
+			assert_int(id_mapping.get(original_connection[&"from_node"]))\
+				.override_failure_message("Connection was not copied correctly (from_node)")\
+				.append_failure_message(
+					"Original Connection: %s\nCopied Connection: %s" % [original_connection, copied_connection]
+				)\
+				.is_equal(copied_connection[&"from_node"])
+
+			assert_int(original_connection[&"to_port"])\
+				.override_failure_message("Connection was not copied correctly (to_port)")\
+				.append_failure_message(
+					"Original Connection: %s\nCopied Connection: %s" % [original_connection, copied_connection]
+				)\
+				.is_equal(copied_connection[&"to_port"])
+
+			assert_int(original_connection[&"from_port"])\
+				.override_failure_message("Connection was not copied correctly (from_port)")\
+				.append_failure_message(
+					"Original Connection: %s\nCopied Connection: %s" % [original_connection, copied_connection]
+				)\
+				.is_equal(copied_connection[&"from_port"])
+
+		if graph.get_node_type(original_id) == GaeaGraph.NodeType.FRAME:
+			var original_attached: Array = graph.get_node_data_value(original_id, &"attached")
+			var copy_attached: Array = graph.get_node_data_value(copy_id, &"attached")
+			if original_attached.is_empty():
+				assert_array(copy_attached).is_empty()
+				continue
+
+			var expected: Array = original_attached.map(
+				func(value: int) -> int: return id_mapping.get(value, -1)
+			)
+			assert_int(copy_attached.hash())\
+				.override_failure_message("Copied frame did not attach proper nodes.")\
+				.append_failure_message("Expected: %s\nCopy: %s" % [expected, copy_attached])\
+				.is_equal(expected.hash())
