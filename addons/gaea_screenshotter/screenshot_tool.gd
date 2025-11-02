@@ -25,7 +25,7 @@ func _capture(node: GaeaNodeResource) -> void:
 		file_name = file_name.erase(parenthesis_start, 99)
 
 
-	var path: String = "user://" + file_name.to_pascal_case()
+	var path: String = "user://" + file_name.to_pascal_case() + ".png"
 
 	sub_viewport.size = instantiated.size + Vector2(32, 32)
 	instantiated.position = Vector2(16, 16)
