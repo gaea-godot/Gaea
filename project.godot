@@ -40,6 +40,7 @@ enabled=PackedStringArray("res://addons/gaea/plugin.cfg", "res://addons/gdUnit4/
 
 settings/test/test_lookup_folder="testing"
 ui/toolbar/run_overall=true
+settings/common/update_notification_enabled=false
 
 [importer_defaults]
 
