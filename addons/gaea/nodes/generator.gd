@@ -8,8 +8,10 @@ extends Node
 
 ## Emitted when [GaeaGraph] is changed.
 signal data_changed
-@warning_ignore("unused_signal")
+## Emitted when the graph is about to generate.
+signal about_to_generate
 ## Emitted when the graph is done with the generation.
+@warning_ignore("unused_signal")
 signal generation_finished(grid: GaeaGrid)
 ## Emitted when this generator wants to trigger a reset. See [method GaeaRenderer._reset].
 signal reset_requested
@@ -39,6 +41,7 @@ signal area_erased(area: AABB)
 ## Start the generaton process. First resets the current generation, then generates the whole
 ## [member world_size].
 func generate() -> void:
+	about_to_generate.emit()
 	if random_seed_on_generate:
 		seed = randi()
 	request_reset()

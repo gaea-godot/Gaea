@@ -4,9 +4,13 @@ extends GaeaMaterial
 ## Resource used to tell the [TileMapGaeaRenderer] which tile from a [TileMapLayer] to place.
 
 enum Type {
-	SINGLE_CELL, ## Tile is just a single cell in the TileMap. Requires a [param source_id] and a [param atlas_coord]. Can optionally be an [param alternative_tile].
-	TERRAIN,  ## Tile is a terrain from a terrain set. Allows for autotiling. Requires a [param terrain_set] and a [param terrain]
-	PATTERN  ## Tile is a pattern of cell. Requires a [param pattern_index] and a [param pattern_offset].
+	## Tile is just a single cell in the TileMap.
+	## Requires a [param source_id] and a [param atlas_coord]. Can optionally be an [param alternative_tile].
+	SINGLE_CELL,
+	## Tile is a terrain from a terrain set. Allows for autotiling. Requires a [param terrain_set] and a [param terrain]
+	TERRAIN,
+	## Tile is a pattern of cell. Requires a [param pattern_index] and a [param pattern_offset].
+	PATTERN
 }
 
 ## Determines how the [TileMapGaeaRenderer] uses this material.

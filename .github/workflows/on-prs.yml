@@ -1,0 +1,67 @@
+name: GHA
+
+run-name: ${{ github.head_ref || github.ref_name }}-gha
+
+on: # yamllint disable-line rule:truthy
+  pull_request:
+    paths-ignore:
+      - '**.yml'
+      - '**.md'
+  workflow_dispatch:
+
+concurrency:
+  group: gha-${{ github.event.number }}
+  cancel-in-progress: true
+
+
+jobs:
+  gdlint:
+    if: ${{ !cancelled() }}
+    name: '📝 GDLint'
+    uses: ./.github/workflows/gdlint.yml
+
+  generation_testing:
+    name: '🐞 Generation'
+    uses: ./.github/workflows/generation_testing.yml
+    
+    permissions:
+      actions: write
+      checks: write
+      contents: write
+      pull-requests: write
+      statuses: write
+    
+  nodes_testing:
+    name: '🐞 Node'
+    uses: ./.github/workflows/nodes_testing.yml
+    
+    permissions:
+      actions: write
+      checks: write
+      contents: write
+      pull-requests: write
+      statuses: write
+    
+  renderers_testing:
+    name: '🐞 Renderers'
+    uses: ./.github/workflows/renderers_testing.yml
+    
+    permissions:
+      actions: write
+      checks: write
+      contents: write
+      pull-requests: write
+      statuses: write
+  
+  other_testing:
+    name: '🐞 Other'
+    uses: ./.github/workflows/other_testing.yml
+    
+    permissions:
+      actions: write
+      checks: write
+      contents: write
+      pull-requests: write
+      statuses: write
+    
+

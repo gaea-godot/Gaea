@@ -2,6 +2,7 @@
 class_name GaeaEditorSettings
 extends RefCounted
 
+const CIRCLE := preload("uid://dqob6v3dudlri")
 
 const LINE_CURVATURE := "gaea/graph/line_curvature"
 const LINE_THICKNESS := "gaea/graph/line_thickness"
@@ -23,11 +24,11 @@ const CONFIGURABLE_SLOT_COLORS := {
 	GaeaValue.Type.RANGE: "range",
 	GaeaValue.Type.MATERIAL: "material",
 	GaeaValue.Type.TEXTURE: "texture",
-	GaeaValue.Type.DATA: "data",
+	GaeaValue.Type.SAMPLE: "sample",
 	GaeaValue.Type.MAP: "map",
 }
 
-var editor_settings
+var editor_settings: EditorSettings
 
 
 func add_settings() -> void:
@@ -60,28 +61,30 @@ func add_settings() -> void:
 		"type": TYPE_INT
 	})
 
-	_add_setting(OUTPUT_TITLE_COLOR, Color("632639"), {"type": TYPE_COLOR, "hint": PROPERTY_HINT_COLOR_NO_ALPHA})
+	_add_setting(
+		OUTPUT_TITLE_COLOR,
+		Color("632639"),
+		{"type": TYPE_COLOR, "hint": PROPERTY_HINT_COLOR_NO_ALPHA}
+	)
+
 
 	for slot_type: GaeaValue.Type in CONFIGURABLE_SLOT_COLORS.keys():
 		_add_setting(
 			COLOR_BASE % CONFIGURABLE_SLOT_COLORS.get(slot_type),
 			GaeaValue.get_default_color(slot_type),
-			{
-				"type": TYPE_COLOR,
-				"hint": PROPERTY_HINT_COLOR_NO_ALPHA
-			}
+			{"type": TYPE_COLOR, "hint": PROPERTY_HINT_COLOR_NO_ALPHA}
 		)
 
 	for slot_type: GaeaValue.Type in CONFIGURABLE_SLOT_COLORS.keys():
 		_add_setting(
 			ICON_BASE % CONFIGURABLE_SLOT_COLORS.get(slot_type),
 			GaeaValue.get_default_slot_icon(slot_type).resource_path,
-			{
-				"type": TYPE_STRING,
-				"hint": PROPERTY_HINT_FILE,
-				"hint_string": "*.png,*.jpg,*.svg"
-			}
+			{"type": TYPE_STRING, "hint": PROPERTY_HINT_FILE, "hint_string": "*.png,*.jpg,*.svg"}
 		)
+
+	# Transfer data to sample since [#473](https://github.com/gaea-godot/gaea/pull/473).
+	_transfer_and_erase_setting(COLOR_BASE % "data", COLOR_BASE % "sample")
+	_transfer_and_erase_setting(ICON_BASE % "data", ICON_BASE % "sample")
 
 
 func _add_setting(key: String, default_value: Variant, property_info: Dictionary) -> void:
@@ -90,6 +93,12 @@ func _add_setting(key: String, default_value: Variant, property_info: Dictionary
 	editor_settings.set_initial_value(key, default_value, false)
 	property_info.set("name", key)
 	editor_settings.add_property_info(property_info)
+
+
+func _transfer_and_erase_setting(old_key: String, new_key: String) -> void:
+	if editor_settings.has_setting(old_key):
+		editor_settings.set_setting(new_key, editor_settings.get_setting(old_key))
+		editor_settings.erase(old_key)
 
 
 static func get_configured_output_color() -> Color:
@@ -110,7 +119,7 @@ static func get_configured_color_for_value_type(value_type: GaeaValue.Type) -> C
 
 static func get_configured_icon_for_value_type(value_type: GaeaValue.Type) -> Texture:
 	if not CONFIGURABLE_SLOT_COLORS.has(value_type):
-		return preload("res://addons/gaea/assets/slots/circle.svg")
+		return CIRCLE
 	var editor_interface = Engine.get_singleton("EditorInterface")
 	var settings = editor_interface.get_editor_settings()
 	var setting_path = ICON_BASE % CONFIGURABLE_SLOT_COLORS.get(value_type)
@@ -118,7 +127,7 @@ static func get_configured_icon_for_value_type(value_type: GaeaValue.Type) -> Te
 		var loaded: Object = load(settings.get_setting(setting_path))
 		if loaded is Texture:
 			return loaded
-	return preload("res://addons/gaea/assets/slots/circle.svg")
+	return CIRCLE
 
 
 static func get_line_curvature() -> float:

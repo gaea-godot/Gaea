@@ -1,15 +1,9 @@
 @tool
-extends GaeaNodeResource
 class_name GaeaNodeInput
+extends GaeaNodeResource
 ## Returns different input variables.
 
-
-enum InputVar {
-	WORLD_SIZE,
-	AREA_SIZE,
-	AREA_POSITION,
-	AREA_END
-}
+enum InputVar { WORLD_SIZE, AREA_SIZE, AREA_POSITION, AREA_END }
 
 
 func _get_title() -> String:
@@ -18,10 +12,14 @@ func _get_title() -> String:
 
 func _get_description() -> String:
 	match get_enum_selection(0):
-		InputVar.WORLD_SIZE: return "Outputs the [param world_size] parameter in the generator's inspector."
-		InputVar.AREA_SIZE: return "Outputs the size of the area being currently generated."
-		InputVar.AREA_POSITION: return "Outputs the position of the area being currently generated."
-		InputVar.AREA_END: return "Outputs the bottom right corner position of the area being currently generated."
+		InputVar.WORLD_SIZE:
+			return "Outputs the [param world_size] parameter in the generator's inspector."
+		InputVar.AREA_SIZE:
+			return "Outputs the size of the area being currently generated."
+		InputVar.AREA_POSITION:
+			return "Outputs the position of the area being currently generated."
+		InputVar.AREA_END:
+			return "Outputs the bottom right corner position of the area being currently generated."
 	return super()
 
 
@@ -74,16 +72,23 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 
 func _get_type_of_input(input: InputVar) -> GaeaValue.Type:
 	match input:
-		InputVar.WORLD_SIZE: return GaeaValue.Type.VECTOR3I
-		InputVar.AREA_SIZE, InputVar.AREA_POSITION, InputVar.AREA_END: return GaeaValue.Type.VECTOR3
-		_: return GaeaValue.Type.NULL
+		InputVar.WORLD_SIZE:
+			return GaeaValue.Type.VECTOR3I
+		InputVar.AREA_SIZE, InputVar.AREA_POSITION, InputVar.AREA_END:
+			return GaeaValue.Type.VECTOR3
+		_:
+			return GaeaValue.Type.NULL
 
 
 func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Variant:
 	match get_enum_selection(0):
-		InputVar.WORLD_SIZE: return graph.generator.world_size
-		InputVar.AREA_SIZE: return area.size
-		InputVar.AREA_POSITION: return area.position
-		InputVar.AREA_END: return area.end
+		InputVar.WORLD_SIZE:
+			return graph.generator.world_size
+		InputVar.AREA_SIZE:
+			return area.size
+		InputVar.AREA_POSITION:
+			return area.position
+		InputVar.AREA_END:
+			return area.end
 
 	return null

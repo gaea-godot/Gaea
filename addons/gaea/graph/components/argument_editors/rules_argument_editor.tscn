@@ -1,100 +1,53 @@
-[gd_scene load_steps=4 format=3 uid="uid://dy4n2a5hkaxsb"]
+[gd_scene load_steps=7 format=3 uid="uid://dy4n2a5hkaxsb"]
 
 [ext_resource type="PackedScene" uid="uid://i2nwlab8rau" path="res://addons/gaea/graph/components/argument_editors/argument_editor.tscn" id="1_3sl2w"]
 [ext_resource type="Script" uid="uid://dwod0xjb4srbu" path="res://addons/gaea/graph/components/argument_editors/rules_argument_editor.gd" id="2_rl5k1"]
-[ext_resource type="PackedScene" uid="uid://dvwpfgoidnak6" path="res://addons/gaea/graph/components/argument_editors/three_state_button.tscn" id="3_rl5k1"]
+[ext_resource type="Script" uid="uid://xdxm3ekx64qi" path="res://addons/gaea/editor/checkeable_cells.gd" id="4_3xcok"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j7q6v"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.19, 0.19, 0.19, 0.6)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+corner_detail = 6
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_j7q6v"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3xcok"]
 
 [node name="RulesParameter" instance=ExtResource("1_3sl2w")]
 script = ExtResource("2_rl5k1")
 
-[node name="GridContainer" type="GridContainer" parent="." index="1"]
-layout_mode = 2
-theme_override_constants/h_separation = 2
-theme_override_constants/v_separation = 2
-columns = 5
-
-[node name="CheckBox" parent="GridContainer" index="0" instance=ExtResource("3_rl5k1")]
+[node name="VBoxContainer" type="HBoxContainer" parent="." index="1"]
 layout_mode = 2
 
-[node name="CheckBox2" parent="GridContainer" index="1" instance=ExtResource("3_rl5k1")]
+[node name="Cells" type="Control" parent="VBoxContainer" index="0" node_paths=PackedStringArray("z_slider")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
+script = ExtResource("4_3xcok")
+simple = false
+show_origin = true
+circumference = 5
+z_slider = NodePath("../ZSlider")
 
-[node name="CheckBox3" parent="GridContainer" index="2" instance=ExtResource("3_rl5k1")]
+[node name="ZSlider" type="VSlider" parent="VBoxContainer" index="1"]
 layout_mode = 2
+tooltip_text = "The z value of the cells you're currently editing."
+mouse_force_pass_scroll_events = false
+theme_override_constants/center_grabber = 1
+theme_override_styles/slider = SubResource("StyleBoxFlat_j7q6v")
+theme_override_styles/grabber_area = SubResource("StyleBoxEmpty_j7q6v")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxEmpty_3xcok")
+min_value = -2.0
+max_value = 2.0
+tick_count = 5
+ticks_on_borders = true
+ticks_position = 3
 
-[node name="CheckBox4" parent="GridContainer" index="3" instance=ExtResource("3_rl5k1")]
-layout_mode = 2
-
-[node name="CheckBox5" parent="GridContainer" index="4" instance=ExtResource("3_rl5k1")]
-layout_mode = 2
-
-[node name="CheckBox6" parent="GridContainer" index="5" instance=ExtResource("3_rl5k1")]
-layout_mode = 2
-
-[node name="CheckBox7" parent="GridContainer" index="6" instance=ExtResource("3_rl5k1")]
-layout_mode = 2
-
-[node name="CheckBox8" parent="GridContainer" index="7" instance=ExtResource("3_rl5k1")]
-layout_mode = 2
-
-[node name="CheckBox9" parent="GridContainer" index="8" instance=ExtResource("3_rl5k1")]
-layout_mode = 2
-
-[node name="CheckBox10" parent="GridContainer" index="9" instance=ExtResource("3_rl5k1")]
-layout_mode = 2
-
-[node name="CheckBox11" parent="GridContainer" index="10" instance=ExtResource("3_rl5k1")]
-layout_mode = 2
-
-[node name="CheckBox12" parent="GridContainer" index="11" instance=ExtResource("3_rl5k1")]
-layout_mode = 2
-
-[node name="CheckBox13" parent="GridContainer" index="12" instance=ExtResource("3_rl5k1")]
-layout_mode = 2
-
-[node name="ReferenceRect" type="ReferenceRect" parent="GridContainer/CheckBox13" index="1"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-border_color = Color(1, 0.960938, 0.960938, 0.415686)
-editor_only = false
-
-[node name="CheckBox14" parent="GridContainer" index="13" instance=ExtResource("3_rl5k1")]
-layout_mode = 2
-
-[node name="CheckBox15" parent="GridContainer" index="14" instance=ExtResource("3_rl5k1")]
-layout_mode = 2
-
-[node name="CheckBox16" parent="GridContainer" index="15" instance=ExtResource("3_rl5k1")]
-layout_mode = 2
-
-[node name="CheckBox17" parent="GridContainer" index="16" instance=ExtResource("3_rl5k1")]
-layout_mode = 2
-
-[node name="CheckBox18" parent="GridContainer" index="17" instance=ExtResource("3_rl5k1")]
-layout_mode = 2
-
-[node name="CheckBox19" parent="GridContainer" index="18" instance=ExtResource("3_rl5k1")]
-layout_mode = 2
-
-[node name="CheckBox20" parent="GridContainer" index="19" instance=ExtResource("3_rl5k1")]
-layout_mode = 2
-
-[node name="CheckBox21" parent="GridContainer" index="20" instance=ExtResource("3_rl5k1")]
-layout_mode = 2
-
-[node name="CheckBox22" parent="GridContainer" index="21" instance=ExtResource("3_rl5k1")]
-layout_mode = 2
-
-[node name="CheckBox23" parent="GridContainer" index="22" instance=ExtResource("3_rl5k1")]
-layout_mode = 2
-
-[node name="CheckBox24" parent="GridContainer" index="23" instance=ExtResource("3_rl5k1")]
-layout_mode = 2
-
-[node name="CheckBox25" parent="GridContainer" index="24" instance=ExtResource("3_rl5k1")]
-layout_mode = 2
+[connection signal="cell_pressed" from="VBoxContainer/Cells" to="." method="_on_cells_cell_pressed"]

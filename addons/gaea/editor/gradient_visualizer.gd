@@ -1,7 +1,6 @@
 @tool
 extends TextureRect
 
-
 const SIZE = Vector2i(128, 32)
 const CHECKERBOARD_SIZE = Vector2i(16, 16)
 
@@ -20,10 +19,8 @@ func update() -> void:
 	var image: Image = Image.create_empty(SIZE.x, SIZE.y, false, Image.FORMAT_RGB8)
 	for x in roundi(float(SIZE.x) / CHECKERBOARD_SIZE.x):
 		for y in roundi(float(SIZE.y) / CHECKERBOARD_SIZE.y):
-			image.fill_rect(Rect2i(
-					Vector2i(x, y) * CHECKERBOARD_SIZE,
-					CHECKERBOARD_SIZE
-				),
+			image.fill_rect(
+				Rect2i(Vector2i(x, y) * CHECKERBOARD_SIZE, CHECKERBOARD_SIZE),
 				Color.GRAY if (x % 2 == y % 2) else Color.DIM_GRAY
 			)
 
@@ -37,12 +34,18 @@ func update() -> void:
 		var gaea_material: GaeaMaterial = gradient.points.get(idx).get(&"material", null)
 		if not is_instance_valid(gaea_material):
 			continue
-		var color: Color = Color.TRANSPARENT if not is_instance_valid(gaea_material) else gaea_material.preview_color
+		var color: Color = (
+			Color.TRANSPARENT
+			if not is_instance_valid(gaea_material)
+			else gaea_material.preview_color
+		)
 
-		image.fill_rect(Rect2(
+		image.fill_rect(
+			Rect2(
 				Vector2(start_offset * SIZE.x, 0.0).round(),
 				Vector2(((end_offset + 0.005) - start_offset) * SIZE.x, SIZE.y).round()
 			),
-			color)
+			color
+		)
 
 	texture = ImageTexture.create_from_image(image)

@@ -3,20 +3,21 @@ class_name GaeaGraphNodeOutput
 extends MarginContainer
 ## An output slot inside a [GaeaGraphNode].
 
-
 ## Reference to the [GaeaGraphNode] instance
 var graph_node: GaeaGraphNode
 ## Index of the slot in the [GaeaGraphNode].
 var idx: int
 var type: GaeaValue.Type
 
-
 @onready var _label: RichTextLabel = %RightLabel
-@onready var _toggle_preview_button: TextureButton = %TogglePreviewButton : get = get_toggle_preview_button
+@onready var _toggle_preview_button: TextureButton = %TogglePreviewButton:
+	get = get_toggle_preview_button
 
 
 ## Sets the corresponding variables.
-func initialize(for_graph_node: GaeaGraphNode, for_type: GaeaValue.Type, display_name: String) -> void:
+func initialize(
+	for_graph_node: GaeaGraphNode, for_type: GaeaValue.Type, display_name: String
+) -> void:
 	graph_node = for_graph_node
 	type = for_type
 	_label.text = display_name

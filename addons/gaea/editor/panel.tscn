@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://bedt1m4gyyvyv" path="res://addons/gaea/editor/graph_edit.gd" id="2_cdav6"]
 [ext_resource type="Script" uid="uid://coi2pynbl5ehe" path="res://addons/gaea/editor/create_node_tree.gd" id="2_vpeaa"]
 [ext_resource type="Texture2D" uid="uid://cwg7oy4i2cbwq" path="res://addons/gaea/assets/reload_variables_list.svg" id="3_dhpru"]
-[ext_resource type="Script" uid="uid://bybvolyg1u0v4" path="res://addons/gaea/editor/node_popup.gd" id="4_vtsfx"]
+[ext_resource type="Script" uid="uid://bybvolyg1u0v4" path="res://addons/gaea/editor/context_menu.gd" id="4_vtsfx"]
 [ext_resource type="Script" uid="uid://cqd2rkam5cs3d" path="res://addons/gaea/editor/create_node_popup.gd" id="5_nbnm7"]
 [ext_resource type="Script" uid="uid://btt4eqjkp5pyf" path="res://addons/gaea/editor/link_popup.gd" id="7_dhpru"]
 [ext_resource type="PackedScene" uid="uid://dcec3sivqmbjf" path="res://addons/gaea/editor/about_window.tscn" id="9_affj1"]
@@ -128,14 +128,19 @@ flat = true
 
 [node name="LoadButton" type="Button" parent="Editor/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
-tooltip_text = "Load data."
+tooltip_text = "Assign a graph to this generator."
 icon = SubResource("ImageTexture_ve3i7")
 flat = true
 
+[node name="DuplicateGraphButton" type="Button" parent="Editor/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+tooltip_text = "Duplicate this graph."
+flat = true
+
 [node name="VSeparator" type="VSeparator" parent="Editor/VBoxContainer/HBoxContainer"]
-visible = false
 layout_mode = 2
 
 [node name="ReloadNodeTreeButton" type="Button" parent="Editor/VBoxContainer/HBoxContainer"]
@@ -343,7 +348,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Cancel"
 
-[node name="NodePopup" type="PopupMenu" parent="Editor" node_paths=PackedStringArray("panel", "graph_edit")]
+[node name="ContextMenu" type="PopupMenu" parent="Editor" node_paths=PackedStringArray("panel", "graph_edit")]
 unique_name_in_owner = true
 size = Vector2i(100, 124)
 item_count = 6
@@ -373,10 +378,15 @@ item_0/id = 0
 script = ExtResource("7_dhpru")
 graph_edit = NodePath("../VBoxContainer/GraphEdit")
 
-[node name="FileDialog" type="FileDialog" parent="."]
+[node name="OpenFileDialog" type="FileDialog" parent="."]
 title = "Open a File"
 ok_button_text = "Open"
 file_mode = 0
+filters = PackedStringArray("*.tres,*.res;Resources")
+
+[node name="SaveFileDialog" type="FileDialog" parent="."]
+auto_translate_mode = 1
+title = "Save a Copy"
 filters = PackedStringArray("*.tres,*.res;Resources")
 
 [node name="AboutWindow" parent="." instance=ExtResource("9_affj1")]
@@ -386,19 +396,27 @@ exclusive = true
 [connection signal="pressed" from="NoData/NewDataButton" to="." method="_on_new_data_button_pressed"]
 [connection signal="pressed" from="Editor/VBoxContainer/HBoxContainer/SaveButton" to="." method="_on_save_button_pressed"]
 [connection signal="pressed" from="Editor/VBoxContainer/HBoxContainer/LoadButton" to="." method="_on_load_button_pressed"]
+[connection signal="pressed" from="Editor/VBoxContainer/HBoxContainer/DuplicateGraphButton" to="." method="_on_duplicate_graph_button_pressed"]
 [connection signal="pressed" from="Editor/VBoxContainer/HBoxContainer/ReloadNodeTreeButton" to="." method="_on_reload_node_tree_button_pressed"]
 [connection signal="pressed" from="Editor/VBoxContainer/HBoxContainer/ReloadParametersListButton" to="." method="_on_reload_parameters_list_button_pressed"]
 [connection signal="pressed" from="Editor/VBoxContainer/HBoxContainer/GenerateButton" to="." method="_on_generate_button_pressed"]
 [connection signal="pressed" from="Editor/VBoxContainer/HBoxContainer/OnlineDocsButton" to="." method="_on_online_docs_button_pressed"]
 [connection signal="pressed" from="Editor/VBoxContainer/HBoxContainer/WindowPopoutButton" to="." method="_on_window_popout_button_pressed"]
+[connection signal="connection_from_empty" from="Editor/VBoxContainer/GraphEdit" to="." method="_on_graph_edit_connection_from_empty"]
 [connection signal="connection_request" from="Editor/VBoxContainer/GraphEdit" to="Editor/VBoxContainer/GraphEdit" method="_on_connection_request"]
 [connection signal="connection_to_empty" from="Editor/VBoxContainer/GraphEdit" to="." method="_on_graph_edit_connection_to_empty"]
 [connection signal="connection_update_requested" from="Editor/VBoxContainer/GraphEdit" to="." method="update_connections"]
+[connection signal="copy_nodes_request" from="Editor/VBoxContainer/GraphEdit" to="Editor/VBoxContainer/GraphEdit" method="_on_copy_nodes_request"]
+[connection signal="copy_requested" from="Editor/VBoxContainer/GraphEdit" to="." method="_on_graph_edit_copy_requested"]
+[connection signal="cut_nodes_request" from="Editor/VBoxContainer/GraphEdit" to="Editor/VBoxContainer/GraphEdit" method="_on_cut_nodes_request"]
 [connection signal="delete_nodes_request" from="Editor/VBoxContainer/GraphEdit" to="Editor/VBoxContainer/GraphEdit" method="_on_delete_nodes_request"]
 [connection signal="disconnection_request" from="Editor/VBoxContainer/GraphEdit" to="Editor/VBoxContainer/GraphEdit" method="_on_disconnection_request"]
+[connection signal="duplicate_nodes_request" from="Editor/VBoxContainer/GraphEdit" to="Editor/VBoxContainer/GraphEdit" method="_on_duplicate_nodes_request"]
 [connection signal="graph_elements_linked_to_frame_request" from="Editor/VBoxContainer/GraphEdit" to="Editor/VBoxContainer/GraphEdit" method="_on_graph_elements_linked_to_frame_request"]
 [connection signal="gui_input" from="Editor/VBoxContainer/GraphEdit" to="." method="_on_graph_edit_gui_input"]
 [connection signal="node_selected" from="Editor/VBoxContainer/GraphEdit" to="Editor/VBoxContainer/GraphEdit" method="_on_node_selected"]
+[connection signal="paste_nodes_request" from="Editor/VBoxContainer/GraphEdit" to="Editor/VBoxContainer/GraphEdit" method="_on_paste_nodes_request"]
+[connection signal="paste_requested" from="Editor/VBoxContainer/GraphEdit" to="." method="_paste_nodes"]
 [connection signal="scroll_offset_changed" from="Editor/VBoxContainer/GraphEdit" to="." method="_on_graph_edit_scroll_offset_changed"]
 [connection signal="text_changed" from="Editor/CreateNodePopup/MainContentContainer/VBox/SearchContainer/SearchBar" to="Editor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_search_bar_text_changed"]
 [connection signal="text_submitted" from="Editor/CreateNodePopup/MainContentContainer/VBox/SearchContainer/SearchBar" to="Editor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_search_bar_text_submitted"]
@@ -410,6 +428,7 @@ exclusive = true
 [connection signal="nothing_selected" from="Editor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" to="Editor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_nothing_selected"]
 [connection signal="special_node_selected_for_creation" from="Editor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" to="." method="_on_tree_special_node_selected_for_creation"]
 [connection signal="pressed" from="Editor/CreateNodePopup/MainContentContainer/VBox/HBoxContainer/CreateButton" to="Editor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_create_button_pressed"]
-[connection signal="create_node_popup_requested" from="Editor/NodePopup" to="." method="_popup_create_node_menu_at_mouse"]
+[connection signal="create_node_popup_requested" from="Editor/ContextMenu" to="." method="_popup_create_node_menu_at_mouse"]
 [connection signal="new_reroute_requested" from="Editor/LinkPopup" to="." method="_on_new_reroute_requested"]
-[connection signal="file_selected" from="FileDialog" to="." method="_on_file_dialog_file_selected"]
+[connection signal="file_selected" from="OpenFileDialog" to="." method="_on_open_file_dialog_selected"]
+[connection signal="file_selected" from="SaveFileDialog" to="." method="_on_save_file_dialog_selected"]

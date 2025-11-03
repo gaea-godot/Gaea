@@ -2,7 +2,6 @@
 class_name GaeaProjectSettings
 extends RefCounted
 
-
 const CUSTOM_NODES_PATH := "gaea/nodes/custom_nodes_path"
 
 

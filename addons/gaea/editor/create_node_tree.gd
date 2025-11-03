@@ -1,7 +1,6 @@
 @tool
 extends Tree
 
-
 signal node_selected_for_creation(resource: GaeaNodeResource)
 signal special_node_selected_for_creation(id: StringName)
 
@@ -9,6 +8,8 @@ const NODES_FOLDER_PATH: String = "res://addons/gaea/graph/graph_nodes/root/"
 
 @export var description_label: RichTextLabel
 var tree_dictionary: Dictionary
+
+var filters: Dictionary[StringName, Callable]
 
 
 func _ready() -> void:
@@ -23,7 +24,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 			_select_next_visible(
 				get_selected() if get_selected() != null else get_root(),
 				1 if not event.is_shift_pressed() else -1
-				)
+			)
 
 
 func populate() -> void:
@@ -31,11 +32,11 @@ func populate() -> void:
 	var root: TreeItem = create_item()
 	hide_root = true
 	tree_dictionary = _populate_dict_with_files(NODES_FOLDER_PATH, {})
-	tree_dictionary["Special"] = {
-		"Frame": &"frame"
-	}
+	tree_dictionary["Special"] = {"Frame": &"frame"}
 	if not GaeaProjectSettings.get_custom_nodes_path().is_empty():
-		tree_dictionary = _populate_dict_with_files(GaeaProjectSettings.get_custom_nodes_path(), tree_dictionary)
+		tree_dictionary = _populate_dict_with_files(
+			GaeaProjectSettings.get_custom_nodes_path(), tree_dictionary
+		)
 	_populate_from_dictionary(tree_dictionary, root)
 	root.set_collapsed_recursive(true)
 	root.set_collapsed(false)
@@ -54,7 +55,7 @@ func _populate_from_dictionary(dictionary: Dictionary, parent_item: TreeItem) ->
 			tree_item.set_metadata(0, value)
 			if value is GaeaNodeResource:
 				tree_item.set_text(0, value.get_tree_name())
-				tree_item.set_icon(0, GaeaValue.get_display_icon(value.get_type()))
+				tree_item.set_icon(0, value.get_icon())
 				tree_item.set_icon_max_width(0, 16)
 
 
@@ -80,7 +81,6 @@ func _populate_dict_with_files(folder_path: String, dict: Dictionary) -> Diction
 		var file_path = folder_path + file_name
 		if dir.current_is_dir():
 			_populate_dict_with_files(file_path + "/", dict.get_or_add(tree_name, {}))
-
 
 		if file_name.ends_with(".gd"):
 			var script := load(file_path)
@@ -122,10 +122,13 @@ func _on_create_button_pressed() -> void:
 func _on_item_selected() -> void:
 	var item: TreeItem = get_selected()
 	if item.get_metadata(0) is GaeaNodeResource:
-		description_label.set_text(GaeaNodeResource.get_formatted_text(item.get_metadata(0).get_description()))
+		description_label.set_text(
+			GaeaNodeResource.get_formatted_text(item.get_metadata(0).get_description())
+		)
 	elif item.get_metadata(0) is StringName:
 		match item.get_metadata(0):
-			&"frame": description_label.set_text("A rectangular area for better organziation.")
+			&"frame":
+				description_label.set_text("A rectangular area for better organziation.")
 
 
 func _on_nothing_selected() -> void:
@@ -137,27 +140,79 @@ func _on_search_bar_text_changed(new_text: String) -> void:
 		get_root().set_collapsed_recursive(true)
 		get_root().collapsed = false
 		deselect_all()
+		remove_filter(&"text")
+		apply_filters(false)
 	else:
 		get_root().set_collapsed_recursive(false)
+		add_filter(
+			(func(item: TreeItem, text: String) -> bool:
+				return text.is_subsequence_ofn(item.get_text(0)) or text.is_empty()).bind(new_text),
+				&"text"
+		)
 
+
+func filter_to_input_type(type: GaeaValue.Type) -> void:
+	add_filter(
+		(func(item: TreeItem, match_type: GaeaValue.Type) -> bool:
+			if item.get_metadata(0) is not GaeaNodeResource:
+				return false
+
+			var node: GaeaNodeResource = item.get_metadata(0)
+			for argument in node.get_arguments_list():
+				if node.has_input_slot(argument) and GaeaValue.is_valid_connection(
+					match_type, node.get_argument_type(argument)
+				):
+					return true
+
+			return false).bind(type),
+			&"type"
+	)
+
+
+
+func filter_to_output_type(type: GaeaValue.Type) -> void:
+	add_filter(
+		(func(item: TreeItem, match_type: GaeaValue.Type) -> bool:
+			if item.get_metadata(0) is not GaeaNodeResource:
+				return false
+
+			var node: GaeaNodeResource = item.get_metadata(0)
+			for argument in node.get_output_ports_list():
+				if GaeaValue.is_valid_connection(
+					node.get_output_port_type(argument), match_type
+				):
+					return true
+
+			return false).bind(type),
+			&"type"
+	)
+
+
+func add_filter(filter: Callable, id: StringName) -> void:
+	filters[id] = filter
+	apply_filters(true)
+
+
+func remove_filter(id: StringName) -> void:
+	filters.erase(id)
+
+
+func apply_filters(scroll_to_first_found: bool) -> void:
 	var item: TreeItem = get_root()
 	var first_item_found: TreeItem = null
 
 	while item.get_next_in_tree() != null:
 		item = item.get_next_in_tree()
-		if new_text.is_empty():
+		var item_matched = filters.values().all(func(f: Callable) -> bool: return f.call(item))
+		if item_matched and item.is_selectable(0):
+			if first_item_found == null:
+				first_item_found = item
 			item.visible = true
+			_show_parents_recursive(item)
 		else:
-			var item_matched = new_text.is_subsequence_ofn(item.get_text(0))
-			if item_matched and item.is_selectable(0):
-				if first_item_found == null:
-					first_item_found = item
-				item.visible = true
-				_show_parents_recursive(item)
-			else:
-				item.visible = false
+			item.visible = false
 
-	if first_item_found:
+	if first_item_found and scroll_to_first_found:
 		scroll_to_item(first_item_found, true)
 		first_item_found.select(0)
 		ensure_cursor_is_visible()
@@ -170,7 +225,9 @@ func _select_next_visible(from: TreeItem, direction: int = 1) -> void:
 	if not is_instance_valid(from):
 		return
 
-	var item: TreeItem = (from.get_next_visible(true) if direction == 1 else from.get_prev_visible(true))
+	var item: TreeItem = (
+		from.get_next_visible(true) if direction == 1 else from.get_prev_visible(true)
+	)
 	if not is_instance_valid(item):
 		return
 

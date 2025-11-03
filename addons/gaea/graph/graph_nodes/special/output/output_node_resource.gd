@@ -1,6 +1,6 @@
 @tool
-extends GaeaNodeResource
 class_name GaeaNodeOutput
+extends GaeaNodeResource
 ## Outputs the generated grid via [signal GaeaGenerator.generation_finished].
 ##
 ## All Gaea graphs should lead to this node. When a generation is needed,

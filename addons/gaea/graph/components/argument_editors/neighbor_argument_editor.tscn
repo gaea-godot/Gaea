@@ -1,41 +1,51 @@
-[gd_scene load_steps=3 format=3 uid="uid://d11yc7l6sneof"]
+[gd_scene load_steps=7 format=3 uid="uid://d11yc7l6sneof"]
 
 [ext_resource type="PackedScene" uid="uid://i2nwlab8rau" path="res://addons/gaea/graph/components/argument_editors/argument_editor.tscn" id="1_7clkg"]
 [ext_resource type="Script" uid="uid://ugmago2v1kp4" path="res://addons/gaea/graph/components/argument_editors/neighbor_argument_editor.gd" id="2_7clkg"]
+[ext_resource type="Script" uid="uid://xdxm3ekx64qi" path="res://addons/gaea/editor/checkeable_cells.gd" id="3_2g0rj"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2g0rj"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.19, 0.19, 0.19, 0.6)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+corner_detail = 6
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2g0rj"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_f3jwq"]
 
 [node name="BaseParameter" instance=ExtResource("1_7clkg")]
 script = ExtResource("2_7clkg")
 
-[node name="GridContainer" type="GridContainer" parent="." index="1"]
-layout_mode = 2
-theme_override_constants/h_separation = 2
-theme_override_constants/v_separation = 2
-columns = 3
-
-[node name="CheckBox" type="CheckBox" parent="GridContainer" index="0"]
+[node name="VBoxContainer" type="HBoxContainer" parent="." index="1"]
 layout_mode = 2
 
-[node name="CheckBox2" type="CheckBox" parent="GridContainer" index="1"]
+[node name="Cells" type="Control" parent="VBoxContainer" index="0" node_paths=PackedStringArray("z_slider")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(72, 72)
 layout_mode = 2
+script = ExtResource("3_2g0rj")
+z_slider = NodePath("../ZSlider")
 
-[node name="CheckBox3" type="CheckBox" parent="GridContainer" index="2"]
+[node name="ZSlider" type="VSlider" parent="VBoxContainer" index="1"]
 layout_mode = 2
+size_flags_vertical = 3
+tooltip_text = "The z value of the cells you're currently editing."
+mouse_force_pass_scroll_events = false
+theme_override_constants/center_grabber = 1
+theme_override_styles/slider = SubResource("StyleBoxFlat_2g0rj")
+theme_override_styles/grabber_area = SubResource("StyleBoxEmpty_2g0rj")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxEmpty_f3jwq")
+min_value = -1.0
+max_value = 1.0
+tick_count = 3
+ticks_on_borders = true
+ticks_position = 3
 
-[node name="CheckBox4" type="CheckBox" parent="GridContainer" index="3"]
-layout_mode = 2
-
-[node name="CheckBox5" type="CheckBox" parent="GridContainer" index="4"]
-layout_mode = 2
-disabled = true
-
-[node name="CheckBox6" type="CheckBox" parent="GridContainer" index="5"]
-layout_mode = 2
-
-[node name="CheckBox7" type="CheckBox" parent="GridContainer" index="6"]
-layout_mode = 2
-
-[node name="CheckBox8" type="CheckBox" parent="GridContainer" index="7"]
-layout_mode = 2
-
-[node name="CheckBox9" type="CheckBox" parent="GridContainer" index="8"]
-layout_mode = 2
+[connection signal="cell_pressed" from="VBoxContainer/Cells" to="." method="_on_cell_pressed"]

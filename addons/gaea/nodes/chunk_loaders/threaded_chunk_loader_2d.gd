@@ -22,15 +22,15 @@ func _update_loading(actor_position: Vector2i) -> void:
 	if not threaded:
 		super(actor_position)
 	else:
-		var _job:Callable = func ():
+		var job: Callable = func ():
 			super._update_loading(actor_position)
 
 		if _task > -1:
-			_queued = _job
+			_queued = job
 		else:
-			run_job(_job)
+			run_job(job)
 
 
-func run_job(_job:Callable):
-	if _job:
-		_task = WorkerThreadPool.add_task(_job, false, "Load/Unload Chunks")
+func run_job(job: Callable):
+	if job:
+		_task = WorkerThreadPool.add_task(job, false, "Load/Unload Chunks")

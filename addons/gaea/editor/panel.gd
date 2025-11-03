@@ -1,32 +1,38 @@
 @tool
 extends Control
 
-const _LinkPopup = preload("uid://btt4eqjkp5pyf")
+const LinkPopup = preload("uid://btt4eqjkp5pyf")
 
-var _selected_generator: GaeaGenerator = null: get = get_selected_generator
-var _output_node: GaeaGraphNode
 var is_loading = false
+var plugin: EditorPlugin
+var copy_buffer: GaeaNodesCopy
+
+var _selected_generator: GaeaGenerator = null:
+	get = get_selected_generator
+var _output_node: GaeaGraphNode
 
 ## Local position on [GraphEdit] for a node that may be created in the future.
 var _node_creation_target: Vector2 = Vector2.ZERO
-var plugin: EditorPlugin
-var _scroll_offsets: Dictionary[GaeaGraph, Vector2]
-var _zooms: Dictionary[GaeaGraph, float]
+var _created_node_connect_to: GaeaGraphNode = null
+var _created_node_connect_to_port: int = -1
+var _dragged_from_left: bool = false
 
 @onready var _no_data: Control = $NoData
 @onready var _editor: Control = $Editor
 @onready var _graph_edit: GraphEdit = %GraphEdit
 @onready var _create_node_popup: Window = %CreateNodePopup
 @onready var _create_node_panel: Panel = %CreateNodePanel
-@onready var _node_popup: PopupMenu = %NodePopup
-@onready var _link_popup: _LinkPopup = %LinkPopup
+@onready var _context_menu: PopupMenu = %ContextMenu
+@onready var _link_popup: LinkPopup = %LinkPopup
 @onready var _create_node_tree: Tree = %CreateNodeTree
 @onready var _search_bar: LineEdit = %SearchBar
 @onready var _save_button: Button = %SaveButton
 @onready var _load_button: Button = %LoadButton
+@onready var _duplicate_graph_button: Button = %DuplicateGraphButton
 @onready var _reload_node_tree_button: Button = %ReloadNodeTreeButton
 @onready var _reload_parameters_list_button: Button = %ReloadParametersListButton
-@onready var _file_dialog: FileDialog = $FileDialog
+@onready var _file_open_dialog: FileDialog = $OpenFileDialog
+@onready var _file_save_dialog: FileDialog = $SaveFileDialog
 @onready var _online_docs_button: Button = %OnlineDocsButton
 @onready var _window_popout_separator: VSeparator = %WindowPopoutSeparator
 @onready var _window_popout_button: Button = %WindowPopoutButton
@@ -36,18 +42,33 @@ var _zooms: Dictionary[GaeaGraph, float]
 
 
 #region Built-in & Input
+static func instantiate() -> Node:
+	return load("uid://dngytsjlmkfg7").instantiate()
+
+
 func _ready() -> void:
 	if is_part_of_edited_scene():
 		return
 
-	_reload_node_tree_button.icon = preload("../assets/reload_tree.svg")
-	_reload_parameters_list_button.icon = preload("../assets/reload_variables_list.svg")
+	_reload_node_tree_button.icon = preload("uid://crs5x6wghxmmb")
+	_reload_parameters_list_button.icon = preload("uid://cwg7oy4i2cbwq")
 	_save_button.icon = EditorInterface.get_base_control().get_theme_icon(&"Save", &"EditorIcons")
 	_load_button.icon = EditorInterface.get_base_control().get_theme_icon(&"Load", &"EditorIcons")
-	_window_popout_button.icon = EditorInterface.get_base_control().get_theme_icon(&"MakeFloating", &"EditorIcons")
-	_online_docs_button.icon = EditorInterface.get_base_control().get_theme_icon(&"ExternalLink", &"EditorIcons")
-	_create_node_panel.add_theme_stylebox_override(&"panel", EditorInterface.get_base_control().get_theme_stylebox(&"panel", &"PopupPanel"))
-	_about_button.icon = EditorInterface.get_base_control().get_theme_icon(&"NodeInfo", &"EditorIcons")
+	_duplicate_graph_button.icon = EditorInterface.get_base_control().get_theme_icon(
+		&"Duplicate", &"EditorIcons"
+	)
+	_window_popout_button.icon = EditorInterface.get_base_control().get_theme_icon(
+		&"MakeFloating", &"EditorIcons"
+	)
+	_online_docs_button.icon = EditorInterface.get_base_control().get_theme_icon(
+		&"ExternalLink", &"EditorIcons"
+	)
+	_create_node_panel.add_theme_stylebox_override(
+		&"panel", EditorInterface.get_base_control().get_theme_stylebox(&"panel", &"PopupPanel")
+	)
+	_about_button.icon = EditorInterface.get_base_control().get_theme_icon(
+		&"NodeInfo", &"EditorIcons"
+	)
 	_about_button.pressed.connect(_about_window.popup_centered)
 	_about_window.plugin = plugin
 	_about_window.initialize()
@@ -81,11 +102,11 @@ func _on_graph_edit_gui_input(event: InputEvent) -> void:
 				_popup_link_context_menu_at_mouse(connection)
 				return
 
-			var _selected: Array = _graph_edit.get_selected()
-			if _selected.is_empty():
+			var selected: Array = _graph_edit.get_selected()
+			if selected.is_empty() and not is_instance_valid(copy_buffer):
 				_popup_create_node_menu_at_mouse()
 			else:
-				_popup_node_context_menu_at_mouse(_selected)
+				_popup_node_context_menu_at_mouse(selected)
 
 
 func _on_visibility_changed() -> void:
@@ -94,15 +115,20 @@ func _on_visibility_changed() -> void:
 	_graph_edit.set_connection_lines_thickness(GaeaEditorSettings.get_line_thickness())
 	_graph_edit.set_minimap_opacity(GaeaEditorSettings.get_minimap_opacity())
 
+
 #endregion
 
 
 #region Saving and Loading
 func populate(node: GaeaGenerator) -> void:
+	plugin.show_bottom_panel()
 	await _remove_children()
 	_output_node = null
 
-	if is_instance_valid(_selected_generator) and _selected_generator.data_changed.is_connected(_on_data_changed):
+	if (
+		is_instance_valid(_selected_generator)
+		and _selected_generator.data_changed.is_connected(_on_data_changed)
+	):
 		_selected_generator.data_changed.disconnect(_on_data_changed)
 
 	_selected_generator = node
@@ -124,7 +150,10 @@ func populate(node: GaeaGenerator) -> void:
 
 func unpopulate() -> void:
 	if is_instance_valid(_selected_generator):
-		if is_instance_valid(_selected_generator.data) and _selected_generator.data.layer_count_modified.is_connected(_update_output_node):
+		if (
+			is_instance_valid(_selected_generator.data)
+			and _selected_generator.data.layer_count_modified.is_connected(_update_output_node)
+		):
 			_selected_generator.data.layer_count_modified.disconnect(_update_output_node)
 		if _selected_generator.data_changed.is_connected(_on_data_changed):
 			_selected_generator.data_changed.disconnect(_on_data_changed)
@@ -149,33 +178,31 @@ func _load_data() -> void:
 		var saved_data = _selected_generator.data.get_node_data(id)
 		if saved_data.is_empty():
 			continue
-		match saved_data.get(&"type", GaeaGraph.NodeType.NODE):
-			GaeaGraph.NodeType.FRAME:
-				var frame: GaeaGraphFrame = _load_frame(saved_data)
-				frame.id = id
-				frame.generator = _selected_generator
-				_load_attached_elements.bind(saved_data.get(&"attached", []), frame.name).call_deferred()
-			GaeaGraph.NodeType.NODE:
-				var node: GaeaGraphNode = _load_node(_selected_generator.data.get_node(id), saved_data, id)
+		var node := _instantiate_node(id)
 
-				if node.resource is GaeaNodeOutput:
-					has_output_node = true
-					_output_node = node
-
+		if get_selected_generator().data.get_node(id) is GaeaNodeOutput:
+			has_output_node = true
+			_output_node = node
 
 	if not has_output_node:
 		_output_node = _add_node(GaeaNodeOutput.new(), Vector2.ZERO)
 
-	# If scroll offset is saved, set it to that. Else, center the output node.
-	_graph_edit.set_scroll_offset(_scroll_offsets.get(_selected_generator.data, _output_node.size * 0.5 - _graph_edit.get_rect().size * 0.5))
-	_graph_edit.set_zoom(_zooms.get(_selected_generator.data, 1.0))
-
+	_load_scroll_offset.call_deferred(
+		_output_node.size * 0.5 - _graph_edit.get_rect().size * 0.5
+	)
 
 	# from_node and to_node are indexes in the resources array
 	_load_connections.call_deferred(_selected_generator.data.get_all_connections())
 
 	update_connections()
-	is_loading = false
+	set_deferred(&"is_loading", false)
+
+
+func _load_scroll_offset(default_offset: Vector2) -> void:
+	if is_nan(_selected_generator.data.scroll_offset.x):
+		_selected_generator.data.scroll_offset = default_offset
+	_graph_edit.set_scroll_offset(_selected_generator.data.scroll_offset)
+	_graph_edit.set_zoom(_selected_generator.data.zoom)
 
 
 func _load_connections(connections: Array[Dictionary]) -> void:
@@ -186,32 +213,13 @@ func _load_connections(connections: Array[Dictionary]) -> void:
 			continue
 		if to_node.get_input_port_count() <= connection.to_port:
 			continue
-		_graph_edit.connection_request.emit(from_node.name, connection.from_port, to_node.name, connection.to_port)
+		_graph_edit.connection_request.emit(
+			from_node.name, connection.from_port, to_node.name, connection.to_port
+		)
 
 
-func _load_frame(frame_data: Dictionary) -> GaeaGraphFrame:
-	var new_frame: GaeaGraphFrame = GaeaGraphFrame.new()
-	_graph_edit.add_child(new_frame)
-	new_frame.load_save_data(frame_data)
-	return new_frame
 
 
-func _load_node(resource: GaeaNodeResource, saved_data: Dictionary, id: int) -> GraphNode:
-	var node: GaeaGraphNode = resource.get_scene().instantiate()
-	resource.load_save_data(saved_data)
-	if resource.get_scene_script() != null:
-		node.set_script(resource.get_scene_script())
-
-	node.resource = resource
-	node.generator = get_selected_generator()
-	node.remove_invalid_connections_requested.connect(_graph_edit.remove_invalid_connections)
-	_graph_edit.add_child(node)
-	node.resource.id = id
-
-	if is_instance_valid(node):
-		node.load_save_data.call_deferred(saved_data)
-
-	return node
 
 
 func _load_attached_elements(attached: Array, frame_name: StringName) -> void:
@@ -219,12 +227,12 @@ func _load_attached_elements(attached: Array, frame_name: StringName) -> void:
 		var node_resource: GaeaNodeResource = _selected_generator.data.get_node(id)
 		var node: GraphElement
 		if not is_instance_valid(node_resource):
-			var _graph_children := _graph_edit.get_children()
-			var _attached_frame_idx := _graph_children.find_custom(
+			var graph_children := _graph_edit.get_children()
+			var attached_frame_idx := graph_children.find_custom(
 				func(child: Node) -> bool: return child is GaeaGraphFrame and child.id == id
 			)
-			if _attached_frame_idx != -1:
-				node = _graph_children[_attached_frame_idx]
+			if attached_frame_idx != -1:
+				node = graph_children[attached_frame_idx]
 		else:
 			node = node_resource.node
 
@@ -242,8 +250,9 @@ func _on_new_data_button_pressed() -> void:
 
 
 func _on_data_changed() -> void:
-	_remove_children()
 	populate(_selected_generator)
+
+
 #endregion
 
 
@@ -254,9 +263,21 @@ func _popup_create_node_menu_at_mouse() -> void:
 	if not EditorInterface.get_editor_settings().get_setting("interface/editor/single_window_mode"):
 		_create_node_popup.position += get_window().position
 	_clamp_popup_in_window(_create_node_popup, get_window())
+	_create_node_popup.create_node_tree.remove_filter(&"type")
+	_create_node_popup.create_node_tree.apply_filters(false)
 	_create_node_popup.popup()
 	_search_bar.grab_focus()
 	_search_bar.select_all()
+
+
+func _popup_create_and_connect_node(node: GaeaGraphNode, type: GaeaValue.Type) -> void:
+	_popup_create_node_menu_at_mouse()
+	_create_node_popup.filter_to_connect_type(type, _dragged_from_left)
+	_created_node_connect_to = node
+	_create_node_popup.close_requested.connect(
+		func() -> void:
+			_created_node_connect_to = null, CONNECT_ONE_SHOT
+	)
 
 
 func _clamp_popup_in_window(popup: Window, main_window: Window) -> void:
@@ -275,26 +296,113 @@ func _clamp_popup_in_window(popup: Window, main_window: Window) -> void:
 
 func _add_node(resource: GaeaNodeResource, local_grid_position: Vector2) -> GraphNode:
 	var id := _selected_generator.data.add_node(resource, local_grid_position)
+	resource.id = id
+	return _instantiate_node(id)
+
+
+func _instantiate_node(id: int) -> GraphElement:
+	var saved_data := get_selected_generator().data.get_node_data(id)
+	if get_selected_generator().data.get_node_type(id) == GaeaGraph.NodeType.FRAME:
+		var new_frame: GaeaGraphFrame = GaeaGraphFrame.new()
+		_graph_edit.add_child(new_frame)
+		new_frame.load_save_data(saved_data)
+		new_frame.id = id
+		new_frame.generator = get_selected_generator()
+		_load_attached_elements.bind(saved_data.get(&"attached", []), new_frame.name).call_deferred()
+		return new_frame
+
+	var resource := get_selected_generator().data.get_node(id)
+	if not is_instance_valid(resource):
+		return null
 
 	var node: GaeaGraphNode = resource.get_scene().instantiate()
+	resource.load_save_data(saved_data)
 	if resource.get_scene_script() != null:
 		node.set_script(resource.get_scene_script())
 
 	if node is GaeaGraphNode:
 		node.generator = get_selected_generator()
 		node.remove_invalid_connections_requested.connect(_graph_edit.remove_invalid_connections)
+		node.load_save_data.call_deferred(saved_data)
 
 	node.resource = resource
-	node.position_offset = local_grid_position
 	resource.id = id
+	node.generator = get_selected_generator()
+	node.position_offset = get_selected_generator().data.get_node_data_value(id, &"position")
 	_graph_edit.add_child(node)
 
 	return node
 
 
+
+func _paste_nodes(at_position: Vector2, data: GaeaNodesCopy = copy_buffer) -> void:
+	for node in _graph_edit.get_selected():
+		node.selected = false
+
+	var copy_ids := _selected_generator.data.paste_nodes(data, at_position)
+	var connections: Array[Dictionary]
+	for id in copy_ids:
+		_instantiate_node(id).selected = true
+		connections.append_array(_selected_generator.data.get_node_connections(id))
+
+	_load_connections.call_deferred(connections)
+
+
+
 func _on_tree_node_selected_for_creation(resource: GaeaNodeResource) -> void:
-	_create_node_popup.hide()
-	_add_node(resource.duplicate(), _graph_edit.local_to_grid(_node_creation_target))
+	var node := _add_node(resource.duplicate(), _graph_edit.local_to_grid(_node_creation_target))
+
+	if node is GaeaGraphNode and is_instance_valid(_created_node_connect_to):
+		var to_port := 0
+		var slot_name: StringName
+		var type: GaeaValue.Type
+		var new_node_port_amount: int
+		if _dragged_from_left:
+			slot_name = _created_node_connect_to.resource.connection_idx_to_argument(
+				_created_node_connect_to_port
+			)
+			type = _created_node_connect_to.resource.get_argument_type(slot_name)
+			new_node_port_amount = node.resource._get_output_ports_list().size()
+		else:
+			slot_name = _created_node_connect_to.resource.connection_idx_to_output(
+				_created_node_connect_to_port
+			)
+			type = _created_node_connect_to.resource.get_output_port_type(slot_name)
+			new_node_port_amount = node.resource.get_arguments_list().size()
+
+		while to_port < new_node_port_amount:
+			var other_slot_name: StringName
+			var other_type: GaeaValue.Type
+			if _dragged_from_left:
+				other_slot_name = node.resource.connection_idx_to_output(to_port)
+				other_type = node.resource.get_output_port_type(other_slot_name)
+			else:
+				other_slot_name = node.resource.connection_idx_to_argument(to_port)
+				other_type = node.resource.get_argument_type(other_slot_name)
+
+			if GaeaValue.is_valid_connection(
+				other_type if _dragged_from_left else type,
+				type if _dragged_from_left else other_type
+			):
+				break
+			to_port += 1
+
+		if to_port < node.resource.get_arguments_list().size():
+			if _dragged_from_left:
+				_graph_edit.connection_request.emit(
+					node.name,
+					to_port,
+					_created_node_connect_to.name,
+					_created_node_connect_to_port
+				)
+			else:
+				_graph_edit.connection_request.emit(
+					_created_node_connect_to.name,
+					_created_node_connect_to_port,
+					node.name,
+					to_port
+				)
+	_create_node_popup.close_requested.emit()
 
 
 func _on_tree_special_node_selected_for_creation(id: StringName) -> void:
@@ -306,11 +414,7 @@ func _on_tree_special_node_selected_for_creation(id: StringName) -> void:
 
 func _add_frame() -> void:
 	var id: int = _selected_generator.data.add_frame(_graph_edit.local_to_grid(_node_creation_target))
-	var node: GaeaGraphFrame = GaeaGraphFrame.new()
-	node.generator = _selected_generator
-	node.id = id
-	node.position_offset = _graph_edit.local_to_grid(_node_creation_target)
-	_graph_edit.add_child(node)
+	_instantiate_node(id)
 
 
 func _on_new_reroute_requested(connection: Dictionary) -> void:
@@ -319,36 +423,59 @@ func _on_new_reroute_requested(connection: Dictionary) -> void:
 	resource.type = from_node.get_output_port_type(connection.from_port) as GaeaValue.Type
 	var reroute: GaeaGraphNode = _add_node(resource, Vector2.ZERO)
 
-	var offset = - reroute.get_output_port_position(0)
+	var offset = -reroute.get_output_port_position(0)
 	offset.y -= reroute.get_slot_custom_icon_right(0).get_size().y * 0.5
 	reroute.set_position_offset(_graph_edit.local_to_grid(_node_creation_target, offset))
 
 	_selected_generator.data.set_node_position(reroute.resource.id, reroute.position_offset)
 
 
-	_graph_edit.disconnection_request.emit.call_deferred(
-		connection.from_node, connection.from_port,
-		connection.to_node, connection.to_port,
+	(
+		_graph_edit
+		.disconnection_request
+		.emit
+		.call_deferred(
+			connection.from_node,
+			connection.from_port,
+			connection.to_node,
+			connection.to_port,
+		)
 	)
-	_graph_edit.connection_request.emit.call_deferred(
-		connection.from_node, connection.from_port,
-		reroute.name, 0,
+	(
+		_graph_edit
+		.connection_request
+		.emit
+		.call_deferred(
+			connection.from_node,
+			connection.from_port,
+			reroute.name,
+			0,
+		)
 	)
-	_graph_edit.connection_request.emit.call_deferred(
-		reroute.name, 0,
-		connection.to_node, connection.to_port,
+	(
+		_graph_edit
+		.connection_request
+		.emit
+		.call_deferred(
+			reroute.name,
+			0,
+			connection.to_node,
+			connection.to_port,
+		)
 	)
+
+
 #endregion
 
 
 #region Popups
 func _popup_node_context_menu_at_mouse(selected_nodes: Array) -> void:
-	_node_popup.clear()
-	_node_popup.populate(selected_nodes)
-	_node_popup.position = Vector2i(get_global_mouse_position())
+	_context_menu.clear()
+	_context_menu.populate(selected_nodes)
+	_context_menu.position = Vector2i(get_global_mouse_position())
 	if not EditorInterface.get_editor_settings().get_setting("interface/editor/single_window_mode"):
-		_node_popup.position += get_window().position
-	_node_popup.popup()
+		_context_menu.position += get_window().position
+	_context_menu.popup()
 
 
 func _popup_link_context_menu_at_mouse(connection: Dictionary) -> void:
@@ -359,6 +486,8 @@ func _popup_link_context_menu_at_mouse(connection: Dictionary) -> void:
 	if not EditorInterface.get_editor_settings().get_setting("interface/editor/single_window_mode"):
 		_link_popup.position += get_window().position
 	_link_popup.popup()
+
+
 #endregion
 
 
@@ -368,6 +497,8 @@ func _update_output_node() -> void:
 		await _output_node.update_slots()
 		await get_tree().process_frame
 		_graph_edit.remove_invalid_connections()
+
+
 #endregion
 
 
@@ -384,12 +515,39 @@ func update_connections() -> void:
 		to_node.connections.append(connection)
 
 
-func _on_graph_edit_connection_to_empty(_from_node: StringName, _from_port: int, _release_position: Vector2) -> void:
-	_popup_create_node_menu_at_mouse()
+func _on_graph_edit_connection_to_empty(
+	from_node: StringName, from_port: int, _release_position: Vector2
+) -> void:
+	var node: GaeaGraphNode = _graph_edit.get_node(NodePath(from_node))
+	var type: GaeaValue.Type = node.resource.get_output_port_type(
+		node.resource.connection_idx_to_output(from_port)
+	)
+	_created_node_connect_to_port = from_port
+	_dragged_from_left = false
+	_popup_create_and_connect_node(node, type)
+
+
+func _on_graph_edit_connection_from_empty(
+	to_node: StringName, to_port: int, _release_position: Vector2
+) -> void:
+	var node: GaeaGraphNode = _graph_edit.get_node(NodePath(to_node))
+	var type: GaeaValue.Type = node.resource.get_argument_type(
+		node.resource.connection_idx_to_argument(to_port)
+	)
+	_created_node_connect_to_port = to_port
+	_dragged_from_left = true
+	_popup_create_and_connect_node(node, type)
+
+
+
 #endregion
 
 
 #region Buttons
+func _on_duplicate_graph_button_pressed() -> void:
+	_file_save_dialog.popup_centered()
+
+
 func _on_generate_button_pressed() -> void:
 	_selected_generator.generate()
 
@@ -398,15 +556,23 @@ func _on_reload_node_tree_button_pressed() -> void:
 	_create_node_tree.populate()
 
 func _on_load_button_pressed() -> void:
-	_file_dialog.popup_centered()
+	_file_open_dialog.popup_centered()
 
 
-func _on_file_dialog_file_selected(path: String) -> void:
+func _on_open_file_dialog_selected(path: String) -> void:
 	_selected_generator.data = load(path)
 
 
+func _on_save_file_dialog_selected(path: String) -> void:
+	var copy: GaeaGraph = _selected_generator.data.duplicate_deep(Resource.DEEP_DUPLICATE_INTERNAL)
+	ResourceSaver.save(copy, path)
+
+
 func _on_reload_parameters_list_button_pressed() -> void:
-	if not is_instance_valid(_selected_generator) or not is_instance_valid(_selected_generator.data):
+	if (
+		not is_instance_valid(_selected_generator)
+		or not is_instance_valid(_selected_generator.data)
+	):
 		return
 
 	var existing_parameters: Array[String]
@@ -470,13 +636,23 @@ func _on_window_popout_button_pressed() -> void:
 func _get_multiwindow_support_tooltip_text() -> String:
 	# Adapted from https://github.com/godotengine/godot/blob/a8598cd8e261716fa3addb6f10bb57c03a061be9/editor/editor_node.cpp#L4725-L4737
 	if EditorInterface.get_editor_settings().get_setting("interface/editor/single_window_mode"):
-		return tr("Multi-window support is not available because Interface > Editor > Single Window Mode is enabled in the editor settings.")
-	elif not EditorInterface.get_editor_settings().get_setting("interface/multi_window/enable"):
-		return tr("Multi-window support is not available because Interface > Multi Window > Enable is disabled in the editor settings.")
-	elif DisplayServer.has_feature(DisplayServer.FEATURE_SUBWINDOWS):
-		return tr("Multi-window support is not available because the `--single-window` command line argument was used to start the editor.")
-	else:
-		return tr("Multi-window support is not available because the current platform doesn't support multiple windows.")
+		return tr(
+			"Multi-window support is not available because Interface > Editor > Single Window Mode is enabled in the editor settings."
+		)
+
+	if not EditorInterface.get_editor_settings().get_setting("interface/multi_window/enable"):
+		return tr(
+			"Multi-window support is not available because Interface > Multi Window > Enable is disabled in the editor settings."
+		)
+
+	if DisplayServer.has_feature(DisplayServer.FEATURE_SUBWINDOWS):
+		return tr(
+			"Multi-window support is not available because the `--single-window` command line argument was used to start the editor."
+		)
+
+	return tr(
+		"Multi-window support is not available because the current platform doesn't support multiple windows."
+	)
 
 
 func _on_window_close_requested(original_parent: Control, window: Window) -> void:
@@ -484,6 +660,8 @@ func _on_window_close_requested(original_parent: Control, window: Window) -> voi
 	window.queue_free()
 	_window_popout_button.show()
 	_window_popout_separator.show()
+
+
 #endregion
 #endregion
 
@@ -497,16 +675,32 @@ func update_bottom_note():
 	var mouse_position = _graph_edit.get_local_mouse_position()
 	if get_rect().has_point(mouse_position):
 		_bottom_note_label.visible = true
-		_bottom_note_label.text = "%s" % [
-			Vector2i(_graph_edit.local_to_grid(_graph_edit.get_local_mouse_position(), Vector2.ZERO, false))
-		]
+		_bottom_note_label.text = (
+			"%s"
+			% [
+				Vector2i(
+					_graph_edit.local_to_grid(
+						_graph_edit.get_local_mouse_position(), Vector2.ZERO, false
+					)
+				)
+			]
+		)
 	else:
 		_bottom_note_label.visible = false
+
+
 #endregion
 
 
 func _on_graph_edit_scroll_offset_changed(offset: Vector2) -> void:
+	if is_loading:
+		return
+
 	if is_instance_valid(_selected_generator):
 		if is_instance_valid(_selected_generator.data):
-			_scroll_offsets.set(_selected_generator.data, offset)
-			_zooms.set(_selected_generator.data, _graph_edit.zoom)
+			_selected_generator.data.scroll_offset = offset
+			_selected_generator.data.zoom = _graph_edit.zoom
+
+
+func _on_graph_edit_copy_requested(data: GaeaNodesCopy) -> void:
+	copy_buffer = data

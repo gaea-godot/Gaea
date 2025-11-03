@@ -7,12 +7,13 @@ func _on_added() -> void:
 	if not is_instance_valid(resource) or is_part_of_edited_scene():
 		return
 
-
 	super()
 	custom_minimum_size.x = 192.0
 
 	var titlebar: StyleBoxFlat = get_theme_stylebox("titlebar", "GraphNode").duplicate()
-	var titlebar_selected: StyleBoxFlat = get_theme_stylebox("titlebar_selected", "GraphNode").duplicate()
+	var titlebar_selected: StyleBoxFlat = (
+		get_theme_stylebox("titlebar_selected", "GraphNode").duplicate()
+	)
 	titlebar.bg_color = titlebar.bg_color.blend(Color(resource.get_title_color(), 0.3))
 	titlebar_selected.bg_color = titlebar.bg_color
 

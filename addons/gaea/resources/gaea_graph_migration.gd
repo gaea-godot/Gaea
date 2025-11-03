@@ -7,8 +7,10 @@ static func migrate(data: GaeaGraph):
 		_migration_step_from_beta(data)
 	if data.save_version == 2:
 		_migration_step_material_merge(data)
-	if data.save_version <= 3:
+	if data.save_version == 3:
 		_migration_step_node_ids(data)
+	if data.save_version == 4:
+		_migration_step_3d_neighbors_and_rules(data)
 	push_warning("Gaea graph (%s) migrated from previous save file format. Please save your project and reload." % data.resource_path)
 
 
@@ -50,6 +52,7 @@ static func _process_migration(data: GaeaGraph, node_map: Dictionary[String, Var
 
 ## Migrate data from rework [url=https://github.com/gaea-godot/gaea/pull/344]#344[/url].
 static func _migration_step_from_beta(data: GaeaGraph):
+	#gdlint:disable = max-line-length
 	var node_map: Dictionary[String, Variant] = {
 		"bbkdvyxkj2slo": "dol7xviglksx4", #output_node_resource.tres
 		"kdn03ei2yp6e": "bgqqucap4kua4", #reroute_node_resource.tres
@@ -95,10 +98,10 @@ static func _migration_step_from_beta(data: GaeaGraph):
 		"coi1put8oap60": ["c441lj0bi6eyn", {&"enums": [GaeaNodeNumOp.Operation.MULTIPLY]}, {&"value": &"b"}], #root/data/operations/multiply.tres
 		"d4f3kftfw2inw": ["c441lj0bi6eyn", {&"enums": [GaeaNodeNumOp.Operation.DIVIDE]}, {&"value": &"b"}], #root/data/operations/divide.tres
 
-		"drhtdob82hwua": ["dxsow1o2b4tm3", {&"enums": [GaeaNodeDatasOp.Operation.ADD]}], #root/data/operations/add_datas.tres
-		"bb81ds61i41r1": ["dxsow1o2b4tm3", {&"enums": [GaeaNodeDatasOp.Operation.SUBTRACT]}], #root/data/operations/substract_datas.tres
-		"dv5677k1v6n": ["dxsow1o2b4tm3", {&"enums": [GaeaNodeDatasOp.Operation.MULTIPLY]}], #root/data/operations/multiply_datas.tres
-		"f6ycpjqowl41": ["dxsow1o2b4tm3", {&"enums": [GaeaNodeDatasOp.Operation.DIVIDE]}], #root/data/operations/divide_datas.tres
+		"drhtdob82hwua": ["dxsow1o2b4tm3", {&"enums": [GaeaNodeSamplesOp.Operation.ADD]}], #root/data/operations/add_datas.tres
+		"bb81ds61i41r1": ["dxsow1o2b4tm3", {&"enums": [GaeaNodeSamplesOp.Operation.SUBTRACT]}], #root/data/operations/substract_datas.tres
+		"dv5677k1v6n": ["dxsow1o2b4tm3", {&"enums": [GaeaNodeSamplesOp.Operation.MULTIPLY]}], #root/data/operations/multiply_datas.tres
+		"f6ycpjqowl41": ["dxsow1o2b4tm3", {&"enums": [GaeaNodeSamplesOp.Operation.DIVIDE]}], #root/data/operations/divide_datas.tres
 
 		"dyk8vkdntdudc": ["fc8vogh4mvhw", {&"enums": [GaeaNodeInput.InputVar.WORLD_SIZE]}], #root/input/world_size.tres
 
@@ -136,6 +139,7 @@ static func _migration_step_from_beta(data: GaeaGraph):
 		"cgd05tlepxucw": ["bclwjwmoudxkh", {&"enums": [GaeaNodeVectorBase.VectorType.VECTOR2, GaeaNodeVectorOp.Operation.DIVIDE]}], #root/vector/operations/divide_vector2.tres
 		"hut3x2e74y85": ["bclwjwmoudxkh", {&"enums": [GaeaNodeVectorBase.VectorType.VECTOR3, GaeaNodeVectorOp.Operation.DIVIDE]}], #root/vector/operations/divide_vector3.tres
 	}
+	#gdlint:enable = max-line-length
 	_process_migration(data, node_map, 2)
 
 
@@ -152,20 +156,20 @@ static func _migration_step_material_merge(data: GaeaGraph):
 static func _migration_step_node_ids(data: GaeaGraph):
 	if not data.node_data.is_empty():
 		for idx in data.node_data.size():
-			var _node_data = data.node_data[idx]
-			var _resource: GaeaNodeResource = load(data.resource_uids[idx]).new()
-			var _position: Vector2 = _node_data.get("position", Vector2.ZERO)
-			data.add_node(_resource, _position, idx)
-			data.set_node_data_value(idx, &"salt", _node_data.get(&"salt", data.get_node_data(idx)[&"salt"]))
-			for arg_name: StringName in _node_data.get(&"arguments", {}):
-				var _value: Variant = _node_data.get(&"arguments").get(arg_name)
-				data.set_node_argument(idx, arg_name, _value)
+			var node_data = data.node_data[idx]
+			var resource: GaeaNodeResource = load(data.resource_uids[idx]).new()
+			var position: Vector2 = node_data.get("position", Vector2.ZERO)
+			data.add_node(resource, position, idx)
+			data.set_node_data_value(idx, &"salt", node_data.get(&"salt", data.get_node_data(idx)[&"salt"]))
+			for arg_name: StringName in node_data.get(&"arguments", {}):
+				var value: Variant = node_data.get(&"arguments").get(arg_name)
+				data.set_node_argument(idx, arg_name, value)
 
-			for enum_idx: int in _node_data.get(&"enums", []).size():
-				data.set_node_enum(idx, enum_idx, _node_data.get(&"enums")[enum_idx])
+			for enum_idx: int in node_data.get(&"enums", []).size():
+				data.set_node_enum(idx, enum_idx, node_data.get(&"enums")[enum_idx])
 
-			if _node_data.has("type"):
-				data.set_node_data_value(idx, &"reroute_type", _node_data.get("type"))
+			if node_data.has("type"):
+				data.set_node_data_value(idx, &"reroute_type", node_data.get("type"))
 
 	if not data.connections.is_empty():
 		for connection in data.connections:
@@ -181,19 +185,19 @@ static func _migration_step_node_ids(data: GaeaGraph):
 	data.connections.clear()
 	data.parameters.clear()
 
-	var _frames: Dictionary[int, Dictionary]
+	var frames: Dictionary[int, Dictionary]
 	for frame_data: Dictionary in data.other.get(&"frames", []):
-		var _frame_id: int = data.add_frame(frame_data[&"position"])
-		data.set_node_data_value(_frame_id, &"tint_color_enabled", frame_data.get(&"tint_color_enabled", false))
-		data.set_node_data_value(_frame_id, &"tint_color", frame_data.get(&"tint_color", Color("4d4d4dbf")))
-		data.set_node_data_value(_frame_id, &"autoshrink", frame_data.get(&"autoshrink", true))
-		data.set_node_data_value(_frame_id, &"title", frame_data.get(&"title", "Title"))
-		_frames[_frame_id] = frame_data
+		var frame_id: int = data.add_frame(frame_data[&"position"])
+		data.set_node_data_value(frame_id, &"tint_color_enabled", frame_data.get(&"tint_color_enabled", false))
+		data.set_node_data_value(frame_id, &"tint_color", frame_data.get(&"tint_color", Color("4d4d4dbf")))
+		data.set_node_data_value(frame_id, &"autoshrink", frame_data.get(&"autoshrink", true))
+		data.set_node_data_value(frame_id, &"title", frame_data.get(&"title", "Title"))
+		frames[frame_id] = frame_data
 
 
-	for frame_id in _frames.keys():
-		var _frame_data := _frames[frame_id]
-		for attached_name: StringName in _frame_data.get(&"attached"):
+	for frame_id in frames.keys():
+		var frame_data := frames[frame_id]
+		for attached_name: StringName in frame_data.get(&"attached"):
 			var node_data_idx: int = data.node_data.find_custom(
 				func(node_data: Dictionary): return node_data.get(&"name", &"") == attached_name
 			)
@@ -201,12 +205,50 @@ static func _migration_step_node_ids(data: GaeaGraph):
 				var id: int = data._node_data.find_key(data._node_data.values()[node_data_idx])
 				data.attach_node_to_frame(id, frame_id)
 			else:
-				var _frame_data_idx: int = _frames.values().find_custom(
+				var frame_data_idx: int = frames.values().find_custom(
 					func(node_data: Dictionary): return node_data.get(&"name", &"") == attached_name
 				)
-				var _other_frame_id: int = _frames.keys()[_frame_data_idx]
-				if _other_frame_id != -1:
-					data.attach_node_to_frame(_other_frame_id, frame_id)
+				var other_frame_id: int = frames.keys()[frame_data_idx]
+				if other_frame_id != -1:
+					data.attach_node_to_frame(other_frame_id, frame_id)
 
 	data.other.clear()
 	data.save_version = 4
+
+
+static func _migration_step_3d_neighbors_and_rules(data: GaeaGraph):
+	for node_id in data.get_ids():
+		var node_data := data.get_node_data(node_id)
+		var arguments: Dictionary = node_data.get(&"arguments", {})
+		for arg_name: StringName in arguments:
+			var argument = arguments[arg_name]
+
+			if argument is Array:
+				if argument.is_empty():
+					continue
+
+				var type: int = argument.get_typed_builtin()
+				if type == TYPE_NIL: # If the array is not typed, infer the type from first element.
+					type = typeof(argument.front())
+
+				# Migrate old 2D-based neighbors to 3D.
+				if type == TYPE_VECTOR2I:
+					var new_argument: Array[Vector3i]
+					for cell in argument:
+						new_argument.append(Vector3i(cell.x, cell.y, 0))
+					data.set_node_argument(node_id, arg_name, new_argument)
+			elif argument is Dictionary:
+				if argument.is_empty():
+					continue
+
+				var key_type: int = argument.get_typed_key_builtin()
+				if key_type == TYPE_NIL: # If the dict is not typed, infer the type from first key.
+					key_type = typeof(argument.keys().front())
+
+				# Migrate old 2D-based rules to 3D.
+				if key_type == TYPE_VECTOR2I:
+					var new_argument: Dictionary[Vector3i, bool]
+					for cell in argument:
+						new_argument[Vector3i(cell.x, cell.y, 0)] = argument[cell]
+					data.set_node_argument(node_id, arg_name, new_argument)
+	data.save_version = 5

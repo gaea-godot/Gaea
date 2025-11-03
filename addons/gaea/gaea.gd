@@ -2,11 +2,11 @@
 extends EditorPlugin
 
 
-const BottomPanel = preload("res://addons/gaea/editor/panel.tscn")
-const InspectorPlugin = preload("res://addons/gaea/editor/inspector_plugin.gd")
+const BottomPanel = preload("uid://dpbmowgfmnxe5")
+const InspectorPlugin = preload("uid://bpg2cpobusnnl")
 
 var _container: MarginContainer
-var _panel: Control
+var _panel: BottomPanel
 var _panel_button: Button
 var _editor_selection: EditorSelection
 var _inspector_plugin: EditorInspectorPlugin
@@ -44,25 +44,29 @@ func _exit_tree() -> void:
 func _get_unsaved_status(for_scene):
 	if for_scene.is_empty():
 		return "Save changes in Gaea before closing?"
-	else:
-		return "Scene %s has changes from Gaea. Save before closing?" % for_scene.get_file()
+
+	return "Scene %s has changes from Gaea. Save before closing?" % for_scene.get_file()
 
 
 func _on_selection_changed() -> void:
 	if Engine.is_editor_hint():
-		var _selected: Array[Node] = _editor_selection.get_selected_nodes()
+		var selected: Array[Node] = _editor_selection.get_selected_nodes()
 
-		if _selected.size() == 1 and _selected.front() is GaeaGenerator:
+		if selected.size() == 1 and selected.front() is GaeaGenerator:
 			_panel_button.show()
-			_panel_button.set_pressed(true)
-			_panel.populate(_selected.front())
+			make_bottom_panel_item_visible(_container)
+			_panel.populate(selected.front())
 		else:
 			if is_instance_valid(_panel.get_selected_generator()):
 				_panel_button.hide()
-				_panel_button.set_pressed(false)
+				hide_bottom_panel()
 				await _panel.unpopulate()
 
 
 func _disable_plugin() -> void:
 	if Engine.is_editor_hint():
 		_custom_project_settings.remove_settings()
+
+
+func show_bottom_panel() -> void:
+	make_bottom_panel_item_visible(_container)

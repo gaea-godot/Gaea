@@ -4,7 +4,6 @@ extends GaeaNodeParameter
 ## [GaeaMaterial] parameter editable in the inspector.
 
 
-
 func _get_variant_type() -> int:
 	return TYPE_OBJECT
 

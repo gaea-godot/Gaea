@@ -43,7 +43,7 @@ func _render(grid: GaeaGrid) -> void:
 				)
 
 
-func _on_area_erased(area: AABB) -> void:
+func _erase_area(area: AABB) -> void:
 	for x in range(area.position.x, area.end.x):
 		for y in range(area.position.y, area.end.y):
 			for layer in tile_map_layers:

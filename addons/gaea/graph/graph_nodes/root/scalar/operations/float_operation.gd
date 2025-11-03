@@ -4,7 +4,6 @@ extends GaeaNodeNumOp
 ## A [float] operator.
 
 
-
 func _get_title() -> String:
 	return "FloatOp"
 

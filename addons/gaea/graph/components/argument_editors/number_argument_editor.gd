@@ -1,7 +1,6 @@
 @tool
-extends GaeaGraphNodeArgumentEditor
 class_name GaeaNumberArgumentEditor
-
+extends GaeaGraphNodeArgumentEditor
 
 @onready var spin_box: SpinBox = %SpinBox
 @onready var h_slider: HSlider = %HSlider
@@ -10,7 +9,9 @@ class_name GaeaNumberArgumentEditor
 func _ready() -> void:
 	if is_part_of_edited_scene():
 		return
-	h_slider.add_theme_icon_override(&"grabber", get_theme_icon(&"GuiScrollGrabberHl", &"EditorIcons"))
+	h_slider.add_theme_icon_override(
+		&"grabber", get_theme_icon(&"GuiScrollGrabberHl", &"EditorIcons")
+	)
 
 
 func _configure() -> void:
@@ -41,18 +42,18 @@ func _configure() -> void:
 
 
 func get_arg_value() -> Variant:
-	if super() != null:
-		return super()
 	if type == GaeaValue.Type.FLOAT:
 		return float(spin_box.value)
 	return int(spin_box.value)
 
 
-func set_arg_value(new_value: Variant) -> void:
+func set_arg_value(new_value: Variant) -> Error:
 	if typeof(new_value) not in [TYPE_FLOAT, TYPE_INT]:
-		return
+		return ERR_INVALID_DATA
+
 	spin_box.value = new_value
 	h_slider.set_value_no_signal(new_value)
+	return OK
 
 
 func _on_h_slider_value_changed(value: float) -> void:

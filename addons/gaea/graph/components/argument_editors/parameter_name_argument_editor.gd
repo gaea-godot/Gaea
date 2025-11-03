@@ -1,38 +1,36 @@
 @tool
-extends GaeaGraphNodeArgumentEditor
 class_name GaeaParameterNameArgumentEditor
+extends GaeaGraphNodeArgumentEditor
 
-
-@onready var name_label: Label = $NameLabel
+@onready var _name_label: Label = $NameLabel
 @onready var _edit_button: Button = $EditButton
 
 
 func _configure() -> void:
 	if is_part_of_edited_scene():
 		return
-	await super ()
+	await super()
 
 	var editor_interface = Engine.get_singleton("EditorInterface")
 	_edit_button.icon = editor_interface.get_base_control().get_theme_icon(&"Edit", &"EditorIcons")
 
 
 func get_arg_value() -> String:
-	if super () != null:
-		return super ()
-	return name_label.text
+	return _name_label.text
 
 
-func set_arg_value(new_value: Variant) -> void:
+func set_arg_value(new_value: Variant) -> Error:
 	if typeof(new_value) not in [TYPE_STRING, TYPE_STRING_NAME]:
-		return
+		return ERR_INVALID_DATA
 
-	name_label.text = new_value
+	_name_label.text = new_value
+	return OK
 
 
 func _on_edit_button_pressed() -> void:
 	var line_edit: LineEdit = LineEdit.new()
 	line_edit.select_all_on_focus = true
-	line_edit.text = name_label.text
+	line_edit.text = _name_label.text
 	line_edit.expand_to_text_length = true
 	line_edit.text_changed.connect(_on_line_edit_text_changed.bind(line_edit))
 	line_edit.text_submitted.connect(_on_line_edit_text_submitted.bind(line_edit))
@@ -44,14 +42,14 @@ func _on_edit_button_pressed() -> void:
 
 func _on_line_edit_text_changed(new_text: String, line_edit: LineEdit) -> void:
 	var editor_interface = Engine.get_singleton("EditorInterface")
-	if (graph_node.generator.data.has_parameter(new_text) and new_text != name_label.text) or not new_text.is_valid_identifier():
+	if (graph_node.generator.data.has_parameter(new_text) and new_text != _name_label.text) or not new_text.is_valid_identifier():
 		line_edit.add_theme_color_override(&"font_color", editor_interface.get_base_control().get_theme_color(&"error_color", &"Editor"))
 	else:
 		line_edit.remove_theme_color_override(&"font_color")
 
 
 func _on_line_edit_text_submitted(new_text: String, line_edit: LineEdit) -> void:
-	if new_text == name_label.text:
+	if new_text == _name_label.text:
 		line_edit.queue_free()
 		return
 
@@ -63,7 +61,7 @@ func _on_line_edit_text_submitted(new_text: String, line_edit: LineEdit) -> void
 		push_error("Parameter name '%s' matches an already existing parameter." % new_text)
 		return
 
-	name_label.text = new_text
+	_name_label.text = new_text
 	graph_node.auto_shrink.call_deferred()
 	argument_value_changed.emit(new_text)
 	line_edit.queue_free()

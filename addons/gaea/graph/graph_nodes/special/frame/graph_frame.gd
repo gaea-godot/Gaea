@@ -43,8 +43,8 @@ func _on_rename_text_submitted(new_text: String) -> void:
 
 
 func start_tint_color_change(gaea_panel: Control) -> void:
-	var _popup: PopupPanel = PopupPanel.new()
-	_popup.position = gaea_panel.get_global_mouse_position() as Vector2i
+	var popup: PopupPanel = PopupPanel.new()
+	popup.position = gaea_panel.get_global_mouse_position() as Vector2i
 
 	var vbox_container: VBoxContainer = VBoxContainer.new()
 
@@ -54,15 +54,15 @@ func start_tint_color_change(gaea_panel: Control) -> void:
 
 	var ok_button: Button = Button.new()
 	ok_button.text = "OK"
-	ok_button.pressed.connect(_popup.queue_free)
+	ok_button.pressed.connect(popup.queue_free)
 
 	vbox_container.add_child(color_picker)
 	vbox_container.add_child(ok_button)
 
-	_popup.add_child(vbox_container)
+	popup.add_child(vbox_container)
 
-	gaea_panel.add_child(_popup)
-	_popup.popup()
+	gaea_panel.add_child(popup)
+	popup.popup()
 
 
 func _on_color_changed(new_color: Color) -> void:

@@ -1,6 +1,6 @@
 @tool
-extends GaeaNodeResource
 class_name GaeaNodeComposeRange
+extends GaeaNodeResource
 ## Composes a range value from 2 numbers, [param min] and [param max].
 ##
 ## Ranges internally have the following format:

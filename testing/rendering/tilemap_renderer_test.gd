@@ -18,7 +18,7 @@ func before() -> void:
 
 func test_full_area() -> void:
 	scene.generator.generate()
-	await scene.generator.generation_finished
+	await scene.renderer.render_finished
 
 	var grass_hash: int = scene.renderer.tile_map_layers[0].get_used_cells_by_id(0, Vector2i(0, 0)).hash()
 	assert_int(grass_hash)\

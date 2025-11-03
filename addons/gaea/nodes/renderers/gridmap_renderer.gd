@@ -4,13 +4,14 @@ extends GaeaRenderer
 ## Renders [GridMapGaeaMaterial]s to a [GridMap].
 
 
+## Should match the size of the [member generator]'s [member GaeaGraph.layers] array. Will
+## try to match any generated layers and render it using the corresponding [GridMap].
+@export var grid_maps: Array[GridMap] = []
+
 ## The [GridMap] this will try to render on.
 ## @deprecated: Use [member grid_maps] instead
 var gridmap: GridMap
 
-## Should match the size of the [member generator]'s [member GaeaGraph.layers] array. Will
-## try to match any generated layers and render it using the corresponding [GridMap].
-@export var grid_maps: Array[GridMap] = []
 
 ## Used to migrate gridmap reference
 func _enter_tree() -> void:
@@ -31,7 +32,7 @@ func _render(grid: GaeaGrid) -> void:
 				grid_maps[layer_idx].set_cell_item(cell, value.item_idx)
 
 
-func _on_area_erased(area: AABB) -> void:
+func _erase_area(area: AABB) -> void:
 	for x in range(area.position.x, area.end.x):
 		for y in range(area.position.y, area.end.y):
 			for z in range(area.position.z, area.end.z):
