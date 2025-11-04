@@ -1,8 +1,8 @@
 extends GdUnitTestSuite
 
 
-@onready var walker_graph: GaeaGraph = load("uid://bhvhxcvp7uosa") # base_walker.tres
-@onready var walker_demo: PackedScene = load("uid://di7u4f3idjdd") # walker_demo.tscn
+@onready var walker_graph: GaeaGraph = load("uid://3ogbw502hfvu") # base_walker.tres
+@onready var walker_demo: PackedScene = load("uid://dh5c2eomfri6n") # walker_demo.tscn
 var graph: GaeaGraph
 
 
