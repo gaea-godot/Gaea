@@ -9,6 +9,8 @@ const ITEM_2_TILES_HASH_SMALL := 3765593323
 
 var scene: GaeaRendererTester
 var runner: GdUnitSceneRunner
+var renderer: GridMapGaeaRenderer:
+	get: return scene.renderer
 
 
 func before() -> void:
@@ -18,9 +20,9 @@ func before() -> void:
 
 func test_full_area() -> void:
 	scene.generator.generate()
-	await scene.renderer.render_finished
+	await renderer.render_finished
 	
-	var item_1_cells_used: Array[Vector3i] = scene.renderer.grid_maps[0].get_used_cells_by_item(0)
+	var item_1_cells_used: Array[Vector3i] = renderer.grid_maps[0].get_used_cells_by_item(0)
 	assert_array(item_1_cells_used).is_not_empty()
 	var item_1_hash: int = item_1_cells_used.hash()
 	assert_int(item_1_hash)\
@@ -28,7 +30,7 @@ func test_full_area() -> void:
 		.append_failure_message("Produced hash:%s\n Expected hash:%s" % [item_1_hash, ITEM_1_TILES_HASH])\
 		.is_equal(ITEM_1_TILES_HASH)
 
-	var item_2_cells_used: Array[Vector3i] = scene.renderer.grid_maps[1].get_used_cells_by_item(1)
+	var item_2_cells_used: Array[Vector3i] = renderer.grid_maps[1].get_used_cells_by_item(1)
 	assert_array(item_2_cells_used).is_not_empty()
 	var item_2_hash: int = item_2_cells_used.hash()
 	assert_int(item_2_hash)\
@@ -39,10 +41,10 @@ func test_full_area() -> void:
 
 func test_reset() -> void:
 	scene.generator.request_reset()
-	assert_array(scene.renderer.grid_maps[0].get_used_cells())\
+	assert_array(renderer.grid_maps[0].get_used_cells())\
 		.override_failure_message("[b]GridMapGaeaRenderer[/b] wasn't cleared properly.")\
 		.is_empty()
-	assert_array(scene.renderer.grid_maps[1].get_used_cells())\
+	assert_array(renderer.grid_maps[1].get_used_cells())\
 		.override_failure_message("[b]GridMapGaeaRenderer[/b] wasn't cleared properly.")\
 		.is_empty()
 
@@ -52,7 +54,7 @@ func test_small_area() -> void:
 	scene.generator.generate_area(area)
 	await scene.generator.generation_finished
 
-	var item_1_cells_used: Array[Vector3i] = scene.renderer.grid_maps[0].get_used_cells_by_item(0)
+	var item_1_cells_used: Array[Vector3i] = renderer.grid_maps[0].get_used_cells_by_item(0)
 	assert_array(item_1_cells_used).is_not_empty()
 	var item_1_hash: int = item_1_cells_used.hash()
 	assert_int(item_1_hash)\
@@ -60,7 +62,7 @@ func test_small_area() -> void:
 		.append_failure_message("Produced hash:%s\n Expected hash:%s" % [item_1_hash, ITEM_1_TILES_HASH])\
 		.is_equal(ITEM_1_TILES_HASH_SMALL)
 
-	var item_2_cells_used: Array[Vector3i] = scene.renderer.grid_maps[1].get_used_cells_by_item(1)
+	var item_2_cells_used: Array[Vector3i] = renderer.grid_maps[1].get_used_cells_by_item(1)
 	assert_array(item_2_cells_used).is_not_empty()
 	var item_2_hash: int = item_2_cells_used.hash()
 	assert_int(item_2_hash)\
@@ -69,6 +71,6 @@ func test_small_area() -> void:
 		.is_equal(ITEM_2_TILES_HASH_SMALL)
 
 func test_null_layer() -> void:
-	scene.renderer.grid_maps[1] = null
+	renderer.grid_maps[1] = null
 	assert_error(scene.generator.generate)\
 		.is_success()
