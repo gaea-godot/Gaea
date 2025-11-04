@@ -20,7 +20,7 @@ func test_generations_match() -> void:
 	var _runner := scene_runner(scene)
 	await scene.test_generation()
 	var second_grid: GaeaGrid = scene.last_grid
-	assert_that(seed).is_equal(scene.gaea_generator.seed)
+	assert_that(generator_seed).is_equal(scene.gaea_generator.seed)
 	assert_bool(first_grid._grid.recursive_equal(second_grid._grid, 1)).is_true()
 
 
@@ -29,5 +29,5 @@ func test_generations_dont_match() -> void:
 	var _runner := scene_runner(scene)
 	await scene.test_generation(5)
 	var second_grid: GaeaGrid = scene.last_grid
-	assert_that(seed).is_not_equal(scene.gaea_generator.seed)
+	assert_that(generator_seed).is_not_equal(scene.gaea_generator.seed)
 	assert_bool(first_grid._grid.recursive_equal(second_grid._grid, 1)).is_false()
