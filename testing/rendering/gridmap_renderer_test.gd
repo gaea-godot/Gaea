@@ -7,7 +7,7 @@ const ITEM_1_TILES_HASH_SMALL := 1666742523
 const ITEM_2_TILES_HASH_SMALL := 3765593323
 
 
-var scene: Node3D
+var scene: GaeaRendererTester
 var runner: GdUnitSceneRunner
 
 

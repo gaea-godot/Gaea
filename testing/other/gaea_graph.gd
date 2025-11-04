@@ -145,7 +145,7 @@ func test_remove_node() -> void:
 
 func test_assign_to_generator() -> void:
 	var premade_graph = walker_graph
-	var scene: GaeaWalkerDemo = walker_demo.instantiate()
+	var scene: GaeaGenerationTester = walker_demo.instantiate()
 	var _runner := scene_runner(scene)
 	scene.gaea_generator.data = premade_graph
 	await scene.test_generation()

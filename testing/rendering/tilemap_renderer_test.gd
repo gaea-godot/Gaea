@@ -7,7 +7,7 @@ const GRASS_TILES_HASH_SMALL := 2384678874
 const SAND_TILES_HASH_SMALL := 1850823263
 
 
-var scene: Node2D
+var scene: GaeaRendererTester
 var runner: GdUnitSceneRunner
 
 

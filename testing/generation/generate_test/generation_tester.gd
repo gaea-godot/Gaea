@@ -1,5 +1,6 @@
 extends Node2D
-class_name GaeaWalkerDemo
+
+class_name GaeaGenerationTester
 
 @onready var gaea_generator: GaeaGenerator = $GaeaGenerator
 
