@@ -73,7 +73,7 @@ func test_is_arguments_list_overriden() -> void:
 ## Tests that no `GaeaNodeResource`s in the root are unnamed.
 func test_for_untitled() -> void:
 	for node in nodes_in_root:
-		await assert_str(node.get_title())\
+		assert_str(node.get_title())\
 			.override_failure_message("Node at [b]%s[/b] is unnamed" % _get_node_path(node))\
 			.is_not_equal("Unnamed").is_not_equal("")
 
@@ -88,13 +88,13 @@ func test_has_outputs() -> void:
 ## Tests that no `GaeaNodeResource`s in the root have an invalid or null type.
 func test_null_type() -> void:
 	for node in nodes_in_root:
-		await assert_int(node.get_type())\
+		assert_int(node.get_type())\
 			.override_failure_message("Type of node at [b]%s[/b] is not a valid type." % _get_node_path(node))\
 			.is_in(GaeaValue.Type.values())\
 			.override_failure_message("Type of node at [b]%s[/b] is null." % _get_node_path(node))\
 			.is_not_equal(GaeaValue.Type.NULL)
 		for argument in node.get_arguments_list():
-			await assert_int(node.get_argument_type(argument))\
+			assert_int(node.get_argument_type(argument))\
 				.override_failure_message("Type of argument [b]%s[/b] is invalid." % argument)\
 				.append_failure_message("Node at [b]%s[/b]." % _get_node_path(node))\
 				.is_in(GaeaValue.Type.values())\
@@ -102,7 +102,7 @@ func test_null_type() -> void:
 				.append_failure_message("Node at [b]%s[/b]." % _get_node_path(node))\
 				.is_not_equal(GaeaValue.Type.NULL)
 		for output in node.get_output_ports_list():
-			await assert_int(node.get_output_port_type(output))\
+			assert_int(node.get_output_port_type(output))\
 				.override_failure_message("Type of output [b]%s[/b] is invalid." % output)\
 				.append_failure_message("Node at [b]%s[/b]." % _get_node_path(node))\
 				.is_in(GaeaValue.Type.values())\
@@ -114,7 +114,7 @@ func test_null_type() -> void:
 ## Check that all nodes have descriptions.
 func test_has_description() -> void:
 	for node in nodes_in_root:
-		await assert_str(node.get_description())\
+		assert_str(node.get_description())\
 			.override_failure_message("Description of node at [b]%s[/b] is empty." % _get_node_path(node))\
 			.is_not_empty()
 
@@ -122,7 +122,7 @@ func test_has_description() -> void:
 ## Check that all nodes have a valid scene.
 func test_node_scene() -> void:
 	for node in nodes_in_root:
-		await assert_object(node.get_scene())\
+		assert_object(node.get_scene())\
 			.override_failure_message("_get_scene at [b]%s[/b] returns null." % _get_node_path(node))\
 			.is_not_null()\
 			.override_failure_message("_get_scene at [b]%s[/b] isn't a PackedScene." % _get_node_path(node))\

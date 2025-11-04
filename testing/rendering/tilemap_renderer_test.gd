@@ -62,10 +62,10 @@ func test_small_area() -> void:
 
 	assert_vector(scene.renderer.tile_map_layers[0].get_used_rect().size)\
 		.override_failure_message("Rendered [b]TileMapGaeaRenderer[/b] area was bigger than expected.")\
-		.is_less_equal(Vector2i(area.size.x, area.size.y))
+		.is_less_equal(Vector2(area.size.x, area.size.y))
 	assert_vector(scene.renderer.tile_map_layers[1].get_used_rect().size)\
 		.override_failure_message("Rendered [b]TileMapGaeaRenderer[/b] area was bigger than expected.")\
-		.is_less_equal(Vector2i(area.size.x, area.size.y))
+		.is_less_equal(Vector2(area.size.x, area.size.y))
 
 
 func test_null_layer() -> void:

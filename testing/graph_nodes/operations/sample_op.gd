@@ -1,7 +1,6 @@
 extends "res://testing/graph_nodes/operations/float_op.gd"
 
 
-
 func before():
 	node = GaeaNodeSampleOp.new()
 

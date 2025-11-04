@@ -88,6 +88,7 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 
 
 func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary[Vector3i, float]:
+	@warning_ignore("shadowed_variable_base_class")
 	var reference: Dictionary = _get_arg(&"reference", area, graph)
 	var row: int = _get_arg(&"reference_y", area, graph)
 	var height_offset: int = _get_arg(&"height_offset", area, graph)

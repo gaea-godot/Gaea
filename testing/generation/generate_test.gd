@@ -2,7 +2,7 @@ extends GdUnitTestSuite
 
 
 var first_grid: GaeaGrid
-var seed:int
+var generator_seed:int
 
 const test_scene = "uid://dh5c2eomfri6n"
 
@@ -11,7 +11,7 @@ func test_has_generated() -> void:
 	var _runner := scene_runner(scene)
 	await scene.test_generation()
 	first_grid = scene.last_grid
-	seed = scene.gaea_generator.seed
+	generator_seed = scene.gaea_generator.seed
 	assert_dict(first_grid._grid).is_not_empty()
 
 
