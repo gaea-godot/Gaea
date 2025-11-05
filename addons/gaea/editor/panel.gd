@@ -328,7 +328,7 @@ func _instantiate_node(id: int) -> GraphElement:
 	node.resource = resource
 	resource.id = id
 	node.generator = get_selected_generator()
-	node.position_offset = get_selected_generator().data.get_node_data_value(id, &"position")
+	node.position_offset = get_selected_generator().data.get_node_position(id)
 	_graph_edit.add_child(node)
 
 	return node

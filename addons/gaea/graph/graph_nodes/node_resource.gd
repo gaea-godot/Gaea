@@ -627,7 +627,7 @@ func _log_error(message: String, graph: GaeaGraph, node_idx: int = -1):
 	if node_idx >= 0:
 		printerr("%s:%s in node '%s' - %s" % [
 			graph.get_node(node_idx).resource_path,
-			graph.get_node_data(node_idx).position,
+			graph.get_node_position(node_idx),
 			graph.get_node(node_idx).get_title(),
 			message,
 		])

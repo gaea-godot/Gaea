@@ -236,7 +236,7 @@ func test_copy_paste() -> void:
 			copy.add_node(
 				id,
 				graph.get_node(id).duplicate(),
-				graph.get_node_data_value(id, &"position"),
+				graph.get_node_position(id),
 				graph.get_node_data(id).duplicate(true)
 			)
 
@@ -244,7 +244,7 @@ func test_copy_paste() -> void:
 		else:
 			copy.add_frame(
 				id,
-				graph.get_node_data_value(id, &"position"),
+				graph.get_node_position(id),
 				graph.get_node_data(id).duplicate(true)
 			)
 
@@ -259,7 +259,7 @@ func test_copy_paste() -> void:
 
 	for original_id in id_mapping.keys():
 		var copy_id: int = id_mapping.get(original_id)
-		for argument in graph.get_node_data_value(original_id, &"arguments", {}):
+		for argument in graph.get_node_argument_list(original_id):
 			var original_value = graph.get_node_argument(original_id, argument, 1)
 			var copied_value = graph.get_node_argument(copy_id, argument, 2)
 			assert_bool(original_value == copied_value)\

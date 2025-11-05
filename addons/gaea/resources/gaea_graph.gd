@@ -212,6 +212,14 @@ func set_node_position(id: int, position: Vector2) -> void:
 	get_node_data(id).set(&"position", position)
 
 
+## Returns the specified node's position.
+func get_node_position(id: int) -> Vector2:
+	if not has_node(id) or not get_node_data(id).has(&"position"):
+		push_error("Failed to get position of node, returning Vector2().")
+		return Vector2()
+	return get_node_data(id).get(&"position")
+
+
 ## Sets the specified node's argument of [param arg_name] to [param value].
 func set_node_argument(id: int, arg_name: StringName, value: Variant) -> void:
 	get_node_data(id).get_or_add(&"arguments", {}).set(arg_name, value)
@@ -221,6 +229,11 @@ func set_node_argument(id: int, arg_name: StringName, value: Variant) -> void:
 ## if it doesn't have one.
 func get_node_argument(id: int, arg_name: StringName, default_value: Variant = null) -> Variant:
 	return get_node_data(id).get(&"arguments", {}).get(arg_name, default_value)
+
+
+## Returns the specified node's argument list, a [Dictionary] where the keys are the argument names.
+func get_node_argument_list(id: int) -> Dictionary:
+	return get_node_data(id).get(&"arguments", {})
 
 
 ## Removes the specified argument from the specified node, meaning it will use the default value.
