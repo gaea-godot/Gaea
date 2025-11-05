@@ -114,7 +114,7 @@ func _on_id_pressed(id: int) -> void:
 			var node: GraphElement = selected.front()
 			if node is GaeaGraphFrame:
 				node.set_tint_color_enabled(is_item_checked(idx))
-				node.generator.data.set_node_data_value(&"tint_color_enabled", is_item_checked(idx), node.id)
+				node.generator.data.set_node_data_value(node.id, &"tint_color_enabled", is_item_checked(idx))
 		Action.ENABLE_AUTO_SHRINK:
 			set_item_checked(idx, not is_item_checked(idx))
 			var selected: Array = graph_edit.get_selected()
