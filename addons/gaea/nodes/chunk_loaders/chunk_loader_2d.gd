@@ -69,7 +69,6 @@ func _update_loading(actor_position: Vector2i) -> void:
 				Vector3(required.x * chunk_size.x, required.y * chunk_size.y, 0),
 				Vector3i(chunk_size.x, chunk_size.y, 1)
 			))
-	print(_loaded_chunks)
 
 
 func _get_actor_position() -> Vector2i:
