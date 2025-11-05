@@ -118,6 +118,7 @@ func add_node(node: GaeaNodeResource, position: Vector2, id: int = get_next_avai
 	return id
 
 
+## Adds the specified node as in [method add_node], then sets its saved data to [param data].
 func add_node_with_data(node: GaeaNodeResource, data: Dictionary, id: int = get_next_available_id()) -> int:
 	add_node(node, data.get(&"position", Vector2.ZERO), id)
 	set_node_data(id, data)
@@ -138,6 +139,7 @@ func add_frame(position: Vector2, id: int = get_next_available_id()) -> int:
 	return id
 
 
+## Adds the specified frame as in [method add_frame], then sets its saved data to [param data].
 func add_frame_with_data(data: Dictionary, id: int = get_next_available_id()) -> int:
 	_node_data.set(id, data)
 	return id
@@ -156,7 +158,8 @@ func remove_node(id: int) -> void:
 	_resources.erase(id)
 
 
-
+## Pastes the nodes specified in [param copy] to the frame, offset so that the top-left node is
+## in [param at_position].
 func paste_nodes(copy: GaeaNodesCopy, at_position: Vector2) -> Array[int]:
 	var offset: Vector2 = at_position - copy.get_origin()
 	var id_mapping: Dictionary[int, int]
@@ -220,6 +223,7 @@ func get_node_argument(id: int, arg_name: StringName, default_value: Variant = n
 	return get_node_data(id).get(&"arguments", {}).get(arg_name, default_value)
 
 
+## Removes the specified argument from the specified node, meaning it will use the default value.
 func remove_node_argument(id: int, arg_name: StringName) -> void:
 	get_node_data(id).get(&"arguments", {}).erase(arg_name)
 
