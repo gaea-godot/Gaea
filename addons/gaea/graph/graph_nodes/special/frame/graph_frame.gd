@@ -25,7 +25,7 @@ func _on_dragged(_from: Vector2, to: Vector2) -> void:
 	graph_edit.main_editor.graph.set_node_position(id, to)
 
 
-func start_rename(gaea_panel: Control) -> void:
+func start_rename(gaea_panel: GaeaEditorBottomPanel) -> void:
 	var line_edit: LineEdit = LineEdit.new()
 	line_edit.text = title
 	line_edit.select_all_on_focus = true
