@@ -110,7 +110,7 @@ func test_frame() -> void:
 		return
 
 	graph.attach_node_to_frame(0, 2)
-	var _attached: Array[int] = graph.get_node_data_value(2, &"attached", [])
+	var _attached: Array[int] = graph.get_nodes_attached_to_frame(2)
 	assert_array(_attached)\
 		.override_failure_message("Frame's attached list has unexpected size.")\
 		.append_failure_message("Current: %s\nExpected: %s" % [_attached.size(), 1])\
@@ -123,7 +123,7 @@ func test_frame() -> void:
 		return
 
 	graph.detach_node_from_frame(0)
-	_attached = graph.get_node_data_value(2, &"attached", [9])
+	_attached = graph.get_nodes_attached_to_frame(2)
 	assert_array(_attached)\
 		.override_failure_message("Frame's attached list is not empty after detaching node.")\
 		.is_empty()
@@ -171,7 +171,7 @@ func test_duplicate() -> void:
 	# Duplication
 	var _source = walker_graph
 	var _copy: GaeaGraph = _source.duplicate_deep(Resource.DEEP_DUPLICATE_INTERNAL)
-	
+
 	# Connections
 	var _copy_connections = _copy.get_raw_connections()
 	var _source_connections = _source.get_raw_connections()
@@ -179,35 +179,35 @@ func test_duplicate() -> void:
 		.override_failure_message("Duplicate graph's connections do not match the original.")\
 		.append_failure_message("Size: %d\nExpected: %d" % [_copy_connections.size(), _source_connections.size()])\
 		.contains_same(_source_connections)
-	
+
 	# Nodes
 	var _copy_nodes = _copy.get_all_node_data()
 	var _source_nodes = _source.get_all_node_data()
-	
+
 	# Node IDs
 	assert_array(_copy_nodes.keys())\
 		.override_failure_message("Duplicate graph's node ids do not match the original.")\
 		.contains_same(_source_nodes.keys())
-	
+
 	# Node Values
 	assert_bool(compare_dictionaries(_source_nodes.values(), _copy_nodes.values(), _copy.resource_path))\
 		.override_failure_message("Duplicate graph's node values do not match the original.")\
 		.is_true()
-	
+
 	# Parameters
 	var _copy_parameters = _copy.get_parameter_list()
 	var _source_parameters = _source.get_parameter_list()
-	
+
 	# Parameter Keys
 	assert_array(_copy_parameters.keys())\
 		.override_failure_message("Duplicate graph's parameter keys do not match the original.")\
 		.contains_same(_source_parameters.keys())
-	
+
 	# Parameter Values
 	assert_bool(compare_dictionaries(_source_parameters.values(), _copy_parameters.values(), _copy.resource_path))\
 		.override_failure_message("Duplicate graph's parameter values do not match the original.")\
 		.is_true()
-	
+
 	# Save Version
 	assert_int(_copy.save_version)\
 		.override_failure_message("Duplicate graph's save version does not match the original.")\
@@ -309,8 +309,8 @@ func test_copy_paste() -> void:
 				.is_equal(copied_connection[&"from_port"])
 
 		if graph.get_node_type(original_id) == GaeaGraph.NodeType.FRAME:
-			var original_attached: Array = graph.get_node_data_value(original_id, &"attached")
-			var copy_attached: Array = graph.get_node_data_value(copy_id, &"attached")
+			var original_attached: Array = graph.get_nodes_attached_to_frame(original_id)
+			var copy_attached: Array = graph.get_nodes_attached_to_frame(copy_id)
 			if original_attached.is_empty():
 				assert_array(copy_attached).is_empty()
 				continue
