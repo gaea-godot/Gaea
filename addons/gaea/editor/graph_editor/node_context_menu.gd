@@ -13,6 +13,7 @@ enum Action {
 	RENAME,
 	ENABLE_TINT,
 	TINT,
+	GROUP_IN_FRAME,
 	DETACH,
 	ENABLE_AUTO_SHRINK,
 	OPEN_IN_INSPECTOR
@@ -42,10 +43,12 @@ func populate(selected: Array) -> void:
 	if not is_instance_valid(graph_edit.copy_buffer):
 		set_item_disabled(get_item_index(Action.PASTE), true)
 		set_item_disabled(get_item_index(Action.CLEAR_BUFFER), true)
+	if not selected.is_empty():
+		add_separator()
+		add_item("Group in New Frame", Action.GROUP_IN_FRAME)
 
 	for node: GraphElement in selected:
 		if graph_edit.attached_elements.has(node.name):
-			add_separator()
 			add_item("Detach from Parent Frame", Action.DETACH)
 			break
 
@@ -122,6 +125,20 @@ func _on_id_pressed(id: int) -> void:
 			var node: GraphElement = selected.front()
 			if node is GaeaGraphFrame:
 				node.set_autoshrink_enabled(is_item_checked(idx))
+		Action.GROUP_IN_FRAME:
+			var selected: Array = graph_edit.get_selected()
+			var front_node: GraphElement = selected.front()
+			var frame_id: int = panel.get_selected_generator().data.add_frame(
+				front_node.position_offset
+			)
+			for node in selected:
+				var node_id: int
+				if node is GaeaGraphNode:
+					node_id = node.resource.id
+				elif node is GaeaGraphFrame:
+					node_id = node.id
+				panel.get_selected_generator().data.attach_node_to_frame(node_id, frame_id)
+			panel.instantiate_node(frame_id)
 		Action.DETACH:
 			var selected: Array = graph_edit.get_selected()
 			for node: GraphElement in selected:
