@@ -85,7 +85,7 @@ func _capture_all_children(tree_item: TreeItem) -> void:
 
 
 func _on_open_folder_button_pressed() -> void:
-	OS.shell_show_in_file_manager(ProjectSettings.globalize_path("user://"))
+	OS.shell_show_in_file_manager(ProjectSettings.globalize_path("user://node_images/"))
 
 
 func _on_confirmation_dialog_confirmed() -> void:
