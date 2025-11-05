@@ -295,8 +295,8 @@ func detach_all_nodes_from_frame(frame_id: int) -> void:
 
 
 ## Returns all node ids attached to the specified frame.
-func get_nodes_attached_to_frame(frame_id: int) -> Array[int]:
-	return get_node_data_value(frame_id, &"attached", [] as Array[int])
+func get_nodes_attached_to_frame(frame_id: int) -> Array:
+	return get_node_data_value(frame_id, &"attached", [])
 
 
 ## Returns the id of the frame the specified node is attached to. If there is none,
