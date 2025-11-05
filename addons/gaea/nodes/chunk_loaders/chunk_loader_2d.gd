@@ -50,19 +50,26 @@ func _update_loading(actor_position: Vector2i) -> void:
 	var required_chunks: Array[Vector2] = _get_required_chunks(actor_position)
 
 	if unload_chunks:
+		var unloaded_chunks: Array[Vector2]
 		for chunk in _loaded_chunks:
 			if not required_chunks.has(chunk):
 				generator.request_area_erasure(AABB(
 					Vector3(chunk.x * chunk_size.x, chunk.y * chunk_size.y, 0),
 					Vector3i(chunk_size.x, chunk_size.y, 1)
 				))
+				unloaded_chunks.append(chunk)
+		for unloaded_chunk in unloaded_chunks:
+			_loaded_chunks.erase(unloaded_chunk)
+
 
 	for required in required_chunks:
-		_loaded_chunks.append(required)
-		generator.generate_area(AABB(
-			Vector3(required.x * chunk_size.x, required.y * chunk_size.y, 0),
-			Vector3i(chunk_size.x, chunk_size.y, 1)
-		))
+		if not _loaded_chunks.has(required):
+			_loaded_chunks.append(required)
+			generator.generate_area(AABB(
+				Vector3(required.x * chunk_size.x, required.y * chunk_size.y, 0),
+				Vector3i(chunk_size.x, chunk_size.y, 1)
+			))
+	print(_loaded_chunks)
 
 
 func _get_actor_position() -> Vector2i:
