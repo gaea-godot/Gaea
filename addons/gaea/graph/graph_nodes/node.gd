@@ -54,9 +54,7 @@ func _ready() -> void:
 				documentation_button.flat = true
 				get_titlebar_hbox().add_child(documentation_button)
 				documentation_button.pressed.connect(_open_node_documentation)
-				tree_exiting.connect(
-					documentation_button.pressed.disconnect.bind(_open_node_documentation)
-				)
+
 
 	connections_updated.connect(_update_arguments_visibility)
 	removed.connect(_on_removed)
