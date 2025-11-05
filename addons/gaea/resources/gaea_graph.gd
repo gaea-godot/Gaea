@@ -171,7 +171,7 @@ func paste_nodes(copy: GaeaNodesCopy, at_position: Vector2) -> Array[int]:
 		match copy.get_node_type(id):
 			NodeType.NODE:
 				copy_id = add_node_with_data(copy.get_node_resource(id), copy.get_node_data(id))
-				set_node_data_value(copy_id, &"salt", randi())
+				set_node_salt(copy_id, randi())
 			NodeType.FRAME:
 				copy_id = add_frame_with_data(copy.get_node_data(id))
 				frames.append(copy_id)
@@ -220,6 +220,16 @@ func get_node_position(id: int) -> Vector2:
 	return get_node_data(id).get(&"position")
 
 
+## Sets the specified node's salt.
+func set_node_salt(id: int, salt: int) -> void:
+	set_node_data_value(id, &"salt", salt)
+
+
+## Returns the specified node's salt. Defaults to 0.
+func get_node_salt(id: int) -> int:
+	return get_node_data_value(id, &"salt", 0)
+
+
 ## Sets the specified node's argument of [param arg_name] to [param value].
 func set_node_argument(id: int, arg_name: StringName, value: Variant) -> void:
 	get_node_data(id).get_or_add(&"arguments", {}).set(arg_name, value)
@@ -228,17 +238,17 @@ func set_node_argument(id: int, arg_name: StringName, value: Variant) -> void:
 ## Returns the specified node's argument of [param arg_name], defaulting to [param default_value]
 ## if it doesn't have one.
 func get_node_argument(id: int, arg_name: StringName, default_value: Variant = null) -> Variant:
-	return get_node_data(id).get(&"arguments", {}).get(arg_name, default_value)
+	return get_node_argument_list(id).get(arg_name, default_value)
 
 
 ## Returns the specified node's argument list, a [Dictionary] where the keys are the argument names.
 func get_node_argument_list(id: int) -> Dictionary:
-	return get_node_data(id).get(&"arguments", {})
+	return get_node_data_value(id, &"arguments", {})
 
 
 ## Removes the specified argument from the specified node, meaning it will use the default value.
 func remove_node_argument(id: int, arg_name: StringName) -> void:
-	get_node_data(id).get(&"arguments", {}).erase(arg_name)
+	get_node_argument_list(id).erase(arg_name)
 
 
 ## Sets the specified node's enum value at [param enum_idx] to [param value]
