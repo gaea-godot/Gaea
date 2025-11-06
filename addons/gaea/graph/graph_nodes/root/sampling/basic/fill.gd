@@ -28,11 +28,11 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.SAMPLE
 
 
-func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary[Vector3i, float]:
-	var grid: Dictionary[Vector3i, float]
+func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> GaeaValue.Sample:
+	var sample: GaeaValue.Sample = GaeaValue.Sample.new()
 	var value: float = _get_arg(&"value", area, graph)
 	for x in _get_axis_range(Vector3i.AXIS_X, area):
 		for y in _get_axis_range(Vector3i.AXIS_Y, area):
 			for z in _get_axis_range(Vector3i.AXIS_Z, area):
-				grid[Vector3i(x, y, z)] = value
-	return grid
+				sample.set_xyz(x, y, z, value)
+	return sample

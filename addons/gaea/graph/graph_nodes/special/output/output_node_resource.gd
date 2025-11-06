@@ -72,17 +72,18 @@ func execute(area: AABB, graph: GaeaGraph, generator: GaeaGenerator) -> void:
 	for layer_idx in graph.layers.size():
 		var layer_resource: GaeaLayer = graph.layers.get(layer_idx)
 		if not is_instance_valid(layer_resource) or not layer_resource.enabled:
-			grid.add_layer(layer_idx, {}, layer_resource)
+			grid.add_layer(layer_idx, null, layer_resource)
 			continue
 
 		_log_layer("Start", layer_idx, graph)
 
-		var grid_data: Dictionary = _get_arg(&"%d" % layer_idx, area, graph)
+		var grid_data: GaeaValue.Map = _get_arg(&"%d" % layer_idx, area, graph)
 		grid.add_layer(layer_idx, grid_data, layer_resource)
 
 		_log_layer("End", layer_idx, graph)
 
 	_log_execute("End", area, graph)
+
 
 	generator.generation_finished.emit.call_deferred(grid)
 

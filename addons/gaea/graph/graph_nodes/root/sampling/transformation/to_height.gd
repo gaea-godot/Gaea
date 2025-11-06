@@ -87,14 +87,13 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.SAMPLE
 
 
-func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary[Vector3i, float]:
-	@warning_ignore("shadowed_variable_base_class")
-	var reference: Dictionary = _get_arg(&"reference", area, graph)
+func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> GaeaValue.Sample:
+	var sample_reference: GaeaValue.Sample = _get_arg(&"reference", area, graph)
 	var row: int = _get_arg(&"reference_y", area, graph)
 	var height_offset: int = _get_arg(&"height_offset", area, graph)
 	var displacement: int = _get_arg(&"displacement_intensity", area, graph)
 	var gradient_intensity: float = _get_arg(&"gradient_intensity", area, graph)
-	var sample: Dictionary[Vector3i, float] = {}
+	var result: GaeaValue.Sample = GaeaValue.Sample.new()
 	var type: Type = get_enum_selection(0) as Type
 
 	var remap_offset: float = 0.0
@@ -103,17 +102,23 @@ func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictio
 
 	var z_range: Array = [0] if (type == Type.TYPE_2D) else (_get_axis_range(Vector3i.AXIS_Z, area))
 	for x in _get_axis_range(Vector3i.AXIS_X, area):
-		if not reference.has(Vector3i(x, row, 0)):
+		if not sample_reference.has(Vector3i(x, row, 0)):
 			continue
 		for z in z_range:
-			var height: int = floor(reference[Vector3i(x, row, z)] * displacement + height_offset)
+			var height: int = floor(sample_reference.get_xyz(x, row, z) * displacement + height_offset)
 			for y in _get_axis_range(Vector3i.AXIS_Y, area):
 				if y >= -height and type == Type.TYPE_2D:
-					sample[Vector3i(x, y, z)] = 1.0 if is_zero_approx(remap_offset) else remap(
-						y, -height + remap_offset, -height, 0, 1.0
+					result.set_xyz(
+						x, y, z,
+						1.0 if is_zero_approx(remap_offset) else remap(
+							y, -height + remap_offset, -height, 0, 1.0
+						)
 					)
 				elif y <= height and type == Type.TYPE_3D:
-					sample[Vector3i(x, y, z)] = 1.0 if is_zero_approx(remap_offset) else remap(
-						y, height, height - remap_offset, 1.0, 0.0
+					result.set_xyz(
+						x, y, z,
+						1.0 if is_zero_approx(remap_offset) else remap(
+							y, height, height - remap_offset, 1.0, 0.0
+						)
 					)
-	return sample
+	return result

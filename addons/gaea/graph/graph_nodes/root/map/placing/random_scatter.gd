@@ -39,12 +39,12 @@ func _get_required_arguments() -> Array[StringName]:
 	return [&"reference", &"material"]
 
 
-func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary[Vector3i, GaeaMaterial]:
-	var grid_data: Dictionary = _get_arg(&"reference", area, graph)
+func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> GaeaValue.Map:
+	var reference_sample: GaeaValue.Sample = _get_arg(&"reference", area, graph)
 	var material: GaeaMaterial = _get_arg(&"material", area, graph)
 
-	var grid: Dictionary[Vector3i, GaeaMaterial]
-	var cells_to_place_on: Array = grid_data.keys()
+	var result: GaeaValue.Map = GaeaValue.Map.new()
+	var cells_to_place_on: Array = reference_sample.get_cells()
 	cells_to_place_on.shuffle()
 	cells_to_place_on.resize(mini(_get_arg(&"amount", area, graph), cells_to_place_on.size()))
 
@@ -56,9 +56,9 @@ func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictio
 			% [GaeaMaterial.RECURSIVE_LIMIT, material.resource_path]
 		)
 		_log_error(error, graph, graph.resources.find(self))
-		return grid
+		return result
 
 	for cell: Vector3i in cells_to_place_on:
-		grid.set(cell, material.execute_sample(rng, grid_data.get(cell)))
+		result.set_cell(cell, material.execute_sample(rng, reference_sample.get_cell(cell)))
 
-	return grid
+	return result

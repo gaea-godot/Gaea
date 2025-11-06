@@ -55,10 +55,10 @@ func _get_required_arguments() -> Array[StringName]:
 	return [&"reference", &"material"]
 
 
-func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary[Vector3i, GaeaMaterial]:
-	var grid_data: Dictionary = _get_arg(&"reference", area, graph)
+func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> GaeaValue.Map:
+	var reference_sample: GaeaValue.Sample = _get_arg(&"reference", area, graph)
 	var material: GaeaMaterial = _get_arg(&"material", area, graph)
-	var grid: Dictionary[Vector3i, GaeaMaterial]
+	var result: GaeaValue.Map = GaeaValue.Map.new()
 
 	var rules: Dictionary = _get_arg(&"rules", area, graph)
 
@@ -70,7 +70,7 @@ func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictio
 			graph,
 			id
 		)
-		return grid
+		return result
 
 	for x in _get_axis_range(Vector3i.AXIS_X, area):
 		for y in _get_axis_range(Vector3i.AXIS_Y, area):
@@ -82,10 +82,10 @@ func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictio
 						place = false
 						break
 
-					if (grid_data.get(cell + offset) != null) != rules.get(offset):
+					if reference_sample.has(cell + offset) != rules.get(offset):
 						place = false
 						break
 				if place:
-					grid.set(cell, material.execute_sample(rng, grid_data.get(cell, 0.0)))
+					result.set_cell(cell, material.execute_sample(rng, reference_sample.get_cell(cell, 0.0)))
 
-	return grid
+	return result

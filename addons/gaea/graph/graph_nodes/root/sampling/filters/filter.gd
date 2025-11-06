@@ -35,13 +35,13 @@ func _get_output_port_display_name(output_name: StringName) -> String:
 	return super(output_name)
 
 
-func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary:
-	var input_sample: Dictionary = _get_arg(&"input_grid", area, graph)
-	var new_data: Dictionary = GaeaValue.get_default_value(_get_output_port_type(_output_port))
+func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> GaeaValue.GridType:
+	var input_sample: GaeaValue.GridType = _get_arg(&"input_grid", area, graph)
+	var new_data: GaeaValue.GridType = GaeaValue.get_default_value(_get_output_port_type(_output_port))
 
-	for cell: Vector3i in input_sample:
+	for cell: Vector3i in input_sample.get_cells():
 		if _passes_filter(input_sample, cell, area, graph):
-			new_data.set(cell, input_sample.get(cell))
+			new_data.set_cell(cell, input_sample.get_cell(cell))
 
 	return new_data
 
@@ -50,6 +50,6 @@ func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictio
 ## if the [param cell] in [param input_sample] passes the filter, and therefore should be included
 ## in the output.
 func _passes_filter(
-	_input_sample: Dictionary, _cell: Vector3i, _area: AABB, _graph: GaeaGraph
+	_input_sample: GaeaValue.GridType, _cell: Vector3i, _area: AABB, _graph: GaeaGraph
 ) -> bool:
 	return true

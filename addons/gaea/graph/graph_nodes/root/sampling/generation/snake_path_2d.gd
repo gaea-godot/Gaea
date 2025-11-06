@@ -77,7 +77,7 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.SAMPLE
 
 
-func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary[Vector3i, float]:
+func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> GaeaValue.Sample:
 	var direction_weights: Dictionary[Vector2i, float] = {
 		Vector2i.LEFT: _get_arg(&"move_left_weight", area, graph),
 		Vector2i.RIGHT: _get_arg(&"move_right_weight", area, graph),
@@ -95,7 +95,7 @@ func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictio
 	}
 
 	var path: Dictionary
-	var grid: Dictionary[Vector3i, float] = {}
+	var result: GaeaValue.Sample = GaeaValue.Sample.new()
 	var starting_cell: Vector2i = Vector2i(rng.randi_range(0, roundi(area.size.x - 1)), 0)
 	var last_cell: Vector2i = starting_cell
 	var current_cell: Vector2i = starting_cell
@@ -123,6 +123,6 @@ func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictio
 		current_cell += direction
 
 	for cell in path:
-		grid[Vector3i(cell.x, cell.y, 0)] = path.get(cell)
+		result.set_xyz(cell.x, cell.y, 0, path.get(cell))
 
-	return grid
+	return result

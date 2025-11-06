@@ -83,9 +83,9 @@ static func get_default_value(type: Type) -> Variant:
 		Type.RANGE:
 			return {"min": 0.0, "max": 1.0} as Dictionary[String, float]
 		Type.SAMPLE:
-			return {} as Dictionary[Vector3i, float]
+			return GaeaValue.Sample.new()
 		Type.MAP:
-			return {} as Dictionary[Vector3i, GaeaMaterial]
+			return GaeaValue.Map.new()
 		# Inner types
 		Type.NEIGHBORS:
 			return [] as Array[Vector3i]
@@ -257,3 +257,87 @@ static func get_editor_for_type(for_type: GaeaValue.Type) -> PackedScene:
 		GaeaValue.Type.RULES:
 			return preload("uid://dy4n2a5hkaxsb")
 	return preload("uid://i2nwlab8rau")
+
+
+@abstract
+class GridType extends RefCounted:
+	var _grid: Dictionary[Vector3i, Variant]
+	var size: Vector3i = Vector3i.ZERO
+	var position: Vector3i = Vector3i.ZERO :
+		set(value):
+			position = value
+			size = end - position
+	var end: Vector3i = Vector3i.ZERO :
+		set(value):
+			end = value
+			size = end - position
+
+	@abstract
+	func set_cell(cell: Vector3i, value: Variant) -> void
+
+	@abstract
+	func set_xyz(x: int, y: int, z: int, value: Variant) -> void
+
+	@abstract
+	func get_cell(cell: Vector3i, default_value: Variant = NAN) -> Variant
+
+	@abstract
+	func get_xyz(x: int, y: int, z: int, default_value: Variant = NAN) -> Variant
+
+
+	func get_cells() -> Array:
+		return _grid.keys()
+
+
+	func has(cell: Vector3i) -> bool:
+		return _grid.has(cell)
+
+
+	func erase(cell: Vector3i) -> void:
+		_grid.erase(cell)
+
+
+	func is_empty() -> bool:
+		return _grid.is_empty()
+
+
+class Sample extends GridType:
+	func set_cell(cell: Vector3i, value: Variant) -> void:
+		if typeof(value) not in [TYPE_FLOAT, TYPE_INT]:
+			return
+
+		_grid.set(cell, value)
+		position = position.min(cell)
+
+
+	func set_xyz(x: int, y: int, z: int, value: Variant) -> void:
+		set_cell(Vector3i(x, y, z), value)
+
+
+	func get_cell(cell: Vector3i, default_value: Variant = NAN) -> float:
+		return _grid.get(cell, default_value)
+
+
+	func get_xyz(x: int, y: int, z: int, default_value: Variant = NAN) -> float:
+		return get_cell(Vector3i(x, y, z), default_value)
+
+
+class Map extends GridType:
+	func set_cell(cell: Vector3i, value: Variant) -> void:
+		if value is not GaeaMaterial:
+			return
+
+		_grid.set(cell, value)
+		position = position.min(cell)
+
+
+	func set_xyz(x: int, y: int, z: int, value: Variant) -> void:
+		set_cell(Vector3i(x, y, z), value)
+
+
+	func get_cell(cell: Vector3i, default_value: Variant = null) -> GaeaMaterial:
+		return _grid.get(cell, default_value)
+
+
+	func get_xyz(x: int, y: int, z: int, default_value: Variant = null) -> GaeaMaterial:
+		return get_cell(Vector3i(x, y, z), default_value)

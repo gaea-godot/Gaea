@@ -33,12 +33,12 @@ func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
 	return super(arg_name)
 
 
-func _passes_mapping(grid_data: Dictionary, cell: Vector3i, area: AABB, graph: GaeaGraph) -> bool:
+func _passes_mapping(grid_data: GaeaValue.Sample, cell: Vector3i, area: AABB, graph: GaeaGraph) -> bool:
 	var match_all: bool = _get_arg(&"match_all", area, graph)
 	var flags: Array = _get_arg(&"match_flags", area, graph)
 	var exclude_flags: Array = _get_arg(&"exclude_flags", area, graph)
 
-	var value: float = grid_data.get(cell)
+	var value: float = grid_data.get_cell(cell)
 	var matches_excluded_flags := exclude_flags.any(_matches_flag.bind(value))
 	if match_all:
 		var matches_all_flags := flags.all(_matches_flag.bind(value))

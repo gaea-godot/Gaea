@@ -21,7 +21,10 @@ func test_generations_match() -> void:
 	await scene.test_generation()
 	var second_grid: GaeaGrid = scene.last_grid
 	assert_that(generator_seed).is_equal(scene.gaea_generator.seed)
-	assert_bool(first_grid._grid.recursive_equal(second_grid._grid, 1)).is_true()
+	for layer_idx in first_grid.get_layers_count():
+		assert_bool(
+			first_grid.get_layer(layer_idx)._grid == second_grid.get_layer(layer_idx)._grid
+		).is_true()
 
 
 func test_generations_dont_match() -> void:

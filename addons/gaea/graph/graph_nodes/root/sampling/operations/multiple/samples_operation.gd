@@ -105,11 +105,11 @@ func _get_output_port_display_name(_output_name: StringName) -> String:
 	return operation_definitions[get_enum_selection(0)].output
 
 
-func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary[Vector3i, float]:
+func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> GaeaValue.Sample:
 	var operation: Operation = get_enum_selection(0) as Operation
-	var a_grid: Dictionary = _get_arg(&"a", area, graph)
-	var b_grid: Dictionary = _get_arg(&"b", area, graph)
-	var new_grid: Dictionary[Vector3i, float]
+	var a_grid: GaeaValue.Sample = _get_arg(&"a", area, graph)
+	var b_grid: GaeaValue.Sample = _get_arg(&"b", area, graph)
+	var result: GaeaValue.Sample = GaeaValue.Sample.new()
 	var operation_definition: Definition = operation_definitions[operation]
 	var static_args: Array
 	for arg in operation_definition.args:
@@ -117,13 +117,16 @@ func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictio
 			continue
 
 		static_args.append(_get_arg(arg, area, graph))
-	for cell: Vector3i in a_grid:
+	for cell: Vector3i in a_grid.get_cells():
 		if not b_grid.has(cell):
 			continue
-		new_grid.set(
-			cell, operation_definition.conversion.callv([a_grid[cell], b_grid[cell]] + static_args)
+
+		result.set_cell(
+			cell, operation_definition.conversion.callv(
+				[a_grid.get_cell(cell), b_grid.get_cell(cell)] + static_args
+			)
 		)
-	return new_grid
+	return result
 
 
 func _get_operation_definitions() -> Dictionary[Operation, Definition]:

@@ -29,7 +29,7 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.SAMPLE
 
 
-func _passes_filter(_input_sample: Dictionary, cell: Vector3i, area: AABB, graph: GaeaGraph) -> bool:
+func _passes_filter(_input_sample: GaeaValue.GridType, cell: Vector3i, area: AABB, graph: GaeaGraph) -> bool:
 	var point: Vector3 = _get_arg(&"to_point", area, graph)
 	var distance_range: Dictionary = _get_arg(&"distance_range", area, graph)
 	var distance: float = Vector3(cell).distance_squared_to(point)

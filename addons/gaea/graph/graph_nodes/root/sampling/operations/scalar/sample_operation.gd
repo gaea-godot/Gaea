@@ -62,20 +62,20 @@ func _get_operation_definitions() -> Dictionary[Operation, Definition]:
 	return definitions
 
 
-func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary[Vector3i, float]:
+func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> GaeaValue.Sample:
 	var operation: Operation = get_enum_selection(0) as Operation
 	var operation_definition: Definition = operation_definitions[operation]
 	var args: Array
-	var input_grid: Dictionary = _get_arg(&"a", area, graph)
+	var input_grid: GaeaValue.Sample = _get_arg(&"a", area, graph)
 	for arg_name: StringName in operation_definitions[operation].args:
 		if arg_name == &"a":
 			continue
 		args.append(_get_arg(arg_name, area, graph))
-	var new_grid: Dictionary[Vector3i, float]
+	var result: GaeaValue.Sample = GaeaValue.Sample.new()
 	var grid_value_pos: int = _get_arguments_list().find(&"a")
 
-	for cell: Vector3i in input_grid:
+	for cell: Vector3i in input_grid.get_cells():
 		var cell_args = args.duplicate()
-		cell_args.insert(grid_value_pos, input_grid[cell])
-		new_grid.set(cell, operation_definition.conversion.callv(cell_args))
-	return new_grid
+		cell_args.insert(grid_value_pos, input_grid.get_cell(cell))
+		result.set_cell(cell, operation_definition.conversion.callv(cell_args))
+	return result

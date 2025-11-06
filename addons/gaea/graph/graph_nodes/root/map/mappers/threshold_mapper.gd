@@ -23,7 +23,7 @@ func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
 	return super(arg_name)
 
 
-func _passes_mapping(grid_data: Dictionary, cell: Vector3i, area: AABB, graph: GaeaGraph) -> bool:
+func _passes_mapping(grid_data: GaeaValue.Sample, cell: Vector3i, area: AABB, graph: GaeaGraph) -> bool:
 	var range_value: Dictionary = _get_arg(&"range", area, graph)
-	var cell_value = grid_data.get(cell)
+	var cell_value = grid_data.get_cell(cell)
 	return cell_value >= range_value.get("min", 0.0) and cell_value <= range_value.get("max", 0.0)

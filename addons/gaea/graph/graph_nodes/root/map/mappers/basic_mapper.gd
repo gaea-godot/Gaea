@@ -12,5 +12,5 @@ func _get_description() -> String:
 	return "Maps all non-empty cells in [param reference] to [param material]."
 
 
-func _passes_mapping(grid_data: Dictionary, cell: Vector3i, _area: AABB, _graph: GaeaGraph) -> bool:
-	return grid_data.get(cell) != null
+func _passes_mapping(grid_data: GaeaValue.Sample, cell: Vector3i, _area: AABB, _graph: GaeaGraph) -> bool:
+	return grid_data.has(cell)

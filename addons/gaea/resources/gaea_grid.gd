@@ -6,20 +6,20 @@ extends Resource
 
 ## Dictionary of the format [code]{int: Dictionary}[/code] where the key is the layer index
 ## and the value is a grid of [GaeaMaterial]s.
-var _grid: Dictionary[int, Dictionary]
+var _grid: Dictionary[int, GaeaValue.Map]
 
 
 ## Set the layer at [param idx] to the generated [param grid].
 ## Sets it to an empty grid if [param resource] is disabled (see [member GaeaLayer.enabled]).
-func add_layer(idx: int, grid: Dictionary, resource: GaeaLayer) -> void:
+func add_layer(idx: int, grid: GaeaValue.Map, resource: GaeaLayer) -> void:
 	if resource.enabled == false:
-		_grid[idx] = {}
+		_grid[idx] = null
 		return
 
 	_grid[idx] = grid
 
 ## Get the grid at layer [param idx],
-func get_layer(idx: int) -> Dictionary:
+func get_layer(idx: int) -> GaeaValue.Map:
 	return _grid.get(idx)
 
 ## Get the amount of layers the grid has.

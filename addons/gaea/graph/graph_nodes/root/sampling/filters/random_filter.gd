@@ -41,6 +41,6 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.SAMPLE
 
 
-func _passes_filter(_input_sample: Dictionary, _cell: Vector3i, area: AABB, graph: GaeaGraph) -> bool:
+func _passes_filter(_input_sample: GaeaValue.GridType, _cell: Vector3i, area: AABB, graph: GaeaGraph) -> bool:
 	var chance: float = float(_get_arg(&"chance", area, graph)) / 100.0
 	return rng.randf() <= chance

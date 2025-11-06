@@ -34,15 +34,15 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.SAMPLE
 
 
-func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary[Vector3i, float]:
+func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> GaeaValue.Sample:
 	var texture: Texture = _get_arg(&"texture", area, graph)
 	if not is_instance_valid(texture):
-		return {}
+		return GaeaValue.get_default_value(GaeaValue.Type.SAMPLE)
 
-	var r_grid: Dictionary[Vector3i, float]
-	var g_grid: Dictionary[Vector3i, float]
-	var b_grid: Dictionary[Vector3i, float]
-	var a_grid: Dictionary[Vector3i, float]
+	var r_grid: GaeaValue.Sample = GaeaValue.Sample.new()
+	var g_grid: GaeaValue.Sample = GaeaValue.Sample.new()
+	var b_grid: GaeaValue.Sample = GaeaValue.Sample.new()
+	var a_grid: GaeaValue.Sample = GaeaValue.Sample.new()
 
 	var slices: Array[Image]  # Only one is texture is 2D
 	if texture is Texture2D:
@@ -51,7 +51,7 @@ func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Diction
 		slices = texture.get_data()
 
 	if not slices.any(is_instance_valid):
-		return {}
+		return GaeaValue.get_default_value(GaeaValue.Type.SAMPLE)
 
 	for x in _get_axis_range(Vector3i.AXIS_X, area):
 		for y in _get_axis_range(Vector3i.AXIS_Y, area):
@@ -67,10 +67,10 @@ func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Diction
 					continue
 
 				var pixel: Color = slices[z].get_pixel(x, y)
-				r_grid.set(cell, pixel.r)
-				g_grid.set(cell, pixel.g)
-				b_grid.set(cell, pixel.b)
-				a_grid.set(cell, pixel.a)
+				r_grid.set_cell(cell, pixel.r)
+				g_grid.set_cell(cell, pixel.g)
+				b_grid.set_cell(cell, pixel.b)
+				a_grid.set_cell(cell, pixel.a)
 
 	_set_cached_data(&"r", graph, r_grid)
 	_set_cached_data(&"g", graph, g_grid)

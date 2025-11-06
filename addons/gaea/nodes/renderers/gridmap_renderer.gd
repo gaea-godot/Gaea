@@ -23,11 +23,14 @@ func _render(grid: GaeaGrid) -> void:
 	_reset()
 
 	for layer_idx in grid.get_layers_count():
+		if not is_instance_valid(grid.get_layer(layer_idx)):
+			continue
+
 		if grid_maps.size() <= layer_idx or not is_instance_valid(grid_maps.get(layer_idx)):
 			continue
 
-		for cell in grid.get_layer(layer_idx):
-			var value = grid.get_layer(layer_idx)[cell]
+		for cell in grid.get_layer(layer_idx).get_cells():
+			var value = grid.get_layer(layer_idx).get_cell(cell)
 			if value is GridMapGaeaMaterial:
 				grid_maps[layer_idx].set_cell_item(cell, value.item_idx, value.orientation)
 

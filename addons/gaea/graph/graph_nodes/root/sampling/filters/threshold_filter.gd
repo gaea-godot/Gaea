@@ -27,7 +27,7 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.SAMPLE
 
 
-func _passes_filter(input_sample: Dictionary, cell: Vector3i, area: AABB, graph: GaeaGraph) -> bool:
+func _passes_filter(input_sample: GaeaValue.GridType, cell: Vector3i, area: AABB, graph: GaeaGraph) -> bool:
 	var range_value: Dictionary = _get_arg(&"range", area, graph)
-	var cell_value = input_sample.get(cell)
+	var cell_value = input_sample.get_cell(cell)
 	return cell_value >= range_value.get("min", 0.0) and cell_value <= range_value.get("max", 0.0)

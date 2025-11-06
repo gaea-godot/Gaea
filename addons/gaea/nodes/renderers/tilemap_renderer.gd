@@ -14,13 +14,16 @@ func _render(grid: GaeaGrid) -> void:
 		push_warning("No tile map layers set in the renderer")
 
 	for layer_idx in grid.get_layers_count():
+		if not is_instance_valid(grid.get_layer(layer_idx)):
+			continue
+
 		var terrains: Dictionary[TileMapGaeaMaterial, Array] = {}
 		var patterns: Dictionary[TileMapGaeaMaterial, Array] = {}
 		if tile_map_layers.size() <= layer_idx or not is_instance_valid(tile_map_layers.get(layer_idx)):
 			continue
 
-		for cell in grid.get_layer(layer_idx):
-			var value = grid.get_layer(layer_idx)[cell]
+		for cell in grid.get_layer(layer_idx).get_cells():
+			var value = grid.get_layer(layer_idx).get_cell(cell)
 			if value is TileMapGaeaMaterial:
 				if value.type == TileMapGaeaMaterial.Type.SINGLE_CELL:
 					tile_map_layers[layer_idx].set_cell(Vector2i(cell.x, cell.y), value.source_id, value.atlas_coord, value.alternative_tile)

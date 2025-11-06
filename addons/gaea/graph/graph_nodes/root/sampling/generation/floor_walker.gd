@@ -117,7 +117,7 @@ func _get_preview_simulation_size() -> SimSize:
 	return SimSize.WORLD
 
 
-func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary[Vector3i, float]:
+func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> GaeaValue.Sample:
 	_log_data(_output_port, graph)
 	var axis_type: AxisType = get_enum_selection(0) as AxisType
 
@@ -198,11 +198,11 @@ func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictio
 
 		iterations += 1
 
-	var grid: Dictionary[Vector3i, float]
+	var result: GaeaValue.Sample = GaeaValue.Sample.new()
 	for cell in walked_cells:
-		grid[cell] = 1.0
+		result.set_cell(cell, 1.0)
 
-	return grid
+	return result
 
 
 func _add_walker(pos: Vector3, array: Array[Walker]) -> void:

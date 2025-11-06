@@ -25,6 +25,6 @@ func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
 	return super(arg_name)
 
 
-func _passes_mapping(grid_data: Dictionary, cell: Vector3i, area: AABB, graph: GaeaGraph) -> bool:
+func _passes_mapping(grid_data: GaeaValue.Sample, cell: Vector3i, area: AABB, graph: GaeaGraph) -> bool:
 	var value: float = _get_arg(&"value", area, graph)
-	return is_equal_approx(grid_data.get(cell), value)
+	return is_equal_approx(grid_data.get_cell(cell), value)

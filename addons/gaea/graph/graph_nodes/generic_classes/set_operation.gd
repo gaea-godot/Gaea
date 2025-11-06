@@ -90,14 +90,14 @@ func _on_enum_value_changed(_enum_idx: int, _option_value: int) -> void:
 
 
 # The generic Dictionary type here is expected, and the type will be updated in child classes.
-func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary:
-	var grids: Array[Dictionary] = []
+func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> GaeaValue.GridType:
+	var grids: Array[GaeaValue.GridType] = []
 	for arg in _get_arguments_list():
-		var arg_grid: Dictionary = _get_arg(arg, area, graph)
+		var arg_grid: GaeaValue.GridType = _get_arg(arg, area, graph)
 		if not arg_grid.is_empty():
 			grids.append(arg_grid)
 
-	var grid: Dictionary = GaeaValue.get_default_value(_get_output_port_type(_output_port))
+	var grid: GaeaValue.GridType = GaeaValue.get_default_value(_get_output_port_type(_output_port))
 
 	if grids.is_empty():
 		return grid
@@ -108,31 +108,31 @@ func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictio
 				for y in _get_axis_range(Vector3i.AXIS_Y, area):
 					for z in _get_axis_range(Vector3i.AXIS_Z, area):
 						var cell: Vector3i = Vector3i(x, y, z)
-						for subgrid: Dictionary in grids:
-							if subgrid.get(cell) != null:
-								grid.set(cell, subgrid.get(cell))
+						for subgrid: GaeaValue.GridType in grids:
+							if subgrid.has(cell):
+								grid.set_cell(cell, subgrid.get_cell(cell))
 		Operation.INTERSECTION:
 			for cell: Vector3i in grids.pop_front():
-				for subgrid: Dictionary in grids:
+				for subgrid: GaeaValue.GridType in grids:
 					if not subgrid.has(cell):
 						grid.erase(cell)
 						break
 					else:
-						grid.set(cell, subgrid.get(cell))
+						grid.set_cell(cell, subgrid.get_cell(cell))
 		Operation.COMPLEMENT:
 			for x in _get_axis_range(Vector3i.AXIS_X, area):
 				for y in _get_axis_range(Vector3i.AXIS_Y, area):
 					for z in _get_axis_range(Vector3i.AXIS_Z, area):
 						var cell: Vector3i = Vector3i(x, y, z)
-						if grids.front().get(cell) == null:
-							grid.set(cell, 1.0)
+						if not grids.front().has(cell):
+							grid.set_cell(cell, 1.0)
 		Operation.DIFFERENCE:
-			var grid_a: Dictionary = grids.pop_front()
+			var grid_a: GaeaValue.GridType = grids.pop_front()
 			for cell: Vector3i in grid_a:
-				for subgrid: Dictionary in grids:
+				for subgrid: GaeaValue.GridType in grids:
 					if subgrid.has(cell):
 						grid.erase(cell)
 						break
-					grid.set(cell, grid_a.get(cell))
+					grid.set_cell(cell, grid_a.get_cell(cell))
 
 	return grid

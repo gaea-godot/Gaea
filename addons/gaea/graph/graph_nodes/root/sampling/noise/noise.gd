@@ -63,7 +63,7 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.SAMPLE
 
 
-func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary[Vector3i, float]:
+func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> GaeaValue.Sample:
 	var noise: FastNoiseLite = FastNoiseLite.new()
 	noise.seed = graph.generator.seed + salt
 	noise.noise_type = get_enum_selection(0) as FastNoiseLite.NoiseType
@@ -71,13 +71,13 @@ func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictio
 	noise.frequency = _get_arg(&"frequency", area, graph)
 	noise.fractal_octaves = _get_arg(&"octaves", area, graph)
 	noise.fractal_lacunarity = _get_arg(&"lacunarity", area, graph)
-	var dictionary: Dictionary[Vector3i, float]
+	var result: GaeaValue.Sample = GaeaValue.Sample.new()
 	for x in _get_axis_range(Vector3i.AXIS_X, area):
 		for y in _get_axis_range(Vector3i.AXIS_Y, area):
 			for z in _get_axis_range(Vector3i.AXIS_Z, area):
 				var noise_value := _get_noise_value(Vector3i(x, y, z), noise)
-				dictionary[Vector3i(x, y, z)] = (noise_value + 1.0) * 0.5
-	return dictionary
+				result.set_xyz(x, y, z, (noise_value + 1.0) * 0.5)
+	return result
 
 
 func _get_noise_value(_cell: Vector3i, _noise: FastNoiseLite) -> float:
