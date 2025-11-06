@@ -85,6 +85,7 @@ func populate(selected: Array) -> void:
 
 func _on_id_pressed(id: int) -> void:
 	var idx: int = get_item_index(id)
+	var graph: GaeaGraph = panel.get_selected_generator().data
 	match id:
 		Action.ADD:
 			main_editor.popup_create_node_request.emit()
@@ -128,7 +129,7 @@ func _on_id_pressed(id: int) -> void:
 		Action.GROUP_IN_FRAME:
 			var selected: Array = graph_edit.get_selected()
 			var front_node: GraphElement = selected.front()
-			var frame_id: int = panel.get_selected_generator().data.add_frame(
+			var frame_id: int = graph.add_frame(
 				front_node.position_offset
 			)
 			for node in selected:
@@ -137,8 +138,14 @@ func _on_id_pressed(id: int) -> void:
 					node_id = node.resource.id
 				elif node is GaeaGraphFrame:
 					node_id = node.id
-				panel.get_selected_generator().data.attach_node_to_frame(node_id, frame_id)
+				var error: Error = graph.attach_node_to_frame(
+					node_id, frame_id
+				)
+				if error != OK:
+					graph.detach_node_from_frame(node_id)
+					print(graph.attach_node_to_frame(node_id, frame_id))
 			panel.instantiate_node(frame_id)
+			panel.load_all_attached_elements.call_deferred()
 		Action.DETACH:
 			var selected: Array = graph_edit.get_selected()
 			for node: GraphElement in selected:

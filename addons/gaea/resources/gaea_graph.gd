@@ -322,15 +322,20 @@ func get_node_data_value(id: int, key: StringName, default: Variant = null) -> V
 	return get_node_data(id).get(key, default)
 
 
-## Attaches the specified node to the specified frame.
-func attach_node_to_frame(node_id: int, frame_id: int) -> void:
+## Attaches the specified node to the specified frame.[br]
+## Returns an error if the node can't be attached (for example, if it's already attached to another frame).
+func attach_node_to_frame(node_id: int, frame_id: int) -> Error:
 	if node_id == frame_id:
-		return
+		return FAILED
+
+	if get_parent_frame(node_id) != -1:
+		return FAILED
 
 	var attached_array: Array = get_node_data(frame_id).get_or_add(&"attached", [] as Array[int])
 	if not attached_array.has(node_id):
 		attached_array.append(node_id)
 	emit_changed()
+	return OK
 
 
 ## Detaches the specified node from its parent frame.
