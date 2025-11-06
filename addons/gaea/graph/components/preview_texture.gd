@@ -89,11 +89,15 @@ func update() -> void:
 		_: # GaeaNodeReousrce.SimSize.Preview is the default
 			sim_size = Vector3(resolution.x, resolution.y, 1)
 
-	var data: Dictionary = node.resource.traverse(
+	var data: GaeaValue.GridType = node.resource.traverse(
 		selected_output,
 		AABB(Vector3.ZERO, sim_size),
 		node.generator.data
-	).get("value", {})
+	).get("value")
+
+	if not is_instance_valid(data):
+		texture = null
+
 
 	node.generator.data.cache.clear()
 
@@ -105,7 +109,7 @@ func update() -> void:
 	for x: int in resolution.x:
 		for y: int in resolution.y:
 			var color: Color
-			var value = data.get(Vector3i(x, y, 0) + sim_offset)
+			var value = data.get_cell(Vector3i(x, y, 0) + sim_offset)
 			if value == null:
 				continue
 			match node.resource.get_output_port_type(selected_output):
