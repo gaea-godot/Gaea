@@ -112,7 +112,7 @@ func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> GaeaVa
 							if subgrid.has(cell):
 								grid.set_cell(cell, subgrid.get_cell(cell))
 		Operation.INTERSECTION:
-			for cell: Vector3i in grids.pop_front():
+			for cell: Vector3i in grids.pop_front().get_cells():
 				for subgrid: GaeaValue.GridType in grids:
 					if not subgrid.has(cell):
 						grid.erase(cell)
@@ -128,7 +128,7 @@ func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> GaeaVa
 							grid.set_cell(cell, 1.0)
 		Operation.DIFFERENCE:
 			var grid_a: GaeaValue.GridType = grids.pop_front()
-			for cell: Vector3i in grid_a:
+			for cell: Vector3i in grid_a.get_cells():
 				for subgrid: GaeaValue.GridType in grids:
 					if subgrid.has(cell):
 						grid.erase(cell)
