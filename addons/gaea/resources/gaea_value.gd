@@ -263,7 +263,6 @@ static func get_editor_for_type(for_type: GaeaValue.Type) -> PackedScene:
 ## [enum GaeaValue.Type].SAMPLE and [enum GaeaValue.Type].MAP. Holds a grid of values.
 @abstract
 class GridType extends RefCounted:
-	var _grid: Dictionary[Vector3i, Variant]
 	## The size of the rectangle occupied by the cells of the grid.
 	var size: Vector3i = Vector3i.ZERO
 	## The top left cell.
@@ -276,6 +275,8 @@ class GridType extends RefCounted:
 		set(value):
 			end = value
 			size = end - position + Vector3i.ONE
+
+	var _grid: Dictionary[Vector3i, Variant]
 
 	## Sets the specified cell to [param value].
 	@abstract
