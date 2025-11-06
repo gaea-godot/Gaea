@@ -259,85 +259,114 @@ static func get_editor_for_type(for_type: GaeaValue.Type) -> PackedScene:
 	return preload("uid://i2nwlab8rau")
 
 
+## Abstract class for the 2 grid types in Gaea,
+## [enum GaeaValue.Type].SAMPLE and [enum GaeaValue.Type].MAP. Holds a grid of values.
 @abstract
 class GridType extends RefCounted:
 	var _grid: Dictionary[Vector3i, Variant]
+	## The size of the rectangle occupied by the cells of the grid.
 	var size: Vector3i = Vector3i.ZERO
+	## The top left cell.
 	var position: Vector3i = Vector3i.ZERO :
 		set(value):
 			position = value
-			size = end - position
+			size = end - position + Vector3i.ONE
+	## The bottom right cell.
 	var end: Vector3i = Vector3i.ZERO :
 		set(value):
 			end = value
-			size = end - position
+			size = end - position + Vector3i.ONE
 
+	## Sets the specified cell to [param value].
 	@abstract
 	func set_cell(cell: Vector3i, value: Variant) -> void
 
+	## Sets the ([param x], [param y], [param z]) cell to [param value].
 	@abstract
 	func set_xyz(x: int, y: int, z: int, value: Variant) -> void
 
+	## Returns the value at [param cell]. If it doesn't exist,
+	## returns [param default_value].
 	@abstract
-	func get_cell(cell: Vector3i, default_value: Variant = NAN) -> Variant
+	func get_cell(cell: Vector3i, default_value: Variant = null) -> Variant
 
+	## Returns the value at ([param x], [param y], [param z]). If it doesn't exist,
+	## returns [param default_value].
 	@abstract
-	func get_xyz(x: int, y: int, z: int, default_value: Variant = NAN) -> Variant
+	func get_xyz(x: int, y: int, z: int, default_value: Variant = null) -> Variant
 
 
+	## Returns all cells.
 	func get_cells() -> Array:
 		return _grid.keys()
 
 
+	## Returns [code]true[/code] if the specified cell exists.
 	func has(cell: Vector3i) -> bool:
 		return _grid.has(cell)
 
 
+	## Erases the specified cell.
 	func erase(cell: Vector3i) -> void:
 		_grid.erase(cell)
 
 
+	## Returns [code]true[/code] if the grid has no cell.
 	func is_empty() -> bool:
 		return _grid.is_empty()
 
 
+## A grid of [float]s. The base of Gaea generations.
 class Sample extends GridType:
+	## Sets the specified cell to [param value].
+	## Unless [param value] is not a [float], in which case it does nothing.
 	func set_cell(cell: Vector3i, value: Variant) -> void:
 		if typeof(value) not in [TYPE_FLOAT, TYPE_INT]:
 			return
 
 		_grid.set(cell, value)
 		position = position.min(cell)
+		end = end.max(cell)
 
-
+	## Sets the ([param x], [param y], [param z]) cell to [param value].
+	## Unless [param value] is not a [float], in which case it does nothing.
 	func set_xyz(x: int, y: int, z: int, value: Variant) -> void:
 		set_cell(Vector3i(x, y, z), value)
 
-
+	## Returns the value at [param cell]. If it doesn't exist,
+	## returns [param default_value].
 	func get_cell(cell: Vector3i, default_value: Variant = NAN) -> float:
 		return _grid.get(cell, default_value)
 
-
+	## Returns the value at ([param x], [param y], [param z]). If it doesn't exist,
+	## returns [param default_value].
 	func get_xyz(x: int, y: int, z: int, default_value: Variant = NAN) -> float:
 		return get_cell(Vector3i(x, y, z), default_value)
 
 
+## A grid of [GaeaMaterial]s. The result of Gaea generations.
 class Map extends GridType:
+	## Sets the specified cell to [param value].
+	## Unless [param value] is not a [GaeaMaterial], in which case it does nothing.
 	func set_cell(cell: Vector3i, value: Variant) -> void:
 		if value is not GaeaMaterial:
 			return
 
 		_grid.set(cell, value)
 		position = position.min(cell)
+		end = end.max(cell)
 
-
+	## Sets the ([param x], [param y], [param z]) cell to [param value].
+	## Unless [param value] is not a [GaeaMaterial], in which case it does nothing.
 	func set_xyz(x: int, y: int, z: int, value: Variant) -> void:
 		set_cell(Vector3i(x, y, z), value)
 
-
+	## Returns the value at [param cell]. If it doesn't exist,
+	## returns [param default_value].
 	func get_cell(cell: Vector3i, default_value: Variant = null) -> GaeaMaterial:
 		return _grid.get(cell, default_value)
 
-
+	## Returns the value at ([param x], [param y], [param z]). If it doesn't exist,
+	## returns [param default_value].
 	func get_xyz(x: int, y: int, z: int, default_value: Variant = null) -> GaeaMaterial:
 		return get_cell(Vector3i(x, y, z), default_value)
