@@ -114,7 +114,7 @@ func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictio
 		Operation.INTERSECTION:
 			for cell: Vector3i in grids.pop_front():
 				for subgrid: Dictionary in grids:
-					if subgrid.get(cell) == null:
+					if not subgrid.has(cell):
 						grid.erase(cell)
 						break
 					else:
@@ -130,7 +130,8 @@ func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictio
 			var grid_a: Dictionary = grids.pop_front()
 			for cell: Vector3i in grid_a:
 				for subgrid: Dictionary in grids:
-					if subgrid.get(cell) != null:
+					if subgrid.has(cell):
+						grid.erase(cell)
 						break
 					grid.set(cell, grid_a.get(cell))
 
