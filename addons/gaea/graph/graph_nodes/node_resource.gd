@@ -592,6 +592,13 @@ func _log_execute(message: String, graph: GaeaGraph, settings: GaeaGenerationSet
 		message = message if message == "" else message + " "
 		print("Execute   |   %sArea %s on %s" % [message, settings.area, _get_title()])
 
+# If enabled in [member GaeaGraph.logging], log the time it took to generate. (See [enum GaeaGraph.Log]).
+func _log_time(message: String, time: int, graph: GaeaGraph) -> void:
+	if is_instance_valid(graph) and graph.logging & GaeaGraph.Log.EXECUTE > 0 and graph.debug_enabled:
+		message = message.strip_edges()
+		message = message if message == "" else message + " "
+		print("Execute   |   %stook %sms on %s." % [message, time, _get_title()])
+
 
 # If enabled in [member GaeaGraph.logging], log the layer information. (See [enum GaeaGraph.Log]).
 func _log_layer(message: String, layer: int, graph: GaeaGraph) -> void:

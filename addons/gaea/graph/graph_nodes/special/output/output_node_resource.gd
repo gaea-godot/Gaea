@@ -85,6 +85,8 @@ func execute(graph: GaeaGraph, settings: GaeaGenerationSettings) -> GaeaGrid:
 		_log_layer("End", layer_idx, graph)
 
 	_log_execute("End", graph, settings)
+	_log_execute("End", area, graph)
+	_log_time("Generation", Time.get_ticks_msec() - start_time, graph)
 
 	return grid
 
