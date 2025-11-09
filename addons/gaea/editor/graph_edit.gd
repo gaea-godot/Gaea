@@ -1,4 +1,5 @@
 @tool
+class_name GaeaGraphEdit
 extends GraphEdit
 
 signal connection_update_requested

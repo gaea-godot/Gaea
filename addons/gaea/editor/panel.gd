@@ -2,7 +2,6 @@
 extends Control
 
 const LinkPopup = preload("uid://btt4eqjkp5pyf")
-const GaeaGraphEdit = preload("uid://bedt1m4gyyvyv")
 
 var is_loading = false
 var plugin: EditorPlugin
