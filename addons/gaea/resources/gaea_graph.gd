@@ -35,8 +35,9 @@ const CURRENT_SAVE_VERSION := 5
 		emit_changed()
 
 @export_group("Debug")
+@export_custom(PROPERTY_HINT_GROUP_ENABLE, "feature") var debug_enabled: bool = false
 ## Selection of what to print in the Output console during generation. See [enum Log].
-@export_flags("Execute", "Traverse", "Data", "Args") var logging:int = Log.NONE
+@export_flags("Execute", "Traverse", "Data", "Args") var logging: int = Log.NONE
 
 ## The current save version, used for migrating checks.
 @export_storage var save_version: int = -1
