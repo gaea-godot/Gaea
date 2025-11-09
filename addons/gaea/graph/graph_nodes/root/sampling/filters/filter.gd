@@ -54,7 +54,7 @@ func _get_data(_output_port: StringName, graph: GaeaGraph, settings: GaeaGenerat
 ## Override this method to change the filtering functionality. Should return [code]true[/code]
 ## if the [param cell] in [param input_sample] passes the filter, and therefore should be included
 ## in the output.
+@abstract
 func _passes_filter(
-	_input_sample: GaeaValue.GridType, _cell: Vector3i, _args: Dictionary[StringName, Variant]
-) -> bool:
-	return true
+	input_sample: GaeaValue.GridType, cell: Vector3i, args: Dictionary[StringName, Variant]
+) -> bool
