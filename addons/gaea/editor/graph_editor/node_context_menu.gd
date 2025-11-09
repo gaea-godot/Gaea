@@ -132,19 +132,25 @@ func _on_id_pressed(id: int) -> void:
 			var frame_id: int = graph.add_frame(
 				front_node.position_offset
 			)
+			var selected_ids: Array = selected.map(_get_node_id)
 			for node in selected:
-				var node_id: int
-				if node is GaeaGraphNode:
-					node_id = node.resource.id
-				elif node is GaeaGraphFrame:
-					node_id = node.id
-				var error: Error = graph.attach_node_to_frame(
+				var node_id: int = _get_node_id(node)
+				var parent_frame: int = graph.get_parent_frame(node_id)
+				if parent_frame != -1:
+					if parent_frame in selected_ids:
+						continue
+					else:
+						graph.attach_node_to_frame(frame_id, parent_frame)
+
+				graph.detach_node_from_frame(node_id)
+				graph.attach_node_to_frame(
 					node_id, frame_id
 				)
-				if error != OK:
-					graph.detach_node_from_frame(node_id)
-					print(graph.attach_node_to_frame(node_id, frame_id))
-			panel.instantiate_node(frame_id)
+				node.selected = false
+
+			var frame := panel.instantiate_node(frame_id)
+			frame.selected = true
+
 			panel.load_all_attached_elements.call_deferred()
 		Action.DETACH:
 			var selected: Array = graph_edit.get_selected()
@@ -167,3 +173,9 @@ func _on_popup_node_context_menu_at_mouse_request(selected_nodes: Array) -> void
 	main_editor.node_creation_target = graph_edit.get_local_mouse_position()
 	main_editor.move_popup_at_mouse(self)
 	popup()
+func _get_node_id(node: GraphElement) -> int:
+	if node is GaeaGraphNode:
+		return node.resource.id
+	elif node is GaeaGraphFrame:
+		return node.id
+	return -1
