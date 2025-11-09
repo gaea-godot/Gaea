@@ -322,7 +322,9 @@ class Sample extends GridType:
 	## Sets the specified cell to [param value].
 	## Unless [param value] is not a [float], in which case it does nothing.
 	func set_cell(cell: Vector3i, value: Variant) -> void:
-		if typeof(value) not in [TYPE_FLOAT, TYPE_INT]:
+		if typeof(value) == TYPE_INT:
+			value = float(value)
+		elif typeof(value) == TYPE_FLOAT:
 			return
 
 		_grid.set(cell, value)
