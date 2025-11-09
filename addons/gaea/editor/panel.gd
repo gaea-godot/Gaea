@@ -183,6 +183,7 @@ func _load_data() -> void:
 
 		if get_selected_generator().data.get_node(id) is GaeaNodeOutput:
 			if has_output_node:
+				push_warning("Duplicate Output node found, deleting node id %d" % id)
 				_graph_edit.delete_nodes([node.name])
 			else:
 				has_output_node = true
