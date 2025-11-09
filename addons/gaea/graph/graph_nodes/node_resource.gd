@@ -594,7 +594,7 @@ func _log(
 	if not graph.debug_enabled:
 		return
 
-	if not graph.logging & GaeaGraph.Log.EXECUTE > 0:
+	if not graph.logging & log_category > 0:
 		return
 
 	prefix = prefix.rpad(10)
