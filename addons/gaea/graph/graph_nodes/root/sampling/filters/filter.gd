@@ -38,9 +38,14 @@ func _get_output_port_display_name(output_name: StringName) -> String:
 func _get_data(_output_port: StringName, graph: GaeaGraph, settings: GaeaGenerationSettings) -> GaeaValue.GridType:
 	var input_sample: GaeaValue.GridType = _get_arg(&"input_grid", graph, settings)
 	var new_data: GaeaValue.GridType = GaeaValue.get_default_value(_get_output_port_type(_output_port))
+	var args: Dictionary[StringName, Variant]
+	for arg in get_arguments_list():
+		if arg == &"input_grid":
+			continue
+		args.set(arg, _get_arg(arg, area, graph))
 
 	for cell: Vector3i in input_sample.get_cells():
-		if _passes_filter(input_sample, cell, graph, settings):
+		if _passes_filter(input_sample, cell, args):
 			new_data.set_cell(cell, input_sample.get_cell(cell))
 
 	return new_data
@@ -50,6 +55,6 @@ func _get_data(_output_port: StringName, graph: GaeaGraph, settings: GaeaGenerat
 ## if the [param cell] in [param input_sample] passes the filter, and therefore should be included
 ## in the output.
 func _passes_filter(
-	_input_sample: GaeaValue.GridType, _cell: Vector3i, _graph: GaeaGraph, _settings: GaeaGenerationSettings
+	_input_sample: GaeaValue.GridType, _cell: Vector3i, _args: Dictionary[StringName, Variant]
 ) -> bool:
 	return true
