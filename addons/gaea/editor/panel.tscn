@@ -162,6 +162,12 @@ flat = true
 layout_mode = 2
 size_flags_horizontal = 3
 
+[node name="ClearButton" type="Button" parent="Editor/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Clear"
+
 [node name="GenerateButton" type="Button" parent="Editor/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -399,6 +405,7 @@ exclusive = true
 [connection signal="pressed" from="Editor/VBoxContainer/HBoxContainer/DuplicateGraphButton" to="." method="_on_duplicate_graph_button_pressed"]
 [connection signal="pressed" from="Editor/VBoxContainer/HBoxContainer/ReloadNodeTreeButton" to="." method="_on_reload_node_tree_button_pressed"]
 [connection signal="pressed" from="Editor/VBoxContainer/HBoxContainer/ReloadParametersListButton" to="." method="_on_reload_parameters_list_button_pressed"]
+[connection signal="pressed" from="Editor/VBoxContainer/HBoxContainer/ClearButton" to="." method="_on_clear_button_pressed"]
 [connection signal="pressed" from="Editor/VBoxContainer/HBoxContainer/GenerateButton" to="." method="_on_generate_button_pressed"]
 [connection signal="pressed" from="Editor/VBoxContainer/HBoxContainer/OnlineDocsButton" to="." method="_on_online_docs_button_pressed"]
 [connection signal="pressed" from="Editor/VBoxContainer/HBoxContainer/WindowPopoutButton" to="." method="_on_window_popout_button_pressed"]
