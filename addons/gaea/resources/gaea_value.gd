@@ -324,7 +324,7 @@ class Sample extends GridType:
 	func set_cell(cell: Vector3i, value: Variant) -> void:
 		if typeof(value) == TYPE_INT:
 			value = float(value)
-		elif typeof(value) == TYPE_FLOAT:
+		elif typeof(value) != TYPE_FLOAT:
 			return
 
 		_grid.set(cell, value)
