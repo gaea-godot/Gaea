@@ -44,8 +44,14 @@ func _get_data(_output_port: StringName, graph: GaeaGraph, settings: GaeaGenerat
 		_log_error(error, graph, graph.resources.find(self))
 		return result
 
+	var args: Dictionary[StringName, Variant]
+	for arg in get_arguments_list():
+		if arg == &"reference" or arg == &"material":
+			continue
+		args.set(arg, _get_arg(arg, area, graph))
+
 	for cell in reference_sample.get_cells():
-		if _passes_mapping(reference_sample, cell, graph, settings):
+		if _passes_mapping(reference_sample, cell, args):
 			result.set_cell(cell, material.execute_sample(rng, reference_sample.get_cell(cell)))
 
 	return result
@@ -53,4 +59,6 @@ func _get_data(_output_port: StringName, graph: GaeaGraph, settings: GaeaGenerat
 
 ## Should be overriden and return [code]true[/code] if the cell at [param cell] should be mapped to [param material] in the output.
 @abstract
-func _passes_mapping(reference_sample: GaeaValue.Sample, cell: Vector3i, graph: GaeaGraph, settings: GaeaGenerationSettings) -> bool
+func _passes_mapping(
+	reference_sample: GaeaValue.Sample, cell: Vector3i, args: Dictionary[StringName, Variant]
+) -> bool
