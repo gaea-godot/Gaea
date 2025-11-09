@@ -2,6 +2,7 @@
 extends Control
 
 const LinkPopup = preload("uid://btt4eqjkp5pyf")
+const GaeaGraphEdit = preload("uid://bedt1m4gyyvyv")
 
 var is_loading = false
 var plugin: EditorPlugin
@@ -19,7 +20,7 @@ var _dragged_from_left: bool = false
 
 @onready var _no_data: Control = $NoData
 @onready var _editor: Control = $Editor
-@onready var _graph_edit: GraphEdit = %GraphEdit
+@onready var _graph_edit: GaeaGraphEdit = %GraphEdit
 @onready var _create_node_popup: Window = %CreateNodePopup
 @onready var _create_node_panel: Panel = %CreateNodePanel
 @onready var _context_menu: PopupMenu = %ContextMenu
@@ -181,12 +182,16 @@ func _load_data() -> void:
 		var node := _instantiate_node(id)
 
 		if get_selected_generator().data.get_node(id) is GaeaNodeOutput:
-			has_output_node = true
-			_output_node = node
+			if has_output_node:
+				_graph_edit.delete_nodes([node.name])
+			else:
+				has_output_node = true
+				_output_node = node
 
 	if not has_output_node:
 		_output_node = _add_node(GaeaNodeOutput.new(), Vector2.ZERO)
 
+	_output_node.add_to_group(&"cant_delete")
 	_load_scroll_offset.call_deferred(
 		_output_node.size * 0.5 - _graph_edit.get_rect().size * 0.5
 	)

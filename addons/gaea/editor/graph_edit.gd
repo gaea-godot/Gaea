@@ -29,7 +29,7 @@ func delete_nodes(nodes: Array[StringName]) -> void:
 	for node_name in nodes:
 		var node: GraphElement = get_node(NodePath(node_name))
 		if node is GaeaGraphNode:
-			if node.resource is GaeaNodeOutput:
+			if node.is_in_group(&"cant_delete"):
 				continue
 
 			for connection in node.connections:
