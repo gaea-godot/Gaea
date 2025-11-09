@@ -12,11 +12,12 @@ signal remove_invalid_connections_requested
 
 const PreviewTexture = preload("uid://dns7s4v8lom4t")
 
+## Reference to the parent GaeaGraphEdit
+var _graph_edit: GaeaGraphEdit
+
 ## The [GaeaNodeResource] this acts as an editor of.
 @export var resource: GaeaNodeResource
 
-## The currently associated generator.
-var generator: GaeaGenerator
 ## List of connections that goes to this node from other nodes.
 ## Used by the generator during runtime. This list is updated
 ## from [method update_connections] method.
@@ -39,6 +40,8 @@ static var _titlebar_styleboxes: Dictionary[GaeaValue.Type, Dictionary]
 
 
 func _ready() -> void:
+	_graph_edit = get_node("%GraphEdit")
+	prints("graph_edit found ?", _graph_edit)
 	_on_added()
 
 	if is_instance_valid(resource):
@@ -88,7 +91,7 @@ func _on_added() -> void:
 	title = resource.get_title()
 	if resource.salt == 0:
 		resource.salt = randi()
-		generator.data.set_node_salt(resource.id, resource.salt)
+		_graph_edit.graph.set_node_salt(resource.id, resource.salt)
 
 
 func _rebuild() -> void:
@@ -102,7 +105,7 @@ func _rebuild() -> void:
 
 	var saved_data := {}
 	if _finished_loading:
-		saved_data = generator.data.get_node_data(resource.id)
+		saved_data = _graph_edit.graph.get_node_data(resource.id)
 		resource.enum_selections = saved_data.get("enums", [])
 	_editors.clear()
 
@@ -167,7 +170,7 @@ func _add_argument_editor(for_arg: StringName) -> GaeaGraphNodeArgumentEditor:
 
 	if error == ERR_INVALID_DATA:
 		# Saved data was of an invalid type, so we'll just remove it, and reset it to the default value.
-		generator.data.remove_node_argument(resource.id, for_arg)
+		_graph_edit.graph.remove_node_argument(resource.id, for_arg)
 		resource.arguments.erase(for_arg)
 		node.set_arg_value(resource.get_argument_default_value(for_arg))
 
@@ -204,7 +207,7 @@ func _add_output_slot(for_output: StringName) -> GaeaGraphNodeOutput:
 			_preview_container = VBoxContainer.new()
 			_preview = PreviewTexture.new()
 			_preview.node = self
-			generator.generation_finished.connect(_preview.update.unbind(1))
+			#generator.generation_finished.connect(_preview.update.unbind(1))
 
 		node.get_toggle_preview_button().toggled.connect(_preview.toggle.bind(for_output).unbind(1))
 	return node
@@ -292,7 +295,7 @@ func _on_argument_value_changed(
 ) -> void:
 	if _finished_loading:
 		resource.set_argument_value(arg_name, value)
-		generator.data.set_node_argument(resource.id, arg_name, value)
+		_graph_edit.graph.set_node_argument(resource.id, arg_name, value)
 		if is_instance_valid(_preview):
 			_preview.update()
 
@@ -300,7 +303,7 @@ func _on_argument_value_changed(
 func _on_enum_value_changed(option_idx: int, enum_idx: int, button: OptionButton) -> void:
 	var value := button.get_item_id(option_idx)
 	resource.set_enum_value(enum_idx, value)
-	generator.data.set_node_enum(resource.id, enum_idx, value)
+	_graph_edit.graph.set_node_enum(resource.id, enum_idx, value)
 	if is_instance_valid(_preview):
 		_preview.update()
 
@@ -420,4 +423,4 @@ func has_finished_rebuilding() -> bool:
 
 
 func _on_dragged(_from: Vector2, to: Vector2) -> void:
-	generator.data.set_node_position(resource.id, to)
+	_graph_edit.graph.set_node_position(resource.id, to)

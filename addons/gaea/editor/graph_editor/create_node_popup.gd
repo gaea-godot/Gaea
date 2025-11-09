@@ -1,5 +1,8 @@
 @tool
+class_name GaeaPopupCreateNode
 extends Window
+
+@export var main_editor: GaeaMainEditor
 
 @onready var cancel_button: Button = %CancelButton
 @onready var tool_button: Button = %ToolButton
@@ -45,3 +48,29 @@ func filter_to_connect_type(type: GaeaValue.Type, is_left: bool) -> void:
 		create_node_tree.filter_to_output_type(type)
 	else:
 		create_node_tree.filter_to_input_type(type)
+
+
+func _on_popup_create_node_request() -> void:
+	position = get_mouse_position()
+	if not EditorInterface.get_editor_settings().get_setting("interface/editor/single_window_mode"):
+		position += get_window().position
+	#TODO GaeaMainEditor.clamp_popup_in_window(get_window())
+	create_node_tree.remove_filter(&"type")
+	create_node_tree.apply_filters(false)
+	popup()
+	search_bar.grab_focus()
+	search_bar.select_all()
+
+
+func _on_popup_create_node_and_connect_node_request(node: GaeaGraphNode, type: GaeaValue.Type) -> void:
+	_on_popup_create_node_request()
+	filter_to_connect_type(type, main_editor.dragged_from_left)
+	main_editor.created_node_connect_to = node
+	close_requested.connect(
+		func() -> void:
+			main_editor.created_node_connect_to = null, CONNECT_ONE_SHOT
+	)
+
+
+func _on_special_node_selected_for_creation(_id: StringName) -> void:
+	hide()

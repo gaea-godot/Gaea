@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://b7e2d15kxt2im"]
 
-[ext_resource type="Script" uid="uid://d1ekekpocvwxj" path="res://addons/gaea/graph/graph_nodes/node.gd" id="1_67l81"]
+[ext_resource type="Script" uid="uid://d1ekekpocvwxj" path="res://addons/gaea/graph/graph_nodes/graph_node.gd" id="1_67l81"]
 
 [node name="BaseNode" type="GraphNode"]
 custom_minimum_size = Vector2(160, 0)

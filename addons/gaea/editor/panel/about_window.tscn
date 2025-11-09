@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dcec3sivqmbjf"]
 
-[ext_resource type="Script" uid="uid://dk3l1cldanrep" path="res://addons/gaea/editor/about_window.gd" id="1_ls6ih"]
+[ext_resource type="Script" uid="uid://dk3l1cldanrep" path="res://addons/gaea/editor/panel/about_window.gd" id="1_ls6ih"]
 [ext_resource type="Texture2D" uid="uid://cvk5tco7njoa1" path="res://addons/gaea/assets/logo.svg" id="1_qhqg1"]
 
 [node name="Window" type="AcceptDialog"]

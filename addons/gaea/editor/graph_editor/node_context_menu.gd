@@ -1,4 +1,5 @@
 @tool
+class_name GaeaPopupNodeContextMenu
 extends PopupMenu
 
 signal create_node_popup_requested
@@ -21,6 +22,8 @@ enum Action {
 
 @export var panel: Control
 @export var graph_edit: GraphEdit
+
+@export var main_editor: GaeaMainEditor
 
 
 func _ready() -> void:
@@ -83,7 +86,7 @@ func _on_id_pressed(id: int) -> void:
 	var idx: int = get_item_index(id)
 	match id:
 		Action.ADD:
-			create_node_popup_requested.emit()
+			main_editor.popup_create_node_request.emit()
 		Action.COPY:
 			graph_edit.copy_nodes_request.emit()
 		Action.PASTE:
@@ -135,3 +138,12 @@ func _on_id_pressed(id: int) -> void:
 				var value: Variant = parameter.get("value")
 				if value is Resource and is_instance_valid(value):
 					EditorInterface.edit_resource(value)
+
+
+func _on_popup_node_context_menu_at_mouse_request(selected_nodes: Array) -> void:
+	clear()
+	populate(selected_nodes)
+	position = Vector2i(main_editor.get_global_mouse_position())
+	if not EditorInterface.get_editor_settings().get_setting("interface/editor/single_window_mode"):
+		position += get_window().position
+	popup()

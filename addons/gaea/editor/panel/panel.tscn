@@ -1,0 +1,358 @@
+[gd_scene load_steps=14 format=3 uid="uid://dngytsjlmkfg7"]
+
+[ext_resource type="Script" uid="uid://dpbmowgfmnxe5" path="res://addons/gaea/editor/panel/panel.gd" id="1_afcqa"]
+[ext_resource type="Texture2D" uid="uid://crs5x6wghxmmb" path="res://addons/gaea/assets/reload_tree.svg" id="2_4udwk"]
+[ext_resource type="Script" uid="uid://bedt1m4gyyvyv" path="res://addons/gaea/editor/graph_editor/graph_edit.gd" id="2_cdav6"]
+[ext_resource type="Script" uid="uid://coi2pynbl5ehe" path="res://addons/gaea/editor/graph_editor/create_node_tree.gd" id="2_vpeaa"]
+[ext_resource type="Texture2D" uid="uid://cwg7oy4i2cbwq" path="res://addons/gaea/assets/reload_variables_list.svg" id="3_dhpru"]
+[ext_resource type="Script" uid="uid://yi4fevtlrk41" path="res://addons/gaea/editor/graph_editor/main_editor.gd" id="4_gbl2m"]
+[ext_resource type="Script" uid="uid://bybvolyg1u0v4" path="res://addons/gaea/editor/graph_editor/node_context_menu.gd" id="4_vtsfx"]
+[ext_resource type="Script" uid="uid://cqd2rkam5cs3d" path="res://addons/gaea/editor/graph_editor/create_node_popup.gd" id="5_nbnm7"]
+[ext_resource type="Script" uid="uid://btt4eqjkp5pyf" path="res://addons/gaea/editor/graph_editor/link_context_menu.gd" id="7_dhpru"]
+[ext_resource type="PackedScene" uid="uid://dcec3sivqmbjf" path="res://addons/gaea/editor/panel/about_window.tscn" id="9_affj1"]
+
+[sub_resource type="Image" id="Image_gbl2m"]
+data = {
+"data": PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 224, 224, 224, 114, 224, 224, 224, 243, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 242, 224, 224, 224, 112, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 224, 224, 224, 243, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 242, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 0, 0, 0, 0, 0, 0, 0, 0, 145, 145, 145, 116, 145, 145, 145, 243, 145, 145, 145, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 0, 0, 0, 0, 0, 0, 0, 0, 145, 145, 145, 243, 145, 145, 145, 255, 145, 145, 145, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 0, 0, 0, 0, 0, 0, 0, 0, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 0, 0, 0, 0, 0, 0, 0, 0, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 0, 0, 0, 0, 0, 0, 0, 0, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 219, 219, 219, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 241, 0, 0, 0, 0, 0, 0, 0, 0, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 179, 179, 179, 255, 219, 219, 219, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 241, 225, 225, 225, 109, 0, 0, 0, 0, 0, 0, 0, 0, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 145, 145, 145, 243, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 243, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 144, 144, 144, 115, 145, 145, 145, 243, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 243, 144, 144, 144, 113, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+"format": "RGBA8",
+"height": 16,
+"mipmaps": false,
+"width": 16
+}
+
+[sub_resource type="ImageTexture" id="ImageTexture_k2fg6"]
+image = SubResource("Image_gbl2m")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dhpru"]
+
+[node name="GaeaPanel" type="HSplitContainer"]
+custom_minimum_size = Vector2(0, 256)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_afcqa")
+
+[node name="FileSystemContainer" type="VBoxContainer" parent="."]
+clip_contents = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="Topbar" type="HBoxContainer" parent="FileSystemContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+
+[node name="ReloadNodeTreeButton" type="Button" parent="FileSystemContainer/Topbar"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Reload create node list."
+icon = ExtResource("2_4udwk")
+flat = true
+
+[node name="ReloadParametersListButton" type="Button" parent="FileSystemContainer/Topbar"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Reload parameters list.
+(Sometimes some parameters aren't deleted properly, this helps remove those)"
+icon = ExtResource("3_dhpru")
+flat = true
+
+[node name="MarginContainer" type="MarginContainer" parent="FileSystemContainer/Topbar"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="OnlineDocsButton" type="Button" parent="FileSystemContainer/Topbar"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Open Gaea online documentation."
+focus_mode = 0
+text = "Online Docs"
+flat = true
+
+[node name="AboutButton" type="Button" parent="FileSystemContainer/Topbar"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "See information about your Gaea version."
+focus_mode = 0
+text = "About..."
+flat = true
+
+[node name="WindowPopoutSeparator" type="VSeparator" parent="FileSystemContainer/Topbar"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="WindowPopoutButton" type="Button" parent="FileSystemContainer/Topbar"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+tooltip_text = "Make the Gaea editor floating."
+icon = SubResource("ImageTexture_k2fg6")
+flat = true
+
+[node name="Label" type="Label" parent="FileSystemContainer"]
+layout_mode = 2
+text = "File system placeholder"
+
+[node name="MainEditor" type="Control" parent="." node_paths=PackedStringArray("gaea_panel", "graph_edit", "about_window", "no_data", "create_node_popup", "node_context_menu", "link_context_menu")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("4_gbl2m")
+gaea_panel = NodePath("..")
+graph_edit = NodePath("GraphEdit")
+about_window = NodePath("AboutWindow")
+no_data = NodePath("NoData")
+create_node_popup = NodePath("CreateNodePopup")
+node_context_menu = NodePath("NodeContextMenu")
+link_context_menu = NodePath("LinkContextMenu")
+
+[node name="GraphEdit" type="GraphEdit" parent="MainEditor" node_paths=PackedStringArray("bottom_note_label")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+theme_override_colors/connection_rim_color = Color(0.0784314, 0.0784314, 0.0784314, 1)
+grid_pattern = 1
+right_disconnects = true
+minimap_opacity = 0.85
+show_zoom_label = true
+script = ExtResource("2_cdav6")
+bottom_note_label = NodePath("Margin/BottomNote")
+
+[node name="Margin" type="MarginContainer" parent="MainEditor/GraphEdit"]
+z_index = 50
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="BottomNote" type="RichTextLabel" parent="MainEditor/GraphEdit/Margin"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxEmpty_dhpru")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_dhpru")
+theme_override_styles/background = SubResource("StyleBoxEmpty_dhpru")
+theme_override_styles/fill = SubResource("StyleBoxEmpty_dhpru")
+text = "(0,0)"
+fit_content = true
+metadata/_edit_use_anchors_ = true
+
+[node name="NoData" type="CenterContainer" parent="MainEditor"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="NoDataLabel" type="Label" parent="MainEditor/NoData"]
+layout_mode = 2
+text = "No data resource has been added to the selected generator"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NewDataButton" type="Button" parent="MainEditor/NoData"]
+layout_mode = 2
+text = "Add New Resource"
+
+[node name="AboutWindow" parent="MainEditor" node_paths=PackedStringArray("main_editor") instance=ExtResource("9_affj1")]
+visible = false
+exclusive = true
+main_editor = NodePath("..")
+
+[node name="CreateNodePopup" type="Window" parent="MainEditor" node_paths=PackedStringArray("main_editor")]
+unique_name_in_owner = true
+title = "Create Node"
+position = Vector2i(0, 36)
+size = Vector2i(300, 450)
+visible = false
+transient = true
+exclusive = true
+extend_to_title = true
+keep_title_visible = true
+script = ExtResource("5_nbnm7")
+main_editor = NodePath("..")
+
+[node name="BackgroundContainer" type="MarginContainer" parent="MainEditor/CreateNodePopup"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = -10
+theme_override_constants/margin_top = -10
+theme_override_constants/margin_right = -10
+theme_override_constants/margin_bottom = -10
+
+[node name="CreateNodePanel" type="Panel" parent="MainEditor/CreateNodePopup/BackgroundContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="MainContentContainer" type="MarginContainer" parent="MainEditor/CreateNodePopup"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBox" type="VBoxContainer" parent="MainEditor/CreateNodePopup/MainContentContainer"]
+layout_mode = 2
+
+[node name="SearchContainer" type="HBoxContainer" parent="MainEditor/CreateNodePopup/MainContentContainer/VBox"]
+layout_mode = 2
+
+[node name="SearchBar" type="LineEdit" parent="MainEditor/CreateNodePopup/MainContentContainer/VBox/SearchContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Search (Ctrl+Tab to cycle)"
+clear_button_enabled = true
+
+[node name="ToolButton" type="Button" parent="MainEditor/CreateNodePopup/MainContentContainer/VBox/SearchContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+focus_mode = 0
+flat = true
+icon_alignment = 1
+
+[node name="ToolPopup" type="PopupMenu" parent="MainEditor/CreateNodePopup/MainContentContainer/VBox/SearchContainer/ToolButton"]
+unique_name_in_owner = true
+position = Vector2i(255, 80)
+size = Vector2i(108, 62)
+item_count = 2
+item_0/text = "Expand all"
+item_0/id = 0
+item_1/text = "Collapse all"
+item_1/id = 1
+
+[node name="CreateNodeTree" type="Tree" parent="MainEditor/CreateNodePopup/MainContentContainer/VBox" node_paths=PackedStringArray("main_editor", "description_label")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+hide_root = true
+script = ExtResource("2_vpeaa")
+main_editor = NodePath("../../../..")
+description_label = NodePath("../PanelContainer/DescriptionLabel")
+
+[node name="Label" type="Label" parent="MainEditor/CreateNodePopup/MainContentContainer/VBox"]
+layout_mode = 2
+text = "Description"
+
+[node name="PanelContainer" type="PanelContainer" parent="MainEditor/CreateNodePopup/MainContentContainer/VBox"]
+layout_mode = 2
+
+[node name="DescriptionLabel" type="RichTextLabel" parent="MainEditor/CreateNodePopup/MainContentContainer/VBox/PanelContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 2
+bbcode_enabled = true
+text = "Description of the selected node goes here"
+autowrap_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainEditor/CreateNodePopup/MainContentContainer/VBox"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="CreateButton" type="Button" parent="MainEditor/CreateNodePopup/MainContentContainer/VBox/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Create"
+
+[node name="CancelButton" type="Button" parent="MainEditor/CreateNodePopup/MainContentContainer/VBox/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Cancel"
+
+[node name="NodeContextMenu" type="PopupMenu" parent="MainEditor" node_paths=PackedStringArray("panel", "graph_edit", "main_editor")]
+unique_name_in_owner = true
+oversampling_override = 1.0
+size = Vector2i(100, 124)
+item_count = 6
+item_0/text = "Add Node"
+item_0/id = 0
+item_1/id = 1
+item_1/separator = true
+item_2/text = "Delete"
+item_2/id = 2
+item_3/id = 9999
+item_3/separator = true
+item_4/text = "Rename"
+item_4/id = 3
+item_4/disabled = true
+item_5/text = "Set Color"
+item_5/id = 5
+script = ExtResource("4_vtsfx")
+panel = NodePath("../..")
+graph_edit = NodePath("../GraphEdit")
+main_editor = NodePath("..")
+
+[node name="LinkContextMenu" type="PopupMenu" parent="MainEditor" node_paths=PackedStringArray("main_editor", "graph_edit")]
+unique_name_in_owner = true
+oversampling_override = 1.0
+size = Vector2i(106, 100)
+item_count = 1
+item_0/text = "Disconnect"
+item_0/id = 0
+script = ExtResource("7_dhpru")
+main_editor = NodePath("..")
+graph_edit = NodePath("../GraphEdit")
+
+[connection signal="pressed" from="FileSystemContainer/Topbar/ReloadNodeTreeButton" to="." method="_on_reload_node_tree_button_pressed"]
+[connection signal="pressed" from="FileSystemContainer/Topbar/ReloadParametersListButton" to="." method="_on_reload_parameters_list_button_pressed"]
+[connection signal="pressed" from="FileSystemContainer/Topbar/OnlineDocsButton" to="." method="_on_online_docs_button_pressed"]
+[connection signal="pressed" from="FileSystemContainer/Topbar/WindowPopoutButton" to="." method="_on_window_popout_button_pressed"]
+[connection signal="about_popup_request" from="MainEditor" to="MainEditor/AboutWindow" method="_on_main_editor_about_popup_request"]
+[connection signal="node_selected_for_creation" from="MainEditor" to="MainEditor/GraphEdit" method="_on_main_editor_node_selected_for_creation"]
+[connection signal="visibility_changed" from="MainEditor" to="MainEditor/GraphEdit" method="_on_main_editor_visibility_changed"]
+[connection signal="connection_from_empty" from="MainEditor/GraphEdit" to="MainEditor/GraphEdit" method="_on_connection_from_empty"]
+[connection signal="connection_request" from="MainEditor/GraphEdit" to="MainEditor/GraphEdit" method="_on_connection_request"]
+[connection signal="connection_to_empty" from="MainEditor/GraphEdit" to="MainEditor/GraphEdit" method="_on_connection_to_empty"]
+[connection signal="copy_nodes_request" from="MainEditor/GraphEdit" to="MainEditor/GraphEdit" method="_on_copy_nodes_request"]
+[connection signal="cut_nodes_request" from="MainEditor/GraphEdit" to="MainEditor/GraphEdit" method="_on_cut_nodes_request"]
+[connection signal="delete_nodes_request" from="MainEditor/GraphEdit" to="MainEditor/GraphEdit" method="_on_delete_nodes_request"]
+[connection signal="disconnection_request" from="MainEditor/GraphEdit" to="MainEditor/GraphEdit" method="_on_disconnection_request"]
+[connection signal="duplicate_nodes_request" from="MainEditor/GraphEdit" to="MainEditor/GraphEdit" method="_on_duplicate_nodes_request"]
+[connection signal="graph_elements_linked_to_frame_request" from="MainEditor/GraphEdit" to="MainEditor/GraphEdit" method="_on_graph_elements_linked_to_frame_request"]
+[connection signal="gui_input" from="MainEditor/GraphEdit" to="MainEditor/GraphEdit" method="_on_gui_input"]
+[connection signal="node_selected" from="MainEditor/GraphEdit" to="MainEditor/GraphEdit" method="_on_node_selected"]
+[connection signal="paste_nodes_request" from="MainEditor/GraphEdit" to="MainEditor/GraphEdit" method="_on_paste_nodes_request"]
+[connection signal="scroll_offset_changed" from="MainEditor/GraphEdit" to="MainEditor/GraphEdit" method="_on_scroll_offset_changed"]
+[connection signal="pressed" from="MainEditor/NoData/NewDataButton" to="." method="_on_new_data_button_pressed"]
+[connection signal="pressed" from="MainEditor/NoData/NewDataButton" to="MainEditor" method="_on_new_data_button_pressed"]
+[connection signal="text_changed" from="MainEditor/CreateNodePopup/MainContentContainer/VBox/SearchContainer/SearchBar" to="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_search_bar_text_changed"]
+[connection signal="text_submitted" from="MainEditor/CreateNodePopup/MainContentContainer/VBox/SearchContainer/SearchBar" to="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_search_bar_text_submitted"]
+[connection signal="pressed" from="MainEditor/CreateNodePopup/MainContentContainer/VBox/SearchContainer/ToolButton" to="MainEditor/CreateNodePopup" method="_on_tool_button_pressed"]
+[connection signal="id_pressed" from="MainEditor/CreateNodePopup/MainContentContainer/VBox/SearchContainer/ToolButton/ToolPopup" to="MainEditor/CreateNodePopup" method="_on_tool_popup_id_pressed"]
+[connection signal="item_activated" from="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" to="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_item_activated"]
+[connection signal="item_selected" from="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" to="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_item_selected"]
+[connection signal="nothing_selected" from="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" to="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_nothing_selected"]
+[connection signal="pressed" from="MainEditor/CreateNodePopup/MainContentContainer/VBox/HBoxContainer/CreateButton" to="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_create_button_pressed"]
+[connection signal="create_node_popup_requested" from="MainEditor/NodeContextMenu" to="." method="_popup_create_node_menu_at_mouse"]
+[connection signal="new_reroute_requested" from="MainEditor/LinkContextMenu" to="." method="_on_new_reroute_requested"]

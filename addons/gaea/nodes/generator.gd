@@ -19,6 +19,7 @@ signal reset_requested
 signal area_erased(area: AABB)
 
 
+
 ## The [GaeaGraph] used for generation.
 @export var data: GaeaGraph:
 	set(value):
@@ -26,6 +27,13 @@ signal area_erased(area: AABB)
 		if is_instance_valid(data):
 			data.generator = self
 		data_changed.emit()
+
+
+@export_tool_button("Open in Gaea Graph Editor", "ExternalLink") var open_graph = _open_graph_in_editor
+func _open_graph_in_editor():
+	prints("Open graph", data.resource_path)
+
+
 ## If [code]true[/code], every time [method generate] is called, a random [member seed] will be chosen.
 @export var random_seed_on_generate: bool = true :
 	set(value):

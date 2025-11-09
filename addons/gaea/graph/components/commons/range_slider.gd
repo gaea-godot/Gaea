@@ -1,4 +1,5 @@
 @tool
+class_name GaeaRangeSlider
 extends Control
 # Slightly modified from
 # https://github.com/detomon/godot-assorted-controls/blob/master/addons/detomon.assorted-controls/gui/range_slider/range_slider.gd

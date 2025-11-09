@@ -1,4 +1,5 @@
 @tool
+class_name GaeaEditorPlugin
 extends EditorPlugin
 
 
@@ -32,6 +33,10 @@ func _enter_tree() -> void:
 		_custom_project_settings = GaeaProjectSettings.new()
 		_custom_project_settings.add_settings()
 
+		# TODO TMP
+		_panel_button.show()
+		#show_bottom_panel()
+
 
 func _exit_tree() -> void:
 	if Engine.is_editor_hint():
@@ -41,14 +46,22 @@ func _exit_tree() -> void:
 		_container.queue_free()
 
 
-func _get_unsaved_status(for_scene):
-	if for_scene.is_empty():
-		return "Save changes in Gaea before closing?"
+func _get_unsaved_status(_for_scene: String) -> String:
+	# TODO
+	#if for_scene.is_empty():
+	#	return "Save changes in Gaea before closing?"
+	#return "Scene %s has changes from Gaea. Save before closing?" % for_scene.get_file()
+	return ""
 
-	return "Scene %s has changes from Gaea. Save before closing?" % for_scene.get_file()
+
+func _save_external_data() -> void:
+	# TODO
+	pass
 
 
 func _on_selection_changed() -> void:
+	if true:
+		return
 	if Engine.is_editor_hint():
 		var selected: Array[Node] = _editor_selection.get_selected_nodes()
 

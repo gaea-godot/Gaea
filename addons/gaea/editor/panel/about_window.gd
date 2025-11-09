@@ -3,7 +3,7 @@ extends AcceptDialog
 
 const CONTRIBUTORS_LIST := "res://addons/gaea/contributors.txt"
 
-var plugin: EditorPlugin
+@export var main_editor: GaeaMainEditor
 
 @onready var _contributors_panel: PanelContainer = %ContributorsPanel
 @onready var _main_vbox: VBoxContainer = %MainVBox
@@ -15,6 +15,7 @@ func initialize() -> void:
 	if is_part_of_edited_scene():
 		return
 
+	var plugin: GaeaEditorPlugin = main_editor.gaea_panel.plugin
 	_version_label.text = "Gaea %s" % plugin.get_plugin_version()
 	_version_label.uri = "https://github.com/gaea-godot/gaea/releases/tag/%s" % plugin.get_plugin_version()
 	_version_label.tooltip_text = _version_label.uri
@@ -42,3 +43,8 @@ func initialize() -> void:
 		var label := Label.new()
 		label.text = contributor
 		_contributors_v_box.add_child(label)
+
+
+func _on_main_editor_about_popup_request() -> void:
+	popup_centered()
+	initialize()

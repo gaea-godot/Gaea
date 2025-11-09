@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://t4osuglcgg6l"]
 
 [ext_resource type="Script" uid="uid://6jlpafuof6fs" path="res://addons/gaea/graph/components/argument_editors/range_argument_editor.gd" id="1_xfmar"]
-[ext_resource type="Script" uid="uid://bmc1eienmo8tp" path="res://addons/gaea/editor/h_range_slider.gd" id="3_an6wf"]
+[ext_resource type="Script" uid="uid://bmc1eienmo8tp" path="res://addons/gaea/graph/components/commons/h_range_slider.gd" id="3_an6wf"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i7tyw"]
 

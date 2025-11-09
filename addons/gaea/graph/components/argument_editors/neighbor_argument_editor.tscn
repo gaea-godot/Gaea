@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://i2nwlab8rau" path="res://addons/gaea/graph/components/argument_editors/argument_editor.tscn" id="1_7clkg"]
 [ext_resource type="Script" uid="uid://ugmago2v1kp4" path="res://addons/gaea/graph/components/argument_editors/neighbor_argument_editor.gd" id="2_7clkg"]
-[ext_resource type="Script" uid="uid://xdxm3ekx64qi" path="res://addons/gaea/editor/checkeable_cells.gd" id="3_2g0rj"]
+[ext_resource type="Script" uid="uid://xdxm3ekx64qi" path="res://addons/gaea/graph/components/commons/checkeable_cells.gd" id="3_2g0rj"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2g0rj"]
 content_margin_left = 4.0

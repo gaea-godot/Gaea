@@ -1,11 +1,9 @@
 @tool
 extends Tree
 
-signal node_selected_for_creation(resource: GaeaNodeResource)
-signal special_node_selected_for_creation(id: StringName)
-
 const NODES_FOLDER_PATH: String = "res://addons/gaea/graph/graph_nodes/root/"
 
+@export var main_editor: GaeaMainEditor
 @export var description_label: RichTextLabel
 var tree_dictionary: Dictionary
 
@@ -110,9 +108,9 @@ func _on_item_activated() -> void:
 	if not is_instance_valid(item):
 		return
 	if item.get_metadata(0) is GaeaNodeResource:
-		node_selected_for_creation.emit(item.get_metadata(0))
+		main_editor.node_selected_for_creation.emit(item.get_metadata(0))
 	elif item.get_metadata(0) is StringName:
-		special_node_selected_for_creation.emit(item.get_metadata(0))
+		main_editor.special_node_selected_for_creation.emit(item.get_metadata(0))
 
 
 func _on_create_button_pressed() -> void:
