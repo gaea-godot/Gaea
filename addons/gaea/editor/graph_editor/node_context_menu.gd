@@ -176,6 +176,8 @@ func _on_popup_node_context_menu_at_mouse_request(selected_nodes: Array) -> void
 func _get_node_id(node: GraphElement) -> int:
 	if node is GaeaGraphNode:
 		return node.resource.id
-	elif node is GaeaGraphFrame:
+
+	if node is GaeaGraphFrame:
 		return node.id
+
 	return -1
