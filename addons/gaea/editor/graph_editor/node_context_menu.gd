@@ -76,11 +76,9 @@ func populate(selected: Array) -> void:
 		var node: GaeaGraphNode = selected.front()
 		var resource: GaeaNodeResource = node.resource
 		if resource is GaeaNodeParameter:
-			var data: GaeaGraph = panel.get_selected_generator().data
-			var parameter: Dictionary = data.get_parameter_dictionary(node.get_arg_value("name"))
+			var parameter: Dictionary = graph_edit.graph.get_parameter_dictionary(node.get_arg_value("name"))
 			if parameter.get("value") is Resource:
 				add_separator()
-				#TODO FIX
 				add_item("Open In Inspector", Action.OPEN_IN_INSPECTOR)
 
 
@@ -135,8 +133,7 @@ func _on_id_pressed(id: int) -> void:
 			var node: GaeaGraphNode = graph_edit.get_selected().front()
 			var resource: GaeaNodeResource = node.resource
 			if resource is GaeaNodeParameter:
-				var data: GaeaGraph = panel.get_selected_generator().data
-				var parameter: Dictionary = data.get_parameter_dictionary(node.get_arg_value("name"))
+				var parameter: Dictionary = graph_edit.graph.get_parameter_dictionary(node.get_arg_value("name"))
 				var value: Variant = parameter.get("value")
 				if value is Resource and is_instance_valid(value):
 					EditorInterface.edit_resource(value)
