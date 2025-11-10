@@ -38,11 +38,14 @@ func populate(selected: Array) -> void:
 	add_separator()
 	add_item("Copy", Action.COPY)
 	add_item("Paste", Action.PASTE)
-	set_item_disabled(Action.PASTE, not is_instance_valid(panel.copy_buffer))
 	add_item("Duplicate", Action.DUPLICATE)
 	add_item("Cut", Action.CUT)
 	add_item("Delete", Action.DELETE)
 	add_item("Clear Copy Buffer", Action.CLEAR_BUFFER)
+
+	if not is_instance_valid(main_editor.graph_edit.copy_buffer):
+		set_item_disabled(get_item_index(Action.PASTE), true)
+		set_item_disabled(get_item_index(Action.CLEAR_BUFFER), true)
 
 	for node: GraphElement in selected:
 		if graph_edit.attached_elements.has(node.name):
@@ -98,7 +101,7 @@ func _on_id_pressed(id: int) -> void:
 		Action.DELETE:
 			graph_edit.delete_nodes(graph_edit.get_selected_names())
 		Action.CLEAR_BUFFER:
-			panel.copy_buffer = null
+			main_editor.graph_edit.copy_buffer = null
 
 		Action.RENAME:
 			var selected: Array = graph_edit.get_selected()
@@ -141,9 +144,11 @@ func _on_id_pressed(id: int) -> void:
 
 
 func _on_popup_node_context_menu_at_mouse_request(selected_nodes: Array) -> void:
+	main_editor.node_creation_target = main_editor.get_local_mouse_position()
 	clear()
 	populate(selected_nodes)
-	position = Vector2i(main_editor.get_global_mouse_position())
-	if not EditorInterface.get_editor_settings().get_setting("interface/editor/single_window_mode"):
-		position += get_window().position
+	position = DisplayServer.mouse_get_position()
+	# TODO remove ?
+	#if not EditorInterface.get_editor_settings().get_setting("interface/editor/single_window_mode"):
+	#	position += get_window().position
 	popup()

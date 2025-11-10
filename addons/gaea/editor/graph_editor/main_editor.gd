@@ -41,6 +41,7 @@ func _ready() -> void:
 	popup_node_context_menu_at_mouse_request.connect(node_context_menu._on_popup_node_context_menu_at_mouse_request)
 	popup_link_context_menu_at_mouse_request.connect(link_context_menu._on_popup_link_context_menu_at_mouse_request)
 
+
 #region TODO
 
 	#_about_button.icon = EditorInterface.get_base_control().get_theme_icon(

@@ -3,9 +3,6 @@ class_name GaeaGraphEdit
 extends GraphEdit
 
 signal connection_update_requested
-signal copy_requested(copy_data: GaeaNodesCopy)
-signal paste_requested(at_position: Vector2)
-signal panel_popout_request()
 
 var attached_elements: Dictionary
 
@@ -40,14 +37,11 @@ func _ready() -> void:
 
 	var add_node_button = Button.new()
 	add_node_button.text = "Add Node..."
-	add_node_button.pressed.connect(_popup_create_node_menu_at_mouse)
+	add_node_button.pressed.connect(main_editor.popup_create_node_request.emit)
 	var container := get_menu_hbox()
 	container.add_child(add_node_button)
 	container.move_child(add_node_button, 0)
 
-
-func _popup_create_node_menu_at_mouse():
-	main_editor.popup_create_node_menu_at_request.emit(get_local_mouse_position())
 
 
 #region Saving and Loading
@@ -428,20 +422,20 @@ func _get_copy_data(nodes: Array) -> GaeaNodesCopy:
 
 func _on_duplicate_nodes_request() -> void:
 	var copy_data := _get_copy_data(get_selected())
-	copy_requested.emit(copy_data)
-	paste_requested.emit(copy_data.get_origin() + Vector2(snapping_distance, snapping_distance))
+	_copy_nodes(copy_data)
+	_paste_nodes(copy_data.get_origin() + Vector2(snapping_distance, snapping_distance))
 
 
 func _on_copy_nodes_request() -> void:
-	copy_requested.emit(_get_copy_data(get_selected()))
+	_copy_nodes(_get_copy_data(get_selected()))
 
 
 func _on_paste_nodes_request() -> void:
-	paste_requested.emit(local_to_grid(get_local_mouse_position()))
+	_paste_nodes(local_to_grid(get_local_mouse_position()))
 
 
 func _on_cut_nodes_request() -> void:
-	copy_requested.emit(_get_copy_data(get_selected()))
+	_copy_nodes(_get_copy_data(get_selected()))
 	delete_nodes(get_selected_names())
 #endregion
 
@@ -453,14 +447,15 @@ func _on_gui_input(event: InputEvent) -> void:
 			var mouse_position = get_local_mouse_position()
 			var connection = get_closest_connection_at_point(mouse_position, 10.0)
 			if not connection.is_empty():
-				#TODO _popup_link_context_menu_at_mouse(connection)
+				main_editor.popup_link_context_menu_at_mouse_request.emit(connection)
 				return
 
 			var selected: Array = get_selected()
-			if selected.is_empty() and not is_instance_valid(main_editor.copy_buffer):
-				pass #TODO _popup_create_node_menu_at_mouse()
+			prints("selected", selected)
+			if selected.is_empty() and not is_instance_valid(main_editor.graph_edit.copy_buffer):
+				main_editor.popup_create_node_request.emit()
 			else:
-				pass #TODO _popup_node_context_menu_at_mouse(selected)
+				main_editor.popup_node_context_menu_at_mouse_request.emit(selected)
 
 
 func _on_scroll_offset_changed(offset: Vector2) -> void:
@@ -527,6 +522,9 @@ func _load_connections(connections_list: Array[Dictionary]) -> void:
 		)
 
 
+
+func _copy_nodes(data: GaeaNodesCopy) -> void:
+	copy_buffer = data
 
 
 func _paste_nodes(at_position: Vector2, data: GaeaNodesCopy = copy_buffer) -> void:
@@ -618,10 +616,6 @@ func _input(event: InputEvent) -> void:
 		update_bottom_note()
 
 
-
-
-func _on_graph_edit_copy_requested(data: GaeaNodesCopy) -> void:
-	copy_buffer = data
 
 
 func _on_main_editor_node_selected_for_creation(resource: GaeaNodeResource) -> void:

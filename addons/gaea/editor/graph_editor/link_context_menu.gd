@@ -40,11 +40,10 @@ func _on_id_pressed(id: int) -> void:
 
 
 func _on_popup_link_context_menu_at_mouse_request(connection: Dictionary) -> void:
-	main_editor.node_creation_target = main_editor.get_local_mouse_position()
 	clear()
 	populate(connection)
-	position = Vector2i(main_editor.get_global_mouse_position())
-
-	if not EditorInterface.get_editor_settings().get_setting("interface/editor/single_window_mode"):
-		position += get_window().position
+	position = DisplayServer.mouse_get_position()
+	# TODO remove ?
+	#if not EditorInterface.get_editor_settings().get_setting("interface/editor/single_window_mode"):
+	#	position += get_window().position
 	popup()

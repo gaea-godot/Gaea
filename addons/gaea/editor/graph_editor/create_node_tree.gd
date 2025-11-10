@@ -107,6 +107,7 @@ func _on_item_activated() -> void:
 	var item: TreeItem = get_selected()
 	if not is_instance_valid(item):
 		return
+	main_editor.create_node_popup.hide()
 	if item.get_metadata(0) is GaeaNodeResource:
 		main_editor.node_selected_for_creation.emit(item.get_metadata(0))
 	elif item.get_metadata(0) is StringName:
