@@ -2,14 +2,12 @@
 class_name GaeaPanel
 extends Control
 
-const LinkPopup = preload("uid://btt4eqjkp5pyf")
-
 var plugin: GaeaEditorPlugin
 
 @export var main_editor: GaeaMainEditor
 @export var graph_edit: GaeaGraphEdit
 
-#region Built-in & Input
+
 static func instantiate() -> Node:
 	return load("uid://dngytsjlmkfg7").instantiate()
 
@@ -19,28 +17,6 @@ func _ready() -> void:
 		return
 
 	main_editor.panel_popout_request.connect(_on_panel_popout_request)
-
-	#_reload_node_tree_button.icon = preload("uid://crs5x6wghxmmb")
-	#_reload_parameters_list_button.icon = preload("uid://cwg7oy4i2cbwq")
-
-	#_duplicate_graph_button.icon = EditorInterface.get_base_control().get_theme_icon(&"Duplicate", &"EditorIcons")
-	#_window_popout_button.icon = EditorInterface.get_base_control().get_theme_icon(&"MakeFloating", &"EditorIcons")
-	#_online_docs_button.icon = EditorInterface.get_base_control().get_theme_icon(&"ExternalLink", &"EditorIcons")
-	#_create_node_panel.add_theme_stylebox_override(
-	#	&"panel", EditorInterface.get_base_control().get_theme_stylebox(&"panel", &"PopupPanel")
-	#)
-
-
-	#if not EditorInterface.is_multi_window_enabled():
-	#	_window_popout_button.disabled = true
-	#	_window_popout_button.tooltip_text = _get_multiwindow_support_tooltip_text()
-
-
-#endregion
-
-
-#region Buttons
-
 
 
 #region Popout Panel Window

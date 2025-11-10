@@ -23,6 +23,7 @@ main_editor = NodePath("MainEditor")
 graph_edit = NodePath("MainEditor/GraphEdit")
 
 [node name="FileSystemContainer" type="VBoxContainer" parent="."]
+visible = false
 clip_contents = true
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
@@ -116,7 +117,7 @@ visible = false
 exclusive = true
 main_editor = NodePath("..")
 
-[node name="CreateNodePopup" type="Window" parent="MainEditor" node_paths=PackedStringArray("main_editor", "_reload_node_tree_button")]
+[node name="CreateNodePopup" type="Window" parent="MainEditor" node_paths=PackedStringArray("main_editor", "_reload_node_tree_button", "_create_node_panel")]
 unique_name_in_owner = true
 oversampling_override = 1.0
 title = "Create Node"
@@ -130,6 +131,7 @@ keep_title_visible = true
 script = ExtResource("5_nbnm7")
 main_editor = NodePath("..")
 _reload_node_tree_button = NodePath("MainContentContainer/VBox/SearchContainer/ReloadNodeTreeButton")
+_create_node_panel = NodePath("BackgroundContainer/CreateNodePanel")
 
 [node name="BackgroundContainer" type="MarginContainer" parent="MainEditor/CreateNodePopup"]
 anchors_preset = 15
@@ -195,7 +197,9 @@ item_1/text = "Collapse all"
 item_1/id = 1
 
 [node name="ReloadNodeTreeButton" type="Button" parent="MainEditor/CreateNodePopup/MainContentContainer/VBox/SearchContainer"]
+custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
+flat = true
 
 [node name="CreateNodeTree" type="Tree" parent="MainEditor/CreateNodePopup/MainContentContainer/VBox" node_paths=PackedStringArray("main_editor", "description_label")]
 unique_name_in_owner = true

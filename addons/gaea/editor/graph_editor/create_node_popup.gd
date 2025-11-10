@@ -4,7 +4,7 @@ extends Window
 
 @export var main_editor: GaeaMainEditor
 @export var _reload_node_tree_button: Button
-
+@export var _create_node_panel: Panel
 
 @onready var cancel_button: Button = %CancelButton
 @onready var tool_button: Button = %ToolButton
@@ -25,6 +25,9 @@ func _ready() -> void:
 	tool_button.icon = EditorInterface.get_base_control().get_theme_icon(&"Tools", &"EditorIcons")
 	description_label.set_text("")
 
+	_create_node_panel.add_theme_stylebox_override(
+		&"panel", EditorInterface.get_base_control().get_theme_stylebox(&"panel", &"PopupPanel")
+	)
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
