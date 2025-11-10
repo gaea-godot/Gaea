@@ -34,12 +34,12 @@ func _on_id_pressed(id: int) -> void:
 				current_connection.to_port
 			)
 		Action.INSERT_NEW_REROUTE:
-			main_editor.node_creation_target = main_editor.get_local_mouse_position()
 			main_editor.new_reroute_requested.emit(current_connection)
 
 
 func _on_popup_link_context_menu_at_mouse_request(connection: Dictionary) -> void:
 	clear()
 	populate(connection)
+	main_editor.node_creation_target = main_editor.graph_edit.get_local_mouse_position()
 	main_editor.move_popup_at_mouse(self)
 	popup()

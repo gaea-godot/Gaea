@@ -45,7 +45,7 @@ func _ready() -> void:
 	var add_node_button = Button.new()
 	add_node_button.text = "Add Node..."
 	add_node_button.theme_type_variation = &"FlatButton"
-	add_node_button.pressed.connect(main_editor.popup_create_node_request.emit)
+	add_node_button.pressed.connect(_add_node_button_pressed)
 	container.add_child(add_node_button)
 	container.move_child(add_node_button, 0)
 
@@ -77,6 +77,11 @@ func _ready() -> void:
 	if not EditorInterface.is_multi_window_enabled():
 		_window_popout_button.disabled = true
 		_window_popout_button.tooltip_text = _get_multiwindow_support_tooltip_text()
+
+
+func _add_node_button_pressed() -> void:
+	main_editor.popup_create_node_request.emit()
+	main_editor.node_creation_target = size * 0.40
 
 
 #region Saving and Loading
@@ -660,7 +665,7 @@ func _input(event: InputEvent) -> void:
 
 
 
-func _on_main_editor_node_selected_for_creation(resource: GaeaNodeResource) -> void:
+func _on_node_selected_for_creation(resource: GaeaNodeResource) -> void:
 	var node := _add_node(resource.duplicate(), local_to_grid(main_editor.node_creation_target))
 
 	if node is GaeaGraphNode and is_instance_valid(main_editor.created_node_connect_to):
@@ -726,29 +731,16 @@ func _on_main_editor_visibility_changed() -> void:
 
 func _get_multiwindow_support_tooltip_text() -> String:
 	# Adapted from https://github.com/godotengine/godot/blob/a8598cd8e261716fa3addb6f10bb57c03a061be9/editor/editor_node.cpp#L4725-L4737
+	var prefix: String = "Multi-window support is not available because"
 	if EditorInterface.get_editor_settings().get_setting("interface/editor/single_window_mode"):
-		return tr(
-			"Multi-window support is not available because Interface > Editor > Single Window Mode is enabled in the editor settings."
-		)
-
+		return tr(prefix + " Interface > Editor > Single Window Mode is enabled in the editor settings.")
 	if not EditorInterface.get_editor_settings().get_setting("interface/multi_window/enable"):
-		return tr(
-			"Multi-window support is not available because Interface > Multi Window > Enable is disabled in the editor settings."
-		)
-
+		return tr(prefix + " Interface > Multi Window > Enable is disabled in the editor settings.")
 	if DisplayServer.has_feature(DisplayServer.FEATURE_SUBWINDOWS):
-		return tr(
-			"Multi-window support is not available because the `--single-window` command line argument was used to start the editor."
-		)
-
-	return tr(
-		"Multi-window support is not available because the current platform doesn't support multiple windows."
-	)
+		return tr(prefix + " the `--single-window` command line argument was used to start the editor.")
+	return tr(prefix + " the current platform doesn't support multiple windows.")
 
 
-
-func _on_node_selected_for_creation(_resource: GaeaNodeResource) -> void:
-	pass
 
 
 func _on_special_node_selected_for_creation(id: StringName) -> void:

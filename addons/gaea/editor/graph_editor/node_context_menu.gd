@@ -140,8 +140,8 @@ func _on_id_pressed(id: int) -> void:
 
 
 func _on_popup_node_context_menu_at_mouse_request(selected_nodes: Array) -> void:
-	main_editor.node_creation_target = main_editor.get_local_mouse_position()
 	clear()
 	populate(selected_nodes)
+	main_editor.node_creation_target = main_editor.graph_edit.get_local_mouse_position()
 	main_editor.move_popup_at_mouse(self)
 	popup()

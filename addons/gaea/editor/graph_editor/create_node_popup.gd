@@ -12,7 +12,6 @@ extends Window
 @onready var description_label: RichTextLabel = %DescriptionLabel
 @onready var search_bar: LineEdit = %SearchBar
 
-#TODO fix the color of the background of this popup
 
 func _ready() -> void:
 	if is_part_of_edited_scene():
@@ -59,6 +58,7 @@ func filter_to_connect_type(type: GaeaValue.Type, is_left: bool) -> void:
 
 
 func _on_popup_create_node_request() -> void:
+	main_editor.node_creation_target = main_editor.graph_edit.get_local_mouse_position()
 	main_editor.move_popup_at_mouse(self)
 	create_node_tree.remove_filter(&"type")
 	create_node_tree.apply_filters(false)
