@@ -67,21 +67,24 @@ func _save_external_data() -> void:
 func _on_selection_changed() -> void:
 	if Engine.is_editor_hint():
 		var selected: Array[Node] = _editor_selection.get_selected_nodes()
-
 		if selected.size() == 1 and selected.front() is GaeaGenerator:
+			var graph = selected.front().graph
 			_panel_button.show()
 			make_bottom_panel_item_visible(_container)
+			if _panel.graph_edit.graph == graph:
+				return
 			_panel.graph_edit.unpopulate()
 			_panel.graph_edit.populate(selected.front().graph)
 
 
 # TMP Until a proper save system
-func _handles(object: Object) -> bool:
+func foo_handles(object: Object) -> bool:
 	return object is GaeaGenerator or object is GaeaGraph
 
 
 # TMP Until a proper save system
-func _edit(object: Object) -> void:
+func foo_edit(object: Object) -> void:
+	print("_edit")
 	var graph: GaeaGraph
 	if object is GaeaGraph:
 		graph = object
@@ -91,5 +94,9 @@ func _edit(object: Object) -> void:
 		return
 
 	make_bottom_panel_item_visible(_container)
+
+	if _panel.graph_edit.graph == graph:
+		return
+
 	_panel.graph_edit.unpopulate()
 	_panel.graph_edit.populate(graph)
