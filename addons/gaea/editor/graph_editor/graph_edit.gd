@@ -58,7 +58,6 @@ func unpopulate() -> void:
 	for child in get_children():
 		if child is GraphElement:
 			child.queue_free()
-			await child.tree_exited
 
 
 func _load_data() -> void:
