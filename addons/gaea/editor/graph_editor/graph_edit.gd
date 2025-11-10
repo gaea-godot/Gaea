@@ -32,14 +32,41 @@ func _ready() -> void:
 	add_theme_color_override(&"connection_rim_color", Color("141414"))
 	EditorInterface.get_script_editor().editor_script_changed.connect(_on_editor_script_changed)
 
+	var container := get_menu_hbox()
+	var panel: PanelContainer = container.get_parent()
+	panel.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
+	panel.offset_left = 12.0
+	panel.offset_top = 12.0
+	panel.offset_right = -12.0
 
 	var add_node_button = Button.new()
 	add_node_button.text = "Add Node..."
 	add_node_button.pressed.connect(main_editor.popup_create_node_request.emit)
-	var container := get_menu_hbox()
 	container.add_child(add_node_button)
 	container.move_child(add_node_button, 0)
 
+
+	container.add_spacer(false)
+
+	var online_docs_button = Button.new()
+	online_docs_button.text = "Online Docs"
+	online_docs_button.icon = EditorInterface.get_base_control().get_theme_icon(&"ExternalLink", &"EditorIcons")
+	online_docs_button.pressed.connect(_on_online_docs_button_pressed)
+	container.add_child(online_docs_button)
+
+
+	var about_button = Button.new()
+	about_button.text = "About..."
+	about_button.icon = EditorInterface.get_base_control().get_theme_icon(&"NodeInfo", &"EditorIcons")
+	about_button.pressed.connect(main_editor.about_popup_request.emit)
+	container.add_child(about_button)
+
+	container.add_child(VSeparator.new())
+
+	var window_popout_button = Button.new()
+	window_popout_button.icon = EditorInterface.get_base_control().get_theme_icon(&"MakeFloating", &"EditorIcons")
+	#window_popout_button.pressed.connect(main_editor.window_popout_popup_request.emit)
+	container.add_child(window_popout_button)
 
 
 #region Saving and Loading
@@ -62,6 +89,10 @@ func unpopulate() -> void:
 #endregion
 
 
+
+
+func _on_online_docs_button_pressed() -> void:
+	OS.shell_open("https://gaea-docs.readthedocs.io/")
 
 
 
@@ -170,7 +201,7 @@ func _on_connection_from_empty(to_node: StringName, to_port: int, _release_posit
 	)
 	main_editor.created_node_connect_to_port = to_port
 	main_editor.dragged_from_left = true
-	#TODO _popup_create_and_connect_node(node, type)
+	main_editor.popup_create_node_and_connect_node_request.emit(node, type)
 
 
 func _on_connection_to_empty(from_node: StringName, from_port: int, _release_position: Vector2) -> void:
@@ -180,7 +211,7 @@ func _on_connection_to_empty(from_node: StringName, from_port: int, _release_pos
 	)
 	main_editor.created_node_connect_to_port = from_port
 	main_editor.dragged_from_left = false
-	#TODO _popup_create_and_connect_node(node, type)
+	main_editor.popup_create_node_and_connect_node_request.emit(node, type)
 
 
 func _on_connection_request(

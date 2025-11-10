@@ -57,7 +57,6 @@ func _ready() -> void:
 
 
 
-
 static func clamp_popup_in_window(popup: Window, main_window: Window) -> void:
 	var window_rect = Rect2i(main_window.position, main_window.size)
 	var inner_rect = Rect2i(popup.position, popup.size)

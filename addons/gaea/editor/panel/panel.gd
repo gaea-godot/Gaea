@@ -65,9 +65,6 @@ func _on_reload_parameters_list_button_pressed() -> void:
 	#_selected_generator.notify_property_list_changed()
 
 
-func _on_online_docs_button_pressed() -> void:
-	OS.shell_open("https://gaea-docs.readthedocs.io/")
-
 
 #region Popout Panel Window
 func _on_panel_popout_request() -> void:
