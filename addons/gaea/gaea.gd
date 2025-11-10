@@ -79,23 +79,14 @@ func _on_selection_changed() -> void:
 
 # TMP Until a proper save system
 func _handles(object: Object) -> bool:
-	return object is GaeaGenerator or object is GaeaGraph
+	return object is GaeaGraph
 
 
 # TMP Until a proper save system
 func _edit(object: Object) -> void:
-	var graph: GaeaGraph
-	if object is GaeaGraph:
-		graph = object
-	if object is GaeaGenerator:
-		graph = object.graph
-	if graph == null:
-		return
-
-	make_bottom_panel_item_visible(_container)
-
-	if _panel.graph_edit.graph == graph:
-		return
-
-	_panel.graph_edit.unpopulate()
-	_panel.graph_edit.populate(graph)
+	if is_instance_valid(object) and object is GaeaGraph:
+		make_bottom_panel_item_visible(_container)
+		if _panel.graph_edit.graph == object:
+			return
+		_panel.graph_edit.unpopulate()
+		_panel.graph_edit.populate(object)

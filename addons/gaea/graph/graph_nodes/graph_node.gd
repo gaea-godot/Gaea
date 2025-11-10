@@ -206,8 +206,6 @@ func _add_output_slot(for_output: StringName) -> GaeaGraphNodeOutput:
 			_preview_container = VBoxContainer.new()
 			_preview = PreviewTexture.new()
 			_preview.node = self
-			#generator.generation_finished.connect(_preview.update.unbind(1))
-
 		node.get_toggle_preview_button().toggled.connect(_preview.toggle.bind(for_output).unbind(1))
 	return node
 
