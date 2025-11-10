@@ -38,3 +38,4 @@ func _on_item_selected(index: int) -> void:
 
 	graph_edit.unpopulate()
 	graph_edit.populate(metadata)
+	EditorInterface.edit_resource(metadata)
