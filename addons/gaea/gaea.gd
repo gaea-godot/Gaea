@@ -73,11 +73,6 @@ func _on_selection_changed() -> void:
 			make_bottom_panel_item_visible(_container)
 			_panel.graph_edit.unpopulate()
 			_panel.graph_edit.populate(selected.front().graph)
-		else:
-			if is_instance_valid(_panel.get_selected_generator()):
-				_panel_button.hide()
-				hide_bottom_panel()
-				await _panel.unpopulate()
 
 
 # TMP Until a proper save system
