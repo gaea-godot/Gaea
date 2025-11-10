@@ -87,12 +87,12 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.SAMPLE
 
 
-func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> GaeaValue.Sample:
-	var sample_reference: GaeaValue.Sample = _get_arg(&"reference", area, graph)
-	var row: int = _get_arg(&"reference_y", area, graph)
-	var height_offset: int = _get_arg(&"height_offset", area, graph)
-	var displacement: int = _get_arg(&"displacement_intensity", area, graph)
-	var gradient_intensity: float = _get_arg(&"gradient_intensity", area, graph)
+func _get_data(_output_port: StringName, graph: GaeaGraph, settings: GaeaGenerationSettings) -> GaeaValue.Sample:
+	var sample_reference: GaeaValue.Sample = _get_arg(&"reference", graph, settings)
+	var row: int = _get_arg(&"reference_y", graph, settings)
+	var height_offset: int = _get_arg(&"height_offset", graph, settings)
+	var displacement: int = _get_arg(&"displacement_intensity", graph, settings)
+	var gradient_intensity: float = _get_arg(&"gradient_intensity", graph, settings)
 	var result: GaeaValue.Sample = GaeaValue.Sample.new()
 	var type: Type = get_enum_selection(0) as Type
 
@@ -100,13 +100,13 @@ func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> GaeaVa
 	if not is_zero_approx(gradient_intensity):
 		remap_offset = 100.0 / gradient_intensity
 
-	var z_range: Array = [0] if (type == Type.TYPE_2D) else (_get_axis_range(Vector3i.AXIS_Z, area))
-	for x in _get_axis_range(Vector3i.AXIS_X, area):
+	var z_range: Array = [0] if (type == Type.TYPE_2D) else (_get_axis_range(Vector3i.AXIS_Z, settings.area))
+	for x in _get_axis_range(Vector3i.AXIS_X, settings.area):
 		if not sample_reference.has(Vector3i(x, row, 0)):
 			continue
 		for z in z_range:
 			var height: int = floor(sample_reference.get_xyz(x, row, z) * displacement + height_offset)
-			for y in _get_axis_range(Vector3i.AXIS_Y, area):
+			for y in _get_axis_range(Vector3i.AXIS_Y, settings.area):
 				if y >= -height and type == Type.TYPE_2D:
 					result.set_xyz(
 						x, y, z,

@@ -406,8 +406,8 @@ func _on_argument_value_changed(_arg_name: StringName, _new_value: Variant) -> v
 
 #region Args
 ## Returns the value of the argument of [param name]. Pass in [param graph] to allow overriding with input slots.[br]
-## [param area] is used for values of the type Data or Map. (See [enum GaeaValue.Type]).
-func _get_arg(arg_name: StringName, area: AABB, graph: GaeaGraph) -> Variant:
+## [param settings] is used for values of the type Data or Map. (See [enum GaeaValue.Type]).
+func _get_arg(arg_name: StringName, graph: GaeaGraph, settings: GaeaGenerationSettings) -> Variant:
 	_log_arg(arg_name, graph)
 
 	var connection := _get_argument_connection(arg_name)
@@ -415,7 +415,7 @@ func _get_arg(arg_name: StringName, area: AABB, graph: GaeaGraph) -> Variant:
 		var connected_id = connection.from_node
 		var connected_node = graph.get_node(connected_id)
 		var connected_output = connected_node.connection_idx_to_output(connection.from_port)
-		var connected_data = connected_node.traverse(connected_output, area, graph)
+		var connected_data = connected_node.traverse(connected_output, graph, settings)
 		if connected_data.has("value"):
 			var connected_value = connected_data.get("value")
 			var connected_type: GaeaValue.Type = connected_node.get_output_port_type(
@@ -446,7 +446,7 @@ func _get_arg(arg_name: StringName, area: AABB, graph: GaeaGraph) -> Variant:
 
 #region Execution
 ## Traverses the graph using this node's connections, and returns the result for [param output_port].
-func traverse(output_port: StringName, area: AABB, graph: GaeaGraph) -> Variant:
+func traverse(output_port: StringName, graph: GaeaGraph, settings: GaeaGenerationSettings) -> Variant:
 	_log_traverse(graph)
 
 	# Validation
@@ -459,9 +459,9 @@ func traverse(output_port: StringName, area: AABB, graph: GaeaGraph) -> Variant:
 	if use_caching and _has_cached_data(output_port, graph):
 		data = _get_cached_data(output_port, graph)
 	else:
-		_define_rng(graph)
+		_define_rng(graph, settings.seed)
 		_log_data(output_port, graph)
-		data = _get_data(output_port, area, graph)
+		data = _get_data(output_port, graph, settings)
 		if use_caching:
 			_set_cached_data(output_port, graph, data)
 
@@ -474,7 +474,7 @@ func traverse(output_port: StringName, area: AABB, graph: GaeaGraph) -> Variant:
 ## Returns the data corresponding to [param output_port]. Should be overridden to create custom
 ## behavior for each node.
 @abstract
-func _get_data(_output_port: StringName, _area: AABB, _graph: GaeaGraph) -> Variant
+func _get_data(output_port: StringName, graph: GaeaGraph, settings: GaeaGenerationSettings) -> Variant
 #endregion
 
 
@@ -586,11 +586,11 @@ func connection_idx_to_output(output_idx: int) -> StringName:
 
 #region Logging
 # If enabled in [member GaeaGraph.logging], log the execution information. (See [enum GaeaGraph.Log]).
-func _log_execute(message: String, area: AABB, graph: GaeaGraph):
+func _log_execute(message: String, graph: GaeaGraph, settings: GaeaGenerationSettings):
 	if is_instance_valid(graph) and graph.logging & GaeaGraph.Log.EXECUTE > 0:
 		message = message.strip_edges()
 		message = message if message == "" else message + " "
-		print("Execute   |   %sArea %s on %s" % [message, area, _get_title()])
+		print("Execute   |   %sArea %s on %s" % [message, settings.area, _get_title()])
 
 
 # If enabled in [member GaeaGraph.logging], log the layer information. (See [enum GaeaGraph.Log]).
@@ -726,9 +726,10 @@ func _is_point_outside_area(area: AABB, point: Vector3) -> bool:
 	)
 
 
-func _define_rng(graph: GaeaGraph) -> void:
+@warning_ignore("shadowed_global_identifier")
+func _define_rng(graph: GaeaGraph, seed: int) -> void:
 	rng = RandomNumberGenerator.new()
-	rng.set_seed(graph.generator.seed + salt)
+	rng.set_seed(seed + salt)
 	seed(rng.seed)
 #endregion
 

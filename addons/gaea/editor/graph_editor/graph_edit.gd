@@ -2,8 +2,6 @@
 class_name GaeaGraphEdit
 extends GraphEdit
 
-signal connection_update_requested
-
 var attached_elements: Dictionary
 
 @export var main_editor: GaeaMainEditor
@@ -138,7 +136,7 @@ func delete_nodes(nodes: Array[StringName]) -> void:
 		node.queue_free()
 		await node.tree_exited
 
-	connection_update_requested.emit()
+	update_connections()
 
 
 func get_selected() -> Array:
@@ -227,7 +225,7 @@ func _on_connection_request(
 		return
 	connect_node(from_node, from_port, to_node, to_port)
 
-	connection_update_requested.emit()
+	update_connections()
 
 	if from_graph_node.has_finished_loading():
 		from_graph_node.notify_connections_updated.call_deferred()
@@ -240,7 +238,7 @@ func _on_disconnection_request(
 	from_node: StringName, from_port: int, to_node: StringName, to_port: int
 ) -> void:
 	disconnect_node(from_node, from_port, to_node, to_port)
-	connection_update_requested.emit()
+	update_connections()
 
 	var to_graph_node: GaeaGraphNode = get_node(NodePath(to_node))
 	var from_graph_node: GaeaGraphNode = get_node(NodePath(from_node))
@@ -451,7 +449,6 @@ func _on_gui_input(event: InputEvent) -> void:
 				return
 
 			var selected: Array = get_selected()
-			prints("selected", selected)
 			if selected.is_empty() and not is_instance_valid(main_editor.graph_edit.copy_buffer):
 				main_editor.popup_create_node_request.emit()
 			else:
@@ -577,13 +574,10 @@ func _on_new_reroute_requested(connection: Dictionary) -> void:
 
 #region Output Node
 func _update_output_node() -> void:
-	prints("_update_output_node", _output_node)
 	if is_instance_valid(_output_node):
 		_output_node.update_slots()
 		await get_tree().process_frame
 		remove_invalid_connections()
-
-
 #endregion
 
 

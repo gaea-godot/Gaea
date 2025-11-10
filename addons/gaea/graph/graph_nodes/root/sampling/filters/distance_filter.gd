@@ -29,9 +29,9 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.SAMPLE
 
 
-func _passes_filter(_input_sample: GaeaValue.GridType, cell: Vector3i, area: AABB, graph: GaeaGraph) -> bool:
-	var point: Vector3 = _get_arg(&"to_point", area, graph)
-	var distance_range: Dictionary = _get_arg(&"distance_range", area, graph)
+func _passes_filter(_input_sample: GaeaValue.GridType, cell: Vector3i, graph: GaeaGraph, settings: GaeaGenerationSettings) -> bool:
+	var point: Vector3 = _get_arg(&"to_point", graph, settings)
+	var distance_range: Dictionary = _get_arg(&"distance_range", graph, settings)
 	var distance: float = Vector3(cell).distance_squared_to(point)
 	var is_further_than_min: bool = distance >= distance_range.get("min", -INF) ** 2
 	var is_closer_than_max: bool = distance <= distance_range.get("max", INF) ** 2

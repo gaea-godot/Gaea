@@ -53,7 +53,6 @@ func filter_to_connect_type(type: GaeaValue.Type, is_left: bool) -> void:
 
 func _on_popup_create_node_request() -> void:
 	position = DisplayServer.mouse_get_position()
-	prints("_on_popup_create_node_request", position)
 	#if not EditorInterface.get_editor_settings().get_setting("interface/editor/single_window_mode"):
 	#	position += get_window().position
 	#TODO GaeaMainEditor.clamp_popup_in_window(get_window())

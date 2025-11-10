@@ -34,8 +34,8 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.SAMPLE
 
 
-func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> GaeaValue.Sample:
-	var texture: Texture = _get_arg(&"texture", area, graph)
+func _get_data(output_port: StringName, graph: GaeaGraph, settings: GaeaGenerationSettings) -> GaeaValue.Sample:
+	var texture: Texture = _get_arg(&"texture", graph, settings)
 	if not is_instance_valid(texture):
 		return GaeaValue.get_default_value(GaeaValue.Type.SAMPLE)
 
@@ -53,9 +53,9 @@ func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> GaeaVal
 	if not slices.any(is_instance_valid):
 		return GaeaValue.get_default_value(GaeaValue.Type.SAMPLE)
 
-	for x in _get_axis_range(Vector3i.AXIS_X, area):
-		for y in _get_axis_range(Vector3i.AXIS_Y, area):
-			for z in _get_axis_range(Vector3i.AXIS_Z, area):
+	for x in _get_axis_range(Vector3i.AXIS_X, settings.area):
+		for y in _get_axis_range(Vector3i.AXIS_Y, settings.area):
+			for z in _get_axis_range(Vector3i.AXIS_Z, settings.area):
 				if slices.size() <= z:
 					break
 

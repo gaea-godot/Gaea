@@ -359,5 +359,3 @@ graph_edit = NodePath("../GraphEdit")
 [connection signal="item_selected" from="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" to="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_item_selected"]
 [connection signal="nothing_selected" from="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" to="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_nothing_selected"]
 [connection signal="pressed" from="MainEditor/CreateNodePopup/MainContentContainer/VBox/HBoxContainer/CreateButton" to="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_create_button_pressed"]
-[connection signal="create_node_popup_requested" from="MainEditor/NodeContextMenu" to="." method="_popup_create_node_menu_at_mouse"]
-[connection signal="new_reroute_requested" from="MainEditor/LinkContextMenu" to="." method="_on_new_reroute_requested"]

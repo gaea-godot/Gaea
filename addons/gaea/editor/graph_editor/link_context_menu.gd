@@ -2,8 +2,6 @@
 class_name GaeaPopupLinkContextMenu
 extends PopupMenu
 
-signal new_reroute_requested(connection: Dictionary)
-
 enum Action { DISCONNECT, INSERT_NEW_REROUTE }
 
 @export var main_editor: GaeaMainEditor
@@ -36,7 +34,8 @@ func _on_id_pressed(id: int) -> void:
 				current_connection.to_port
 			)
 		Action.INSERT_NEW_REROUTE:
-			new_reroute_requested.emit(current_connection)
+			main_editor.node_creation_target = main_editor.get_local_mouse_position()
+			main_editor.new_reroute_requested.emit(current_connection)
 
 
 func _on_popup_link_context_menu_at_mouse_request(connection: Dictionary) -> void:

@@ -27,8 +27,6 @@ func _get_arguments_list() -> Array[StringName]:
 
 func _get_argument_type(_arg_name: StringName) -> GaeaValue.Type:
 	return type
-
-
 #endregion
 
 
@@ -39,8 +37,6 @@ func _get_output_ports_list() -> Array[StringName]:
 
 func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return type
-
-
 #endregion
 
 
@@ -48,8 +44,8 @@ func _get_scene() -> PackedScene:
 	return load("uid://b2rceqo8rtr88")
 
 
-func _get_data(output_port: StringName, area: AABB, graph: GaeaGraph) -> Variant:
-	return _get_arg(output_port, area, graph)
+func _get_data(output_port: StringName, graph: GaeaGraph, settings: GaeaGenerationSettings) -> Variant:
+	return _get_arg(output_port, graph, settings)
 
 
 func _use_caching(_output_port: StringName, _graph: GaeaGraph) -> bool:

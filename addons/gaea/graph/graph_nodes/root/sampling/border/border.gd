@@ -54,15 +54,15 @@ func _get_required_arguments() -> Array[StringName]:
 	return [&"sample"]
 
 
-func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> GaeaValue.Sample:
-	var neighbors: Array = _get_arg(&"neighbors", area, graph)
-	var inside: bool = _get_arg(&"inside", area, graph)
-	var input_sample: GaeaValue.Sample = _get_arg(&"sample", area, graph)
+func _get_data(_output_port: StringName, graph: GaeaGraph, settings: GaeaGenerationSettings) -> GaeaValue.Sample:
+	var neighbors: Array = _get_arg(&"neighbors", graph, settings)
+	var inside: bool = _get_arg(&"inside", graph, settings)
+	var input_sample: GaeaValue.Sample = _get_arg(&"sample", graph, settings)
 
 	var border: GaeaValue.Sample = GaeaValue.Sample.new()
-	for x in _get_axis_range(Vector3i.AXIS_X, area):
-		for y in _get_axis_range(Vector3i.AXIS_Y, area):
-			for z in _get_axis_range(Vector3i.AXIS_Z, area):
+	for x in _get_axis_range(Vector3i.AXIS_X, settings.area):
+		for y in _get_axis_range(Vector3i.AXIS_Y, settings.area):
+			for z in _get_axis_range(Vector3i.AXIS_Z, settings.area):
 				var cell: Vector3i = Vector3i(x, y, z)
 				var is_inside_border := inside and not input_sample.has(cell)
 				var is_outside_border := not inside and input_sample.has(cell)

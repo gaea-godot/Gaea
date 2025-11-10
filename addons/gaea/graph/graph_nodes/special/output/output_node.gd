@@ -24,7 +24,6 @@ func _on_added() -> void:
 
 func update_slots() -> void:
 	var layer_count: int = _graph_edit.graph.layers.size()
-	print("update_slots", layer_count)
 	resource.notify_argument_list_changed()
 	for idx in layer_count:
 		_connect_layer_resource_signal(idx)

@@ -62,15 +62,15 @@ func _get_operation_definitions() -> Dictionary[Operation, Definition]:
 	return definitions
 
 
-func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> GaeaValue.Sample:
+func _get_data(_output_port: StringName, graph: GaeaGraph, settings: GaeaGenerationSettings) -> GaeaValue.Sample:
 	var operation: Operation = get_enum_selection(0) as Operation
 	var operation_definition: Definition = operation_definitions[operation]
 	var args: Array
-	var input_grid: GaeaValue.Sample = _get_arg(&"a", area, graph)
+	var input_grid: GaeaValue.Sample = _get_arg(&"a", graph, settings)
 	for arg_name: StringName in operation_definitions[operation].args:
 		if arg_name == &"a":
 			continue
-		args.append(_get_arg(arg_name, area, graph))
+		args.append(_get_arg(arg_name, graph, settings))
 	var result: GaeaValue.Sample = GaeaValue.Sample.new()
 	var grid_value_pos: int = _get_arguments_list().find(&"a")
 

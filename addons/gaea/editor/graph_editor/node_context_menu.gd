@@ -2,8 +2,6 @@
 class_name GaeaPopupNodeContextMenu
 extends PopupMenu
 
-signal create_node_popup_requested
-
 enum Action {
 	ADD,
 	CUT,

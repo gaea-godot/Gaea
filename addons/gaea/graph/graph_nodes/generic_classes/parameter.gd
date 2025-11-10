@@ -91,8 +91,8 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	)
 
 
-func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Variant:
-	return graph.get_parameter(_get_arg(&"name", area, null))
+func _get_data(_output_port: StringName, graph: GaeaGraph, settings: GaeaGenerationSettings) -> Variant:
+	return graph.get_parameter(_get_arg(&"name", graph, settings))
 
 
 func _is_available() -> bool:

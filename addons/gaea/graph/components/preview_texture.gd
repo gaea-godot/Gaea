@@ -82,10 +82,15 @@ func update() -> void:
 		_: # GaeaNodeReousrce.SimSize.Preview is the default
 			sim_size = Vector3(resolution.x, resolution.y, 1)
 
+	var generation_settings = GaeaGenerationSettings.new()
+	generation_settings.area = AABB(Vector3.ZERO, sim_size)
+	generation_settings.world_size = sim_size
+	generation_settings.cell_size = Vector3i((sim_size * 0.5).ceil())
+
 	var data: GaeaValue.GridType = node.resource.traverse(
 		selected_output,
-		AABB(Vector3.ZERO, sim_size),
-		node._graph_edit.graph
+		node._graph_edit.graph,
+		generation_settings
 	).get("value")
 
 	if not is_instance_valid(data):

@@ -13,6 +13,8 @@ signal popup_link_context_menu_at_mouse_request(connection: Dictionary)
 
 signal node_selected_for_creation(resource: GaeaNodeResource)
 signal special_node_selected_for_creation(id: StringName)
+signal new_reroute_requested(connection: Dictionary)
+
 
 @export var gaea_panel: GaeaPanel
 @export var graph_edit: GaeaGraphEdit
@@ -34,13 +36,16 @@ var dragged_from_left: bool = false
 
 func _ready() -> void:
 	node_selected_for_creation.connect(graph_edit._on_node_selected_for_creation)
+	new_reroute_requested.connect(graph_edit._on_new_reroute_requested)
 	special_node_selected_for_creation.connect(graph_edit._on_special_node_selected_for_creation)
+
 	popup_create_node_request.connect(create_node_popup._on_popup_create_node_request)
 	popup_create_node_and_connect_node_request.connect(create_node_popup._on_popup_create_node_and_connect_node_request)
 	special_node_selected_for_creation.connect(create_node_popup._on_special_node_selected_for_creation)
-	popup_node_context_menu_at_mouse_request.connect(node_context_menu._on_popup_node_context_menu_at_mouse_request)
-	popup_link_context_menu_at_mouse_request.connect(link_context_menu._on_popup_link_context_menu_at_mouse_request)
 
+	popup_node_context_menu_at_mouse_request.connect(node_context_menu._on_popup_node_context_menu_at_mouse_request)
+
+	popup_link_context_menu_at_mouse_request.connect(link_context_menu._on_popup_link_context_menu_at_mouse_request)
 
 #region TODO
 
@@ -76,6 +81,7 @@ func _on_new_data_button_pressed() -> void:
 
 func _on_test_button_pressed() -> void:
 	var graph = load("uid://dowa1yikrbcdj").duplicate(true)
-	graph._setup_local_to_scene()
+	if graph.resource_local_to_scene:
+		graph._setup_local_to_scene()
 	graph_edit.unpopulate()
 	graph_edit.populate(graph)

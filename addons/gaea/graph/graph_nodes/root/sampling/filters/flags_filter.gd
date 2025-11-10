@@ -37,10 +37,10 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.SAMPLE
 
 
-func _passes_filter(input_sample: GaeaValue.GridType, cell: Vector3i, area: AABB, graph: GaeaGraph) -> bool:
-	var flags: Array = _get_arg(&"match_flags", area, graph)
-	var exclude_flags: Array = _get_arg(&"exclude_flags", area, graph)
-	var match_all: bool = _get_arg(&"match_all", area, graph)
+func _passes_filter(input_sample: GaeaValue.GridType, cell: Vector3i, graph: GaeaGraph, settings: GaeaGenerationSettings) -> bool:
+	var flags: Array = _get_arg(&"match_flags", graph, settings)
+	var exclude_flags: Array = _get_arg(&"exclude_flags", graph, settings)
+	var match_all: bool = _get_arg(&"match_all", graph, settings)
 
 	var value: float = input_sample.get_cell(cell)
 	var matches_excluded_flags := exclude_flags.any(_matches_flag.bind(value))
