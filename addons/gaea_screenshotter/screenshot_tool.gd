@@ -7,7 +7,7 @@ extends Control
 @onready var open_folder_button: Button = %OpenFolderButton
 @onready var confirmation_dialog: ConfirmationDialog = $ConfirmationDialog
 
-
+var graph_edit: GaeaGraphEdit
 
 func _ready() -> void:
 	if not is_part_of_edited_scene():
@@ -18,30 +18,30 @@ func _ready() -> void:
 		var dir: DirAccess = DirAccess.open("user://")
 		if not dir.dir_exists("node_images"):
 			dir.make_dir("node_images")
+	graph_edit = GaeaGraphEdit.new()
+	graph_edit.populate(GaeaGraph.new())
 
+func _capture_resource(resource: GaeaNodeResource) -> void:
+	var node: GaeaGraphNode = resource.get_scene().instantiate()
+	if resource.get_scene_script() != null:
+		node.set_script(resource.get_scene_script())
+	node.resource = resource
+	node.graph_edit = graph_edit
 
-func _capture_resource(node: GaeaNodeResource) -> void:
-	var instantiated: GaeaGraphNode = node.get_scene().instantiate()
-	if node.get_scene_script() != null:
-		instantiated.set_script(node.get_scene_script())
-	instantiated.resource = node
-	instantiated.generator = $GaeaGenerator
-
-	var file_name: String = node.get_title()
-	if node.get_tree_name() != file_name:
-		file_name += node.get_tree_name()
+	var file_name: String = resource.get_title()
+	if resource.get_tree_name() != file_name:
+		file_name += resource.get_tree_name()
 
 	var parenthesis_start := file_name.find("(")
 	if parenthesis_start != -1:
 		file_name = file_name.erase(parenthesis_start, 99)
 
-	await _take_image(instantiated, file_name.to_pascal_case())
+	await _take_image(node, file_name.to_pascal_case())
 
 
 func _capture_frame() -> void:
 	var frame: GaeaGraphFrame = GaeaGraphFrame.new()
 	await _take_image(frame, "Frame")
-
 
 
 func _take_image(node: GraphElement, file_name: String) -> void:
@@ -71,7 +71,6 @@ func _on_tree_node_selected_for_creation(resource: GaeaNodeResource) -> void:
 
 func _on_capture_all_button_pressed() -> void:
 	confirmation_dialog.popup_centered()
-
 
 
 func _capture_all_children(tree_item: TreeItem) -> void:

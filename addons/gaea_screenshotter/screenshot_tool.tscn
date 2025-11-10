@@ -1,35 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://bxanwt5o3b0ng"]
+[gd_scene load_steps=3 format=3 uid="uid://bxanwt5o3b0ng"]
 
 [ext_resource type="Script" uid="uid://darqwls1ewij0" path="res://addons/gaea_screenshotter/screenshot_tool.gd" id="1_otp6y"]
-[ext_resource type="Script" uid="uid://d4feanreabm81" path="res://addons/gaea/nodes/generator.gd" id="4_463ae"]
-[ext_resource type="Script" uid="uid://3qsmwhn2sk47" path="res://addons/gaea/resources/gaea_layer.gd" id="5_2yquv"]
 [ext_resource type="Script" uid="uid://obmksa6ngu1s" path="res://addons/gaea_screenshotter/tree.gd" id="5_njl0m"]
-[ext_resource type="Script" uid="uid://dae6umbqb872e" path="res://addons/gaea/resources/gaea_graph.gd" id="6_r7yec"]
-
-[sub_resource type="Resource" id="Resource_100vc"]
-script = ExtResource("5_2yquv")
-
-[sub_resource type="Resource" id="Resource_23u2t"]
-resource_local_to_scene = true
-script = ExtResource("6_r7yec")
-layers = Array[ExtResource("5_2yquv")]([SubResource("Resource_100vc")])
-save_version = 5
-_connections = Array[StringName]([&"1-0-0-0"])
-_node_data = Dictionary[int, Dictionary]({
-0: {
-&"position": Vector2(0, 0),
-&"salt": 2098229544,
-&"type": 0,
-&"uid": "uid://dol7xviglksx4"
-},
-1: {
-&"position": Vector2(-380, 20),
-&"salt": 1996204486,
-&"type": 0,
-&"uid": "uid://dux0bq53p61ls"
-}
-})
-metadata/_custom_type_script = "uid://dae6umbqb872e"
 
 [node name="ScreenshotTool" type="Control"]
 layout_mode = 3
@@ -39,12 +11,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_otp6y")
-
-[node name="GaeaGenerator" type="Node" parent="."]
-script = ExtResource("4_463ae")
-data = SubResource("Resource_23u2t")
-seed = 2617519698
-metadata/_custom_type_script = "uid://d4feanreabm81"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1

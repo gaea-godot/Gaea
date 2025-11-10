@@ -19,7 +19,6 @@ var hint_string: String:
 	get = _get_property_hint_string
 
 
-
 func _on_added_to_graph(graph: GaeaGraph) -> void:
 	var name := _get_available_name(graph.get_node_argument(id, &"name", _get_title()))
 	graph.set_node_argument(

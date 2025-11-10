@@ -7,6 +7,7 @@ signal special_node_selected_for_creation(id: StringName)
 const NODES_FOLDER_PATH: String = "res://addons/gaea/graph/graph_nodes/root/"
 
 @export var description_label: RichTextLabel
+
 var tree_dictionary: Dictionary
 
 var filters: Dictionary[StringName, Callable]

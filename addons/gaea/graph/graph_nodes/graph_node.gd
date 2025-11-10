@@ -40,7 +40,9 @@ static var _titlebar_styleboxes: Dictionary[GaeaValue.Type, Dictionary]
 
 
 func _ready() -> void:
-	graph_edit = get_parent()
+	var parent_node: Node = get_parent()
+	if parent_node is GraphEdit:
+		graph_edit = parent_node
 	_on_added()
 
 	if is_instance_valid(resource):

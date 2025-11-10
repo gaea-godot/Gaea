@@ -11,6 +11,5 @@ func _enter_tree() -> void:
 	add_control_to_bottom_panel(_panel, "Screenshotter")
 
 
-
 func _exit_tree() -> void:
 	remove_control_from_bottom_panel(_panel)
