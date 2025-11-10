@@ -5,10 +5,8 @@ extends GraphEdit
 @export var main_editor: GaeaMainEditor
 @export var bottom_note_label: RichTextLabel
 
+## List of nodes attached to a frame
 var attached_elements: Dictionary
-
-var _window_popout_separator: VSeparator
-var _window_popout_button: Button
 
 ## Currently edited resource
 var graph: GaeaGraph
@@ -21,6 +19,12 @@ var is_loading = false
 
 ## Reference to the output node
 var _output_node: GaeaOutputGraphNode
+
+## Reference to the window popout separator
+var _window_popout_separator: VSeparator
+
+## Reference to the window popout button
+var _window_popout_button: Button
 
 
 func _init() -> void:
