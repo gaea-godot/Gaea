@@ -7,7 +7,7 @@ const EXPECTED_HASH_3D: int = 2178371583
 
 var reference: GaeaValue.Sample = GaeaValue.Sample.new()
 var node: GaeaNodeToHeight
-
+var generation_settings: GaeaGenerationSettings
 
 func before() -> void:
 	var noise: FastNoiseLite = FastNoiseLite.new()
@@ -17,12 +17,13 @@ func before() -> void:
 	node = GaeaNodeToHeight.new()
 	node.set_argument_value(&"reference", reference)
 	node.set_argument_value(&"reference_y", 1)
-
+	generation_settings = GaeaGenerationSettings.new()
+	generation_settings.area = AREA
 
 func test_2d() -> void:
 	node.set_enum_value(0, GaeaNodeToHeight.Type.TYPE_2D)
 	node.set_argument_value(&"height_offset", -4)
-	var generated_data: GaeaValue.Sample = node._get_data(&"sample", AREA, null)
+	var generated_data: GaeaValue.Sample = node._get_data(&"sample", null, generation_settings)
 	assert_bool(generated_data.is_empty())\
 		.override_failure_message("Empty result from [b]GaeaNodeToHeight2D[/b].")\
 		.is_false()
@@ -35,7 +36,7 @@ func test_2d() -> void:
 func test_3d() -> void:
 	node.set_enum_value(0, GaeaNodeToHeight.Type.TYPE_3D)
 	node.set_argument_value(&"height_offset", 4)
-	var generated_data: GaeaValue.Sample = node._get_data(&"sample", AREA, null)
+	var generated_data: GaeaValue.Sample = node._get_data(&"sample", null, generation_settings)
 	assert_bool(generated_data.is_empty())\
 		.override_failure_message("Empty result from [b]GaeaNodeToHeight3D[/b].")\
 		.is_false()

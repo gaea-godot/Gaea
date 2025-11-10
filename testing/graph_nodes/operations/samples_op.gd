@@ -18,7 +18,7 @@ func _assert_operation_result(args: Array[Variant], expected: float) -> void:
 			sample.set_cell(Vector3i(0, 1, 0), args[i])
 			args[i] = sample
 		node.set_argument_value(node.get_arguments_list()[i], args[i])
-	var grid: GaeaValue.Sample = node._get_data(&"result", AABB(), null)
+	var grid: GaeaValue.Sample = node._get_data(&"result", null, null)
 	assert_bool(grid.is_empty())\
 		.override_failure_message("[b]GaeaNodeSampleOp[/b] returned an empty grid with operation [b]%s[/b]."
 			% GaeaNodeSamplesOp.Operation.keys()[node.get_enum_selection(0)])\
