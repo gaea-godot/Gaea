@@ -78,13 +78,12 @@ func _on_selection_changed() -> void:
 
 
 # TMP Until a proper save system
-func foo_handles(object: Object) -> bool:
+func _handles(object: Object) -> bool:
 	return object is GaeaGenerator or object is GaeaGraph
 
 
 # TMP Until a proper save system
-func foo_edit(object: Object) -> void:
-	print("_edit")
+func _edit(object: Object) -> void:
 	var graph: GaeaGraph
 	if object is GaeaGraph:
 		graph = object
