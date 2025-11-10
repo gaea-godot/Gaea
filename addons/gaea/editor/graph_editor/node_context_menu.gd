@@ -18,10 +18,8 @@ enum Action {
 	OPEN_IN_INSPECTOR
 }
 
-@export var panel: Control
-@export var graph_edit: GraphEdit
-
 @export var main_editor: GaeaMainEditor
+@export var graph_edit: GraphEdit
 
 
 func _ready() -> void:
@@ -41,7 +39,7 @@ func populate(selected: Array) -> void:
 	add_item("Delete", Action.DELETE)
 	add_item("Clear Copy Buffer", Action.CLEAR_BUFFER)
 
-	if not is_instance_valid(main_editor.graph_edit.copy_buffer):
+	if not is_instance_valid(graph_edit.copy_buffer):
 		set_item_disabled(get_item_index(Action.PASTE), true)
 		set_item_disabled(get_item_index(Action.CLEAR_BUFFER), true)
 
@@ -98,7 +96,7 @@ func _on_id_pressed(id: int) -> void:
 		Action.DELETE:
 			graph_edit.delete_nodes(graph_edit.get_selected_names())
 		Action.CLEAR_BUFFER:
-			main_editor.graph_edit.copy_buffer = null
+			graph_edit.copy_buffer = null
 
 		Action.RENAME:
 			var selected: Array = graph_edit.get_selected()
@@ -117,7 +115,7 @@ func _on_id_pressed(id: int) -> void:
 			var node: GraphElement = selected.front()
 			if node is GaeaGraphFrame:
 				node.set_tint_color_enabled(is_item_checked(idx))
-				node._graph_edit.graph.set_node_data_value(node.id, &"tint_color_enabled", is_item_checked(idx))
+				graph_edit.graph.set_node_data_value(node.id, &"tint_color_enabled", is_item_checked(idx))
 		Action.ENABLE_AUTO_SHRINK:
 			set_item_checked(idx, not is_item_checked(idx))
 			var selected: Array = graph_edit.get_selected()
@@ -142,6 +140,6 @@ func _on_id_pressed(id: int) -> void:
 func _on_popup_node_context_menu_at_mouse_request(selected_nodes: Array) -> void:
 	clear()
 	populate(selected_nodes)
-	main_editor.node_creation_target = main_editor.graph_edit.get_local_mouse_position()
+	main_editor.node_creation_target = graph_edit.get_local_mouse_position()
 	main_editor.move_popup_at_mouse(self)
 	popup()

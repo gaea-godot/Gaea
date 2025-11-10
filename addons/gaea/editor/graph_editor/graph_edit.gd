@@ -2,10 +2,10 @@
 class_name GaeaGraphEdit
 extends GraphEdit
 
-var attached_elements: Dictionary
-
 @export var main_editor: GaeaMainEditor
 @export var bottom_note_label: RichTextLabel
+
+var attached_elements: Dictionary
 
 var _window_popout_separator: VSeparator
 var _window_popout_button: Button
@@ -34,7 +34,84 @@ func _ready() -> void:
 
 	add_theme_color_override(&"connection_rim_color", Color("141414"))
 	EditorInterface.get_script_editor().editor_script_changed.connect(_on_editor_script_changed)
+	_add_toolbar_buttons()
 
+#region Saving and Loading
+func populate(new_graph: GaeaGraph) -> void:
+	# TMP Until a proper save system
+	if graph != null:
+		ResourceSaver.save(graph)
+	graph = new_graph
+	if not graph.layer_count_modified.is_connected(_update_output_node):
+		graph.layer_count_modified.connect(_update_output_node)
+	_load_data()
+
+
+func unpopulate() -> void:
+	if graph.layer_count_modified.is_connected(_update_output_node):
+		graph.layer_count_modified.disconnect(_update_output_node)
+	_output_node = null
+	for child in get_children():
+		if child is GraphElement:
+			child.queue_free()
+			await child.tree_exited
+
+
+func _load_data() -> void:
+	is_loading = true
+	var has_output_node: bool = false
+	for id in graph.get_ids():
+		var saved_data = graph.get_node_data(id)
+		if saved_data.is_empty():
+			continue
+		var node := _instantiate_node(id)
+
+		if graph.get_node(id) is GaeaNodeOutput:
+			if has_output_node:
+				push_warning("Duplicate Output node found, deleting node id %d" % id)
+				delete_nodes([node.name])
+			else:
+				has_output_node = true
+				_output_node = node
+
+	if not has_output_node:
+		_output_node = _add_node(GaeaNodeOutput.new(), Vector2.ZERO)
+
+	_output_node.add_to_group(&"cant_delete")
+	_load_scroll_offset.call_deferred(
+		_output_node.size * 0.5 - get_rect().size * 0.5
+	)
+
+	_update_output_node()
+	# from_node and to_node are indexes in the resources array
+	_load_connections.call_deferred(graph.get_all_connections())
+
+	update_connections()
+	set_deferred(&"is_loading", false)
+
+
+func _load_scroll_offset(default_offset: Vector2) -> void:
+	if is_nan(graph.scroll_offset.x):
+		graph.scroll_offset = default_offset
+	set_scroll_offset(graph.scroll_offset)
+	set_zoom(graph.zoom)
+
+
+func _load_connections(connections_list: Array[Dictionary]) -> void:
+	for connection in connections_list:
+		var from_node: GraphNode = graph.get_node(connection.from_node).node
+		var to_node: GraphNode = graph.get_node(connection.to_node).node
+		if not is_instance_valid(from_node) or not is_instance_valid(to_node):
+			continue
+		if to_node.get_input_port_count() <= connection.to_port:
+			continue
+		connection_request.emit(
+			from_node.name, connection.from_port, to_node.name, connection.to_port
+		)
+#endregion
+
+#region Toolbar
+func _add_toolbar_buttons() -> void:
 	var container := get_menu_hbox()
 	var panel: PanelContainer = container.get_parent()
 	panel.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
@@ -79,51 +156,28 @@ func _ready() -> void:
 		_window_popout_button.tooltip_text = _get_multiwindow_support_tooltip_text()
 
 
+func _get_multiwindow_support_tooltip_text() -> String:
+	# Adapted from https://github.com/godotengine/godot/blob/a8598cd8e261716fa3addb6f10bb57c03a061be9/editor/editor_node.cpp#L4725-L4737
+	var prefix: String = "Multi-window support is not available because"
+	if EditorInterface.get_editor_settings().get_setting("interface/editor/single_window_mode"):
+		return tr(prefix + " Interface > Editor > Single Window Mode is enabled in the editor settings.")
+	if not EditorInterface.get_editor_settings().get_setting("interface/multi_window/enable"):
+		return tr(prefix + " Interface > Multi Window > Enable is disabled in the editor settings.")
+	if DisplayServer.has_feature(DisplayServer.FEATURE_SUBWINDOWS):
+		return tr(prefix + " the `--single-window` command line argument was used to start the editor.")
+	return tr(prefix + " the current platform doesn't support multiple windows.")
+
+
 func _add_node_button_pressed() -> void:
 	main_editor.popup_create_node_request.emit()
 	main_editor.node_creation_target = size * 0.40
 
 
-#region Saving and Loading
-func populate(new_graph: GaeaGraph) -> void:
-	# TMP Until a proper save system
-	if graph != null:
-		ResourceSaver.save(graph)
-	graph = new_graph
-	if not graph.layer_count_modified.is_connected(_update_output_node):
-		graph.layer_count_modified.connect(_update_output_node)
-	_load_data()
-
-
-func unpopulate() -> void:
-	if graph.layer_count_modified.is_connected(_update_output_node):
-		graph.layer_count_modified.disconnect(_update_output_node)
-	_output_node = null
-	for child in get_children():
-		if child is GraphElement:
-			child.queue_free()
-			await child.tree_exited
-
-#endregion
-
-
-
-
 func _on_online_docs_button_pressed() -> void:
 	OS.shell_open("https://gaea-docs.readthedocs.io/")
+#endregion
 
-
-@warning_ignore("shadowed_variable_base_class")
-func set_window_popout_button_visible(visible: bool) -> void:
-	_window_popout_button.visible = visible
-	_window_popout_separator.visible = visible
-
-func _add_node(resource: GaeaNodeResource, local_grid_position: Vector2) -> GraphNode:
-	var id := graph.add_node(resource, local_grid_position)
-	resource.id = id
-	return _instantiate_node(id)
-
-
+#region Nodes managment
 func _instantiate_node(id: int) -> GraphElement:
 	var saved_data := graph.get_node_data(id)
 	if graph.get_node_type(id) == GaeaGraph.NodeType.FRAME:
@@ -156,10 +210,10 @@ func _instantiate_node(id: int) -> GraphElement:
 	return node
 
 
-
-
-
-
+func _add_node(resource: GaeaNodeResource, local_grid_position: Vector2) -> GraphNode:
+	var id := graph.add_node(resource, local_grid_position)
+	resource.id = id
+	return _instantiate_node(id)
 
 
 func _on_delete_nodes_request(nodes: Array[StringName]) -> void:
@@ -205,6 +259,105 @@ func get_selected_names() -> Array[StringName]:
 		array.append(node.name)
 	return array
 
+func _update_output_node() -> void:
+	if is_instance_valid(_output_node):
+		_output_node.update_slots()
+		await get_tree().process_frame
+		remove_invalid_connections()
+
+
+func _on_node_selected_for_creation(resource: GaeaNodeResource) -> void:
+	var node := _add_node(resource.duplicate(), local_to_grid(main_editor.node_creation_target))
+
+	if node is GaeaGraphNode and is_instance_valid(main_editor.created_node_connect_to):
+		var to_port := 0
+		var slot_name: StringName
+		var type: GaeaValue.Type
+		var new_node_port_amount: int
+		if main_editor.dragged_from_left:
+			slot_name = main_editor.created_node_connect_to.resource.connection_idx_to_argument(
+				main_editor.created_node_connect_to_port
+			)
+			type = main_editor.created_node_connect_to.resource.get_argument_type(slot_name)
+			new_node_port_amount = node.resource._get_output_ports_list().size()
+		else:
+			slot_name = main_editor.created_node_connect_to.resource.connection_idx_to_output(
+				main_editor.created_node_connect_to_port
+			)
+			type = main_editor.created_node_connect_to.resource.get_output_port_type(slot_name)
+			new_node_port_amount = node.resource.get_arguments_list().size()
+
+		while to_port < new_node_port_amount:
+			var other_slot_name: StringName
+			var other_type: GaeaValue.Type
+			if main_editor.dragged_from_left:
+				other_slot_name = node.resource.connection_idx_to_output(to_port)
+				other_type = node.resource.get_output_port_type(other_slot_name)
+			else:
+				other_slot_name = node.resource.connection_idx_to_argument(to_port)
+				other_type = node.resource.get_argument_type(other_slot_name)
+
+			if GaeaValue.is_valid_connection(
+				other_type if main_editor.dragged_from_left else type,
+				type if main_editor.dragged_from_left else other_type
+			):
+				break
+			to_port += 1
+
+		if to_port < node.resource.get_arguments_list().size():
+			if main_editor.dragged_from_left:
+				connection_request.emit(
+					node.name,
+					to_port,
+					main_editor.created_node_connect_to.name,
+					main_editor.created_node_connect_to_port
+				)
+			else:
+				connection_request.emit(
+					main_editor.created_node_connect_to.name,
+					main_editor.created_node_connect_to_port,
+					node.name,
+					to_port
+				)
+
+
+func _on_special_node_selected_for_creation(id: StringName) -> void:
+	match id:
+		&"frame":
+			_add_frame()
+
+
+func _on_new_reroute_requested(connection: Dictionary) -> void:
+	var resource: GaeaNodeReroute = GaeaNodeReroute.new()
+	var from_node: GraphNode = get_node(NodePath(connection.from_node))
+	resource.type = from_node.get_output_port_type(connection.from_port) as GaeaValue.Type
+	var reroute: GaeaGraphNode = _add_node(resource, Vector2.ZERO)
+
+	var offset = -reroute.get_output_port_position(0)
+	offset.y -= reroute.get_slot_custom_icon_right(0).get_size().y * 0.5
+	reroute.set_position_offset(local_to_grid(main_editor.node_creation_target, offset))
+
+	graph.set_node_position(reroute.resource.id, reroute.position_offset)
+
+	disconnection_request.emit.call_deferred(
+		connection.from_node,
+		connection.from_port,
+		connection.to_node,
+		connection.to_port,
+	)
+	connection_request.emit.call_deferred(
+		connection.from_node,
+		connection.from_port,
+		reroute.name,
+		0,
+	)
+	connection_request.emit.call_deferred(
+		reroute.name,
+		0,
+		connection.to_node,
+		connection.to_port,
+	)
+#endregion
 
 #region Wiring
 func update_connections() -> void:
@@ -254,7 +407,6 @@ func _on_connection_request(
 					connection.to_node,
 					connection.to_port
 				)
-
 	else:
 		for connection: Dictionary in get_connection_list():
 			if connection.to_node == to_node and connection.to_port == to_port:
@@ -363,7 +515,6 @@ func _is_node_hover_valid(
 	return true
 #endregion
 
-
 #region Frames
 func _add_frame() -> void:
 	var id: int = graph.add_frame(local_to_grid(main_editor.node_creation_target))
@@ -418,36 +569,24 @@ func _on_element_attached_to_frame(element: StringName, frame: StringName) -> vo
 		graph.attach_node_to_frame(node.id, frame_node.id)
 #endregion
 
-
-## This function converts a local position to a grid position based on the current zoom level and scroll offset.
-## It also applies snapping if enabled in the GraphEdit.
-func local_to_grid(
-	local_position: Vector2, grid_offset: Vector2 = Vector2.ZERO, enable_snapping: bool = true
-) -> Vector2:
-	local_position = (local_position + scroll_offset) / zoom
-	local_position += grid_offset
-	if enable_snapping and snapping_enabled:
-		return local_position.snapped(Vector2.ONE * snapping_distance)
-	return local_position
-
-
-func _on_editor_script_changed(script: Script):
-	var editor := EditorInterface.get_script_editor().get_current_editor()
-	if not editor.edited_script_changed.is_connected(_on_edited_script_changed):
-		editor.edited_script_changed.connect(_on_edited_script_changed.bind(script))
-
-
-func _on_edited_script_changed(script: Script):
-	if not script.can_instantiate():
-		return
-
-	for child in get_children():
-		if child is GaeaGraphNode:
-			if script == child.resource.get_script():
-				child._rebuild.call_deferred()
-
-
 #region Copy/Paste
+func _copy_nodes(data: GaeaNodesCopy) -> void:
+	copy_buffer = data
+
+
+func _paste_nodes(at_position: Vector2, data: GaeaNodesCopy = copy_buffer) -> void:
+	for node in get_selected():
+		node.selected = false
+
+	var copy_ids := graph.paste_nodes(data, at_position)
+	var new_connections: Array[Dictionary]
+	for id in copy_ids:
+		_instantiate_node(id).selected = true
+		new_connections.append_array(graph.get_node_connections(id))
+
+	_load_connections.call_deferred(new_connections)
+
+
 func _get_copy_data(nodes: Array) -> GaeaNodesCopy:
 	var copy_data: GaeaNodesCopy = GaeaNodesCopy.new()
 	for selected in nodes:
@@ -490,6 +629,16 @@ func _on_cut_nodes_request() -> void:
 	delete_nodes(get_selected_names())
 #endregion
 
+#region Inputs and watchers
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion:
+		var mouse_position = get_local_mouse_position()
+		if get_rect().has_point(mouse_position):
+			bottom_note_label.visible = true
+			bottom_note_label.text = "%s" % Vector2i(local_to_grid(mouse_position, Vector2.ZERO, false))
+		else:
+			bottom_note_label.visible = false
+
 
 func _on_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
@@ -516,208 +665,39 @@ func _on_scroll_offset_changed(offset: Vector2) -> void:
 		graph.zoom = zoom
 
 
+func _on_editor_script_changed(script: Script):
+	var editor := EditorInterface.get_script_editor().get_current_editor()
+	if not editor.edited_script_changed.is_connected(_on_edited_script_changed):
+		editor.edited_script_changed.connect(_on_edited_script_changed.bind(script))
 
 
+func _on_edited_script_changed(script: Script):
+	if not script.can_instantiate():
+		return
 
-func _load_data() -> void:
-	is_loading = true
-	var has_output_node: bool = false
-	for id in graph.get_ids():
-		var saved_data = graph.get_node_data(id)
-		if saved_data.is_empty():
-			continue
-		var node := _instantiate_node(id)
-
-		if graph.get_node(id) is GaeaNodeOutput:
-			if has_output_node:
-				push_warning("Duplicate Output node found, deleting node id %d" % id)
-				delete_nodes([node.name])
-			else:
-				has_output_node = true
-				_output_node = node
-
-	if not has_output_node:
-		_output_node = _add_node(GaeaNodeOutput.new(), Vector2.ZERO)
-
-	_output_node.add_to_group(&"cant_delete")
-	_load_scroll_offset.call_deferred(
-		_output_node.size * 0.5 - get_rect().size * 0.5
-	)
-
-	_update_output_node()
-	# from_node and to_node are indexes in the resources array
-	_load_connections.call_deferred(graph.get_all_connections())
-
-	update_connections()
-	set_deferred(&"is_loading", false)
-
-
-func _load_scroll_offset(default_offset: Vector2) -> void:
-	if is_nan(graph.scroll_offset.x):
-		graph.scroll_offset = default_offset
-	set_scroll_offset(graph.scroll_offset)
-	set_zoom(graph.zoom)
-
-
-func _load_connections(connections_list: Array[Dictionary]) -> void:
-	for connection in connections_list:
-		var from_node: GraphNode = graph.get_node(connection.from_node).node
-		var to_node: GraphNode = graph.get_node(connection.to_node).node
-		if not is_instance_valid(from_node) or not is_instance_valid(to_node):
-			continue
-		if to_node.get_input_port_count() <= connection.to_port:
-			continue
-		connection_request.emit(
-			from_node.name, connection.from_port, to_node.name, connection.to_port
-		)
-
-
-
-func _copy_nodes(data: GaeaNodesCopy) -> void:
-	copy_buffer = data
-
-
-func _paste_nodes(at_position: Vector2, data: GaeaNodesCopy = copy_buffer) -> void:
-	for node in get_selected():
-		node.selected = false
-
-	var copy_ids := graph.paste_nodes(data, at_position)
-	var new_connections: Array[Dictionary]
-	for id in copy_ids:
-		_instantiate_node(id).selected = true
-		new_connections.append_array(graph.get_node_connections(id))
-
-	_load_connections.call_deferred(new_connections)
-
-
-
-
-func _on_new_reroute_requested(connection: Dictionary) -> void:
-	var resource: GaeaNodeReroute = GaeaNodeReroute.new()
-	var from_node: GraphNode = get_node(NodePath(connection.from_node))
-	resource.type = from_node.get_output_port_type(connection.from_port) as GaeaValue.Type
-	var reroute: GaeaGraphNode = _add_node(resource, Vector2.ZERO)
-
-	var offset = -reroute.get_output_port_position(0)
-	offset.y -= reroute.get_slot_custom_icon_right(0).get_size().y * 0.5
-	reroute.set_position_offset(local_to_grid(main_editor.node_creation_target, offset))
-
-	graph.set_node_position(reroute.resource.id, reroute.position_offset)
-
-	disconnection_request.emit.call_deferred(
-		connection.from_node,
-		connection.from_port,
-		connection.to_node,
-		connection.to_port,
-	)
-	connection_request.emit.call_deferred(
-		connection.from_node,
-		connection.from_port,
-		reroute.name,
-		0,
-	)
-	connection_request.emit.call_deferred(
-		reroute.name,
-		0,
-		connection.to_node,
-		connection.to_port,
-	)
-
-
-
-#region Output Node
-func _update_output_node() -> void:
-	if is_instance_valid(_output_node):
-		_output_node.update_slots()
-		await get_tree().process_frame
-		remove_invalid_connections()
+	for child in get_children():
+		if child is GaeaGraphNode:
+			if script == child.resource.get_script():
+				child._rebuild.call_deferred()
 #endregion
 
+#region Utils and misc
+@warning_ignore("shadowed_variable_base_class")
+func set_window_popout_button_visible(visible: bool) -> void:
+	_window_popout_button.visible = visible
+	_window_popout_separator.visible = visible
 
 
-
-#region Other
-func update_bottom_note():
-	var mouse_position = get_local_mouse_position()
-	if get_rect().has_point(mouse_position):
-		bottom_note_label.visible = true
-		bottom_note_label.text = (
-			"%s"
-			% [
-				Vector2i(
-					local_to_grid(
-						get_local_mouse_position(), Vector2.ZERO, false
-					)
-				)
-			]
-		)
-	else:
-		bottom_note_label.visible = false
-#endregion
-
-
-
-
-func _input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion:
-		update_bottom_note()
-
-
-
-
-func _on_node_selected_for_creation(resource: GaeaNodeResource) -> void:
-	var node := _add_node(resource.duplicate(), local_to_grid(main_editor.node_creation_target))
-
-	if node is GaeaGraphNode and is_instance_valid(main_editor.created_node_connect_to):
-		var to_port := 0
-		var slot_name: StringName
-		var type: GaeaValue.Type
-		var new_node_port_amount: int
-		if main_editor.dragged_from_left:
-			slot_name = main_editor.created_node_connect_to.resource.connection_idx_to_argument(
-				main_editor.created_node_connect_to_port
-			)
-			type = main_editor.created_node_connect_to.resource.get_argument_type(slot_name)
-			new_node_port_amount = node.resource._get_output_ports_list().size()
-		else:
-			slot_name = main_editor.created_node_connect_to.resource.connection_idx_to_output(
-				main_editor.created_node_connect_to_port
-			)
-			type = main_editor.created_node_connect_to.resource.get_output_port_type(slot_name)
-			new_node_port_amount = node.resource.get_arguments_list().size()
-
-		while to_port < new_node_port_amount:
-			var other_slot_name: StringName
-			var other_type: GaeaValue.Type
-			if main_editor.dragged_from_left:
-				other_slot_name = node.resource.connection_idx_to_output(to_port)
-				other_type = node.resource.get_output_port_type(other_slot_name)
-			else:
-				other_slot_name = node.resource.connection_idx_to_argument(to_port)
-				other_type = node.resource.get_argument_type(other_slot_name)
-
-			if GaeaValue.is_valid_connection(
-				other_type if main_editor.dragged_from_left else type,
-				type if main_editor.dragged_from_left else other_type
-			):
-				break
-			to_port += 1
-
-		if to_port < node.resource.get_arguments_list().size():
-			if main_editor.dragged_from_left:
-				connection_request.emit(
-					node.name,
-					to_port,
-					main_editor.created_node_connect_to.name,
-					main_editor.created_node_connect_to_port
-				)
-			else:
-				connection_request.emit(
-					main_editor.created_node_connect_to.name,
-					main_editor.created_node_connect_to_port,
-					node.name,
-					to_port
-				)
+## This function converts a local position to a grid position based on the current zoom level and scroll offset.
+## It also applies snapping if enabled in the GraphEdit.
+func local_to_grid(
+	local_position: Vector2, grid_offset: Vector2 = Vector2.ZERO, enable_snapping: bool = true
+) -> Vector2:
+	local_position = (local_position + scroll_offset) / zoom
+	local_position += grid_offset
+	if enable_snapping and snapping_enabled:
+		return local_position.snapped(Vector2.ONE * snapping_distance)
+	return local_position
 
 
 func _on_main_editor_visibility_changed() -> void:
@@ -725,25 +705,4 @@ func _on_main_editor_visibility_changed() -> void:
 	set_grid_pattern(GaeaEditorSettings.get_grid_pattern())
 	set_connection_lines_thickness(GaeaEditorSettings.get_line_thickness())
 	set_minimap_opacity(GaeaEditorSettings.get_minimap_opacity())
-
-
-
-
-func _get_multiwindow_support_tooltip_text() -> String:
-	# Adapted from https://github.com/godotengine/godot/blob/a8598cd8e261716fa3addb6f10bb57c03a061be9/editor/editor_node.cpp#L4725-L4737
-	var prefix: String = "Multi-window support is not available because"
-	if EditorInterface.get_editor_settings().get_setting("interface/editor/single_window_mode"):
-		return tr(prefix + " Interface > Editor > Single Window Mode is enabled in the editor settings.")
-	if not EditorInterface.get_editor_settings().get_setting("interface/multi_window/enable"):
-		return tr(prefix + " Interface > Multi Window > Enable is disabled in the editor settings.")
-	if DisplayServer.has_feature(DisplayServer.FEATURE_SUBWINDOWS):
-		return tr(prefix + " the `--single-window` command line argument was used to start the editor.")
-	return tr(prefix + " the current platform doesn't support multiple windows.")
-
-
-
-
-func _on_special_node_selected_for_creation(id: StringName) -> void:
-	match id:
-		&"frame":
-			_add_frame()
+#endregion

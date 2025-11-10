@@ -33,7 +33,6 @@ layout_mode = 2
 text = "File system placeholder"
 
 [node name="MainEditor" type="Control" parent="." node_paths=PackedStringArray("gaea_panel", "graph_edit", "about_window", "no_data", "create_node_popup", "node_context_menu", "link_context_menu")]
-unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 script = ExtResource("4_gbl2m")
@@ -46,7 +45,6 @@ node_context_menu = NodePath("NodeContextMenu")
 link_context_menu = NodePath("LinkContextMenu")
 
 [node name="GraphEdit" type="GraphEdit" parent="MainEditor" node_paths=PackedStringArray("main_editor", "bottom_note_label")]
-unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -78,7 +76,6 @@ theme_override_constants/margin_right = 12
 theme_override_constants/margin_bottom = 12
 
 [node name="BottomNote" type="RichTextLabel" parent="MainEditor/GraphEdit/Margin"]
-unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 1
 theme_override_styles/normal = SubResource("StyleBoxEmpty_dhpru")
@@ -113,8 +110,7 @@ visible = false
 exclusive = true
 main_editor = NodePath("..")
 
-[node name="CreateNodePopup" type="Window" parent="MainEditor" node_paths=PackedStringArray("main_editor", "create_node_tree", "_create_node_panel", "tool_popup")]
-unique_name_in_owner = true
+[node name="CreateNodePopup" type="Window" parent="MainEditor" node_paths=PackedStringArray("main_editor", "create_node_panel", "search_bar", "tool_button", "tool_popup", "create_node_tree", "description_label", "cancel_button")]
 oversampling_override = 1.0
 title = "Create Node"
 position = Vector2i(0, 36)
@@ -126,9 +122,13 @@ extend_to_title = true
 keep_title_visible = true
 script = ExtResource("5_nbnm7")
 main_editor = NodePath("..")
-create_node_tree = NodePath("MainContentContainer/VBox/CreateNodeTree")
-_create_node_panel = NodePath("BackgroundContainer/CreateNodePanel")
+create_node_panel = NodePath("BackgroundContainer/CreateNodePanel")
+search_bar = NodePath("MainContentContainer/VBox/SearchContainer/SearchBar")
+tool_button = NodePath("MainContentContainer/VBox/SearchContainer/ToolButton")
 tool_popup = NodePath("MainContentContainer/VBox/SearchContainer/ToolButton/ToolPopup")
+create_node_tree = NodePath("MainContentContainer/VBox/CreateNodeTree")
+description_label = NodePath("MainContentContainer/VBox/PanelContainer/DescriptionLabel")
+cancel_button = NodePath("MainContentContainer/VBox/HBoxContainer/CancelButton")
 
 [node name="BackgroundContainer" type="MarginContainer" parent="MainEditor/CreateNodePopup"]
 anchors_preset = 15
@@ -142,7 +142,6 @@ theme_override_constants/margin_right = -10
 theme_override_constants/margin_bottom = -10
 
 [node name="CreateNodePanel" type="Panel" parent="MainEditor/CreateNodePopup/BackgroundContainer"]
-unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -168,14 +167,12 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="SearchBar" type="LineEdit" parent="MainEditor/CreateNodePopup/MainContentContainer/VBox/SearchContainer"]
-unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Search (Ctrl+Tab to cycle)"
 clear_button_enabled = true
 
 [node name="ToolButton" type="Button" parent="MainEditor/CreateNodePopup/MainContentContainer/VBox/SearchContainer"]
-unique_name_in_owner = true
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 focus_mode = 0
@@ -195,7 +192,6 @@ item_2/text = "Reload Tree"
 item_2/id = 2
 
 [node name="CreateNodeTree" type="Tree" parent="MainEditor/CreateNodePopup/MainContentContainer/VBox" node_paths=PackedStringArray("main_editor", "description_label")]
-unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 hide_root = true
@@ -211,7 +207,6 @@ text = "Description"
 layout_mode = 2
 
 [node name="DescriptionLabel" type="RichTextLabel" parent="MainEditor/CreateNodePopup/MainContentContainer/VBox/PanelContainer"]
-unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 96)
 layout_mode = 2
 bbcode_enabled = true
@@ -223,19 +218,16 @@ layout_mode = 2
 size_flags_vertical = 0
 
 [node name="CreateButton" type="Button" parent="MainEditor/CreateNodePopup/MainContentContainer/VBox/HBoxContainer"]
-unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Create"
 
 [node name="CancelButton" type="Button" parent="MainEditor/CreateNodePopup/MainContentContainer/VBox/HBoxContainer"]
-unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Cancel"
 
-[node name="NodeContextMenu" type="PopupMenu" parent="MainEditor" node_paths=PackedStringArray("panel", "graph_edit", "main_editor")]
-unique_name_in_owner = true
+[node name="NodeContextMenu" type="PopupMenu" parent="MainEditor" node_paths=PackedStringArray("main_editor", "graph_edit")]
 oversampling_override = 1.0
 size = Vector2i(100, 124)
 item_count = 6
@@ -253,12 +245,10 @@ item_4/disabled = true
 item_5/text = "Set Color"
 item_5/id = 5
 script = ExtResource("4_vtsfx")
-panel = NodePath("../..")
-graph_edit = NodePath("../GraphEdit")
 main_editor = NodePath("..")
+graph_edit = NodePath("../GraphEdit")
 
-[node name="LinkContextMenu" type="PopupMenu" parent="MainEditor" node_paths=PackedStringArray("main_editor", "graph_edit")]
-unique_name_in_owner = true
+[node name="LinkContextMenu" type="PopupMenu" parent="MainEditor" node_paths=PackedStringArray("main_editor")]
 oversampling_override = 1.0
 size = Vector2i(106, 100)
 item_count = 1
@@ -266,7 +256,6 @@ item_0/text = "Disconnect"
 item_0/id = 0
 script = ExtResource("7_dhpru")
 main_editor = NodePath("..")
-graph_edit = NodePath("../GraphEdit")
 
 [connection signal="about_popup_request" from="MainEditor" to="MainEditor/AboutWindow" method="_on_main_editor_about_popup_request"]
 [connection signal="visibility_changed" from="MainEditor" to="MainEditor/GraphEdit" method="_on_main_editor_visibility_changed"]
@@ -282,7 +271,6 @@ graph_edit = NodePath("../GraphEdit")
 [connection signal="gui_input" from="MainEditor/GraphEdit" to="MainEditor/GraphEdit" method="_on_gui_input"]
 [connection signal="paste_nodes_request" from="MainEditor/GraphEdit" to="MainEditor/GraphEdit" method="_on_paste_nodes_request"]
 [connection signal="scroll_offset_changed" from="MainEditor/GraphEdit" to="MainEditor/GraphEdit" method="_on_scroll_offset_changed"]
-[connection signal="pressed" from="MainEditor/NoData/NewDataButton" to="." method="_on_new_data_button_pressed"]
 [connection signal="pressed" from="MainEditor/NoData/NewDataButton" to="MainEditor" method="_on_new_data_button_pressed"]
 [connection signal="text_changed" from="MainEditor/CreateNodePopup/MainContentContainer/VBox/SearchContainer/SearchBar" to="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_search_bar_text_changed"]
 [connection signal="text_submitted" from="MainEditor/CreateNodePopup/MainContentContainer/VBox/SearchContainer/SearchBar" to="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_search_bar_text_submitted"]

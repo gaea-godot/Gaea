@@ -3,14 +3,13 @@ class_name GaeaPopupCreateNode
 extends Window
 
 @export var main_editor: GaeaMainEditor
-@export var create_node_tree: GaeaCreateNodeTree
-@export var _create_node_panel: Panel
+@export var create_node_panel: Panel
+@export var search_bar: LineEdit
+@export var tool_button: Button
 @export var tool_popup: PopupMenu
-
-@onready var cancel_button: Button = %CancelButton
-@onready var tool_button: Button = %ToolButton
-@onready var description_label: RichTextLabel = %DescriptionLabel
-@onready var search_bar: LineEdit = %SearchBar
+@export var create_node_tree: GaeaCreateNodeTree
+@export var description_label: RichTextLabel
+@export var cancel_button: Button
 
 
 func _ready() -> void:
@@ -22,9 +21,10 @@ func _ready() -> void:
 	tool_button.icon = EditorInterface.get_base_control().get_theme_icon(&"Tools", &"EditorIcons")
 	description_label.set_text("")
 
-	_create_node_panel.add_theme_stylebox_override(
+	create_node_panel.add_theme_stylebox_override(
 		&"panel", EditorInterface.get_base_control().get_theme_stylebox(&"panel", &"PopupPanel")
 	)
+
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):

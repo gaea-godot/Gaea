@@ -169,7 +169,6 @@ func filter_to_input_type(type: GaeaValue.Type) -> void:
 	)
 
 
-
 func filter_to_output_type(type: GaeaValue.Type) -> void:
 	add_filter(
 		(func(item: TreeItem, match_type: GaeaValue.Type) -> bool:

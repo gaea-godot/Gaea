@@ -5,7 +5,6 @@ extends PopupMenu
 enum Action { DISCONNECT, INSERT_NEW_REROUTE }
 
 @export var main_editor: GaeaMainEditor
-@export var graph_edit: GraphEdit
 
 var current_connection: Dictionary
 
@@ -27,7 +26,7 @@ func populate(connection: Dictionary) -> void:
 func _on_id_pressed(id: int) -> void:
 	match id:
 		Action.DISCONNECT:
-			graph_edit.disconnection_request.emit(
+			main_editor.graph_edit.disconnection_request.emit(
 				current_connection.from_node,
 				current_connection.from_port,
 				current_connection.to_node,
