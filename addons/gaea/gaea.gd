@@ -23,7 +23,7 @@ func _enter_tree() -> void:
 		_panel.plugin = self
 		_container.add_child(_panel)
 		_panel_button = add_control_to_bottom_panel(_container, "Gaea")
-		_panel_button.hide()
+		_panel_button.show()
 
 		_inspector_plugin = InspectorPlugin.new()
 		add_inspector_plugin(_inspector_plugin)
@@ -32,14 +32,10 @@ func _enter_tree() -> void:
 		_custom_project_settings = GaeaProjectSettings.new()
 		_custom_project_settings.add_settings()
 
-		# TODO TMP
-		_panel_button.show()
-		#show_bottom_panel()
-
 
 func _exit_tree() -> void:
 	if Engine.is_editor_hint():
-		_panel.unpopulate()
+		_panel.graph_edit.unpopulate()
 		remove_inspector_plugin(_inspector_plugin)
 		remove_control_from_bottom_panel(_container)
 		_container.queue_free()
