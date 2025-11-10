@@ -699,7 +699,7 @@ func _get_multiwindow_support_tooltip_text() -> String:
 
 
 
-func _on_node_selected_for_creation(resource: GaeaNodeResource) -> void:
+func _on_node_selected_for_creation(_resource: GaeaNodeResource) -> void:
 	pass
 
 

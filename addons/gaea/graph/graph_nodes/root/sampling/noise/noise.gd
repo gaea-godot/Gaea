@@ -65,7 +65,7 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 
 func _get_data(_output_port: StringName, graph: GaeaGraph, settings: GaeaGenerationSettings) -> GaeaValue.Sample:
 	var noise: FastNoiseLite = FastNoiseLite.new()
-	noise.seed = graph.generator.seed + salt
+	noise.seed = settings.seed + salt
 	noise.noise_type = get_enum_selection(0) as FastNoiseLite.NoiseType
 
 	noise.frequency = _get_arg(&"frequency", graph, settings)

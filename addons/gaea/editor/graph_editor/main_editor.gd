@@ -80,7 +80,9 @@ func _on_new_data_button_pressed() -> void:
 
 
 func _on_test_button_pressed() -> void:
-	var graph = load("uid://dowa1yikrbcdj").duplicate(true)
+	#var graph = load("uid://dowa1yikrbcdj").duplicate(true)
+	var graph = load("uid://3ogbw502hfvu")
+
 	if graph.resource_local_to_scene:
 		graph._setup_local_to_scene()
 	graph_edit.unpopulate()

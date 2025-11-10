@@ -9,11 +9,11 @@ var last_grid: GaeaGrid
 
 ## Used for integration testing.
 func test_generation(fixed_seed: int = 0) -> void:
-	gaea_generator.world_size = Vector3i(45, 45, 1)
-	gaea_generator.random_seed_on_generate = false
-	gaea_generator.seed = fixed_seed
-	gaea_generator.generate()
+	gaea_generator.settings.world_size = Vector3i(45, 45, 1)
+	gaea_generator.settings.random_seed_on_generate = false
+	gaea_generator.settings.seed = fixed_seed
 	gaea_generator.generation_finished.connect(func(grid): last_grid = grid)
+	gaea_generator.generate()
 	await gaea_generator.generation_finished
 
 

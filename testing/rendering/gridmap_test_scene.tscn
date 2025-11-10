@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bamaii0ujxbp2"]
+[gd_scene load_steps=17 format=3 uid="uid://bamaii0ujxbp2"]
 
 [ext_resource type="Script" uid="uid://cpvk61ewx6ejo" path="res://testing/rendering/renderer_test_scene.gd" id="1_hkk2t"]
 [ext_resource type="Script" uid="uid://d4feanreabm81" path="res://addons/gaea/nodes/generator.gd" id="2_hwmwi"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://cs0htewp12cyu" path="res://addons/gaea/resources/materials/data/gridmap_material.gd" id="4_ipl51"]
 [ext_resource type="Script" uid="uid://dae6umbqb872e" path="res://addons/gaea/resources/gaea_graph.gd" id="5_3nkuh"]
 [ext_resource type="Script" uid="uid://x3nlfb00jxsh" path="res://addons/gaea/nodes/renderers/gridmap_renderer.gd" id="6_hkk2t"]
+[ext_resource type="Script" uid="uid://ct2w70ehn4avu" path="res://addons/gaea/resources/gaea_generation_settings.gd" id="6_hwmwi"]
 
 [sub_resource type="Resource" id="Resource_hkk2t"]
 script = ExtResource("4_ipl51")
@@ -111,6 +112,12 @@ _parameters = Dictionary[StringName, Variant]({
 }
 })
 
+[sub_resource type="Resource" id="Resource_y0fys"]
+script = ExtResource("6_hwmwi")
+random_seed_on_generate = false
+seed = 337133513
+world_size = Vector3i(64, 64, 64)
+
 [sub_resource type="BoxMesh" id="BoxMesh_ipl51"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_hkk2t"]
@@ -136,10 +143,8 @@ script = ExtResource("1_hkk2t")
 
 [node name="GaeaGenerator" type="Node" parent="."]
 script = ExtResource("2_hwmwi")
-data = SubResource("Resource_jjey7")
-seed = 337133513
-random_seed_on_generate = false
-world_size = Vector3i(64, 64, 64)
+graph = SubResource("Resource_jjey7")
+settings = SubResource("Resource_y0fys")
 metadata/_custom_type_script = "uid://d4feanreabm81"
 
 [node name="Renderer" type="Node" parent="." node_paths=PackedStringArray("grid_maps", "generator")]

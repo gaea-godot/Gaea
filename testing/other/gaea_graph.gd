@@ -147,7 +147,7 @@ func test_assign_to_generator() -> void:
 	var premade_graph = walker_graph
 	var scene: GaeaGenerationTester = walker_demo.instantiate()
 	var _runner := scene_runner(scene)
-	scene.gaea_generator.data = premade_graph
+	scene.gaea_generator.graph = premade_graph
 	await scene.test_generation()
 	assert_dict(scene.last_grid._grid).is_not_empty()
 

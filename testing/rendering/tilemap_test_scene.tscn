@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://xfcy8wwh3sd7"]
+[gd_scene load_steps=17 format=3 uid="uid://xfcy8wwh3sd7"]
 
 [ext_resource type="Script" uid="uid://cpvk61ewx6ejo" path="res://testing/rendering/renderer_test_scene.gd" id="1_d86qw"]
 [ext_resource type="Script" uid="uid://d4feanreabm81" path="res://addons/gaea/nodes/generator.gd" id="2_gi0gd"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://e45byecr4gi6" path="res://addons/gaea/resources/materials/data/tilemap_material.gd" id="4_1kltg"]
 [ext_resource type="Script" uid="uid://dae6umbqb872e" path="res://addons/gaea/resources/gaea_graph.gd" id="5_kmg7b"]
 [ext_resource type="Script" uid="uid://b4x16tyyfihmb" path="res://addons/gaea/nodes/renderers/tilemap_renderer.gd" id="6_ay818"]
+[ext_resource type="Script" uid="uid://ct2w70ehn4avu" path="res://addons/gaea/resources/gaea_generation_settings.gd" id="6_gi0gd"]
 [ext_resource type="Texture2D" uid="uid://druqwrm3nwuao" path="res://testing/tileset.png" id="7_q3jyc"]
 
 [sub_resource type="Resource" id="Resource_brphb"]
@@ -112,6 +113,11 @@ _parameters = Dictionary[StringName, Variant]({
 }
 })
 
+[sub_resource type="Resource" id="Resource_frm4e"]
+script = ExtResource("6_gi0gd")
+random_seed_on_generate = false
+seed = 337133513
+
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ljnpl"]
 texture = ExtResource("7_q3jyc")
 texture_region_size = Vector2i(8, 8)
@@ -127,9 +133,8 @@ script = ExtResource("1_d86qw")
 
 [node name="GaeaGenerator" type="Node" parent="."]
 script = ExtResource("2_gi0gd")
-data = SubResource("Resource_ohuek")
-seed = 337133513
-random_seed_on_generate = false
+graph = SubResource("Resource_ohuek")
+settings = SubResource("Resource_frm4e")
 metadata/_custom_type_script = "uid://d4feanreabm81"
 
 [node name="Renderer" type="Node" parent="." node_paths=PackedStringArray("tile_map_layers", "generator")]

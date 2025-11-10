@@ -30,17 +30,27 @@ signal area_erased(area: AABB)
 @export var graph: GaeaGraph:
 	set(value):
 		graph = value
+		graph._setup_local_to_scene()
 		graph_changed.emit()
 
 @export var settings: GaeaGenerationSettings
 
-# Keept for migration to GaeaGenerationSettings
-@export_storage var data: GaeaGraph
-@export_storage var random_seed_on_generate: bool
-@warning_ignore("shadowed_global_identifier")
-@export_storage var seed
-@export_storage var world_size
-@export_storage var cell_size
+# For migration to GaeaGenerationSettings
+func _set(property: StringName, value: Variant) -> bool:
+	match property:
+		&"data":
+			graph = value
+			return true
+		&"random_seed_on_generate", &"seed", &"world_size", &"cell_size":
+			_migrate_settings_property(property, value)
+			return true
+	return false
+
+
+func _migrate_settings_property(property: StringName, value: Variant):
+	if settings == null:
+		settings = GaeaGenerationSettings.new()
+	settings.set(property, value)
 
 
 ## Start the generaton process. First resets the current generation, then generates the whole
@@ -50,7 +60,7 @@ func generate() -> void:
 	if settings.random_seed_on_generate:
 		settings.seed = randi()
 	request_reset()
-	generate_area(AABB(Vector3.ZERO, world_size))
+	generate_area(AABB(Vector3.ZERO, settings.world_size))
 
 
 ## Generate an [param area] using the graph saved in [member graph].
@@ -83,7 +93,7 @@ func request_area_erasure(area: AABB) -> void:
 
 ## Returns [param position] in cell coordinates based on [member cell_size].
 func global_to_map(position: Vector3) -> Vector3i:
-	return (position / Vector3(cell_size)).floor()
+	return (position / Vector3(settings.cell_size)).floor()
 
 
 ## Emits [signal reset_requested]. Does nothing by itself, but notifies [GaeaRenderer]s that they should
