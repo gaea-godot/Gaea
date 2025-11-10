@@ -19,8 +19,9 @@ func _ready() -> void:
 func open_file(graph: GaeaGraph) -> void:
 	for idx in item_count:
 		if get_item_metadata(idx) == graph:
-			select(idx)
-			_on_item_selected(idx)
+			if not is_selected(idx):
+				select(idx)
+				_on_item_selected(idx)
 			return
 
 	var new_item_idx := add_item(graph.resource_path.get_file(), GRAPH_ICON)
