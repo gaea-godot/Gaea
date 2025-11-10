@@ -12,9 +12,6 @@ signal remove_invalid_connections_requested
 
 const PreviewTexture = preload("uid://dns7s4v8lom4t")
 
-## Reference to the parent GaeaGraphEdit
-var _graph_edit: GaeaGraphEdit
-
 ## The [GaeaNodeResource] this acts as an editor of.
 @export var resource: GaeaNodeResource
 
@@ -22,6 +19,9 @@ var _graph_edit: GaeaGraphEdit
 ## Used by the generator during runtime. This list is updated
 ## from [method update_connections] method.
 var connections: Array[Dictionary]
+
+## Reference to the parent GaeaGraphEdit
+var _graph_edit: GaeaGraphEdit
 
 var _preview: PreviewTexture
 var _preview_container: VBoxContainer

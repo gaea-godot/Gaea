@@ -1,10 +1,12 @@
 class_name GaeaGraphFrame
 extends GraphFrame
 
+## ID of the frame
+var id: int
+
 ## Reference to the parent GaeaGraphEdit
 var _graph_edit: GaeaGraphEdit
 
-var id: int
 
 func _ready() -> void:
 	_graph_edit = get_parent()

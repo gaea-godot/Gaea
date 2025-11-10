@@ -459,7 +459,7 @@ func traverse(output_port: StringName, graph: GaeaGraph, settings: GaeaGeneratio
 	if use_caching and _has_cached_data(output_port, graph):
 		data = _get_cached_data(output_port, graph)
 	else:
-		_define_rng(graph, settings.seed)
+		_define_rng(settings.seed)
 		_log_data(output_port, graph)
 		data = _get_data(output_port, graph, settings)
 		if use_caching:
@@ -727,7 +727,7 @@ func _is_point_outside_area(area: AABB, point: Vector3) -> bool:
 
 
 @warning_ignore("shadowed_global_identifier")
-func _define_rng(graph: GaeaGraph, seed: int) -> void:
+func _define_rng(seed: int) -> void:
 	rng = RandomNumberGenerator.new()
 	rng.set_seed(seed + salt)
 	seed(rng.seed)
