@@ -1,4 +1,5 @@
 @tool
+class_name GaeaOutputGraphNode
 extends GaeaGraphNode
 ## The in-editor representation of [GaeaNodeOutput].
 
@@ -22,7 +23,8 @@ func _on_added() -> void:
 
 
 func update_slots() -> void:
-	var layer_count: int = generator.data.layers.size()
+	var layer_count: int = _graph_edit.graph.layers.size()
+	print("update_slots", layer_count)
 	resource.notify_argument_list_changed()
 	for idx in layer_count:
 		_connect_layer_resource_signal(idx)
@@ -31,7 +33,7 @@ func update_slots() -> void:
 
 
 func _connect_layer_resource_signal(idx: int):
-	var layer: GaeaLayer = generator.data.layers[idx]
+	var layer: GaeaLayer = _graph_edit.graph.layers[idx]
 	if not layer or not is_instance_valid(layer):
 		return
 

@@ -7,7 +7,7 @@ var _graph_edit: GaeaGraphEdit
 var id: int
 
 func _ready() -> void:
-	_graph_edit = get_node("%GraphEdit")
+	_graph_edit = get_parent()
 	if title.is_empty():
 		title = "Title"
 	size = Vector2(512, 256)

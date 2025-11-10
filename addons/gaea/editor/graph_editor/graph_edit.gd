@@ -9,8 +9,7 @@ signal panel_popout_request()
 
 var attached_elements: Dictionary
 
-@onready var main_editor: GaeaMainEditor = %MainEditor
-
+@export var main_editor: GaeaMainEditor
 @export var bottom_note_label: RichTextLabel
 
 
@@ -24,7 +23,7 @@ var copy_buffer: GaeaNodesCopy
 var is_loading = false
 
 ## Reference to the output node
-var _output_node: GaeaGraphNode
+var _output_node: GaeaOutputGraphNode
 
 
 func _init() -> void:
@@ -47,7 +46,6 @@ func _ready() -> void:
 	container.move_child(add_node_button, 0)
 
 
-
 func _popup_create_node_menu_at_mouse():
 	main_editor.popup_create_node_menu_at_request.emit(get_local_mouse_position())
 
@@ -55,10 +53,9 @@ func _popup_create_node_menu_at_mouse():
 #region Saving and Loading
 func populate(new_graph: GaeaGraph) -> void:
 	graph = new_graph
-
 	if not graph.layer_count_modified.is_connected(_update_output_node):
 		graph.layer_count_modified.connect(_update_output_node)
-	_load_data.call_deferred()
+	_load_data()
 
 
 func unpopulate() -> void:
@@ -94,6 +91,7 @@ func _instantiate_node(id: int) -> GraphElement:
 
 	var resource := graph.get_node(id)
 	if not is_instance_valid(resource):
+		push_warning("Invalid resource", resource)
 		return null
 
 	var node: GaeaGraphNode = resource.get_scene().instantiate()
@@ -466,7 +464,7 @@ func _on_gui_input(event: InputEvent) -> void:
 
 
 func _on_scroll_offset_changed(offset: Vector2) -> void:
-	if main_editor.is_loading:
+	if is_loading:
 		return
 	if is_instance_valid(graph):
 		graph.scroll_offset = offset
@@ -477,8 +475,7 @@ func _on_scroll_offset_changed(offset: Vector2) -> void:
 
 
 func _load_data() -> void:
-	main_editor.is_loading = true
-
+	is_loading = true
 	var has_output_node: bool = false
 	for id in graph.get_ids():
 		var saved_data = graph.get_node_data(id)
@@ -502,6 +499,7 @@ func _load_data() -> void:
 		_output_node.size * 0.5 - get_rect().size * 0.5
 	)
 
+	_update_output_node()
 	# from_node and to_node are indexes in the resources array
 	_load_connections.call_deferred(graph.get_all_connections())
 
@@ -581,8 +579,9 @@ func _on_new_reroute_requested(connection: Dictionary) -> void:
 
 #region Output Node
 func _update_output_node() -> void:
+	prints("_update_output_node", _output_node)
 	if is_instance_valid(_output_node):
-		await _output_node.update_slots()
+		_output_node.update_slots()
 		await get_tree().process_frame
 		remove_invalid_connections()
 

@@ -3,6 +3,7 @@ class_name GaeaMainEditor
 extends Control
 
 ## Emitted when the about popup is requested.
+@warning_ignore("unused_signal")
 signal about_popup_request()
 signal popup_create_node_request()
 signal popup_create_node_and_connect_node_request(node: GaeaGraphNode, type: GaeaValue.Type)
@@ -70,3 +71,10 @@ static func clamp_popup_in_window(popup: Window, main_window: Window) -> void:
 func _on_new_data_button_pressed() -> void:
 	pass
 	#graph = GaeaGraph.new()
+
+
+func _on_test_button_pressed() -> void:
+	var graph = load("uid://dowa1yikrbcdj").duplicate(true)
+	graph._setup_local_to_scene()
+	graph_edit.unpopulate()
+	graph_edit.populate(graph)

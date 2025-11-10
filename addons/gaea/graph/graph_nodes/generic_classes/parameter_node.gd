@@ -12,8 +12,8 @@ func _on_added() -> void:
 
 
 func _on_removed() -> void:
-	generator.data.remove_parameter(get_arg_value(&"name"))
-	generator.data.notify_property_list_changed()
+	_graph_edit.graph.remove_parameter(get_arg_value(&"name"))
+	_graph_edit.graph.notify_property_list_changed()
 
 
 func _on_argument_value_changed(
@@ -22,9 +22,9 @@ func _on_argument_value_changed(
 	if arg_name != "name" and value is not String:
 		return
 
-	var current_name: String = generator.data.get_node_argument(resource.id, &"name")
+	var current_name: String = _graph_edit.graph.get_node_argument(resource.id, &"name")
 	if value == current_name:
 		return
 
-	if generator.data.rename_parameter(current_name, value) == OK:
-		generator.data.set_node_argument(resource.id, &"name", value)
+	if _graph_edit.graph.rename_parameter(current_name, value) == OK:
+		_graph_edit.graph.set_node_argument(resource.id, &"name", value)

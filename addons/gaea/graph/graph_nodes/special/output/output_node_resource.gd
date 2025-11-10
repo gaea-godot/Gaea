@@ -16,12 +16,14 @@ func _get_title() -> String:
 
 
 func _get_arguments_list() -> Array[StringName]:
-	if not is_instance_valid(node) or not is_instance_valid(node.generator):
+	if not is_instance_valid(node) or not node is GaeaGraphNode:
 		return []
+	var graph: GaeaGraph = (node as GaeaGraphNode)._graph_edit.graph
 
 	var layers: Array[StringName]
-	for layer_idx in node.generator.data.layers.size():
-		layers.append(&"%d" % layer_idx)
+	if node is GaeaGraphNode:
+		for layer_idx in graph.layers.size():
+			layers.append(&"%d" % layer_idx)
 
 	return layers
 
@@ -31,14 +33,15 @@ func _get_argument_type(_arg_name: StringName) -> GaeaValue.Type:
 
 
 func _get_argument_display_name(arg_name: StringName) -> String:
-	if not is_instance_valid(node) or not is_instance_valid(node.generator):
+	if not is_instance_valid(node) or not node is GaeaGraphNode:
 		return ""
+	var graph: GaeaGraph = (node as GaeaGraphNode)._graph_edit.graph
 
 	var idx: int = int(arg_name)
-	if node.generator.data.layers.size() < idx:
+	if graph.layers.size() < idx:
 		return "Invalid Layer"
 
-	var layer: GaeaLayer = node.generator.data.layers.get(idx)
+	var layer: GaeaLayer = graph.layers.get(idx)
 
 	if not is_instance_valid(layer):
 		return "[color=RED](%d) Missing GaeaLayer resource[/color]" % idx
@@ -83,7 +86,6 @@ func execute(area: AABB, graph: GaeaGraph, generator: GaeaGenerator) -> void:
 		_log_layer("End", layer_idx, graph)
 
 	_log_execute("End", area, graph)
-
 
 	generator.generation_finished.emit.call_deferred(grid)
 

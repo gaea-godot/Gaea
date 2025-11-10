@@ -95,6 +95,10 @@ flat = true
 layout_mode = 2
 text = "File system placeholder"
 
+[node name="TestButton" type="Button" parent="FileSystemContainer"]
+layout_mode = 2
+text = "Test Button"
+
 [node name="MainEditor" type="Control" parent="." node_paths=PackedStringArray("gaea_panel", "graph_edit", "about_window", "no_data", "create_node_popup", "node_context_menu", "link_context_menu")]
 unique_name_in_owner = true
 layout_mode = 2
@@ -108,7 +112,7 @@ create_node_popup = NodePath("CreateNodePopup")
 node_context_menu = NodePath("NodeContextMenu")
 link_context_menu = NodePath("LinkContextMenu")
 
-[node name="GraphEdit" type="GraphEdit" parent="MainEditor" node_paths=PackedStringArray("bottom_note_label")]
+[node name="GraphEdit" type="GraphEdit" parent="MainEditor" node_paths=PackedStringArray("main_editor", "bottom_note_label")]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -123,6 +127,7 @@ right_disconnects = true
 minimap_opacity = 0.85
 show_zoom_label = true
 script = ExtResource("2_cdav6")
+main_editor = NodePath("..")
 bottom_note_label = NodePath("Margin/BottomNote")
 
 [node name="Margin" type="MarginContainer" parent="MainEditor/GraphEdit"]
@@ -328,6 +333,7 @@ graph_edit = NodePath("../GraphEdit")
 [connection signal="pressed" from="FileSystemContainer/Topbar/ReloadParametersListButton" to="." method="_on_reload_parameters_list_button_pressed"]
 [connection signal="pressed" from="FileSystemContainer/Topbar/OnlineDocsButton" to="." method="_on_online_docs_button_pressed"]
 [connection signal="pressed" from="FileSystemContainer/Topbar/WindowPopoutButton" to="." method="_on_window_popout_button_pressed"]
+[connection signal="pressed" from="FileSystemContainer/TestButton" to="MainEditor" method="_on_test_button_pressed"]
 [connection signal="about_popup_request" from="MainEditor" to="MainEditor/AboutWindow" method="_on_main_editor_about_popup_request"]
 [connection signal="node_selected_for_creation" from="MainEditor" to="MainEditor/GraphEdit" method="_on_main_editor_node_selected_for_creation"]
 [connection signal="visibility_changed" from="MainEditor" to="MainEditor/GraphEdit" method="_on_main_editor_visibility_changed"]
@@ -341,7 +347,6 @@ graph_edit = NodePath("../GraphEdit")
 [connection signal="duplicate_nodes_request" from="MainEditor/GraphEdit" to="MainEditor/GraphEdit" method="_on_duplicate_nodes_request"]
 [connection signal="graph_elements_linked_to_frame_request" from="MainEditor/GraphEdit" to="MainEditor/GraphEdit" method="_on_graph_elements_linked_to_frame_request"]
 [connection signal="gui_input" from="MainEditor/GraphEdit" to="MainEditor/GraphEdit" method="_on_gui_input"]
-[connection signal="node_selected" from="MainEditor/GraphEdit" to="MainEditor/GraphEdit" method="_on_node_selected"]
 [connection signal="paste_nodes_request" from="MainEditor/GraphEdit" to="MainEditor/GraphEdit" method="_on_paste_nodes_request"]
 [connection signal="scroll_offset_changed" from="MainEditor/GraphEdit" to="MainEditor/GraphEdit" method="_on_scroll_offset_changed"]
 [connection signal="pressed" from="MainEditor/NoData/NewDataButton" to="." method="_on_new_data_button_pressed"]

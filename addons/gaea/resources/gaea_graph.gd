@@ -75,27 +75,28 @@ var scroll_offset: Vector2 = Vector2(NAN, NAN)
 ## The graph's [member GraphEdit.zoom]. Only saved
 ## in the current session.
 var zoom: float = 1.0
-## The currently related generator.
-var generator: GaeaGenerator :
-	set(value):
-		generator = value
-		_refresh()
 ## Cache used during generation to avoid recalculating data unnecessarily.
 ## The inner dictionary keys are the slot output port names, and the values are the cached data.
 var cache: Dictionary[GaeaNodeResource, Dictionary] = {}
-
 ## Used during generation to keep track of node resources.
 var _resources: Dictionary[int, GaeaNodeResource]
 
 
-
 func _init() -> void:
-	_refresh()
-
-
-func _refresh() -> void:
 	resource_local_to_scene = true
-	_setup_local_to_scene()
+
+
+func _setup_local_to_scene() -> void:
+	#Data migration from previous version.
+	save_version = other.get(&"save_version", save_version)
+	if save_version != CURRENT_SAVE_VERSION:
+		GaeaGraphMigration.migrate(self)
+
+	_resources.clear()
+	var uniques = _get_unique_resources()
+	for id in uniques.keys():
+		_resources.set(id, uniques[id])
+
 	notify_property_list_changed()
 
 
@@ -538,18 +539,6 @@ func _get(property: StringName) -> Variant:
 		if variable.name == property:
 			return variable.value
 	return
-
-
-func _setup_local_to_scene() -> void:
-	#Data migration from previous version.
-	save_version = other.get(&"save_version", save_version)
-	if save_version != CURRENT_SAVE_VERSION:
-		GaeaGraphMigration.migrate(self)
-
-	_resources.clear()
-	var uniques = _get_unique_resources()
-	for id in uniques.keys():
-		_resources.set(id, uniques[id])
 
 
 func _get_unique_resources() -> Dictionary[Variant, GaeaNodeResource]:
