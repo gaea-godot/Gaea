@@ -124,7 +124,7 @@ func _add_toolbar_buttons() -> void:
 	panel.offset_right = -12.0
 
 	var add_node_button = Button.new()
-	add_node_button.text = "Add Node..."
+	add_node_button.text = "Add Node"
 	add_node_button.theme_type_variation = &"FlatButton"
 	add_node_button.pressed.connect(_add_node_button_pressed)
 	container.add_child(add_node_button)
@@ -140,7 +140,7 @@ func _add_toolbar_buttons() -> void:
 	container.add_child(online_docs_button)
 
 	var about_button = Button.new()
-	about_button.text = "About..."
+	about_button.text = "About"
 	about_button.theme_type_variation = &"FlatButton"
 	about_button.icon = EditorInterface.get_base_control().get_theme_icon(&"NodeInfo", &"EditorIcons")
 	about_button.pressed.connect(main_editor.about_popup_request.emit)
