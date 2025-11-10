@@ -1,4 +1,5 @@
 @tool
+class_name GaeaCreateNodeTree
 extends Tree
 
 const NODES_FOLDER_PATH: String = "res://addons/gaea/graph/graph_nodes/root/"
@@ -250,7 +251,3 @@ func _show_parents_recursive(item: TreeItem) -> void:
 func _on_search_bar_text_submitted(_new_text: String) -> void:
 	if get_selected() != null:
 		_on_item_activated()
-
-
-func _on_reload_node_tree_button_pressed() -> void:
-	populate()

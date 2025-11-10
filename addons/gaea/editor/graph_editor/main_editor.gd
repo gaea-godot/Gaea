@@ -10,6 +10,7 @@ signal popup_create_node_and_connect_node_request(node: GaeaGraphNode, type: Gae
 
 signal popup_node_context_menu_at_mouse_request(selected_nodes: Array)
 signal popup_link_context_menu_at_mouse_request(connection: Dictionary)
+@warning_ignore("unused_signal")
 signal panel_popout_request()
 
 signal node_selected_for_creation(resource: GaeaNodeResource)
@@ -34,7 +35,6 @@ var created_node_connect_to_port: int = -1
 var dragged_from_left: bool = false
 
 
-
 func _ready() -> void:
 	node_selected_for_creation.connect(graph_edit._on_node_selected_for_creation)
 	new_reroute_requested.connect(graph_edit._on_new_reroute_requested)
@@ -47,14 +47,6 @@ func _ready() -> void:
 	popup_node_context_menu_at_mouse_request.connect(node_context_menu._on_popup_node_context_menu_at_mouse_request)
 
 	popup_link_context_menu_at_mouse_request.connect(link_context_menu._on_popup_link_context_menu_at_mouse_request)
-
-#region TODO
-
-	#_about_button.icon = EditorInterface.get_base_control().get_theme_icon(
-	#	&"NodeInfo", &"EditorIcons"
-	#)
-
-#endregion
 
 
 ## Move a [param popup] windows at the current mouse position and clamp it inside the main windows

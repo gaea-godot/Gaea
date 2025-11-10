@@ -117,7 +117,7 @@ visible = false
 exclusive = true
 main_editor = NodePath("..")
 
-[node name="CreateNodePopup" type="Window" parent="MainEditor" node_paths=PackedStringArray("main_editor", "_reload_node_tree_button", "_create_node_panel")]
+[node name="CreateNodePopup" type="Window" parent="MainEditor" node_paths=PackedStringArray("main_editor", "create_node_tree", "_create_node_panel", "tool_popup")]
 unique_name_in_owner = true
 oversampling_override = 1.0
 title = "Create Node"
@@ -130,8 +130,9 @@ extend_to_title = true
 keep_title_visible = true
 script = ExtResource("5_nbnm7")
 main_editor = NodePath("..")
-_reload_node_tree_button = NodePath("MainContentContainer/VBox/SearchContainer/ReloadNodeTreeButton")
+create_node_tree = NodePath("MainContentContainer/VBox/CreateNodeTree")
 _create_node_panel = NodePath("BackgroundContainer/CreateNodePanel")
+tool_popup = NodePath("MainContentContainer/VBox/SearchContainer/ToolButton/ToolPopup")
 
 [node name="BackgroundContainer" type="MarginContainer" parent="MainEditor/CreateNodePopup"]
 anchors_preset = 15
@@ -182,24 +183,20 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 focus_mode = 0
-flat = true
+theme_type_variation = &"FlatButton"
 icon_alignment = 1
 
 [node name="ToolPopup" type="PopupMenu" parent="MainEditor/CreateNodePopup/MainContentContainer/VBox/SearchContainer/ToolButton"]
-unique_name_in_owner = true
 oversampling_override = 1.0
 position = Vector2i(255, 80)
 size = Vector2i(108, 62)
-item_count = 2
+item_count = 3
 item_0/text = "Expand all"
 item_0/id = 0
 item_1/text = "Collapse all"
 item_1/id = 1
-
-[node name="ReloadNodeTreeButton" type="Button" parent="MainEditor/CreateNodePopup/MainContentContainer/VBox/SearchContainer"]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-flat = true
+item_2/text = "Reload tree"
+item_2/id = 2
 
 [node name="CreateNodeTree" type="Tree" parent="MainEditor/CreateNodePopup/MainContentContainer/VBox" node_paths=PackedStringArray("main_editor", "description_label")]
 unique_name_in_owner = true
@@ -297,7 +294,6 @@ graph_edit = NodePath("../GraphEdit")
 [connection signal="text_submitted" from="MainEditor/CreateNodePopup/MainContentContainer/VBox/SearchContainer/SearchBar" to="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_search_bar_text_submitted"]
 [connection signal="pressed" from="MainEditor/CreateNodePopup/MainContentContainer/VBox/SearchContainer/ToolButton" to="MainEditor/CreateNodePopup" method="_on_tool_button_pressed"]
 [connection signal="id_pressed" from="MainEditor/CreateNodePopup/MainContentContainer/VBox/SearchContainer/ToolButton/ToolPopup" to="MainEditor/CreateNodePopup" method="_on_tool_popup_id_pressed"]
-[connection signal="pressed" from="MainEditor/CreateNodePopup/MainContentContainer/VBox/SearchContainer/ReloadNodeTreeButton" to="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_reload_node_tree_button_pressed"]
 [connection signal="item_activated" from="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" to="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_item_activated"]
 [connection signal="item_selected" from="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" to="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_item_selected"]
 [connection signal="nothing_selected" from="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" to="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_nothing_selected"]

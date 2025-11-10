@@ -3,13 +3,12 @@ class_name GaeaPopupCreateNode
 extends Window
 
 @export var main_editor: GaeaMainEditor
-@export var _reload_node_tree_button: Button
+@export var create_node_tree: GaeaCreateNodeTree
 @export var _create_node_panel: Panel
+@export var tool_popup: PopupMenu
 
 @onready var cancel_button: Button = %CancelButton
 @onready var tool_button: Button = %ToolButton
-@onready var tool_popup: PopupMenu = %ToolPopup
-@onready var create_node_tree: Tree = %CreateNodeTree
 @onready var description_label: RichTextLabel = %DescriptionLabel
 @onready var search_bar: LineEdit = %SearchBar
 
@@ -19,10 +18,12 @@ func _ready() -> void:
 	if is_part_of_edited_scene():
 		return
 
-	_reload_node_tree_button.icon = preload("uid://crs5x6wghxmmb")
 	close_requested.connect(hide)
 	cancel_button.pressed.connect(close_requested.emit)
 	tool_button.icon = EditorInterface.get_base_control().get_theme_icon(&"Tools", &"EditorIcons")
+	tool_popup.set_item_icon(0, EditorInterface.get_base_control().get_theme_icon(&"GuiTreeArrowDown", &"EditorIcons"))
+	tool_popup.set_item_icon(1, EditorInterface.get_base_control().get_theme_icon(&"GuiTreeArrowRight", &"EditorIcons"))
+	tool_popup.set_item_icon(2, preload("uid://crs5x6wghxmmb"))
 	description_label.set_text("")
 
 	_create_node_panel.add_theme_stylebox_override(
@@ -48,6 +49,8 @@ func _on_tool_popup_id_pressed(id: int) -> void:
 		1:
 			root.set_collapsed_recursive(true)
 			root.set_collapsed(false)
+		2:
+			create_node_tree.populate()
 
 
 func filter_to_connect_type(type: GaeaValue.Type, is_left: bool) -> void:

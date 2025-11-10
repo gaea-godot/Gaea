@@ -38,28 +38,29 @@ func _ready() -> void:
 	var container := get_menu_hbox()
 	var panel: PanelContainer = container.get_parent()
 	panel.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
-	panel.offset_left = 12.0
-	panel.offset_top = 12.0
+	panel.offset_left = 10.0
+	panel.offset_top = 10.0
 	panel.offset_right = -12.0
 
 	var add_node_button = Button.new()
 	add_node_button.text = "Add Node..."
+	add_node_button.theme_type_variation = &"FlatButton"
 	add_node_button.pressed.connect(main_editor.popup_create_node_request.emit)
 	container.add_child(add_node_button)
 	container.move_child(add_node_button, 0)
-
 
 	container.add_spacer(false)
 
 	var online_docs_button = Button.new()
 	online_docs_button.text = "Online Docs"
+	online_docs_button.theme_type_variation = &"FlatButton"
 	online_docs_button.icon = EditorInterface.get_base_control().get_theme_icon(&"ExternalLink", &"EditorIcons")
 	online_docs_button.pressed.connect(_on_online_docs_button_pressed)
 	container.add_child(online_docs_button)
 
-
 	var about_button = Button.new()
 	about_button.text = "About..."
+	about_button.theme_type_variation = &"FlatButton"
 	about_button.icon = EditorInterface.get_base_control().get_theme_icon(&"NodeInfo", &"EditorIcons")
 	about_button.pressed.connect(main_editor.about_popup_request.emit)
 	container.add_child(about_button)
@@ -68,6 +69,7 @@ func _ready() -> void:
 	container.add_child(_window_popout_separator)
 
 	_window_popout_button = Button.new()
+	_window_popout_button.theme_type_variation = &"FlatButton"
 	_window_popout_button.icon = EditorInterface.get_base_control().get_theme_icon(&"MakeFloating", &"EditorIcons")
 	_window_popout_button.pressed.connect(main_editor.panel_popout_request.emit)
 	container.add_child(_window_popout_button)
