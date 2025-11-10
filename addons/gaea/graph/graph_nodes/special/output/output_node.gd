@@ -23,7 +23,7 @@ func _on_added() -> void:
 
 
 func update_slots() -> void:
-	var layer_count: int = _graph_edit.graph.layers.size()
+	var layer_count: int = graph_edit.graph.layers.size()
 	resource.notify_argument_list_changed()
 	for idx in layer_count:
 		_connect_layer_resource_signal(idx)
@@ -32,7 +32,7 @@ func update_slots() -> void:
 
 
 func _connect_layer_resource_signal(idx: int):
-	var layer: GaeaLayer = _graph_edit.graph.layers[idx]
+	var layer: GaeaLayer = graph_edit.graph.layers[idx]
 	if not layer or not is_instance_valid(layer):
 		return
 

@@ -93,14 +93,14 @@ func update() -> void:
 
 	var data: GaeaValue.GridType = node.resource.traverse(
 		selected_output,
-		node._graph_edit.graph,
+		node.graph_edit.graph,
 		generation_settings
 	).get("value")
 
 	if not is_instance_valid(data):
 		texture = null
 
-	node._graph_edit.graph.cache.clear()
+	node.graph_edit.graph.cache.clear()
 
 	var sim_center:Vector3i = sim_size / 2
 	var res_center:Vector3i = Vector3i(resolution.x, resolution.y, 0) / 2

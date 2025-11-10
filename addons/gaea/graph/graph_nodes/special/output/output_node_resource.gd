@@ -18,7 +18,7 @@ func _get_title() -> String:
 func _get_arguments_list() -> Array[StringName]:
 	if not is_instance_valid(node) or not node is GaeaGraphNode:
 		return []
-	var graph: GaeaGraph = (node as GaeaGraphNode)._graph_edit.graph
+	var graph: GaeaGraph = (node as GaeaGraphNode).graph_edit.graph
 
 	var layers: Array[StringName]
 	if node is GaeaGraphNode:
@@ -35,7 +35,7 @@ func _get_argument_type(_arg_name: StringName) -> GaeaValue.Type:
 func _get_argument_display_name(arg_name: StringName) -> String:
 	if not is_instance_valid(node) or not node is GaeaGraphNode:
 		return ""
-	var graph: GaeaGraph = (node as GaeaGraphNode)._graph_edit.graph
+	var graph: GaeaGraph = (node as GaeaGraphNode).graph_edit.graph
 
 	var idx: int = int(arg_name)
 	if graph.layers.size() < idx:

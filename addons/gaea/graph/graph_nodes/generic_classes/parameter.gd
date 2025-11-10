@@ -66,7 +66,7 @@ func _get_argument_default_value(_arg_name: StringName) -> Variant:
 func _get_available_name(from: String) -> String:
 	if not is_instance_valid(node) or not node is GaeaGraphNode:
 		return from
-	var graph: GaeaGraph = (node as GaeaGraphNode)._graph_edit.graph
+	var graph: GaeaGraph = (node as GaeaGraphNode).graph_edit.graph
 
 	from = from.rstrip("1234567890")
 	var available_name: String = from

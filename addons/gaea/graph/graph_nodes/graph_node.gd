@@ -21,7 +21,7 @@ const PreviewTexture = preload("uid://dns7s4v8lom4t")
 var connections: Array[Dictionary]
 
 ## Reference to the parent GaeaGraphEdit
-var _graph_edit: GaeaGraphEdit
+var graph_edit: GaeaGraphEdit
 
 var _preview: PreviewTexture
 var _preview_container: VBoxContainer
@@ -40,7 +40,7 @@ static var _titlebar_styleboxes: Dictionary[GaeaValue.Type, Dictionary]
 
 
 func _ready() -> void:
-	_graph_edit = get_parent()
+	graph_edit = get_parent()
 	_on_added()
 
 	if is_instance_valid(resource):
@@ -90,7 +90,7 @@ func _on_added() -> void:
 	title = resource.get_title()
 	if resource.salt == 0:
 		resource.salt = randi()
-		_graph_edit.graph.set_node_salt(resource.id, resource.salt)
+		graph_edit.graph.set_node_salt(resource.id, resource.salt)
 
 
 func _rebuild() -> void:
@@ -104,7 +104,7 @@ func _rebuild() -> void:
 
 	var saved_data := {}
 	if _finished_loading:
-		saved_data = _graph_edit.graph.get_node_data(resource.id)
+		saved_data = graph_edit.graph.get_node_data(resource.id)
 		resource.enum_selections = saved_data.get("enums", [])
 	_editors.clear()
 
@@ -169,7 +169,7 @@ func _add_argument_editor(for_arg: StringName) -> GaeaGraphNodeArgumentEditor:
 
 	if error == ERR_INVALID_DATA:
 		# Saved data was of an invalid type, so we'll just remove it, and reset it to the default value.
-		_graph_edit.graph.remove_node_argument(resource.id, for_arg)
+		graph_edit.graph.remove_node_argument(resource.id, for_arg)
 		resource.arguments.erase(for_arg)
 		node.set_arg_value(resource.get_argument_default_value(for_arg))
 
@@ -294,7 +294,7 @@ func _on_argument_value_changed(
 ) -> void:
 	if _finished_loading:
 		resource.set_argument_value(arg_name, value)
-		_graph_edit.graph.set_node_argument(resource.id, arg_name, value)
+		graph_edit.graph.set_node_argument(resource.id, arg_name, value)
 		if is_instance_valid(_preview):
 			_preview.update()
 
@@ -302,7 +302,7 @@ func _on_argument_value_changed(
 func _on_enum_value_changed(option_idx: int, enum_idx: int, button: OptionButton) -> void:
 	var value := button.get_item_id(option_idx)
 	resource.set_enum_value(enum_idx, value)
-	_graph_edit.graph.set_node_enum(resource.id, enum_idx, value)
+	graph_edit.graph.set_node_enum(resource.id, enum_idx, value)
 	if is_instance_valid(_preview):
 		_preview.update()
 
@@ -422,4 +422,4 @@ func has_finished_rebuilding() -> bool:
 
 
 func _on_dragged(_from: Vector2, to: Vector2) -> void:
-	_graph_edit.graph.set_node_position(resource.id, to)
+	graph_edit.graph.set_node_position(resource.id, to)
