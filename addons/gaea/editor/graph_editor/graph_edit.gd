@@ -44,8 +44,8 @@ func _ready() -> void:
 #region Saving and Loading
 func populate(new_graph: GaeaGraph) -> void:
 	# TMP Until a proper save system
-	if graph != null:
-		ResourceSaver.save(graph)
+	#if graph != null:
+		#ResourceSaver.save(graph)
 	graph = new_graph
 	graph.ensure_initialized()
 	if not graph.layer_count_modified.is_connected(_update_output_node):
@@ -371,6 +371,7 @@ func update_connections() -> void:
 	for node in get_children():
 		if node is GaeaGraphNode:
 			node.connections.clear()
+
 	for connection in get_connection_list():
 		var to_node: GraphNode = get_node(NodePath(connection.to_node))
 		to_node.connections.append(connection)

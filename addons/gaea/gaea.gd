@@ -64,13 +64,7 @@ func _on_selection_changed() -> void:
 	if Engine.is_editor_hint():
 		var selected: Array[Node] = _editor_selection.get_selected_nodes()
 		if selected.size() == 1 and selected.front() is GaeaGenerator:
-			var graph = selected.front().graph
-			_panel_button.show()
-			make_bottom_panel_item_visible(_container)
-			if _panel.graph_edit.graph == graph:
-				return
-			_panel.graph_edit.unpopulate()
-			_panel.graph_edit.populate(selected.front().graph)
+			_edit(selected.front().graph)
 
 
 # TMP Until a proper save system
@@ -84,5 +78,4 @@ func _edit(object: Object) -> void:
 		make_bottom_panel_item_visible(_container)
 		if _panel.graph_edit.graph == object:
 			return
-		_panel.graph_edit.unpopulate()
-		_panel.graph_edit.populate(object)
+		_panel.file_list.open_file(object)

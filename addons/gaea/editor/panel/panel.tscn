@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://dngytsjlmkfg7"]
+[gd_scene load_steps=11 format=3 uid="uid://dngytsjlmkfg7"]
 
 [ext_resource type="Script" uid="uid://dpbmowgfmnxe5" path="res://addons/gaea/editor/panel/panel.gd" id="1_afcqa"]
 [ext_resource type="Script" uid="uid://bedt1m4gyyvyv" path="res://addons/gaea/editor/graph_editor/graph_edit.gd" id="2_cdav6"]
+[ext_resource type="Script" uid="uid://ctfjsy2vf381s" path="res://addons/gaea/editor/panel/file_tree.gd" id="2_m8s6t"]
 [ext_resource type="Script" uid="uid://coi2pynbl5ehe" path="res://addons/gaea/editor/graph_editor/create_node_tree.gd" id="2_vpeaa"]
 [ext_resource type="Script" uid="uid://yi4fevtlrk41" path="res://addons/gaea/editor/graph_editor/main_editor.gd" id="4_gbl2m"]
 [ext_resource type="Script" uid="uid://bybvolyg1u0v4" path="res://addons/gaea/editor/graph_editor/node_context_menu.gd" id="4_vtsfx"]
@@ -11,7 +12,7 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dhpru"]
 
-[node name="GaeaPanel" type="HSplitContainer" node_paths=PackedStringArray("main_editor", "graph_edit")]
+[node name="GaeaPanel" type="HSplitContainer" node_paths=PackedStringArray("main_editor", "graph_edit", "file_list")]
 custom_minimum_size = Vector2(0, 256)
 anchors_preset = 15
 anchor_right = 1.0
@@ -21,16 +22,18 @@ grow_vertical = 2
 script = ExtResource("1_afcqa")
 main_editor = NodePath("MainEditor")
 graph_edit = NodePath("MainEditor/GraphEdit")
+file_list = NodePath("FileSystemContainer/FileList")
 
 [node name="FileSystemContainer" type="VBoxContainer" parent="."]
-visible = false
 clip_contents = true
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="FileSystemContainer"]
+[node name="FileList" type="ItemList" parent="FileSystemContainer" node_paths=PackedStringArray("graph_edit")]
 layout_mode = 2
-text = "File system placeholder"
+size_flags_vertical = 3
+script = ExtResource("2_m8s6t")
+graph_edit = NodePath("../../MainEditor/GraphEdit")
 
 [node name="MainEditor" type="Control" parent="." node_paths=PackedStringArray("gaea_panel", "graph_edit", "about_window", "no_data", "create_node_popup", "node_context_menu", "link_context_menu")]
 layout_mode = 2
