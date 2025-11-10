@@ -21,9 +21,6 @@ func _ready() -> void:
 	close_requested.connect(hide)
 	cancel_button.pressed.connect(close_requested.emit)
 	tool_button.icon = EditorInterface.get_base_control().get_theme_icon(&"Tools", &"EditorIcons")
-	tool_popup.set_item_icon(0, EditorInterface.get_base_control().get_theme_icon(&"GuiTreeArrowDown", &"EditorIcons"))
-	tool_popup.set_item_icon(1, EditorInterface.get_base_control().get_theme_icon(&"GuiTreeArrowRight", &"EditorIcons"))
-	tool_popup.set_item_icon(2, preload("uid://crs5x6wghxmmb"))
 	description_label.set_text("")
 
 	_create_node_panel.add_theme_stylebox_override(

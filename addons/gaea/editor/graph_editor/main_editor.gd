@@ -27,7 +27,6 @@ signal new_reroute_requested(connection: Dictionary)
 @export var link_context_menu: GaeaPopupLinkContextMenu
 
 
-
 ## Local position on [GraphEdit] for a node that may be created in the future.
 var node_creation_target: Vector2 = Vector2.ZERO
 var created_node_connect_to: GaeaGraphNode = null
@@ -73,18 +72,6 @@ static func _clamp_popup_in_rect(popup: Window, window_rect: Rect2i) -> void:
 		popup.position.y = window_rect.position.y + window_rect.size.y - inner_rect.size.y
 
 
-
-
+# TMP Until a proper save system
 func _on_new_data_button_pressed() -> void:
 	pass
-	#graph = GaeaGraph.new()
-
-
-func _on_test_button_pressed() -> void:
-	#var graph = load("uid://dowa1yikrbcdj").duplicate(true)
-	var graph = load("uid://3ogbw502hfvu")
-
-	if graph.resource_local_to_scene:
-		graph._setup_local_to_scene()
-	graph_edit.unpopulate()
-	graph_edit.populate(graph)

@@ -76,16 +76,20 @@ func update() -> void:
 	var resolution: Vector2i = Vector2i(preview_resolution, preview_resolution)
 	var preview_max_sim: int = GaeaEditorSettings.get_preview_max_simulation_size()
 	var sim_size:Vector3
-	match (node.resource._get_preview_simulation_size()):
-		GaeaNodeResource.SimSize.WORLD:
-			sim_size = Vector3(resolution.x * 3, resolution.y * 3, 1).min(Vector3.ONE * preview_max_sim)
-		_: # GaeaNodeReousrce.SimSize.Preview is the default
-			sim_size = Vector3(resolution.x, resolution.y, 1)
+	#match (node.resource._get_preview_simulation_size()):
+	#	GaeaNodeResource.SimSize.WORLD:
+	#		sim_size = Vector3(resolution.x * 2, resolution.y * 2, 1).min(Vector3(preview_max_sim, preview_max_sim, preview_max_sim))
+	#	_: # GaeaNodeReousrce.SimSize.Preview is the default
+	#		sim_size = Vector3(resolution.x, resolution.y, 1)
+	sim_size = Vector3(resolution.x, resolution.y, 1).min(Vector3(preview_max_sim, preview_max_sim, preview_max_sim))
 
 	var generation_settings = GaeaGenerationSettings.new()
 	generation_settings.area = AABB(Vector3.ZERO, sim_size)
 	generation_settings.world_size = sim_size
-	generation_settings.cell_size = Vector3i((sim_size * 0.5).ceil())
+	generation_settings.cell_size = sim_size
+	# TMP until we have a proper seed management
+	generation_settings.random_seed_on_generate = false
+	generation_settings.seed = 123456
 
 	var data: GaeaValue.GridType = node.resource.traverse(
 		selected_output,
