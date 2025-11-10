@@ -10,6 +10,7 @@ signal popup_create_node_and_connect_node_request(node: GaeaGraphNode, type: Gae
 
 signal popup_node_context_menu_at_mouse_request(selected_nodes: Array)
 signal popup_link_context_menu_at_mouse_request(connection: Dictionary)
+signal panel_popout_request()
 
 signal node_selected_for_creation(resource: GaeaNodeResource)
 signal special_node_selected_for_creation(id: StringName)
@@ -56,9 +57,18 @@ func _ready() -> void:
 #endregion
 
 
+## Move a [param popup] windows at the current mouse position and clamp it inside the main windows
+func move_popup_at_mouse(popup: Window) -> void:
+	if EditorInterface.get_editor_settings().get_setting("interface/editor/single_window_mode"):
+		popup.position = get_viewport().get_mouse_position()
+		_clamp_popup_in_rect(popup, get_viewport().get_visible_rect())
+	else:
+		popup.position = DisplayServer.mouse_get_position()
+		var window = get_window()
+		_clamp_popup_in_rect(popup, Rect2i(window.position, window.size))
 
-static func clamp_popup_in_window(popup: Window, main_window: Window) -> void:
-	var window_rect = Rect2i(main_window.position, main_window.size)
+
+static func _clamp_popup_in_rect(popup: Window, window_rect: Rect2i) -> void:
 	var inner_rect = Rect2i(popup.position, popup.size)
 	if inner_rect.position.x < window_rect.position.x:
 		popup.position.x = window_rect.position.x

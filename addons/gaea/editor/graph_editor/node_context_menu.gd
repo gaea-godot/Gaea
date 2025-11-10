@@ -80,6 +80,7 @@ func populate(selected: Array) -> void:
 			var parameter: Dictionary = data.get_parameter_dictionary(node.get_arg_value("name"))
 			if parameter.get("value") is Resource:
 				add_separator()
+				#TODO FIX
 				add_item("Open In Inspector", Action.OPEN_IN_INSPECTOR)
 
 
@@ -145,8 +146,5 @@ func _on_popup_node_context_menu_at_mouse_request(selected_nodes: Array) -> void
 	main_editor.node_creation_target = main_editor.get_local_mouse_position()
 	clear()
 	populate(selected_nodes)
-	position = DisplayServer.mouse_get_position()
-	# TODO remove ?
-	#if not EditorInterface.get_editor_settings().get_setting("interface/editor/single_window_mode"):
-	#	position += get_window().position
+	main_editor.move_popup_at_mouse(self)
 	popup()

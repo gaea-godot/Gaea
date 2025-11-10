@@ -6,9 +6,8 @@ const LinkPopup = preload("uid://btt4eqjkp5pyf")
 
 var plugin: GaeaEditorPlugin
 
-@onready var graph_edit: GaeaGraphEdit = %GraphEdit
-
-
+@export var main_editor: GaeaMainEditor
+@export var graph_edit: GaeaGraphEdit
 
 #region Built-in & Input
 static func instantiate() -> Node:
@@ -19,7 +18,7 @@ func _ready() -> void:
 	if is_part_of_edited_scene():
 		return
 
-	graph_edit.panel_popout_request.connect(_on_panel_popout_request)
+	main_editor.panel_popout_request.connect(_on_panel_popout_request)
 
 	#_reload_node_tree_button.icon = preload("uid://crs5x6wghxmmb")
 	#_reload_parameters_list_button.icon = preload("uid://cwg7oy4i2cbwq")
@@ -44,30 +43,9 @@ func _ready() -> void:
 
 
 
-func _on_reload_parameters_list_button_pressed() -> void:
-	if false:
-		return
-
-	var existing_parameters: Array[String]
-	for node in graph_edit.get_children():
-		if node is not GaeaGraphNode:
-			continue
-
-		if node.resource is GaeaNodeParameter:
-			existing_parameters.append(node.get_arg_value("name"))
-
-
-	#for param in _selected_generator.data.get_parameter_list().keys():
-	#	if param in existing_parameters:
-	#		continue
-
-	#	_selected_generator.data.remove_parameter(param)
-	#_selected_generator.notify_property_list_changed()
-
-
-
 #region Popout Panel Window
 func _on_panel_popout_request() -> void:
+	graph_edit.set_window_popout_button_visible(false)
 	var window: Window = Window.new()
 	window.min_size = get_combined_minimum_size()
 	window.size = size
@@ -99,13 +77,10 @@ func _on_panel_popout_request() -> void:
 
 	EditorInterface.get_base_control().add_child(window)
 	window.popup()
-	#_window_popout_button.hide()
-	#_window_popout_separator.hide()
 
 
 func _on_window_close_requested(original_parent: Control, window: Window) -> void:
+	graph_edit.set_window_popout_button_visible(true)
 	reparent(original_parent, false)
 	window.queue_free()
-	#_window_popout_button.show()
-	#_window_popout_separator.show()
 #endregion

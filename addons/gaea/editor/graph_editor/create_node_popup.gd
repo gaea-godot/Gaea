@@ -3,6 +3,8 @@ class_name GaeaPopupCreateNode
 extends Window
 
 @export var main_editor: GaeaMainEditor
+@export var _reload_node_tree_button: Button
+
 
 @onready var cancel_button: Button = %CancelButton
 @onready var tool_button: Button = %ToolButton
@@ -16,6 +18,8 @@ extends Window
 func _ready() -> void:
 	if is_part_of_edited_scene():
 		return
+
+	_reload_node_tree_button.icon = preload("uid://crs5x6wghxmmb")
 	close_requested.connect(hide)
 	cancel_button.pressed.connect(close_requested.emit)
 	tool_button.icon = EditorInterface.get_base_control().get_theme_icon(&"Tools", &"EditorIcons")
@@ -52,10 +56,7 @@ func filter_to_connect_type(type: GaeaValue.Type, is_left: bool) -> void:
 
 
 func _on_popup_create_node_request() -> void:
-	position = DisplayServer.mouse_get_position()
-	#if not EditorInterface.get_editor_settings().get_setting("interface/editor/single_window_mode"):
-	#	position += get_window().position
-	#TODO GaeaMainEditor.clamp_popup_in_window(get_window())
+	main_editor.move_popup_at_mouse(self)
 	create_node_tree.remove_filter(&"type")
 	create_node_tree.apply_filters(false)
 	popup()

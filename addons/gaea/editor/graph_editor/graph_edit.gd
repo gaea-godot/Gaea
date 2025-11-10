@@ -7,6 +7,8 @@ var attached_elements: Dictionary
 @export var main_editor: GaeaMainEditor
 @export var bottom_note_label: RichTextLabel
 
+var _window_popout_separator: VSeparator
+var _window_popout_button: Button
 
 ## Currently edited resource
 var graph: GaeaGraph
@@ -29,6 +31,7 @@ func _init() -> void:
 func _ready() -> void:
 	if is_part_of_edited_scene():
 		return
+
 	add_theme_color_override(&"connection_rim_color", Color("141414"))
 	EditorInterface.get_script_editor().editor_script_changed.connect(_on_editor_script_changed)
 
@@ -61,12 +64,17 @@ func _ready() -> void:
 	about_button.pressed.connect(main_editor.about_popup_request.emit)
 	container.add_child(about_button)
 
-	container.add_child(VSeparator.new())
+	_window_popout_separator = VSeparator.new()
+	container.add_child(_window_popout_separator)
 
-	var window_popout_button = Button.new()
-	window_popout_button.icon = EditorInterface.get_base_control().get_theme_icon(&"MakeFloating", &"EditorIcons")
-	#window_popout_button.pressed.connect(main_editor.window_popout_popup_request.emit)
-	container.add_child(window_popout_button)
+	_window_popout_button = Button.new()
+	_window_popout_button.icon = EditorInterface.get_base_control().get_theme_icon(&"MakeFloating", &"EditorIcons")
+	_window_popout_button.pressed.connect(main_editor.panel_popout_request.emit)
+	container.add_child(_window_popout_button)
+
+	if not EditorInterface.is_multi_window_enabled():
+		_window_popout_button.disabled = true
+		_window_popout_button.tooltip_text = _get_multiwindow_support_tooltip_text()
 
 
 #region Saving and Loading
@@ -95,6 +103,10 @@ func _on_online_docs_button_pressed() -> void:
 	OS.shell_open("https://gaea-docs.readthedocs.io/")
 
 
+@warning_ignore("shadowed_variable_base_class")
+func set_window_popout_button_visible(visible: bool) -> void:
+	_window_popout_button.visible = visible
+	_window_popout_separator.visible = visible
 
 func _add_node(resource: GaeaNodeResource, local_grid_position: Vector2) -> GraphNode:
 	var id := graph.add_node(resource, local_grid_position)

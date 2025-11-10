@@ -1,31 +1,17 @@
-[gd_scene load_steps=14 format=3 uid="uid://dngytsjlmkfg7"]
+[gd_scene load_steps=10 format=3 uid="uid://dngytsjlmkfg7"]
 
 [ext_resource type="Script" uid="uid://dpbmowgfmnxe5" path="res://addons/gaea/editor/panel/panel.gd" id="1_afcqa"]
-[ext_resource type="Texture2D" uid="uid://crs5x6wghxmmb" path="res://addons/gaea/assets/reload_tree.svg" id="2_4udwk"]
 [ext_resource type="Script" uid="uid://bedt1m4gyyvyv" path="res://addons/gaea/editor/graph_editor/graph_edit.gd" id="2_cdav6"]
 [ext_resource type="Script" uid="uid://coi2pynbl5ehe" path="res://addons/gaea/editor/graph_editor/create_node_tree.gd" id="2_vpeaa"]
-[ext_resource type="Texture2D" uid="uid://cwg7oy4i2cbwq" path="res://addons/gaea/assets/reload_variables_list.svg" id="3_dhpru"]
 [ext_resource type="Script" uid="uid://yi4fevtlrk41" path="res://addons/gaea/editor/graph_editor/main_editor.gd" id="4_gbl2m"]
 [ext_resource type="Script" uid="uid://bybvolyg1u0v4" path="res://addons/gaea/editor/graph_editor/node_context_menu.gd" id="4_vtsfx"]
 [ext_resource type="Script" uid="uid://cqd2rkam5cs3d" path="res://addons/gaea/editor/graph_editor/create_node_popup.gd" id="5_nbnm7"]
 [ext_resource type="Script" uid="uid://btt4eqjkp5pyf" path="res://addons/gaea/editor/graph_editor/link_context_menu.gd" id="7_dhpru"]
 [ext_resource type="PackedScene" uid="uid://dcec3sivqmbjf" path="res://addons/gaea/editor/panel/about_window.tscn" id="9_affj1"]
 
-[sub_resource type="Image" id="Image_gbl2m"]
-data = {
-"data": PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 224, 224, 224, 114, 224, 224, 224, 243, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 242, 224, 224, 224, 112, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 224, 224, 224, 243, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 242, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 0, 0, 0, 0, 0, 0, 0, 0, 145, 145, 145, 116, 145, 145, 145, 243, 145, 145, 145, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 0, 0, 0, 0, 0, 0, 0, 0, 145, 145, 145, 243, 145, 145, 145, 255, 145, 145, 145, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 0, 0, 0, 0, 0, 0, 0, 0, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 0, 0, 0, 0, 0, 0, 0, 0, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 0, 0, 0, 0, 0, 0, 0, 0, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 219, 219, 219, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 241, 0, 0, 0, 0, 0, 0, 0, 0, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 179, 179, 179, 255, 219, 219, 219, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 241, 225, 225, 225, 109, 0, 0, 0, 0, 0, 0, 0, 0, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 145, 145, 145, 243, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 243, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 144, 144, 144, 115, 145, 145, 145, 243, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 255, 145, 145, 145, 243, 144, 144, 144, 113, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-"format": "RGBA8",
-"height": 16,
-"mipmaps": false,
-"width": 16
-}
-
-[sub_resource type="ImageTexture" id="ImageTexture_k2fg6"]
-image = SubResource("Image_gbl2m")
-
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dhpru"]
 
-[node name="GaeaPanel" type="HSplitContainer"]
+[node name="GaeaPanel" type="HSplitContainer" node_paths=PackedStringArray("main_editor", "graph_edit")]
 custom_minimum_size = Vector2(0, 256)
 anchors_preset = 15
 anchor_right = 1.0
@@ -33,63 +19,13 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_afcqa")
+main_editor = NodePath("MainEditor")
+graph_edit = NodePath("MainEditor/GraphEdit")
 
 [node name="FileSystemContainer" type="VBoxContainer" parent="."]
 clip_contents = true
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
-
-[node name="Topbar" type="HBoxContainer" parent="FileSystemContainer"]
-clip_contents = true
-custom_minimum_size = Vector2(0, 32)
-layout_mode = 2
-
-[node name="ReloadNodeTreeButton" type="Button" parent="FileSystemContainer/Topbar"]
-unique_name_in_owner = true
-layout_mode = 2
-tooltip_text = "Reload create node list."
-icon = ExtResource("2_4udwk")
-flat = true
-
-[node name="ReloadParametersListButton" type="Button" parent="FileSystemContainer/Topbar"]
-unique_name_in_owner = true
-layout_mode = 2
-tooltip_text = "Reload parameters list.
-(Sometimes some parameters aren't deleted properly, this helps remove those)"
-icon = ExtResource("3_dhpru")
-flat = true
-
-[node name="MarginContainer" type="MarginContainer" parent="FileSystemContainer/Topbar"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="OnlineDocsButton" type="Button" parent="FileSystemContainer/Topbar"]
-unique_name_in_owner = true
-layout_mode = 2
-tooltip_text = "Open Gaea online documentation."
-focus_mode = 0
-text = "Online Docs"
-flat = true
-
-[node name="AboutButton" type="Button" parent="FileSystemContainer/Topbar"]
-unique_name_in_owner = true
-layout_mode = 2
-tooltip_text = "See information about your Gaea version."
-focus_mode = 0
-text = "About..."
-flat = true
-
-[node name="WindowPopoutSeparator" type="VSeparator" parent="FileSystemContainer/Topbar"]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="WindowPopoutButton" type="Button" parent="FileSystemContainer/Topbar"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 8
-tooltip_text = "Make the Gaea editor floating."
-icon = SubResource("ImageTexture_k2fg6")
-flat = true
 
 [node name="Label" type="Label" parent="FileSystemContainer"]
 layout_mode = 2
@@ -180,8 +116,9 @@ visible = false
 exclusive = true
 main_editor = NodePath("..")
 
-[node name="CreateNodePopup" type="Window" parent="MainEditor" node_paths=PackedStringArray("main_editor")]
+[node name="CreateNodePopup" type="Window" parent="MainEditor" node_paths=PackedStringArray("main_editor", "_reload_node_tree_button")]
 unique_name_in_owner = true
+oversampling_override = 1.0
 title = "Create Node"
 position = Vector2i(0, 36)
 size = Vector2i(300, 450)
@@ -192,6 +129,7 @@ extend_to_title = true
 keep_title_visible = true
 script = ExtResource("5_nbnm7")
 main_editor = NodePath("..")
+_reload_node_tree_button = NodePath("MainContentContainer/VBox/SearchContainer/ReloadNodeTreeButton")
 
 [node name="BackgroundContainer" type="MarginContainer" parent="MainEditor/CreateNodePopup"]
 anchors_preset = 15
@@ -247,6 +185,7 @@ icon_alignment = 1
 
 [node name="ToolPopup" type="PopupMenu" parent="MainEditor/CreateNodePopup/MainContentContainer/VBox/SearchContainer/ToolButton"]
 unique_name_in_owner = true
+oversampling_override = 1.0
 position = Vector2i(255, 80)
 size = Vector2i(108, 62)
 item_count = 2
@@ -254,6 +193,9 @@ item_0/text = "Expand all"
 item_0/id = 0
 item_1/text = "Collapse all"
 item_1/id = 1
+
+[node name="ReloadNodeTreeButton" type="Button" parent="MainEditor/CreateNodePopup/MainContentContainer/VBox/SearchContainer"]
+layout_mode = 2
 
 [node name="CreateNodeTree" type="Tree" parent="MainEditor/CreateNodePopup/MainContentContainer/VBox" node_paths=PackedStringArray("main_editor", "description_label")]
 unique_name_in_owner = true
@@ -329,10 +271,6 @@ script = ExtResource("7_dhpru")
 main_editor = NodePath("..")
 graph_edit = NodePath("../GraphEdit")
 
-[connection signal="pressed" from="FileSystemContainer/Topbar/ReloadNodeTreeButton" to="." method="_on_reload_node_tree_button_pressed"]
-[connection signal="pressed" from="FileSystemContainer/Topbar/ReloadParametersListButton" to="." method="_on_reload_parameters_list_button_pressed"]
-[connection signal="pressed" from="FileSystemContainer/Topbar/OnlineDocsButton" to="." method="_on_online_docs_button_pressed"]
-[connection signal="pressed" from="FileSystemContainer/Topbar/WindowPopoutButton" to="." method="_on_window_popout_button_pressed"]
 [connection signal="pressed" from="FileSystemContainer/TestButton" to="MainEditor" method="_on_test_button_pressed"]
 [connection signal="about_popup_request" from="MainEditor" to="MainEditor/AboutWindow" method="_on_main_editor_about_popup_request"]
 [connection signal="node_selected_for_creation" from="MainEditor" to="MainEditor/GraphEdit" method="_on_main_editor_node_selected_for_creation"]
@@ -355,6 +293,7 @@ graph_edit = NodePath("../GraphEdit")
 [connection signal="text_submitted" from="MainEditor/CreateNodePopup/MainContentContainer/VBox/SearchContainer/SearchBar" to="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_search_bar_text_submitted"]
 [connection signal="pressed" from="MainEditor/CreateNodePopup/MainContentContainer/VBox/SearchContainer/ToolButton" to="MainEditor/CreateNodePopup" method="_on_tool_button_pressed"]
 [connection signal="id_pressed" from="MainEditor/CreateNodePopup/MainContentContainer/VBox/SearchContainer/ToolButton/ToolPopup" to="MainEditor/CreateNodePopup" method="_on_tool_popup_id_pressed"]
+[connection signal="pressed" from="MainEditor/CreateNodePopup/MainContentContainer/VBox/SearchContainer/ReloadNodeTreeButton" to="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_reload_node_tree_button_pressed"]
 [connection signal="item_activated" from="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" to="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_item_activated"]
 [connection signal="item_selected" from="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" to="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_item_selected"]
 [connection signal="nothing_selected" from="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" to="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_nothing_selected"]
