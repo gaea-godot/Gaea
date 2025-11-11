@@ -14,6 +14,10 @@ export_presets.cfg
 data_*/
 mono_crash.*.json
 
+addons/*
+!addons/gaea
+!addons/gaea_screenshotter
+!addons/gaea_gdUnit4
 scenes/test/*
 
 # Editor-specific ignores
