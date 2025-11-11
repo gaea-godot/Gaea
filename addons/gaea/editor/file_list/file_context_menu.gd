@@ -3,6 +3,10 @@ class_name GaeaPopupFileContextMenu
 extends PopupMenu
 
 
+signal close_file_selected(file: GaeaGraph)
+signal close_all_selected
+signal close_others_selected(file: GaeaGraph)
+
 enum Action {
 	SAVE,
 	SAVE_AS,
@@ -15,18 +19,14 @@ enum Action {
 
 var graph: GaeaGraph
 
-var _file_list: GaeaFileList
-
-
 func _ready() -> void:
 	if is_part_of_edited_scene():
 		return
 
-	_file_list = get_parent()
 	clear()
 	add_item("Save File", Action.SAVE)
 	add_item("Save File As...", Action.SAVE_AS)
-	add_item("Close File", Action.CLOSE)
+	add_item("Close", Action.CLOSE)
 	add_item("Close All", Action.CLOSE_ALL)
 	add_item("Close Other", Action.CLOSE_OTHER)
 	add_separator()
@@ -43,11 +43,11 @@ func _on_id_pressed(id: int) -> void:
 		Action.SAVE_AS:
 			pass
 		Action.CLOSE:
-			_file_list.close_file(graph)
+			close_file_selected.emit(graph)
 		Action.CLOSE_ALL:
-			_file_list.close_all()
+			close_all_selected.emit()
 		Action.CLOSE_OTHER:
-			_file_list.close_others(graph)
+			close_others_selected.emit(graph)
 		Action.COPY_PATH:
 			DisplayServer.clipboard_set(graph.resource_path)
 		Action.SHOW_IN_FILESYSTEM:

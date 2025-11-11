@@ -2,6 +2,7 @@
 class_name GaeaPanel
 extends Control
 
+
 @export var main_editor: GaeaMainEditor
 @export var graph_edit: GaeaGraphEdit
 @export var file_list: GaeaFileList

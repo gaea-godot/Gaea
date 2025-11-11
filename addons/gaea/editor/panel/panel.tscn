@@ -1,8 +1,9 @@
-[gd_scene load_steps=12 format=3 uid="uid://dngytsjlmkfg7"]
+[gd_scene load_steps=13 format=3 uid="uid://dngytsjlmkfg7"]
 
 [ext_resource type="Script" uid="uid://dpbmowgfmnxe5" path="res://addons/gaea/editor/panel/panel.gd" id="1_afcqa"]
 [ext_resource type="Script" uid="uid://bedt1m4gyyvyv" path="res://addons/gaea/editor/graph_editor/graph_edit.gd" id="2_cdav6"]
-[ext_resource type="Script" uid="uid://ctfjsy2vf381s" path="res://addons/gaea/editor/file_list/file_tree.gd" id="2_m8s6t"]
+[ext_resource type="Script" uid="uid://baefugcjynjnx" path="res://addons/gaea/editor/file_list/menu_bar.gd" id="2_ce5k6"]
+[ext_resource type="Script" uid="uid://c46nsvak6wb61" path="res://addons/gaea/editor/file_list/file_system_container.gd" id="2_eht7w"]
 [ext_resource type="Script" uid="uid://coi2pynbl5ehe" path="res://addons/gaea/editor/graph_editor/create_node_tree.gd" id="2_vpeaa"]
 [ext_resource type="Script" uid="uid://pu63c0ci8rtv" path="res://addons/gaea/editor/file_list/file_context_menu.gd" id="3_gbl2m"]
 [ext_resource type="Script" uid="uid://yi4fevtlrk41" path="res://addons/gaea/editor/graph_editor/main_editor.gd" id="4_gbl2m"]
@@ -23,20 +24,30 @@ grow_vertical = 2
 script = ExtResource("1_afcqa")
 main_editor = NodePath("MainEditor")
 graph_edit = NodePath("MainEditor/GraphEdit")
-file_list = NodePath("FileSystemContainer/FileList")
+file_list = NodePath("FileSystemContainer")
 
-[node name="FileSystemContainer" type="VBoxContainer" parent="."]
+[node name="FileSystemContainer" type="VBoxContainer" parent="." node_paths=PackedStringArray("graph_edit", "main_editor")]
 clip_contents = true
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
+script = ExtResource("2_eht7w")
+graph_edit = NodePath("../MainEditor/GraphEdit")
+main_editor = NodePath("../MainEditor")
 
-[node name="FileList" type="ItemList" parent="FileSystemContainer" node_paths=PackedStringArray("graph_edit", "main_editor")]
+[node name="MenuBar" type="MenuBar" parent="FileSystemContainer"]
+layout_mode = 2
+flat = true
+script = ExtResource("2_ce5k6")
+
+[node name="File" type="PopupMenu" parent="FileSystemContainer/MenuBar"]
+oversampling_override = 1.0
+
+[node name="RecentFiles" type="PopupMenu" parent="FileSystemContainer/MenuBar/File"]
+
+[node name="FileList" type="ItemList" parent="FileSystemContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 allow_rmb_select = true
-script = ExtResource("2_m8s6t")
-graph_edit = NodePath("../../MainEditor/GraphEdit")
-main_editor = NodePath("../../MainEditor")
 
 [node name="ContextMenu" type="PopupMenu" parent="FileSystemContainer/FileList"]
 script = ExtResource("3_gbl2m")
