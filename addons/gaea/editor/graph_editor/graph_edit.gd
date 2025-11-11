@@ -262,6 +262,7 @@ func get_selected_names() -> Array[StringName]:
 		array.append(node.name)
 	return array
 
+
 func _update_output_node() -> void:
 	if is_instance_valid(_output_node):
 		_output_node.update_slots()
