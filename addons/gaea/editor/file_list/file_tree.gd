@@ -7,7 +7,6 @@ const GRAPH_ICON := preload("res://addons/gaea/assets/graph.svg")
 @export var graph_edit: GaeaGraphEdit
 @export var main_editor: GaeaMainEditor
 
-
 var edited_graphs: Array[GaeaGraph]
 
 @onready var context_menu: PopupMenu = $ContextMenu
@@ -20,11 +19,10 @@ func _ready() -> void:
 	item_selected.connect(_on_item_selected)
 	item_clicked.connect(_on_item_clicked)
 
-	context_menu.add_item("Save File")
-
 
 func open_file(graph: GaeaGraph) -> void:
-	for idx in item_count:
+	if edited_graphs.has(graph):
+		var idx: int = edited_graphs.find(graph)
 		if get_item_metadata(idx) == graph:
 			if not is_selected(idx):
 				select(idx)
@@ -40,16 +38,22 @@ func open_file(graph: GaeaGraph) -> void:
 
 
 func close_file(graph: GaeaGraph) -> void:
-	for idx in item_count:
-		if get_item_metadata(idx) == graph:
-			_remove(idx)
-			return
+	var idx: int = edited_graphs.find(graph)
+	if get_item_metadata(idx) == graph:
+		_remove(idx)
 
 
 func close_all() -> void:
-	for i in item_count:
-		# Removing idx 0 because every time we remove an item its idx changes.
-		_remove(0)
+	for file in edited_graphs.duplicate():
+		close_file(file)
+
+
+func close_others(graph: GaeaGraph) -> void:
+	for file in edited_graphs.duplicate():
+		if file == graph:
+			continue
+
+		close_file(file)
 
 
 

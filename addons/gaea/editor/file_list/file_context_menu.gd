@@ -19,7 +19,11 @@ var graph: GaeaGraph
 
 
 func _ready() -> void:
+	if is_part_of_edited_scene():
+		return
+
 	_file_list = get_parent()
+	clear()
 	add_item("Save File", Action.SAVE)
 	add_item("Save File As...", Action.SAVE_AS)
 	add_item("Close File", Action.CLOSE)
@@ -42,3 +46,10 @@ func _on_id_pressed(id: int) -> void:
 			_file_list.close_file(graph)
 		Action.CLOSE_ALL:
 			_file_list.close_all()
+		Action.CLOSE_OTHER:
+			_file_list.close_others(graph)
+		Action.COPY_PATH:
+			DisplayServer.clipboard_set(graph.resource_path)
+		Action.SHOW_IN_FILESYSTEM:
+			if not graph.is_built_in():
+				EditorInterface.select_file(graph.resource_path)
