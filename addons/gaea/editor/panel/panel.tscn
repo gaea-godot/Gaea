@@ -54,6 +54,7 @@ node_context_menu = NodePath("NodeContextMenu")
 link_context_menu = NodePath("LinkContextMenu")
 
 [node name="GraphEdit" type="GraphEdit" parent="MainEditor" node_paths=PackedStringArray("main_editor", "bottom_note_label")]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

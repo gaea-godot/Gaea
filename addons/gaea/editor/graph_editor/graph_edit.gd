@@ -9,7 +9,13 @@ extends GraphEdit
 var attached_elements: Dictionary
 
 ## Currently edited resource
-var graph: GaeaGraph
+var graph: GaeaGraph :
+	set(value):
+		graph = value
+		if not is_instance_valid(graph):
+			hide()
+		else:
+			show()
 
 ## Buffer used to store copied nodes
 var copy_buffer: GaeaNodesCopy
