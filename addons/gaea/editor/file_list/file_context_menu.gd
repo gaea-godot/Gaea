@@ -13,9 +13,9 @@ enum Action {
 	SHOW_IN_FILESYSTEM
 }
 
+var graph: GaeaGraph
 
 var _file_list: GaeaFileList
-var graph: GaeaGraph
 
 
 func _ready() -> void:
