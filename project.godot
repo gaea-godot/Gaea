@@ -41,6 +41,10 @@ enabled=PackedStringArray("res://addons/gaea/plugin.cfg", "res://addons/gaea_scr
 settings/test/test_lookup_folder="testing"
 ui/toolbar/run_overall=true
 settings/common/update_notification_enabled=false
+hooks/session_hooks=Dictionary[String, bool]({
+"res://addons/gdUnit4/src/core/hooks/GdUnitHtmlReporterTestSessionHook.gd": false,
+"res://addons/gdUnit4/src/core/hooks/GdUnitXMLReporterTestSessionHook.gd": false
+})
 
 [importer_defaults]
 

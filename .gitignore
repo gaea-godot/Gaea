@@ -15,8 +15,6 @@ data_*/
 mono_crash.*.json
 
 scenes/test/*
-reports/*
-!reports/.gdignore
 
 # Editor-specific ignores
 .vscode/*
