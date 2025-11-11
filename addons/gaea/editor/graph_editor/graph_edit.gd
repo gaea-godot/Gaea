@@ -185,6 +185,7 @@ func _instantiate_node(id: int) -> GraphElement:
 	var saved_data := graph.get_node_data(id)
 	if graph.get_node_type(id) == GaeaGraph.NodeType.FRAME:
 		var new_frame: GaeaGraphFrame = GaeaGraphFrame.new()
+		new_frame.graph_edit = self
 		add_child(new_frame)
 		new_frame.load_save_data(saved_data)
 		new_frame.id = id
@@ -202,6 +203,7 @@ func _instantiate_node(id: int) -> GraphElement:
 		node.set_script(resource.get_scene_script())
 
 	if node is GaeaGraphNode:
+		node.graph_edit = self
 		node.remove_invalid_connections_requested.connect(remove_invalid_connections)
 		node.load_save_data.call_deferred(saved_data)
 
@@ -266,8 +268,7 @@ func get_selected_names() -> Array[StringName]:
 func _update_output_node() -> void:
 	if is_instance_valid(_output_node):
 		_output_node.update_slots()
-		await get_tree().process_frame
-		remove_invalid_connections()
+		remove_invalid_connections.call_deferred()
 
 
 func _on_node_selected_for_creation(resource: GaeaNodeResource) -> void:

@@ -23,6 +23,7 @@ func _ready() -> void:
 
 func _capture_resource(resource: GaeaNodeResource) -> void:
 	var node: GaeaGraphNode = resource.get_scene().instantiate()
+	node.graph_edit = graph_edit
 	if resource.get_scene_script() != null:
 		node.set_script(resource.get_scene_script())
 	node.resource = resource
@@ -41,6 +42,7 @@ func _capture_resource(resource: GaeaNodeResource) -> void:
 
 func _capture_frame() -> void:
 	var frame: GaeaGraphFrame = GaeaGraphFrame.new()
+	frame.graph_edit = graph_edit
 	await _take_image(frame, "Frame")
 
 

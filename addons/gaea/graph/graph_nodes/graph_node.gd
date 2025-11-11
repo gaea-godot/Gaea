@@ -40,9 +40,6 @@ static var _titlebar_styleboxes: Dictionary[GaeaValue.Type, Dictionary]
 
 
 func _ready() -> void:
-	var parent_node: Node = get_parent()
-	if parent_node is GraphEdit:
-		graph_edit = parent_node
 	_on_added()
 
 	if is_instance_valid(resource):
@@ -342,8 +339,6 @@ func _is_connected_to(connection: Dictionary, idx: int) -> bool:
 ## Resizes the node to its minimum possible size, and updates wire display accordingly.
 func auto_shrink() -> void:
 	size = get_combined_minimum_size()
-	# This is used to force the wire to redraw at the correct location
-	await get_tree().process_frame
 	for i: int in get_child_count():
 		slot_updated.emit.call_deferred(i)
 
