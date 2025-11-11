@@ -19,7 +19,7 @@ func _ready() -> void:
 		if not dir.dir_exists("node_images"):
 			dir.make_dir("node_images")
 	graph_edit = GaeaGraphEdit.new()
-	graph_edit.populate(GaeaGraph.new())
+	graph_edit.populate(GaeaGraph.create_graph())
 
 func _capture_resource(resource: GaeaNodeResource) -> void:
 	var node: GaeaGraphNode = resource.get_scene().instantiate()

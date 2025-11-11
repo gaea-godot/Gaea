@@ -19,7 +19,6 @@ signal reset_requested
 signal area_erased(area: AABB)
 
 
-
 @warning_ignore("unused_private_class_variable")
 @export_tool_button("Generate", "Play") var _button_generate = generate
 @warning_ignore("unused_private_class_variable")
@@ -30,7 +29,7 @@ signal area_erased(area: AABB)
 @export var graph: GaeaGraph:
 	set(value):
 		graph = value
-		graph._setup_local_to_scene()
+		graph.ensure_initialized()
 		graph_changed.emit()
 
 @export var settings: GaeaGenerationSettings
@@ -65,19 +64,7 @@ func generate() -> void:
 
 ## Generate an [param area] using the graph saved in [member graph].
 func generate_area(area: AABB) -> void:
-	var connections: Array[Dictionary] = graph.get_all_connections()
-	var output_resource: GaeaNodeOutput
-
-	for resource in graph.get_nodes():
-		resource.connections.clear()
-		if resource is GaeaNodeOutput:
-			output_resource = resource
-
-	for idx in connections.size():
-		var connection: Dictionary = connections[idx]
-		var resource: GaeaNodeResource = graph.get_node(connection.to_node)
-		resource.connections.append(connection)
-
+	var output_resource: GaeaNodeOutput = graph.get_output_node()
 	var generation_settings = settings.duplicate_deep(Resource.DEEP_DUPLICATE_ALL)
 	generation_settings.area = area
 	generation_finished.emit.call_deferred(output_resource.execute(graph, generation_settings))

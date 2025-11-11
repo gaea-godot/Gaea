@@ -56,6 +56,7 @@ const CURRENT_SAVE_VERSION := 5
 @export_storage var _parameters: Dictionary[StringName, Variant] :
 	get = get_parameter_list
 
+#region Deprecated
 ## @deprecated: Kept for migration of old save data.
 var connections: Array[Dictionary]
 ## @deprecated: Kept for migration of old save data.
@@ -68,7 +69,10 @@ var node_data: Array[Dictionary]
 var parameters: Dictionary[StringName, Variant]
 ## @deprecated: Kept for migration of old save data.
 var other: Dictionary
+#endregion
 
+## Flag to know if the instance is correctly initialized
+var _initialized: bool = false
 ## The graph's [member GraphEdit.scroll_offset]. Only saved
 ## in the current session.
 var scroll_offset: Vector2 = Vector2(NAN, NAN)
@@ -78,26 +82,58 @@ var zoom: float = 1.0
 ## Cache used during generation to avoid recalculating data unnecessarily.
 ## The inner dictionary keys are the slot output port names, and the values are the cached data.
 var cache: Dictionary[GaeaNodeResource, Dictionary] = {}
-## Used during generation to keep track of node resources.
+## Used during generation to keep track of node resources. GraphFrames are not in this list.
 var _resources: Dictionary[int, GaeaNodeResource]
+## Used during generation to keep track of the output node resource.
+var _output_resource: GaeaNodeOutput
 
 
+## Create a new graph with one output node
+static func create_graph() -> GaeaGraph:
+	var graph = GaeaGraph.new()
+	graph.save_version = CURRENT_SAVE_VERSION
+	graph.add_node(GaeaNodeOutput.new(), Vector2.ZERO)
+	return graph
+
+
+# Kept for migration
 func _init() -> void:
-	resource_local_to_scene = true
+	resource_local_to_scene = false
 
 
-func _setup_local_to_scene() -> void:
+## This method need to be called after loading to make sure the graph is correctly loaded
+func ensure_initialized() -> void:
+	if _initialized:
+		return
+	_initialize()
+
+
+func _initialize() -> void:
 	#Data migration from previous version.
 	save_version = other.get(&"save_version", save_version)
 	if save_version != CURRENT_SAVE_VERSION:
 		GaeaGraphMigration.migrate(self)
 
 	_resources.clear()
+	_output_resource = null
 	var uniques = _get_unique_resources()
 	for id in uniques.keys():
 		_resources.set(id, uniques[id])
 
+	for resource in get_nodes():
+		resource.connections.clear()
+		if resource is GaeaNodeOutput:
+			_output_resource = resource
+
+	var all_connections: Array[Dictionary] = get_all_connections()
+	for idx in all_connections.size():
+		var connection: Dictionary = all_connections[idx]
+		var resource: GaeaNodeResource = get_node(connection.to_node)
+		resource.connections.append(connection)
+
 	notify_property_list_changed()
+
+	_initialized = true
 
 
 ## Adds a new [param node] to the graph at [param position], identifiable with [param id].
@@ -308,12 +344,24 @@ func get_parent_frame(node_id: int) -> int:
 	)
 
 
-## Returns the node with specified [param id].
+## Returns the output node resource.
+func get_output_node() -> GaeaNodeOutput:
+	if not is_instance_valid(_output_resource):
+		for resource in get_nodes():
+			if resource is GaeaNodeOutput:
+				_output_resource = resource
+	if not is_instance_valid(_output_resource):
+		_output_resource = GaeaNodeOutput.new()
+		add_node(_output_resource, Vector2.ZERO)
+	return _output_resource
+
+
+## Returns the node with specified [param id]. Using this method with a frame ID will return null.
 func get_node(id: int) -> GaeaNodeResource:
 	return _resources.get(id)
 
 
-## Returns [code]true[/code] if the node exists (which means, [member _node_data] has that [param id]).
+## Returns [code]true[/code] if the node or frame exists (which means, [member _node_data] has that [param id]).
 func has_node(id: int) -> bool:
 	return _node_data.has(id)
 
@@ -379,17 +427,41 @@ func connect_nodes(from_id: int, from_port: int, to_id: int, to_port: int) -> Er
 	if not GaeaValue.is_valid_connection(from_type, to_type):
 		return ERR_CANT_CONNECT
 
+	to_node.connections.append({
+		"from_node": from_id,
+		"from_port": from_port,
+		"to_node": to_id,
+		"to_port": to_port
+	})
 	_connections.append(&"%s-%s-%s-%s" % [from_id, from_port, to_id, to_port])
 	return OK
+
 
 ## Forcefully connects the specified nodes and ports.
 ## [br][color=yellow][b]Warning:[/b][/color] This connection could be invalid, and it won't work correctly if so.
 func force_connect_nodes(from_id: int, from_port: int, to_id: int, to_port: int) -> void:
+	var to_node: GaeaNodeResource = get_node(to_id)
+	if is_instance_valid(to_node):
+		to_node.connections.append({
+			"from_node": from_id,
+			"from_port": from_port,
+			"to_node": to_id,
+			"to_port": to_port
+		})
 	_connections.append(&"%s-%s-%s-%s" % [from_id, from_port, to_id, to_port])
 
 
 ## Disconnects the specified nodes and ports, if the connection exists.
 func disconnect_nodes(from_id: int, from_port: int, to_id: int, to_port: int) -> void:
+	var to_node: GaeaNodeResource = get_node(to_id)
+	if is_instance_valid(to_node):
+		for idx in range(to_node.connections.size() - 1, -1, -1):
+			var connection = to_node.connections[idx]
+			if (connection.get("from_node") == from_id
+			and connection.get("from_port") == from_port
+			and connection.get("to_node") == to_id
+			and connection.get("to_port") == to_port):
+				to_node.connections.remove_at(idx)
 	_connections.erase(&"%s-%s-%s-%s" % [from_id, from_port, to_id, to_port])
 
 

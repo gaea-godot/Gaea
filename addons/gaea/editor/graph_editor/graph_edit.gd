@@ -40,12 +40,14 @@ func _ready() -> void:
 	EditorInterface.get_script_editor().editor_script_changed.connect(_on_editor_script_changed)
 	_add_toolbar_buttons()
 
+
 #region Saving and Loading
 func populate(new_graph: GaeaGraph) -> void:
 	# TMP Until a proper save system
 	if graph != null:
 		ResourceSaver.save(graph)
 	graph = new_graph
+	graph.ensure_initialized()
 	if not graph.layer_count_modified.is_connected(_update_output_node):
 		graph.layer_count_modified.connect(_update_output_node)
 	_load_data()

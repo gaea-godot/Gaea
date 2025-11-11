@@ -40,7 +40,7 @@ const GAEA_MATERIAL_GRADIENT_HINT := "Resource that maps values from 0.0-1.0 to 
 @export_storage var default_value_overrides: Dictionary[StringName, Variant]
 @export_storage var default_enum_value_overrides: Dictionary[int, int]
 
-## List of all connections to this node. Doesn't include connections [i]from[/i] this node.[br]
+## List of all connections to this node (left side). Doesn't include connections [i]from[/i] this node.[br]
 ## The dictionaries contain the following properties:
 ## [codeblock]
 ## {
@@ -48,7 +48,6 @@ const GAEA_MATERIAL_GRADIENT_HINT := "Resource that maps values from 0.0-1.0 to 
 ##    from_port: int, # Index of the port of the node
 ##    to_node: int,   # Index of the node in [member GaeaGraph.resources]
 ##    to_port: int,   # Index of the port of the node
-##    keep_alive: bool
 ## }
 ## [/codeblock]
 var connections: Array[Dictionary]
@@ -70,7 +69,6 @@ var id: int = 0
 ## If empty, [method _get_title] will be used instead.
 var tree_name_override: String = "":
 	set = set_tree_name_override
-
 
 
 ## Public version of [method _on_added_to_graph].
@@ -439,8 +437,6 @@ func _get_arg(arg_name: StringName, graph: GaeaGraph, settings: GaeaGenerationSe
 		return get_argument_default_value(arg_name)
 
 	return arguments.get(arg_name, get_argument_default_value(arg_name))
-
-
 #endregion
 
 
@@ -502,8 +498,6 @@ func _has_cached_data(output_port: StringName, graph: GaeaGraph) -> bool:
 ## See also [method has_cached_data]
 func _get_cached_data(output_port: StringName, graph: GaeaGraph) -> Variant:
 	return graph.cache[self][output_port]
-
-
 #endregion
 
 
