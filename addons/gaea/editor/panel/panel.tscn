@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://dngytsjlmkfg7"]
+[gd_scene load_steps=12 format=3 uid="uid://dngytsjlmkfg7"]
 
 [ext_resource type="Script" uid="uid://dpbmowgfmnxe5" path="res://addons/gaea/editor/panel/panel.gd" id="1_afcqa"]
 [ext_resource type="Script" uid="uid://bedt1m4gyyvyv" path="res://addons/gaea/editor/graph_editor/graph_edit.gd" id="2_cdav6"]
-[ext_resource type="Script" uid="uid://ctfjsy2vf381s" path="res://addons/gaea/editor/panel/file_tree.gd" id="2_m8s6t"]
+[ext_resource type="Script" uid="uid://ctfjsy2vf381s" path="res://addons/gaea/editor/file_list/file_tree.gd" id="2_m8s6t"]
 [ext_resource type="Script" uid="uid://coi2pynbl5ehe" path="res://addons/gaea/editor/graph_editor/create_node_tree.gd" id="2_vpeaa"]
+[ext_resource type="Script" uid="uid://pu63c0ci8rtv" path="res://addons/gaea/editor/file_list/file_context_menu.gd" id="3_gbl2m"]
 [ext_resource type="Script" uid="uid://yi4fevtlrk41" path="res://addons/gaea/editor/graph_editor/main_editor.gd" id="4_gbl2m"]
 [ext_resource type="Script" uid="uid://bybvolyg1u0v4" path="res://addons/gaea/editor/graph_editor/node_context_menu.gd" id="4_vtsfx"]
 [ext_resource type="Script" uid="uid://cqd2rkam5cs3d" path="res://addons/gaea/editor/graph_editor/create_node_popup.gd" id="5_nbnm7"]
@@ -29,11 +30,16 @@ clip_contents = true
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 
-[node name="FileList" type="ItemList" parent="FileSystemContainer" node_paths=PackedStringArray("graph_edit")]
+[node name="FileList" type="ItemList" parent="FileSystemContainer" node_paths=PackedStringArray("graph_edit", "main_editor")]
 layout_mode = 2
 size_flags_vertical = 3
+allow_rmb_select = true
 script = ExtResource("2_m8s6t")
 graph_edit = NodePath("../../MainEditor/GraphEdit")
+main_editor = NodePath("../../MainEditor")
+
+[node name="ContextMenu" type="PopupMenu" parent="FileSystemContainer/FileList"]
+script = ExtResource("3_gbl2m")
 
 [node name="MainEditor" type="Control" parent="." node_paths=PackedStringArray("gaea_panel", "graph_edit", "about_window", "no_data", "create_node_popup", "node_context_menu", "link_context_menu")]
 layout_mode = 2

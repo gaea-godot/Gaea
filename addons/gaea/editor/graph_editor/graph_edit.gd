@@ -57,9 +57,11 @@ func unpopulate() -> void:
 	if is_instance_valid(graph) and graph.layer_count_modified.is_connected(_update_output_node):
 		graph.layer_count_modified.disconnect(_update_output_node)
 	_output_node = null
+
 	for child in get_children():
 		if child is GraphElement:
 			child.queue_free()
+	graph = null
 
 
 func _load_data() -> void:
