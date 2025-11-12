@@ -96,7 +96,7 @@ func update() -> void:
 		node.graph_edit.graph,
 		pouch
 	).get("value")
-	pouch.clear_cached_data()
+	pouch.clear_all_cache()
 
 
 	if not is_instance_valid(data):

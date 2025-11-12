@@ -1,9 +1,10 @@
 @tool
-## Class used to handle various data during generation like generated area, seed and cache.
 class_name GaeaGenerationPouch
 extends RefCounted
 
-## Currently generated area.
+## Class used to handle various data during generation like generated area, seed and cache.
+
+## Area to generate.
 var area: AABB: get = get_area
 
 ## Generation settings used for this generation. This property should be treated as read-only deeply.
@@ -13,30 +14,30 @@ var settings: GaeaGenerationSettings: get = get_settings
 # The inner dictionary keys are the slot output port names, and the values are the cached data.
 var _cache: Dictionary[GaeaNodeResource, Dictionary] = {}
 
-# Private version of [member area]
-var _area: AABB
-
-# Private version of [member settings]
-var _settings: GaeaGenerationSettings
-
 
 func _init(generation_settings: GaeaGenerationSettings, generation_area: AABB) -> void:
 	_cache.clear()
-	_settings = generation_settings
-	_area = generation_area
+	settings = generation_settings
+	area = generation_area
 
 
 func get_area() -> AABB:
-	return _area
+	return area
 
 
 func get_settings() -> GaeaGenerationSettings:
-	return _settings
+	return settings
 
 
-## Clear all data from the cache
-func clear_cached_data() -> void:
+## Clear all data from the cache.
+func clear_all_cache() -> void:
 	_cache.clear()
+
+
+## Clear the cached data for a specific node.
+func clear_cache(node: GaeaNodeResource):
+	if _cache.has(node):
+		_cache.erase(node)
 
 
 ## Checks if the cache has data corresponding to the [param node], then if it has it for output_port.

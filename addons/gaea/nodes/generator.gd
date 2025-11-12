@@ -66,7 +66,7 @@ func generate() -> void:
 func generate_area(area: AABB) -> void:
 	var pouch: GaeaGenerationPouch = GaeaGenerationPouch.new(settings, area)
 	generation_finished.emit.call_deferred(graph.get_output_node().execute(graph, pouch))
-	pouch.clear_cached_data()
+	pouch.clear_all_cache()
 
 
 ## Emits [signal area_erased]. Does nothing by itself, but notifies [GaeaRenderer]s that they should
