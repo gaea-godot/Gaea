@@ -85,7 +85,8 @@ var _initialized: bool = false
 ## Used during generation to keep track of node resources. GraphFrames are not in this list.
 var _resources: Dictionary[int, GaeaNodeResource]
 ## Used during generation to keep track of the output node resource.
-var _output_resource: GaeaNodeOutput
+var _output_resource: GaeaNodeOutput:
+	get = get_output_node
 
 
 ## Create a new graph with one output node
@@ -140,6 +141,9 @@ func _initialize() -> void:
 ## If [param id] is not passed, [method get_next_available_id] will be used. Returns the node's id.[br]
 ## Its data is saved in [member _node_data] and loaded by the panel.
 func add_node(node: GaeaNodeResource, position: Vector2, id: int = get_next_available_id()) -> int:
+	if node is GaeaNodeOutput and is_instance_valid(_output_resource):
+		push_error("Can't add second output node to this graph (%)" % resource_path)
+		return _output_resource.id
 	node.id = id
 	_resources.set(id, node)
 	_node_data.set(id,
@@ -350,9 +354,11 @@ func get_output_node() -> GaeaNodeOutput:
 		for resource in get_nodes():
 			if resource is GaeaNodeOutput:
 				_output_resource = resource
+
 	if not is_instance_valid(_output_resource):
 		_output_resource = GaeaNodeOutput.new()
 		add_node(_output_resource, Vector2.ZERO)
+
 	return _output_resource
 
 
@@ -457,10 +463,12 @@ func disconnect_nodes(from_id: int, from_port: int, to_id: int, to_port: int) ->
 	if is_instance_valid(to_node):
 		for idx in range(to_node.connections.size() - 1, -1, -1):
 			var connection = to_node.connections[idx]
-			if (connection.get("from_node") == from_id
+			if (
+				connection.get("from_node") == from_id
 			and connection.get("from_port") == from_port
 			and connection.get("to_node") == to_id
-			and connection.get("to_port") == to_port):
+			and connection.get("to_port") == to_port
+			):
 				to_node.connections.remove_at(idx)
 	_connections.erase(&"%s-%s-%s-%s" % [from_id, from_port, to_id, to_port])
 
