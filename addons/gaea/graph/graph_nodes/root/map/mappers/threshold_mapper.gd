@@ -24,8 +24,8 @@ func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
 
 
 func _passes_mapping(
-	grid_data: GaeaValue.Sample, cell: Vector3i, args: Dictionary[StringName, Variant]
+	reference_sample: GaeaValue.Sample, cell: Vector3i, args: Dictionary[StringName, Variant]
 ) -> bool:
 	var range_value: Dictionary = args.get(&"range")
-	var cell_value = grid_data.get_cell(cell)
+	var cell_value = reference_sample.get_cell(cell)
 	return cell_value >= range_value.get("min", 0.0) and cell_value <= range_value.get("max", 0.0)

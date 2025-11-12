@@ -26,7 +26,7 @@ func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
 
 
 func _passes_mapping(
-	grid_data: GaeaValue.Sample, cell: Vector3i, args: Dictionary[StringName, Variant]
+	reference_sample: GaeaValue.Sample, cell: Vector3i, args: Dictionary[StringName, Variant]
 ) -> bool:
 	var value: float = args.get(&"value")
-	return is_equal_approx(grid_data.get_cell(cell), value)
+	return is_equal_approx(reference_sample.get_cell(cell), value)

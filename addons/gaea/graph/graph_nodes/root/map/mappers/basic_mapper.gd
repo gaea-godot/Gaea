@@ -13,6 +13,6 @@ func _get_description() -> String:
 
 
 func _passes_mapping(
-	grid_data: GaeaValue.Sample, cell: Vector3i, _args: Dictionary[StringName, Variant]
+	reference_sample: GaeaValue.Sample, cell: Vector3i, _args: Dictionary[StringName, Variant]
 ) -> bool:
-	return grid_data.has(cell)
+	return reference_sample.has(cell)
