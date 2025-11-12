@@ -84,7 +84,6 @@ func update() -> void:
 	sim_size = Vector3(resolution.x, resolution.y, 1).min(Vector3(preview_max_sim, preview_max_sim, preview_max_sim))
 
 	var generation_settings = GaeaGenerationSettings.new()
-	generation_settings.area = AABB(Vector3.ZERO, sim_size)
 	generation_settings.world_size = sim_size
 	generation_settings.cell_size = sim_size
 	# TMP until we have a proper seed management

@@ -23,9 +23,6 @@ extends Resource
 	set(value):
 		cell_size = value.max(Vector3i.ONE)
 
-## Currently generated area
-var area: AABB
-
 
 func _validate_property(property: Dictionary) -> void:
 	if property.name == "seed" and random_seed_on_generate:
