@@ -112,12 +112,22 @@ func _load_scroll_offset(default_offset: Vector2) -> void:
 
 func _load_connections(connections_list: Array[Dictionary]) -> void:
 	for connection in connections_list:
-		var from_node: GraphNode = graph.get_node(connection.from_node).node
-		var to_node: GraphNode = graph.get_node(connection.to_node).node
+		var from_node_resource := graph.get_node(connection.from_node)
+		if not is_instance_valid(from_node_resource):
+			continue
+		var from_node := from_node_resource.node
+
+		var to_node_resource := graph.get_node(connection.to_node)
+		if not is_instance_valid(to_node_resource):
+			continue
+		var to_node := to_node_resource.node
+
 		if not is_instance_valid(from_node) or not is_instance_valid(to_node):
 			continue
+
 		if to_node.get_input_port_count() <= connection.to_port:
 			continue
+
 		connection_request.emit(
 			from_node.name, connection.from_port, to_node.name, connection.to_port
 		)
