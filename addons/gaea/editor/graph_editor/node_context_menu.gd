@@ -97,7 +97,7 @@ func _on_id_pressed(id: int) -> void:
 		Action.CUT:
 			graph_edit.cut_nodes_request.emit()
 		Action.DELETE:
-			graph_edit.delete_nodes(graph_edit.get_selected_names())
+			graph_edit.delete_nodes_request.emit(graph_edit.get_selected_names())
 		Action.CLEAR_BUFFER:
 			graph_edit.copy_buffer = null
 
@@ -126,31 +126,63 @@ func _on_id_pressed(id: int) -> void:
 			if node is GaeaGraphFrame:
 				node.set_autoshrink_enabled(is_item_checked(idx))
 		Action.GROUP_IN_FRAME:
-			var selected: Array = graph_edit.get_selected()
-			var front_node: GraphElement = selected.front()
-			var frame_id: int = graph_edit.graph.add_frame(
-				front_node.position_offset
-			)
-			var selected_ids: Array = selected.map(_get_node_id)
-			for node in selected:
-				var node_id: int = _get_node_id(node)
-				var parent_frame: int = graph_edit.graph.get_parent_frame(node_id)
-				if parent_frame != -1:
-					if parent_frame in selected_ids:
-						continue
-					else:
-						graph_edit.graph.attach_node_to_frame(frame_id, parent_frame)
+			print("--------------------")
+			var selected: Array[StringName] = graph_edit.get_selected_names()
+			var front_node: StringName = selected.front()
+			var front_frame_tree: Array[StringName] = _get_node_frame_parents_list(front_node)
+			front_frame_tree.reverse()
+			# -1, D, A
+			prints("front_frame_tree", front_frame_tree)
+			for other_node: StringName in selected:
+				var other_frame_tree: Array[StringName] = _get_node_frame_parents_list(other_node)
+				other_frame_tree.reverse()
+				prints("other_frame_tree", other_node, other_frame_tree)
+				# -1, D, C, B
+				for i in range(0, mini(front_frame_tree.size(), other_frame_tree.size())):
+					if not front_frame_tree[i] == other_frame_tree[i]:
+						front_frame_tree.resize(i)
 
-				graph_edit.graph.detach_node_from_frame(node_id)
-				graph_edit.graph.attach_node_to_frame(
-					node_id, frame_id
-				)
-				node.selected = false
+			var matching_parent: StringName = front_frame_tree.back()
+			prints("matching_parent", matching_parent)
+			var things_to_group: Array[StringName] = []
+			var parent_name: StringName
+			for node_name: StringName in selected:
+				var loop_limit: int = 50
+				while loop_limit > 0:
+					loop_limit -= 1
+					parent_name = graph_edit.attached_elements.get(node_name, &"null")
+					if parent_name == matching_parent:
+						if not things_to_group.has(node_name):
+							things_to_group.append(node_name)
+						break
+					node_name = parent_name
 
-			var frame := graph_edit.instantiate_node(frame_id)
-			frame.selected = true
+			prints("things_to_group", things_to_group)
+			var positions: Array = things_to_group.map(func(node_name: StringName): return (graph_edit.get_node(NodePath(node_name)) as GraphElement).position)
+			prints("positions", positions)
+			var frame_position: Vector2 = positions.reduce(func(a: Vector2, b: Vector2): return a.min(b), positions.front())
+			var new_frame_id: int = graph_edit.graph.add_frame(frame_position)
+			var new_frame: Node = graph_edit.instantiate_node(new_frame_id)
+			var new_frame_name: StringName = new_frame.name
+			prints("new frame", new_frame_name)
 
-			graph_edit.load_all_attached_elements.call_deferred()
+			if matching_parent != &"null":
+				print("attach new frame %s to frame %s" % [new_frame_name, matching_parent])
+				graph_edit.attach_graph_element_to_frame(new_frame_name, matching_parent)
+				graph_edit._on_element_attached_to_frame(new_frame_name, matching_parent)
+
+				for node_name: StringName in things_to_group:
+					print("detach thing %s" % [node_name])
+					graph_edit.detach_element_from_frame(node_name)
+
+			for node_name in things_to_group:
+				print("attach thing %s" % [node_name])
+				graph_edit.attach_graph_element_to_frame(node_name, new_frame_name)
+				graph_edit._on_element_attached_to_frame(node_name, new_frame_name)
+
+			new_frame.selected = true
+
+
 		Action.DETACH:
 			var selected: Array = graph_edit.get_selected()
 			for node: GraphElement in selected:
@@ -166,12 +198,28 @@ func _on_id_pressed(id: int) -> void:
 					EditorInterface.edit_resource(value)
 
 
+func _get_node_frame_parents_list(node_name: StringName) -> Array[StringName]:
+	var list: Array[StringName] = []
+	var loop_limit: int = 50
+	while loop_limit > 0:
+		loop_limit -= 1
+		if graph_edit.attached_elements.has(node_name):
+			node_name = graph_edit.attached_elements.get(node_name)
+			list.append(node_name)
+		else:
+			list.append(&"null")
+			break
+	return list
+
+
 func _on_popup_node_context_menu_at_mouse_request(selected_nodes: Array) -> void:
 	clear()
 	populate(selected_nodes)
 	main_editor.node_creation_target = graph_edit.get_local_mouse_position()
 	main_editor.move_popup_at_mouse(self)
 	popup()
+
+
 func _get_node_id(node: GraphElement) -> int:
 	if node is GaeaGraphNode:
 		return node.resource.id

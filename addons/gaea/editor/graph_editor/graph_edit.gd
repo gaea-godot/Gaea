@@ -5,8 +5,8 @@ extends GraphEdit
 @export var main_editor: GaeaMainEditor
 @export var bottom_note_label: RichTextLabel
 
-## List of nodes attached to a frame
-var attached_elements: Dictionary
+## List of nodes attached to a frame (element, frame)
+var attached_elements: Dictionary[StringName, StringName]
 
 ## Currently edited resource
 var graph: GaeaGraph :
@@ -284,16 +284,24 @@ func delete_nodes(nodes: Array[StringName]) -> void:
 			node.removed.emit()
 			graph.remove_node(node.resource.id)
 		elif node is GaeaGraphFrame:
-			for attached in get_attached_nodes_of_frame(node.name):
-				attached_elements.erase(attached)
+			if attached_elements.has(node.name):
+				var frame = attached_elements.get(node.name)
+				for attached in get_attached_nodes_of_frame(node.name):
+					detach_element_from_frame(attached)
+					attach_graph_element_to_frame(attached, frame)
+					_on_element_attached_to_frame(attached, frame)
+			else:
+				for attached in get_attached_nodes_of_frame(node.name):
+					detach_element_from_frame(attached)
 			graph.remove_node(node.id)
+
 		node.queue_free()
 		await node.tree_exited
 
 	update_connections()
 
 
-func get_selected() -> Array:
+func get_selected() -> Array[Node]:
 	return get_children().filter(
 		func(child: Node) -> bool: return child is GraphElement and child.selected
 	)
@@ -713,6 +721,7 @@ func _on_cut_nodes_request() -> void:
 	_copy_nodes(_get_copy_data(get_selected()))
 	delete_nodes(get_selected_names())
 #endregion
+
 
 #region Inputs and watchers
 func _input(event: InputEvent) -> void:
