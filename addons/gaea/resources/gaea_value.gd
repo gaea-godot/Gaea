@@ -347,6 +347,19 @@ class Sample extends GridType:
 		return get_cell(Vector3i(x, y, z), default_value)
 
 
+	## Returns a new [GaeaValue.Sample] where the whole [param area] is filled with
+	## [param value].
+	static func full(area: AABB, value: float) -> GaeaValue.Sample:
+		var sample := GaeaValue.Sample.new()
+
+		for x in range(area.position.x, area.end.x):
+			for y in range(area.position.y, area.end.y):
+				for z in range(area.position.z, area.end.z):
+					sample.set_xyz(x, y, z, value)
+
+		return sample
+
+
 ## A grid of [GaeaMaterial]s. The result of Gaea generations.
 class Map extends GridType:
 	## Sets the specified cell to [param value].
