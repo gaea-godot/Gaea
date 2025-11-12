@@ -7,7 +7,6 @@ const EXPECTED_HASH_3D: int = 2178371583
 
 var reference: GaeaValue.Sample = GaeaValue.Sample.new()
 var node: GaeaNodeToHeight
-var generation_settings: GaeaGenerationSettings
 var pouch: GaeaGenerationPouch
 
 func before() -> void:
@@ -18,8 +17,8 @@ func before() -> void:
 	node = GaeaNodeToHeight.new()
 	node.set_argument_value(&"reference", reference)
 	node.set_argument_value(&"reference_y", 1)
-	generation_settings = GaeaGenerationSettings.new()
-	pouch = GaeaGenerationPouch.new(generation_settings, AREA)
+	pouch = GaeaGenerationPouch.new(GaeaGenerationSettings.new(), AREA)
+
 
 func test_2d() -> void:
 	node.set_enum_value(0, GaeaNodeToHeight.Type.TYPE_2D)
