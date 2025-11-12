@@ -68,7 +68,8 @@ func _get_argument_connection(arg_name: StringName) -> Dictionary:
 
 ## Start generation for [param area], using [param settings]'s settings.
 func execute(graph: GaeaGraph, settings: GaeaGenerationSettings) -> GaeaGrid:
-	_log_execute("Start", graph, settings)
+	var start_time := Time.get_ticks_msec()
+	_log_execute("Start", settings.area, graph)
 
 	var grid: GaeaGrid = GaeaGrid.new()
 	for layer_idx in graph.layers.size():
@@ -84,8 +85,7 @@ func execute(graph: GaeaGraph, settings: GaeaGenerationSettings) -> GaeaGrid:
 
 		_log_layer("End", layer_idx, graph)
 
-	_log_execute("End", graph, settings)
-	_log_execute("End", area, graph)
+	_log_execute("End", settings.area, graph)
 	_log_time("Generation", Time.get_ticks_msec() - start_time, graph)
 
 	return grid
