@@ -42,7 +42,7 @@ func _get_data(_output_port: StringName, graph: GaeaGraph, pouch: GaeaGeneration
 	for arg in get_arguments_list():
 		if arg == &"input_grid":
 			continue
-		args.set(arg, _get_arg(arg, graph, settings))
+		args.set(arg, _get_arg(arg, graph, pouch))
 
 	for cell: Vector3i in input_sample.get_cells():
 		if _passes_filter(input_sample, cell, args):

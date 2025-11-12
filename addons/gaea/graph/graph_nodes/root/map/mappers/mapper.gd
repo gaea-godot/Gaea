@@ -48,7 +48,7 @@ func _get_data(_output_port: StringName, graph: GaeaGraph, pouch: GaeaGeneration
 	for arg in get_arguments_list():
 		if arg == &"reference" or arg == &"material":
 			continue
-		args.set(arg, _get_arg(arg, graph, settings))
+		args.set(arg, _get_arg(arg, graph, pouch))
 
 	for cell in reference_sample.get_cells():
 		if _passes_mapping(reference_sample, cell, args):

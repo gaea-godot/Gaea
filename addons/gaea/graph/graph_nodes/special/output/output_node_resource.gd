@@ -66,7 +66,7 @@ func _get_argument_connection(arg_name: StringName) -> Dictionary:
 	return {}
 
 
-## Start generation for [param area], using [param settings]'s settings.
+## Start generation for [param area], using [param pouch]'s pouch.
 func execute(graph: GaeaGraph, pouch: GaeaGenerationPouch) -> GaeaGrid:
 	var start_time := Time.get_ticks_msec()
 	_log_execute("Start", pouch.area, graph)
