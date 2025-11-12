@@ -44,8 +44,8 @@ func _get_scene() -> PackedScene:
 	return load("uid://b2rceqo8rtr88")
 
 
-func _get_data(output_port: StringName, graph: GaeaGraph, settings: GaeaGenerationSettings) -> Variant:
-	return _get_arg(output_port, graph, settings)
+func _get_data(output_port: StringName, graph: GaeaGraph, pouch: GaeaGenerationPouch) -> Variant:
+	return _get_arg(output_port, graph, pouch)
 
 
 func _use_caching(_output_port: StringName, _graph: GaeaGraph) -> bool:

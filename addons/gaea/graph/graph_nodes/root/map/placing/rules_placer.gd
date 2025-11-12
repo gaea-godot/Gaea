@@ -55,16 +55,16 @@ func _get_required_arguments() -> Array[StringName]:
 	return [&"reference", &"material"]
 
 
-func _get_data(_output_port: StringName, graph: GaeaGraph, settings: GaeaGenerationSettings) -> GaeaValue.Map:
-	var reference_sample: GaeaValue.Sample = _get_arg(&"reference", graph, settings)
-	var material: GaeaMaterial = _get_arg(&"material", graph, settings)
+func _get_data(_output_port: StringName, graph: GaeaGraph, pouch: GaeaGenerationPouch) -> GaeaValue.Map:
+	var reference_sample: GaeaValue.Sample = _get_arg(&"reference", graph, pouch)
+	var material: GaeaMaterial = _get_arg(&"material", graph, pouch)
 	var result: GaeaValue.Map = GaeaValue.Map.new()
 
-	var rules: Dictionary = _get_arg(&"rules", graph, settings)
+	var rules: Dictionary = _get_arg(&"rules", graph, pouch)
 
 	material = material.prepare_sample(rng)
 	if not is_instance_valid(material):
-		material = _get_arg(&"material", graph, settings)
+		material = _get_arg(&"material", graph, pouch)
 		_log_error(
 			"Recursive limit reached (%d): Invalid material provided at %s" % [GaeaMaterial.RECURSIVE_LIMIT, material.resource_path],
 			graph,
@@ -72,13 +72,13 @@ func _get_data(_output_port: StringName, graph: GaeaGraph, settings: GaeaGenerat
 		)
 		return result
 
-	for x in _get_axis_range(Vector3i.AXIS_X, settings.area):
-		for y in _get_axis_range(Vector3i.AXIS_Y, settings.area):
-			for z in _get_axis_range(Vector3i.AXIS_Z, settings.area):
+	for x in _get_axis_range(Vector3i.AXIS_X, pouch.area):
+		for y in _get_axis_range(Vector3i.AXIS_Y, pouch.area):
+			for z in _get_axis_range(Vector3i.AXIS_Z, pouch.area):
 				var place: bool = true
 				var cell: Vector3i = Vector3i(x, y, z)
 				for offset: Vector3i in rules:
-					if _is_point_outside_area(settings.area, cell + offset):
+					if _is_point_outside_area(pouch.area, cell + offset):
 						place = false
 						break
 

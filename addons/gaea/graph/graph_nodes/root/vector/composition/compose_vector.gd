@@ -64,28 +64,28 @@ func _get_tree_items() -> Array[GaeaNodeResource]:
 	return array
 
 
-func _get_data(_output_port: StringName, graph: GaeaGraph, settings: GaeaGenerationSettings) -> Variant:
+func _get_data(_output_port: StringName, graph: GaeaGraph, pouch: GaeaGenerationPouch) -> Variant:
 	match get_enum_selection(0):
 		VectorType.VECTOR2:
 			return Vector2(
-				_get_arg(&"x", graph, settings),
-				_get_arg(&"y", graph, settings),
+				_get_arg(&"x", graph, pouch),
+				_get_arg(&"y", graph, pouch),
 			)
 		VectorType.VECTOR3:
 			return Vector3(
-				_get_arg(&"x", graph, settings),
-				_get_arg(&"y", graph, settings),
-				_get_arg(&"z", graph, settings),
+				_get_arg(&"x", graph, pouch),
+				_get_arg(&"y", graph, pouch),
+				_get_arg(&"z", graph, pouch),
 			)
 		VectorType.VECTOR2I:
 			return Vector2i(
-				_get_arg(&"x", graph, settings),
-				_get_arg(&"y", graph, settings),
+				_get_arg(&"x", graph, pouch),
+				_get_arg(&"y", graph, pouch),
 			)
 		VectorType.VECTOR3I:
 			return Vector3i(
-				_get_arg(&"x", graph, settings),
-				_get_arg(&"y", graph, settings),
-				_get_arg(&"z", graph, settings),
+				_get_arg(&"x", graph, pouch),
+				_get_arg(&"y", graph, pouch),
+				_get_arg(&"z", graph, pouch),
 			)
 	return null

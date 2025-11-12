@@ -168,22 +168,22 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.SAMPLE
 
 
-func _get_data(_output_port: StringName, graph: GaeaGraph, settings: GaeaGenerationSettings) -> GaeaValue.Sample:
-	var start: float = _get_arg(&"start", graph, settings)
-	var end: float = _get_arg(&"end", graph, settings)
+func _get_data(_output_port: StringName, graph: GaeaGraph, pouch: GaeaGenerationPouch) -> GaeaValue.Sample:
+	var start: float = _get_arg(&"start", graph, pouch)
+	var end: float = _get_arg(&"end", graph, pouch)
 	var result: GaeaValue.Sample = GaeaValue.Sample.new()
 	var sampler: FalloffSampler
 	match get_enum_selection(0):
 		FalloffShape.SQUARE:
-			sampler = FalloffSamplerSquare.new(settings.area, start, end)
+			sampler = FalloffSamplerSquare.new(pouch.area, start, end)
 		FalloffShape.ROUNDED_SQUARE:
-			sampler = FalloffSamplerRoundedSquare.new(settings.area, start, end)
+			sampler = FalloffSamplerRoundedSquare.new(pouch.area, start, end)
 		FalloffShape.CIRCLE:
-			sampler = FalloffSamplerCircle.new(settings.area, start, end)
+			sampler = FalloffSamplerCircle.new(pouch.area, start, end)
 		FalloffShape.SQUIRCLE:
-			sampler = FalloffSamplerSquircle.new(settings.area, start, end)
+			sampler = FalloffSamplerSquircle.new(pouch.area, start, end)
 
-	for x in _get_axis_range(Vector3i.AXIS_X, settings.area):
-		for y in _get_axis_range(Vector3i.AXIS_Y, settings.area):
+	for x in _get_axis_range(Vector3i.AXIS_X, pouch.area):
+		for y in _get_axis_range(Vector3i.AXIS_Y, pouch.area):
 			result.set_xyz(x, y, 0, sampler.sample(x, y))
 	return result

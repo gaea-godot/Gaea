@@ -41,8 +41,8 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.RANGE
 
 
-func _get_data(_output_port: StringName, graph: GaeaGraph, settings: GaeaGenerationSettings) -> Dictionary[String, float]:
+func _get_data(_output_port: StringName, graph: GaeaGraph, pouch: GaeaGenerationPouch) -> Dictionary[String, float]:
 	return {
-		"min": _get_arg(&"min", graph, settings),
-		"max": _get_arg(&"max", graph, settings),
+		"min": _get_arg(&"min", graph, pouch),
+		"max": _get_arg(&"max", graph, pouch),
 	}

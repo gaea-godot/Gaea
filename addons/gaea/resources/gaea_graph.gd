@@ -78,9 +78,6 @@ var scroll_offset: Vector2 = Vector2(NAN, NAN)
 ## The graph's [member GraphEdit.zoom]. Only saved
 ## in the current session.
 var zoom: float = 1.0
-## Cache used during generation to avoid recalculating data unnecessarily.
-## The inner dictionary keys are the slot output port names, and the values are the cached data.
-var cache: Dictionary[GaeaNodeResource, Dictionary] = {}
 ## Flag to know if the graph is correctly initialized.
 var _initialized: bool = false
 ## Used during generation to keep track of node resources. GraphFrames are not in this list.

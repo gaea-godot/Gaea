@@ -77,16 +77,16 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.SAMPLE
 
 
-func _get_data(_output_port: StringName, graph: GaeaGraph, settings: GaeaGenerationSettings) -> GaeaValue.Sample:
+func _get_data(_output_port: StringName, graph: GaeaGraph, pouch: GaeaGenerationPouch) -> GaeaValue.Sample:
 	var direction_weights: Dictionary[Vector2i, float] = {
-		Vector2i.LEFT: _get_arg(&"move_left_weight", graph, settings),
-		Vector2i.RIGHT: _get_arg(&"move_right_weight", graph, settings),
-		Vector2i.DOWN: _get_arg(&"move_down_weight", graph, settings),
+		Vector2i.LEFT: _get_arg(&"move_left_weight", graph, pouch),
+		Vector2i.RIGHT: _get_arg(&"move_right_weight", graph, pouch),
+		Vector2i.DOWN: _get_arg(&"move_down_weight", graph, pouch),
 	}
-	var left_flag: int = _get_arg(&"left", graph, settings)
-	var right_flag: int = _get_arg(&"right", graph, settings)
-	var down_flag: int = _get_arg(&"down", graph, settings)
-	var up_flag: int = _get_arg(&"up", graph, settings)
+	var left_flag: int = _get_arg(&"left", graph, pouch)
+	var right_flag: int = _get_arg(&"right", graph, pouch)
+	var down_flag: int = _get_arg(&"down", graph, pouch)
+	var up_flag: int = _get_arg(&"up", graph, pouch)
 	var direction_to_flags: Dictionary = {
 		Vector2i.LEFT: left_flag,
 		Vector2i.RIGHT: right_flag,
@@ -96,7 +96,7 @@ func _get_data(_output_port: StringName, graph: GaeaGraph, settings: GaeaGenerat
 
 	var path: Dictionary
 	var result: GaeaValue.Sample = GaeaValue.Sample.new()
-	var starting_cell: Vector2i = Vector2i(rng.randi_range(0, roundi(settings.area.size.x - 1)), 0)
+	var starting_cell: Vector2i = Vector2i(rng.randi_range(0, roundi(pouch.area.size.x - 1)), 0)
 	var last_cell: Vector2i = starting_cell
 	var current_cell: Vector2i = starting_cell
 	var last_direction: Vector2i = Vector2i.ZERO
@@ -110,10 +110,10 @@ func _get_data(_output_port: StringName, graph: GaeaGraph, settings: GaeaGenerat
 		while path.has(current_cell + direction):
 			direction = direction_weights.keys()[rng.rand_weighted(direction_weights.values())]
 
-		if (current_cell + direction).x < 0 or (current_cell + direction).x >= settings.area.size.x:
+		if (current_cell + direction).x < 0 or (current_cell + direction).x >= pouch.area.size.x:
 			direction = Vector2i.DOWN
 
-		if direction == Vector2i.DOWN and (current_cell.y + 1) >= settings.area.size.y:
+		if direction == Vector2i.DOWN and (current_cell.y + 1) >= pouch.area.size.y:
 			break
 
 		path[current_cell] |= direction_to_flags.get(direction)

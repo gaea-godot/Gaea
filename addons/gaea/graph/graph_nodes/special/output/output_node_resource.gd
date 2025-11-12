@@ -67,9 +67,9 @@ func _get_argument_connection(arg_name: StringName) -> Dictionary:
 
 
 ## Start generation for [param area], using [param settings]'s settings.
-func execute(graph: GaeaGraph, settings: GaeaGenerationSettings) -> GaeaGrid:
+func execute(graph: GaeaGraph, pouch: GaeaGenerationPouch) -> GaeaGrid:
 	var start_time := Time.get_ticks_msec()
-	_log_execute("Start", settings.area, graph)
+	_log_execute("Start", pouch.area, graph)
 
 	var grid: GaeaGrid = GaeaGrid.new()
 	for layer_idx in graph.layers.size():
@@ -80,12 +80,12 @@ func execute(graph: GaeaGraph, settings: GaeaGenerationSettings) -> GaeaGrid:
 
 		_log_layer("Start", layer_idx, graph)
 
-		var grid_data: GaeaValue.Map = _get_arg(&"%d" % layer_idx, graph, settings)
+		var grid_data: GaeaValue.Map = _get_arg(&"%d" % layer_idx, graph, pouch)
 		grid.add_layer(layer_idx, grid_data, layer_resource)
 
 		_log_layer("End", layer_idx, graph)
 
-	_log_execute("End", settings.area, graph)
+	_log_execute("End", pouch.area, graph)
 	_log_time("Generation", Time.get_ticks_msec() - start_time, graph)
 
 	return grid
@@ -109,5 +109,5 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.NULL
 
 
-func _get_data(_output_port: StringName, _graph: GaeaGraph, _settings: GaeaGenerationSettings) -> Variant:
+func _get_data(_output_port: StringName, _graph: GaeaGraph, _pouch: GaeaGenerationPouch) -> Variant:
 	return null

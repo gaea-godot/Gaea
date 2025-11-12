@@ -34,8 +34,8 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.SAMPLE
 
 
-func _get_data(output_port: StringName, graph: GaeaGraph, settings: GaeaGenerationSettings) -> GaeaValue.Sample:
-	var texture: Texture = _get_arg(&"texture", graph, settings)
+func _get_data(output_port: StringName, graph: GaeaGraph, pouch: GaeaGenerationPouch) -> GaeaValue.Sample:
+	var texture: Texture = _get_arg(&"texture", graph, pouch)
 	if not is_instance_valid(texture):
 		return GaeaValue.get_default_value(GaeaValue.Type.SAMPLE)
 
@@ -53,9 +53,9 @@ func _get_data(output_port: StringName, graph: GaeaGraph, settings: GaeaGenerati
 	if not slices.any(is_instance_valid):
 		return GaeaValue.get_default_value(GaeaValue.Type.SAMPLE)
 
-	for x in _get_axis_range(Vector3i.AXIS_X, settings.area):
-		for y in _get_axis_range(Vector3i.AXIS_Y, settings.area):
-			for z in _get_axis_range(Vector3i.AXIS_Z, settings.area):
+	for x in _get_axis_range(Vector3i.AXIS_X, pouch.area):
+		for y in _get_axis_range(Vector3i.AXIS_Y, pouch.area):
+			for z in _get_axis_range(Vector3i.AXIS_Z, pouch.area):
 				if slices.size() <= z:
 					break
 
@@ -72,9 +72,9 @@ func _get_data(output_port: StringName, graph: GaeaGraph, settings: GaeaGenerati
 				b_grid.set_cell(cell, pixel.b)
 				a_grid.set_cell(cell, pixel.a)
 
-	_set_cached_data(&"r", graph, r_grid)
-	_set_cached_data(&"g", graph, g_grid)
-	_set_cached_data(&"b", graph, b_grid)
-	_set_cached_data(&"a", graph, a_grid)
+	pouch.set_cache(self, &"r", r_grid)
+	pouch.set_cache(self, &"g", g_grid)
+	pouch.set_cache(self, &"b", b_grid)
+	pouch.set_cache(self, &"a", a_grid)
 
-	return _get_cached_data(output_port, graph)
+	return pouch.get_cache(self, output_port)

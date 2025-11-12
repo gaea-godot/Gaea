@@ -117,34 +117,34 @@ func _get_preview_simulation_size() -> SimSize:
 	return SimSize.WORLD
 
 
-func _get_data(_output_port: StringName, graph: GaeaGraph, settings: GaeaGenerationSettings) -> GaeaValue.Sample:
+func _get_data(_output_port: StringName, graph: GaeaGraph, pouch: GaeaGenerationPouch) -> GaeaValue.Sample:
 	_log_data(_output_port, graph)
 	var axis_type: AxisType = get_enum_selection(0) as AxisType
 
-	var starting_position: Vector3 = _get_arg(&"starting_position", graph, settings)
+	var starting_position: Vector3 = _get_arg(&"starting_position", graph, pouch)
 	starting_position = starting_position.round()
 
 	var rotation_weights: Dictionary = {
-		PI * 0.5: _get_arg(&"rotate_90_weight", graph, settings),
-		-PI * 0.5: _get_arg(&"rotate_-90_weight", graph, settings),
-		PI: _get_arg(&"rotate_180_weight", graph, settings)
+		PI * 0.5: _get_arg(&"rotate_90_weight", graph, pouch),
+		-PI * 0.5: _get_arg(&"rotate_-90_weight", graph, pouch),
+		PI: _get_arg(&"rotate_180_weight", graph, pouch)
 	}
 	var direction_change_chance: float = (
-		float(_get_arg(&"direction_change_chance", graph, settings)) * 0.01
+		float(_get_arg(&"direction_change_chance", graph, pouch)) * 0.01
 	)
-	var new_walker_chance: float = float(_get_arg(&"new_walker_chance", graph, settings)) * 0.01
+	var new_walker_chance: float = float(_get_arg(&"new_walker_chance", graph, pouch)) * 0.01
 	var destroy_walker_chance: float = (
-		float(_get_arg(&"destroy_walker_chance", graph, settings)) * 0.01
+		float(_get_arg(&"destroy_walker_chance", graph, pouch)) * 0.01
 	)
-	var bigger_room_chance: float = float(_get_arg(&"bigger_room_chance", graph, settings)) * 0.01
-	var bigger_room_size_range: Dictionary = _get_arg(&"bigger_room_size_range", graph, settings)
+	var bigger_room_chance: float = float(_get_arg(&"bigger_room_chance", graph, pouch)) * 0.01
+	var bigger_room_size_range: Dictionary = _get_arg(&"bigger_room_size_range", graph, pouch)
 
-	var max_cells: int = _get_arg(&"max_cells", graph, settings)
+	var max_cells: int = _get_arg(&"max_cells", graph, pouch)
 	max_cells = mini(
 		max_cells,
 		(
-			roundi(settings.area.size.x)
-			* (roundi(settings.area.size.y) if axis_type == AxisType.XY else roundi(settings.area.size.z))
+			roundi(pouch.area.size.x)
+			* (roundi(pouch.area.size.y) if axis_type == AxisType.XY else roundi(pouch.area.size.z))
 		)
 	)
 
@@ -183,12 +183,12 @@ func _get_data(_output_port: StringName, graph: GaeaGraph, settings: GaeaGenerat
 						size if axis_type == AxisType.XZ else 1
 					)
 				):
-					cell = cell.clamp(settings.area.position, settings.area.end - Vector3.ONE)
+					cell = cell.clamp(pouch.area.position, pouch.area.end - Vector3.ONE)
 					if not walked_cells.has(Vector3i(cell)):
 						walked_cells.append(Vector3i(cell))
 
 			walker.pos += walker.dir
-			walker.pos = walker.pos.clamp(settings.area.position, settings.area.end - Vector3.ONE)
+			walker.pos = walker.pos.clamp(pouch.area.position, pouch.area.end - Vector3.ONE)
 
 			if not walked_cells.has(Vector3i(walker.pos)):
 				walked_cells.append(Vector3i(walker.pos))

@@ -405,7 +405,7 @@ func _on_argument_value_changed(_arg_name: StringName, _new_value: Variant) -> v
 #region Args
 ## Returns the value of the argument of [param name]. Pass in [param graph] to allow overriding with input slots.[br]
 ## [param settings] is used for values of the type Data or Map. (See [enum GaeaValue.Type]).
-func _get_arg(arg_name: StringName, graph: GaeaGraph, settings: GaeaGenerationSettings) -> Variant:
+func _get_arg(arg_name: StringName, graph: GaeaGraph, pouch: GaeaGenerationPouch) -> Variant:
 	_log_arg(arg_name, graph)
 
 	var connection := _get_argument_connection(arg_name)
@@ -413,7 +413,7 @@ func _get_arg(arg_name: StringName, graph: GaeaGraph, settings: GaeaGenerationSe
 		var connected_id = connection.from_node
 		var connected_node = graph.get_node(connected_id)
 		var connected_output = connected_node.connection_idx_to_output(connection.from_port)
-		var connected_data = connected_node.traverse(connected_output, graph, settings)
+		var connected_data = connected_node.traverse(connected_output, graph, pouch)
 		if connected_data.has("value"):
 			var connected_value = connected_data.get("value")
 			var connected_type: GaeaValue.Type = connected_node.get_output_port_type(
@@ -442,7 +442,7 @@ func _get_arg(arg_name: StringName, graph: GaeaGraph, settings: GaeaGenerationSe
 
 #region Execution
 ## Traverses the graph using this node's connections, and returns the result for [param output_port].
-func traverse(output_port: StringName, graph: GaeaGraph, settings: GaeaGenerationSettings) -> Variant:
+func traverse(output_port: StringName, graph: GaeaGraph, pouch: GaeaGenerationPouch) -> Variant:
 	_log_traverse(graph)
 
 	# Validation
@@ -452,14 +452,14 @@ func traverse(output_port: StringName, graph: GaeaGraph, settings: GaeaGeneratio
 	# Get Data with caching
 	var data: Variant
 	var use_caching = _use_caching(output_port, graph)
-	if use_caching and _has_cached_data(output_port, graph):
-		data = _get_cached_data(output_port, graph)
+	if use_caching and pouch.has_cache(self, output_port):
+		data = pouch.get_cache(self, output_port)
 	else:
-		_define_rng(settings.seed)
+		_define_rng(pouch.settings.seed)
 		_log_data(output_port, graph)
-		data = _get_data(output_port, graph, settings)
+		data = _get_data(output_port, graph, pouch)
 		if use_caching:
-			_set_cached_data(output_port, graph, data)
+			pouch.set_cache(self, output_port, data)
 
 	return {
 		&"value": data,
@@ -470,7 +470,7 @@ func traverse(output_port: StringName, graph: GaeaGraph, settings: GaeaGeneratio
 ## Returns the data corresponding to [param output_port]. Should be overridden to create custom
 ## behavior for each node.
 @abstract
-func _get_data(output_port: StringName, graph: GaeaGraph, settings: GaeaGenerationSettings) -> Variant
+func _get_data(output_port: StringName, graph: GaeaGraph, pouch: GaeaGenerationPouch) -> Variant
 #endregion
 
 
@@ -478,26 +478,6 @@ func _get_data(output_port: StringName, graph: GaeaGraph, settings: GaeaGenerati
 ## Checks if this node should use caching or not. Can be overridden to disable it.
 func _use_caching(_output_port: StringName, _graph: GaeaGraph) -> bool:
 	return true
-
-
-## Adds or sets data to the cache at GaeaNodeResource, then output_port index.
-## This is called during [method traverse] if [method _use_caching] returns [code]true[/code],
-## but can also be called in special cases where you want to manually add cached values.
-func _set_cached_data(output_port: StringName, graph: GaeaGraph, new_data: Variant) -> void:
-	var node_cache: Dictionary = graph.cache.get_or_add(self, {})
-	node_cache[output_port] = new_data
-
-
-## Checks if the cache has data corresponding to this node, then if it has it for output_port.
-func _has_cached_data(output_port: StringName, graph: GaeaGraph) -> bool:
-	return graph.cache.has(self) and graph.cache[self].has(output_port)
-
-
-## Gets cached data by GaeaNodeResource, then output_port index.
-## Assumes that data exists, will error out if it doesn't.
-## See also [method has_cached_data]
-func _get_cached_data(output_port: StringName, graph: GaeaGraph) -> Variant:
-	return graph.cache[self][output_port]
 #endregion
 
 
@@ -527,8 +507,6 @@ func _get_input_resource(arg_name: StringName, graph: GaeaGraph) -> GaeaNodeReso
 		return null
 
 	return data_input_resource
-
-
 #endregion
 
 

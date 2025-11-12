@@ -64,5 +64,5 @@ func _get_tree_items() -> Array[GaeaNodeResource]:
 	return array
 
 
-func _get_data(output_port: StringName, graph: GaeaGraph, settings: GaeaGenerationSettings) -> float:
-	return _get_arg(&"vector", graph, settings)[output_port]
+func _get_data(output_port: StringName, graph: GaeaGraph, pouch: GaeaGenerationPouch) -> float:
+	return _get_arg(&"vector", graph, pouch)[output_port]

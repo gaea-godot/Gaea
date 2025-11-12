@@ -105,10 +105,10 @@ func _get_output_port_display_name(_output_name: StringName) -> String:
 	return operation_definitions[get_enum_selection(0)].output
 
 
-func _get_data(_output_port: StringName, graph: GaeaGraph, settings: GaeaGenerationSettings) -> GaeaValue.Sample:
+func _get_data(_output_port: StringName, graph: GaeaGraph, pouch: GaeaGenerationPouch) -> GaeaValue.Sample:
 	var operation: Operation = get_enum_selection(0) as Operation
-	var a_grid: GaeaValue.Sample = _get_arg(&"a", graph, settings)
-	var b_grid: GaeaValue.Sample = _get_arg(&"b", graph, settings)
+	var a_grid: GaeaValue.Sample = _get_arg(&"a", graph, pouch)
+	var b_grid: GaeaValue.Sample = _get_arg(&"b", graph, pouch)
 	var result: GaeaValue.Sample = GaeaValue.Sample.new()
 	var operation_definition: Definition = operation_definitions[operation]
 	var static_args: Array
@@ -116,7 +116,7 @@ func _get_data(_output_port: StringName, graph: GaeaGraph, settings: GaeaGenerat
 		if _get_argument_type(arg) == GaeaValue.Type.SAMPLE:
 			continue
 
-		static_args.append(_get_arg(arg, graph, settings))
+		static_args.append(_get_arg(arg, graph, pouch))
 	for cell: Vector3i in a_grid.get_cells():
 		if not b_grid.has(cell):
 			continue

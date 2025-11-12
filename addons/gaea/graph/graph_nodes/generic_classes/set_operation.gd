@@ -90,10 +90,10 @@ func _on_enum_value_changed(_enum_idx: int, _option_value: int) -> void:
 
 
 # The generic Dictionary type here is expected, and the type will be updated in child classes.
-func _get_data(_output_port: StringName, graph: GaeaGraph, settings: GaeaGenerationSettings) -> GaeaValue.GridType:
+func _get_data(_output_port: StringName, graph: GaeaGraph, pouch: GaeaGenerationPouch) -> GaeaValue.GridType:
 	var grids: Array[GaeaValue.GridType] = []
 	for arg in _get_arguments_list():
-		var arg_grid: GaeaValue.GridType = _get_arg(arg, graph, settings)
+		var arg_grid: GaeaValue.GridType = _get_arg(arg, graph, pouch)
 		if not arg_grid.is_empty():
 			grids.append(arg_grid)
 
@@ -104,9 +104,9 @@ func _get_data(_output_port: StringName, graph: GaeaGraph, settings: GaeaGenerat
 
 	match get_enum_selection(0):
 		Operation.UNION:
-			for x in _get_axis_range(Vector3i.AXIS_X, settings.area):
-				for y in _get_axis_range(Vector3i.AXIS_Y, settings.area):
-					for z in _get_axis_range(Vector3i.AXIS_Z, settings.area):
+			for x in _get_axis_range(Vector3i.AXIS_X, pouch.area):
+				for y in _get_axis_range(Vector3i.AXIS_Y, pouch.area):
+					for z in _get_axis_range(Vector3i.AXIS_Z, pouch.area):
 						var cell: Vector3i = Vector3i(x, y, z)
 						for subgrid: GaeaValue.GridType in grids:
 							if subgrid.has(cell):
@@ -120,9 +120,9 @@ func _get_data(_output_port: StringName, graph: GaeaGraph, settings: GaeaGenerat
 					else:
 						grid.set_cell(cell, subgrid.get_cell(cell))
 		Operation.COMPLEMENT:
-			for x in _get_axis_range(Vector3i.AXIS_X, settings.area):
-				for y in _get_axis_range(Vector3i.AXIS_Y, settings.area):
-					for z in _get_axis_range(Vector3i.AXIS_Z, settings.area):
+			for x in _get_axis_range(Vector3i.AXIS_X, pouch.area):
+				for y in _get_axis_range(Vector3i.AXIS_Y, pouch.area):
+					for z in _get_axis_range(Vector3i.AXIS_Z, pouch.area):
 						var cell: Vector3i = Vector3i(x, y, z)
 						if not grids.front().has(cell):
 							grid.set_cell(cell, 1.0)
