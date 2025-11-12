@@ -8,7 +8,7 @@ auto_translate_mode = 1
 oversampling_override = 1.0
 title = "Thanks for using Gaea!"
 initial_position = 1
-size = Vector2i(512, 384)
+size = Vector2i(512, 557)
 visible = true
 exclusive = false
 script = ExtResource("1_ls6ih")
@@ -17,7 +17,7 @@ script = ExtResource("1_ls6ih")
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 504.0
-offset_bottom = 335.0
+offset_bottom = 508.0
 
 [node name="MarginContainer3" type="MarginContainer" parent="VBoxContainer"]
 layout_mode = 2
@@ -59,6 +59,7 @@ theme_override_constants/margin_top = 16
 
 [node name="ContributorsPanel" type="PanelContainer" parent="VBoxContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 350)
 layout_mode = 2
 size_flags_vertical = 3
 
@@ -87,15 +88,20 @@ theme_override_constants/margin_left = 4
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/ContributorsPanel/ScrollContainer/MainVBox/PanelContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/ContributorsPanel/ScrollContainer/MainVBox/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="BenjaTK" type="Label" parent="VBoxContainer/ContributorsPanel/ScrollContainer/MainVBox/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0
 text = "BenjaTK"
 
-[node name="Label2" type="Label" parent="VBoxContainer/ContributorsPanel/ScrollContainer/MainVBox/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Cullumi" type="Label" parent="VBoxContainer/ContributorsPanel/ScrollContainer/MainVBox/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0
 text = "cullumi (Ian Cullum)"
+
+[node name="Zehir" type="Label" parent="VBoxContainer/ContributorsPanel/ScrollContainer/MainVBox/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Zehir"
 
 [node name="Label2" type="RichTextLabel" parent="VBoxContainer/ContributorsPanel/ScrollContainer/MainVBox"]
 layout_mode = 2
