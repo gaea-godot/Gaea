@@ -77,7 +77,7 @@ func _load_data() -> void:
 		var saved_data = graph.get_node_data(id)
 		if saved_data.is_empty():
 			continue
-		var node := _instantiate_node(id)
+		var node := instantiate_node(id)
 
 		if graph.get_node(id) is GaeaNodeOutput:
 			if has_output_node:
@@ -223,7 +223,7 @@ func _on_online_docs_button_pressed() -> void:
 #endregion
 
 #region Nodes managment
-func _instantiate_node(id: int) -> GraphElement:
+func instantiate_node(id: int) -> GraphElement:
 	var saved_data := graph.get_node_data(id)
 	if graph.get_node_type(id) == GaeaGraph.NodeType.FRAME:
 		var new_frame: GaeaGraphFrame = GaeaGraphFrame.new()
@@ -260,7 +260,7 @@ func _instantiate_node(id: int) -> GraphElement:
 func _add_node(resource: GaeaNodeResource, local_grid_position: Vector2) -> GraphNode:
 	var id := graph.add_node(resource, local_grid_position)
 	resource.id = id
-	return _instantiate_node(id)
+	return instantiate_node(id)
 
 
 func _on_delete_nodes_request(nodes: Array[StringName]) -> void:
@@ -591,7 +591,14 @@ func _is_node_hover_valid(
 #region Frames
 func _add_frame() -> void:
 	var id: int = graph.add_frame(local_to_grid(main_editor.node_creation_target))
-	_instantiate_node(id)
+	instantiate_node(id)
+
+
+func load_all_attached_elements() -> void:
+	for frame in get_children().filter(
+		func(node) -> bool: return node is GaeaGraphFrame
+	):
+		_load_attached_elements(graph.get_nodes_attached_to_frame(frame.id), frame.name)
 
 
 func _load_attached_elements(attached: Array, frame_name: StringName) -> void:
@@ -659,7 +666,7 @@ func _paste_nodes(at_position: Vector2, data: GaeaNodesCopy = copy_buffer) -> vo
 	var copy_ids := graph.paste_nodes(data, at_position)
 	var new_connections: Array[Dictionary]
 	for id in copy_ids:
-		_instantiate_node(id).selected = true
+		instantiate_node(id).selected = true
 		new_connections.append_array(graph.get_node_connections(id))
 
 	_load_connections.call_deferred(new_connections)

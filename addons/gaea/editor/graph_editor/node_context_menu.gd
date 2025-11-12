@@ -20,7 +20,7 @@ enum Action {
 }
 
 @export var main_editor: GaeaMainEditor
-@export var graph_edit: GraphEdit
+@export var graph_edit: GaeaGraphEdit
 
 
 func _ready() -> void:
@@ -85,7 +85,6 @@ func populate(selected: Array) -> void:
 
 func _on_id_pressed(id: int) -> void:
 	var idx: int = get_item_index(id)
-	var graph: GaeaGraph = panel.get_selected_generator().data
 	match id:
 		Action.ADD:
 			main_editor.popup_create_node_request.emit()
@@ -129,29 +128,29 @@ func _on_id_pressed(id: int) -> void:
 		Action.GROUP_IN_FRAME:
 			var selected: Array = graph_edit.get_selected()
 			var front_node: GraphElement = selected.front()
-			var frame_id: int = graph.add_frame(
+			var frame_id: int = graph_edit.graph.add_frame(
 				front_node.position_offset
 			)
 			var selected_ids: Array = selected.map(_get_node_id)
 			for node in selected:
 				var node_id: int = _get_node_id(node)
-				var parent_frame: int = graph.get_parent_frame(node_id)
+				var parent_frame: int = graph_edit.graph.get_parent_frame(node_id)
 				if parent_frame != -1:
 					if parent_frame in selected_ids:
 						continue
 					else:
-						graph.attach_node_to_frame(frame_id, parent_frame)
+						graph_edit.graph.attach_node_to_frame(frame_id, parent_frame)
 
-				graph.detach_node_from_frame(node_id)
-				graph.attach_node_to_frame(
+				graph_edit.graph.detach_node_from_frame(node_id)
+				graph_edit.graph.attach_node_to_frame(
 					node_id, frame_id
 				)
 				node.selected = false
 
-			var frame := panel.instantiate_node(frame_id)
+			var frame := graph_edit.instantiate_node(frame_id)
 			frame.selected = true
 
-			panel.load_all_attached_elements.call_deferred()
+			graph_edit.load_all_attached_elements.call_deferred()
 		Action.DETACH:
 			var selected: Array = graph_edit.get_selected()
 			for node: GraphElement in selected:
