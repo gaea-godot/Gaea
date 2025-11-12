@@ -51,6 +51,8 @@ func _on_id_pressed(id: int) -> void:
 
 
 func _on_file_chosen_to_open(path: String) -> void:
+	if path.is_empty():
+		return
 	open_file_selected.emit(load(path))
 
 
