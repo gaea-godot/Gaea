@@ -247,7 +247,7 @@ func _on_delete_nodes_request(nodes: Array[StringName]) -> void:
 
 func delete_nodes(nodes: Array[StringName]) -> void:
 	for node_name in nodes:
-		var node: GraphElement = get_node(NodePath(node_name))
+		var node: GraphElement = get_node_or_null(NodePath(node_name))
 		if node is GaeaGraphNode:
 			if node.is_in_group(&"cant_delete"):
 				continue
@@ -354,7 +354,10 @@ func _on_special_node_selected_for_creation(id: StringName) -> void:
 
 func _on_new_reroute_requested(connection: Dictionary) -> void:
 	var resource: GaeaNodeReroute = GaeaNodeReroute.new()
-	var from_node: GraphNode = get_node(NodePath(connection.from_node))
+	var from_node: GraphNode = get_node_or_null(NodePath(connection.from_node))
+	if not is_instance_valid(from_node):
+		return
+
 	resource.type = from_node.get_output_port_type(connection.from_port) as GaeaValue.Type
 	var reroute: GaeaGraphNode = _add_node(resource, Vector2.ZERO)
 
@@ -391,13 +394,16 @@ func update_connections() -> void:
 			node.connections.clear()
 
 	for connection in get_connection_list():
-		var to_node: GraphNode = get_node(NodePath(connection.to_node))
+		var to_node: GraphNode = get_node_or_null(NodePath(connection.to_node))
 		if is_instance_valid(to_node):
 			to_node.connections.append(connection)
 
 
 func _on_connection_from_empty(to_node: StringName, to_port: int, _release_position: Vector2) -> void:
-	var node: GaeaGraphNode = get_node(NodePath(to_node))
+	var node: GaeaGraphNode = get_node_or_null(NodePath(to_node))
+	if not is_instance_valid(node):
+		return
+
 	var type: GaeaValue.Type = node.resource.get_argument_type(
 		node.resource.connection_idx_to_argument(to_port)
 	)
@@ -407,7 +413,10 @@ func _on_connection_from_empty(to_node: StringName, to_port: int, _release_posit
 
 
 func _on_connection_to_empty(from_node: StringName, from_port: int, _release_position: Vector2) -> void:
-	var node: GaeaGraphNode = get_node(NodePath(from_node))
+	var node: GaeaGraphNode = get_node_or_null(NodePath(from_node))
+	if not is_instance_valid(node):
+		return
+
 	var type: GaeaValue.Type = node.resource.get_output_port_type(
 		node.resource.connection_idx_to_output(from_port)
 	)
@@ -422,8 +431,14 @@ func _on_connection_request(
 	if is_nodes_connected_relatively(from_node, to_node):
 		return
 
-	var to_graph_node: GaeaGraphNode = get_node(NodePath(to_node))
-	var from_graph_node: GaeaGraphNode = get_node(NodePath(from_node))
+	var to_graph_node: GaeaGraphNode = get_node_or_null(NodePath(to_node))
+	if not is_instance_valid(to_graph_node):
+		return
+
+	var from_graph_node: GaeaGraphNode = get_node_or_null(NodePath(from_node))
+	if not is_instance_valid(from_graph_node):
+		return
+
 
 	if to_graph_node is GaeaGraphNode:
 		for connection in to_graph_node.connections:
@@ -472,10 +487,17 @@ func _on_disconnection_request(
 	disconnect_node(from_node, from_port, to_node, to_port)
 	update_connections()
 
-	var to_graph_node: GaeaGraphNode = get_node(NodePath(to_node))
-	var from_graph_node: GaeaGraphNode = get_node(NodePath(from_node))
+	var to_graph_node: GaeaGraphNode = get_node_or_null(NodePath(to_node))
+	if not is_instance_valid(to_graph_node):
+		return
 
-	graph.disconnect_nodes(from_graph_node.resource.id, from_port, to_graph_node.resource.id, to_port)
+	var from_graph_node: GaeaGraphNode = get_node_or_null(NodePath(from_node))
+	if not is_instance_valid(from_graph_node):
+		return
+
+	graph.disconnect_nodes(
+		from_graph_node.resource.id, from_port, to_graph_node.resource.id, to_port
+	)
 
 	if from_graph_node.has_finished_loading():
 		from_graph_node.notify_connections_updated.call_deferred()
@@ -485,8 +507,8 @@ func _on_disconnection_request(
 
 func remove_invalid_connections() -> void:
 	for connection in get_connection_list():
-		var to_node: GaeaGraphNode = get_node(NodePath(connection.to_node))
-		var from_node: GaeaGraphNode = get_node(NodePath(connection.from_node))
+		var to_node: GaeaGraphNode = get_node_or_null(NodePath(connection.to_node))
+		var from_node: GaeaGraphNode = get_node_or_null(NodePath(connection.from_node))
 
 		if not is_instance_valid(from_node) or not is_instance_valid(to_node):
 			disconnect_node(
@@ -525,12 +547,14 @@ func is_nodes_connected_relatively(from_node: StringName, to_node: StringName) -
 	var nodes_to_check: Array[StringName] = [from_node]
 	while nodes_to_check.size() > 0:
 		var node_name = nodes_to_check.pop_front()
-		var node: GaeaGraphNode = get_node(NodePath(node_name))
-		if node is GaeaGraphNode:
-			for connection in node.connections:
-				nodes_to_check.append(connection.from_node)
-				if connection.from_node == to_node:
-					return true
+		var node: GaeaGraphNode = get_node_or_null(NodePath(node_name))
+		if not is_instance_valid(node) or node is not GaeaGraphNode:
+			return false
+
+		for connection in node.connections:
+			nodes_to_check.append(connection.from_node)
+			if connection.from_node == to_node:
+				return true
 	return false
 
 
@@ -577,7 +601,7 @@ func _on_graph_elements_linked_to_frame_request(elements: Array, frame: StringNa
 
 func detach_element_from_frame(element: StringName) -> void:
 	detach_graph_element_from_frame(element)
-	var node: GraphElement = get_node(NodePath(element))
+	var node: GraphElement = get_node_or_null(NodePath(element))
 	if node is GaeaGraphNode:
 		graph.detach_node_from_frame(node.resource.id)
 	elif node is GaeaGraphFrame:
@@ -587,8 +611,13 @@ func detach_element_from_frame(element: StringName) -> void:
 
 func _on_element_attached_to_frame(element: StringName, frame: StringName) -> void:
 	attached_elements.set(element, frame)
-	var node: GraphElement = get_node(NodePath(element))
-	var frame_node: GaeaGraphFrame = get_node(NodePath(frame))
+	var node: GraphElement = get_node_or_null(NodePath(element))
+	if not is_instance_valid(node):
+		return
+
+	var frame_node: GaeaGraphFrame = get_node_or_null(NodePath(frame))
+	if not is_instance_valid(frame_node):
+		return
 
 	if node is GaeaGraphNode:
 		graph.attach_node_to_frame(node.resource.id, frame_node.id)
