@@ -75,7 +75,11 @@ func _handles(object: Object) -> bool:
 # TMP Until a proper save system
 func _edit(object: Object) -> void:
 	if is_instance_valid(object) and object is GaeaGraph:
+		if object.resource_path.is_empty():
+			return
+
 		make_bottom_panel_item_visible(_container)
 		if _panel.graph_edit.graph == object:
 			return
+
 		_panel.file_list.open_file(object)
