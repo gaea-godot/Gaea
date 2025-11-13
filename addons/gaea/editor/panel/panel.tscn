@@ -52,10 +52,11 @@ allow_rmb_select = true
 [node name="ContextMenu" type="PopupMenu" parent="FileSystemContainer/FileList"]
 script = ExtResource("3_gbl2m")
 
-[node name="SaveAsFileDialog" type="FileDialog" parent="FileSystemContainer"]
+[node name="FileDialog" type="FileDialog" parent="FileSystemContainer"]
 title = "Save Graph As..."
 size = Vector2i(960, 540)
 mode_overrides_title = false
+filters = PackedStringArray("*.tres;Resource Files")
 
 [node name="MainEditor" type="Control" parent="." node_paths=PackedStringArray("gaea_panel", "graph_edit", "about_window", "no_data", "create_node_popup", "node_context_menu", "link_context_menu")]
 layout_mode = 2
@@ -283,8 +284,6 @@ item_0/id = 0
 script = ExtResource("7_dhpru")
 main_editor = NodePath("..")
 
-[connection signal="canceled" from="FileSystemContainer/SaveAsFileDialog" to="FileSystemContainer" method="_on_save_as_file_dialog_canceled"]
-[connection signal="file_selected" from="FileSystemContainer/SaveAsFileDialog" to="FileSystemContainer" method="_on_save_as_file_dialog_file_selected"]
 [connection signal="about_popup_request" from="MainEditor" to="MainEditor/AboutWindow" method="_on_main_editor_about_popup_request"]
 [connection signal="visibility_changed" from="MainEditor" to="MainEditor/GraphEdit" method="_on_main_editor_visibility_changed"]
 [connection signal="connection_from_empty" from="MainEditor/GraphEdit" to="MainEditor/GraphEdit" method="_on_connection_from_empty"]

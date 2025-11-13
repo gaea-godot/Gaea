@@ -3,6 +3,7 @@ extends MenuBar
 
 
 signal open_file_selected(file: GaeaGraph)
+signal create_new_graph_selected
 
 enum Action {
 	NEW_GRAPH,
@@ -46,6 +47,8 @@ func add_graph_to_history(new_graph: GaeaGraph) -> void:
 
 func _on_id_pressed(id: int) -> void:
 	match id:
+		Action.NEW_GRAPH:
+			create_new_graph_selected.emit()
 		Action.OPEN:
 			EditorInterface.popup_quick_open(_on_file_chosen_to_open, [&"GaeaGraph"])
 
