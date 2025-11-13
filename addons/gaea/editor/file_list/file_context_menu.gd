@@ -6,6 +6,7 @@ extends PopupMenu
 signal close_file_selected(file: GaeaGraph)
 signal close_all_selected
 signal close_others_selected(file: GaeaGraph)
+signal save_as_selected(file: GaeaGraph)
 
 enum Action {
 	SAVE,
@@ -41,7 +42,7 @@ func _on_id_pressed(id: int) -> void:
 		Action.SAVE:
 			ResourceSaver.save(graph)
 		Action.SAVE_AS:
-			pass
+			save_as_selected.emit(graph)
 		Action.CLOSE:
 			close_file_selected.emit(graph)
 		Action.CLOSE_ALL:

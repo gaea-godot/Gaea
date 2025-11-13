@@ -392,7 +392,8 @@ func update_connections() -> void:
 
 	for connection in get_connection_list():
 		var to_node: GraphNode = get_node(NodePath(connection.to_node))
-		to_node.connections.append(connection)
+		if is_instance_valid(to_node):
+			to_node.connections.append(connection)
 
 
 func _on_connection_from_empty(to_node: StringName, to_port: int, _release_position: Vector2) -> void:

@@ -9,10 +9,12 @@ const GRAPH_ICON := preload("res://addons/gaea/assets/graph.svg")
 @export var main_editor: GaeaMainEditor
 
 var edited_graphs: Array[GaeaGraph]
+var _current_saving_graph: GaeaGraph = null
 
 @onready var menu_bar: MenuBar = $MenuBar
 @onready var file_list: ItemList = $FileList
 @onready var context_menu: GaeaPopupFileContextMenu = $FileList/ContextMenu
+@onready var save_as_file_dialog: FileDialog = $SaveAsFileDialog
 
 
 func _ready() -> void:
@@ -25,6 +27,7 @@ func _ready() -> void:
 	context_menu.close_file_selected.connect(close_file)
 	context_menu.close_all_selected.connect(close_all)
 	context_menu.close_others_selected.connect(close_others)
+	context_menu.save_as_selected.connect(_start_save_as)
 	menu_bar.open_file_selected.connect(open_file)
 
 
@@ -51,8 +54,6 @@ func open_file(graph: GaeaGraph) -> void:
 	edited_graphs.append(graph)
 
 
-
-
 func close_file(graph: GaeaGraph) -> void:
 	var idx: int = edited_graphs.find(graph)
 	if file_list.get_item_metadata(idx) == graph:
@@ -70,6 +71,17 @@ func close_others(graph: GaeaGraph) -> void:
 			continue
 
 		close_file(file)
+
+
+func _start_save_as(file: GaeaGraph) -> void:
+	var path: String = "res://"
+	if not file.is_built_in():
+		path = file.resource_path
+
+	save_as_file_dialog.current_path = path
+	save_as_file_dialog.popup_centered()
+
+	_current_saving_graph = file
 
 
 func _remove(idx: int) -> void:
@@ -97,3 +109,18 @@ func _on_item_selected(index: int) -> void:
 	graph_edit.unpopulate()
 	graph_edit.populate(metadata)
 	EditorInterface.edit_resource(metadata)
+
+
+func _on_save_as_file_dialog_file_selected(path: String) -> void:
+	if path.get_extension() != "tres":
+		push_error("Invalid extension for a GaeaGraph file.")
+		return
+
+	close_file(_current_saving_graph)
+	ResourceSaver.save(_current_saving_graph, path)
+	open_file(load(path))
+	_current_saving_graph = null
+
+
+func _on_save_as_file_dialog_canceled() -> void:
+	_current_saving_graph = null
