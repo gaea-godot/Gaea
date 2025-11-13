@@ -156,6 +156,7 @@ func add_node(node: GaeaNodeResource, position: Vector2, id: int = get_next_avai
 				)
 	}.merged(node.get_custom_saved_data()))
 	node.on_added_to_graph.call_deferred(self)
+	emit_changed()
 	return id
 
 
@@ -177,12 +178,14 @@ func add_frame(position: Vector2, id: int = get_next_available_id()) -> int:
 		&"type": NodeType.FRAME,
 		&"position": position,
 	})
+	emit_changed()
 	return id
 
 
 ## Adds the specified frame as in [method add_frame], then sets its saved data to [param data].
 func add_frame_with_data(data: Dictionary, id: int = get_next_available_id()) -> int:
 	_node_data.set(id, data)
+	emit_changed()
 	return id
 
 
@@ -197,6 +200,7 @@ func remove_node(id: int) -> void:
 		)
 	_node_data.erase(id)
 	_resources.erase(id)
+	emit_changed()
 
 
 ## Pastes the nodes specified in [param copy] to the frame, offset so that the top-left node is
@@ -242,6 +246,7 @@ func paste_nodes(copy: GaeaNodesCopy, at_position: Vector2) -> Array[int]:
 				id_mapping.get(connection.get(&"to_node")),
 				connection.get(&"to_port")
 			)
+	emit_changed()
 	return id_mapping.values()
 
 
@@ -250,7 +255,7 @@ func set_node_position(id: int, position: Vector2) -> void:
 	if not _node_data.has(id):
 		return
 
-	get_node_data(id).set(&"position", position)
+	set_node_data_value(id, &"position", position)
 
 
 ## Returns the specified node's position.
@@ -274,6 +279,7 @@ func get_node_salt(id: int) -> int:
 ## Sets the specified node's argument of [param arg_name] to [param value].
 func set_node_argument(id: int, arg_name: StringName, value: Variant) -> void:
 	get_node_data(id).get_or_add(&"arguments", {}).set(arg_name, value)
+	emit_changed()
 
 
 ## Returns the specified node's argument of [param arg_name], defaulting to [param default_value]
@@ -290,6 +296,7 @@ func get_node_argument_list(id: int) -> Dictionary:
 ## Removes the specified argument from the specified node, meaning it will use the default value.
 func remove_node_argument(id: int, arg_name: StringName) -> void:
 	get_node_argument_list(id).erase(arg_name)
+	emit_changed()
 
 
 ## Sets the specified node's enum value at [param enum_idx] to [param value]
@@ -305,6 +312,7 @@ func set_node_enum(id: int, enum_idx: int, value: int) -> void:
 ## It's found under [member _node_data][[param id]][[param key]].
 func set_node_data_value(id: int, key: StringName, value: Variant) -> void:
 	get_node_data(id).set(key, value)
+	emit_changed()
 
 
 ## Gets the specified node's saved data of [param key].[br]
@@ -321,6 +329,7 @@ func attach_node_to_frame(node_id: int, frame_id: int) -> void:
 	var attached_array: Array = get_node_data(frame_id).get_or_add(&"attached", [] as Array[int])
 	if not attached_array.has(node_id):
 		attached_array.append(node_id)
+	emit_changed()
 
 
 ## Detaches the specified node from its parent frame.
@@ -328,11 +337,13 @@ func detach_node_from_frame(node_id: int) -> void:
 	var frame_idx: int = get_parent_frame(node_id)
 	if frame_idx != -1:
 		_node_data.values()[frame_idx][&"attached"].erase(node_id)
+		emit_changed()
 
 
 ## Detaches all nodes attached to the specified frame.
 func detach_all_nodes_from_frame(frame_id: int) -> void:
 	set_node_data_value(frame_id, &"attached", [])
+	emit_changed()
 
 
 ## Returns all node ids attached to the specified frame.
@@ -385,6 +396,7 @@ func get_node_type(id: int) -> NodeType:
 ## [br][color=yellow][b]Warning:[/b][/color] Setting this directly could break your graph.
 func set_node_data(id: int, data: Dictionary) -> void:
 	_node_data.set(id, data)
+	emit_changed()
 
 
 ## Returns the saved data for the specified node.
@@ -439,6 +451,7 @@ func connect_nodes(from_id: int, from_port: int, to_id: int, to_port: int) -> Er
 		"to_port": to_port
 	})
 	_connections.append(&"%s-%s-%s-%s" % [from_id, from_port, to_id, to_port])
+	emit_changed()
 	return OK
 
 
@@ -454,6 +467,7 @@ func force_connect_nodes(from_id: int, from_port: int, to_id: int, to_port: int)
 			"to_port": to_port
 		})
 	_connections.append(&"%s-%s-%s-%s" % [from_id, from_port, to_id, to_port])
+	emit_changed()
 
 
 ## Disconnects the specified nodes and ports, if the connection exists.
@@ -470,6 +484,7 @@ func disconnect_nodes(from_id: int, from_port: int, to_id: int, to_port: int) ->
 			):
 				to_node.connections.remove_at(idx)
 	_connections.erase(&"%s-%s-%s-%s" % [from_id, from_port, to_id, to_port])
+	emit_changed()
 
 
 ## Returns the saved connection (as a string) converted into a connection dictionary.
@@ -532,6 +547,7 @@ func get_parameter(name: StringName) -> Variant:
 ## Sets the specified parameter from [member _parameters] to [param value].
 func set_parameter(name: StringName, value: Variant) -> void:
 	_set(name, value)
+	emit_changed()
 
 
 ## Returns [code]true[/code] if a parameter of that name exists.
@@ -560,6 +576,7 @@ func add_parameter(name: StringName, parameter: Dictionary) -> Error:
 
 	_parameters[name] = parameter
 	notify_property_list_changed()
+	emit_changed()
 	return OK
 
 
@@ -574,12 +591,15 @@ func rename_parameter(old_name: StringName, new_name: StringName) -> Error:
 
 	remove_parameter(old_name)
 	notify_property_list_changed()
+	emit_changed()
 	return OK
 
 
 ## Removes the parameter of [param name].
 func remove_parameter(name: StringName) -> void:
 	_parameters.erase(name)
+	notify_property_list_changed()
+	emit_changed()
 
 
 func _get_property_list() -> Array[Dictionary]:

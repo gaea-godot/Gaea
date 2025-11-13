@@ -32,6 +32,8 @@ func _enter_tree() -> void:
 		_custom_project_settings = GaeaProjectSettings.new()
 		_custom_project_settings.add_settings()
 
+		resource_saved.connect(_on_resource_saved)
+
 
 func _exit_tree() -> void:
 	if Engine.is_editor_hint():
@@ -46,17 +48,27 @@ func _disable_plugin() -> void:
 		_custom_project_settings.remove_settings()
 
 
-# TMP Until a proper save system
-#func _get_unsaved_status(_for_scene: String) -> String:
-#	if is_instance_valid(_panel.graph_edit.graph):
-#		return "Save changes in Gaea before closing?"
-#	return ""
+func _get_unsaved_status(_for_scene: String) -> String:
+	if not _for_scene.is_empty():
+		return ""
+
+	var string: String = "Save changes to the following GaeaGraphs before continuing?"
+	var found_unsaved: bool = false
+	for edited_graph: GaeaFileList.EditedGraph in _panel.file_list.edited_graphs:
+		if edited_graph.is_unsaved():
+			found_unsaved = true
+			string += "\n%s" % edited_graph.get_graph().resource_path.get_file()
+
+	if found_unsaved:
+		return string
+	return ""
 
 
-# TMP Until a proper save system
 func _save_external_data() -> void:
-	if is_instance_valid(_panel.graph_edit.graph):
-		ResourceSaver.save(_panel.graph_edit.graph)
+	for edited_graph: GaeaFileList.EditedGraph in _panel.file_list.edited_graphs:
+		if edited_graph.is_unsaved():
+			ResourceSaver.save(edited_graph.get_graph())
+			edited_graph.set_dirty(false)
 
 
 func _on_selection_changed() -> void:
@@ -80,3 +92,12 @@ func _edit(object: Object) -> void:
 			return
 
 		_panel.file_list.open_file(object)
+
+
+func _on_resource_saved(resource: Resource) -> void:
+	if resource is not GaeaGraph:
+		return
+
+	for edited_graph: GaeaFileList.EditedGraph in _panel.file_list.edited_graphs:
+		if edited_graph.get_graph() == resource:
+			edited_graph.set_dirty(false)

@@ -7,6 +7,7 @@ signal close_file_selected(file: GaeaGraph)
 signal close_all_selected
 signal close_others_selected(file: GaeaGraph)
 signal save_as_selected(file: GaeaGraph)
+signal file_saved(file: GaeaGraph)
 
 enum Action {
 	SAVE,
@@ -41,6 +42,7 @@ func _on_id_pressed(id: int) -> void:
 	match id:
 		Action.SAVE:
 			ResourceSaver.save(graph)
+			file_saved.emit(graph)
 		Action.SAVE_AS:
 			save_as_selected.emit(graph)
 		Action.CLOSE:
