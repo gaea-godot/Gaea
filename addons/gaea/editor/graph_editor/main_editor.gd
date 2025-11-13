@@ -21,7 +21,6 @@ signal new_reroute_requested(connection: Dictionary)
 @export var gaea_panel: GaeaPanel
 @export var graph_edit: GaeaGraphEdit
 @export var about_window: AcceptDialog
-@export var no_data: CenterContainer
 @export var create_node_popup: GaeaPopupCreateNode
 @export var node_context_menu: GaeaPopupNodeContextMenu
 @export var link_context_menu: GaeaPopupLinkContextMenu
@@ -70,8 +69,3 @@ static func _clamp_popup_in_rect(popup: Window, window_rect: Rect2i) -> void:
 		popup.position.y = window_rect.position.y
 	elif inner_rect.position.y + inner_rect.size.y > window_rect.position.y + window_rect.size.y:
 		popup.position.y = window_rect.position.y + window_rect.size.y - inner_rect.size.y
-
-
-# TMP Until a proper save system
-func _on_new_data_button_pressed() -> void:
-	pass

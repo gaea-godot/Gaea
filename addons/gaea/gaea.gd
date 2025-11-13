@@ -59,7 +59,6 @@ func _save_external_data() -> void:
 		ResourceSaver.save(_panel.graph_edit.graph)
 
 
-# TMP Until a proper save system
 func _on_selection_changed() -> void:
 	if Engine.is_editor_hint():
 		var selected: Array[Node] = _editor_selection.get_selected_nodes()
@@ -67,12 +66,10 @@ func _on_selection_changed() -> void:
 			_edit(selected.front().graph)
 
 
-# TMP Until a proper save system
 func _handles(object: Object) -> bool:
 	return object is GaeaGraph
 
 
-# TMP Until a proper save system
 func _edit(object: Object) -> void:
 	if is_instance_valid(object) and object is GaeaGraph:
 		if object.resource_path.is_empty():

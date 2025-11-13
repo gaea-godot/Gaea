@@ -49,9 +49,6 @@ func _ready() -> void:
 
 #region Saving and Loading
 func populate(new_graph: GaeaGraph) -> void:
-	# TMP Until a proper save system
-	#if graph != null:
-		#ResourceSaver.save(graph)
 	graph = new_graph
 	graph.ensure_initialized()
 	if not graph.layer_count_modified.is_connected(_update_output_node):

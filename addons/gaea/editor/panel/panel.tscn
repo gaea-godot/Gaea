@@ -58,14 +58,13 @@ size = Vector2i(960, 540)
 mode_overrides_title = false
 filters = PackedStringArray("*.tres;Resource Files")
 
-[node name="MainEditor" type="Control" parent="." node_paths=PackedStringArray("gaea_panel", "graph_edit", "about_window", "no_data", "create_node_popup", "node_context_menu", "link_context_menu")]
+[node name="MainEditor" type="Control" parent="." node_paths=PackedStringArray("gaea_panel", "graph_edit", "about_window", "create_node_popup", "node_context_menu", "link_context_menu")]
 layout_mode = 2
 size_flags_vertical = 3
 script = ExtResource("4_gbl2m")
 gaea_panel = NodePath("..")
 graph_edit = NodePath("GraphEdit")
 about_window = NodePath("AboutWindow")
-no_data = NodePath("NoData")
 create_node_popup = NodePath("CreateNodePopup")
 node_context_menu = NodePath("NodeContextMenu")
 link_context_menu = NodePath("LinkContextMenu")
@@ -112,25 +111,6 @@ theme_override_styles/fill = SubResource("StyleBoxEmpty_dhpru")
 text = "(0,0)"
 fit_content = true
 metadata/_edit_use_anchors_ = true
-
-[node name="NoData" type="CenterContainer" parent="MainEditor"]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="NoDataLabel" type="Label" parent="MainEditor/NoData"]
-layout_mode = 2
-text = "No data resource has been added to the selected generator"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="NewDataButton" type="Button" parent="MainEditor/NoData"]
-layout_mode = 2
-text = "Add New Resource"
 
 [node name="AboutWindow" parent="MainEditor" node_paths=PackedStringArray("main_editor") instance=ExtResource("9_affj1")]
 visible = false
@@ -298,7 +278,6 @@ main_editor = NodePath("..")
 [connection signal="gui_input" from="MainEditor/GraphEdit" to="MainEditor/GraphEdit" method="_on_gui_input"]
 [connection signal="paste_nodes_request" from="MainEditor/GraphEdit" to="MainEditor/GraphEdit" method="_on_paste_nodes_request"]
 [connection signal="scroll_offset_changed" from="MainEditor/GraphEdit" to="MainEditor/GraphEdit" method="_on_scroll_offset_changed"]
-[connection signal="pressed" from="MainEditor/NoData/NewDataButton" to="MainEditor" method="_on_new_data_button_pressed"]
 [connection signal="text_changed" from="MainEditor/CreateNodePopup/MainContentContainer/VBox/SearchContainer/SearchBar" to="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_search_bar_text_changed"]
 [connection signal="text_submitted" from="MainEditor/CreateNodePopup/MainContentContainer/VBox/SearchContainer/SearchBar" to="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_search_bar_text_submitted"]
 [connection signal="pressed" from="MainEditor/CreateNodePopup/MainContentContainer/VBox/SearchContainer/ToolButton" to="MainEditor/CreateNodePopup" method="_on_tool_button_pressed"]
