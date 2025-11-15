@@ -41,7 +41,13 @@ func _ready() -> void:
 func _on_id_pressed(id: int) -> void:
 	match id:
 		Action.SAVE:
-			ResourceSaver.save(graph)
+			if not graph.is_built_in():
+				ResourceSaver.save(graph)
+			else:
+				var scene_path := graph.resource_path.get_slice("::", 0)
+				ResourceSaver.save(load(scene_path))
+				# Necessary for open scenes.
+				EditorInterface.reload_scene_from_path(scene_path)
 			file_saved.emit(graph)
 		Action.SAVE_AS:
 			save_as_selected.emit(graph)
