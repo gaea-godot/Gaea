@@ -40,7 +40,7 @@ file_dialog = NodePath("FileDialog")
 
 [node name="MenuBar" type="MenuBar" parent="FileSystemContainer"]
 layout_mode = 2
-flat = true
+theme_type_variation = &"FlatButton"
 script = ExtResource("2_ce5k6")
 
 [node name="File" type="PopupMenu" parent="FileSystemContainer/MenuBar"]
