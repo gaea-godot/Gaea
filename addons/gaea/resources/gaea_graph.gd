@@ -156,7 +156,7 @@ func add_node(node: GaeaNodeResource, position: Vector2, id: int = get_next_avai
 				)
 	}.merged(node.get_custom_saved_data()))
 	node.on_added_to_graph.call_deferred(self)
-	emit_changed()
+	emit_changed.call_deferred()
 	return id
 
 
@@ -306,6 +306,7 @@ func set_node_enum(id: int, enum_idx: int, value: int) -> void:
 	if node_enums.size() <= enum_idx:
 		node_enums.resize(enum_idx + 1)
 	node_enums.set(enum_idx, value)
+	emit_changed()
 
 
 ## Sets the specified node's saved data to [param value].[br]
