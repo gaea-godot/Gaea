@@ -72,7 +72,7 @@ func close_file(graph: GaeaGraph) -> void:
 
 
 func close_all() -> void:
-	for idx: int in range(edited_graphs.size() - 1, 0, -1):
+	for idx: int in range(edited_graphs.size() - 1, -1, -1):
 		close_file(edited_graphs[idx].get_graph())
 
 
