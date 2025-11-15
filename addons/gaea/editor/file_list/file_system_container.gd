@@ -135,6 +135,9 @@ func _on_item_clicked(index: int, _at_position: Vector2, mouse_button_index: int
 
 
 func _on_item_selected(index: int) -> void:
+	if index == -1:
+		return
+
 	var metadata: GaeaGraph = file_list.get_item_metadata(index)
 	if metadata is not GaeaGraph or not is_instance_valid(metadata):
 		return
@@ -174,6 +177,9 @@ func _on_file_dialog_canceled() -> void:
 
 func _on_edited_graph_dirty_changed(new_value: bool, edited_graph: EditedGraph) -> void:
 	var idx := edited_graphs.find(edited_graph)
+	if idx == -1:
+		return
+
 	var text := file_list.get_item_text(idx)
 	text = text.trim_suffix("(*)")
 	if new_value == true:
