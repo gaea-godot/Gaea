@@ -7,14 +7,13 @@ const GRAPH_ICON := preload("res://addons/gaea/assets/graph.svg")
 
 @export var graph_edit: GaeaGraphEdit
 @export var main_editor: GaeaMainEditor
+@export var menu_bar: MenuBar
+@export var file_list: ItemList
+@export var context_menu: GaeaPopupFileContextMenu
+@export var file_dialog: FileDialog
 
 var edited_graphs: Array[EditedGraph]
 var _current_saving_graph: GaeaGraph = null
-
-@onready var menu_bar: MenuBar = $MenuBar
-@onready var file_list: ItemList = $FileList
-@onready var context_menu: GaeaPopupFileContextMenu = $FileList/ContextMenu
-@onready var file_dialog: FileDialog = $FileDialog
 
 
 func _ready() -> void:

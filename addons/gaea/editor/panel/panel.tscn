@@ -26,13 +26,17 @@ main_editor = NodePath("MainEditor")
 graph_edit = NodePath("MainEditor/GraphEdit")
 file_list = NodePath("FileSystemContainer")
 
-[node name="FileSystemContainer" type="VBoxContainer" parent="." node_paths=PackedStringArray("graph_edit", "main_editor")]
+[node name="FileSystemContainer" type="VBoxContainer" parent="." node_paths=PackedStringArray("graph_edit", "main_editor", "menu_bar", "file_list", "context_menu", "file_dialog")]
 clip_contents = true
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 script = ExtResource("2_eht7w")
 graph_edit = NodePath("../MainEditor/GraphEdit")
 main_editor = NodePath("../MainEditor")
+menu_bar = NodePath("MenuBar")
+file_list = NodePath("FileList")
+context_menu = NodePath("FileList/ContextMenu")
+file_dialog = NodePath("FileDialog")
 
 [node name="MenuBar" type="MenuBar" parent="FileSystemContainer"]
 layout_mode = 2
