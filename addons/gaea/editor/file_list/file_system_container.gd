@@ -3,7 +3,7 @@ class_name GaeaFileList
 extends VBoxContainer
 
 
-const GRAPH_ICON := preload("res://addons/gaea/assets/graph.svg")
+const GRAPH_ICON := preload("uid://cerisdpavr7v3")
 
 @export var graph_edit: GaeaGraphEdit
 @export var main_editor: GaeaMainEditor
