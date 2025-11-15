@@ -30,7 +30,7 @@ func _ready() -> void:
 	add_item("Save File As...", Action.SAVE_AS)
 	add_item("Close", Action.CLOSE)
 	add_item("Close All", Action.CLOSE_ALL)
-	add_item("Close Other", Action.CLOSE_OTHER)
+	add_item("Close Other Tabs", Action.CLOSE_OTHER)
 	add_separator()
 	add_item("Copy File Path", Action.COPY_PATH)
 	add_item("Show in FileSystem", Action.SHOW_IN_FILESYSTEM)
