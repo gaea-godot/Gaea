@@ -25,6 +25,7 @@ func _ready() -> void:
 	file_popup.add_item("Open...", Action.OPEN)
 	file_popup.add_submenu_node_item("Open Recent", recent_files, Action.OPEN_RECENT)
 	file_popup.id_pressed.connect(_on_id_pressed)
+	file_popup.about_to_popup.connect(_on_file_item_about_to_popup)
 
 	recent_files.id_pressed.connect(_on_recent_files_id_pressed)
 
@@ -63,3 +64,7 @@ func _on_recent_files_id_pressed(id: int) -> void:
 	open_file_selected.emit(
 		recent_files.get_item_metadata(recent_files.get_item_index(id))
 	)
+
+
+func _on_file_item_about_to_popup() -> void:
+	file_popup.set_item_disabled(2, _history.is_empty())
