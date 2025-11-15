@@ -56,3 +56,5 @@ func _on_id_pressed(id: int) -> void:
 		Action.SHOW_IN_FILESYSTEM:
 			if not graph.is_built_in():
 				EditorInterface.select_file(graph.resource_path)
+			else:
+				EditorInterface.select_file(graph.resource_path.get_slice("::", 0))
