@@ -154,11 +154,16 @@ func _on_file_dialog_file_selected(path: String) -> void:
 		push_error("Invalid extension for a GaeaGraph file.")
 		return
 
+	var new_graph: GaeaGraph
+
 	if is_instance_valid(_current_saving_graph):
 		close_file(_current_saving_graph)
-		ResourceSaver.save(_current_saving_graph, path)
+		new_graph = _current_saving_graph
 	else:
-		ResourceSaver.save(GaeaGraph.new(), path)
+		new_graph = GaeaGraph.new()
+
+	new_graph.take_over_path(path)
+	ResourceSaver.save(new_graph, path)
 	open_file(load(path))
 	_current_saving_graph = null
 
