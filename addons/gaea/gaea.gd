@@ -107,7 +107,6 @@ func _on_resource_saved(resource: Resource) -> void:
 
 
 func _on_file_removed(file: String) -> void:
-	print(file)
 	if file.get_extension() not in ["tscn", "scn"]:
 		return
 
