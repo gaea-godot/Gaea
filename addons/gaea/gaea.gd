@@ -106,4 +106,5 @@ func _on_resource_saved(resource: Resource) -> void:
 
 
 func _on_resource_removed(resource: Resource) -> void:
-	_panel.file_list.close_file(resource)
+	if resource is GaeaGraph:
+		_panel.file_list.close_file(resource)
