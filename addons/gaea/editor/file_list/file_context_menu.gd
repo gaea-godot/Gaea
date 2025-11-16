@@ -17,7 +17,8 @@ enum Action {
 	CLOSE_ALL,
 	CLOSE_OTHER,
 	COPY_PATH,
-	SHOW_IN_FILESYSTEM
+	SHOW_IN_FILESYSTEM,
+	OPEN_IN_INSPECTOR
 }
 
 var graph: GaeaGraph
@@ -35,6 +36,7 @@ func _ready() -> void:
 	add_separator()
 	add_item("Copy File Path", Action.COPY_PATH)
 	add_item("Show in FileSystem", Action.SHOW_IN_FILESYSTEM)
+	add_item("Open File in Inspector", Action.OPEN_IN_INSPECTOR)
 
 	id_pressed.connect(_on_id_pressed)
 
@@ -69,3 +71,5 @@ func _on_id_pressed(id: int) -> void:
 				EditorInterface.select_file(graph.resource_path)
 			else:
 				EditorInterface.select_file(graph.resource_path.get_slice("::", 0))
+		Action.OPEN_IN_INSPECTOR:
+			EditorInterface.edit_resource(graph)
