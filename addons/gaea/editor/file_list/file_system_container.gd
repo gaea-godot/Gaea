@@ -144,6 +144,11 @@ func _on_item_selected(index: int) -> void:
 
 	graph_edit.unpopulate()
 	graph_edit.populate(metadata)
+	var edited_object = EditorInterface.get_inspector().get_edited_object()
+	if edited_object is GaeaGenerator:
+		if edited_object.graph == metadata:
+			return
+	EditorInterface.edit_resource(metadata)
 	EditorInterface.edit_resource(metadata)
 
 
