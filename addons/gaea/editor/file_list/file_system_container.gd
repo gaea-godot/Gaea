@@ -28,6 +28,7 @@ func _ready() -> void:
 	context_menu.close_others_selected.connect(close_others)
 	context_menu.save_as_selected.connect(_start_save_as)
 	context_menu.file_saved.connect(_on_file_saved)
+	context_menu.unsaved_file_found.connect(_on_unsaved_file_found)
 
 	menu_bar.open_file_selected.connect(open_file)
 	menu_bar.create_new_graph_selected.connect(_start_new_graph_creation)
@@ -99,7 +100,7 @@ func _remove(idx: int) -> void:
 func _start_save_as(file: GaeaGraph) -> void:
 	file_dialog.title = "Save Graph As..."
 	var path: String = "res://"
-	if not file.is_built_in():
+	if not file.is_built_in() and not file.resource_path.is_empty():
 		path = file.resource_path
 
 	file_dialog.current_path = path
@@ -121,6 +122,16 @@ func _on_file_saved(file: GaeaGraph) -> void:
 		return
 
 	edited_graphs[idx].set_dirty(false)
+
+
+func _on_unsaved_file_found(file: GaeaGraph) -> void:
+	var idx: int = edited_graphs.find_custom(EditedGraph.is_graph.bind(file))
+	if idx == -1:
+		return
+
+	file_list.set_item_text(idx, "[unsaved]")
+	file_list.set_item_tooltip(idx, "[unsaved]")
+	_start_save_as(file)
 #endregion
 
 

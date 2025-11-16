@@ -8,6 +8,7 @@ signal close_all_selected
 signal close_others_selected(file: GaeaGraph)
 signal save_as_selected(file: GaeaGraph)
 signal file_saved(file: GaeaGraph)
+signal unsaved_file_found(file: GaeaGraph)
 
 enum Action {
 	SAVE,
@@ -41,6 +42,10 @@ func _ready() -> void:
 func _on_id_pressed(id: int) -> void:
 	match id:
 		Action.SAVE:
+			if graph.resource_path.is_empty():
+				unsaved_file_found.emit(graph)
+				return
+
 			if not graph.is_built_in():
 				ResourceSaver.save(graph)
 			else:

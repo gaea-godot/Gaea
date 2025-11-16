@@ -34,6 +34,8 @@ func _enter_tree() -> void:
 
 		resource_saved.connect(_on_resource_saved)
 
+		EditorInterface.get_file_system_dock().resource_removed.connect(_on_resource_removed)
+
 
 func _exit_tree() -> void:
 	if Engine.is_editor_hint():
@@ -101,3 +103,7 @@ func _on_resource_saved(resource: Resource) -> void:
 	for edited_graph: GaeaFileList.EditedGraph in _panel.file_list.edited_graphs:
 		if edited_graph.get_graph() == resource:
 			edited_graph.set_dirty(false)
+
+
+func _on_resource_removed(resource: Resource) -> void:
+	_panel.file_list.close_file(resource)
