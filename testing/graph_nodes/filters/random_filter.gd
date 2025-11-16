@@ -9,7 +9,8 @@ const CHANCE: float = 50.0
 func test_random_filter() -> void:
 	node = GaeaNodeRandomFilter.new()
 
-	var input := GaeaValue.Sample.full(AREA, 1.0)
+	var input := GaeaValue.Sample.new()
+	input.fill(AREA, 1.0)
 	var grid := _assert_output_grid_matches(
 		AREA, EXPECTED_HASH, false,
 		{ &"chance": CHANCE, &"input_grid": input  }, &"filtered_grid"
@@ -20,3 +21,9 @@ func test_random_filter() -> void:
 	assert_float(ratio_difference)\
 		.override_failure_message("Unexpected result from [b]%s[/b]." % node.get_tree_name())\
 		.is_less(0.001)
+
+
+func test_map_random_filter() -> void:
+	node = GaeaNodeMapRandomFilter.new()
+
+	var input := GaeaValue.Map.new()

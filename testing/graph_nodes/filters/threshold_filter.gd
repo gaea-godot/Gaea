@@ -10,7 +10,8 @@ const MAX: float = 1.0
 func test_threshold_filter() -> void:
 	node = GaeaNodeThresholdFilter.new()
 
-	var input := GaeaValue.Sample.full(AREA, 0.75)
+	var input := GaeaValue.Sample.new()
+	input.fill(AREA, 0.75)
 	input.set_cell(Vector3.ONE, 0.0)
 	input.set_cell(Vector3.LEFT, 1.5)
 	var grid := _assert_output_grid_matches(

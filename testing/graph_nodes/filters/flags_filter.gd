@@ -11,7 +11,8 @@ const FLAG_3 := 4
 func test_flags_filter() -> void:
 	node = GaeaNodeFlagsFilter.new()
 
-	var input := GaeaValue.Sample.full(AREA, FLAG_1 | FLAG_3)
+	var input := GaeaValue.Sample.new()
+	input.fill(AREA, FLAG_1 | FLAG_3)
 	input.set_cell(Vector3i.ONE, FLAG_1 | FLAG_2)
 	input.set_cell(Vector3i(1, 0, 0), FLAG_1)
 	input.set_cell(Vector3i(0, 1, 0), FLAG_3)

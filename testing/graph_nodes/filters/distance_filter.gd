@@ -10,7 +10,8 @@ const MAX_DISTANCE: float = 4.0
 func test_distance_filter() -> void:
 	node = GaeaNodeDistanceFilter.new()
 
-	var input := GaeaValue.Sample.full(AREA, 1.0)
+	var input := GaeaValue.Sample.new()
+	input.fill(AREA, 1.0)
 	var grid := _assert_output_grid_matches(
 		AREA, EXPECTED_HASH, false,
 		{ &"distance_range": {"min": MIN_DISTANCE, "max": MAX_DISTANCE}, &"input_grid": input  }, &"filtered_grid"

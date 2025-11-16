@@ -30,4 +30,6 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 
 func _get_data(_output_port: StringName, graph: GaeaGraph, settings: GaeaGenerationSettings) -> GaeaValue.Sample:
 	var value: float = _get_arg(&"value", graph, settings)
-	return GaeaValue.Sample.full(settings.area, value)
+	var sample := GaeaValue.Sample.new()
+	sample.fill(settings.area, value)
+	return sample
