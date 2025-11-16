@@ -160,7 +160,6 @@ func _on_item_selected(index: int) -> void:
 		if edited_object.graph == metadata:
 			return
 	EditorInterface.edit_resource(metadata)
-	EditorInterface.edit_resource(metadata)
 
 
 func _on_file_dialog_file_selected(path: String) -> void:
