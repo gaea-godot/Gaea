@@ -2,7 +2,6 @@ extends "res://testing/test_grid_output_base.gd"
 
 
 const AREA: AABB = AABB(Vector3.ZERO, Vector3(16, 16, 16))
-const EXPECTED_HASH: int = 1145360255
 const FLAG_1 := 1
 const FLAG_2 := 2
 const FLAG_3 := 4
