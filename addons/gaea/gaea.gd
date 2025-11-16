@@ -35,6 +35,7 @@ func _enter_tree() -> void:
 		resource_saved.connect(_on_resource_saved)
 
 		EditorInterface.get_file_system_dock().resource_removed.connect(_on_resource_removed)
+		EditorInterface.get_file_system_dock().file_removed.connect(_on_file_removed)
 
 
 func _exit_tree() -> void:
@@ -103,6 +104,19 @@ func _on_resource_saved(resource: Resource) -> void:
 	for edited_graph: GaeaFileList.EditedGraph in _panel.file_list.edited_graphs:
 		if edited_graph.get_graph() == resource:
 			edited_graph.set_dirty(false)
+
+
+func _on_file_removed(file: String) -> void:
+	print(file)
+	if file.get_extension() not in ["tscn", "scn"]:
+		return
+
+	for edited_graph: GaeaFileList.EditedGraph in _panel.file_list.edited_graphs:
+		if not edited_graph.get_graph().is_built_in():
+			continue
+
+		if edited_graph.get_graph().resource_path.get_slice("::", 0) == file:
+			_panel.file_list.close_file(edited_graph.get_graph())
 
 
 func _on_resource_removed(resource: Resource) -> void:
