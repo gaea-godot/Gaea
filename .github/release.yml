@@ -7,16 +7,53 @@ changelog:
   categories:
     - title: ⚠️ Breaking Changes
       labels:
-        - 🛠 breaking
+        - ‼️breaking
     - title: ✨ New Features
       labels:
         - ✨ enhancement
-    - title: 🔨 Quality Of Life
+    - title: Graph
       labels:
-        - 🔨 quality-of-life
-    - title: 🐛 Bug Fixes
+        - 'topic: graph'
+      exclude:
+        labels:
+          - 🐞 bug
+          - 'topic: editor'
+    - title: Graph Nodes
       labels:
-        - 🐛 bug
+        - 'topic: graph-nodes'
+      exclude:
+        labels:
+          - 🐞 bug
+          - 'topic: graph'
+          - 'topic: editor'
+    - title: Editor
+      labels:
+        - 'topic: editor'
+      exclude:
+        labels:
+          - 🐞 bug
+    - title: Generation
+      labels:
+        - 'topic: generation'
+      exclude:
+        labels:
+          - 🐞 bug
+          - 'topic: graph'
+          - 'topic: editor'
+          - 'topic: graph-nodes'
+    - title: Rendering
+      labels:
+        - 'topic: rendering'
+      exclude:
+        labels:
+          - 🐞 bug
+          - 'topic: graph'
+          - 'topic: editor'
+          - 'topic: graph-nodes'
+          - 'topic: generation'
+    - title: 🐞 Bug Fixes
+      labels:
+        - 🐞 bug
     - title: Other
       labels:
         - "*"
