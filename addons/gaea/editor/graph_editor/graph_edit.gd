@@ -32,6 +32,9 @@ var _window_popout_separator: VSeparator
 ## Reference to the window popout button
 var _window_popout_button: Button
 
+var _back_icon: Texture2D
+var _forward_icon: Texture2D
+
 
 func _init() -> void:
 	for cast in GaeaValueCast.get_cast_list():
@@ -139,12 +142,28 @@ func _add_toolbar_buttons() -> void:
 	panel.offset_top = 10.0
 	panel.offset_right = -12.0
 
+	var toggle_left_panel_button = Button.new()
+	toggle_left_panel_button.theme_type_variation = &"FlatButton"
+	_back_icon = EditorInterface.get_base_control().get_theme_icon(
+		&"Back", &"EditorIcons"
+	)
+	_forward_icon = EditorInterface.get_base_control().get_theme_icon(
+		&"Forward", &"EditorIcons"
+	)
+	toggle_left_panel_button.icon = _back_icon
+	toggle_left_panel_button.tooltip_text = "Toggle Files Panel"
+	container.add_child(toggle_left_panel_button)
+	container.move_child(toggle_left_panel_button, 0)
+	toggle_left_panel_button.pressed.connect(
+		_on_toggle_left_panel_button_pressed.bind(toggle_left_panel_button)
+	)
+
 	var add_node_button = Button.new()
 	add_node_button.text = "Add Node"
 	add_node_button.theme_type_variation = &"FlatButton"
 	add_node_button.pressed.connect(_add_node_button_pressed)
 	container.add_child(add_node_button)
-	container.move_child(add_node_button, 0)
+	container.move_child(add_node_button, 1)
 
 	container.add_spacer(false)
 
@@ -191,6 +210,12 @@ func _get_multiwindow_support_tooltip_text() -> String:
 func _add_node_button_pressed() -> void:
 	main_editor.popup_create_node_request.emit()
 	main_editor.node_creation_target = size * 0.40
+
+
+func _on_toggle_left_panel_button_pressed(button: Button) -> void:
+	main_editor.gaea_panel.file_list.visible = not main_editor.gaea_panel.file_list.visible
+	button.icon = _back_icon if main_editor.gaea_panel.file_list.visible else _forward_icon
+
 
 
 func _on_online_docs_button_pressed() -> void:
