@@ -166,15 +166,6 @@ func _on_popup_node_context_menu_at_mouse_request(selected_nodes: Array) -> void
 	popup()
 
 
-func _get_node_id(node: GraphElement) -> int:
-	if node is GaeaGraphNode:
-		return node.resource.id
-
-	if node is GaeaGraphFrame:
-		return node.id
-
-	return -1
-
 
 func _group_nodes_in_frame(nodes: Array[StringName]) -> void:
 	var front_node: StringName = nodes.front()
