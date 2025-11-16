@@ -2,7 +2,6 @@ extends "res://testing/test_grid_output_base.gd"
 
 
 const AREA: AABB = AABB(Vector3.ZERO, Vector3(16, 16, 16))
-const EXPECTED_HASH: int = 1940479643
 const MIN: float = 0.5
 const MAX: float = 1.0
 
@@ -11,11 +10,18 @@ func test_threshold_filter() -> void:
 	node = GaeaNodeThresholdFilter.new()
 
 	var input := GaeaValue.Sample.new()
-	input.fill(AREA, 0.75)
+	input.fill(AREA, randf_range(MIN, MAX))
 	input.set_cell(Vector3.ONE, 0.0)
 	input.set_cell(Vector3.LEFT, 1.5)
+
+	var expected_grid: Dictionary
+	for cell in input.get_cells():
+		if input.get_cell(cell) <= MAX and input.get_cell(cell) >= MIN:
+			expected_grid.set(cell, input.get_cell(cell))
+	var expected_hash: int = expected_grid.hash()
+
 	var grid := _assert_output_grid_matches(
-		AREA, EXPECTED_HASH, false,
+		AREA, expected_hash, false,
 		{ &"range": {"min": MIN, "max": MAX}, &"input_grid": input  }, &"filtered_grid"
 	)
 

@@ -17,8 +17,15 @@ func test_flags_filter() -> void:
 	input.set_cell(Vector3i(1, 0, 0), FLAG_1)
 	input.set_cell(Vector3i(0, 1, 0), FLAG_3)
 
+	var expected_grid: Dictionary
+	for cell in input.get_cells():
+		var value: int = roundi(input.get_cell(cell))
+		if (value & FLAG_1) and (value & FLAG_3) and not (value & FLAG_2):
+			expected_grid.set(cell, input.get_cell(cell))
+	var expected_hash: int = expected_grid.hash()
+
 	var grid := _assert_output_grid_matches(
-		AREA, EXPECTED_HASH, false,
+		AREA, expected_hash, false,
 		{ &"match_all": true, &"match_flags": [FLAG_1, FLAG_3], &"exclude_flags": [FLAG_2], &"input_grid": input  },
 		&"filtered_grid"
 	)

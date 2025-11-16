@@ -6,7 +6,8 @@ var generation_settings: GaeaGenerationSettings
 
 
 func _assert_output_grid_matches(
-	area: AABB, expected_hash: int, empty: bool, args: Dictionary[StringName, Variant], output: StringName
+	area: AABB, expected_hash: int, empty: bool,
+	args: Dictionary[StringName, Variant], output: StringName
 ) -> GaeaValue.GridType:
 	for arg_name in args:
 		node.set_argument_value(arg_name, args[arg_name])
@@ -33,10 +34,16 @@ func _assert_output_grid_matches(
 	if is_failure():
 		return generated_data
 
-	assert_int(generated_data._grid.hash())\
+	var generated_hash: int = generated_data._grid.hash()
+	# For maps we compare only keys because resources change and affect the hash, even if
+	# they're preloaded from a file.
+	if generated_data is GaeaValue.Map:
+		generated_hash = generated_data._grid.keys().hash()
+
+	assert_int(generated_hash)\
 		.override_failure_message("Unexpected result from [b]%s[/b]." % node.get_tree_name())\
 		.append_failure_message(
-			"Generated: %s\nExpected: %s" % [generated_data._grid.hash(), expected_hash]
+			"Generated: %s\nExpected: %s" % [generated_hash, expected_hash]
 		)\
 		.is_equal(expected_hash)
 
