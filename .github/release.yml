@@ -8,24 +8,18 @@ changelog:
     - title: ⚠️ Breaking Changes
       labels:
         - ‼️breaking
-    - title: ✨ New Features
-      labels:
-        - ✨ enhancement
     - title: Graph
       labels:
         - 'topic: graph'
       exclude:
         labels:
           - 🐞 bug
-          - 'topic: editor'
     - title: Graph Nodes
       labels:
         - 'topic: graph-nodes'
       exclude:
         labels:
           - 🐞 bug
-          - 'topic: graph'
-          - 'topic: editor'
     - title: Editor
       labels:
         - 'topic: editor'
@@ -38,19 +32,12 @@ changelog:
       exclude:
         labels:
           - 🐞 bug
-          - 'topic: graph'
-          - 'topic: editor'
-          - 'topic: graph-nodes'
     - title: Rendering
       labels:
         - 'topic: rendering'
       exclude:
         labels:
           - 🐞 bug
-          - 'topic: graph'
-          - 'topic: editor'
-          - 'topic: graph-nodes'
-          - 'topic: generation'
     - title: 🐞 Bug Fixes
       labels:
         - 🐞 bug
