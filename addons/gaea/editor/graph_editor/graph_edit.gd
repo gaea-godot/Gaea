@@ -766,7 +766,7 @@ func _on_editor_script_changed(script: Script):
 
 
 func _on_edited_script_changed(script: Script):
-	if not script.can_instantiate():
+	if not is_instance_valid(script) or not script.can_instantiate():
 		return
 
 	for child in get_children():
