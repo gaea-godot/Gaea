@@ -87,7 +87,7 @@ func on_removed_from_graph(graph: GaeaGraph) -> void:
 
 
 ## Called when the node is removed from [param graph], by [method GaeaGraph.remove_node].
-func _on_removed_from_graph(graph: GaeaGraph) -> void:
+func _on_removed_from_graph(_graph: GaeaGraph) -> void:
 	pass
 
 
