@@ -11,11 +11,6 @@ func _on_added() -> void:
 	custom_minimum_size.x = 192.0
 
 
-func _on_removed() -> void:
-	graph_edit.graph.remove_parameter(get_arg_value(&"name"))
-	graph_edit.graph.notify_property_list_changed()
-
-
 func _on_argument_value_changed(
 	value: Variant, _node: GaeaGraphNodeArgumentEditor, arg_name: String
 ) -> void:

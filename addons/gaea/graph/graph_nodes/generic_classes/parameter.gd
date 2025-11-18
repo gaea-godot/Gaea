@@ -34,6 +34,12 @@ func _on_added_to_graph(graph: GaeaGraph) -> void:
 		"usage": PROPERTY_USAGE_EDITOR
 	})
 
+
+func _on_removed_from_graph(graph: GaeaGraph) -> void:
+	graph.remove_parameter(graph.get_node_argument(id, &"name"))
+	graph.notify_property_list_changed()
+
+
 ## Override this method to determine the [enum Variant.Type] for the variable this node adds.[br][br]
 ## Overriding this method is [b]required[/b].
 func _get_variant_type() -> int:
