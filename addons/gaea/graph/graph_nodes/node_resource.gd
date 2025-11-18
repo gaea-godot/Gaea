@@ -81,6 +81,16 @@ func _on_added_to_graph(_graph: GaeaGraph) -> void:
 	pass
 
 
+## Public version of [method _on_removed_from_graph].
+func on_removed_from_graph(graph: GaeaGraph) -> void:
+	_on_removed_from_graph(graph)
+
+
+## Called when the node is removed from [param graph], by [method GaeaGraph.remove_node].
+func _on_removed_from_graph(graph: GaeaGraph) -> void:
+	pass
+
+
 func notify_argument_list_changed() -> void:
 	argument_list_changed.emit()
 

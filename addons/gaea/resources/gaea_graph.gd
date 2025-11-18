@@ -198,6 +198,7 @@ func remove_node(id: int) -> void:
 			connection.get("to_node"),
 			connection.get("to_port")
 		)
+	get_node(id).on_removed_from_graph(self)
 	_node_data.erase(id)
 	_resources.erase(id)
 	emit_changed()
