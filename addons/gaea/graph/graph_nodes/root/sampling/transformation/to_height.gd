@@ -100,9 +100,10 @@ func _get_data(_output_port: StringName, graph: GaeaGraph, pouch: GaeaGeneration
 	if not is_zero_approx(gradient_intensity):
 		remap_offset = 100.0 / gradient_intensity
 
-	var z_range: Array = [0] if (type == Type.TYPE_2D) else (_get_axis_range(Vector3i.AXIS_Z, pouch.area))
+	var z_origin: int = int(pouch.area.position.z)
+	var z_range: Array = [z_origin] if (type == Type.TYPE_2D) else (_get_axis_range(Vector3i.AXIS_Z, pouch.area))
 	for x in _get_axis_range(Vector3i.AXIS_X, pouch.area):
-		if not sample_reference.has(Vector3i(x, row, 0)):
+		if not sample_reference.has(Vector3i(x, row, z_origin)):
 			continue
 		for z in z_range:
 			var height: int = floor(sample_reference.get_xyz(x, row, z) * displacement + height_offset)
