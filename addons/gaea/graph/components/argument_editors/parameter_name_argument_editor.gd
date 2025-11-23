@@ -2,6 +2,15 @@
 class_name GaeaParameterNameArgumentEditor
 extends GaeaGraphNodeArgumentEditor
 
+
+enum Mode {
+	PARAMETER,
+	SUBGRAPH_INPUT,
+	SUBGRAPH_OUTPUT
+}
+
+var mode: Mode = Mode.PARAMETER
+
 @onready var _name_label: Label = $NameLabel
 @onready var _edit_button: Button = $EditButton
 
@@ -10,6 +19,8 @@ func _configure() -> void:
 	if is_part_of_edited_scene():
 		return
 	await super()
+
+	mode = hint.get("mode", Mode.PARAMETER)
 
 	var editor_interface = Engine.get_singleton("EditorInterface")
 	_edit_button.icon = editor_interface.get_base_control().get_theme_icon(&"Edit", &"EditorIcons")
@@ -42,10 +53,29 @@ func _on_edit_button_pressed() -> void:
 
 func _on_line_edit_text_changed(new_text: String, line_edit: LineEdit) -> void:
 	var editor_interface = Engine.get_singleton("EditorInterface")
-	if (graph_node.graph_edit.graph.has_parameter(new_text) and new_text != _name_label.text) or not new_text.is_valid_identifier():
+	if not _is_valid(new_text) and new_text != _name_label.text:
 		line_edit.add_theme_color_override(&"font_color", editor_interface.get_base_control().get_theme_color(&"error_color", &"Editor"))
 	else:
 		line_edit.remove_theme_color_override(&"font_color")
+
+
+func _is_valid(text: String) -> bool:
+	if not text.is_valid_ascii_identifier():
+		push_error("Parameter name '%s' is not a valid identifier." % text)
+		return false
+
+	match mode:
+		Mode.PARAMETER:
+			if graph_node.graph_edit.graph.has_parameter(text):
+				push_error("Parameter name '%s' matches an already existing parameter." % text)
+				return false
+		Mode.SUBGRAPH_INPUT:
+			if graph_node.graph_edit.graph.get_input_nodes().values().has(text):
+				return false
+		Mode.SUBGRAPH_OUTPUT:
+			if graph_node.graph_edit.graph.get_output_nodes().values().has(text):
+				return false
+	return true
 
 
 func _on_line_edit_text_submitted(new_text: String, line_edit: LineEdit) -> void:
@@ -53,12 +83,7 @@ func _on_line_edit_text_submitted(new_text: String, line_edit: LineEdit) -> void
 		line_edit.queue_free()
 		return
 
-	if not new_text.is_valid_ascii_identifier():
-		push_error("Parameter name '%s' is not a valid identifier." % new_text)
-		return
-
-	if graph_node.graph_edit.graph.has_parameter(new_text):
-		push_error("Parameter name '%s' matches an already existing parameter." % new_text)
+	if not _is_valid(new_text):
 		return
 
 	_name_label.text = new_text

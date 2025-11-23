@@ -4,6 +4,7 @@ extends GraphNode
 ## The in-editor representation of a [GaeaNodeResource] to be used in the Gaea bottom panel.
 
 
+
 ## Emitted when connections to this node are updated.
 signal connections_updated
 ## Emitted when this node is removed from the graph.
@@ -11,6 +12,7 @@ signal removed
 signal remove_invalid_connections_requested
 
 const PreviewTexture = preload("uid://dns7s4v8lom4t")
+const KEEP_IN_REBUILD_GROUP := &"keep"
 
 ## The [GaeaNodeResource] this acts as an editor of.
 @export var resource: GaeaNodeResource
@@ -41,21 +43,7 @@ static var _titlebar_styleboxes: Dictionary[GaeaValue.Type, Dictionary]
 
 func _ready() -> void:
 	_on_added()
-
-	if is_instance_valid(resource):
-		set_tooltip_text("tooltip")
-		if Engine.get_version_info().hex >= 0x040500 and not resource is GaeaNodeReroute:
-			var script = resource.get_script()
-			if is_instance_valid(script):
-				var documentation_button := Button.new()
-				var editor_interface = Engine.get_singleton("EditorInterface")
-				documentation_button.icon = editor_interface.get_editor_theme().get_icon(
-					&"HelpSearch", &"EditorIcons"
-				)
-				documentation_button.flat = true
-				get_titlebar_hbox().add_child(documentation_button)
-				documentation_button.pressed.connect(_open_node_documentation)
-
+	_add_titlebar_nodes()
 
 	connections_updated.connect(_update_arguments_visibility)
 	removed.connect(_on_removed)
@@ -72,6 +60,7 @@ func _on_added() -> void:
 
 	for enum_idx in resource.get_enums_count():
 		var option_button: OptionButton = OptionButton.new()
+		option_button.add_to_group(KEEP_IN_REBUILD_GROUP)
 		for option in resource.get_enum_options(enum_idx).values():
 			option_button.add_item(resource.get_enum_option_display_name(enum_idx, option), option)
 			option_button.set_item_icon(
@@ -90,6 +79,22 @@ func _on_added() -> void:
 	if resource.salt == 0:
 		resource.salt = randi()
 		graph_edit.graph.set_node_salt(resource.id, resource.salt)
+
+
+func _add_titlebar_nodes() -> void:
+	if is_instance_valid(resource):
+		set_tooltip_text("tooltip")
+		if Engine.get_version_info().hex >= 0x040500 and not resource is GaeaNodeReroute:
+			var script = resource.get_script()
+			if is_instance_valid(script):
+				var documentation_button := Button.new()
+				var editor_interface = Engine.get_singleton("EditorInterface")
+				documentation_button.icon = editor_interface.get_editor_theme().get_icon(
+					&"HelpSearch", &"EditorIcons"
+				)
+				documentation_button.flat = true
+				get_titlebar_hbox().add_child(documentation_button)
+				documentation_button.pressed.connect(_open_node_documentation)
 
 
 func _rebuild() -> void:
@@ -111,7 +116,7 @@ func _rebuild() -> void:
 	_preview = null
 
 	for child in get_children():
-		if child is OptionButton:
+		if child.is_in_group(KEEP_IN_REBUILD_GROUP):
 			continue
 		child.queue_free()
 		await child.tree_exited
@@ -130,7 +135,7 @@ func _rebuild() -> void:
 
 	_finished_rebuilding = true
 
-	_set_titlebar()
+	_apply_style()
 	_last_category = null
 
 
@@ -150,6 +155,8 @@ func _add_slots() -> void:
 func _add_argument_editor(for_arg: StringName) -> GaeaGraphNodeArgumentEditor:
 	var type: GaeaValue.Type = resource.get_argument_type(for_arg)
 	var scene: PackedScene = GaeaValue.get_editor_for_type(type)
+	if resource.is_input_only(for_arg):
+		scene = GaeaValue.get_editor_for_type(GaeaValue.Type.NULL)
 	var node: GaeaGraphNodeArgumentEditor = scene.instantiate()
 	add_child(node)
 	if type == GaeaValue.Type.CATEGORY:
@@ -238,7 +245,7 @@ func _open_preview(for_output: StringName) -> void:
 		slot.get_toggle_preview_button().set_pressed(true)
 
 
-func _set_titlebar() -> void:
+func _apply_style() -> void:
 	var type: GaeaValue.Type = resource.get_type()
 	var titlebar: StyleBoxFlat
 	var titlebar_selected: StyleBoxFlat

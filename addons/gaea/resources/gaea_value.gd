@@ -41,6 +41,10 @@ enum Type {
 }
 
 
+static func get_wireable_types() -> Array:
+	return GaeaValue.Type.values().filter(is_wireable)
+
+
 ## Returns whether [param type] accepts inputs.
 static func is_wireable(type: Type) -> bool:
 	return type > 0 and type < 300

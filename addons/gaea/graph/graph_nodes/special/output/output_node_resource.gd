@@ -96,8 +96,7 @@ func _get_scene_script() -> GDScript:
 	return load("uid://34dullcgrsk7")
 
 
-## Output nodes have a special titlebar color.
-func get_title_color() -> Color:
+func _get_title_color() -> Color:
 	return GaeaEditorSettings.get_configured_output_color()
 
 

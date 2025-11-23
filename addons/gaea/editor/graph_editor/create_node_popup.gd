@@ -60,6 +60,12 @@ func filter_to_connect_type(type: GaeaValue.Type, is_left: bool) -> void:
 func _on_popup_create_node_request() -> void:
 	main_editor.node_creation_target = main_editor.graph_edit.get_local_mouse_position()
 	main_editor.move_popup_at_mouse(self)
+	if main_editor.graph_edit.graph is GaeaSubGraph:
+		create_node_tree.remove_filter(&"main_graph")
+		create_node_tree.filter_for_subgraph()
+	else:
+		create_node_tree.remove_filter(&"subgraph")
+		create_node_tree.filter_for_main_graph()
 	create_node_tree.remove_filter(&"type")
 	create_node_tree.apply_filters(false)
 	popup()

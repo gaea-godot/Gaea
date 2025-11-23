@@ -48,9 +48,11 @@ oversampling_override = 1.0
 
 [node name="RecentFiles" type="PopupMenu" parent="FileSystemContainer/MenuBar/File"]
 
-[node name="FileList" type="ItemList" parent="FileSystemContainer"]
+[node name="FileList" type="Tree" parent="FileSystemContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+columns = 2
+allow_reselect = true
 allow_rmb_select = true
 
 [node name="ContextMenu" type="PopupMenu" parent="FileSystemContainer/FileList"]

@@ -2,6 +2,9 @@
 class_name GaeaGraphEdit
 extends GraphEdit
 
+
+signal subgraph_opened(subgraph: GaeaSubGraph, parent: GaeaGraph)
+
 @export var main_editor: GaeaMainEditor
 @export var bottom_note_label: RichTextLabel
 
@@ -34,6 +37,7 @@ var _window_popout_button: Button
 
 var _back_icon: Texture2D
 var _forward_icon: Texture2D
+var _subgraph_overlay: Panel
 
 
 func _init() -> void:
@@ -49,14 +53,38 @@ func _ready() -> void:
 	EditorInterface.get_script_editor().editor_script_changed.connect(_on_editor_script_changed)
 	_add_toolbar_buttons()
 
+	_subgraph_overlay = Panel.new()
+
+	var stylebox_flat: StyleBoxFlat = StyleBoxFlat.new()
+	var color := GaeaEditorSettings.get_configured_subgraph_color()
+	stylebox_flat.border_color = Color(color, 0.5)
+	stylebox_flat.bg_color = Color(color, 0.025)
+	stylebox_flat.set_border_width_all(2)
+	_subgraph_overlay.add_theme_stylebox_override("panel", stylebox_flat)
+
+	_subgraph_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_subgraph_overlay.z_index = 1
+	_subgraph_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_subgraph_overlay.hide()
+
+	add_child(_subgraph_overlay)
+
 
 #region Saving and Loading
 func populate(new_graph: GaeaGraph) -> void:
 	graph = new_graph
+	if is_instance_valid(_subgraph_overlay):
+		_subgraph_overlay.visible = new_graph is GaeaSubGraph
 	graph.ensure_initialized()
-	if not graph.layer_count_modified.is_connected(_update_output_node):
+	if not graph.layer_count_modified.is_connected(_update_output_node) and graph is not GaeaSubGraph:
 		graph.layer_count_modified.connect(_update_output_node)
 	_load_data()
+
+
+func open_subgraph(subgraph: GaeaSubGraph, parent: GaeaGraph = null) -> void:
+	unpopulate()
+	populate(subgraph)
+	subgraph_opened.emit(subgraph, parent)
 
 
 func unpopulate() -> void:
@@ -87,13 +115,14 @@ func _load_data() -> void:
 				has_output_node = true
 				_output_node = node
 
-	if not has_output_node:
+	if not has_output_node and graph is not GaeaSubGraph:
 		_output_node = _add_node(GaeaNodeOutput.new(), Vector2.ZERO)
 
-	_output_node.add_to_group(&"cant_delete")
-	_load_scroll_offset.call_deferred(
-		_output_node.size * 0.5 - get_rect().size * 0.5
-	)
+	if is_instance_valid(_output_node):
+		_output_node.add_to_group(&"cant_delete")
+		_load_scroll_offset.call_deferred(
+			_output_node.size * 0.5 - get_rect().size * 0.5
+		)
 
 	_update_output_node()
 	# from_node and to_node are indexes in the resources array
@@ -691,14 +720,14 @@ func _get_copy_data(nodes: Array) -> GaeaNodesCopy:
 				selected.resource.id,
 				selected.resource.duplicate_deep(),
 				selected.position_offset,
-				graph.get_node_data(selected.resource.id).duplicate_deep()
+				graph.get_node_data(selected.resource.id).duplicate(true)
 			)
 			copy_data.add_connections(graph.get_node_connections(selected.resource.id).duplicate())
 		elif selected is GaeaGraphFrame:
 			copy_data.add_frame(
 				selected.id,
 				selected.position_offset,
-				graph.get_node_data(selected.id).duplicate_deep()
+				graph.get_node_data(selected.id).duplicate(true)
 			)
 	return copy_data
 

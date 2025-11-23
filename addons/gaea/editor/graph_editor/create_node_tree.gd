@@ -31,11 +31,11 @@ func populate() -> void:
 	var root: TreeItem = create_item()
 	hide_root = true
 	tree_dictionary = _populate_dict_with_files(NODES_FOLDER_PATH, {})
-	tree_dictionary["Special"] = {"Frame": &"frame"}
 	if not GaeaProjectSettings.get_custom_nodes_path().is_empty():
 		tree_dictionary = _populate_dict_with_files(
 			GaeaProjectSettings.get_custom_nodes_path(), tree_dictionary
 		)
+	tree_dictionary["Special"].set("Frame", &"frame")
 	_populate_from_dictionary(tree_dictionary, root)
 	root.set_collapsed_recursive(true)
 	root.set_collapsed(false)
@@ -184,6 +184,25 @@ func filter_to_output_type(type: GaeaValue.Type) -> void:
 
 			return false).bind(type),
 			&"type"
+	)
+
+
+func filter_for_subgraph() -> void:
+	add_filter(
+		(func(item: TreeItem) -> bool:
+			return not (item.get_metadata(0) is GaeaNodeParameter)),
+			&"subgraph"
+	)
+
+
+func filter_for_main_graph() -> void:
+	add_filter(
+		(func(item: TreeItem) -> bool:
+			var metadata = item.get_metadata(0)
+			return not (
+				metadata is GaeaNodeSubGraphInput or metadata is GaeaNodeSubGraphOutput
+			)),
+			&"main_graph"
 	)
 
 

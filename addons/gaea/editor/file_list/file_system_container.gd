@@ -8,7 +8,7 @@ const GRAPH_ICON := preload("uid://cerisdpavr7v3")
 @export var graph_edit: GaeaGraphEdit
 @export var main_editor: GaeaMainEditor
 @export var menu_bar: MenuBar
-@export var file_list: ItemList
+@export var file_list: Tree
 @export var context_menu: GaeaPopupFileContextMenu
 @export var file_dialog: FileDialog
 
@@ -21,7 +21,12 @@ func _ready() -> void:
 		return
 
 	file_list.item_selected.connect(_on_item_selected)
-	file_list.item_clicked.connect(_on_item_clicked)
+	file_list.gui_input.connect(_on_file_list_gui_input)
+	file_list.create_item()
+	file_list.hide_root = true
+	file_list.set_column_expand(1, false)
+
+	graph_edit.subgraph_opened.connect(_on_subgraph_opened)
 
 	context_menu.close_file_selected.connect(close_file)
 	context_menu.close_all_selected.connect(close_all)
@@ -38,37 +43,55 @@ func _ready() -> void:
 
 
 #region Opening
-func open_file(graph: GaeaGraph) -> void:
+func open_file(graph: GaeaGraph, parent: GaeaGraph = null) -> void:
 	if not is_instance_valid(graph):
 		return
 
-	menu_bar.add_graph_to_history(graph)
+	if not is_instance_valid(parent):
+		menu_bar.add_graph_to_history(graph)
 
 	var idx: int = edited_graphs.find_custom(EditedGraph.is_graph.bind(graph))
+	var item: TreeItem
 	if idx != -1:
-		if file_list.get_item_metadata(idx) == graph:
-			if not file_list.is_selected(idx):
-				file_list.select(idx)
-				file_list.item_selected.emit(idx)
+		var edited_graph := edited_graphs[idx]
+		item = edited_graph.get_tree_item()
+		if item.get_metadata(0) == graph:
+			if not item.is_selected(0):
+				item.select(0)
+				file_list.item_selected.emit()
 			return
 
-	idx = file_list.add_item(graph.resource_path.get_file(), GRAPH_ICON)
-	file_list.set_item_metadata(idx, graph)
-	file_list.set_item_tooltip(idx, graph.resource_path)
-	file_list.select(idx)
+	var parent_item: TreeItem = null
+	if is_instance_valid(parent):
+		parent_item = edited_graphs[
+			edited_graphs.find_custom(EditedGraph.is_graph.bind(parent))
+		].get_tree_item()
+	item = _create_item_for_graph(graph, parent_item)
+	_on_item_selected()
+	var new_edited_graph := EditedGraph.new(graph, item)
+	item.set_metadata(1, new_edited_graph)
+	edited_graphs.append(new_edited_graph)
+	new_edited_graph.dirty_changed.connect(_on_edited_graph_dirty_changed.bind(new_edited_graph))
 
-	_on_item_selected(idx)
-	var edited_graph := EditedGraph.new(graph)
-	edited_graphs.append(edited_graph)
-	edited_graph.dirty_changed.connect(_on_edited_graph_dirty_changed.bind(edited_graph))
+
+func _create_item_for_graph(graph: GaeaGraph, parent: TreeItem = null) -> TreeItem:
+	var item := file_list.create_item(parent)
+	item.set_metadata(0, graph)
+	item.set_text(
+		0, graph.resource_path.get_file() if not graph.resource_path.is_empty() else "[unsaved]"
+	)
+	item.set_icon(0, GRAPH_ICON)
+	item.set_tooltip_text(0, graph.resource_path)
+	item.select(0)
+	return item
+
 #endregion
 
 
 #region Closing
 func close_file(graph: GaeaGraph) -> void:
 	var idx: int = edited_graphs.find_custom(EditedGraph.is_graph.bind(graph))
-	if file_list.get_item_metadata(idx) == graph:
-		_remove(idx)
+	_remove(edited_graphs[idx])
 
 
 func close_all() -> void:
@@ -85,12 +108,16 @@ func close_others(graph: GaeaGraph) -> void:
 		close_file(file)
 
 
-func _remove(idx: int) -> void:
-	var graph: GaeaGraph = file_list.get_item_metadata(idx)
-	file_list.remove_item(idx)
-	edited_graphs.remove_at(
-		edited_graphs.find_custom(EditedGraph.is_graph.bind(graph))
-	)
+func _remove(edited_graph: EditedGraph) -> void:
+	if not is_instance_valid(edited_graph) or not (edited_graph in edited_graphs):
+		return
+
+	var graph: GaeaGraph = edited_graph.get_tree_item().get_metadata(0)
+	for child in edited_graph.get_tree_item().get_children():
+		_remove(child.get_metadata(1))
+
+	edited_graph.get_tree_item().get_parent().remove_child(edited_graph.get_tree_item())
+	edited_graphs.erase(edited_graph)
 	if graph_edit.graph == graph:
 		graph_edit.unpopulate()
 #endregion
@@ -129,32 +156,48 @@ func _on_unsaved_file_found(file: GaeaGraph) -> void:
 	if idx == -1:
 		return
 
-	file_list.set_item_text(idx, "[unsaved]")
-	file_list.set_item_tooltip(idx, "[unsaved]")
+	var item := edited_graphs[idx].get_tree_item()
+	item.set_text(0, "[unsaved]")
+	item.set_tooltip_text(0, "")
 	_start_save_as(file)
+
+
+func _on_subgraph_opened(subgraph: GaeaSubGraph, parent: GaeaGraph) -> void:
+	if not subgraph.is_built_in():
+		parent = null
+	open_file(subgraph, parent)
 #endregion
 
 
-#region Signals
-func _on_item_clicked(index: int, _at_position: Vector2, mouse_button_index: int) -> void:
-	if mouse_button_index == MOUSE_BUTTON_RIGHT:
-		main_editor.move_popup_at_mouse(context_menu)
-		context_menu.graph = file_list.get_item_metadata(index)
-		context_menu.popup()
-	elif mouse_button_index == MOUSE_BUTTON_MIDDLE:
-		_remove(index)
+#region Signal
+func _on_item_selected() -> void:
+	var item := file_list.get_selected()
 
-
-func _on_item_selected(index: int) -> void:
-	if index == -1:
-		return
-
-	var metadata: GaeaGraph = file_list.get_item_metadata(index)
+	var metadata: GaeaGraph = item.get_metadata(0)
 	if metadata is not GaeaGraph or not is_instance_valid(metadata):
 		return
 
 	graph_edit.unpopulate()
 	graph_edit.populate(metadata)
+
+
+func _on_file_list_gui_input(event: InputEvent) -> void:
+	if event is not InputEventMouseButton:
+		return
+
+	if not event.is_pressed():
+		return
+
+	var item := file_list.get_item_at_position(event.position)
+	if not is_instance_valid(item):
+		return
+
+	if event.button_index == MOUSE_BUTTON_MIDDLE:
+		_remove(item.get_metadata(1))
+	elif event.button_index == MOUSE_BUTTON_RIGHT:
+		main_editor.move_popup_at_mouse(context_menu)
+		context_menu.graph = item.get_metadata(0)
+		context_menu.popup()
 
 
 func _on_file_dialog_file_selected(path: String) -> void:
@@ -186,15 +229,11 @@ func _on_file_dialog_canceled() -> void:
 
 
 func _on_edited_graph_dirty_changed(new_value: bool, edited_graph: EditedGraph) -> void:
-	var idx := edited_graphs.find(edited_graph)
-	if idx == -1:
-		return
-
-	var text := file_list.get_item_text(idx)
+	var text := edited_graph.get_tree_item().get_text(0)
 	text = text.trim_suffix("(*)")
 	if new_value == true:
 		text += "(*)"
-	file_list.set_item_text(idx, text)
+	edited_graph.get_tree_item().set_text(0, text)
 #endregion
 
 
@@ -203,15 +242,17 @@ class EditedGraph extends RefCounted:
 
 	var _graph: GaeaGraph : get = get_graph
 	var _dirty: bool = false : set = set_dirty, get = is_unsaved
+	var _tree_item: TreeItem : get = get_tree_item
 
 
 	static func is_graph(edited_graph: EditedGraph, graph: GaeaGraph) -> bool:
 		return edited_graph.get_graph() == graph
 
 
-	func _init(graph: GaeaGraph) -> void:
+	func _init(graph: GaeaGraph, tree_item: TreeItem) -> void:
 		_graph = graph
 		_graph.changed.connect(set_dirty.bind(true))
+		_tree_item = tree_item
 
 
 	func set_dirty(value: bool) -> void:
@@ -227,3 +268,7 @@ class EditedGraph extends RefCounted:
 
 	func get_graph() -> GaeaGraph:
 		return _graph
+
+
+	func get_tree_item() -> TreeItem:
+		return _tree_item

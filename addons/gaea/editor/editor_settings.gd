@@ -18,6 +18,8 @@ const PREVIEW_MAX_SIMULATION_SIZE := "gaea/graph/preview/max_simulation_size"
 const PREVIEW_MAX_SIMULATION_SIZE_DEFAULT := 128
 const OUTPUT_TITLE_COLOR := "gaea/graph/output_title_color"
 const OUTPUT_TITLE_COLOR_DEFAULT := Color("632639")
+const SUBGRAPH_TITLE_COLOR := "gaea/graph/subgraph_title_color"
+const SUBGRAPH_TITLE_COLOR_DEFAULT := Color("6766ff")
 const COLOR_BASE := "gaea/graph/slot_colors/%s"
 const ICON_BASE := "gaea/graph/slot_icons/%s"
 const CONFIGURABLE_SLOT_COLORS := {
@@ -73,6 +75,11 @@ func add_settings() -> void:
 		OUTPUT_TITLE_COLOR_DEFAULT,
 		{"type": TYPE_COLOR, "hint": PROPERTY_HINT_COLOR_NO_ALPHA}
 	)
+	_add_setting(
+		SUBGRAPH_TITLE_COLOR,
+		SUBGRAPH_TITLE_COLOR_DEFAULT,
+		{"type": TYPE_COLOR, "hint": PROPERTY_HINT_COLOR_NO_ALPHA}
+	)
 
 
 	for slot_type: GaeaValue.Type in CONFIGURABLE_SLOT_COLORS.keys():
@@ -110,7 +117,16 @@ func _transfer_and_erase_setting(old_key: String, new_key: String) -> void:
 
 static func get_configured_output_color() -> Color:
 	var editor_interface = Engine.get_singleton("EditorInterface")
-	return editor_interface.get_editor_settings().get_setting(OUTPUT_TITLE_COLOR)
+	if editor_interface.get_editor_settings().has_setting(OUTPUT_TITLE_COLOR):
+		return editor_interface.get_editor_settings().get_setting(OUTPUT_TITLE_COLOR)
+	return OUTPUT_TITLE_COLOR_DEFAULT
+
+
+static func get_configured_subgraph_color() -> Color:
+	var editor_interface = Engine.get_singleton("EditorInterface")
+	if editor_interface.get_editor_settings().has_setting(SUBGRAPH_TITLE_COLOR):
+		return editor_interface.get_editor_settings().get_setting(SUBGRAPH_TITLE_COLOR)
+	return SUBGRAPH_TITLE_COLOR_DEFAULT
 
 
 static func get_configured_color_for_value_type(value_type: GaeaValue.Type) -> Color:

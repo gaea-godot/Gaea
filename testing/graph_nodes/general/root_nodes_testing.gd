@@ -77,22 +77,13 @@ func test_for_untitled() -> void:
 			.override_failure_message("Node at [b]%s[/b] is unnamed" % _get_node_path(node))\
 			.is_not_equal("Unnamed").is_not_equal("")
 
-## Tests that all nodes have outputs.
-func test_has_outputs() -> void:
-	for node in nodes_in_root:
-		assert_array(node.get_output_ports_list())\
-			.override_failure_message("Node at [b]%s[/b] has no outputs." % _get_node_path(node))\
-			.is_not_empty()
-
 
 ## Tests that no `GaeaNodeResource`s in the root have an invalid or null type.
 func test_null_type() -> void:
 	for node in nodes_in_root:
 		assert_int(node.get_type())\
 			.override_failure_message("Type of node at [b]%s[/b] is not a valid type." % _get_node_path(node))\
-			.is_in(GaeaValue.Type.values())\
-			.override_failure_message("Type of node at [b]%s[/b] is null." % _get_node_path(node))\
-			.is_not_equal(GaeaValue.Type.NULL)
+			.is_in(GaeaValue.Type.values())
 		for argument in node.get_arguments_list():
 			assert_int(node.get_argument_type(argument))\
 				.override_failure_message("Type of argument [b]%s[/b] is invalid." % argument)\

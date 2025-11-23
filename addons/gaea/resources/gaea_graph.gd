@@ -95,7 +95,8 @@ func _init() -> void:
 	# For newly created resources set the latest save version
 	if resource_path.is_empty():
 		save_version = CURRENT_SAVE_VERSION
-		add_node(GaeaNodeOutput.new(), Vector2.ZERO)
+		if self is not GaeaSubGraph:
+			add_node(GaeaNodeOutput.new(), Vector2.ZERO)
 
 
 ## This method need to be called after loading to make sure the graph is correctly loaded
@@ -122,7 +123,7 @@ func _initialize() -> void:
 		if resource is GaeaNodeOutput:
 			_output_resource = resource
 
-	if not is_instance_valid(_output_resource):
+	if not is_instance_valid(_output_resource) and self is not GaeaSubGraph:
 		add_node(GaeaNodeOutput.new(), Vector2.ZERO)
 
 	var all_connections: Array[Dictionary] = get_all_connections()
