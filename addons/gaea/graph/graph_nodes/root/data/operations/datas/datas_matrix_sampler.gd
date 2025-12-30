@@ -33,16 +33,20 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.SAMPLE
 
 
-func _get_data(_output_port: StringName, area: AABB, graph: GaeaGraph) -> Dictionary[Vector3i, float]:
-	var data_x: Dictionary[Vector3i, float] = _get_arg(&"x", area, graph)
-	var data_y: Dictionary[Vector3i, float] = _get_arg(&"y", area, graph)
-	var matrix: Dictionary[Vector3i, float] = _get_arg(&"matrix", area, graph)
-	var result: Dictionary[Vector3i, float] = {}
-	for x in _get_axis_range(Vector3i.AXIS_X, area):
-		for y in _get_axis_range(Vector3i.AXIS_Y, area):
-			for z in _get_axis_range(Vector3i.AXIS_Z, area):
-				var cell_position := Vector3i(x, y, z)
-				var x_position = roundi(lerpf(area.position.x, area.end.x, data_x.get(cell_position, 0.0)))
-				var y_position = roundi(lerpf(area.position.y, area.end.y, data_y.get(cell_position, 0.0)))
-				result.set(cell_position, matrix.get(Vector3i(x_position, y_position, 0.0)))
+func _get_data(output_port: StringName, graph: GaeaGraph, pouch: GaeaGenerationPouch) -> Variant:
+	assert(output_port == &"result", "Invalid output_port")
+	var data_x: GaeaValue.Sample = _get_arg(&"x", graph, pouch)
+	var data_y: GaeaValue.Sample = _get_arg(&"y", graph, pouch)
+	var matrix: GaeaValue.Sample = _get_arg(&"matrix", graph, pouch)
+	var result: GaeaValue.Sample = GaeaValue.Sample.new()
+	for x in _get_axis_range(Vector3i.AXIS_X, pouch.area):
+		for y in _get_axis_range(Vector3i.AXIS_Y, pouch.area):
+			for z in _get_axis_range(Vector3i.AXIS_Z, pouch.area):
+				var x_position = roundi(lerpf(matrix.position.x, matrix.end.x, data_x.get_xyz(x, y, z)))
+				if is_nan(x_position):
+					continue
+				var y_position = roundi(lerpf(matrix.position.y, matrix.end.y, data_y.get_xyz(x, y, z)))
+				if is_nan(y_position):
+					continue
+				result.set_xyz(x, y, z, matrix.get_xyz(x_position, y_position, 0, 0.0))
 	return result
