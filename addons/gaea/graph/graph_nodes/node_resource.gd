@@ -709,12 +709,15 @@ func _is_point_outside_area(area: AABB, point: Vector3) -> bool:
 	)
 
 
-@warning_ignore("shadowed_global_identifier")
+## Returns the seed to use for the RandomNumberGenerator of this node.
+func _get_seed(pouch: GaeaGenerationPouch) -> int:
+	return pouch.settings.seed + salt
+
+
 func _define_rng(pouch: GaeaGenerationPouch) -> void:
 	rng = RandomNumberGenerator.new()
-	var derived_seed: int = pouch.settings.seed ^ salt ^ hash(pouch.area)
-	rng.set_seed(derived_seed)
-	seed(derived_seed)
+	rng.set_seed(_get_seed(pouch))
+	seed(rng.seed)
 #endregion
 
 

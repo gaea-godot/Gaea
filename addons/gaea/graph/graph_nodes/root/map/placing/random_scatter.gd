@@ -62,3 +62,7 @@ func _get_data(_output_port: StringName, graph: GaeaGraph, pouch: GaeaGeneration
 		result.set_cell(cell, material.execute_sample(rng, reference_sample.get_cell(cell)))
 
 	return result
+
+
+func _get_seed(pouch: GaeaGenerationPouch) -> int:
+	return super(pouch) + hash(pouch.area)

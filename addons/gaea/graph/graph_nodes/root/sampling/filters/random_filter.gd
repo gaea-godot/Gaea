@@ -46,3 +46,7 @@ func _passes_filter(
 ) -> bool:
 	var chance: float = float(args.get(&"chance")) / 100.0
 	return rng.randf() <= chance
+
+
+func _get_seed(pouch: GaeaGenerationPouch) -> int:
+	return super(pouch) + hash(pouch.area)
