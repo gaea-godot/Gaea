@@ -14,7 +14,8 @@ func _assert_output_grid_matches(
 
 	generation_settings = GaeaGenerationSettings.new()
 	var pouch := GaeaGenerationPouch.new(generation_settings, area)
-	node._define_rng(0)
+	pouch.settings.seed = 0
+	node._define_rng(pouch)
 
 	var graph: GaeaGraph = GaeaGraph.new()
 	graph.ensure_initialized()

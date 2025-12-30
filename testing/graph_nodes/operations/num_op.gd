@@ -10,11 +10,12 @@ func before():
 
 func _assert_operation_result(args: Array[Variant], expected: float) -> void:
 	var pouch: GaeaGenerationPouch = GaeaGenerationPouch.new(GaeaGenerationSettings.new(), AABB())
+	pouch.settings.seed = 0
 	var graph: GaeaGraph = GaeaGraph.new()
 	graph.ensure_initialized()
 	graph.add_node(node, Vector2i.ZERO)
 
-	node._define_rng(0)
+	node._define_rng(pouch)
 
 	for i in node.get_arguments_list().size():
 		node.set_argument_value(node.get_arguments_list()[i], args[i])

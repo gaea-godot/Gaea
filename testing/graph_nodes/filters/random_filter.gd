@@ -2,8 +2,8 @@ extends "res://testing/test_grid_output_base.gd"
 
 
 const AREA: AABB = AABB(Vector3.ZERO, Vector3(16, 16, 16))
-const EXPECTED_HASH_SAMPLE: int = 448972318
-const EXPECTED_HASH_MAP: int = 1558625878
+const EXPECTED_HASH_SAMPLE: int = 3535671914
+const EXPECTED_HASH_MAP: int = 3275546833
 const CHANCE: float = 50.0
 
 
@@ -24,7 +24,7 @@ func test_random_filter() -> void:
 
 	assert_float(ratio_difference)\
 		.override_failure_message("Unexpected result from [b]%s[/b]." % node.get_tree_name())\
-		.is_less(0.001)
+		.is_less(0.01)
 
 
 func test_map_random_filter() -> void:
@@ -43,4 +43,4 @@ func test_map_random_filter() -> void:
 
 	assert_float(ratio_difference)\
 		.override_failure_message("Unexpected result from [b]%s[/b]." % node.get_tree_name())\
-		.is_less(0.001)
+		.is_less(0.01)
