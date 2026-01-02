@@ -8,17 +8,13 @@ extends GaeaGraphNodeArgumentEditor
 # "check_mode": GaeaCheckableCell.CheckMode.BOOLEAN
 # "coordinate_format": GaeaCheckableCell.CoordinateFormat.PERSPECTIVE_3D
 
-const cells_hint_properties: Array[StringName] = [&"radius", &"show_origin", &"check_mode", &"coordinate_format"]
-
-
 @export var cells: GaeaCheckableCell
-
 
 func _configure() -> void:
 	if is_part_of_edited_scene():
 		return
 
-	for property in cells_hint_properties:
+	for property in [&"radius", &"show_origin", &"check_mode", &"coordinate_format"]:
 		if hint.has(property):
 			cells.set(property, hint.get(property))
 

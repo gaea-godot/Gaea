@@ -1,6 +1,6 @@
 @tool
-extends Control
 class_name GaeaCheckableCell
+extends Control
 
 signal cell_pressed
 
