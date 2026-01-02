@@ -7,7 +7,7 @@ extends Node
 
 
 ## Emitted when [GaeaGraph] is changed.
-signal graph_changed
+signal graph_changed(old_graph: GaeaGraph)
 ## Emitted when the graph is about to generate.
 signal about_to_generate
 ## Emitted when a [GaeaGenerationTask] is queued.
@@ -25,10 +25,11 @@ signal area_erased(area: AABB)
 ## The [GaeaGraph] used for generation.
 @export var graph: GaeaGraph:
 	set(value):
+		var old_graph: GaeaGraph = graph
 		graph = value
 		if is_instance_valid(graph):
 			graph.ensure_initialized()
-		graph_changed.emit()
+		graph_changed.emit(old_graph)
 
 @export var settings: GaeaGenerationSettings
 

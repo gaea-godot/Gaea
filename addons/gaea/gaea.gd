@@ -25,7 +25,7 @@ func _enter_tree() -> void:
 		_panel_button = add_control_to_bottom_panel(_container, "Gaea")
 		_panel_button.show()
 
-		_inspector_plugin = InspectorPlugin.new()
+		_inspector_plugin = InspectorPlugin.new(_panel)
 		add_inspector_plugin(_inspector_plugin)
 
 		GaeaEditorSettings.new().add_settings()

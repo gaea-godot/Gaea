@@ -124,13 +124,19 @@ func _on_file_saved(file: GaeaGraph) -> void:
 	edited_graphs[idx].set_dirty(false)
 
 
-func _on_unsaved_file_found(file: GaeaGraph) -> void:
+func set_unsaved(file: GaeaGraph) -> void:
+	file.resource_path = ""
+
 	var idx: int = edited_graphs.find_custom(EditedGraph.is_graph.bind(file))
 	if idx == -1:
 		return
 
 	file_list.set_item_text(idx, "[unsaved]")
 	file_list.set_item_tooltip(idx, "[unsaved]")
+
+
+func _on_unsaved_file_found(file: GaeaGraph) -> void:
+	set_unsaved(file)
 	_start_save_as(file)
 #endregion
 
@@ -155,7 +161,11 @@ func _on_item_selected(index: int) -> void:
 
 	graph_edit.unpopulate()
 	graph_edit.populate(metadata)
-	EditorInterface.inspect_object(metadata)
+
+	var edited: Object = EditorInterface.get_inspector().get_edited_object()
+	if edited is not GaeaGenerator or (edited as GaeaGenerator).graph != metadata:
+		EditorInterface.inspect_object.call_deferred(metadata)
+
 
 
 func _on_file_dialog_file_selected(path: String) -> void:
