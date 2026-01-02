@@ -20,8 +20,9 @@ corner_detail = 6
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3xcok"]
 
-[node name="RulesParameter" instance=ExtResource("1_3sl2w")]
+[node name="RulesParameter" node_paths=PackedStringArray("cells") instance=ExtResource("1_3sl2w")]
 script = ExtResource("2_rl5k1")
+cells = NodePath("VBoxContainer/Cells")
 
 [node name="VBoxContainer" type="HBoxContainer" parent="." index="1"]
 layout_mode = 2
@@ -31,9 +32,6 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 script = ExtResource("4_3xcok")
-simple = false
-show_origin = true
-circumference = 5
 z_slider = NodePath("../ZSlider")
 
 [node name="ZSlider" type="VSlider" parent="VBoxContainer" index="1"]

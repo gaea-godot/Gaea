@@ -30,6 +30,39 @@ func _get_description() -> String:
 [img]res://addons/gaea/assets/check.svg[/img] means the opposite."""
 
 
+func _get_enums_count() -> int:
+	return 2
+
+
+func _get_enum_options(enum_idx: int) -> Dictionary:
+	match enum_idx:
+		0:
+			return GaeaCheckableCell.CoordinateFormat
+		1:
+			var options = {}
+			for i in range(1, 6, 1):
+				options.set("Radius %d" % i, i)
+			return options
+	return {}
+
+
+func _get_enum_option_display_name(enum_idx: int, option_value: int) -> String:
+	match enum_idx:
+		0:
+			return super(enum_idx, option_value).trim_suffix("d") + "D"
+	return super(enum_idx, option_value)
+
+
+func _get_enum_default_value(enum_idx: int) -> int:
+	match enum_idx:
+		1:
+			return 2
+	return super(enum_idx)
+
+
+func _on_enum_value_changed(_enum_idx: int, _option_value: int) -> void:
+	notify_argument_list_changed()
+
 
 func _get_arguments_list() -> Array[StringName]:
 	return [&"reference", &"material", &"rules"]
@@ -41,6 +74,17 @@ func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
 		&"material": return GaeaValue.Type.MATERIAL
 		&"rules": return GaeaValue.Type.RULES
 	return GaeaValue.Type.NULL
+
+
+func _get_argument_hint(arg_name: StringName) -> Dictionary[String, Variant]:
+	if arg_name == &"rules":
+		return {
+			&"check_mode": GaeaCheckableCell.CheckMode.TRISTATE,
+			&"show_origin": true,
+			&"coordinate_format": get_enum_selection(0),
+			&"radius": get_enum_selection(1),
+		}
+	return super(arg_name)
 
 
 func _get_output_ports_list() -> Array[StringName]:
