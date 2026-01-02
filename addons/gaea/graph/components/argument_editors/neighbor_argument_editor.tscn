@@ -31,6 +31,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(72, 72)
 layout_mode = 2
 script = ExtResource("3_2g0rj")
+radius = 1
 z_slider = NodePath("../ZSlider")
 
 [node name="ZSlider" type="VSlider" parent="VBoxContainer" index="1"]
