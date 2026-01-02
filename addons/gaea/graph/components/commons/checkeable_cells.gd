@@ -2,8 +2,6 @@
 extends Control
 class_name GaeaCheckableCell
 
-signal cell_pressed
-
 enum CheckMode {
 	BOOLEAN,   # checked / unchecked
 	TRISTATE,  # checked / crossed / empty
@@ -15,6 +13,8 @@ enum CoordinateFormat {
 	VERTICAL_OFFSET_2D,
 	HORIZONTAL_OFFSET_2D,
 }
+
+signal cell_pressed
 
 const CELL_SIZE := Vector2(24, 24)
 

@@ -2,15 +2,16 @@
 class_name GaeaRulesArgumentEditor
 extends GaeaGraphNodeArgumentEditor
 
-
-@export var cells: GaeaCheckableCell
-
 #Supported hints
 # "radius": 2
 # "show_origin": true
 # "check_mode": GaeaCheckableCell.CheckMode.BOOLEAN
 # "coordinate_format": GaeaCheckableCell.CoordinateFormat.PERSPECTIVE_3D
+
 const cells_hint_properties: Array[StringName] = [&"radius", &"show_origin", &"check_mode", &"coordinate_format"]
+
+
+@export var cells: GaeaCheckableCell
 
 
 func _configure() -> void:
