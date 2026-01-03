@@ -17,6 +17,7 @@ extends Resource
 @warning_ignore_start("unused_signal")
 
 signal argument_list_changed
+signal argument_hint_changed(arg_name: StringName)
 signal argument_value_changed(arg_name: StringName, new_value: Variant)
 signal enum_value_changed(enum_idx: int, option_value: int)
 
@@ -93,6 +94,10 @@ func _on_removed_from_graph(_graph: GaeaGraph) -> void:
 
 func notify_argument_list_changed() -> void:
 	argument_list_changed.emit()
+
+
+func notify_argument_hint_changed(arg_name: StringName) -> void:
+	argument_hint_changed.emit(arg_name)
 
 
 ## Override the name used in the 'Create Node' dialog.
@@ -407,7 +412,7 @@ func set_argument_value(arg_name: StringName, new_value: Variant) -> void:
 
 
 ## Called when an enum is changed in the editor. Does nothing by default, but can be used to call
-## [method notify_arguments_list_changed] to rebuild the node.
+## [method notify_argument_list_changed] to rebuild the node.
 func _on_argument_value_changed(_arg_name: StringName, _new_value: Variant) -> void:
 	return
 

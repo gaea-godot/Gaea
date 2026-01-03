@@ -17,7 +17,10 @@ var graph_node: GaeaGraphNode
 ## Index of the slot in the [GaeaGraphNode].
 var slot_idx: int
 ## Hint as declared in [GaeaNodeResource._get_argument_hint].
-var hint: Dictionary[String, Variant]
+var hint: Dictionary[String, Variant]:
+	set(value):
+		hint = value
+		_on_hint_changed()
 
 @onready var _label: RichTextLabel = get_node_or_null(NodePath("%Label"))
 
@@ -28,7 +31,7 @@ func initialize(
 	for_type: GaeaValue.Type,
 	display_name: String,
 	default_value: Variant,
-	for_hint: Dictionary
+	for_hint: Dictionary[String, Variant]
 ) -> Error:
 	graph_node = for_graph_node
 	type = for_type
@@ -46,6 +49,11 @@ func _configure() -> void:
 
 	if not graph_node.is_node_ready():
 		await graph_node.ready
+
+
+## Called when the hint properties changed
+func _on_hint_changed() -> void:
+	pass
 
 
 func add_input_slot() -> void:

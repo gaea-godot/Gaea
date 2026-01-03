@@ -69,6 +69,7 @@ func _on_added() -> void:
 
 	resource.node = self
 	resource.argument_list_changed.connect(_rebuild, CONNECT_DEFERRED)
+	resource.argument_hint_changed.connect(_on_argument_hint_changed, CONNECT_DEFERRED)
 
 	for enum_idx in resource.get_enums_count():
 		var option_button: OptionButton = OptionButton.new()
@@ -302,6 +303,11 @@ func _on_enum_value_changed(option_idx: int, enum_idx: int, button: OptionButton
 	graph_edit.graph.set_node_enum(resource.id, enum_idx, value)
 	if is_instance_valid(_preview):
 		_preview.update()
+
+
+func _on_argument_hint_changed(arg_name: StringName) -> void:
+	if _editors.has(arg_name):
+		_editors.get(arg_name).set(&"hint", resource.get_argument_hint(arg_name))
 
 
 # Makes argument editors invisible if there's a wire connected to their input slot.

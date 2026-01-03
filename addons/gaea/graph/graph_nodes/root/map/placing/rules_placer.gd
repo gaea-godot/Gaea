@@ -43,7 +43,7 @@ func _get_enum_option_display_name(enum_idx: int, option_value: int) -> String:
 
 
 func _on_enum_value_changed(_enum_idx: int, _option_value: int) -> void:
-	notify_argument_list_changed()
+	notify_argument_hint_changed(&"rules")
 
 
 func _get_arguments_list() -> Array[StringName]:
@@ -88,7 +88,7 @@ func _has_input_slot(arg_name: StringName) -> bool:
 
 func _on_argument_value_changed(_arg_name: StringName, _new_value: Variant) -> void:
 	if _arg_name == &"radius":
-		notify_argument_list_changed()
+		notify_argument_hint_changed(&"rules")
 
 
 func _get_output_ports_list() -> Array[StringName]:
