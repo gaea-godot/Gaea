@@ -17,6 +17,7 @@ func _configure() -> void:
 	_apply_hint()
 	await super()
 
+
 func _apply_hint() -> void:
 	for property in [&"radius", &"show_origin", &"check_mode", &"coordinate_format"]:
 		if hint.has(property):
