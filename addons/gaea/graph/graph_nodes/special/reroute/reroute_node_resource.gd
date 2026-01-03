@@ -40,6 +40,10 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 #endregion
 
 
+func _display_documentation_button() -> bool:
+	return false
+
+
 func _get_scene() -> PackedScene:
 	return load("uid://b2rceqo8rtr88")
 

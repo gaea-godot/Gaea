@@ -44,7 +44,7 @@ func _ready() -> void:
 
 	if is_instance_valid(resource):
 		set_tooltip_text("tooltip")
-		if Engine.get_version_info().hex >= 0x040500 and not resource is GaeaNodeReroute:
+		if Engine.get_version_info().hex >= 0x040500 and resource.display_documentation_button():
 			var script = resource.get_script()
 			if is_instance_valid(script):
 				var documentation_button := Button.new()

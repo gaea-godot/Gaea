@@ -17,6 +17,7 @@ enum Type {
 	VECTOR2I = TYPE_VECTOR2I, ## Like Vector2, but can only be [code]int[/code]s.
 	VECTOR3 = TYPE_VECTOR3, ## ([code]x[/code],[code]y[/code], [code]z[/code])
 	VECTOR3I = TYPE_VECTOR3I, ## Like Vector3, but can only be [code]int[/code]s.
+	ANY = 99, ## Used to accept any links.
 	# Simple types from 100 to 199
 	## Formatted the following way:
 	## [codeblock]
@@ -48,7 +49,12 @@ static func is_wireable(type: Type) -> bool:
 
 ## Returns [code]true[/code] if a connection of a [param from] output and a [param to] input is valid.
 static func is_valid_connection(from: GaeaValue.Type, to: GaeaValue.Type) -> bool:
-	return from == to or (GaeaValueCast.get_cast_methods().has(from) and GaeaValueCast.get_cast_methods().get(from).has(to))
+	return (
+		from == to
+		or from == Type.ANY
+		or to == Type.ANY
+		or (GaeaValueCast.get_cast_methods().has(from) and GaeaValueCast.get_cast_methods().get(from).has(to))
+	)
 
 
 ## Returns whether [param type] can be previewed in the editor.
@@ -58,7 +64,9 @@ static func has_preview(type: Type) -> bool:
 
 ## Returns the configured color for slots of [param type].
 static func get_color(type: Type) -> Color:
-	return GaeaEditorSettings.get_configured_color_for_value_type(type)
+	if GaeaEditorSettings.CONFIGURABLE_SLOT_COLORS.has(type):
+		return GaeaEditorSettings.get_configured_color_for_value_type(type)
+	return get_default_color(type)
 
 
 ## Returns the default value for [param type]. Returns [code]null[/code] if there's none.
@@ -154,6 +162,8 @@ static func get_default_color(type: Type) -> Color:
 			return Color("00bfff") # LIGHT BLUE
 		Type.VECTOR3I, Type.VECTOR3:
 			return Color("8e44ad") # MAGENTA
+		Type.ANY:
+			return Color("ff00fe") # LIGHT MAGENDA
 		# Simple types
 		Type.RANGE:
 			return Color("f04c7f") # PINK
@@ -205,7 +215,9 @@ static func get_display_icon(type: Type) -> Texture2D:
 
 ## Returns the configured icon for slots of [param type].
 static func get_slot_icon(type: Type) -> Texture2D:
-	return GaeaEditorSettings.get_configured_icon_for_value_type(type)
+	if GaeaEditorSettings.CONFIGURABLE_SLOT_COLORS.has(type):
+		return GaeaEditorSettings.get_configured_icon_for_value_type(type)
+	return get_default_slot_icon(type)
 
 
 ## Returns the default icon for slots of [param type].
@@ -220,6 +232,8 @@ static func get_default_slot_icon(type: Type) -> Texture2D:
 			return load("uid://bidpo1iw1t0vt")
 		Type.VECTOR3I, Type.VECTOR3:
 			return load("uid://dbvw3j8fnmhpu")
+		Type.ANY:
+			return EditorInterface.get_editor_theme().get_icon("NodeInfo", "EditorIcons")
 		# Simple types
 		Type.RANGE:
 			return load("uid://dfsmxavxasx7x")

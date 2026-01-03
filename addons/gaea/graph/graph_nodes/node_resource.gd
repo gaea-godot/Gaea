@@ -53,7 +53,7 @@ const GAEA_MATERIAL_GRADIENT_HINT := "Resource that maps values from 0.0-1.0 to 
 var connections: Array[Dictionary]
 ## The related [GaeaGraphNode] for editing in the Gaea graph editor.
 ## This is null during runtime.
-var node: GraphElement
+var node: GaeaGraphNode
 ## A Dictionary holding the values of the arguments
 ## where the keys are their names.
 var arguments: Dictionary
@@ -69,6 +69,37 @@ var id: int = 0
 ## If empty, [method _get_title] will be used instead.
 var tree_name_override: String = "":
 	set = set_tree_name_override
+
+
+## Check if the provided resource path is a valid GaeaNodeResource, if true return an empty String, else return an error message
+static func is_valid_node_resource(uid_path: String) -> String:
+	# Step 1 is there something to load
+	if uid_path.is_empty():
+		return "No path provided"
+	if uid_path.begins_with("uid://"):
+		if not ResourceUID.has_id(ResourceUID.text_to_id(uid_path)):
+			return "Could not find resource with UID '%s'" % uid_path
+	if not ResourceLoader.exists(uid_path, "GDScript"):
+		return "Resource does not exist at '%s' or is not a GDScript" % uid_path
+
+	# Step 2 is the resource a valid script
+	var script: GDScript = load(uid_path)
+	if not script.get_instance_base_type() == "Resource":
+		return "Script is not a child class of 'Resource' at '%s'" % script.resource_path
+	if script.is_abstract():
+		return "Script is abstract at '%s'" % script.resource_path
+	if not script.is_tool():
+		return "Script is missing the @tool anotation at '%s'" % script.resource_path
+	if not script.can_instantiate():
+		return "Script can't be instantiated at '%s'" % script.resource_path
+
+	# Step 3 is the resource a GaeaNodeResource
+	var base_script: Script = script.get_base_script()
+	while base_script != null:
+		if base_script == GaeaNodeResource:
+			return ""
+		base_script = base_script.get_base_script()
+	return "Script is not a child class of the GaeaNodeResource class at '%s'" % script.resource_path
 
 
 ## Public version of [method _on_added_to_graph].
@@ -625,6 +656,16 @@ func _log_error(message: String, graph: GaeaGraph, node_idx: int = -1) -> void:
 
 
 #region Miscelaneous
+## Public version of [method _display_documentation_button].
+func display_documentation_button() -> bool:
+	return _display_documentation_button()
+
+
+## Override this method to define hide the documentation button
+func _display_documentation_button() -> bool:
+	return true
+
+
 ## Public version of [method _get_scene].
 func get_scene() -> PackedScene:
 	return _get_scene()

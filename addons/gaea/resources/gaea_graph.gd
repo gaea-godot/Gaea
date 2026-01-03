@@ -106,34 +106,70 @@ func ensure_initialized() -> void:
 
 
 func _initialize() -> void:
-	#Data migration from previous version.
+	# Data migration from previous version.
 	save_version = other.get(&"save_version", save_version)
 	if save_version != CURRENT_SAVE_VERSION:
 		GaeaGraphMigration.migrate(self)
 
+	var all_connections: Array[Dictionary] = get_all_connections()
+
 	_resources.clear()
 	_output_resource = null
-	var uniques = _get_unique_resources()
-	for id in uniques.keys():
-		_resources.set(id, uniques[id])
 
-	for resource in get_nodes():
-		resource.connections.clear()
+	# Step 1 initialize the GaeaNodeResource
+	for resource_id: int in _node_data.keys():
+		var resource: GaeaNodeResource = _initialize_resource(resource_id, all_connections)
 		if resource is GaeaNodeOutput:
 			_output_resource = resource
 
+	# Step 2 make sure the graph have an output node
 	if not is_instance_valid(_output_resource):
 		add_node(GaeaNodeOutput.new(), Vector2.ZERO)
 
+	_initialize_connections(all_connections)
+	notify_property_list_changed()
+
+	_initialized = true
+
+
+func re_initialize_resource(resource_id: int) -> void:
 	var all_connections: Array[Dictionary] = get_all_connections()
+	_initialize_resource(resource_id, all_connections)
+	_initialize_connections(all_connections)
+
+
+func _initialize_resource(resource_id: int, all_connections: Array[Dictionary]) -> GaeaNodeResource:
+	var resource: GaeaNodeResource = null
+	var base_uid: String = get_node_data(resource_id).get(&"uid", "")
+	var is_uid_valid = GaeaNodeResource.is_valid_node_resource(base_uid)
+	if is_uid_valid.is_empty():
+		resource = load(base_uid).new()
+	else:
+		push_error("Could not load the node id '%d' of graph '%s' because: %s" % [resource_id, resource_path, is_uid_valid])
+
+	# In case the resource was not able to be loaded we load a dummy resource
+	if not is_instance_valid(resource):
+		var argument_count: int = 0
+		var output_count: int = 0
+		for connection: Dictionary in all_connections:
+			if connection.to_node == resource_id:
+				argument_count = maxi(argument_count, connection.to_port)
+			if connection.from_node == resource_id:
+				output_count = maxi(output_count, connection.from_port)
+		resource = GaeaNodeInvalidScript.new(argument_count + 1, output_count + 1)
+	resource.load_save_data(_node_data.get(resource_id, {}))
+	_resources.set(resource_id, resource)
+	return resource
+
+
+func _initialize_connections(all_connections: Array[Dictionary]) -> void:
+	for resource in get_nodes():
+		resource.connections.clear()
+
 	for idx in all_connections.size():
 		var connection: Dictionary = all_connections[idx]
 		var resource: GaeaNodeResource = get_node(connection.to_node)
 		resource.connections.append(connection)
-
-	notify_property_list_changed()
-
-	_initialized = true
 
 
 ## Log debug text to the output depending of the debug setting.
@@ -678,19 +714,3 @@ func _get(property: StringName) -> Variant:
 		if variable.name == property:
 			return variable.value
 	return
-
-
-func _get_unique_resources() -> Dictionary[Variant, GaeaNodeResource]:
-	var uniques: Dictionary[Variant, GaeaNodeResource] = {}
-	for id in _node_data.keys():
-		var base_uid: String = get_node_data(id).get(&"uid", "")
-		if base_uid.is_empty():
-			continue
-		var data: Dictionary = _node_data.get(id, {})
-		var resource: GaeaNodeResource = load(base_uid).new()
-		if not resource is GaeaNodeResource:
-			push_error("Something went wrong, the resource at %s is not a GaeaNodeResource" % base_uid)
-			return uniques
-		resource._load_save_data(data)
-		uniques.set(id, resource)
-	return uniques

@@ -40,6 +40,10 @@ func _init() -> void:
 	for cast in GaeaValueCast.get_cast_list():
 		add_valid_connection_type(cast[0], cast[1])
 
+	for type in GaeaValue.Type.values():
+		add_valid_connection_type(GaeaValue.Type.ANY, type)
+		add_valid_connection_type(type, GaeaValue.Type.ANY)
+
 
 func _ready() -> void:
 	if is_part_of_edited_scene():
@@ -766,7 +770,7 @@ func _on_editor_script_changed(script: Script):
 
 
 func _on_edited_script_changed(script: Script):
-	if not is_instance_valid(script) or not script.can_instantiate():
+	if not GaeaNodeResource.is_valid_node_resource(script.resource_path):
 		return
 
 	for child in get_children():
