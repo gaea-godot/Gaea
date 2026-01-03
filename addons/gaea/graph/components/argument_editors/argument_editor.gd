@@ -56,15 +56,15 @@ func _on_hint_changed() -> void:
 	pass
 
 
-func add_input_slot() -> void:
-	if GaeaValue.is_wireable(type):
+func add_input_slot(enabled: bool) -> void:
+	if enabled and GaeaValue.is_wireable(type):
 		graph_node.set_slot_enabled_left(slot_idx, true)
 		graph_node.set_slot_type_left(slot_idx, type)
 		graph_node.set_slot_color_left(slot_idx, GaeaValue.get_color(type))
 		graph_node.set_slot_custom_icon_left(slot_idx, GaeaValue.get_slot_icon(type))
 	else:
 		# This is required because without it the color of the slots after is OK but not the icon.
-		# Probably a Godot issue.
+		# See https://github.com/godotengine/godot/pull/112245
 		graph_node.set_slot_enabled_left(slot_idx, false)
 
 
