@@ -1,15 +1,15 @@
 @tool
-class_name GaeaNodeDatasMatrixSampler
+class_name GaeaNodeMatrixSampler
 extends GaeaNodeResource
 ## Operation between 2 data grids.
 
 
 func _get_title() -> String:
-	return "DatasMatrixSampler"
+	return "MatrixSampler"
 
 
 func _get_description() -> String:
-	return "Operation between 2 data grids."
+	return "Sampling using 2 data grids and one matrix as reference. Mostly used to generate biome with a Whittaker Diagram"
 
 
 
