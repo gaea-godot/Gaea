@@ -17,13 +17,13 @@ var priority: GaeaPriority
 var priority_level: float:
 	get = _get_priority_level
 ## The time the task was created in msec ticks.
-var creation_time: float = -1.0
+var creation_time: int = -1
 ## The time the task was placed in the [GaeaTaskPool] queue in msec ticks.
-var queued_time: float = -1.0
+var queued_time: int = -1
 ## The time the task actually began running in the [WorkerThreadPool] in msec ticks.
-var run_time: float = -1.0
+var run_time: int = -1
 ## The time the task was finished and cleaned up by the [GaeaTaskPool].
-var finish_time: float = -1.0
+var finish_time: int = -1
 ## Whether to print logging to the Output console.
 var log_enabled: bool = false
 ## A cancellation token used to indicate that a [GaeaTask] will be
@@ -47,7 +47,7 @@ func _init(_task: Callable, _description: String, enable_log: bool = false, _pri
 
 #region Priority
 func _get_priority_level() -> float:
-	return priority.level if priority else creation_time
+	return priority.level if priority else float(creation_time)
 #endregion
 
 
@@ -120,7 +120,7 @@ func log_queued_time():
 	if log_enabled:
 		GaeaGraph.print_log(GaeaGraph.Log.THREADING, "Queued %s at time %.2f" % [
 			description,
-			queued_time / 1000
+			roundi(float(queued_time) * 0.001)
 		])
 
 
@@ -156,8 +156,8 @@ func log_start_work():
 func log_finish_time():
 	finish_time = Time.get_ticks_msec()
 	if log_enabled:
-		var has_run_time := run_time >= 0
-		var start_time = run_time if has_run_time else creation_time
+		var has_run_time: bool = run_time >= 0
+		var start_time: int = run_time if has_run_time else creation_time
 		GaeaGraph.print_log(GaeaGraph.Log.THREADING, "Finished %s after %.0f ms%s. Total lifetime %.0f ms.%s" %
 		[
 			description,
