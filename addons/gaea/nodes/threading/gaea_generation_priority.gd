@@ -31,31 +31,30 @@ extends GaeaPriority
 ## [center]return value converted as above[/center]
 ## [br][br]
 ## All unhandled types default to [constant Vector4.ZERO]:
-var origin: Variant
+var _origin: Variant
 
 ## The area to measure distance off of.
 ## [br][br]
 ## The position is calculated using:
 ## [br][br]
 ## [center][member AABB.position] / [member AABB.size][/center]
-var area: AABB
+var _area: AABB
 
 
-@warning_ignore("shadowed_variable")
 func _init(origin: Variant, area: AABB) -> void:
-	self.origin = origin
-	area = area
+	_origin = origin
+	_area = area
 
 
 func _calculate() -> float:
-	var position := Vector.to_vec4(area.position / area.size)
+	var position := Vector.to_vec4(_area.position / _area.size)
 	return _get_origin().distance_squared_to(position)
 
 
 func _get_origin() -> Vector4:
-	var value = origin
-	if origin is Callable:
-		value = origin.call()
+	var value = _origin
+	if _origin is Callable:
+		value = _origin.call()
 	if value is Node:
 		if value is Node2D or value is Node3D or value is Control:
 			return Vector.to_vec4(value.global_position)

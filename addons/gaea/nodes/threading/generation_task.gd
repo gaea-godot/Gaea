@@ -15,7 +15,7 @@ var _results_dict: Dictionary[int, GaeaValue.Map]
 ## [param graph]'s execute method and sets [member priority] to a
 ## [GaeaGenerationPriority] using [param origin] and
 ## [param task_pouch]'s [member GaeaGenerationPouch.area].
-## [br] See [member GaeaGenerationPriority.origin] for [member origin] type.
+## [br] See [member GaeaGenerationPriority._origin] for [member origin] type.
 func _init(task_description: String, graph: GaeaGraph, task_pouch: GaeaGenerationPouch, origin: Variant = null):
 	var new_task = graph.get_output_node().execute.bind(graph, task_pouch)
 	self.pouch = task_pouch
