@@ -139,6 +139,8 @@ func re_initialize_resource(resource_id: int) -> void:
 
 
 func _initialize_resource(resource_id: int, all_connections: Array[Dictionary]) -> GaeaNodeResource:
+	if get_node_type(resource_id) != NodeType.NODE:
+		return
 	var resource: GaeaNodeResource = null
 	var base_uid: String = get_node_data(resource_id).get(&"uid", "")
 	var is_uid_valid = GaeaNodeResource.is_valid_node_resource(base_uid)

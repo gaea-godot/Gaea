@@ -15,7 +15,7 @@ func test_has_generated() -> void:
 	var finished := scene.last_finished
 	assert_that(finished).is_not_null()
 	assert_bool(finished.cancelled).is_false()
-	assert_float(finished.finish_time).is_greater_equal(0)
+	assert_int(finished.finish_time).is_greater_equal(0)
 
 	var task_pool := scene.gaea_generator.task_pool
 	assert_int(task_pool._tasks.size()).is_equal(0)
