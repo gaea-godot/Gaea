@@ -47,22 +47,32 @@ var _tasks: Dictionary[int, GaeaTask] = {}
 ## For locking shared data; enables proper setting of [ExecutionTask] results.
 var _mutex_tasks: Mutex = Mutex.new()
 
+## Reference of the MainLoop
 var _main_loop: SceneTree :
 	get = _get_main_loop
+
+## Time in tick since last time we sort the tasks
+var _last_sorted: float = 0.0
 
 
 func _init() -> void:
 	_get_main_loop()
 
 
-func _process() -> void:
-	_run_queued_tasks()
-
 func _get_main_loop() -> SceneTree:
 	if (_main_loop == null):
 		_main_loop = Engine.get_main_loop()
-		_get_main_loop().process_frame.connect(_process)
 	return _main_loop
+
+
+## Connect or disconnect the main_loop process_frame if the queue contain tasks.
+func _update_process_frame_connection() -> void:
+	if _queued.is_empty() and _tasks.is_empty():
+		if _main_loop.process_frame.is_connected(_run_queued_tasks):
+			_main_loop.process_frame.disconnect(_run_queued_tasks)
+	else:
+		if not _main_loop.process_frame.is_connected(_run_queued_tasks):
+			_main_loop.process_frame.connect(_run_queued_tasks)
 
 
 ## Removes [param task] from the queue and marks it as
@@ -72,6 +82,7 @@ func cancel(task:GaeaTask):
 	if _queued.has(task):
 		_queued.erase(task)
 	task_cancelled.emit(task)
+	_update_process_frame_connection()
 
 
 ## Removes all tasks from the queue and marks all running tasks
@@ -85,15 +96,19 @@ func cancel_all():
 	for task in _tasks.values():
 		task.cancel()
 	_mutex_tasks.unlock()
+	_update_process_frame_connection()
 
 
 func _discard_task(task: GaeaTask):
 	task.log_discarded()
 	task_discarded.emit(task)
+	_update_process_frame_connection()
 
 
-func _sort_queue():
-	_queued.sort_custom(_sort_task)
+func _sort_queue(force_sort: bool = false):
+	if force_sort or (Time.get_unix_time_from_system() - _last_sorted) > 1:
+		_last_sorted = Time.get_unix_time_from_system()
+		_queued.sort_custom(_sort_task)
 
 
 func _sort_task(task_a: GaeaTask, task_b: GaeaTask):
@@ -188,10 +203,11 @@ func queue(task: GaeaTask):
 		# Queue the task to run later.
 		task.log_queued_time()
 		_queued.push_back(task)
-		_queued.sort()
+		_sort_queue()
 	else:
 		# Run the task immediately.
 		_run_task(task)
+	_update_process_frame_connection()
 
 
 ## Executes generation immediately. Blocks the main thread.
@@ -232,6 +248,7 @@ func _finish_task(task: GaeaTask):
 
 	if not task.cancelled:
 		task_finished.emit(task)
+	_update_process_frame_connection()
 
 
 ## Starts running queued [GaeaGenerationTask]s on the [WorkerThreadPool] as space clears up.
