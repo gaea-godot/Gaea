@@ -770,7 +770,7 @@ func _on_editor_script_changed(script: Script):
 
 
 func _on_edited_script_changed(script: Script):
-	if not GaeaNodeResource.is_valid_node_resource(script.resource_path):
+	if not GaeaNodeResource.is_valid_node_resource(script.resource_path).is_empty():
 		return
 
 	for child in get_children():
