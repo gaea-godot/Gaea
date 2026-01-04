@@ -106,7 +106,7 @@ func _discard_task(task: GaeaTask):
 
 
 func _sort_queue(force_sort: bool = false):
-	if force_sort or (Time.get_unix_time_from_system() - _last_sorted) > 1:
+	if force_sort or (Time.get_unix_time_from_system() - _last_sorted) > 5:
 		_last_sorted = Time.get_unix_time_from_system()
 		_queued.sort_custom(_sort_task)
 
