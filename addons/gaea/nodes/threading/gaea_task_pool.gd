@@ -40,6 +40,9 @@ enum DeDuplicationStrategy
 ## [GaeaExecutionTasks] will wait here until the generator is ready to run them on the [WorkerThreadPool].
 var _queued: Array[GaeaTask] = []
 
+## Flag to know if the queue is currently sorted.
+var _is_queue_sorted: bool = true
+
 ## The multithreading tasks currently in progress.
 ## [GaeaExecutionTasks] are tracked here until they are finished in [method _finish_completed_execution_tasks].
 var _tasks: Dictionary[int, GaeaTask] = {}
@@ -51,8 +54,6 @@ var _mutex_tasks: Mutex = Mutex.new()
 var _main_loop: SceneTree :
 	get = _get_main_loop
 
-## Time in tick since last time we sort the tasks
-var _last_sorted: float = 0.0
 
 
 func _init() -> void:
@@ -105,10 +106,9 @@ func _discard_task(task: GaeaTask):
 	_update_process_frame_connection()
 
 
-func _sort_queue(force_sort: bool = false):
-	if force_sort or (Time.get_unix_time_from_system() - _last_sorted) > 5:
-		_last_sorted = Time.get_unix_time_from_system()
-		_queued.sort_custom(_sort_task)
+func _sort_queue():
+	_is_queue_sorted = true
+	_queued.sort_custom(_sort_task)
 
 
 func _sort_task(task_a: GaeaTask, task_b: GaeaTask):
@@ -203,7 +203,7 @@ func queue(task: GaeaTask):
 		# Queue the task to run later.
 		task.log_queued_time()
 		_queued.push_back(task)
-		_sort_queue()
+		_is_queue_sorted = false
 	else:
 		# Run the task immediately.
 		_run_task(task)
@@ -253,6 +253,7 @@ func _finish_task(task: GaeaTask):
 
 ## Starts running queued [GaeaGenerationTask]s on the [WorkerThreadPool] as space clears up.
 func _run_queued_tasks():
-	_sort_queue()
 	while (task_limit <= 0 or _tasks.size() < task_limit) and not _queued.is_empty():
+		if not _is_queue_sorted:
+			_sort_queue()
 		_run_task(_queued.pop_front())
