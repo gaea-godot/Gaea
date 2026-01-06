@@ -78,7 +78,7 @@ func _update_process_frame_connection() -> void:
 
 ## Removes [param task] from the queue and marks it as
 ## cancelled using [method GaeaTask.cancel]
-func cancel(task:GaeaTask):
+func cancel(task:GaeaTask) -> void:
 	task.cancel()
 	if _queued.has(task):
 		_queued.erase(task)
@@ -88,7 +88,7 @@ func cancel(task:GaeaTask):
 
 ## Removes all tasks from the queue and marks all running tasks
 ## as cancelled using [method GaeaTask.cancel].
-func cancel_all():
+func cancel_all() -> void:
 	for task in _queued:
 		task.cancel()
 	_queued.clear()
@@ -100,7 +100,7 @@ func cancel_all():
 	_update_process_frame_connection()
 
 
-func _discard_task(task: GaeaTask):
+func _discard_task(task: GaeaTask) -> void:
 	task.log_discarded()
 	task_discarded.emit(task)
 	_update_process_frame_connection()
@@ -115,12 +115,12 @@ func _sort_queue() -> void:
 	_queued.sort_custom(_sort_task)
 
 
-func _sort_task(task_a: GaeaTask, task_b: GaeaTask):
+func _sort_task(task_a: GaeaTask, task_b: GaeaTask) -> bool:
 	return task_a.priority_level < task_b.priority_level
 
 
 ## Send an [GaeaGenerationTask] to the [WorkerThreadPool] to start running immediately.
-func _run_task(task:GaeaTask):
+func _run_task(task:GaeaTask) -> void:
 	if task.task:
 		task.log_run_time()
 
@@ -137,7 +137,7 @@ func _run_task(task:GaeaTask):
 
 ## A coroutine that adds [param task] to the task list, waits on
 ## its [member GaeaTask.task_id], then passes it along to be finished.
-func _wait_on_task(task: GaeaTask):
+func _wait_on_task(task: GaeaTask) -> void:
 	_mutex_tasks.lock()
 	_tasks[task.task_id] = task
 	_mutex_tasks.unlock()
@@ -173,7 +173,7 @@ func _is_duplicate(task: GaeaTask) -> bool:
 
 ## Either queues a task when [member multithreaded] is true,
 ## else executes on the main thread.
-func submit(task: GaeaTask):
+func submit(task: GaeaTask) -> void:
 	if multithreaded:
 		queue(task)
 		task_started.emit(task)
@@ -199,7 +199,7 @@ func _handle_duplication(task: GaeaTask) -> bool:
 ## Sends a new [GaeaGenerationTask] to the [member _task_queue] if
 ## the [member _task_limit] has been reached. Otherwise run
 ## it on the [WorkerThreadPool] immediately. Ignores duplicates.
-func queue(task: GaeaTask):
+func queue(task: GaeaTask) -> void:
 	if _handle_duplication(task):
 		return
 
@@ -216,7 +216,7 @@ func queue(task: GaeaTask):
 
 
 ## Executes generation immediately. Blocks the main thread.
-func execute(task: GaeaTask):
+func execute(task: GaeaTask) -> void:
 	task.task_id = 0
 	task.log_run_time(false)
 	_execute(task)
@@ -225,7 +225,7 @@ func execute(task: GaeaTask):
 
 ## Executes the given [GaeaNodeOutput] on the given [member area].
 ## Passes the resulting [GaeaGrid] to [member task]'s [member GaeaGenerationTask.results].
-func _execute(task: GaeaTask = null):
+func _execute(task: GaeaTask = null) -> void:
 	# Grab task data
 	if task == null:
 		# Wait till the task can be found using the current task id.
@@ -248,7 +248,7 @@ func _execute(task: GaeaTask = null):
 
 
 ## Emits [signal generation_finished] on the given [GaeaGenerationTask]
-func _finish_task(task: GaeaTask):
+func _finish_task(task: GaeaTask) -> void:
 	task.log_finish_time()
 
 	if not task.cancelled:
@@ -257,7 +257,7 @@ func _finish_task(task: GaeaTask):
 
 
 ## Starts running queued [GaeaGenerationTask]s on the [WorkerThreadPool] as space clears up.
-func _run_queued_tasks():
+func _run_queued_tasks() -> void:
 	while (task_limit <= 0 or _tasks.size() < task_limit) and not _queued.is_empty():
 		if not _is_queue_sorted:
 			_sort_queue()

@@ -98,7 +98,7 @@ func _equals(other: GaeaTask) -> bool:
 
 #region Logging
 ## Called when [GaeaTaskPool] discards a [GaeaTask].
-func log_discarded():
+func log_discarded() -> void:
 	if log_enabled:
 		GaeaGraph.print_log(GaeaGraph.Log.THREADING, "Discard %s." % [
 			description
@@ -106,7 +106,7 @@ func log_discarded():
 
 
 ## Called when [GaeaTaskPool] cancels a [GaeaTask].
-func log_cancelled():
+func log_cancelled() -> void:
 	finish_time = Time.get_ticks_msec()
 	if log_enabled:
 		GaeaGraph.print_log(GaeaGraph.Log.THREADING, "Cancelled %s." % [
@@ -115,7 +115,7 @@ func log_cancelled():
 
 
 ## Called when [GaeaTaskPool] queues a [GaeaTask].
-func log_queued_time():
+func log_queued_time() -> void:
 	queued_time = Time.get_ticks_msec()
 	if log_enabled:
 		GaeaGraph.print_log(GaeaGraph.Log.THREADING, "Queued %s at time %.2f" % [
@@ -125,7 +125,7 @@ func log_queued_time():
 
 
 ## Called when [GaeaTaskPool] starts running a [GaeaTask].
-func log_run_time(multithreaded: bool = true):
+func log_run_time(multithreaded: bool = true) -> void:
 	run_time = Time.get_ticks_msec()
 	if log_enabled:
 		if queued_time != -1:
@@ -143,7 +143,7 @@ func log_run_time(multithreaded: bool = true):
 
 
 ## Called when [GaeaTaskPool] calls a [GaeaTask]'s [member task].
-func log_start_work():
+func log_start_work() -> void:
 	if log_enabled:
 		GaeaGraph.print_log.call_deferred(GaeaGraph.Log.THREADING, "Working %s as task %d" % [
 			description,
@@ -153,7 +153,7 @@ func log_start_work():
 
 ## Called when [GaeaTaskPool] emits [signal GaeaTaskPool.task_finished]
 ## and cleans up a [GaeaTask].
-func log_finish_time():
+func log_finish_time() -> void:
 	finish_time = Time.get_ticks_msec()
 	if log_enabled:
 		var has_run_time: bool = run_time >= 0
