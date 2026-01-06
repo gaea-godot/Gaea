@@ -3,7 +3,6 @@ class_name GaeaTask
 extends RefCounted
 ## Used to define and track the status of a task within a [GaeaTaskPool].
 
-
 ## A [Callable] representing the "work" to be run in the [GaeaTaskPool].
 var task: Callable
 ## A task ID returned by [method WorkerThreadPool.add_task]. Used to uniquely
@@ -37,17 +36,16 @@ var results: Variant:
 	get = _get_results
 
 
-func _init(_task: Callable, _description: String, enable_log: bool = false, _priority:GaeaPriority = null):
+func _init(_task: Callable, _description: String, enable_log: bool = false):
 	task = _task
 	description = _description
 	creation_time = Time.get_ticks_msec()
 	log_enabled = enable_log
-	priority = _priority
 
 
 #region Priority
 func _get_priority_level() -> float:
-	return priority.level if priority else float(creation_time)
+	return priority.level if is_instance_valid(priority) else float(creation_time)
 #endregion
 
 

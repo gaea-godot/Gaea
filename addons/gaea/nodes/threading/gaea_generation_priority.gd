@@ -46,10 +46,12 @@ func _init(origin: Variant, area: AABB) -> void:
 	_area = area
 
 
+func set_source_origin(origin: Variant) -> void:
+	_origin = origin
 
-func _calculate() -> float:
-	var position := Vector.to_vec4(_area.position / _area.size)
-	return _get_origin().distance_squared_to(position)
+
+func get_source_origin() -> Variant:
+	return _origin
 
 
 func _get_origin() -> Vector4:
@@ -63,8 +65,9 @@ func _get_origin() -> Vector4:
 	return Vector.to_vec4(value)
 
 
-func _on_updated():
-	changed.emit()
+func _calculate() -> float:
+	var position := Vector.to_vec4(_area.position / _area.size)
+	return _get_origin().distance_squared_to(position)
 
 
 ## A tool for converting any vector into a [Vector4].

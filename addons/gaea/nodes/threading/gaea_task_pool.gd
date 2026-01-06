@@ -4,7 +4,6 @@ extends Resource
 ## A [GaeaTask] pool used to utilize a variety of features while managing a
 ## [WorkerThreadPool] for multithreading.
 
-
 ## Emitted when a [GaeaTask] is finished running. [param task]'s
 ## [member GaeaTask.results] is expected to have a usable value at this point.
 signal task_finished(task: GaeaTask)
@@ -55,7 +54,6 @@ var _main_loop: SceneTree :
 	get = _get_main_loop
 
 
-
 func _init() -> void:
 	_get_main_loop()
 
@@ -100,13 +98,8 @@ func cancel_all() -> void:
 	_update_process_frame_connection()
 
 
-func _discard_task(task: GaeaTask) -> void:
-	task.log_discarded()
-	task_discarded.emit(task)
-	_update_process_frame_connection()
-
-
-func _mark_queue_unsorted() -> void:
+## Call this method to tell the task manager that the priority of some tasked changed.
+func notify_priority_changed() -> void:
 	_is_queue_sorted = false
 
 
@@ -187,7 +180,9 @@ func _handle_duplication(task: GaeaTask) -> bool:
 	match duplication_strategy:
 		DeDuplicationStrategy.DROP_NEW:
 			if _is_duplicate(task):
-				_discard_task(task)
+				task.log_discarded()
+				task_discarded.emit(task)
+				_update_process_frame_connection()
 				return true
 		DeDuplicationStrategy.DROP_EXISTING:
 			var copy := _find_duplicate(task)
@@ -207,8 +202,7 @@ func queue(task: GaeaTask) -> void:
 		# Queue the task to run later.
 		task.log_queued_time()
 		_queued.push_back(task)
-		_mark_queue_unsorted()
-		task.priority.changed.connect(_mark_queue_unsorted)
+		_is_queue_sorted = false
 	else:
 		# Run the task immediately.
 		_run_task(task)
@@ -261,6 +255,4 @@ func _run_queued_tasks() -> void:
 	while (task_limit <= 0 or _tasks.size() < task_limit) and not _queued.is_empty():
 		if not _is_queue_sorted:
 			_sort_queue()
-		var task = _queued.pop_front()
-		task.priority.changed.disconnect(_mark_queue_unsorted)
-		_run_task(task)
+		_run_task(_queued.pop_front())
