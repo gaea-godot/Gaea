@@ -106,7 +106,11 @@ func _discard_task(task: GaeaTask):
 	_update_process_frame_connection()
 
 
-func _sort_queue():
+func _mark_queue_unsorted() -> void:
+	_is_queue_sorted = false
+
+
+func _sort_queue() -> void:
 	_is_queue_sorted = true
 	_queued.sort_custom(_sort_task)
 
@@ -203,7 +207,8 @@ func queue(task: GaeaTask):
 		# Queue the task to run later.
 		task.log_queued_time()
 		_queued.push_back(task)
-		_is_queue_sorted = false
+		_mark_queue_unsorted()
+		task.priority.changed.connect(_mark_queue_unsorted)
 	else:
 		# Run the task immediately.
 		_run_task(task)
@@ -256,4 +261,6 @@ func _run_queued_tasks():
 	while (task_limit <= 0 or _tasks.size() < task_limit) and not _queued.is_empty():
 		if not _is_queue_sorted:
 			_sort_queue()
-		_run_task(_queued.pop_front())
+		var task = _queued.pop_front()
+		task.priority.changed.disconnect(_mark_queue_unsorted)
+		_run_task(task)

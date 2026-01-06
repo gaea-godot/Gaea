@@ -16,6 +16,10 @@ extends RefCounted
 ## fundamentally arbitrary.
 
 
+## For reporting that the priority has changed. Used by [GaeaTaskPool] to mark its [member GaeaTaskPool._is_queue_sorted] flag as false.
+signal changed
+
+
 ## An arbitrary priority level.
 var level: float :
 	get = _calculate
@@ -28,6 +32,7 @@ func _init(level: float) -> void:
 
 func _set_value(value) -> void:
 	level = value
+	changed.emit()
 
 
 func _calculate() -> float:
