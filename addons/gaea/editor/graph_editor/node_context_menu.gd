@@ -16,7 +16,9 @@ enum Action {
 	GROUP_IN_FRAME,
 	DETACH,
 	ENABLE_AUTO_SHRINK,
-	OPEN_IN_INSPECTOR
+	OPEN_IN_INSPECTOR,
+	COPY_TO_CLIPBOARD,
+	PASTE_FROM_CLIPBOARD,
 }
 
 @export var main_editor: GaeaMainEditor
@@ -40,9 +42,14 @@ func populate(selected: Array) -> void:
 	add_item("Delete", Action.DELETE)
 	add_item("Clear Copy Buffer", Action.CLEAR_BUFFER)
 
+	add_separator()
+	add_item("Copy to clipboard", Action.COPY_TO_CLIPBOARD)
+	add_item("Paste from clipboard", Action.PASTE_FROM_CLIPBOARD)
+
 	if not is_instance_valid(graph_edit.copy_buffer):
 		set_item_disabled(get_item_index(Action.PASTE), true)
 		set_item_disabled(get_item_index(Action.CLEAR_BUFFER), true)
+
 	if not selected.is_empty():
 		add_separator()
 		add_item("Group in New Frame", Action.GROUP_IN_FRAME)
@@ -57,6 +64,7 @@ func populate(selected: Array) -> void:
 		set_item_disabled(get_item_index(Action.COPY), true)
 		set_item_disabled(get_item_index(Action.CUT), true)
 		set_item_disabled(get_item_index(Action.DELETE), true)
+		set_item_disabled(get_item_index(Action.COPY_TO_CLIPBOARD), true)
 		return
 
 	if selected.front() is GaeaGraphFrame and selected.size() == 1:
@@ -128,7 +136,10 @@ func _on_id_pressed(id: int) -> void:
 		Action.GROUP_IN_FRAME:
 			var selected: Array[StringName] = graph_edit.get_selected_names()
 			_group_nodes_in_frame(selected)
-
+		Action.COPY_TO_CLIPBOARD:
+			graph_edit.copy_to_clipboard_request.emit()
+		Action.PASTE_FROM_CLIPBOARD:
+			graph_edit.paste_from_clipboard_request.emit()
 		Action.DETACH:
 			var selected: Array = graph_edit.get_selected()
 			for node: GraphElement in selected:

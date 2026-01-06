@@ -2,6 +2,9 @@
 class_name GaeaGraphEdit
 extends GraphEdit
 
+signal copy_to_clipboard_request()
+signal paste_from_clipboard_request()
+
 @export var main_editor: GaeaMainEditor
 @export var bottom_note_label: RichTextLabel
 
@@ -52,6 +55,9 @@ func _ready() -> void:
 	add_theme_color_override(&"connection_rim_color", Color("141414"))
 	EditorInterface.get_script_editor().editor_script_changed.connect(_on_editor_script_changed)
 	_add_toolbar_buttons()
+
+	copy_to_clipboard_request.connect(_on_copy_from_clipboard_request)
+	paste_from_clipboard_request.connect(_on_paste_from_clipboard_request)
 
 
 #region Saving and Loading
@@ -315,10 +321,12 @@ func delete_nodes(nodes: Array[StringName]) -> void:
 	update_connections()
 
 
-func get_selected() -> Array[Node]:
-	return get_children().filter(
-		func(child: Node) -> bool: return child is GraphElement and child.selected
-	)
+func get_selected() -> Array[GraphElement]:
+	var selected: Array[GraphElement] = []
+	for child: Node in get_children():
+		if child is GraphElement and child.selected:
+			selected.append(child)
+	return selected
 
 
 func get_selected_names() -> Array[StringName]:
@@ -682,6 +690,10 @@ func _copy_nodes(data: GaeaNodesCopy) -> void:
 
 
 func _paste_nodes(at_position: Vector2, data: GaeaNodesCopy = copy_buffer) -> void:
+	var serialized: String = Marshalls.raw_to_base64(data.serialize())
+	data = GaeaNodesCopy.deserialize(Marshalls.base64_to_raw(serialized))
+
+
 	for node in get_selected():
 		node.selected = false
 
@@ -694,7 +706,7 @@ func _paste_nodes(at_position: Vector2, data: GaeaNodesCopy = copy_buffer) -> vo
 	_load_connections.call_deferred(new_connections)
 
 
-func _get_copy_data(nodes: Array) -> GaeaNodesCopy:
+func _get_copy_data(nodes: Array[GraphElement]) -> GaeaNodesCopy:
 	var copy_data: GaeaNodesCopy = GaeaNodesCopy.new()
 	for selected in nodes:
 		if selected is GaeaGraphNode:
@@ -759,10 +771,7 @@ func _on_gui_input(event: InputEvent) -> void:
 				return
 
 			var selected: Array = get_selected()
-			if selected.is_empty() and not is_instance_valid(main_editor.graph_edit.copy_buffer):
-				main_editor.popup_create_node_request.emit()
-			else:
-				main_editor.popup_node_context_menu_at_mouse_request.emit(selected)
+			main_editor.popup_node_context_menu_at_mouse_request.emit(selected)
 
 
 func _on_scroll_offset_changed(offset: Vector2) -> void:
@@ -814,3 +823,17 @@ func _on_main_editor_visibility_changed() -> void:
 	set_connection_lines_thickness(GaeaEditorSettings.get_line_thickness())
 	set_minimap_opacity(GaeaEditorSettings.get_minimap_opacity())
 #endregion
+
+
+func _on_copy_from_clipboard_request() -> void:
+	var copy_data: GaeaNodesCopy = _get_copy_data(get_selected())
+	DisplayServer.clipboard_set(Marshalls.raw_to_base64(copy_data.serialize()))
+
+
+func _on_paste_from_clipboard_request() -> void:
+	var decoded: PackedByteArray = Marshalls.base64_to_raw(DisplayServer.clipboard_get())
+	var copy_data: Variant = GaeaNodesCopy.deserialize(decoded)
+	if copy_data is GaeaNodesCopy:
+		_paste_nodes(local_to_grid(get_local_mouse_position()), copy_data)
+	elif copy_data is String:
+		EditorInterface.get_editor_toaster().push_toast(copy_data, EditorToaster.SEVERITY_ERROR)
