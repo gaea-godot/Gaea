@@ -3,6 +3,8 @@ class_name ChunkLoader2D
 extends Node
 
 
+signal actor_position_changed()
+
 @export var generator: GaeaGenerator
 @export var actor: Node2D
 @export var chunk_size: Vector2i = Vector2i(16, 16)
@@ -43,6 +45,7 @@ func _try_loading() -> void:
 		return
 
 	_last_position = actor_position
+	actor_position_changed.emit()
 	_update_loading(actor_position)
 
 
@@ -70,7 +73,8 @@ func _update_loading(actor_position: Vector2i) -> void:
 					Vector3(required.x * chunk_size.x, required.y * chunk_size.y, 0),
 					Vector3i(chunk_size.x, chunk_size.y, 1)
 				),
-				_get_actor_position
+				_get_actor_position,
+				actor_position_changed
 			)
 
 
