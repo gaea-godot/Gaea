@@ -16,13 +16,16 @@ var _results_dict: Dictionary[int, GaeaValue.Map]
 ## [GaeaGenerationPriority] using [param origin] and
 ## [param task_pouch]'s [member GaeaGenerationPouch.area].
 ## [br] See [member GaeaGenerationPriority._origin] for [member origin] type.
-func _init(task_description: String, graph: GaeaGraph, task_pouch: GaeaGenerationPouch, origin: Variant = null):
+func _init(task_description: String, graph: GaeaGraph, task_pouch: GaeaGenerationPouch, origin: Variant = null, priority_updated = null):
 	var new_task = graph.get_output_node().execute.bind(graph, task_pouch)
 	self.pouch = task_pouch
+	var gen_priority := GaeaGenerationPriority.new(origin, task_pouch.area)
+	if priority_updated is Signal:
+		priority_updated.connect(gen_priority._on_updated)
 	super._init(
 		new_task, task_description,
 		graph.is_log_enabled(GaeaGraph.Log.THREADING),
-		GaeaGenerationPriority.new(origin, task_pouch.area),
+		gen_priority
 	)
 
 
