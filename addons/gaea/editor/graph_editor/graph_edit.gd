@@ -690,8 +690,8 @@ func _copy_nodes(data: GaeaNodesCopy) -> void:
 
 
 func _paste_nodes(at_position: Vector2, data: GaeaNodesCopy = copy_buffer) -> void:
-	var serialized: String = Marshalls.raw_to_base64(data.serialize())
-	data = GaeaNodesCopy.deserialize(Marshalls.base64_to_raw(serialized))
+	var serialized: String = data.serialize()
+	data = GaeaNodesCopy.deserialize(serialized)
 
 
 	for node in get_selected():
@@ -827,12 +827,11 @@ func _on_main_editor_visibility_changed() -> void:
 
 func _on_copy_from_clipboard_request() -> void:
 	var copy_data: GaeaNodesCopy = _get_copy_data(get_selected())
-	DisplayServer.clipboard_set(Marshalls.raw_to_base64(copy_data.serialize()))
+	DisplayServer.clipboard_set(copy_data.serialize())
 
 
 func _on_paste_from_clipboard_request() -> void:
-	var decoded: PackedByteArray = Marshalls.base64_to_raw(DisplayServer.clipboard_get())
-	var copy_data: Variant = GaeaNodesCopy.deserialize(decoded)
+	var copy_data: Variant = GaeaNodesCopy.deserialize(DisplayServer.clipboard_get())
 	if copy_data is GaeaNodesCopy:
 		_paste_nodes(local_to_grid(get_local_mouse_position()), copy_data)
 	elif copy_data is String:
