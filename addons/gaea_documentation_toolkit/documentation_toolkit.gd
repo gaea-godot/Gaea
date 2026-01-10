@@ -82,14 +82,18 @@ func _on_capture_all_button_pressed() -> void:
 	confirmation_dialog.popup_centered()
 
 
-func _capture_all_children(tree_item: TreeItem) -> void:
+func _capture_all_children(tree_item: TreeItem) -> int:
+	var count: int = 0
 	for item in tree_item.get_children():
 		if item.get_metadata(0) is GaeaNodeResource:
+			count += 1
 			await _capture_resource(item.get_metadata(0))
 		elif item.get_metadata(0) is StringName:
+			count += 1
 			await _capture_frame()
 		elif item.get_metadata(0) == null:
-			await _capture_all_children(item)
+			count += await _capture_all_children(item)
+	return count
 
 
 func _on_open_folder_button_pressed() -> void:
@@ -97,8 +101,10 @@ func _on_open_folder_button_pressed() -> void:
 
 
 func _on_confirmation_dialog_confirmed() -> void:
-	_capture_all_children(tree.get_root())
+	EditorInterface.get_editor_toaster().push_toast("Exporting nodes...")
+	var count: int = await _capture_all_children(tree.get_root())
 	_capture_resource(GaeaNodeOutput.new())
+	EditorInterface.get_editor_toaster().push_toast("%d nodes exported." % count)
 
 
 func _on_tree_special_node_selected_for_creation(id: StringName) -> void:
