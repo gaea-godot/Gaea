@@ -1,12 +1,11 @@
 @tool
 extends Tree
 
+signal node_selected(resource: GaeaNodeResource)
 signal node_selected_for_creation(resource: GaeaNodeResource)
 signal special_node_selected_for_creation(id: StringName)
 
 const NODES_FOLDER_PATH: String = "res://addons/gaea/graph/graph_nodes/root/"
-
-@export var description_label: RichTextLabel
 
 var tree_dictionary: Dictionary
 
@@ -123,17 +122,13 @@ func _on_create_button_pressed() -> void:
 func _on_item_selected() -> void:
 	var item: TreeItem = get_selected()
 	if item.get_metadata(0) is GaeaNodeResource:
-		description_label.set_text(
-			GaeaNodeResource.get_formatted_text(item.get_metadata(0).get_description())
-		)
-	elif item.get_metadata(0) is StringName:
-		match item.get_metadata(0):
-			&"frame":
-				description_label.set_text("A rectangular area for better organziation.")
+		node_selected.emit(item.get_metadata(0))
+	else:
+		node_selected.emit(null)
 
 
 func _on_nothing_selected() -> void:
-	description_label.set_text("")
+	node_selected.emit(null)
 
 
 func _on_search_bar_text_changed(new_text: String) -> void:

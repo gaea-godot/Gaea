@@ -1,0 +1,115 @@
+[gd_scene load_steps=4 format=3 uid="uid://bxanwt5o3b0ng"]
+
+[ext_resource type="Script" uid="uid://darqwls1ewij0" path="res://addons/gaea_documentation_toolkit/documentation_toolkit.gd" id="1_lxb1e"]
+[ext_resource type="Script" uid="uid://obmksa6ngu1s" path="res://addons/gaea_documentation_toolkit/tree.gd" id="2_8ok20"]
+
+[sub_resource type="SystemFont" id="SystemFont_lxb1e"]
+font_names = PackedStringArray("Consolas", "Monospace")
+subpixel_positioning = 0
+keep_rounding_remainders = false
+
+[node name="DocumentationToolkit" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_lxb1e")
+
+[node name="HBoxContainer" type="HSplitContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TreeContainer" type="VBoxContainer" parent="HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="SearchBar" type="LineEdit" parent="HBoxContainer/TreeContainer"]
+layout_mode = 2
+placeholder_text = "Search..."
+
+[node name="Tree" type="Tree" parent="HBoxContainer/TreeContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("2_8ok20")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/TreeContainer"]
+layout_mode = 2
+
+[node name="OpenFolderButton" type="Button" parent="HBoxContainer/TreeContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(31, 0)
+layout_mode = 2
+tooltip_text = "Open target folder..."
+
+[node name="ExportAllButton" type="Button" parent="HBoxContainer/TreeContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Export All"
+
+[node name="RightContainer" type="Control" parent="HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="HBoxContainer/RightContainer"]
+z_index = -4096
+z_as_relative = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+
+[node name="SubViewport" type="SubViewport" parent="HBoxContainer/RightContainer/SubViewportContainer"]
+unique_name_in_owner = true
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(2, 2)
+render_target_update_mode = 4
+
+[node name="Panel" type="Panel" parent="HBoxContainer/RightContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+
+[node name="Markdown" type="RichTextLabel" parent="HBoxContainer/RightContainer/Panel"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 2
+theme_override_fonts/normal_font = SubResource("SystemFont_lxb1e")
+autowrap_trim_flags = 0
+context_menu_enabled = true
+selection_enabled = true
+
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
+dialog_text = "This will create images for every node in the tree, are you sure you want to?"
+
+[connection signal="text_changed" from="HBoxContainer/TreeContainer/SearchBar" to="HBoxContainer/TreeContainer/Tree" method="_on_search_bar_text_changed"]
+[connection signal="item_activated" from="HBoxContainer/TreeContainer/Tree" to="HBoxContainer/TreeContainer/Tree" method="_on_item_activated"]
+[connection signal="item_selected" from="HBoxContainer/TreeContainer/Tree" to="HBoxContainer/TreeContainer/Tree" method="_on_item_selected"]
+[connection signal="node_selected" from="HBoxContainer/TreeContainer/Tree" to="." method="_on_tree_node_selected"]
+[connection signal="node_selected_for_creation" from="HBoxContainer/TreeContainer/Tree" to="." method="_on_tree_node_selected_for_creation"]
+[connection signal="nothing_selected" from="HBoxContainer/TreeContainer/Tree" to="HBoxContainer/TreeContainer/Tree" method="_on_nothing_selected"]
+[connection signal="special_node_selected_for_creation" from="HBoxContainer/TreeContainer/Tree" to="." method="_on_tree_special_node_selected_for_creation"]
+[connection signal="pressed" from="HBoxContainer/TreeContainer/HBoxContainer/OpenFolderButton" to="." method="_on_open_folder_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/TreeContainer/HBoxContainer/ExportAllButton" to="." method="_on_capture_all_button_pressed"]
+[connection signal="confirmed" from="ConfirmationDialog" to="." method="_on_confirmation_dialog_confirmed"]

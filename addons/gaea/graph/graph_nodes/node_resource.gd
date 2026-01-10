@@ -28,6 +28,16 @@ enum SimSize
 	WORLD
 }
 
+enum DocumentationSection
+{
+	TITLE,
+	DESCRIPTION,
+	ENUMS,
+	ARGUMENTS,
+	OUTPUTS,
+}
+
+
 #region Description Formatting
 const PARAM_TEXT_COLOR := Color("cdbff0")
 const PARAM_BG_COLOR := Color("bfbfbf1a")
@@ -164,9 +174,14 @@ func get_title() -> String:
 	return _get_title()
 
 
-## Public version of [method get_description]. Prefer to override that method over this one.
+## Public version of [method _get_description]. Prefer to override that method over this one.
 func get_description() -> String:
 	return _get_description()
+
+
+## Public version of [method _get_extra_documentation]. Prefer to override that method over this one.
+func get_extra_documentation(for_section: DocumentationSection) -> String:
+	return _get_extra_documentation(for_section).strip_edges()
 
 
 func get_type() -> GaeaValue.Type:
@@ -178,6 +193,16 @@ func get_type() -> GaeaValue.Type:
 ## Public version of [method _get_enums_count]. Prefer to override that method over this one.
 func get_enums_count() -> int:
 	return _get_enums_count()
+
+
+## Public version of [method _get_enum_title]. Prefer to override that method over this one.
+func get_enum_title(enum_idx: int) -> String:
+	return _get_enum_title(enum_idx)
+
+
+## Public version of [method _get_enum_description]. Prefer to override that method over this one.
+func get_enum_description(enum_idx: int) -> String:
+	return _get_enum_description(enum_idx)
 
 
 ## Public version of [_get_preview_simulation_size]. Prefer to override that method over this one.
@@ -235,6 +260,11 @@ func get_argument_default_value(arg_name: StringName) -> Variant:
 	return default_value_overrides.get(arg_name, _get_argument_default_value(arg_name))
 
 
+## Public version of [method _get_argument_description]. Prefer to override that method over this one.
+func get_argument_description(arg_name: StringName) -> String:
+	return _get_argument_description(arg_name)
+
+
 ## Public version of [method _get_argument_hint]. Prefer to override that method over this one.
 func get_argument_hint(arg_name: StringName) -> Dictionary[String, Variant]:
 	return _get_argument_hint(arg_name)
@@ -253,6 +283,11 @@ func get_output_ports_list() -> Array[StringName]:
 ## Public version of [method _get_output_port_display_name]. Prefer to override that method over this one.
 func get_output_port_display_name(output_name: StringName) -> String:
 	return _get_output_port_display_name(output_name)
+
+
+## Public version of [method _get_output_port_display_name]. Prefer to override that method over this one.
+func get_output_port_description(output_name: StringName) -> String:
+	return _get_output_port_description(output_name)
 
 
 ## Public version of [method _get_output_port_type]. Prefer to override that method over this one.
@@ -289,8 +324,14 @@ func _get_title() -> String
 
 ## Override this method to define the description shown in the 'Create Node' dialog and in a
 ## tooltip when hovering over this node in the graph editor.
-## Defining this method is [b]optional[/b], but recommended. If not defined, the description will be empty.
+## Defining this method is [b]optional[/b], but recommended.
 func _get_description() -> String:
+	return "There is currently no description for this node."
+
+
+## Override this method to define extra text shown in the documentation.
+## Defining this method is [b]optional[/b].
+func _get_extra_documentation(_for_section: DocumentationSection) -> String:
 	return ""
 
 
@@ -305,6 +346,19 @@ func _get_tree_items() -> Array[GaeaNodeResource]:
 ## operations or types.
 func _get_enums_count() -> int:
 	return 0
+
+
+## Override this method if you want to change the display name for the enum in the documentation.[br][br]
+## Defining this method is [b]optional[/b].
+## If not defined, the name will be Enum # followed by the index + 1
+func _get_enum_title(enum_idx: int) -> String:
+	return "Enum #%d" % (enum_idx + 1)
+
+
+## Override this method if you want to change the description for the enum in the documentation.[br][br]
+## Defining this method is [b]optional[/b].
+func _get_enum_description(enum_idx: int) -> String:
+	return "There is currently no description for this enum."
 
 
 ## Override this method to change what simulation size to use in previews. Returns a [SimSize].
@@ -367,6 +421,13 @@ func _get_argument_default_value(arg_name: StringName) -> Variant:
 	return GaeaValue.get_default_value(_get_argument_type(arg_name))
 
 
+## Override this method to define the default value of the arguments defined in [method _get_arguments_list].[br][br]
+## Defining this method is [b]optional[/b], but recommended.
+## If not defined, the argument will have no description.
+func _get_argument_description(arg_name: StringName) -> String:
+	return "There is currently no description for this argument."
+
+
 ## Override this method to change the way the editors for the arguments behave. For example,
 ## if the returned [Dictionary] has a [code]"min"[/code] key, [GaeaNumberArgumentEditor] will not be able to go below that number.[br][br]
 ## Defining this method is [b]optional[/b].
@@ -391,6 +452,12 @@ func _get_output_ports_list() -> Array[StringName]
 ## Defining this method is [b]optional[/b]. If not defined, the name will be [code]output_name.capitalize()[/code].
 func _get_output_port_display_name(output_name: StringName) -> String:
 	return output_name.capitalize()
+
+
+## Override this method to define the description for any outputs in [method _get_output_ports_list].[br][br]
+## Defining this method is [b]optional[/b].
+func _get_output_port_description(output_name: StringName) -> String:
+	return "There is currently no description for this output."
 
 
 ## Override this method to define the type of the outputs defined in [method _get_output_ports_list].[br][br]

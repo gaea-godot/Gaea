@@ -62,6 +62,11 @@ static func has_preview(type: Type) -> bool:
 	return type == Type.MAP or type == Type.SAMPLE
 
 
+## Return the name of the [param type].
+static func get_type_name(type: Type) -> String:
+	return Type.find_key(type).capitalize()
+
+
 ## Returns the configured color for slots of [param type].
 static func get_color(type: Type) -> Color:
 	if GaeaEditorSettings.CONFIGURABLE_SLOT_COLORS.has(type):
