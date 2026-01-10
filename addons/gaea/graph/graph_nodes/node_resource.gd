@@ -358,7 +358,7 @@ func _get_enum_title(enum_idx: int) -> String:
 ## Override this method if you want to change the description for the enum in the documentation.[br][br]
 ## Defining this method is [b]optional[/b].
 func _get_enum_description(enum_idx: int) -> String:
-	return "There is currently no description for this enum."
+	return "There is currently no description for the enum #%d." % (enum_idx + 1)
 
 
 ## Override this method to change what simulation size to use in previews. Returns a [SimSize].
@@ -425,7 +425,7 @@ func _get_argument_default_value(arg_name: StringName) -> Variant:
 ## Defining this method is [b]optional[/b], but recommended.
 ## If not defined, the argument will have no description.
 func _get_argument_description(arg_name: StringName) -> String:
-	return "There is currently no description for this argument."
+	return "There is currently no description for the argument '%s'." % arg_name
 
 
 ## Override this method to change the way the editors for the arguments behave. For example,
@@ -457,7 +457,7 @@ func _get_output_port_display_name(output_name: StringName) -> String:
 ## Override this method to define the description for any outputs in [method _get_output_ports_list].[br][br]
 ## Defining this method is [b]optional[/b].
 func _get_output_port_description(output_name: StringName) -> String:
-	return "There is currently no description for this output."
+	return "There is currently no description for output '%s'." % output_name
 
 
 ## Override this method to define the type of the outputs defined in [method _get_output_ports_list].[br][br]
