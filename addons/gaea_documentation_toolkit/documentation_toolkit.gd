@@ -9,6 +9,8 @@ extends Control
 
 var graph_edit: GaeaGraphEdit
 
+const DOC_CLASS_URL: String = "[%s](https://docs.godotengine.org/en/latest/classes/class_%s.html)"
+
 
 enum ExportDirectory {
 	COMMON,
@@ -190,7 +192,7 @@ category: {category}
 			]
 
 			if current_row[1].length() > 0:
-				current_row[1] = "[code]%s[/code]" % current_row[1]
+				current_row[1] = "`%s`" % current_row[1]
 
 			var default_value: Variant = resource.get_argument_default_value(arg_name)
 			if default_value is GaeaValue.GridType:
@@ -199,6 +201,9 @@ category: {category}
 				current_row.append(JSON.stringify(default_value))
 			else:
 				current_row.append(var_to_str(default_value))
+
+			for col_idx in current_row.size():
+				current_row[col_idx] = _bbcode_to_markdown(current_row[col_idx])
 
 			rows.append(current_row)
 			for col_idx in column_size.size():
@@ -222,7 +227,7 @@ category: {category}
 			text += "\n" + resource.get_output_port_description(output)
 	text += get_extra.call(GaeaNodeResource.DocumentationSection.OUTPUTS)
 
-	return text
+	return _bbcode_to_markdown(text)
 
 
 func _get_file_name(resource: GaeaNodeResource) -> String:
@@ -250,3 +255,24 @@ func _get_export_directory(target: ExportDirectory) -> String:
 	if not dir.dir_exists(sub_path):
 		dir.make_dir(sub_path)
 	return "user://documentation_toolkit/" + sub_path + "/"
+
+
+func _bbcode_to_markdown(input: String) -> String:
+	input = input.replace("[code]", "`").replace("[/code]", "`")
+
+	# Find all [tag] to replace
+	var regex = RegEx.new()
+	regex.compile("\\[(?<name>[^\\]]+)\\]")
+	var tags: Array[String] = []
+	for result: RegExMatch in regex.search_all(input):
+		var tag: String = result.get_string("name")
+		if not tags.has(tag):
+			tags.append(tag)
+
+	for tag: String in tags:
+		if ClassDB.class_exists(tag):
+			input = input.replace("[%s]" % tag, DOC_CLASS_URL % [tag, tag.to_lower()])
+
+
+
+	return input.replace("[code]", "`").replace("[/code]", "`")
