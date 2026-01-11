@@ -63,8 +63,10 @@ static func has_preview(type: Type) -> bool:
 
 
 ## Return the name of the [param type].
-static func get_type_name(type: Type) -> String:
-	return Type.find_key(type).capitalize()
+static func get_type_string(type: Type) -> String:
+	if type < TYPE_MAX:
+		return type_string(type)
+	return String(Type.find_key(type)).capitalize().replace(" ", "")
 
 
 ## Returns the configured color for slots of [param type].

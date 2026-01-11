@@ -122,7 +122,7 @@ func _get_node_documentation(resource: GaeaNodeResource) -> String:
 
 	var text: String = ""
 	var data: Dictionary[String, String] = {}
-	data.set("type", GaeaValue.get_type_name(resource.get_type()))
+	data.set("type", GaeaValue.get_type_string(resource.get_type()))
 	data.set("image_path", _get_file_name(resource))
 
 	var node_path: String = resource.get_script().resource_path
@@ -183,11 +183,15 @@ category: {category}
 			if resource.get_argument_type(arg_name) == GaeaValue.Type.CATEGORY:
 				continue
 
-			var current_row: Array = [
-				GaeaValue.get_type_name(resource.get_argument_type(arg_name)),
+			var current_row: Array[String] = [
+				GaeaValue.get_type_string(resource.get_argument_type(arg_name)),
 				resource.get_argument_display_name(arg_name),
 				resource.get_argument_description(arg_name)
 			]
+
+			if current_row[1].length() > 0:
+				current_row[1] = "[code]%s[/code]" % current_row[1]
+
 			var default_value: Variant = resource.get_argument_default_value(arg_name)
 			if default_value is GaeaValue.GridType:
 				current_row.append("")
@@ -213,7 +217,7 @@ category: {category}
 		for output in outputs:
 			text += "\n### %s [%s]\n" % [
 				resource.get_output_port_display_name(output),
-				GaeaValue.get_type_name(resource.get_output_port_type(output)),
+				GaeaValue.get_type_string(resource.get_output_port_type(output)),
 			]
 			text += "\n" + resource.get_output_port_description(output)
 	text += get_extra.call(GaeaNodeResource.DocumentationSection.OUTPUTS)
