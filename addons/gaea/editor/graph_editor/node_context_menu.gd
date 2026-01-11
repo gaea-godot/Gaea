@@ -44,7 +44,7 @@ func populate(selected: Array) -> void:
 
 	add_separator()
 	add_item("Copy to clipboard", Action.COPY_TO_CLIPBOARD)
-	add_item("Paste from clipboard", Action.PASTE_FROM_CLIPBOARD)
+	add_item("Paste from Clipboard", Action.PASTE_FROM_CLIPBOARD)
 
 	if not is_instance_valid(graph_edit.copy_buffer):
 		set_item_disabled(get_item_index(Action.PASTE), true)
