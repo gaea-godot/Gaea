@@ -43,7 +43,7 @@ func populate(selected: Array) -> void:
 	add_item("Clear Copy Buffer", Action.CLEAR_BUFFER)
 
 	add_separator()
-	add_item("Copy to clipboard", Action.COPY_TO_CLIPBOARD)
+	add_item("Copy to Clipboard", Action.COPY_TO_CLIPBOARD)
 	add_item("Paste from Clipboard", Action.PASTE_FROM_CLIPBOARD)
 
 	if not is_instance_valid(graph_edit.copy_buffer):
