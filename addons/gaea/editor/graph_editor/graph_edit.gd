@@ -690,10 +690,6 @@ func _copy_nodes(data: GaeaNodesCopy) -> void:
 
 
 func _paste_nodes(at_position: Vector2, data: GaeaNodesCopy = copy_buffer) -> void:
-	var serialized: String = data.serialize()
-	data = GaeaNodesCopy.deserialize(serialized)
-
-
 	for node in get_selected():
 		node.selected = false
 
