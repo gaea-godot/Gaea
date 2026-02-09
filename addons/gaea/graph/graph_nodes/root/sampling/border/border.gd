@@ -54,10 +54,10 @@ func _get_required_arguments() -> Array[StringName]:
 	return [&"sample"]
 
 
-func _get_data(_output_port: StringName, graph: GaeaGraph, pouch: GaeaGenerationPouch) -> GaeaValue.Sample:
-	var neighbors: Array = _get_arg(&"neighbors", graph, pouch)
-	var inside: bool = _get_arg(&"inside", graph, pouch)
-	var input_sample: GaeaValue.Sample = _get_arg(&"sample", graph, pouch)
+func _get_data(_output_port: StringName, pouch: GaeaGenerationPouch) -> GaeaValue.Sample:
+	var neighbors: Array = _get_arg(&"neighbors", pouch)
+	var inside: bool = _get_arg(&"inside", pouch)
+	var input_sample: GaeaValue.Sample = _get_arg(&"sample", pouch)
 
 	var border: GaeaValue.Sample = GaeaValue.Sample.new()
 	for x in _get_axis_range(Vector3i.AXIS_X, pouch.area):

@@ -39,25 +39,25 @@ func _get_required_arguments() -> Array[StringName]:
 	return [&"reference", &"material"]
 
 
-func _get_data(_output_port: StringName, graph: GaeaGraph, pouch: GaeaGenerationPouch) -> GaeaValue.Map:
-	var reference_sample: GaeaValue.Sample = _get_arg(&"reference", graph, pouch)
-	var material: GaeaMaterial = _get_arg(&"material", graph, pouch)
+func _get_data(_output_port: StringName, pouch: GaeaGenerationPouch) -> GaeaValue.Map:
+	var reference_sample: GaeaValue.Sample = _get_arg(&"reference", pouch)
+	var material: GaeaMaterial = _get_arg(&"material", pouch)
 
 	var result: GaeaValue.Map = GaeaValue.Map.new()
 	var cells_to_place_on: Array = reference_sample.get_cells()
 	cells_to_place_on.shuffle()
-	cells_to_place_on.resize(mini(_get_arg(&"amount", graph, pouch), cells_to_place_on.size()))
+	cells_to_place_on.resize(mini(_get_arg(&"amount", pouch), cells_to_place_on.size()))
 
 	var rng: RandomNumberGenerator = _get_rng(pouch)
 
 	material = material.prepare_sample(rng)
 	if not is_instance_valid(material):
-		material = _get_arg(&"material", graph, pouch)
+		material = _get_arg(&"material", pouch)
 		var error := (
 			"Recursive limit reached (%d): Invalid material provided at %s"
 			% [GaeaMaterial.RECURSIVE_LIMIT, material.resource_path]
 		)
-		_log_error(error, graph, graph.resources.find(self))
+		_log_error(error, graph.resources.find(self))
 		return result
 
 	for cell: Vector3i in cells_to_place_on:

@@ -25,32 +25,32 @@ func _get_required_arguments() -> Array[StringName]:
 	return [&"reference", &"material"]
 
 
-func _get_data(_output_port: StringName, graph: GaeaGraph, pouch: GaeaGenerationPouch) -> GaeaValue.Map:
+func _get_data(_output_port: StringName, pouch: GaeaGenerationPouch) -> GaeaValue.Map:
 	var result: GaeaValue.Map = GaeaValue.Map.new()
-	var reference_sample: GaeaValue.Sample = _get_arg(&"reference", graph, pouch)
-	var material := _get_arg(&"material", graph, pouch) as GaeaMaterial
+	var reference_sample: GaeaValue.Sample = _get_arg(&"reference", pouch)
+	var material := _get_arg(&"material", pouch) as GaeaMaterial
 
 	if not is_instance_valid(material):
-		_log_error("Invalid material provided", graph, graph.resources.find(self))
+		_log_error("Invalid material provided", graph.resources.find(self))
 		return result
 
 	var rng: RandomNumberGenerator = _get_rng(pouch)
 
 	material = material.prepare_sample(rng)
 	if not is_instance_valid(material):
-		material = _get_arg(&"material", graph, pouch)
+		material = _get_arg(&"material", pouch)
 		var error := (
 			"Recursive limit reached (%d): Invalid material provided at %s"
 			% [GaeaMaterial.RECURSIVE_LIMIT, material.resource_path]
 		)
-		_log_error(error, graph, graph.resources.find(self))
+		_log_error(error, graph.resources.find(self))
 		return result
 
 	var args: Dictionary[StringName, Variant]
 	for arg in get_arguments_list():
 		if arg == &"reference" or arg == &"material":
 			continue
-		args.set(arg, _get_arg(arg, graph, pouch))
+		args.set(arg, _get_arg(arg, pouch))
 
 	for cell in reference_sample.get_cells():
 		if _passes_mapping(reference_sample, cell, args):

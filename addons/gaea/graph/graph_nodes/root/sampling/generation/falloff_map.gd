@@ -168,9 +168,9 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.SAMPLE
 
 
-func _get_data(_output_port: StringName, graph: GaeaGraph, pouch: GaeaGenerationPouch) -> GaeaValue.Sample:
-	var start: float = _get_arg(&"start", graph, pouch)
-	var end: float = _get_arg(&"end", graph, pouch)
+func _get_data(_output_port: StringName, pouch: GaeaGenerationPouch) -> GaeaValue.Sample:
+	var start: float = _get_arg(&"start", pouch)
+	var end: float = _get_arg(&"end", pouch)
 	var result: GaeaValue.Sample = GaeaValue.Sample.new()
 	var sampler: FalloffSampler
 	match get_enum_selection(0):

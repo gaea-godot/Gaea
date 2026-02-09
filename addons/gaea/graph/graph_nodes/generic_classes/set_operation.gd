@@ -90,10 +90,10 @@ func _on_enum_value_changed(_enum_idx: int, _option_value: int) -> void:
 
 
 # The generic Dictionary type here is expected, and the type will be updated in child classes.
-func _get_data(_output_port: StringName, graph: GaeaGraph, pouch: GaeaGenerationPouch) -> GaeaValue.GridType:
+func _get_data(_output_port: StringName, pouch: GaeaGenerationPouch) -> GaeaValue.GridType:
 	var grids: Array[GaeaValue.GridType] = []
 	for arg in _get_arguments_list():
-		var arg_grid: GaeaValue.GridType = _get_arg(arg, graph, pouch)
+		var arg_grid: GaeaValue.GridType = _get_arg(arg, pouch)
 		if not arg_grid.is_empty():
 			grids.append(arg_grid)
 

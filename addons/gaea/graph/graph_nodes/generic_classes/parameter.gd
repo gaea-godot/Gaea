@@ -19,7 +19,7 @@ var hint_string: String:
 	get = _get_property_hint_string
 
 
-func _on_added_to_graph(graph: GaeaGraph) -> void:
+func _on_added_to_graph() -> void:
 	var name := _get_available_name(graph.get_node_argument(id, &"name", _get_title()))
 	graph.set_node_argument(
 		id, &"name", name
@@ -35,7 +35,7 @@ func _on_added_to_graph(graph: GaeaGraph) -> void:
 	})
 
 
-func _on_removed_from_graph(graph: GaeaGraph) -> void:
+func _on_removed_from_graph() -> void:
 	graph.remove_parameter(graph.get_node_argument(id, &"name"))
 	graph.notify_property_list_changed()
 
@@ -69,10 +69,6 @@ func _get_argument_default_value(_arg_name: StringName) -> Variant:
 
 
 func _get_available_name(from: String) -> String:
-	if not is_instance_valid(node) or not node is GaeaGraphNode:
-		return from
-	var graph: GaeaGraph = (node as GaeaGraphNode).graph_edit.graph
-
 	from = from.rstrip("1234567890")
 	var available_name: String = from
 	var suffix: int = 1
@@ -96,8 +92,8 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	)
 
 
-func _get_data(_output_port: StringName, graph: GaeaGraph, pouch: GaeaGenerationPouch) -> Variant:
-	return graph.get_parameter(_get_arg(&"name", graph, pouch))
+func _get_data(_output_port: StringName, pouch: GaeaGenerationPouch) -> Variant:
+	return graph.get_parameter(_get_arg(&"name", pouch))
 
 
 func _is_available() -> bool:

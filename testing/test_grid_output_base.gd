@@ -22,7 +22,7 @@ func _assert_output_grid_matches(
 	graph.ensure_initialized()
 	graph.add_node(node, Vector2i.ZERO)
 
-	var generated_data: GaeaValue.GridType = node._get_data(output, graph, pouch)
+	var generated_data: GaeaValue.GridType = node._get_data(output, pouch)
 	assert_bool(is_instance_valid(generated_data))\
 		.override_failure_message(
 			"Invalid result from [b]%s[b]" % node.get_tree_name()

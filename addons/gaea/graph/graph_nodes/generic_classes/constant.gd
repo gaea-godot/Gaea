@@ -31,5 +31,5 @@ func _get_overridden_output_port_idx(_output_name: StringName) -> int:
 	return 0
 
 
-func _get_data(_output_port: StringName, graph: GaeaGraph, pouch: GaeaGenerationPouch) -> Variant:
-	return _get_arg(&"value", graph, pouch)
+func _get_data(_output_port: StringName, pouch: GaeaGenerationPouch) -> Variant:
+	return _get_arg(&"value", pouch)

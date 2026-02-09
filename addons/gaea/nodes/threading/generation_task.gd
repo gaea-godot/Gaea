@@ -15,7 +15,7 @@ var _results_dict: Dictionary[int, GaeaValue.Map]
 ## [param graph]'s execute method with [param task_pouch]'s
 ## [member GaeaGenerationPouch.area].
 func _init(task_description: String, graph: GaeaGraph, task_pouch: GaeaGenerationPouch):
-	var new_task = graph.get_output_node().execute.bind(graph, task_pouch)
+	var new_task = graph.get_output_node().execute.bind(task_pouch)
 	pouch = task_pouch
 	super._init(
 		new_task, task_description,

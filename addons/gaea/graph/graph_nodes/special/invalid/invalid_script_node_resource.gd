@@ -60,5 +60,5 @@ func _get_scene_script() -> GDScript:
 	return load("uid://wlocahhk6rt")
 
 
-func _get_data(_output_port: StringName, _graph: GaeaGraph, _pouch: GaeaGenerationPouch) -> Dictionary[String, float]:
+func _get_data(_output_port: StringName, _pouch: GaeaGenerationPouch) -> Dictionary[String, float]:
 	return {}

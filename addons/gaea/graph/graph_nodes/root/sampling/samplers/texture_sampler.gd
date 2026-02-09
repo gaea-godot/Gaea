@@ -34,8 +34,8 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.SAMPLE
 
 
-func _get_data(output_port: StringName, graph: GaeaGraph, pouch: GaeaGenerationPouch) -> GaeaValue.Sample:
-	var texture: Texture = _get_arg(&"texture", graph, pouch)
+func _get_data(output_port: StringName, pouch: GaeaGenerationPouch) -> GaeaValue.Sample:
+	var texture: Texture = _get_arg(&"texture", pouch)
 	if not is_instance_valid(texture):
 		return GaeaValue.get_default_value(GaeaValue.Type.SAMPLE)
 

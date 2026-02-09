@@ -130,11 +130,11 @@ func _get_output_port_display_name(_output_name: StringName) -> String:
 	return operation_definitions[get_enum_selection(0)].output
 
 
-func _get_data(_output_port: StringName, graph: GaeaGraph, pouch: GaeaGenerationPouch) -> Variant:
+func _get_data(_output_port: StringName, pouch: GaeaGenerationPouch) -> Variant:
 	var operation: Operation = get_enum_selection(0) as Operation
 	var args: Array
 	for arg_name: StringName in operation_definitions[operation].args:
-		args.append(_get_arg(arg_name, graph, pouch))
+		args.append(_get_arg(arg_name, pouch))
 	return _get_new_value(operation, args)
 
 

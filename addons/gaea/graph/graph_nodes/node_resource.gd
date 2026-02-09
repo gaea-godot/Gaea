@@ -60,6 +60,8 @@ var connections: Array[Dictionary]
 ## The related [GaeaGraphNode] for editing in the Gaea graph editor.
 ## This is null during runtime.
 var node: GaeaGraphNode
+## The related [GaeaGraph] that holds this node.
+var graph: GaeaGraph
 ## A Dictionary holding the values of the arguments
 ## where the keys are their names.
 var arguments: Dictionary
@@ -107,22 +109,22 @@ static func is_valid_node_resource(uid_path: String) -> String:
 
 
 ## Public version of [method _on_added_to_graph].
-func on_added_to_graph(graph: GaeaGraph) -> void:
-	_on_added_to_graph(graph)
+func on_added_to_graph() -> void:
+	_on_added_to_graph()
 
 
-## Called when the node is added to [param graph], by [method GaeaGraph.add_node].
-func _on_added_to_graph(_graph: GaeaGraph) -> void:
+## Called when the node is added to [member graph], by [method GaeaGraph.add_node].
+func _on_added_to_graph() -> void:
 	pass
 
 
 ## Public version of [method _on_removed_from_graph].
-func on_removed_from_graph(graph: GaeaGraph) -> void:
-	_on_removed_from_graph(graph)
+func on_removed_from_graph() -> void:
+	_on_removed_from_graph()
 
 
-## Called when the node is removed from [param graph], by [method GaeaGraph.remove_node].
-func _on_removed_from_graph(_graph: GaeaGraph) -> void:
+## Called when the node is removed from [member graph], by [method GaeaGraph.remove_node].
+func _on_removed_from_graph() -> void:
 	pass
 
 
@@ -501,15 +503,15 @@ func _on_argument_value_changed(_arg_name: StringName, _new_value: Variant) -> v
 #region Args
 ## Returns the value of the argument of [param name]. Pass in [param graph] to allow overriding with input slots.[br]
 ## [param settings] is used for values of the type Data or Map. (See [enum GaeaValue.Type]).
-func _get_arg(arg_name: StringName, graph: GaeaGraph, pouch: GaeaGenerationPouch) -> Variant:
-	_log_arg(arg_name, graph)
+func _get_arg(arg_name: StringName, pouch: GaeaGenerationPouch) -> Variant:
+	_log_arg(arg_name)
 
 	var connection := _get_argument_connection(arg_name)
 	if not connection.is_empty():
 		var connected_id = connection.from_node
 		var connected_node = graph.get_node(connected_id)
 		var connected_output = connected_node.connection_idx_to_output(connection.from_port)
-		var connected_data = connected_node.traverse(connected_output, graph, pouch)
+		var connected_data = connected_node.traverse(connected_output, pouch)
 		if connected_data.has("value"):
 			var connected_value = connected_data.get("value")
 			var connected_type: GaeaValue.Type = connected_node.get_output_port_type(
@@ -527,7 +529,6 @@ func _get_arg(arg_name: StringName, graph: GaeaGraph, pouch: GaeaGenerationPouch
 
 		_log_error(
 			"Could not get data from previous node, using default value instead.",
-			graph,
 			connected_id
 		)
 		return get_argument_default_value(arg_name)
@@ -538,26 +539,26 @@ func _get_arg(arg_name: StringName, graph: GaeaGraph, pouch: GaeaGenerationPouch
 
 #region Execution
 ## Traverses the graph using this node's connections, and returns the result for [param output_port].
-func traverse(output_port: StringName, graph: GaeaGraph, pouch: GaeaGenerationPouch) -> Variant:
-	_log_traverse(graph)
+func traverse(output_port: StringName, pouch: GaeaGenerationPouch) -> Variant:
+	_log_traverse()
 
 	# Cancellation
 	if pouch.cancelled:
 		return {}
 
 	# Validation
-	if not _has_inputs_connected(_get_required_arguments(), graph):
+	if not _has_inputs_connected(_get_required_arguments()):
 		return {}
 
 	# Get Data with caching
 	var data: Variant
-	var use_caching = _use_caching(output_port, graph)
+	var use_caching = _use_caching(output_port)
 	if use_caching and pouch.has_cache(self, output_port):
 		data = pouch.get_cache(self, output_port)
 	else:
 		_define_rng(pouch)
-		_log_data(output_port, graph)
-		data = _get_data(output_port, graph, pouch)
+		_log_data(output_port)
+		data = _get_data(output_port, pouch)
 		if use_caching:
 			pouch.set_cache(self, output_port, data)
 
@@ -571,13 +572,13 @@ func traverse(output_port: StringName, graph: GaeaGraph, pouch: GaeaGenerationPo
 ## Returns the data corresponding to [param output_port]. Should be overridden to create custom
 ## behavior for each node.
 @abstract
-func _get_data(output_port: StringName, graph: GaeaGraph, pouch: GaeaGenerationPouch) -> Variant
+func _get_data(output_port: StringName, pouch: GaeaGenerationPouch) -> Variant
 #endregion
 
 
 #region Caching
 ## Checks if this node should use caching or not. Can be overridden to disable it.
-func _use_caching(_output_port: StringName, _graph: GaeaGraph) -> bool:
+func _use_caching(_output_port: StringName) -> bool:
 	return true
 #endregion
 
@@ -590,15 +591,15 @@ func _get_required_arguments() -> Array[StringName]:
 
 
 # Returns [code]true[/code] if all [param required] inputs are connected.
-func _has_inputs_connected(required: Array[StringName], graph: GaeaGraph) -> bool:
+func _has_inputs_connected(required: Array[StringName]) -> bool:
 	for idx in required:
-		if _get_input_resource(idx, graph) == null:
+		if _get_input_resource(idx) == null:
 			return false
 	return true
 
 
 # Gets the [GaeaNodeResource] connected to the input of name [param arg_name].
-func _get_input_resource(arg_name: StringName, graph: GaeaGraph) -> GaeaNodeResource:
+func _get_input_resource(arg_name: StringName) -> GaeaNodeResource:
 	var connection = _get_argument_connection(arg_name)
 	if connection.is_empty() or connection.from_node == -1:
 		return null
@@ -659,37 +660,37 @@ func connection_idx_to_output(output_idx: int) -> StringName:
 
 #region Logging
 # If enabled in [member GaeaGraph.logging], log the execution information. (See [enum GaeaGraph.Log]).
-func _log_execute(message: String, area: AABB, graph: GaeaGraph) -> void:
+func _log_execute(message: String, area: AABB) -> void:
 	message = message.strip_edges()
 	message = message if message == "" else message + " "
 	graph.log(GaeaGraph.Log.EXECUTE, "%sArea %s on %s" % [message, area, _get_title()])
 
 # If enabled in [member GaeaGraph.logging], log the time it took to generate. (See [enum GaeaGraph.Log]).
-func _log_time(message: String, time: int, graph: GaeaGraph) -> void:
+func _log_time(message: String, time: int) -> void:
 	message = message.strip_edges()
 	message = message if message == "" else message + " "
 	graph.log(GaeaGraph.Log.EXECUTE, "%stook %sms. on %s" % [message, time, _get_title()])
 
 
 # If enabled in [member GaeaGraph.logging], log the layer information. (See [enum GaeaGraph.Log]).
-func _log_layer(message: String, layer: int, graph: GaeaGraph) -> void:
+func _log_layer(message: String, layer: int) -> void:
 	message = message.strip_edges()
 	message = message if message == "" else message + " "
 	graph.log(GaeaGraph.Log.EXECUTE, "%sLayer %d on %s" % [message, layer, _get_title()])
 
 
 # If enabled in [member GaeaGraph.logging], log the traverse information. (See [enum GaeaGraph.Log]).
-func _log_traverse(graph: GaeaGraph) -> void:
+func _log_traverse() -> void:
 	graph.log(GaeaGraph.Log.TRAVERSE, _get_title())
 
 
 ## If enabled in [member GaeaGraph.logging], log the data information. (See [enum GaeaGraph.Log]).
-func _log_data(output_port: StringName, graph: GaeaGraph) -> void:
+func _log_data(output_port: StringName) -> void:
 	graph.log(GaeaGraph.Log.DATA, "%s from port %s" % [_get_title(), output_port])
 
 
 # If enabled in [member GaeaGraph.logging], log the argument information. (See [enum GaeaGraph.Log]).
-func _log_arg(arg: String, graph: GaeaGraph) -> void:
+func _log_arg(arg: String) -> void:
 	graph.log(GaeaGraph.Log.ARGUMENTS, "%s on %s" % [arg, _get_title()])
 
 
@@ -697,7 +698,7 @@ func _log_arg(arg: String, graph: GaeaGraph) -> void:
 ## If a [param node_idx] is provided, it will display the path and position of the node.
 ## Otherwise, it will display the path of the resource.
 ## The [param node_idx] is the index of the node in the graph.resources array.
-func _log_error(message: String, graph: GaeaGraph, node_idx: int = -1) -> void:
+func _log_error(message: String, node_idx: int = -1) -> void:
 	if node_idx >= 0:
 		printerr("%s:%s in node '%s' - %s" % [
 			graph.get_node(node_idx).resource_path,

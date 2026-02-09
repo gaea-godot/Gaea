@@ -16,15 +16,9 @@ func _get_title() -> String:
 
 
 func _get_arguments_list() -> Array[StringName]:
-	if not is_instance_valid(node) or not node is GaeaGraphNode:
-		return []
-	var graph: GaeaGraph = (node as GaeaGraphNode).graph_edit.graph
-
-	var layers: Array[StringName]
-	if node is GaeaGraphNode:
-		for layer_idx in graph.layers.size():
-			layers.append(&"%d" % layer_idx)
-
+	var layers: Array[StringName] = []
+	for layer_idx in graph.layers.size():
+		layers.append(&"%d" % layer_idx)
 	return layers
 
 
@@ -33,10 +27,6 @@ func _get_argument_type(_arg_name: StringName) -> GaeaValue.Type:
 
 
 func _get_argument_display_name(arg_name: StringName) -> String:
-	if not is_instance_valid(node) or not node is GaeaGraphNode:
-		return ""
-	var graph: GaeaGraph = (node as GaeaGraphNode).graph_edit.graph
-
 	var idx: int = int(arg_name)
 	if graph.layers.size() < idx:
 		return "Invalid Layer"
@@ -67,9 +57,9 @@ func _get_argument_connection(arg_name: StringName) -> Dictionary:
 
 
 ## Start generation for [param area], using [param pouch]'s pouch.
-func execute(graph: GaeaGraph, pouch: GaeaGenerationPouch) -> GaeaGrid:
+func execute(pouch: GaeaGenerationPouch) -> GaeaGrid:
 	var start_time := Time.get_ticks_msec()
-	_log_execute("Start", pouch.area, graph)
+	_log_execute("Start", pouch.area)
 
 	var grid: GaeaGrid = GaeaGrid.new()
 	for layer_idx in graph.layers.size():
@@ -78,16 +68,17 @@ func execute(graph: GaeaGraph, pouch: GaeaGenerationPouch) -> GaeaGrid:
 			grid.add_layer(layer_idx, null, layer_resource)
 			continue
 
-		_log_layer("Start", layer_idx, graph)
+		_log_layer("Start", layer_idx)
 
-		var grid_data: GaeaValue.Map = _get_arg(&"%d" % layer_idx, graph, pouch)
+		var grid_data: GaeaValue.Map = _get_arg(&"%d" % layer_idx, pouch)
 		grid.add_layer(layer_idx, grid_data, layer_resource)
 		traversed.emit(&"%d" % layer_idx, grid, pouch)
 
-		_log_layer("End", layer_idx, graph)
+		_log_layer("End", layer_idx)
 
-	_log_execute("End", pouch.area, graph)
-	_log_time("Generation", Time.get_ticks_msec() - start_time, graph)
+	_log_execute("End", pouch.area)
+	_log_time("Generation", Time.get_ticks_msec() - start_time)
+
 	return grid
 
 
@@ -109,5 +100,5 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.NULL
 
 
-func _get_data(_output_port: StringName, _graph: GaeaGraph, _pouch: GaeaGenerationPouch) -> Variant:
+func _get_data(_output_port: StringName, _pouch: GaeaGenerationPouch) -> Variant:
 	return null

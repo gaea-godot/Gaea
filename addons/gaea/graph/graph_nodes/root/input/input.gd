@@ -80,7 +80,7 @@ func _get_type_of_input(input: InputVar) -> GaeaValue.Type:
 			return GaeaValue.Type.NULL
 
 
-func _get_data(_output_port: StringName, _graph: GaeaGraph, pouch: GaeaGenerationPouch) -> Variant:
+func _get_data(_output_port: StringName, pouch: GaeaGenerationPouch) -> Variant:
 	match get_enum_selection(0):
 		InputVar.WORLD_SIZE:
 			return pouch.settings.world_size

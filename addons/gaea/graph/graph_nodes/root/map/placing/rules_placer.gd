@@ -103,21 +103,20 @@ func _get_required_arguments() -> Array[StringName]:
 	return [&"reference", &"material"]
 
 
-func _get_data(_output_port: StringName, graph: GaeaGraph, pouch: GaeaGenerationPouch) -> GaeaValue.Map:
-	var reference_sample: GaeaValue.Sample = _get_arg(&"reference", graph, pouch)
-	var material: GaeaMaterial = _get_arg(&"material", graph, pouch)
+func _get_data(_output_port: StringName, pouch: GaeaGenerationPouch) -> GaeaValue.Map:
+	var reference_sample: GaeaValue.Sample = _get_arg(&"reference", pouch)
+	var material: GaeaMaterial = _get_arg(&"material", pouch)
 	var result: GaeaValue.Map = GaeaValue.Map.new()
 
-	var rules: Dictionary = _get_arg(&"rules", graph, pouch)
+	var rules: Dictionary = _get_arg(&"rules", pouch)
 
 	var rng: RandomNumberGenerator = _get_rng(pouch)
 
 	material = material.prepare_sample(rng)
 	if not is_instance_valid(material):
-		material = _get_arg(&"material", graph, pouch)
+		material = _get_arg(&"material", pouch)
 		_log_error(
 			"Recursive limit reached (%d): Invalid material provided at %s" % [GaeaMaterial.RECURSIVE_LIMIT, material.resource_path],
-			graph,
 			id
 		)
 		return result

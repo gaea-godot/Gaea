@@ -87,12 +87,12 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.SAMPLE
 
 
-func _get_data(_output_port: StringName, graph: GaeaGraph, pouch: GaeaGenerationPouch) -> GaeaValue.Sample:
-	var sample_reference: GaeaValue.Sample = _get_arg(&"reference", graph, pouch)
-	var row: int = _get_arg(&"reference_y", graph, pouch)
-	var height_offset: int = _get_arg(&"height_offset", graph, pouch)
-	var displacement: int = _get_arg(&"displacement_intensity", graph, pouch)
-	var gradient_intensity: float = _get_arg(&"gradient_intensity", graph, pouch)
+func _get_data(_output_port: StringName, pouch: GaeaGenerationPouch) -> GaeaValue.Sample:
+	var sample_reference: GaeaValue.Sample = _get_arg(&"reference", pouch)
+	var row: int = _get_arg(&"reference_y", pouch)
+	var height_offset: int = _get_arg(&"height_offset", pouch)
+	var displacement: int = _get_arg(&"displacement_intensity", pouch)
+	var gradient_intensity: float = _get_arg(&"gradient_intensity", pouch)
 	var result: GaeaValue.Sample = GaeaValue.Sample.new()
 	var type: Type = get_enum_selection(0) as Type
 

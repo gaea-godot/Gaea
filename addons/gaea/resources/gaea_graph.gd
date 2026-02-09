@@ -241,6 +241,7 @@ func _initialize_resource(resource_id: int, all_connections: Array[Dictionary]) 
 				output_count = maxi(output_count, connection.from_port)
 		resource = GaeaNodeInvalidScript.new(argument_count + 1, output_count + 1)
 	resource.load_save_data(_node_data.get(resource_id, {}))
+	resource.graph = self
 	_resources.set(resource_id, resource)
 	return resource
 
@@ -369,6 +370,7 @@ func add_node(node: GaeaNodeResource, position: Vector2, id: int = get_next_avai
 			return _output_resource.id
 		_output_resource = node
 	node.id = id
+	node.graph = self
 	_resources.set(id, node)
 	_node_data.set(id,
 	{
@@ -379,7 +381,7 @@ func add_node(node: GaeaNodeResource, position: Vector2, id: int = get_next_avai
 					ResourceLoader.get_resource_uid(node.get_script().get_path())
 				)
 	}.merged(node.get_custom_saved_data()))
-	node.on_added_to_graph.call_deferred(self)
+	node.on_added_to_graph.call_deferred()
 	emit_changed.call_deferred()
 	node_added.emit(id)
 	return id
@@ -425,8 +427,11 @@ func remove_node(id: int) -> void:
 			connection.get("to_node"),
 			connection.get("to_port")
 		)
-	if is_instance_valid(get_node(id)):
-		get_node(id).on_removed_from_graph(self)
+
+	var node: GaeaNodeResource = get_node(id)
+	if is_instance_valid(node):
+		node.on_removed_from_graph()
+		node.graph = null
 
 	_node_data.erase(id)
 	_resources.erase(id)

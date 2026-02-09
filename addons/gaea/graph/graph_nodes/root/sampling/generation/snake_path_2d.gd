@@ -77,16 +77,16 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.SAMPLE
 
 
-func _get_data(_output_port: StringName, graph: GaeaGraph, pouch: GaeaGenerationPouch) -> GaeaValue.Sample:
+func _get_data(_output_port: StringName, pouch: GaeaGenerationPouch) -> GaeaValue.Sample:
 	var direction_weights: Dictionary[Vector2i, float] = {
-		Vector2i.LEFT: _get_arg(&"move_left_weight", graph, pouch),
-		Vector2i.RIGHT: _get_arg(&"move_right_weight", graph, pouch),
-		Vector2i.DOWN: _get_arg(&"move_down_weight", graph, pouch),
+		Vector2i.LEFT: _get_arg(&"move_left_weight", pouch),
+		Vector2i.RIGHT: _get_arg(&"move_right_weight", pouch),
+		Vector2i.DOWN: _get_arg(&"move_down_weight", pouch),
 	}
-	var left_flag: int = _get_arg(&"left", graph, pouch)
-	var right_flag: int = _get_arg(&"right", graph, pouch)
-	var down_flag: int = _get_arg(&"down", graph, pouch)
-	var up_flag: int = _get_arg(&"up", graph, pouch)
+	var left_flag: int = _get_arg(&"left", pouch)
+	var right_flag: int = _get_arg(&"right", pouch)
+	var down_flag: int = _get_arg(&"down", pouch)
+	var up_flag: int = _get_arg(&"up", pouch)
 	var direction_to_flags: Dictionary = {
 		Vector2i.LEFT: left_flag,
 		Vector2i.RIGHT: right_flag,
