@@ -99,6 +99,7 @@ func _get_scene_script() -> GDScript:
 ## Output nodes have a special titlebar color.
 func get_title_color() -> Color:
 	if Engine.is_editor_hint():
+		# gdlint:ignore = duplicated-load
 		var gaea_editor_settings: GDScript = load("uid://duu3vekk7pxwk")
 		return gaea_editor_settings.get_configured_output_color()
 	return super()
