@@ -98,7 +98,10 @@ func _get_scene_script() -> GDScript:
 
 ## Output nodes have a special titlebar color.
 func get_title_color() -> Color:
-	return GaeaEditorSettings.get_configured_output_color()
+	if Engine.is_editor_hint():
+		var gaea_editor_settings: GDScript = load("uid://duu3vekk7pxwk")
+		return gaea_editor_settings.get_configured_output_color()
+	return super()
 
 
 func _get_output_ports_list() -> Array[StringName]:

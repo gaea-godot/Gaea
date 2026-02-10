@@ -774,7 +774,7 @@ func _on_scroll_offset_changed(offset: Vector2) -> void:
 
 
 func _on_editor_script_changed(script: Script):
-	var editor := EditorInterface.get_script_editor().get_current_editor()
+	var editor: ScriptEditorBase = EditorInterface.get_script_editor().get_current_editor()
 	if not editor.edited_script_changed.is_connected(_on_edited_script_changed):
 		editor.edited_script_changed.connect(_on_edited_script_changed.bind(script))
 

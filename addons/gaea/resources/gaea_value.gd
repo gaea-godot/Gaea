@@ -69,13 +69,6 @@ static func get_type_string(type: Type) -> String:
 	return String(Type.find_key(type)).capitalize().replace(" ", "")
 
 
-## Returns the configured color for slots of [param type].
-static func get_color(type: Type) -> Color:
-	if GaeaEditorSettings.CONFIGURABLE_SLOT_COLORS.has(type):
-		return GaeaEditorSettings.get_configured_color_for_value_type(type)
-	return get_default_color(type)
-
-
 ## Returns the default value for [param type]. Returns [code]null[/code] if there's none.
 static func get_default_value(type: Type) -> Variant:
 	match type:
@@ -157,6 +150,15 @@ static func from_old_slot_type(old_type: int) -> GaeaValue.Type:
 	return GaeaValue.Type.NULL
 
 
+## Returns the configured color for slots of [param type].
+static func get_color(type: Type) -> Color:
+	if Engine.is_editor_hint():
+		var gaea_editor_settings: GDScript = load("uid://duu3vekk7pxwk")
+		if gaea_editor_settings.CONFIGURABLE_SLOT_COLORS.has(type):
+			return gaea_editor_settings.get_configured_color_for_value_type(type)
+	return get_default_color(type)
+
+
 ## Returns the default color for slots of [param type].
 static func get_default_color(type: Type) -> Color:
 	match type:
@@ -222,8 +224,10 @@ static func get_display_icon(type: Type) -> Texture2D:
 
 ## Returns the configured icon for slots of [param type].
 static func get_slot_icon(type: Type) -> Texture2D:
-	if GaeaEditorSettings.CONFIGURABLE_SLOT_COLORS.has(type):
-		return GaeaEditorSettings.get_configured_icon_for_value_type(type)
+	if Engine.is_editor_hint():
+		var gaea_editor_settings: GDScript = load("uid://duu3vekk7pxwk")
+		if gaea_editor_settings.CONFIGURABLE_SLOT_COLORS.has(type):
+			return gaea_editor_settings.get_configured_icon_for_value_type(type)
 	return get_default_slot_icon(type)
 
 

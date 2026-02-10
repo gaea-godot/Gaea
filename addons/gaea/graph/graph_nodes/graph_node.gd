@@ -237,6 +237,7 @@ func _open_preview(for_output: StringName) -> void:
 
 func _set_titlebar() -> void:
 	var type: GaeaValue.Type = resource.get_type()
+	var base_color: Color = resource.get_title_color()
 	var titlebar: StyleBoxFlat
 	var titlebar_selected: StyleBoxFlat
 	if type != GaeaValue.Type.NULL:
@@ -246,19 +247,19 @@ func _set_titlebar() -> void:
 			not _titlebar_styleboxes.has(type)
 			or (
 				_titlebar_styleboxes.get(type).get("for_color", Color.TRANSPARENT)
-				!= resource.get_title_color()
+				!= base_color
 			)
 		):
 			titlebar = get_theme_stylebox("titlebar", "GraphNode").duplicate()
 			titlebar_selected = get_theme_stylebox("titlebar_selected", "GraphNode").duplicate()
-			titlebar.bg_color = titlebar.bg_color.blend(Color(resource.get_title_color(), 0.3))
+			titlebar.bg_color = titlebar.bg_color.blend(Color(base_color, 0.3))
 			titlebar_selected.bg_color = titlebar.bg_color
 			_titlebar_styleboxes.set(
 				type,
 				{
 					"titlebar": titlebar,
 					"selected": titlebar_selected,
-					"for_color": resource.get_title_color()
+					"for_color": base_color
 				}
 			)
 		else:
