@@ -214,7 +214,7 @@ static func get_display_icon(type: Type) -> Texture2D:
 			return load("uid://b0vqox8bodse")
 		Type.TEXTURE:
 			if Engine.is_editor_hint():
-				return Engine.get_singleton("EditorInterface").get_base_control().get_theme_icon(&"Image", &"EditorIcons")
+				return Engine.get_singleton(&"EditorInterface").get_base_control().get_theme_icon(&"Image", &"EditorIcons")
 		# Dictionary types
 		Type.SAMPLE:
 			return load("uid://dkccxw7yq1mth")
