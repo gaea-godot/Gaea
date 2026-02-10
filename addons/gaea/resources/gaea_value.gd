@@ -213,8 +213,8 @@ static func get_display_icon(type: Type) -> Texture2D:
 		Type.MATERIAL:
 			return load("uid://b0vqox8bodse")
 		Type.TEXTURE:
-			var editor_interface = Engine.get_singleton("EditorInterface")
-			return editor_interface.get_base_control().get_theme_icon(&"Image", &"EditorIcons")
+			if Engine.is_editor_hint():
+				return Engine.get_singleton("EditorInterface").get_base_control().get_theme_icon(&"Image", &"EditorIcons")
 		# Dictionary types
 		Type.SAMPLE:
 			return load("uid://dkccxw7yq1mth")
@@ -246,7 +246,8 @@ static func get_default_slot_icon(type: Type) -> Texture2D:
 		Type.VECTOR3I, Type.VECTOR3:
 			return load("uid://dbvw3j8fnmhpu")
 		Type.ANY:
-			return EditorInterface.get_editor_theme().get_icon("NodeInfo", "EditorIcons")
+			if Engine.is_editor_hint():
+				return Engine.get_singleton(&"EditorInterface").get_editor_theme().get_icon("NodeInfo", "EditorIcons")
 		# Simple types
 		Type.RANGE:
 			return load("uid://dfsmxavxasx7x")
