@@ -41,8 +41,6 @@ func _ready() -> void:
 	popup_create_node_and_connect_node_request.connect(create_node_popup._on_popup_create_node_and_connect_node_request)
 	special_node_selected_for_creation.connect(create_node_popup._on_special_node_selected_for_creation)
 
-	popup_node_context_menu_at_mouse_request.connect(node_context_menu._on_popup_node_context_menu_at_mouse_request)
-
 	popup_link_context_menu_at_mouse_request.connect(link_context_menu._on_popup_link_context_menu_at_mouse_request)
 
 

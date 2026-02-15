@@ -2,12 +2,26 @@
 class_name GaeaFileList
 extends VBoxContainer
 
+enum Action {
+	NEW_GRAPH,
+	OPEN,
+	OPEN_RECENT,
+	SAVE,
+	SAVE_AS,
+	CLOSE,
+	CLOSE_ALL,
+	CLOSE_OTHER,
+	COPY_PATH,
+	SHOW_IN_FILESYSTEM,
+	OPEN_IN_INSPECTOR,
+}
+
 
 const GRAPH_ICON := preload("uid://cerisdpavr7v3")
 
 @export var graph_edit: GaeaGraphEdit
 @export var main_editor: GaeaMainEditor
-@export var menu_bar: MenuBar
+@export var menu_bar: GaeaFileListMenuBar
 @export var file_list: ItemList
 @export var context_menu: GaeaPopupFileContextMenu
 @export var file_dialog: FileDialog
@@ -16,28 +30,13 @@ var edited_graphs: Array[EditedGraph]
 var _current_saving_graph: GaeaGraph = null
 
 
-func _ready() -> void:
-	if is_part_of_edited_scene():
-		return
-
-	file_list.item_selected.connect(_on_item_selected)
-	file_list.item_clicked.connect(_on_item_clicked)
-
-	context_menu.close_file_selected.connect(close_file)
-	context_menu.close_all_selected.connect(close_all)
-	context_menu.close_others_selected.connect(close_others)
-	context_menu.save_as_selected.connect(_start_save_as)
-	context_menu.file_saved.connect(_on_file_saved)
-	context_menu.unsaved_file_found.connect(_on_unsaved_file_found)
-
-	menu_bar.open_file_selected.connect(open_file)
-	menu_bar.create_new_graph_selected.connect(_start_new_graph_creation)
-
-	file_dialog.file_selected.connect(_on_file_dialog_file_selected)
-	file_dialog.canceled.connect(_on_file_dialog_canceled)
-
 
 #region Opening
+func open_file_from_path(path: String) -> void:
+	if not path.is_empty():
+		open_file(load(path))
+
+
 func open_file(graph: GaeaGraph) -> void:
 	if not is_instance_valid(graph):
 		return
@@ -57,9 +56,9 @@ func open_file(graph: GaeaGraph) -> void:
 	file_list.set_item_tooltip(idx, graph.resource_path)
 	file_list.select(idx)
 
-	_on_item_selected(idx)
 	var edited_graph := EditedGraph.new(graph)
 	edited_graphs.append(edited_graph)
+	_on_item_selected(idx)
 	edited_graph.dirty_changed.connect(_on_edited_graph_dirty_changed.bind(edited_graph))
 #endregion
 
@@ -97,6 +96,21 @@ func _remove(idx: int) -> void:
 
 
 #region Saving
+func save(file: GaeaGraph) -> void:
+	if file.resource_path.is_empty():
+		_on_unsaved_file_found(file)
+		return
+
+	if not file.is_built_in():
+		ResourceSaver.save(file)
+	else:
+		var scene_path := file.resource_path.get_slice("::", 0)
+		ResourceSaver.save(load(scene_path))
+		# Necessary for open scenes.
+		EditorInterface.reload_scene_from_path(scene_path)
+	_on_file_saved(file)
+
+
 func _start_save_as(file: GaeaGraph) -> void:
 	file_dialog.title = "Save Graph As..."
 	var path: String = "res://"
@@ -145,7 +159,6 @@ func _on_unsaved_file_found(file: GaeaGraph) -> void:
 func _on_item_clicked(index: int, _at_position: Vector2, mouse_button_index: int) -> void:
 	if mouse_button_index == MOUSE_BUTTON_RIGHT:
 		main_editor.move_popup_at_mouse(context_menu)
-		context_menu.graph = file_list.get_item_metadata(index)
 		context_menu.popup()
 	elif mouse_button_index == MOUSE_BUTTON_MIDDLE:
 		_remove(index)
@@ -159,13 +172,13 @@ func _on_item_selected(index: int) -> void:
 	if metadata is not GaeaGraph or not is_instance_valid(metadata):
 		return
 
-	graph_edit.unpopulate()
-	graph_edit.populate(metadata)
+	if graph_edit.graph != metadata:
+		graph_edit.unpopulate()
+		graph_edit.populate(metadata)
 
 	var edited: Object = EditorInterface.get_inspector().get_edited_object()
 	if edited is not GaeaGenerator or (edited as GaeaGenerator).graph != metadata:
 		EditorInterface.inspect_object.call_deferred(metadata)
-
 
 
 func _on_file_dialog_file_selected(path: String) -> void:
@@ -206,6 +219,43 @@ func _on_edited_graph_dirty_changed(new_value: bool, edited_graph: EditedGraph) 
 	if new_value == true:
 		text += "(*)"
 	file_list.set_item_text(idx, text)
+
+
+func can_do_action(id: Action) -> bool:
+	match id:
+		Action.NEW_GRAPH, Action.OPEN:
+			return true
+		Action.OPEN_RECENT:
+			return not menu_bar.is_history_empty()
+		_:
+			return not edited_graphs.is_empty()
+
+
+func _on_action_pressed(id: Action) -> void:
+	match id:
+		Action.NEW_GRAPH:
+			_start_new_graph_creation()
+		Action.OPEN:
+			EditorInterface.popup_quick_open(open_file_from_path, [&"GaeaGraph"])
+		Action.SAVE:
+			save(graph_edit.graph)
+		Action.SAVE_AS:
+			_start_save_as(graph_edit.graph)
+		Action.CLOSE:
+			close_file(graph_edit.graph)
+		Action.CLOSE_ALL:
+			close_all()
+		Action.CLOSE_OTHER:
+			close_others(graph_edit.graph)
+		Action.COPY_PATH:
+			DisplayServer.clipboard_set(graph_edit.graph.resource_path)
+		Action.SHOW_IN_FILESYSTEM:
+			if not graph_edit.graph.is_built_in():
+				EditorInterface.select_file(graph_edit.graph.resource_path)
+			else:
+				EditorInterface.select_file(graph_edit.graph.resource_path.get_slice("::", 0))
+		Action.OPEN_IN_INSPECTOR:
+			EditorInterface.edit_resource(graph_edit.graph)
 #endregion
 
 

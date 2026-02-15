@@ -177,3 +177,31 @@ static func get_preview_max_simulation_size() -> int:
 	if editor_interface.get_editor_settings().has_setting(PREVIEW_MAX_SIMULATION_SIZE):
 		return editor_interface.get_editor_settings().get_setting(PREVIEW_MAX_SIMULATION_SIZE)
 	return PREVIEW_MAX_SIMULATION_SIZE_DEFAULT
+
+
+static func get_file_list_action_shortcut(action: GaeaFileList.Action, shortcut_key: Key) -> Shortcut:
+	return _get_shortcut("file_list", GaeaFileList.Action.find_key(action), shortcut_key)
+
+
+static func get_node_action_shortcut(action: GaeaGraphEdit.Action, shortcut_key: Key) -> Shortcut:
+	return _get_shortcut("node_context_menu", GaeaGraphEdit.Action.find_key(action), shortcut_key)
+
+
+static func _get_shortcut(category: String, action_key: String, shortcut_key: Key) -> Shortcut:
+	var editor_interface = Engine.get_singleton("EditorInterface")
+	var shortcut_path = StringName(("gaea/%s - %s" % [category.capitalize(), action_key.capitalize()]))
+
+	if editor_interface.get_editor_settings().has_shortcut(shortcut_path):
+		return editor_interface.get_editor_settings().get_shortcut(shortcut_path)
+
+	var shortcut = Shortcut.new()
+	var key_event = InputEventKey.new()
+	key_event.keycode = shortcut_key & KeyModifierMask.KEY_CODE_MASK
+	key_event.command_or_control_autoremap = shortcut_key & KeyModifierMask.KEY_MASK_CMD_OR_CTRL
+	key_event.alt_pressed = shortcut_key & KeyModifierMask.KEY_MASK_ALT
+	key_event.shift_pressed = shortcut_key & KeyModifierMask.KEY_MASK_SHIFT
+	shortcut.events = [key_event]
+
+	editor_interface.get_editor_settings().add_shortcut(shortcut_path, shortcut)
+
+	return shortcut

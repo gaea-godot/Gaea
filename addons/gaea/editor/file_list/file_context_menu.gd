@@ -3,73 +3,45 @@ class_name GaeaPopupFileContextMenu
 extends PopupMenu
 
 
-signal close_file_selected(file: GaeaGraph)
-signal close_all_selected
-signal close_others_selected(file: GaeaGraph)
-signal save_as_selected(file: GaeaGraph)
-signal file_saved(file: GaeaGraph)
-signal unsaved_file_found(file: GaeaGraph)
+@export var file_system_container: GaeaFileList
 
-enum Action {
-	SAVE,
-	SAVE_AS,
-	CLOSE,
-	CLOSE_ALL,
-	CLOSE_OTHER,
-	COPY_PATH,
-	SHOW_IN_FILESYSTEM,
-	OPEN_IN_INSPECTOR
-}
-
-var graph: GaeaGraph
 
 func _ready() -> void:
 	if is_part_of_edited_scene():
 		return
 
 	clear()
-	add_item("Save File", Action.SAVE)
-	add_item("Save File As...", Action.SAVE_AS)
-	add_item("Close", Action.CLOSE)
-	add_item("Close All", Action.CLOSE_ALL)
-	add_item("Close Other Tabs", Action.CLOSE_OTHER)
+	_add_menu_item(GaeaFileList.Action.SAVE, "Save", KeyModifierMask.KEY_MASK_CMD_OR_CTRL | KeyModifierMask.KEY_MASK_ALT | KEY_S)
+	_add_menu_item(GaeaFileList.Action.SAVE, "Save As...")
+
 	add_separator()
-	add_item("Copy File Path", Action.COPY_PATH)
-	add_item("Show in FileSystem", Action.SHOW_IN_FILESYSTEM)
-	add_item("Open File in Inspector", Action.OPEN_IN_INSPECTOR)
+	_add_menu_item(GaeaFileList.Action.COPY_PATH, "Copy Graph Path")
+	_add_menu_item(GaeaFileList.Action.SHOW_IN_FILESYSTEM, "Show in FileSystem")
+	_add_menu_item(GaeaFileList.Action.OPEN_IN_INSPECTOR, "Open File in Inspector")
 
-	id_pressed.connect(_on_id_pressed)
+	add_separator()
+	_add_menu_item(GaeaFileList.Action.CLOSE, "Close", KeyModifierMask.KEY_MASK_CMD_OR_CTRL | KEY_W)
+	_add_menu_item(GaeaFileList.Action.CLOSE_ALL, "Close All")
+	_add_menu_item(GaeaFileList.Action.CLOSE_OTHER, "Close Other Tabs")
 
 
-func _on_id_pressed(id: int) -> void:
-	match id:
-		Action.SAVE:
-			if graph.resource_path.is_empty():
-				unsaved_file_found.emit(graph)
-				return
+func _add_menu_item(id: GaeaFileList.Action, text: String, shortcut_key: Variant = KEY_NONE) -> void:
+	add_item(tr(text), id)
+	if shortcut_key is StringName and InputMap.has_action(shortcut_key):
+		var shortcut = Shortcut.new()
+		shortcut.events = InputMap.action_get_events(shortcut_key)
+		set_item_shortcut(
+			get_item_index(id),
+			shortcut
+		)
+	elif shortcut_key is Key and shortcut_key != KEY_NONE:
+		set_item_shortcut(
+			get_item_index(id),
+			GaeaEditorSettings.get_file_list_action_shortcut(id, shortcut_key)
+		)
 
-			if not graph.is_built_in():
-				ResourceSaver.save(graph)
-			else:
-				var scene_path := graph.resource_path.get_slice("::", 0)
-				ResourceSaver.save(load(scene_path))
-				# Necessary for open scenes.
-				EditorInterface.reload_scene_from_path(scene_path)
-			file_saved.emit(graph)
-		Action.SAVE_AS:
-			save_as_selected.emit(graph)
-		Action.CLOSE:
-			close_file_selected.emit(graph)
-		Action.CLOSE_ALL:
-			close_all_selected.emit()
-		Action.CLOSE_OTHER:
-			close_others_selected.emit(graph)
-		Action.COPY_PATH:
-			DisplayServer.clipboard_set(graph.resource_path)
-		Action.SHOW_IN_FILESYSTEM:
-			if not graph.is_built_in():
-				EditorInterface.select_file(graph.resource_path)
-			else:
-				EditorInterface.select_file(graph.resource_path.get_slice("::", 0))
-		Action.OPEN_IN_INSPECTOR:
-			EditorInterface.edit_resource(graph)
+
+func _on_about_to_popup() -> void:
+	for item_index in item_count:
+		var action: GaeaFileList.Action = get_item_id(item_index) as GaeaFileList.Action
+		set_item_disabled(item_index, not file_system_container.can_do_action(action))

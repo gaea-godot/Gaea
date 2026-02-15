@@ -2,8 +2,31 @@
 class_name GaeaGraphEdit
 extends GraphEdit
 
+signal graph_changed()
+signal node_selection_changed()
 signal copy_to_clipboard_request()
 signal paste_from_clipboard_request()
+
+enum Action {
+	ADD,
+	CUT,
+	COPY,
+	PASTE,
+	SELECT_ALL,
+	DUPLICATE,
+	DELETE,
+	CLEAR_BUFFER,
+	RENAME,
+	TOGGLE_TINT,
+	TINT,
+	GROUP_IN_FRAME,
+	DETACH,
+	TOGGLE_AUTO_SHRINK,
+	OPEN_IN_INSPECTOR,
+	COPY_TO_CLIPBOARD,
+	PASTE_FROM_CLIPBOARD,
+}
+
 
 @export var main_editor: GaeaMainEditor
 @export var bottom_note_label: RichTextLabel
@@ -14,11 +37,15 @@ var attached_elements: Dictionary[StringName, StringName]
 ## Currently edited resource, use [method populate] to change the graph
 var graph: GaeaGraph :
 	set(value):
+		if graph == value:
+			return
 		graph = value
 		if not is_instance_valid(graph):
 			hide()
 		else:
 			show()
+		graph_changed.emit()
+
 
 ## Buffer used to store copied nodes
 var copy_buffer: GaeaNodesCopy
@@ -798,3 +825,159 @@ func _on_paste_from_clipboard_request() -> void:
 		_paste_nodes(local_to_grid(get_local_mouse_position()), copy_data)
 	elif copy_data is String:
 		EditorInterface.get_editor_toaster().push_toast(copy_data, EditorToaster.SEVERITY_ERROR)
+
+
+func _on_node_deselected(_node: Node) -> void:
+	node_selection_changed.emit()
+
+
+func _on_node_selected(_node: Node) -> void:
+	node_selection_changed.emit()
+
+
+func can_do_action(id: Action) -> bool:
+	match id:
+		Action.ADD, Action.SELECT_ALL, Action.PASTE_FROM_CLIPBOARD:
+			return true
+		Action.COPY, Action.CUT, Action.DELETE, Action.DUPLICATE, Action.GROUP_IN_FRAME, Action.DETACH, Action.COPY_TO_CLIPBOARD:
+			return not get_selected().is_empty()
+		Action.RENAME:
+			return get_selected().size() == 1
+		Action.PASTE, Action.CLEAR_BUFFER:
+			return is_instance_valid(copy_buffer)
+		Action.TINT, Action.TOGGLE_TINT, Action.TOGGLE_AUTO_SHRINK:
+			var selected: Array = get_selected()
+			return selected.size() == 1 and selected.front() is GaeaGraphFrame
+		Action.OPEN_IN_INSPECTOR:
+			var selected: Array = get_selected()
+			return selected.size() == 1 and selected.front() is GaeaNodeParameter
+	return false
+
+
+func _on_action_pressed(id: Action) -> void:
+	match id:
+		Action.ADD:
+			main_editor.popup_create_node_request.emit()
+		Action.COPY:
+			copy_nodes_request.emit()
+		Action.PASTE:
+			paste_nodes_request.emit()
+		Action.SELECT_ALL:
+			for node: Node in get_children():
+				if node is GraphElement:
+					node.selected = true
+		Action.DUPLICATE:
+			duplicate_nodes_request.emit()
+		Action.CUT:
+			cut_nodes_request.emit()
+		Action.DELETE:
+			delete_nodes_request.emit(get_selected_names())
+		Action.CLEAR_BUFFER:
+			copy_buffer = null
+		Action.RENAME:
+			var selected: Array = get_selected()
+			var node: GraphElement = selected.front()
+			if node is GaeaGraphFrame:
+				node.start_rename(owner)
+		Action.TINT:
+			var selected: Array = get_selected()
+			var node: GraphElement = selected.front()
+			if node is GaeaGraphFrame:
+				node.start_tint_color_change(owner)
+		Action.TOGGLE_TINT:
+			var selected: Array = get_selected()
+			var node: GraphElement = selected.front()
+			if node is GaeaGraphFrame:
+				var toggled: bool = not node.is_tint_color_enabled()
+				node.set_tint_color_enabled(toggled)
+				graph.set_node_data_value(node.id, &"tint_color_enabled", toggled)
+		Action.TOGGLE_AUTO_SHRINK:
+			var selected: Array = get_selected()
+			var node: GraphElement = selected.front()
+			if node is GaeaGraphFrame:
+				var toggled: bool = not node.is_autoshrink_enabled()
+				node.set_autoshrink_enabled(toggled)
+				# The node data for the autoshrink is set from a GraphFrame signal
+		Action.GROUP_IN_FRAME:
+			var selected: Array[StringName] = get_selected_names()
+			_group_nodes_in_frame(selected)
+		Action.DETACH:
+			var selected: Array = get_selected()
+			for node: GraphElement in selected:
+				if attached_elements.has(node.name):
+					detach_element_from_frame(node.name)
+		Action.OPEN_IN_INSPECTOR:
+			var node: GaeaGraphNode = get_selected().front()
+			var resource: GaeaNodeResource = node.resource
+			if resource is GaeaNodeParameter:
+				var parameter: Dictionary = graph.get_parameter_dictionary(node.get_arg_value("name"))
+				var value: Variant = parameter.get("value")
+				if value is Resource and is_instance_valid(value):
+					EditorInterface.edit_resource(value)
+		Action.COPY_TO_CLIPBOARD:
+			copy_to_clipboard_request.emit()
+		Action.PASTE_FROM_CLIPBOARD:
+			paste_from_clipboard_request.emit()
+
+
+func _get_node_frame_parents_list(node_name: StringName) -> Array[StringName]:
+	var list: Array[StringName] = []
+	var loop_limit: int = 50
+	while loop_limit > 0:
+		loop_limit -= 1
+		if attached_elements.has(node_name):
+			node_name = attached_elements.get(node_name)
+			list.append(node_name)
+		else:
+			list.append(&"null")
+			break
+	return list
+
+
+func _group_nodes_in_frame(nodes: Array[StringName]) -> void:
+	var front_node: StringName = nodes.front()
+	var front_frame_tree: Array[StringName] = _get_node_frame_parents_list(front_node)
+	front_frame_tree.reverse()
+	for other_node: StringName in nodes:
+		var other_frame_tree: Array[StringName] = _get_node_frame_parents_list(other_node)
+		other_frame_tree.reverse()
+		for i in range(0, mini(front_frame_tree.size(), other_frame_tree.size())):
+			if not front_frame_tree[i] == other_frame_tree[i]:
+				front_frame_tree.resize(i)
+
+	var matching_parent: StringName = front_frame_tree.back()
+	var things_to_group: Array[StringName] = []
+	var parent_name: StringName
+	for node_name: StringName in nodes:
+		var loop_limit: int = 50
+		while loop_limit > 0:
+			loop_limit -= 1
+			parent_name = attached_elements.get(node_name, &"null")
+			if parent_name == matching_parent:
+				if not things_to_group.has(node_name):
+					things_to_group.append(node_name)
+				break
+			node_name = parent_name
+
+	var positions: Array = things_to_group.map(func(node_name: StringName):
+		return (get_node(NodePath(node_name)) as GraphElement).position
+	)
+	var frame_position: Vector2 = positions.reduce(func(a: Vector2, b: Vector2):
+		return a.min(b), positions.front()
+	)
+	var new_frame_id: int = graph.add_frame(frame_position)
+	var new_frame: Node = instantiate_node(new_frame_id)
+	var new_frame_name: StringName = new_frame.name
+
+	if matching_parent != &"null":
+		attach_graph_element_to_frame(new_frame_name, matching_parent)
+		_on_element_attached_to_frame(new_frame_name, matching_parent)
+
+		for node_name: StringName in things_to_group:
+			detach_element_from_frame(node_name)
+
+	for node_name in things_to_group:
+		attach_graph_element_to_frame(node_name, new_frame_name)
+		_on_element_attached_to_frame(node_name, new_frame_name)
+
+	new_frame.selected = true
