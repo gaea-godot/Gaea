@@ -18,7 +18,6 @@ func _ready() -> void:
 	if is_part_of_edited_scene():
 		return
 
-
 	_populate_file_popup_menu()
 	_populate_edit_popup_menu()
 	update_menu_enabled_state()
@@ -86,13 +85,13 @@ func _on_file_item_about_to_popup() -> void:
 
 #region Edit menu
 func _populate_edit_popup_menu() -> void:
-	_add_edit_menu_item(GaeaGraphEdit.Action.ADD, "Add Node", KeyModifierMask.KEY_MASK_CMD_OR_CTRL | KEY_T)
+	_add_edit_menu_item(GaeaGraphEdit.Action.ADD, "Add Node", KeyModifierMask.KEY_MASK_CMD_OR_CTRL | KEY_A)
 	edit_popup.add_separator()
 	_add_edit_menu_item(GaeaGraphEdit.Action.CUT, "Cut", &"ui_cut")
 	_add_edit_menu_item(GaeaGraphEdit.Action.COPY, "Copy", &"ui_copy")
 	_add_edit_menu_item(GaeaGraphEdit.Action.PASTE, "Paste", &"ui_paste")
 	edit_popup.add_separator()
-	_add_edit_menu_item(GaeaGraphEdit.Action.SELECT_ALL, "Select All", &"ui_text_select_all")
+	_add_edit_menu_item(GaeaGraphEdit.Action.SELECT_ALL, "Select All")
 	_add_edit_menu_item(GaeaGraphEdit.Action.DUPLICATE, "Duplicate Selection", &"ui_graph_duplicate")
 	_add_edit_menu_item(GaeaGraphEdit.Action.DELETE, "Delete Selection", &"ui_graph_delete")
 	_add_edit_menu_item(GaeaGraphEdit.Action.GROUP_IN_FRAME, "Group Selection in New Frame", KeyModifierMask.KEY_MASK_CMD_OR_CTRL | KEY_G)
@@ -119,8 +118,12 @@ func _add_edit_menu_item(id: GaeaGraphEdit.Action, text: String, shortcut_key: V
 func update_menu_enabled_state() -> void:
 	for item_index in edit_popup.item_count:
 		var action: GaeaGraphEdit.Action = edit_popup.get_item_id(item_index) as GaeaGraphEdit.Action
-		edit_popup.set_item_disabled(item_index, not graph_edit.can_do_action(action))
+		var disabled: bool = not graph_edit.can_do_action(action)
+		edit_popup.set_item_disabled(item_index, disabled)
+		edit_popup.set_item_shortcut_disabled(item_index, disabled)
 
 	for item_index in file_popup.item_count:
 		var action: GaeaFileList.Action = file_popup.get_item_id(item_index) as GaeaFileList.Action
-		file_popup.set_item_disabled(item_index, not file_system_container.can_do_action(action))
+		var disabled: bool = not file_system_container.can_do_action(action)
+		file_popup.set_item_disabled(item_index, disabled)
+		file_popup.set_item_shortcut_disabled(item_index, disabled)

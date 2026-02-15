@@ -40,8 +40,9 @@ file_list = NodePath("FileList")
 context_menu = NodePath("FileList/ContextMenu")
 file_dialog = NodePath("FileDialog")
 
-[node name="MenuBar" type="MenuBar" parent="FileSystemContainer" unique_id=715932684 node_paths=PackedStringArray("file_popup", "recent_files", "edit_popup", "graph_edit", "file_system_container")]
+[node name="MenuBar" type="MenuBar" parent="FileSystemContainer" unique_id=715932684 node_paths=PackedStringArray("shortcut_context", "file_popup", "recent_files", "edit_popup", "graph_edit", "file_system_container")]
 layout_mode = 2
+shortcut_context = NodePath("../..")
 theme_type_variation = &"FlatButton"
 script = ExtResource("2_ce5k6")
 file_popup = NodePath("File")
@@ -256,20 +257,6 @@ text = "Cancel"
 [node name="NodeContextMenu" type="PopupMenu" parent="MainEditor" unique_id=802440902 node_paths=PackedStringArray("main_editor", "graph_edit")]
 oversampling_override = 1.0
 size = Vector2i(100, 124)
-item_count = 6
-item_0/text = "Add Node"
-item_0/id = 0
-item_1/id = 1
-item_1/separator = true
-item_2/text = "Delete"
-item_2/id = 2
-item_3/id = 9999
-item_3/separator = true
-item_4/text = "Rename"
-item_4/id = 3
-item_4/disabled = true
-item_5/text = "Set Color"
-item_5/id = 5
 script = ExtResource("4_vtsfx")
 main_editor = NodePath("..")
 graph_edit = NodePath("../GraphEdit")
@@ -277,9 +264,6 @@ graph_edit = NodePath("../GraphEdit")
 [node name="LinkContextMenu" type="PopupMenu" parent="MainEditor" unique_id=566265106 node_paths=PackedStringArray("main_editor")]
 oversampling_override = 1.0
 size = Vector2i(106, 100)
-item_count = 1
-item_0/text = "Disconnect"
-item_0/id = 0
 script = ExtResource("7_dhpru")
 main_editor = NodePath("..")
 

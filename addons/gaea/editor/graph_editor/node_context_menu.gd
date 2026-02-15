@@ -29,7 +29,7 @@ func populate(selected: Array) -> void:
 	_add_menu_item(GaeaGraphEdit.Action.PASTE, "Paste", &"ui_paste")
 
 	add_separator()
-	_add_menu_item(GaeaGraphEdit.Action.SELECT_ALL, "Select All", &"ui_text_select_all")
+	_add_menu_item(GaeaGraphEdit.Action.SELECT_ALL, "Select All")
 	_add_menu_item(GaeaGraphEdit.Action.DUPLICATE, "Duplicate Selection", &"ui_graph_duplicate")
 	_add_menu_item(GaeaGraphEdit.Action.DELETE, "Delete Selection", &"ui_graph_delete")
 	_add_menu_item(GaeaGraphEdit.Action.CLEAR_BUFFER, "Clear Copy Buffer")

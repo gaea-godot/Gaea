@@ -280,7 +280,8 @@ func _add_node(resource: GaeaNodeResource, local_grid_position: Vector2) -> Grap
 
 
 func _on_delete_nodes_request(nodes: Array[StringName]) -> void:
-	delete_nodes(nodes)
+	if can_do_action(Action.DELETE):
+		delete_nodes(nodes)
 
 
 func delete_nodes(nodes: Array[StringName]) -> void:
@@ -722,22 +723,26 @@ func _get_copy_data(nodes: Array[GraphElement]) -> GaeaNodesCopy:
 
 
 func _on_duplicate_nodes_request() -> void:
-	var copy_data := _get_copy_data(get_selected())
-	_copy_nodes(copy_data)
-	_paste_nodes(copy_data.get_origin() + Vector2(snapping_distance, snapping_distance))
+	if can_do_action(Action.DUPLICATE):
+		var copy_data := _get_copy_data(get_selected())
+		_copy_nodes(copy_data)
+		_paste_nodes(copy_data.get_origin() + Vector2(snapping_distance, snapping_distance))
 
 
 func _on_copy_nodes_request() -> void:
-	_copy_nodes(_get_copy_data(get_selected()))
+	if can_do_action(Action.COPY):
+		_copy_nodes(_get_copy_data(get_selected()))
 
 
 func _on_paste_nodes_request() -> void:
-	_paste_nodes(local_to_grid(get_local_mouse_position()))
+	if can_do_action(Action.PASTE):
+		_paste_nodes(local_to_grid(get_local_mouse_position()))
 
 
 func _on_cut_nodes_request() -> void:
-	_copy_nodes(_get_copy_data(get_selected()))
-	delete_nodes(get_selected_names())
+	if can_do_action(Action.CUT):
+		_copy_nodes(_get_copy_data(get_selected()))
+		delete_nodes(get_selected_names())
 #endregion
 
 
@@ -855,6 +860,7 @@ func can_do_action(id: Action) -> bool:
 
 
 func _on_action_pressed(id: Action) -> void:
+	prints("_on_action_pressed", id)
 	match id:
 		Action.ADD:
 			main_editor.popup_create_node_request.emit()
