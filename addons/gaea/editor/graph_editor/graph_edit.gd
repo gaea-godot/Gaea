@@ -767,7 +767,10 @@ func _on_gui_input(event: InputEvent) -> void:
 				return
 
 			var selected: Array = get_selected()
-			main_editor.popup_node_context_menu_at_mouse_request.emit(selected)
+			if selected.is_empty() and not is_instance_valid(main_editor.graph_edit.copy_buffer):
+				main_editor.popup_create_node_request.emit()
+			else:
+				main_editor.popup_node_context_menu_at_mouse_request.emit(selected)
 
 
 func _on_scroll_offset_changed(offset: Vector2) -> void:
