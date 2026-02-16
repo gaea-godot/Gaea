@@ -860,7 +860,6 @@ func can_do_action(id: Action) -> bool:
 
 
 func _on_action_pressed(id: Action) -> void:
-	prints("_on_action_pressed", id)
 	match id:
 		Action.ADD:
 			main_editor.popup_create_node_request.emit()

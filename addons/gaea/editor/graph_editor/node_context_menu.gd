@@ -35,8 +35,14 @@ func populate(selected: Array) -> void:
 	_add_menu_item(GaeaGraphEdit.Action.CLEAR_BUFFER, "Clear Copy Buffer")
 
 	add_separator()
-	_add_menu_item(GaeaGraphEdit.Action.COPY_TO_CLIPBOARD, "Copy to Clipboard")
-	_add_menu_item(GaeaGraphEdit.Action.PASTE_FROM_CLIPBOARD, "Paste from Clipboard")
+	_add_menu_item(
+		GaeaGraphEdit.Action.COPY_TO_CLIPBOARD, "Copy to Clipboard",
+		KeyModifierMask.KEY_MASK_CMD_OR_CTRL | KeyModifierMask.KEY_MASK_SHIFT | KEY_C
+	)
+	_add_menu_item(
+		GaeaGraphEdit.Action.PASTE_FROM_CLIPBOARD, "Paste from Clipboard",
+		KeyModifierMask.KEY_MASK_CMD_OR_CTRL | KeyModifierMask.KEY_MASK_SHIFT | KEY_V
+	)
 
 	if not selected.is_empty():
 		add_separator()
