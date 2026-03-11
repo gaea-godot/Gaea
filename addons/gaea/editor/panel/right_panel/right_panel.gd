@@ -72,6 +72,7 @@ func _on_generate_button_pressed() -> void:
 
 
 func _get_chunk_offsets(graph: GaeaGraph) -> Array[Vector3]:
+	@warning_ignore("integer_division")
 	var grid_size: Vector3i = graph.preview_world_size / graph.preview_chunk_size
 	var list: Array[Vector3] = []
 	var chunk_size = Vector3(graph.preview_chunk_size)

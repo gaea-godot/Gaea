@@ -41,6 +41,17 @@ enum Type {
 	VARIABLE_NAME = 305, ## Name for [GaeaNodeParameter]s.
 }
 
+enum CoordinateFormat {
+	ALIGNED_3D,
+	ALIGNED_2D,
+	VERTICAL_OFFSET_2D,
+	HORIZONTAL_OFFSET_2D,
+}
+
+enum CheckMode {
+	BOOLEAN,   # checked / unchecked
+	TRISTATE,  # checked / crossed / empty
+}
 
 ## Returns whether [param type] accepts inputs.
 static func is_wireable(type: Type) -> bool:
@@ -265,26 +276,27 @@ static func get_default_slot_icon(type: Type) -> Texture2D:
 
 
 static func get_editor_for_type(for_type: GaeaValue.Type) -> PackedScene:
+	assert(Engine.is_editor_hint(), "The method get_editor_for_type can only by used in the Godot Editor")
 	match for_type:
 		GaeaValue.Type.FLOAT, GaeaValue.Type.INT:
-			return preload("uid://dp7blnx7abb5e")
+			return load("uid://dp7blnx7abb5e")
 		GaeaValue.Type.VECTOR2, GaeaValue.Type.VECTOR2I, GaeaValue.Type.VECTOR3, GaeaValue.Type.VECTOR3I:
-			return preload("uid://mlwupvg8a886")
+			return load("uid://mlwupvg8a886")
 		GaeaValue.Type.VARIABLE_NAME:
-			return preload("uid://bn8i1l4q13pdw")
+			return load("uid://bn8i1l4q13pdw")
 		GaeaValue.Type.RANGE:
-			return preload("uid://t4osuglcgg6l")
+			return load("uid://t4osuglcgg6l")
 		GaeaValue.Type.BITMASK, GaeaValue.Type.BITMASK_EXCLUSIVE, GaeaValue.Type.FLAGS:
-			return preload("uid://chdg8ey4ln8d1")
+			return load("uid://chdg8ey4ln8d1")
 		GaeaValue.Type.CATEGORY:
-			return preload("uid://x6n8ylnxoyno")
+			return load("uid://x6n8ylnxoyno")
 		GaeaValue.Type.BOOLEAN:
-			return preload("uid://byaonbbfa2bx8")
+			return load("uid://byaonbbfa2bx8")
 		GaeaValue.Type.NEIGHBORS:
-			return preload("uid://d11yc7l6sneof")
+			return load("uid://d11yc7l6sneof")
 		GaeaValue.Type.RULES:
-			return preload("uid://dy4n2a5hkaxsb")
-	return preload("uid://i2nwlab8rau")
+			return load("uid://dy4n2a5hkaxsb")
+	return load("uid://i2nwlab8rau")
 
 
 ## Abstract class for the 2 grid types in Gaea,

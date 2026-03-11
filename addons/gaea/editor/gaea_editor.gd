@@ -8,10 +8,11 @@ var _panel: GaeaEditorPanel
 var _dock: EditorDock
 var _editor_selection: EditorSelection
 var _inspector_plugin: EditorInspectorPlugin
-var _custom_project_settings: GaeaProjectSettings
+var _export_plugin: GaeaEditorExportPlugin
 
 
 func _enter_tree() -> void:
+	assert(Engine.is_editor_hint(), "The GaeaEditorPlugin should be used only in editor.")
 	_editor_selection = EditorInterface.get_selection()
 	_editor_selection.selection_changed.connect(_on_selection_changed)
 
@@ -28,9 +29,10 @@ func _enter_tree() -> void:
 	_inspector_plugin = InspectorPlugin.new(_panel)
 	add_inspector_plugin(_inspector_plugin)
 
+	_export_plugin = GaeaEditorExportPlugin.new()
+	add_export_plugin(_export_plugin)
+
 	GaeaEditorSettings.new().add_settings()
-	_custom_project_settings = GaeaProjectSettings.new()
-	_custom_project_settings.add_settings()
 
 	resource_saved.connect(_on_resource_saved)
 
@@ -39,17 +41,12 @@ func _enter_tree() -> void:
 
 
 func _exit_tree() -> void:
-	if Engine.is_editor_hint():
-		_panel.graph_edit.unpopulate()
-		remove_inspector_plugin(_inspector_plugin)
-		remove_dock(_dock)
-		_dock.queue_free()
-		_dock = null
-
-
-func _disable_plugin() -> void:
-	if Engine.is_editor_hint():
-		_custom_project_settings.remove_settings()
+	_panel.graph_edit.unpopulate()
+	remove_inspector_plugin(_inspector_plugin)
+	remove_export_plugin(_export_plugin)
+	remove_dock(_dock)
+	_dock.queue_free()
+	_dock = null
 
 
 func _get_unsaved_status(_for_scene: String) -> String:
@@ -76,10 +73,9 @@ func _save_external_data() -> void:
 
 
 func _on_selection_changed() -> void:
-	if Engine.is_editor_hint():
-		var selected: Array[Node] = _editor_selection.get_selected_nodes()
-		if selected.size() == 1 and selected.front() is GaeaGenerator:
-			_edit(selected.front().graph)
+	var selected: Array[Node] = _editor_selection.get_selected_nodes()
+	if selected.size() == 1 and selected.front() is GaeaGenerator:
+		_edit(selected.front().graph)
 
 
 func _handles(object: Object) -> bool:

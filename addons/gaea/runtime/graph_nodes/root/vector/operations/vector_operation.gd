@@ -31,7 +31,7 @@ func _get_title() -> String:
 
 
 func _get_description() -> String:
-	if get_tree_name() == _get_title() and not is_instance_valid(node):
+	if get_tree_name() == _get_title() and not is_instance_valid(get_meta(&"_gaea_graph_node")):
 		return "Operation between 2 [code]Vector[/code]s."
 
 	var vector_name := _get_enum_option_display_name(0, get_enum_selection(0))

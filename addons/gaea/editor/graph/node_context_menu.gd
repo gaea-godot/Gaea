@@ -81,6 +81,7 @@ func populate(selected: Array) -> void:
 
 
 	for item_idx: int in item_count:
+		@warning_ignore("int_as_enum_without_cast")
 		var action: GaeaEditorGraphEdit.Action = get_item_id(item_idx)
 		set_item_disabled(item_idx, not graph_edit.can_do_action(action))
 

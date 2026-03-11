@@ -35,7 +35,7 @@ func _get_enums_count() -> int:
 
 
 func _get_enum_options(_enum_idx: int) -> Dictionary:
-	return GaeaEditorCheckableCell.CoordinateFormat
+	return GaeaValue.CoordinateFormat
 
 
 func _get_enum_option_display_name(enum_idx: int, option_value: int) -> String:
@@ -63,7 +63,7 @@ func _get_argument_hint(arg_name: StringName) -> Dictionary[String, Variant]:
 	match arg_name:
 		&"rules":
 			return {
-				&"check_mode": GaeaEditorCheckableCell.CheckMode.TRISTATE,
+				&"check_mode": GaeaValue.CheckMode.TRISTATE,
 				&"show_origin": true,
 				&"coordinate_format": get_enum_selection(0),
 				&"radius": arguments.get(&"radius", 2),

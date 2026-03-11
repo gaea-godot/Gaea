@@ -1,3 +1,6 @@
+@tool
+
+class_name GaeaEditorExportPlugin
 extends EditorExportPlugin
 
 

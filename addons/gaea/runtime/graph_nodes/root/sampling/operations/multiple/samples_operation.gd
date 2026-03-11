@@ -27,7 +27,7 @@ func _get_title() -> String:
 
 
 func _get_description() -> String:
-	if get_tree_name() == "SamplesOp" and not is_instance_valid(node):
+	if get_tree_name() == "SamplesOp" and not is_instance_valid(get_meta(&"_gaea_graph_node")):
 		return "Operation between 2 sample grids."
 
 	match get_enum_selection(0):

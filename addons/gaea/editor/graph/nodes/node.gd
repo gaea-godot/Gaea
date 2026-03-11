@@ -65,7 +65,7 @@ func _on_added() -> void:
 	if not is_instance_valid(resource) or is_part_of_edited_scene():
 		return
 
-	resource.node = self
+	resource.set_meta(&"_gaea_graph_node", self)
 	resource.argument_list_changed.connect(_rebuild, CONNECT_DEFERRED)
 	resource.argument_hint_changed.connect(_on_argument_hint_changed, CONNECT_DEFERRED)
 

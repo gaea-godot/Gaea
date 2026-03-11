@@ -156,12 +156,12 @@ func _load_connections(connections_list: Array[Dictionary]) -> void:
 		var from_node_resource := graph.get_node(connection.from_node)
 		if not is_instance_valid(from_node_resource):
 			continue
-		var from_node := from_node_resource.node
+		var from_node: GaeaEditorGraphNode = from_node_resource.get_meta(&"_gaea_graph_node")
 
 		var to_node_resource := graph.get_node(connection.to_node)
 		if not is_instance_valid(to_node_resource):
 			continue
-		var to_node := to_node_resource.node
+		var to_node: GaeaEditorGraphNode = to_node_resource.get_meta(&"_gaea_graph_node")
 
 		if not is_instance_valid(from_node) or not is_instance_valid(to_node):
 			continue
@@ -640,7 +640,7 @@ func _load_attached_elements(attached: Array, frame_name: StringName) -> void:
 			if attached_frame_idx != -1:
 				node = graph_children[attached_frame_idx]
 		else:
-			node = node_resource.node
+			node = node_resource.get_meta(&"_gaea_graph_node")
 
 		if not is_instance_valid(node):
 			continue

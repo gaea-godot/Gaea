@@ -57,9 +57,6 @@ const GAEA_MATERIAL_GRADIENT_HINT := "Resource that maps values from 0.0-1.0 to 
 ## }
 ## [/codeblock]
 var connections: Array[Dictionary]
-## The related [GaeaEditorGraphNode] for editing in the Gaea graph editor.
-## This is null during runtime.
-var node: GaeaEditorGraphNode
 ## The related [GaeaGraph] that holds this node.
 var graph: GaeaGraph
 ## A Dictionary holding the values of the arguments

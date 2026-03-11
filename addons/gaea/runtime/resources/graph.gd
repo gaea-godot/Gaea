@@ -273,7 +273,7 @@ func _property_get_revert(property: StringName) -> Variant:
 		&'preview_chunk_size':
 			if preview_size_preset == PreviewSizePreset.CUSTOM:
 				return get(property)
-			var resolution: int = GaeaEditorSettings.get_preview_resolution()
+			var resolution: int = load("uid://duu3vekk7pxwk").get_preview_resolution()
 			var size: Vector3i = Vector3i(resolution, resolution, resolution)
 
 			if (
@@ -304,7 +304,7 @@ func _property_get_revert(property: StringName) -> Variant:
 		&'preview_world_size':
 			if preview_size_preset == PreviewSizePreset.CUSTOM:
 				return get(property)
-			var resolution: int = GaeaEditorSettings.get_preview_resolution()
+			var resolution: int = load("uid://duu3vekk7pxwk").get_preview_resolution()
 			var size: Vector3i = Vector3i(resolution, resolution, resolution)
 
 			if (
@@ -320,6 +320,7 @@ func _property_get_revert(property: StringName) -> Variant:
 				PreviewSizePreset.SINGLE_2D, PreviewSizePreset.SINGLE_3D:
 					return 1
 				_:
+					@warning_ignore("integer_division")
 					var grid_size: Vector3i = preview_world_size / preview_chunk_size
 					return grid_size.x * grid_size.y * grid_size.z
 
@@ -330,7 +331,7 @@ func _validate_property(property: Dictionary) -> void:
 	if Engine.is_editor_hint() and property.name == &"preview_chunk_size":
 		property.type = TYPE_VECTOR3
 		property.hint = property.hint | PROPERTY_HINT_RANGE
-		property.hint_string = "0,%d,1" % GaeaEditorSettings.get_preview_max_simulation_size()
+		property.hint_string = "0,%d,1" % load("uid://duu3vekk7pxwk").get_preview_max_simulation_size()
 
 
 ## Log debug text to the output depending of the debug setting.
