@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b2rceqo8rtr88"]
 
 [ext_resource type="PackedScene" uid="uid://b7e2d15kxt2im" path="res://addons/gaea/editor/graph/nodes/node.tscn" id="1_0qpbo"]
-[ext_resource type="Script" uid="uid://bs40iof8ipbkq" path="res://addons/gaea/runtime/graph_nodes/graph_nodes/special/reroute/reroute_node.gd" id="1_52lmj"]
+[ext_resource type="Script" uid="uid://bs40iof8ipbkq" path="res://addons/gaea/runtime/graph_nodes/special/reroute/reroute_node.gd" id="1_52lmj"]
 [ext_resource type="Texture2D" uid="uid://dqob6v3dudlri" path="res://addons/gaea/assets/slots/circle.svg" id="2_6svu7"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fbfsu"]
