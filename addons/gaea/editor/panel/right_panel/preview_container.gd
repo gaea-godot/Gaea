@@ -1,12 +1,12 @@
 @tool
-class_name GaeaPreviewContainer
+class_name GaeaEditorPreviewContainer
 extends Control
 
 const DEFAULT_ROTATION: Vector3 = Vector3(-deg_to_rad(30), deg_to_rad(45), 0.0001)
 
 @export var target_world_3d: World3D
 @export var view_port: SubViewport
-@export var camera: GaeaPreviewCamera
+@export var camera: GaeaEditorPreviewCamera
 @export var base_mesh: Mesh
 @export var container: Node3D
 

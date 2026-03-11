@@ -1,5 +1,5 @@
 @tool
-extends GaeaGraphNode
+extends GaeaEditorGraphNode
 
 var tween: Tween
 

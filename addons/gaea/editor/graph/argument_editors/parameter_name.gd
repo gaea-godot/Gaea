@@ -1,6 +1,6 @@
 @tool
-class_name GaeaParameterNameArgumentEditor
-extends GaeaGraphNodeArgumentEditor
+class_name GaeaEditorParameterNameArgument
+extends GaeaEditorGraphNodeArgument
 
 @onready var _name_label: Label = $NameLabel
 @onready var _edit_button: Button = $EditButton

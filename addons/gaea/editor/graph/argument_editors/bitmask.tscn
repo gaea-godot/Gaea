@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://chdg8ey4ln8d1"]
 
 [ext_resource type="PackedScene" uid="uid://i2nwlab8rau" path="res://addons/gaea/editor/graph/argument_editors/argument_editor.tscn" id="1_bc048"]
-[ext_resource type="Script" uid="uid://ddawstb3cj6er" path="res://addons/gaea/editor/graph/argument_editors/bitmask_argument_editor.gd" id="2_udo4f"]
+[ext_resource type="Script" uid="uid://ddawstb3cj6er" path="res://addons/gaea/editor/graph/argument_editors/bitmask.gd" id="2_udo4f"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_udo4f"]
 bg_color = Color(0.254902, 0.27451, 0.270588, 1)

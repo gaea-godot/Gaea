@@ -1,5 +1,5 @@
 @tool
-class_name GaeaGraphEdit
+class_name GaeaEditorGraphEdit
 extends GraphEdit
 
 signal graph_changed()
@@ -28,7 +28,7 @@ enum Action {
 }
 
 
-@export var main_editor: GaeaMainEditor
+@export var main_view: GaeaEditorMainView
 @export var bottom_note_label: RichTextLabel
 
 ## List of nodes attached to a frame (element, frame)
@@ -54,7 +54,7 @@ var copy_buffer: GaeaNodesCopy
 var is_loading = false
 
 ## Reference to the output node
-var _output_node: GaeaGraphNodeOutput
+var _output_node: GaeaEditorGraphNodeOutput
 
 var _back_icon: Texture2D
 var _forward_icon: Texture2D
@@ -89,10 +89,10 @@ func populate(new_graph: GaeaGraph) -> void:
 		graph.layer_count_modified.connect(_update_output_node)
 	_load_data()
 
-	if is_instance_valid(main_editor):
-		# The Screenshotter don't have the main_editor reference
-		main_editor.set_editor_visible(true)
-		main_editor.preview_panel.reset()
+	if is_instance_valid(main_view):
+		# The Screenshotter don't have the main_view reference
+		main_view.set_editor_visible(true)
+		main_view.preview_panel.reset()
 
 
 func unpopulate() -> void:
@@ -104,9 +104,9 @@ func unpopulate() -> void:
 		if child is GraphElement:
 			child.queue_free()
 
-	if is_instance_valid(main_editor):
-		# The Screenshotter don't have the main_editor reference
-		main_editor.set_editor_visible(false)
+	if is_instance_valid(main_view):
+		# The Screenshotter don't have the main_view reference
+		main_view.set_editor_visible(false)
 
 	graph = null
 
@@ -219,18 +219,18 @@ func _add_toolbar_buttons() -> void:
 	about_button.text = "About"
 	about_button.theme_type_variation = &"FlatButton"
 	about_button.icon = EditorInterface.get_base_control().get_theme_icon(&"NodeInfo", &"EditorIcons")
-	about_button.pressed.connect(main_editor.about_popup_request.emit)
+	about_button.pressed.connect(main_view.about_popup_request.emit)
 	container.add_child(about_button)
 
 
 func _add_node_button_pressed() -> void:
-	main_editor.popup_create_node_request.emit()
-	main_editor.node_creation_target = size * 0.40
+	main_view.popup_create_node_request.emit()
+	main_view.node_creation_target = size * 0.40
 
 
 func _on_toggle_left_panel_button_pressed(button: Button) -> void:
-	main_editor.gaea_panel.file_list.visible = not main_editor.gaea_panel.file_list.visible
-	button.icon = _back_icon if main_editor.gaea_panel.file_list.visible else _forward_icon
+	main_view.gaea_panel.file_list.visible = not main_view.gaea_panel.file_list.visible
+	button.icon = _back_icon if main_view.gaea_panel.file_list.visible else _forward_icon
 
 
 
@@ -242,7 +242,7 @@ func _on_online_docs_button_pressed() -> void:
 func instantiate_node(id: int) -> GraphElement:
 	var saved_data := graph.get_node_data(id)
 	if graph.get_node_type(id) == GaeaGraph.NodeType.FRAME:
-		var new_frame: GaeaGraphFrame = GaeaGraphFrame.new()
+		var new_frame: GaeaEditorGraphFrame = GaeaEditorGraphFrame.new()
 		new_frame.graph_edit = self
 		add_child(new_frame)
 		new_frame.load_save_data(saved_data)
@@ -255,12 +255,12 @@ func instantiate_node(id: int) -> GraphElement:
 		push_warning("Invalid resource", resource)
 		return null
 
-	var node: GaeaGraphNode = resource.get_scene().instantiate()
+	var node: GaeaEditorGraphNode = resource.get_scene().instantiate()
 	resource.load_save_data(saved_data)
 	if resource.get_scene_script() != null:
 		node.set_script(resource.get_scene_script())
 
-	if node is GaeaGraphNode:
+	if node is GaeaEditorGraphNode:
 		node.graph_edit = self
 		node.remove_invalid_connections_requested.connect(remove_invalid_connections)
 		node.load_save_data.call_deferred(saved_data)
@@ -287,7 +287,7 @@ func _on_delete_nodes_request(nodes: Array[StringName]) -> void:
 func delete_nodes(nodes: Array[StringName]) -> void:
 	for node_name in nodes:
 		var node: GraphElement = get_node_or_null(NodePath(node_name))
-		if node is GaeaGraphNode:
+		if node is GaeaEditorGraphNode:
 			if node.is_in_group(&"cant_delete"):
 				continue
 
@@ -300,7 +300,7 @@ func delete_nodes(nodes: Array[StringName]) -> void:
 				)
 			node.removed.emit()
 			graph.remove_node(node.resource.id)
-		elif node is GaeaGraphFrame:
+		elif node is GaeaEditorGraphFrame:
 			if attached_elements.has(node.name):
 				var frame = attached_elements.get(node.name)
 				for attached in get_attached_nodes_of_frame(node.name):
@@ -341,30 +341,30 @@ func _update_output_node() -> void:
 
 
 func _on_node_selected_for_creation(resource: GaeaNodeResource) -> void:
-	var node := _add_node(resource.duplicate(), local_to_grid(main_editor.node_creation_target))
+	var node := _add_node(resource.duplicate(), local_to_grid(main_view.node_creation_target))
 
-	if node is GaeaGraphNode and is_instance_valid(main_editor.created_node_connect_to):
+	if node is GaeaEditorGraphNode and is_instance_valid(main_view.created_node_connect_to):
 		var to_port := 0
 		var slot_name: StringName
 		var type: GaeaValue.Type
 		var new_node_port_amount: int
-		if main_editor.dragged_from_left:
-			slot_name = main_editor.created_node_connect_to.resource.connection_idx_to_argument(
-				main_editor.created_node_connect_to_port
+		if main_view.dragged_from_left:
+			slot_name = main_view.created_node_connect_to.resource.connection_idx_to_argument(
+				main_view.created_node_connect_to_port
 			)
-			type = main_editor.created_node_connect_to.resource.get_argument_type(slot_name)
+			type = main_view.created_node_connect_to.resource.get_argument_type(slot_name)
 			new_node_port_amount = node.resource._get_output_ports_list().size()
 		else:
-			slot_name = main_editor.created_node_connect_to.resource.connection_idx_to_output(
-				main_editor.created_node_connect_to_port
+			slot_name = main_view.created_node_connect_to.resource.connection_idx_to_output(
+				main_view.created_node_connect_to_port
 			)
-			type = main_editor.created_node_connect_to.resource.get_output_port_type(slot_name)
+			type = main_view.created_node_connect_to.resource.get_output_port_type(slot_name)
 			new_node_port_amount = node.resource.get_arguments_list().size()
 
 		while to_port < new_node_port_amount:
 			var other_slot_name: StringName
 			var other_type: GaeaValue.Type
-			if main_editor.dragged_from_left:
+			if main_view.dragged_from_left:
 				other_slot_name = node.resource.connection_idx_to_output(to_port)
 				other_type = node.resource.get_output_port_type(other_slot_name)
 			else:
@@ -372,24 +372,24 @@ func _on_node_selected_for_creation(resource: GaeaNodeResource) -> void:
 				other_type = node.resource.get_argument_type(other_slot_name)
 
 			if GaeaValue.is_valid_connection(
-				other_type if main_editor.dragged_from_left else type,
-				type if main_editor.dragged_from_left else other_type
+				other_type if main_view.dragged_from_left else type,
+				type if main_view.dragged_from_left else other_type
 			):
 				break
 			to_port += 1
 
 		if to_port < node.resource.get_arguments_list().size():
-			if main_editor.dragged_from_left:
+			if main_view.dragged_from_left:
 				connection_request.emit(
 					node.name,
 					to_port,
-					main_editor.created_node_connect_to.name,
-					main_editor.created_node_connect_to_port
+					main_view.created_node_connect_to.name,
+					main_view.created_node_connect_to_port
 				)
 			else:
 				connection_request.emit(
-					main_editor.created_node_connect_to.name,
-					main_editor.created_node_connect_to_port,
+					main_view.created_node_connect_to.name,
+					main_view.created_node_connect_to_port,
 					node.name,
 					to_port
 				)
@@ -408,11 +408,11 @@ func _on_new_reroute_requested(connection: Dictionary) -> void:
 		return
 
 	resource.type = from_node.get_output_port_type(connection.from_port) as GaeaValue.Type
-	var reroute: GaeaGraphNode = _add_node(resource, Vector2.ZERO)
+	var reroute: GaeaEditorGraphNode = _add_node(resource, Vector2.ZERO)
 
 	var offset = -reroute.get_output_port_position(0)
 	offset.y -= reroute.get_slot_custom_icon_right(0).get_size().y * 0.5
-	reroute.set_position_offset(local_to_grid(main_editor.node_creation_target, offset))
+	reroute.set_position_offset(local_to_grid(main_view.node_creation_target, offset))
 
 	graph.set_node_position(reroute.resource.id, reroute.position_offset)
 
@@ -439,7 +439,7 @@ func _on_new_reroute_requested(connection: Dictionary) -> void:
 #region Wiring
 func update_connections() -> void:
 	for node in get_children():
-		if node is GaeaGraphNode:
+		if node is GaeaEditorGraphNode:
 			node.connections.clear()
 
 	for connection in get_connection_list():
@@ -449,29 +449,29 @@ func update_connections() -> void:
 
 
 func _on_connection_from_empty(to_node: StringName, to_port: int, _release_position: Vector2) -> void:
-	var node: GaeaGraphNode = get_node_or_null(NodePath(to_node))
+	var node: GaeaEditorGraphNode = get_node_or_null(NodePath(to_node))
 	if not is_instance_valid(node):
 		return
 
 	var type: GaeaValue.Type = node.resource.get_argument_type(
 		node.resource.connection_idx_to_argument(to_port)
 	)
-	main_editor.created_node_connect_to_port = to_port
-	main_editor.dragged_from_left = true
-	main_editor.popup_create_node_and_connect_node_request.emit(node, type)
+	main_view.created_node_connect_to_port = to_port
+	main_view.dragged_from_left = true
+	main_view.popup_create_node_and_connect_node_request.emit(node, type)
 
 
 func _on_connection_to_empty(from_node: StringName, from_port: int, _release_position: Vector2) -> void:
-	var node: GaeaGraphNode = get_node_or_null(NodePath(from_node))
+	var node: GaeaEditorGraphNode = get_node_or_null(NodePath(from_node))
 	if not is_instance_valid(node):
 		return
 
 	var type: GaeaValue.Type = node.resource.get_output_port_type(
 		node.resource.connection_idx_to_output(from_port)
 	)
-	main_editor.created_node_connect_to_port = from_port
-	main_editor.dragged_from_left = false
-	main_editor.popup_create_node_and_connect_node_request.emit(node, type)
+	main_view.created_node_connect_to_port = from_port
+	main_view.dragged_from_left = false
+	main_view.popup_create_node_and_connect_node_request.emit(node, type)
 
 
 func _on_connection_request(
@@ -480,16 +480,16 @@ func _on_connection_request(
 	if is_nodes_connected_relatively(from_node, to_node):
 		return
 
-	var to_graph_node: GaeaGraphNode = get_node_or_null(NodePath(to_node))
+	var to_graph_node: GaeaEditorGraphNode = get_node_or_null(NodePath(to_node))
 	if not is_instance_valid(to_graph_node):
 		return
 
-	var from_graph_node: GaeaGraphNode = get_node_or_null(NodePath(from_node))
+	var from_graph_node: GaeaEditorGraphNode = get_node_or_null(NodePath(from_node))
 	if not is_instance_valid(from_graph_node):
 		return
 
 
-	if to_graph_node is GaeaGraphNode:
+	if to_graph_node is GaeaEditorGraphNode:
 		for connection in to_graph_node.connections:
 			if connection.to_port == to_port:
 				disconnection_request.emit(
@@ -536,11 +536,11 @@ func _on_disconnection_request(
 	disconnect_node(from_node, from_port, to_node, to_port)
 	update_connections()
 
-	var to_graph_node: GaeaGraphNode = get_node_or_null(NodePath(to_node))
+	var to_graph_node: GaeaEditorGraphNode = get_node_or_null(NodePath(to_node))
 	if not is_instance_valid(to_graph_node):
 		return
 
-	var from_graph_node: GaeaGraphNode = get_node_or_null(NodePath(from_node))
+	var from_graph_node: GaeaEditorGraphNode = get_node_or_null(NodePath(from_node))
 	if not is_instance_valid(from_graph_node):
 		return
 
@@ -556,8 +556,8 @@ func _on_disconnection_request(
 
 func remove_invalid_connections() -> void:
 	for connection in get_connection_list():
-		var to_node: GaeaGraphNode = get_node_or_null(NodePath(connection.to_node))
-		var from_node: GaeaGraphNode = get_node_or_null(NodePath(connection.from_node))
+		var to_node: GaeaEditorGraphNode = get_node_or_null(NodePath(connection.to_node))
+		var from_node: GaeaEditorGraphNode = get_node_or_null(NodePath(connection.from_node))
 
 		if not is_instance_valid(from_node) or not is_instance_valid(to_node):
 			disconnect_node(
@@ -596,8 +596,8 @@ func is_nodes_connected_relatively(from_node: StringName, to_node: StringName) -
 	var nodes_to_check: Array[StringName] = [from_node]
 	while nodes_to_check.size() > 0:
 		var node_name = nodes_to_check.pop_front()
-		var node: GaeaGraphNode = get_node_or_null(NodePath(node_name))
-		if not is_instance_valid(node) or node is not GaeaGraphNode:
+		var node: GaeaEditorGraphNode = get_node_or_null(NodePath(node_name))
+		if not is_instance_valid(node) or node is not GaeaEditorGraphNode:
 			return false
 
 		for connection in node.connections:
@@ -617,13 +617,13 @@ func _is_node_hover_valid(
 
 #region Frames
 func _add_frame() -> void:
-	var id: int = graph.add_frame(local_to_grid(main_editor.node_creation_target))
+	var id: int = graph.add_frame(local_to_grid(main_view.node_creation_target))
 	instantiate_node(id)
 
 
 func load_all_attached_elements() -> void:
 	for frame in get_children().filter(
-		func(node) -> bool: return node is GaeaGraphFrame
+		func(node) -> bool: return node is GaeaEditorGraphFrame
 	):
 		_load_attached_elements(graph.get_nodes_attached_to_frame(frame.id), frame.name)
 
@@ -635,7 +635,7 @@ func _load_attached_elements(attached: Array, frame_name: StringName) -> void:
 		if not is_instance_valid(node_resource):
 			var graph_children := get_children()
 			var attached_frame_idx := graph_children.find_custom(
-				func(child: Node) -> bool: return child is GaeaGraphFrame and child.id == id
+				func(child: Node) -> bool: return child is GaeaEditorGraphFrame and child.id == id
 			)
 			if attached_frame_idx != -1:
 				node = graph_children[attached_frame_idx]
@@ -658,9 +658,9 @@ func _on_graph_elements_linked_to_frame_request(elements: Array, frame: StringNa
 func detach_element_from_frame(element: StringName) -> void:
 	detach_graph_element_from_frame(element)
 	var node: GraphElement = get_node_or_null(NodePath(element))
-	if node is GaeaGraphNode:
+	if node is GaeaEditorGraphNode:
 		graph.detach_node_from_frame(node.resource.id)
-	elif node is GaeaGraphFrame:
+	elif node is GaeaEditorGraphFrame:
 		graph.detach_node_from_frame(node.id)
 	attached_elements.erase(element)
 
@@ -671,13 +671,13 @@ func _on_element_attached_to_frame(element: StringName, frame: StringName) -> vo
 	if not is_instance_valid(node):
 		return
 
-	var frame_node: GaeaGraphFrame = get_node_or_null(NodePath(frame))
+	var frame_node: GaeaEditorGraphFrame = get_node_or_null(NodePath(frame))
 	if not is_instance_valid(frame_node):
 		return
 
-	if node is GaeaGraphNode:
+	if node is GaeaEditorGraphNode:
 		graph.attach_node_to_frame(node.resource.id, frame_node.id)
-	elif node is GaeaGraphFrame:
+	elif node is GaeaEditorGraphFrame:
 		graph.attach_node_to_frame(node.id, frame_node.id)
 #endregion
 
@@ -702,7 +702,7 @@ func _paste_nodes(at_position: Vector2, data: GaeaNodesCopy = copy_buffer) -> vo
 func _get_copy_data(nodes: Array[GraphElement]) -> GaeaNodesCopy:
 	var copy_data: GaeaNodesCopy = GaeaNodesCopy.new()
 	for selected in nodes:
-		if selected is GaeaGraphNode:
+		if selected is GaeaEditorGraphNode:
 			if selected.resource is GaeaNodeOutput:
 				continue
 
@@ -713,7 +713,7 @@ func _get_copy_data(nodes: Array[GraphElement]) -> GaeaNodesCopy:
 				graph.get_node_data(selected.resource.id).duplicate_deep()
 			)
 			copy_data.add_connections(graph.get_node_connections(selected.resource.id).duplicate())
-		elif selected is GaeaGraphFrame:
+		elif selected is GaeaEditorGraphFrame:
 			copy_data.add_frame(
 				selected.id,
 				selected.position_offset,
@@ -764,14 +764,14 @@ func _on_gui_input(event: InputEvent) -> void:
 			var mouse_position = get_local_mouse_position()
 			var connection = get_closest_connection_at_point(mouse_position, 10.0)
 			if not connection.is_empty():
-				main_editor.popup_link_context_menu_at_mouse_request.emit(connection)
+				main_view.popup_link_context_menu_at_mouse_request.emit(connection)
 				return
 
 			var selected: Array = get_selected()
-			if selected.is_empty() and not is_instance_valid(main_editor.graph_edit.copy_buffer):
-				main_editor.popup_create_node_request.emit()
+			if selected.is_empty() and not is_instance_valid(main_view.graph_edit.copy_buffer):
+				main_view.popup_create_node_request.emit()
 			else:
-				main_editor.popup_node_context_menu_at_mouse_request.emit(selected)
+				main_view.popup_node_context_menu_at_mouse_request.emit(selected)
 
 
 func _on_scroll_offset_changed(offset: Vector2) -> void:
@@ -793,7 +793,7 @@ func _on_edited_script_changed(script: Script):
 		return
 
 	for child in get_children():
-		if child is GaeaGraphNode:
+		if child is GaeaEditorGraphNode:
 			if script == child.resource.get_script():
 				child._rebuild.call_deferred()
 #endregion
@@ -811,7 +811,7 @@ func local_to_grid(
 	return local_position
 
 
-func _on_main_editor_visibility_changed() -> void:
+func _on_main_view_visibility_changed() -> void:
 	set_connection_lines_curvature(GaeaEditorSettings.get_line_curvature())
 	set_grid_pattern(GaeaEditorSettings.get_grid_pattern())
 	set_connection_lines_thickness(GaeaEditorSettings.get_line_thickness())
@@ -852,7 +852,7 @@ func can_do_action(id: Action) -> bool:
 			return is_instance_valid(copy_buffer)
 		Action.TINT, Action.TOGGLE_TINT, Action.TOGGLE_AUTO_SHRINK:
 			var selected: Array = get_selected()
-			return selected.size() == 1 and selected.front() is GaeaGraphFrame
+			return selected.size() == 1 and selected.front() is GaeaEditorGraphFrame
 		Action.OPEN_IN_INSPECTOR:
 			var selected: Array = get_selected()
 			return selected.size() == 1 and selected.front() is GaeaNodeParameter
@@ -862,7 +862,7 @@ func can_do_action(id: Action) -> bool:
 func _on_action_pressed(id: Action) -> void:
 	match id:
 		Action.ADD:
-			main_editor.popup_create_node_request.emit()
+			main_view.popup_create_node_request.emit()
 		Action.COPY:
 			copy_nodes_request.emit()
 		Action.PASTE:
@@ -882,24 +882,24 @@ func _on_action_pressed(id: Action) -> void:
 		Action.RENAME:
 			var selected: Array = get_selected()
 			var node: GraphElement = selected.front()
-			if node is GaeaGraphFrame:
+			if node is GaeaEditorGraphFrame:
 				node.start_rename(owner)
 		Action.TINT:
 			var selected: Array = get_selected()
 			var node: GraphElement = selected.front()
-			if node is GaeaGraphFrame:
+			if node is GaeaEditorGraphFrame:
 				node.start_tint_color_change(owner)
 		Action.TOGGLE_TINT:
 			var selected: Array = get_selected()
 			var node: GraphElement = selected.front()
-			if node is GaeaGraphFrame:
+			if node is GaeaEditorGraphFrame:
 				var toggled: bool = not node.is_tint_color_enabled()
 				node.set_tint_color_enabled(toggled)
 				graph.set_node_data_value(node.id, &"tint_color_enabled", toggled)
 		Action.TOGGLE_AUTO_SHRINK:
 			var selected: Array = get_selected()
 			var node: GraphElement = selected.front()
-			if node is GaeaGraphFrame:
+			if node is GaeaEditorGraphFrame:
 				var toggled: bool = not node.is_autoshrink_enabled()
 				node.set_autoshrink_enabled(toggled)
 				# The node data for the autoshrink is set from a GraphFrame signal
@@ -912,7 +912,7 @@ func _on_action_pressed(id: Action) -> void:
 				if attached_elements.has(node.name):
 					detach_element_from_frame(node.name)
 		Action.OPEN_IN_INSPECTOR:
-			var node: GaeaGraphNode = get_selected().front()
+			var node: GaeaEditorGraphNode = get_selected().front()
 			var resource: GaeaNodeResource = node.resource
 			if resource is GaeaNodeParameter:
 				var parameter: Dictionary = graph.get_parameter_dictionary(node.get_arg_value("name"))

@@ -1,6 +1,6 @@
 @tool
-class_name GaeaRulesArgumentEditor
-extends GaeaGraphNodeArgumentEditor
+class_name GaeaEditorRulesArgument
+extends GaeaEditorGraphNodeArgument
 
 #Supported hints
 # "radius": 2

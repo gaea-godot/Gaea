@@ -1,12 +1,12 @@
 @tool
-class_name GaeaMainEditor
+class_name GaeaEditorMainView
 extends HSplitContainer
 
 ## Emitted when the about popup is requested.
 @warning_ignore("unused_signal")
 signal about_popup_request()
 signal popup_create_node_request()
-signal popup_create_node_and_connect_node_request(node: GaeaGraphNode, type: GaeaValue.Type)
+signal popup_create_node_and_connect_node_request(node: GaeaEditorGraphNode, type: GaeaValue.Type)
 
 signal popup_node_context_menu_at_mouse_request(selected_nodes: Array)
 signal popup_link_context_menu_at_mouse_request(connection: Dictionary)
@@ -16,18 +16,18 @@ signal special_node_selected_for_creation(id: StringName)
 signal new_reroute_requested(connection: Dictionary)
 
 
-@export var gaea_panel: GaeaPanel
-@export var graph_edit: GaeaGraphEdit
-@export var preview_panel: GaeaPreviewPanel
+@export var gaea_panel: GaeaEditorPanel
+@export var graph_edit: GaeaEditorGraphEdit
+@export var preview_panel: GaeaEditorPreviewPanel
 @export var about_window: AcceptDialog
-@export var create_node_popup: GaeaPopupCreateNode
-@export var node_context_menu: GaeaPopupNodeContextMenu
-@export var link_context_menu: GaeaPopupLinkContextMenu
+@export var create_node_popup: GaeaEditorPopupCreateNode
+@export var node_context_menu: GaeaEditorPopupNodeContextMenu
+@export var link_context_menu: GaeaEditorPopupLinkContextMenu
 
 
 ## Local position on [GraphEdit] for a node that may be created in the future.
 var node_creation_target: Vector2 = Vector2.ZERO
-var created_node_connect_to: GaeaGraphNode = null
+var created_node_connect_to: GaeaEditorGraphNode = null
 var created_node_connect_to_port: int = -1
 var dragged_from_left: bool = false
 

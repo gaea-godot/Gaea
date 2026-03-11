@@ -1,6 +1,6 @@
 @tool
-class_name GaeaInvalidScriptGraphNode
-extends GaeaGraphNode
+class_name GaeaEditorInvalidScriptGraphNode
+extends GaeaEditorGraphNode
 ## The in-editor representation of [GaeaNodeInvalid].
 
 var _edited_object: EditedObject
@@ -24,7 +24,7 @@ class EditedObject extends RefCounted:
 	@export_multiline var is_script_valid: String = ""
 	@export_category("RefCounted")
 
-	func _init(node: GaeaInvalidScriptGraphNode) -> void:
+	func _init(node: GaeaEditorInvalidScriptGraphNode) -> void:
 		resource_id = node.resource.id
 		reload_graph_action = node.reload_graph
 		for property in get_property_list():

@@ -1,5 +1,5 @@
 @tool
-class_name GaeaGraphNode
+class_name GaeaEditorGraphNode
 extends GraphNode
 ## The in-editor representation of a [GaeaNodeResource] to be used in the Gaea bottom panel.
 
@@ -18,19 +18,19 @@ signal remove_invalid_connections_requested
 ## from [method update_connections] method.
 var connections: Array[Dictionary]
 
-## Reference to the parent GaeaGraphEdit
-var graph_edit: GaeaGraphEdit
+## Reference to the parent GaeaEditorGraphEdit
+var graph_edit: GaeaEditorGraphEdit
 
-var _preview: GaeaNodePreview
+var _preview: GaeaEditorNodePreview
 var _preview_container: VBoxContainer
 var _finished_loading: bool = false:
 	set = set_finished_loading,
 	get = has_finished_loading
 var _finished_rebuilding: bool = true:
 	get = has_finished_rebuilding
-var _editors: Dictionary[StringName, GaeaGraphNodeArgumentEditor]
+var _editors: Dictionary[StringName, GaeaEditorGraphNodeArgument]
 var _enum_editors: Array[OptionButton]
-var _last_category: GaeaArgumentCategory
+var _last_category: GaeaEditorArgumentCategory
 
 # Holds a cache of the generated titlebar styleboxes for each [enum GaeaValue.Type].
 # Updated if the type's color changes.
@@ -60,7 +60,7 @@ func _ready() -> void:
 
 
 ## Initializes the node with a preview if needed, a salt value and instantiates all the
-## [GaeaGraphNodeArgumentEditor] and [GaeaGraphNodeOutputSlot] nodes.
+## [GaeaEditorGraphNodeArgument] and [GaeaEditorGraphNodeOutputSlot] nodes.
 func _on_added() -> void:
 	if not is_instance_valid(resource) or is_part_of_edited_scene():
 		return
@@ -146,10 +146,10 @@ func _add_slots() -> void:
 			slot.get_toggle_preview_button().button_group = preview_button_group
 
 
-func _add_argument_editor(for_arg: StringName) -> GaeaGraphNodeArgumentEditor:
+func _add_argument_editor(for_arg: StringName) -> GaeaEditorGraphNodeArgument:
 	var type: GaeaValue.Type = resource.get_argument_type(for_arg)
 	var scene: PackedScene = GaeaValue.get_editor_for_type(type)
-	var node: GaeaGraphNodeArgumentEditor = scene.instantiate()
+	var node: GaeaEditorGraphNodeArgument = scene.instantiate()
 	add_child(node)
 	if type == GaeaValue.Type.CATEGORY:
 		_last_category = node
@@ -176,7 +176,7 @@ func _add_argument_editor(for_arg: StringName) -> GaeaGraphNodeArgumentEditor:
 	return node
 
 
-func _add_output_slot(for_output: StringName) -> GaeaGraphNodeOutputSlot:
+func _add_output_slot(for_output: StringName) -> GaeaEditorGraphNodeOutputSlot:
 	if resource.get_overridden_output_port_idx(for_output) >= 0:
 		var new_idx: int = resource.get_overridden_output_port_idx(for_output)
 		if get_child_count() > new_idx:
@@ -187,7 +187,7 @@ func _add_output_slot(for_output: StringName) -> GaeaGraphNodeOutputSlot:
 			set_slot_custom_icon_right(new_idx, GaeaValue.get_slot_icon(type))
 			return null
 
-	var node: GaeaGraphNodeOutputSlot = preload("uid://cqpby5jyv71l0").instantiate()
+	var node: GaeaEditorGraphNodeOutputSlot = preload("uid://cqpby5jyv71l0").instantiate()
 	add_child(node)
 	node.initialize(
 		self,
@@ -201,12 +201,12 @@ func _add_output_slot(for_output: StringName) -> GaeaGraphNodeOutputSlot:
 
 		if not is_instance_valid(_preview):
 			_preview_container = VBoxContainer.new()
-			_preview = GaeaNodePreview.new(self)
+			_preview = GaeaEditorNodePreview.new(self)
 		node.get_toggle_preview_button().toggled.connect(_preview.toggle.bind(for_output).unbind(1))
 	return node
 
 
-func _get_output_slot(for_output: StringName) -> GaeaGraphNodeOutputSlot:
+func _get_output_slot(for_output: StringName) -> GaeaEditorGraphNodeOutputSlot:
 	var overridden_idx: int = resource.get_overridden_output_port_idx(for_output)
 	if overridden_idx >= 0:
 		return get_child(overridden_idx)
@@ -269,23 +269,23 @@ func _set_titlebar() -> void:
 		add_theme_stylebox_override("titlebar_selected", titlebar_selected)
 
 
-## Returns the current value set in the [GaeaGraphNodeArgumentEditor] for the argument of [param arg_name].
+## Returns the current value set in the [GaeaEditorGraphNodeArgument] for the argument of [param arg_name].
 func get_arg_value(arg_name: StringName) -> Variant:
-	var editor: GaeaGraphNodeArgumentEditor = _editors.get(arg_name, null)
+	var editor: GaeaEditorGraphNodeArgument = _editors.get(arg_name, null)
 	if is_instance_valid(editor):
 		return editor.get_arg_value()
 	return null
 
 
-## Sets the [GaeaGraphNodeArgumentEditor] associated to the argument of [param arg_name] to [param value].
+## Sets the [GaeaEditorGraphNodeArgument] associated to the argument of [param arg_name] to [param value].
 func _set_arg_value(arg_name: StringName, value: Variant) -> void:
-	var editor: GaeaGraphNodeArgumentEditor = _editors.get(arg_name, null)
+	var editor: GaeaEditorGraphNodeArgument = _editors.get(arg_name, null)
 	if is_instance_valid(editor):
 		editor.set_arg_value(value)
 
 
 func _on_argument_value_changed(
-	value: Variant, _node: GaeaGraphNodeArgumentEditor, arg_name: String
+	value: Variant, _node: GaeaEditorGraphNodeArgument, arg_name: String
 ) -> void:
 	if _finished_loading:
 		resource.set_argument_value(arg_name, value)
@@ -311,7 +311,7 @@ func _update_arguments_visibility() -> void:
 			continue
 		input_idx += 1
 
-		if child is not GaeaGraphNodeArgumentEditor:
+		if child is not GaeaEditorGraphNodeArgument:
 			continue
 
 		if is_zero_approx(child.size.y):
@@ -358,7 +358,7 @@ func load_save_data(saved_data: Dictionary) -> void:
 	if saved_data.has(&"arguments"):
 		var arguments = saved_data.get(&"arguments")
 		for argument: StringName in resource.get_arguments_list():
-			var editor: GaeaGraphNodeArgumentEditor = _editors.get(argument)
+			var editor: GaeaEditorGraphNodeArgument = _editors.get(argument)
 			if not is_instance_valid(editor):
 				break
 

@@ -7,7 +7,7 @@ signal recent_file_selected(graph: GaeaGraph)
 @export var file_popup: PopupMenu
 @export var recent_files: PopupMenu
 @export var edit_popup: PopupMenu
-@export var graph_edit: GaeaGraphEdit
+@export var graph_edit: GaeaEditorGraphEdit
 @export var file_system_container: GaeaEditorFileList
 
 
@@ -85,34 +85,34 @@ func _on_file_item_about_to_popup() -> void:
 
 #region Edit menu
 func _populate_edit_popup_menu() -> void:
-	_add_edit_menu_item(GaeaGraphEdit.Action.ADD, "Add Node", KeyModifierMask.KEY_MASK_CMD_OR_CTRL | KEY_A)
+	_add_edit_menu_item(GaeaEditorGraphEdit.Action.ADD, "Add Node", KeyModifierMask.KEY_MASK_CMD_OR_CTRL | KEY_A)
 	edit_popup.add_separator()
-	_add_edit_menu_item(GaeaGraphEdit.Action.CUT, "Cut", &"ui_cut")
-	_add_edit_menu_item(GaeaGraphEdit.Action.COPY, "Copy", &"ui_copy")
-	_add_edit_menu_item(GaeaGraphEdit.Action.PASTE, "Paste", &"ui_paste")
+	_add_edit_menu_item(GaeaEditorGraphEdit.Action.CUT, "Cut", &"ui_cut")
+	_add_edit_menu_item(GaeaEditorGraphEdit.Action.COPY, "Copy", &"ui_copy")
+	_add_edit_menu_item(GaeaEditorGraphEdit.Action.PASTE, "Paste", &"ui_paste")
 	edit_popup.add_separator()
-	_add_edit_menu_item(GaeaGraphEdit.Action.SELECT_ALL, "Select All")
-	_add_edit_menu_item(GaeaGraphEdit.Action.DUPLICATE, "Duplicate Selection", &"ui_graph_duplicate")
-	_add_edit_menu_item(GaeaGraphEdit.Action.DELETE, "Delete Selection", &"ui_graph_delete")
-	_add_edit_menu_item(GaeaGraphEdit.Action.CLEAR_BUFFER, "Clear Copy Buffer")
+	_add_edit_menu_item(GaeaEditorGraphEdit.Action.SELECT_ALL, "Select All")
+	_add_edit_menu_item(GaeaEditorGraphEdit.Action.DUPLICATE, "Duplicate Selection", &"ui_graph_duplicate")
+	_add_edit_menu_item(GaeaEditorGraphEdit.Action.DELETE, "Delete Selection", &"ui_graph_delete")
+	_add_edit_menu_item(GaeaEditorGraphEdit.Action.CLEAR_BUFFER, "Clear Copy Buffer")
 
 	edit_popup.add_separator()
 	_add_edit_menu_item(
-		GaeaGraphEdit.Action.COPY_TO_CLIPBOARD, "Copy to Clipboard",
+		GaeaEditorGraphEdit.Action.COPY_TO_CLIPBOARD, "Copy to Clipboard",
 		KeyModifierMask.KEY_MASK_CMD_OR_CTRL | KeyModifierMask.KEY_MASK_SHIFT | KEY_C
 	)
 	_add_edit_menu_item(
-		GaeaGraphEdit.Action.PASTE_FROM_CLIPBOARD, "Paste from Clipboard",
+		GaeaEditorGraphEdit.Action.PASTE_FROM_CLIPBOARD, "Paste from Clipboard",
 		KeyModifierMask.KEY_MASK_CMD_OR_CTRL | KeyModifierMask.KEY_MASK_SHIFT | KEY_V
 	)
 
 	edit_popup.add_separator()
-	_add_edit_menu_item(GaeaGraphEdit.Action.GROUP_IN_FRAME, "Group Selection in New Frame", KeyModifierMask.KEY_MASK_CMD_OR_CTRL | KEY_G)
+	_add_edit_menu_item(GaeaEditorGraphEdit.Action.GROUP_IN_FRAME, "Group Selection in New Frame", KeyModifierMask.KEY_MASK_CMD_OR_CTRL | KEY_G)
 
-	_add_edit_menu_item(GaeaGraphEdit.Action.DETACH, "Detach from Parent Frame")
+	_add_edit_menu_item(GaeaEditorGraphEdit.Action.DETACH, "Detach from Parent Frame")
 
 
-func _add_edit_menu_item(id: GaeaGraphEdit.Action, text: String, shortcut_key: Variant = KEY_NONE) -> void:
+func _add_edit_menu_item(id: GaeaEditorGraphEdit.Action, text: String, shortcut_key: Variant = KEY_NONE) -> void:
 	edit_popup.add_item(tr(text), id)
 	if shortcut_key is StringName and InputMap.has_action(shortcut_key):
 		var shortcut = Shortcut.new()
@@ -131,7 +131,7 @@ func _add_edit_menu_item(id: GaeaGraphEdit.Action, text: String, shortcut_key: V
 
 func update_menu_enabled_state() -> void:
 	for item_index in edit_popup.item_count:
-		var action: GaeaGraphEdit.Action = edit_popup.get_item_id(item_index) as GaeaGraphEdit.Action
+		var action: GaeaEditorGraphEdit.Action = edit_popup.get_item_id(item_index) as GaeaEditorGraphEdit.Action
 		var disabled: bool = not graph_edit.can_do_action(action)
 		edit_popup.set_item_disabled(item_index, disabled)
 		edit_popup.set_item_shortcut_disabled(item_index, disabled)

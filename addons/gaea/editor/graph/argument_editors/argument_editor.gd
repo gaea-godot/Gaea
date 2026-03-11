@@ -1,8 +1,8 @@
 @tool
 @icon("../../../assets/argument_editor.svg")
-class_name GaeaGraphNodeArgumentEditor
+class_name GaeaEditorGraphNodeArgument
 extends Control
-## An editor inside [GaeaGraphNode]s to change values of arguments, or a simple input slot
+## An editor inside [GaeaEditorGraphNode]s to change values of arguments, or a simple input slot
 ## if there's no existing editor.
 ##
 ## This class can be extended to create editors for the different value types in Gaea.
@@ -12,9 +12,9 @@ extends Control
 signal argument_value_changed(new_value: Variant)
 
 var type: GaeaValue.Type
-## Reference to the [GaeaGraphNode] instance
-var graph_node: GaeaGraphNode
-## Index of the slot in the [GaeaGraphNode].
+## Reference to the [GaeaEditorGraphNode] instance
+var graph_node: GaeaEditorGraphNode
+## Index of the slot in the [GaeaEditorGraphNode].
 var slot_idx: int
 ## Hint as declared in [GaeaNodeResource._get_argument_hint].
 var hint: Dictionary[String, Variant]:
@@ -27,7 +27,7 @@ var hint: Dictionary[String, Variant]:
 
 ## Sets the corresponding variables.
 func initialize(
-	for_graph_node: GaeaGraphNode,
+	for_graph_node: GaeaEditorGraphNode,
 	for_type: GaeaValue.Type,
 	display_name: String,
 	default_value: Variant,

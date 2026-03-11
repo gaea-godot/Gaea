@@ -1,6 +1,6 @@
 @tool
-class_name GaeaBitsArgumentEditor
-extends GaeaGraphNodeArgumentEditor
+class_name GaeaEditorBitsArgument
+extends GaeaEditorGraphNodeArgument
 
 @onready var grid_container: GridContainer = $GridContainer
 @onready var drop_button: TextureButton = $DropButton

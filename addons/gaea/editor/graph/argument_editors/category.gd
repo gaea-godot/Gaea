@@ -1,8 +1,8 @@
 @tool
-class_name GaeaArgumentCategory
-extends GaeaGraphNodeArgumentEditor
+class_name GaeaEditorArgumentCategory
+extends GaeaEditorGraphNodeArgument
 
-var arguments: Array[GaeaGraphNodeArgumentEditor]
+var arguments: Array[GaeaEditorGraphNodeArgument]
 
 
 func _configure() -> void:

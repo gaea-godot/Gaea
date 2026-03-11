@@ -1,6 +1,6 @@
 @tool
-class_name GaeaGraphNodeOutput
-extends GaeaGraphNode
+class_name GaeaEditorGraphNodeOutput
+extends GaeaEditorGraphNode
 ## The in-editor representation of [GaeaNodeOutput].
 
 

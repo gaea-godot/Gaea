@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://c46nsvak6wb61" path="res://addons/gaea/editor/file_list/file_system_container.gd" id="2_eht7w"]
 [ext_resource type="Script" uid="uid://coi2pynbl5ehe" path="res://addons/gaea/editor/graph/create_node_tree.gd" id="2_vpeaa"]
 [ext_resource type="Script" uid="uid://pu63c0ci8rtv" path="res://addons/gaea/editor/file_list/file_context_menu.gd" id="3_gbl2m"]
-[ext_resource type="Script" uid="uid://yi4fevtlrk41" path="res://addons/gaea/editor/graph/main_editor.gd" id="4_gbl2m"]
+[ext_resource type="Script" uid="uid://yi4fevtlrk41" path="res://addons/gaea/editor/graph/main_view.gd" id="4_gbl2m"]
 [ext_resource type="Script" uid="uid://bybvolyg1u0v4" path="res://addons/gaea/editor/graph/node_context_menu.gd" id="4_vtsfx"]
 [ext_resource type="Script" uid="uid://cqd2rkam5cs3d" path="res://addons/gaea/editor/graph/create_node_popup.gd" id="5_nbnm7"]
 [ext_resource type="Script" uid="uid://btt4eqjkp5pyf" path="res://addons/gaea/editor/graph/link_context_menu.gd" id="7_dhpru"]
@@ -15,7 +15,7 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dhpru"]
 
-[node name="GaeaPanel" type="HSplitContainer" unique_id=2064820390 node_paths=PackedStringArray("main_editor", "graph_edit", "file_list", "preview_panel")]
+[node name="GaeaPanel" type="HSplitContainer" unique_id=2064820390 node_paths=PackedStringArray("main_view", "graph_edit", "file_list", "preview_panel")]
 custom_minimum_size = Vector2(0, 256)
 anchors_preset = 15
 anchor_right = 1.0
@@ -23,18 +23,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_afcqa")
-main_editor = NodePath("MainEditor")
-graph_edit = NodePath("MainEditor/GraphEdit")
+main_view = NodePath("MainView")
+graph_edit = NodePath("MainView/GraphEdit")
 file_list = NodePath("FileSystemContainer")
-preview_panel = NodePath("MainEditor/PreviewPanel")
+preview_panel = NodePath("MainView/PreviewPanel")
 
-[node name="FileSystemContainer" type="VBoxContainer" parent="." unique_id=1256614628 node_paths=PackedStringArray("graph_edit", "main_editor", "menu_bar", "file_list", "context_menu", "file_dialog")]
+[node name="FileSystemContainer" type="VBoxContainer" parent="." unique_id=1256614628 node_paths=PackedStringArray("graph_edit", "main_view", "menu_bar", "file_list", "context_menu", "file_dialog")]
 clip_contents = true
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 script = ExtResource("2_eht7w")
-graph_edit = NodePath("../MainEditor/GraphEdit")
-main_editor = NodePath("../MainEditor")
+graph_edit = NodePath("../MainView/GraphEdit")
+main_view = NodePath("../MainView")
 menu_bar = NodePath("MenuBar")
 file_list = NodePath("FileList")
 context_menu = NodePath("FileList/ContextMenu")
@@ -48,7 +48,7 @@ script = ExtResource("2_ce5k6")
 file_popup = NodePath("File")
 recent_files = NodePath("File/RecentFiles")
 edit_popup = NodePath("Edit")
-graph_edit = NodePath("../../MainEditor/GraphEdit")
+graph_edit = NodePath("../../MainView/GraphEdit")
 file_system_container = NodePath("..")
 
 [node name="File" type="PopupMenu" parent="FileSystemContainer/MenuBar" unique_id=1123094324]
@@ -74,7 +74,7 @@ size = Vector2i(960, 540)
 mode_overrides_title = false
 filters = PackedStringArray("*.tres;Resource Files")
 
-[node name="MainEditor" type="HSplitContainer" parent="." unique_id=281306861 node_paths=PackedStringArray("gaea_panel", "graph_edit", "preview_panel", "about_window", "create_node_popup", "node_context_menu", "link_context_menu")]
+[node name="MainView" type="HSplitContainer" parent="." unique_id=281306861 node_paths=PackedStringArray("gaea_panel", "graph_edit", "preview_panel", "about_window", "create_node_popup", "node_context_menu", "link_context_menu")]
 layout_mode = 2
 size_flags_vertical = 3
 split_offsets = PackedInt32Array(1000000)
@@ -88,7 +88,7 @@ create_node_popup = NodePath("CreateNodePopup")
 node_context_menu = NodePath("NodeContextMenu")
 link_context_menu = NodePath("LinkContextMenu")
 
-[node name="GraphEdit" type="GraphEdit" parent="MainEditor" unique_id=1851286872 node_paths=PackedStringArray("main_editor", "bottom_note_label")]
+[node name="GraphEdit" type="GraphEdit" parent="MainView" unique_id=1851286872 node_paths=PackedStringArray("main_view", "bottom_note_label")]
 visible = false
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
@@ -99,10 +99,10 @@ right_disconnects = true
 minimap_opacity = 0.85
 show_zoom_label = true
 script = ExtResource("2_cdav6")
-main_editor = NodePath("..")
+main_view = NodePath("..")
 bottom_note_label = NodePath("Margin/BottomNote")
 
-[node name="Margin" type="MarginContainer" parent="MainEditor/GraphEdit" unique_id=1656500259]
+[node name="Margin" type="MarginContainer" parent="MainView/GraphEdit" unique_id=1656500259]
 z_index = 50
 layout_mode = 1
 anchors_preset = 12
@@ -116,7 +116,7 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 12
 theme_override_constants/margin_bottom = 12
 
-[node name="BottomNote" type="RichTextLabel" parent="MainEditor/GraphEdit/Margin" unique_id=565858195]
+[node name="BottomNote" type="RichTextLabel" parent="MainView/GraphEdit/Margin" unique_id=565858195]
 layout_mode = 2
 mouse_filter = 1
 theme_override_styles/normal = SubResource("StyleBoxEmpty_dhpru")
@@ -127,17 +127,17 @@ text = "(0,0)"
 fit_content = true
 metadata/_edit_use_anchors_ = true
 
-[node name="PreviewPanel" parent="MainEditor" unique_id=1696155757 node_paths=PackedStringArray("main_editor") instance=ExtResource("7_eht7w")]
+[node name="PreviewPanel" parent="MainView" unique_id=1696155757 node_paths=PackedStringArray("main_view") instance=ExtResource("7_eht7w")]
 visible = false
 layout_mode = 2
-main_editor = NodePath("..")
+main_view = NodePath("..")
 
-[node name="AboutWindow" parent="MainEditor" unique_id=1381481976 node_paths=PackedStringArray("main_editor") instance=ExtResource("9_affj1")]
+[node name="AboutWindow" parent="MainView" unique_id=1381481976 node_paths=PackedStringArray("main_view") instance=ExtResource("9_affj1")]
 visible = false
 exclusive = true
-main_editor = NodePath("..")
+main_view = NodePath("..")
 
-[node name="CreateNodePopup" type="Window" parent="MainEditor" unique_id=1067088746 node_paths=PackedStringArray("main_editor", "create_node_panel", "search_bar", "tool_button", "tool_popup", "create_node_tree", "description_label", "cancel_button")]
+[node name="CreateNodePopup" type="Window" parent="MainView" unique_id=1067088746 node_paths=PackedStringArray("main_view", "create_node_panel", "search_bar", "tool_button", "tool_popup", "create_node_tree", "description_label", "cancel_button")]
 oversampling_override = 1.0
 title = "Create Node"
 position = Vector2i(0, 36)
@@ -148,7 +148,7 @@ exclusive = true
 extend_to_title = true
 keep_title_visible = true
 script = ExtResource("5_nbnm7")
-main_editor = NodePath("..")
+main_view = NodePath("..")
 create_node_panel = NodePath("BackgroundContainer/CreateNodePanel")
 search_bar = NodePath("MainContentContainer/VBox/SearchContainer/SearchBar")
 tool_button = NodePath("MainContentContainer/VBox/SearchContainer/ToolButton")
@@ -157,7 +157,7 @@ create_node_tree = NodePath("MainContentContainer/VBox/CreateNodeTree")
 description_label = NodePath("MainContentContainer/VBox/PanelContainer/DescriptionLabel")
 cancel_button = NodePath("MainContentContainer/VBox/HBoxContainer/CancelButton")
 
-[node name="BackgroundContainer" type="MarginContainer" parent="MainEditor/CreateNodePopup" unique_id=209392749]
+[node name="BackgroundContainer" type="MarginContainer" parent="MainView/CreateNodePopup" unique_id=209392749]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -168,13 +168,13 @@ theme_override_constants/margin_top = -10
 theme_override_constants/margin_right = -10
 theme_override_constants/margin_bottom = -10
 
-[node name="CreateNodePanel" type="Panel" parent="MainEditor/CreateNodePopup/BackgroundContainer" unique_id=1055353904]
+[node name="CreateNodePanel" type="Panel" parent="MainView/CreateNodePopup/BackgroundContainer" unique_id=1055353904]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="MainContentContainer" type="MarginContainer" parent="MainEditor/CreateNodePopup" unique_id=845240805]
+[node name="MainContentContainer" type="MarginContainer" parent="MainView/CreateNodePopup" unique_id=845240805]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -187,26 +187,26 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="VBox" type="VBoxContainer" parent="MainEditor/CreateNodePopup/MainContentContainer" unique_id=997740263]
+[node name="VBox" type="VBoxContainer" parent="MainView/CreateNodePopup/MainContentContainer" unique_id=997740263]
 layout_mode = 2
 
-[node name="SearchContainer" type="HBoxContainer" parent="MainEditor/CreateNodePopup/MainContentContainer/VBox" unique_id=60564894]
+[node name="SearchContainer" type="HBoxContainer" parent="MainView/CreateNodePopup/MainContentContainer/VBox" unique_id=60564894]
 layout_mode = 2
 
-[node name="SearchBar" type="LineEdit" parent="MainEditor/CreateNodePopup/MainContentContainer/VBox/SearchContainer" unique_id=1106872869]
+[node name="SearchBar" type="LineEdit" parent="MainView/CreateNodePopup/MainContentContainer/VBox/SearchContainer" unique_id=1106872869]
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Search (Ctrl+Tab to cycle)"
 clear_button_enabled = true
 
-[node name="ToolButton" type="Button" parent="MainEditor/CreateNodePopup/MainContentContainer/VBox/SearchContainer" unique_id=645631497]
+[node name="ToolButton" type="Button" parent="MainView/CreateNodePopup/MainContentContainer/VBox/SearchContainer" unique_id=645631497]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 focus_mode = 0
 theme_type_variation = &"FlatButton"
 icon_alignment = 1
 
-[node name="ToolPopup" type="PopupMenu" parent="MainEditor/CreateNodePopup/MainContentContainer/VBox/SearchContainer/ToolButton" unique_id=27215874]
+[node name="ToolPopup" type="PopupMenu" parent="MainView/CreateNodePopup/MainContentContainer/VBox/SearchContainer/ToolButton" unique_id=27215874]
 oversampling_override = 1.0
 position = Vector2i(255, 80)
 size = Vector2i(108, 62)
@@ -218,91 +218,91 @@ item_1/id = 1
 item_2/text = "Reload Tree"
 item_2/id = 2
 
-[node name="CreateNodeTree" type="Tree" parent="MainEditor/CreateNodePopup/MainContentContainer/VBox" unique_id=721948596 node_paths=PackedStringArray("main_editor", "description_label")]
+[node name="CreateNodeTree" type="Tree" parent="MainView/CreateNodePopup/MainContentContainer/VBox" unique_id=721948596 node_paths=PackedStringArray("main_view", "description_label")]
 layout_mode = 2
 size_flags_vertical = 3
 hide_root = true
 script = ExtResource("2_vpeaa")
-main_editor = NodePath("../../../..")
+main_view = NodePath("../../../..")
 description_label = NodePath("../PanelContainer/DescriptionLabel")
 
-[node name="Label" type="Label" parent="MainEditor/CreateNodePopup/MainContentContainer/VBox" unique_id=843932292]
+[node name="Label" type="Label" parent="MainView/CreateNodePopup/MainContentContainer/VBox" unique_id=843932292]
 layout_mode = 2
 text = "Description"
 
-[node name="PanelContainer" type="PanelContainer" parent="MainEditor/CreateNodePopup/MainContentContainer/VBox" unique_id=500361894]
+[node name="PanelContainer" type="PanelContainer" parent="MainView/CreateNodePopup/MainContentContainer/VBox" unique_id=500361894]
 layout_mode = 2
 
-[node name="DescriptionLabel" type="RichTextLabel" parent="MainEditor/CreateNodePopup/MainContentContainer/VBox/PanelContainer" unique_id=977071873]
+[node name="DescriptionLabel" type="RichTextLabel" parent="MainView/CreateNodePopup/MainContentContainer/VBox/PanelContainer" unique_id=977071873]
 custom_minimum_size = Vector2(0, 96)
 layout_mode = 2
 bbcode_enabled = true
 text = "Description of the selected node goes here"
 autowrap_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MainEditor/CreateNodePopup/MainContentContainer/VBox" unique_id=1669264921]
+[node name="HBoxContainer" type="HBoxContainer" parent="MainView/CreateNodePopup/MainContentContainer/VBox" unique_id=1669264921]
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="CreateButton" type="Button" parent="MainEditor/CreateNodePopup/MainContentContainer/VBox/HBoxContainer" unique_id=1475496811]
+[node name="CreateButton" type="Button" parent="MainView/CreateNodePopup/MainContentContainer/VBox/HBoxContainer" unique_id=1475496811]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Create"
 
-[node name="CancelButton" type="Button" parent="MainEditor/CreateNodePopup/MainContentContainer/VBox/HBoxContainer" unique_id=1551973345]
+[node name="CancelButton" type="Button" parent="MainView/CreateNodePopup/MainContentContainer/VBox/HBoxContainer" unique_id=1551973345]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Cancel"
 
-[node name="NodeContextMenu" type="PopupMenu" parent="MainEditor" unique_id=802440902 node_paths=PackedStringArray("main_editor", "graph_edit")]
+[node name="NodeContextMenu" type="PopupMenu" parent="MainView" unique_id=802440902 node_paths=PackedStringArray("main_view", "graph_edit")]
 oversampling_override = 1.0
 size = Vector2i(100, 124)
 script = ExtResource("4_vtsfx")
-main_editor = NodePath("..")
+main_view = NodePath("..")
 graph_edit = NodePath("../GraphEdit")
 
-[node name="LinkContextMenu" type="PopupMenu" parent="MainEditor" unique_id=566265106 node_paths=PackedStringArray("main_editor")]
+[node name="LinkContextMenu" type="PopupMenu" parent="MainView" unique_id=566265106 node_paths=PackedStringArray("main_view")]
 oversampling_override = 1.0
 size = Vector2i(106, 100)
 script = ExtResource("7_dhpru")
-main_editor = NodePath("..")
+main_view = NodePath("..")
 
 [connection signal="recent_file_selected" from="FileSystemContainer/MenuBar" to="FileSystemContainer" method="open_file"]
 [connection signal="about_to_popup" from="FileSystemContainer/MenuBar/File" to="FileSystemContainer/MenuBar" method="_on_file_item_about_to_popup"]
 [connection signal="id_pressed" from="FileSystemContainer/MenuBar/File" to="FileSystemContainer" method="_on_action_pressed"]
 [connection signal="id_pressed" from="FileSystemContainer/MenuBar/File/RecentFiles" to="FileSystemContainer/MenuBar" method="_on_recent_files_id_pressed"]
-[connection signal="id_pressed" from="FileSystemContainer/MenuBar/Edit" to="MainEditor/GraphEdit" method="_on_action_pressed"]
+[connection signal="id_pressed" from="FileSystemContainer/MenuBar/Edit" to="MainView/GraphEdit" method="_on_action_pressed"]
 [connection signal="item_clicked" from="FileSystemContainer/FileList" to="FileSystemContainer" method="_on_item_clicked"]
 [connection signal="item_selected" from="FileSystemContainer/FileList" to="FileSystemContainer" method="_on_item_selected"]
 [connection signal="about_to_popup" from="FileSystemContainer/FileList/ContextMenu" to="FileSystemContainer/FileList/ContextMenu" method="_on_about_to_popup"]
 [connection signal="id_pressed" from="FileSystemContainer/FileList/ContextMenu" to="FileSystemContainer" method="_on_action_pressed"]
 [connection signal="canceled" from="FileSystemContainer/FileDialog" to="FileSystemContainer" method="_on_file_dialog_canceled"]
 [connection signal="file_selected" from="FileSystemContainer/FileDialog" to="FileSystemContainer" method="_on_file_dialog_file_selected"]
-[connection signal="about_popup_request" from="MainEditor" to="MainEditor/AboutWindow" method="_on_main_editor_about_popup_request"]
-[connection signal="popup_node_context_menu_at_mouse_request" from="MainEditor" to="MainEditor/NodeContextMenu" method="_on_popup_node_context_menu_at_mouse_request"]
-[connection signal="visibility_changed" from="MainEditor" to="MainEditor/GraphEdit" method="_on_main_editor_visibility_changed"]
-[connection signal="connection_from_empty" from="MainEditor/GraphEdit" to="MainEditor/GraphEdit" method="_on_connection_from_empty"]
-[connection signal="connection_request" from="MainEditor/GraphEdit" to="MainEditor/GraphEdit" method="_on_connection_request"]
-[connection signal="connection_to_empty" from="MainEditor/GraphEdit" to="MainEditor/GraphEdit" method="_on_connection_to_empty"]
-[connection signal="copy_nodes_request" from="MainEditor/GraphEdit" to="MainEditor/GraphEdit" method="_on_copy_nodes_request"]
-[connection signal="cut_nodes_request" from="MainEditor/GraphEdit" to="MainEditor/GraphEdit" method="_on_cut_nodes_request"]
-[connection signal="delete_nodes_request" from="MainEditor/GraphEdit" to="MainEditor/GraphEdit" method="_on_delete_nodes_request"]
-[connection signal="disconnection_request" from="MainEditor/GraphEdit" to="MainEditor/GraphEdit" method="_on_disconnection_request"]
-[connection signal="duplicate_nodes_request" from="MainEditor/GraphEdit" to="MainEditor/GraphEdit" method="_on_duplicate_nodes_request"]
-[connection signal="graph_changed" from="MainEditor/GraphEdit" to="FileSystemContainer/MenuBar" method="update_menu_enabled_state"]
-[connection signal="graph_elements_linked_to_frame_request" from="MainEditor/GraphEdit" to="MainEditor/GraphEdit" method="_on_graph_elements_linked_to_frame_request"]
-[connection signal="gui_input" from="MainEditor/GraphEdit" to="MainEditor/GraphEdit" method="_on_gui_input"]
-[connection signal="node_deselected" from="MainEditor/GraphEdit" to="MainEditor/GraphEdit" method="_on_node_deselected"]
-[connection signal="node_selected" from="MainEditor/GraphEdit" to="MainEditor/GraphEdit" method="_on_node_selected"]
-[connection signal="node_selection_changed" from="MainEditor/GraphEdit" to="FileSystemContainer/MenuBar" method="update_menu_enabled_state"]
-[connection signal="paste_nodes_request" from="MainEditor/GraphEdit" to="MainEditor/GraphEdit" method="_on_paste_nodes_request"]
-[connection signal="scroll_offset_changed" from="MainEditor/GraphEdit" to="MainEditor/GraphEdit" method="_on_scroll_offset_changed"]
-[connection signal="text_changed" from="MainEditor/CreateNodePopup/MainContentContainer/VBox/SearchContainer/SearchBar" to="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_search_bar_text_changed"]
-[connection signal="text_submitted" from="MainEditor/CreateNodePopup/MainContentContainer/VBox/SearchContainer/SearchBar" to="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_search_bar_text_submitted"]
-[connection signal="pressed" from="MainEditor/CreateNodePopup/MainContentContainer/VBox/SearchContainer/ToolButton" to="MainEditor/CreateNodePopup" method="_on_tool_button_pressed"]
-[connection signal="id_pressed" from="MainEditor/CreateNodePopup/MainContentContainer/VBox/SearchContainer/ToolButton/ToolPopup" to="MainEditor/CreateNodePopup" method="_on_tool_popup_id_pressed"]
-[connection signal="item_activated" from="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" to="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_item_activated"]
-[connection signal="item_selected" from="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" to="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_item_selected"]
-[connection signal="nothing_selected" from="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" to="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_nothing_selected"]
-[connection signal="pressed" from="MainEditor/CreateNodePopup/MainContentContainer/VBox/HBoxContainer/CreateButton" to="MainEditor/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_create_button_pressed"]
-[connection signal="id_pressed" from="MainEditor/NodeContextMenu" to="MainEditor/GraphEdit" method="_on_action_pressed"]
+[connection signal="about_popup_request" from="MainView" to="MainView/AboutWindow" method="_on_main_view_about_popup_request"]
+[connection signal="popup_node_context_menu_at_mouse_request" from="MainView" to="MainView/NodeContextMenu" method="_on_popup_node_context_menu_at_mouse_request"]
+[connection signal="visibility_changed" from="MainView" to="MainView/GraphEdit" method="_on_main_view_visibility_changed"]
+[connection signal="connection_from_empty" from="MainView/GraphEdit" to="MainView/GraphEdit" method="_on_connection_from_empty"]
+[connection signal="connection_request" from="MainView/GraphEdit" to="MainView/GraphEdit" method="_on_connection_request"]
+[connection signal="connection_to_empty" from="MainView/GraphEdit" to="MainView/GraphEdit" method="_on_connection_to_empty"]
+[connection signal="copy_nodes_request" from="MainView/GraphEdit" to="MainView/GraphEdit" method="_on_copy_nodes_request"]
+[connection signal="cut_nodes_request" from="MainView/GraphEdit" to="MainView/GraphEdit" method="_on_cut_nodes_request"]
+[connection signal="delete_nodes_request" from="MainView/GraphEdit" to="MainView/GraphEdit" method="_on_delete_nodes_request"]
+[connection signal="disconnection_request" from="MainView/GraphEdit" to="MainView/GraphEdit" method="_on_disconnection_request"]
+[connection signal="duplicate_nodes_request" from="MainView/GraphEdit" to="MainView/GraphEdit" method="_on_duplicate_nodes_request"]
+[connection signal="graph_changed" from="MainView/GraphEdit" to="FileSystemContainer/MenuBar" method="update_menu_enabled_state"]
+[connection signal="graph_elements_linked_to_frame_request" from="MainView/GraphEdit" to="MainView/GraphEdit" method="_on_graph_elements_linked_to_frame_request"]
+[connection signal="gui_input" from="MainView/GraphEdit" to="MainView/GraphEdit" method="_on_gui_input"]
+[connection signal="node_deselected" from="MainView/GraphEdit" to="MainView/GraphEdit" method="_on_node_deselected"]
+[connection signal="node_selected" from="MainView/GraphEdit" to="MainView/GraphEdit" method="_on_node_selected"]
+[connection signal="node_selection_changed" from="MainView/GraphEdit" to="FileSystemContainer/MenuBar" method="update_menu_enabled_state"]
+[connection signal="paste_nodes_request" from="MainView/GraphEdit" to="MainView/GraphEdit" method="_on_paste_nodes_request"]
+[connection signal="scroll_offset_changed" from="MainView/GraphEdit" to="MainView/GraphEdit" method="_on_scroll_offset_changed"]
+[connection signal="text_changed" from="MainView/CreateNodePopup/MainContentContainer/VBox/SearchContainer/SearchBar" to="MainView/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_search_bar_text_changed"]
+[connection signal="text_submitted" from="MainView/CreateNodePopup/MainContentContainer/VBox/SearchContainer/SearchBar" to="MainView/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_search_bar_text_submitted"]
+[connection signal="pressed" from="MainView/CreateNodePopup/MainContentContainer/VBox/SearchContainer/ToolButton" to="MainView/CreateNodePopup" method="_on_tool_button_pressed"]
+[connection signal="id_pressed" from="MainView/CreateNodePopup/MainContentContainer/VBox/SearchContainer/ToolButton/ToolPopup" to="MainView/CreateNodePopup" method="_on_tool_popup_id_pressed"]
+[connection signal="item_activated" from="MainView/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" to="MainView/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_item_activated"]
+[connection signal="item_selected" from="MainView/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" to="MainView/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_item_selected"]
+[connection signal="nothing_selected" from="MainView/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" to="MainView/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_nothing_selected"]
+[connection signal="pressed" from="MainView/CreateNodePopup/MainContentContainer/VBox/HBoxContainer/CreateButton" to="MainView/CreateNodePopup/MainContentContainer/VBox/CreateNodeTree" method="_on_create_button_pressed"]
+[connection signal="id_pressed" from="MainView/NodeContextMenu" to="MainView/GraphEdit" method="_on_action_pressed"]

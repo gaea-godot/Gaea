@@ -9,7 +9,7 @@ extends Resource
 ## while others modify said data to produce different results.[br][br]
 ##
 ## Gaea nodes are configured and created through their script.
-## They are then modified using [GaeaGraphNode]s in the bottom Gaea panel.
+## They are then modified using [GaeaEditorGraphNode]s in the bottom Gaea panel.
 ##
 ## @tutorial(Anatomy of a Graph): https://gaea-godot.github.io/gaea-docs/#/2.0/tutorials/anatomy-of-a-graph
 
@@ -57,9 +57,9 @@ const GAEA_MATERIAL_GRADIENT_HINT := "Resource that maps values from 0.0-1.0 to 
 ## }
 ## [/codeblock]
 var connections: Array[Dictionary]
-## The related [GaeaGraphNode] for editing in the Gaea graph editor.
+## The related [GaeaEditorGraphNode] for editing in the Gaea graph editor.
 ## This is null during runtime.
-var node: GaeaGraphNode
+var node: GaeaEditorGraphNode
 ## The related [GaeaGraph] that holds this node.
 var graph: GaeaGraph
 ## A Dictionary holding the values of the arguments
@@ -416,7 +416,7 @@ func _get_argument_description(arg_name: StringName) -> String:
 
 
 ## Override this method to change the way the editors for the arguments behave. For example,
-## if the returned [Dictionary] has a [code]"min"[/code] key, [GaeaNumberArgumentEditor] will not be able to go below that number.[br][br]
+## if the returned [Dictionary] has a [code]"min"[/code] key, [GaeaEditorNumberArgument] will not be able to go below that number.[br][br]
 ## Defining this method is [b]optional[/b].
 func _get_argument_hint(_arg_name: StringName) -> Dictionary[String, Variant]:
 	return {}

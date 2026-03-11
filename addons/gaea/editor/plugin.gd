@@ -4,7 +4,7 @@ extends EditorPlugin
 
 const InspectorPlugin = preload("uid://bpg2cpobusnnl")
 
-var _panel: GaeaPanel
+var _panel: GaeaEditorPanel
 var _dock: EditorDock
 var _editor_selection: EditorSelection
 var _inspector_plugin: EditorInspectorPlugin
@@ -15,7 +15,7 @@ func _enter_tree() -> void:
 	_editor_selection = EditorInterface.get_selection()
 	_editor_selection.selection_changed.connect(_on_selection_changed)
 
-	_panel = GaeaPanel.instantiate()
+	_panel = GaeaEditorPanel.instantiate()
 	_panel.plugin = self
 
 	_dock = EditorDock.new()

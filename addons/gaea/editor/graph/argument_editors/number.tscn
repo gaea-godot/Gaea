@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dp7blnx7abb5e"]
 
 [ext_resource type="PackedScene" uid="uid://i2nwlab8rau" path="res://addons/gaea/editor/graph/argument_editors/argument_editor.tscn" id="1_5p7x0"]
-[ext_resource type="Script" uid="uid://bogtvyatwgapj" path="res://addons/gaea/editor/graph/argument_editors/number_argument_editor.gd" id="2_xix24"]
+[ext_resource type="Script" uid="uid://bogtvyatwgapj" path="res://addons/gaea/editor/graph/argument_editors/number.gd" id="2_xix24"]
 
 [node name="NumberParameter" unique_id=1284054380 instance=ExtResource("1_5p7x0")]
 size_flags_horizontal = 3

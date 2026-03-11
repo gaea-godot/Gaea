@@ -1,11 +1,11 @@
 @tool
-class_name GaeaPreviewPanel
+class_name GaeaEditorPreviewPanel
 extends Control
 
 const GENERATION_TOOLTIP: String = "Press generate to see result"
 
-@export var main_editor: GaeaMainEditor
-@export var preview_container: GaeaPreviewContainer
+@export var main_view: GaeaEditorMainView
+@export var preview_container: GaeaEditorPreviewContainer
 @export var bottom_label: Label
 @export var bottom_container: VBoxContainer
 @export var generate_button: Button
@@ -31,7 +31,7 @@ func _on_generate_button_pressed() -> void:
 
 	preview_container.clear_grid()
 
-	var graph: GaeaGraph = main_editor.graph_edit.graph
+	var graph: GaeaGraph = main_view.graph_edit.graph
 
 	var chunk_offsets: Array[Vector3] = _get_chunk_offsets(graph)
 	chunk_offsets.sort_custom(func(a: Vector3i, b: Vector3i):
@@ -90,7 +90,7 @@ func _get_chunk_offsets(graph: GaeaGraph) -> Array[Vector3]:
 func _execution_task_finished(task: GaeaTask) -> void:
 	_chunk_generated += 1
 	_generation_cumulated_time += task.finish_time - task.run_time
-	var graph: GaeaGraph = main_editor.graph_edit.graph
+	var graph: GaeaGraph = main_view.graph_edit.graph
 	var exec: GaeaGenerationTask = task as GaeaGenerationTask
 	var area = exec.pouch.area
 	var data: GaeaGrid = exec.results

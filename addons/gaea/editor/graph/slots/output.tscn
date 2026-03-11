@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cqpby5jyv71l0"]
 
-[ext_resource type="Script" uid="uid://dgb4blornaq38" path="res://addons/gaea/editor/graph/nodes/output_slot.gd" id="1_nv1a6"]
+[ext_resource type="Script" uid="uid://dgb4blornaq38" path="res://addons/gaea/editor/graph/slots/output.gd" id="1_d7pae"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dkx48"]
 
@@ -13,7 +13,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 0
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_bottom = 5
-script = ExtResource("1_nv1a6")
+script = ExtResource("1_d7pae")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=739681156]
 layout_mode = 2

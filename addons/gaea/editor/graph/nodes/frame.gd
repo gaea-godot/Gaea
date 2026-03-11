@@ -1,11 +1,11 @@
-class_name GaeaGraphFrame
+class_name GaeaEditorGraphFrame
 extends GraphFrame
 
 ## ID of the frame
 var id: int
 
-## Reference to the parent GaeaGraphEdit
-var graph_edit: GaeaGraphEdit
+## Reference to the parent GaeaEditorGraphEdit
+var graph_edit: GaeaEditorGraphEdit
 
 
 func _ready() -> void:
@@ -25,7 +25,7 @@ func _on_dragged(_from: Vector2, to: Vector2) -> void:
 	graph_edit.graph.set_node_position(id, to)
 
 
-func start_rename(gaea_panel: GaeaPanel) -> void:
+func start_rename(gaea_panel: GaeaEditorPanel) -> void:
 	var line_edit: LineEdit = LineEdit.new()
 	line_edit.text = title
 	line_edit.select_all_on_focus = true

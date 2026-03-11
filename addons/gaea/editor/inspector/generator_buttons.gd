@@ -1,5 +1,5 @@
 @tool
-class_name GaeaGeneratorButtons
+class_name GaeaEditorGeneratorButtons
 extends PanelContainer
 
 var generator: GaeaGenerator

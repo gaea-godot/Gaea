@@ -3,10 +3,10 @@ extends EditorInspectorPlugin
 const GradientVisualizer = preload("uid://cwaqlwiy2t1pe")
 const GeneratorButtons = preload("uid://dm42lg3fiyqub")
 
-var _panel: GaeaPanel
+var _panel: GaeaEditorPanel
 
 
-func _init(panel: GaeaPanel) -> void:
+func _init(panel: GaeaEditorPanel) -> void:
 	_panel = panel
 
 

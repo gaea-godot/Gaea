@@ -1,10 +1,10 @@
 @tool
-class_name GaeaCreateNodeTree
+class_name GaeaEditorCreateNodeTree
 extends Tree
 
 const NODES_FOLDER_PATH: String = "res://addons/gaea/graph/graph_nodes/root/"
 
-@export var main_editor: GaeaMainEditor
+@export var main_view: GaeaEditorMainView
 @export var description_label: RichTextLabel
 var tree_dictionary: Dictionary
 
@@ -108,11 +108,11 @@ func _on_item_activated() -> void:
 	var item: TreeItem = get_selected()
 	if not is_instance_valid(item):
 		return
-	main_editor.create_node_popup.hide()
+	main_view.create_node_popup.hide()
 	if item.get_metadata(0) is GaeaNodeResource:
-		main_editor.node_selected_for_creation.emit(item.get_metadata(0))
+		main_view.node_selected_for_creation.emit(item.get_metadata(0))
 	elif item.get_metadata(0) is StringName:
-		main_editor.special_node_selected_for_creation.emit(item.get_metadata(0))
+		main_view.special_node_selected_for_creation.emit(item.get_metadata(0))
 
 
 func _on_create_button_pressed() -> void:

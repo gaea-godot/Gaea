@@ -1,6 +1,6 @@
 @tool
-class_name GaeaNumberArgumentEditor
-extends GaeaGraphNodeArgumentEditor
+class_name GaeaEditorNumberArgument
+extends GaeaEditorGraphNodeArgument
 
 @onready var spin_box: SpinBox = %SpinBox
 @onready var h_slider: HSlider = %HSlider

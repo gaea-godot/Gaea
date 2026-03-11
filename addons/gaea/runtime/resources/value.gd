@@ -133,7 +133,7 @@ static func from_variant_type(type: Variant.Type, _hint: PropertyHint = PROPERTY
 	return Type.NULL
 
 
-## Used to convert old GaeaGraphNode.SlotTypes to new [enum Type].
+## Used to convert old GaeaEditorGraphNode.SlotTypes to new [enum Type].
 ## @deprecated
 ## Should be removed in the 2.0 release.
 static func from_old_slot_type(old_type: int) -> GaeaValue.Type:

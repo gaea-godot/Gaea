@@ -1,9 +1,9 @@
 @tool
-class_name GaeaNodePreview
+class_name GaeaEditorNodePreview
 extends TextureRect
 
 var selected_output: StringName = &""
-var node: GaeaGraphNode
+var node: GaeaEditorGraphNode
 var slider_container: HBoxContainer
 var slider: HSlider
 var slider_label: SpinBox

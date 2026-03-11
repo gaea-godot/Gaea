@@ -1,12 +1,12 @@
 @tool
-class_name GaeaPanel
+class_name GaeaEditorPanel
 extends Control
 
 
-@export var main_editor: GaeaMainEditor
-@export var graph_edit: GaeaGraphEdit
+@export var main_view: GaeaEditorMainView
+@export var graph_edit: GaeaEditorGraphEdit
 @export var file_list: GaeaEditorFileList
-@export var preview_panel: GaeaPreviewPanel
+@export var preview_panel: GaeaEditorPreviewPanel
 
 var plugin: GaeaEditorPlugin
 

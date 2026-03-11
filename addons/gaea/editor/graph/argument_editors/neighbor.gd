@@ -1,6 +1,6 @@
 @tool
-class_name GaeaNeighborArgumentEditor
-extends GaeaGraphNodeArgumentEditor
+class_name GaeaEditorNeighborArgument
+extends GaeaEditorGraphNodeArgument
 
 @onready var cells: Control = %Cells
 

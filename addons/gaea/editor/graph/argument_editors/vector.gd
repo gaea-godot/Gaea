@@ -1,6 +1,6 @@
 @tool
-class_name GaeaVector3ArgumentEditor
-extends GaeaGraphNodeArgumentEditor
+class_name GaeaEditorVector3Argument
+extends GaeaEditorGraphNodeArgument
 
 const VALID_TYPES := [
 	GaeaValue.Type.VECTOR2, GaeaValue.Type.VECTOR2I, GaeaValue.Type.VECTOR3, GaeaValue.Type.VECTOR3I

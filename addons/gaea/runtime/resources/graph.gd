@@ -25,7 +25,7 @@ enum Log {
 
 enum NodeType {
 	NODE, ## A [GaeaNodeResource].
-	FRAME, ## A [GaeaGraphFrame]
+	FRAME, ## A [GaeaEditorGraphFrame]
 	NONE = -1 ## Returned by [method get_node_type] if no type is found.
 }
 

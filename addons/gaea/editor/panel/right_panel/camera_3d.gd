@@ -1,5 +1,5 @@
 @tool
-class_name GaeaPreviewCamera
+class_name GaeaEditorPreviewCamera
 extends Camera3D
 
 const SCROLL_SPEED: float = 5.0 # Speed when use scroll mouse

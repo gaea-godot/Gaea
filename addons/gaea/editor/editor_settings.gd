@@ -183,8 +183,8 @@ static func get_file_list_action_shortcut(action: GaeaEditorFileList.Action, sho
 	return _get_shortcut("file_list", GaeaEditorFileList.Action.find_key(action), shortcut_key)
 
 
-static func get_node_action_shortcut(action: GaeaGraphEdit.Action, shortcut_key: Key) -> Shortcut:
-	return _get_shortcut("node_context_menu", GaeaGraphEdit.Action.find_key(action), shortcut_key)
+static func get_node_action_shortcut(action: GaeaEditorGraphEdit.Action, shortcut_key: Key) -> Shortcut:
+	return _get_shortcut("node_context_menu", GaeaEditorGraphEdit.Action.find_key(action), shortcut_key)
 
 
 static func _get_shortcut(category: String, action_key: String, shortcut_key: Key) -> Shortcut:

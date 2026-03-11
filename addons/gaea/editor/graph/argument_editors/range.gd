@@ -1,6 +1,6 @@
 @tool
-class_name GaeaRangeArgumentEditor
-extends GaeaGraphNodeArgumentEditor
+class_name GaeaEditorRangeArgument
+extends GaeaEditorGraphNodeArgument
 
 
 

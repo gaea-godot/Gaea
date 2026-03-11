@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://byaonbbfa2bx8"]
 
 [ext_resource type="PackedScene" uid="uid://i2nwlab8rau" path="res://addons/gaea/editor/graph/argument_editors/argument_editor.tscn" id="1_xkrhe"]
-[ext_resource type="Script" uid="uid://cofg2ptqkqs3f" path="res://addons/gaea/editor/graph/argument_editors/boolean_argument_editor.gd" id="2_pbrqj"]
+[ext_resource type="Script" uid="uid://cofg2ptqkqs3f" path="res://addons/gaea/editor/graph/argument_editors/boolean.gd" id="2_pbrqj"]
 
 [node name="BaseParameter" unique_id=1311734467 instance=ExtResource("1_xkrhe")]
 script = ExtResource("2_pbrqj")

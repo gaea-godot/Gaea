@@ -1,5 +1,5 @@
 @tool
-extends GaeaGraphNode
+extends GaeaEditorGraphNode
 
 var type: Variant.Type
 var hint: PropertyHint
@@ -12,7 +12,7 @@ func _on_added() -> void:
 
 
 func _on_argument_value_changed(
-	value: Variant, _node: GaeaGraphNodeArgumentEditor, arg_name: String
+	value: Variant, _node: GaeaEditorGraphNodeArgument, arg_name: String
 ) -> void:
 	if arg_name != "name" and value is not String:
 		return

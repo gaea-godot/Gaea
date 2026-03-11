@@ -1,6 +1,6 @@
 @tool
-class_name GaeaBooleanArgumentEditor
-extends GaeaGraphNodeArgumentEditor
+class_name GaeaEditorBooleanArgument
+extends GaeaEditorGraphNodeArgument
 
 @onready var check_box: CheckBox = $CheckBox
 

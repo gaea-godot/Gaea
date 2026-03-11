@@ -7,7 +7,7 @@ extends Control
 @onready var confirmation_dialog: ConfirmationDialog = $ConfirmationDialog
 @onready var markdown: RichTextLabel = %Markdown
 
-var graph_edit: GaeaGraphEdit
+var graph_edit: GaeaEditorGraphEdit
 
 const DOC_CLASS_URL: String = "[%s](https://docs.godotengine.org/en/latest/classes/class_%s.html)"
 
@@ -25,12 +25,12 @@ func _ready() -> void:
 			EditorInterface.get_base_control().get_theme_icon(&"Folder", &"EditorIcons")
 		)
 
-	graph_edit = GaeaGraphEdit.new()
+	graph_edit = GaeaEditorGraphEdit.new()
 	graph_edit.populate(GaeaGraph.new())
 
 
 func _capture_resource(resource: GaeaNodeResource) -> void:
-	var node: GaeaGraphNode = resource.get_scene().instantiate()
+	var node: GaeaEditorGraphNode = resource.get_scene().instantiate()
 	node.graph_edit = graph_edit
 	if resource.get_scene_script() != null:
 		node.set_script(resource.get_scene_script())
@@ -42,7 +42,7 @@ func _capture_resource(resource: GaeaNodeResource) -> void:
 
 
 func _capture_frame() -> void:
-	var frame: GaeaGraphFrame = GaeaGraphFrame.new()
+	var frame: GaeaEditorGraphFrame = GaeaEditorGraphFrame.new()
 	frame.graph_edit = graph_edit
 	await _take_image(frame, "Frame")
 
