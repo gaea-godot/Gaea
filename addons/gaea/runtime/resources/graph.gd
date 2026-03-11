@@ -304,6 +304,7 @@ func _property_get_revert(property: StringName) -> Variant:
 		&'preview_world_size':
 			if preview_size_preset == PreviewSizePreset.CUSTOM:
 				return get(property)
+			# gdlint:ignore = duplicated-load
 			var resolution: int = load("uid://duu3vekk7pxwk").get_preview_resolution()
 			var size: Vector3i = Vector3i(resolution, resolution, resolution)
 
@@ -331,6 +332,7 @@ func _validate_property(property: Dictionary) -> void:
 	if Engine.is_editor_hint() and property.name == &"preview_chunk_size":
 		property.type = TYPE_VECTOR3
 		property.hint = property.hint | PROPERTY_HINT_RANGE
+		# gdlint:ignore = duplicated-load
 		property.hint_string = "0,%d,1" % load("uid://duu3vekk7pxwk").get_preview_max_simulation_size()
 
 
