@@ -1,5 +1,5 @@
 @tool
-class_name GaeaCheckableCell
+class_name GaeaEditorCheckableCell
 extends Control
 
 signal cell_pressed

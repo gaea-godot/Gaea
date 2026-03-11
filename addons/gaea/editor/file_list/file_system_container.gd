@@ -1,5 +1,5 @@
 @tool
-class_name GaeaFileList
+class_name GaeaEditorFileList
 extends VBoxContainer
 
 enum Action {
@@ -21,9 +21,9 @@ const GRAPH_ICON := preload("uid://cerisdpavr7v3")
 
 @export var graph_edit: GaeaGraphEdit
 @export var main_editor: GaeaMainEditor
-@export var menu_bar: GaeaFileListMenuBar
+@export var menu_bar: GaeaEditorFileListMenuBar
 @export var file_list: ItemList
-@export var context_menu: GaeaPopupFileContextMenu
+@export var context_menu: GaeaEditorPopupFileContextMenu
 @export var file_dialog: FileDialog
 
 var edited_graphs: Array[EditedGraph]

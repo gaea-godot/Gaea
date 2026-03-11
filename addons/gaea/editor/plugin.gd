@@ -37,6 +37,7 @@ func _enter_tree() -> void:
 	EditorInterface.get_file_system_dock().resource_removed.connect(_on_resource_removed)
 	EditorInterface.get_file_system_dock().file_removed.connect(_on_file_removed)
 
+
 func _exit_tree() -> void:
 	if Engine.is_editor_hint():
 		_panel.graph_edit.unpopulate()
@@ -57,7 +58,7 @@ func _get_unsaved_status(_for_scene: String) -> String:
 
 	var string: String = "Save changes to the following GaeaGraphs before continuing?"
 	var found_unsaved: bool = false
-	for edited_graph: GaeaFileList.EditedGraph in _panel.file_list.edited_graphs:
+	for edited_graph: GaeaEditorFileList.EditedGraph in _panel.file_list.edited_graphs:
 		if edited_graph.is_unsaved():
 			found_unsaved = true
 			string += "\n%s" % edited_graph.get_graph().resource_path.get_file()
@@ -68,7 +69,7 @@ func _get_unsaved_status(_for_scene: String) -> String:
 
 
 func _save_external_data() -> void:
-	for edited_graph: GaeaFileList.EditedGraph in _panel.file_list.edited_graphs:
+	for edited_graph: GaeaEditorFileList.EditedGraph in _panel.file_list.edited_graphs:
 		if edited_graph.is_unsaved():
 			ResourceSaver.save(edited_graph.get_graph())
 			edited_graph.set_dirty(false)
@@ -101,7 +102,7 @@ func _on_resource_saved(resource: Resource) -> void:
 	if resource is not GaeaGraph:
 		return
 
-	for edited_graph: GaeaFileList.EditedGraph in _panel.file_list.edited_graphs:
+	for edited_graph: GaeaEditorFileList.EditedGraph in _panel.file_list.edited_graphs:
 		if edited_graph.get_graph() == resource:
 			edited_graph.set_dirty(false)
 
@@ -110,7 +111,7 @@ func _on_file_removed(file: String) -> void:
 	if file.get_extension() not in ["tscn", "scn"]:
 		return
 
-	for edited_graph: GaeaFileList.EditedGraph in _panel.file_list.edited_graphs:
+	for edited_graph: GaeaEditorFileList.EditedGraph in _panel.file_list.edited_graphs:
 		if not edited_graph.get_graph().is_built_in():
 			continue
 

@@ -1,10 +1,10 @@
 [gd_resource type="Resource" script_class="GaeaGraph" format=3 uid="uid://3ogbw502hfvu"]
 
 [ext_resource type="Script" uid="uid://e45byecr4gi6" path="res://addons/gaea/runtime/resources/materials/data/tilemap_material.gd" id="1_8fjyk"]
-[ext_resource type="Script" uid="uid://cj08rybcfwlle" path="res://addons/gaea/runtime/resources/materials/gaea_material.gd" id="2_8y5gs"]
+[ext_resource type="Script" uid="uid://cj08rybcfwlle" path="res://addons/gaea/runtime/resources/materials/material.gd" id="2_8y5gs"]
 [ext_resource type="Script" uid="uid://dtocuov1r8agi" path="res://addons/gaea/runtime/resources/materials/distribution/pointwise_random_material.gd" id="3_10pre"]
-[ext_resource type="Script" uid="uid://3qsmwhn2sk47" path="res://addons/gaea/runtime/resources/gaea_layer.gd" id="4_l0sp8"]
-[ext_resource type="Script" uid="uid://dae6umbqb872e" path="res://addons/gaea/runtime/resources/gaea_graph.gd" id="5_a3tep"]
+[ext_resource type="Script" uid="uid://3qsmwhn2sk47" path="res://addons/gaea/runtime/resources/layer.gd" id="4_l0sp8"]
+[ext_resource type="Script" uid="uid://dae6umbqb872e" path="res://addons/gaea/runtime/resources/graph.gd" id="5_a3tep"]
 
 [sub_resource type="Resource" id="Resource_wg8bb"]
 script = ExtResource("1_8fjyk")

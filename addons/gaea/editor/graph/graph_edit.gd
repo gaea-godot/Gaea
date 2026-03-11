@@ -54,7 +54,7 @@ var copy_buffer: GaeaNodesCopy
 var is_loading = false
 
 ## Reference to the output node
-var _output_node: GaeaOutputGraphNode
+var _output_node: GaeaGraphNodeOutput
 
 var _back_icon: Texture2D
 var _forward_icon: Texture2D

@@ -5,10 +5,10 @@ extends GaeaGraphNodeArgumentEditor
 #Supported hints
 # "radius": 2
 # "show_origin": true
-# "check_mode": GaeaCheckableCell.CheckMode.BOOLEAN
-# "coordinate_format": GaeaCheckableCell.CoordinateFormat.PERSPECTIVE_3D
+# "check_mode": GaeaEditorCheckableCell.CheckMode.BOOLEAN
+# "coordinate_format": GaeaEditorCheckableCell.CoordinateFormat.PERSPECTIVE_3D
 
-@export var cells: GaeaCheckableCell
+@export var cells: GaeaEditorCheckableCell
 var _reconfiguring: bool = false
 
 func _configure() -> void:

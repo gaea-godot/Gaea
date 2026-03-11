@@ -60,7 +60,7 @@ func _ready() -> void:
 
 
 ## Initializes the node with a preview if needed, a salt value and instantiates all the
-## [GaeaGraphNodeArgumentEditor] and [GaeaGraphNodeOutput] nodes.
+## [GaeaGraphNodeArgumentEditor] and [GaeaGraphNodeOutputSlot] nodes.
 func _on_added() -> void:
 	if not is_instance_valid(resource) or is_part_of_edited_scene():
 		return
@@ -176,7 +176,7 @@ func _add_argument_editor(for_arg: StringName) -> GaeaGraphNodeArgumentEditor:
 	return node
 
 
-func _add_output_slot(for_output: StringName) -> GaeaGraphNodeOutput:
+func _add_output_slot(for_output: StringName) -> GaeaGraphNodeOutputSlot:
 	if resource.get_overridden_output_port_idx(for_output) >= 0:
 		var new_idx: int = resource.get_overridden_output_port_idx(for_output)
 		if get_child_count() > new_idx:
@@ -187,7 +187,7 @@ func _add_output_slot(for_output: StringName) -> GaeaGraphNodeOutput:
 			set_slot_custom_icon_right(new_idx, GaeaValue.get_slot_icon(type))
 			return null
 
-	var node: GaeaGraphNodeOutput = preload("uid://cqpby5jyv71l0").instantiate()
+	var node: GaeaGraphNodeOutputSlot = preload("uid://cqpby5jyv71l0").instantiate()
 	add_child(node)
 	node.initialize(
 		self,
@@ -206,7 +206,7 @@ func _add_output_slot(for_output: StringName) -> GaeaGraphNodeOutput:
 	return node
 
 
-func _get_output_slot(for_output: StringName) -> GaeaGraphNodeOutput:
+func _get_output_slot(for_output: StringName) -> GaeaGraphNodeOutputSlot:
 	var overridden_idx: int = resource.get_overridden_output_port_idx(for_output)
 	if overridden_idx >= 0:
 		return get_child(overridden_idx)

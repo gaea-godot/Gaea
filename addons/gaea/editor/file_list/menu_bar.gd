@@ -1,5 +1,5 @@
 @tool
-class_name GaeaFileListMenuBar
+class_name GaeaEditorFileListMenuBar
 extends MenuBar
 
 signal recent_file_selected(graph: GaeaGraph)
@@ -8,7 +8,7 @@ signal recent_file_selected(graph: GaeaGraph)
 @export var recent_files: PopupMenu
 @export var edit_popup: PopupMenu
 @export var graph_edit: GaeaGraphEdit
-@export var file_system_container: GaeaFileList
+@export var file_system_container: GaeaEditorFileList
 
 
 var _history: Array[GaeaGraph]
@@ -25,26 +25,26 @@ func _ready() -> void:
 
 #region File menu
 func _populate_file_popup_menu() -> void:
-	_add_file_menu_item(GaeaFileList.Action.NEW_GRAPH, "New Graph...", KeyModifierMask.KEY_MASK_CMD_OR_CTRL | KEY_N)
-	_add_file_menu_item(GaeaFileList.Action.OPEN, "Open...", KeyModifierMask.KEY_MASK_CMD_OR_CTRL | KEY_O)
-	file_popup.add_submenu_node_item("Open Recent", recent_files, GaeaFileList.Action.OPEN_RECENT)
+	_add_file_menu_item(GaeaEditorFileList.Action.NEW_GRAPH, "New Graph...", KeyModifierMask.KEY_MASK_CMD_OR_CTRL | KEY_N)
+	_add_file_menu_item(GaeaEditorFileList.Action.OPEN, "Open...", KeyModifierMask.KEY_MASK_CMD_OR_CTRL | KEY_O)
+	file_popup.add_submenu_node_item("Open Recent", recent_files, GaeaEditorFileList.Action.OPEN_RECENT)
 
 	file_popup.add_separator()
-	_add_file_menu_item(GaeaFileList.Action.SAVE, "Save", KeyModifierMask.KEY_MASK_CMD_OR_CTRL | KeyModifierMask.KEY_MASK_ALT | KEY_S)
-	_add_file_menu_item(GaeaFileList.Action.SAVE, "Save As...")
+	_add_file_menu_item(GaeaEditorFileList.Action.SAVE, "Save", KeyModifierMask.KEY_MASK_CMD_OR_CTRL | KeyModifierMask.KEY_MASK_ALT | KEY_S)
+	_add_file_menu_item(GaeaEditorFileList.Action.SAVE, "Save As...")
 
 	file_popup.add_separator()
-	_add_file_menu_item(GaeaFileList.Action.COPY_PATH, "Copy Graph Path")
-	_add_file_menu_item(GaeaFileList.Action.SHOW_IN_FILESYSTEM, "Show in FileSystem")
-	_add_file_menu_item(GaeaFileList.Action.OPEN_IN_INSPECTOR, "Open File in Inspector")
+	_add_file_menu_item(GaeaEditorFileList.Action.COPY_PATH, "Copy Graph Path")
+	_add_file_menu_item(GaeaEditorFileList.Action.SHOW_IN_FILESYSTEM, "Show in FileSystem")
+	_add_file_menu_item(GaeaEditorFileList.Action.OPEN_IN_INSPECTOR, "Open File in Inspector")
 
 	file_popup.add_separator()
-	_add_file_menu_item(GaeaFileList.Action.CLOSE, "Close", KeyModifierMask.KEY_MASK_CMD_OR_CTRL | KEY_W)
-	_add_file_menu_item(GaeaFileList.Action.CLOSE_ALL, "Close All")
-	_add_file_menu_item(GaeaFileList.Action.CLOSE_OTHER, "Close Other Tabs")
+	_add_file_menu_item(GaeaEditorFileList.Action.CLOSE, "Close", KeyModifierMask.KEY_MASK_CMD_OR_CTRL | KEY_W)
+	_add_file_menu_item(GaeaEditorFileList.Action.CLOSE_ALL, "Close All")
+	_add_file_menu_item(GaeaEditorFileList.Action.CLOSE_OTHER, "Close Other Tabs")
 
 
-func _add_file_menu_item(id: GaeaFileList.Action, text: String, shortcut_key: int = KEY_NONE) -> void:
+func _add_file_menu_item(id: GaeaEditorFileList.Action, text: String, shortcut_key: int = KEY_NONE) -> void:
 	file_popup.add_item(tr(text), id)
 	if shortcut_key != KEY_NONE:
 		file_popup.set_item_shortcut(
@@ -80,7 +80,7 @@ func _on_recent_files_id_pressed(id: int) -> void:
 
 
 func _on_file_item_about_to_popup() -> void:
-	file_popup.set_item_disabled(file_popup.get_item_index(GaeaFileList.Action.OPEN_RECENT), _history.is_empty())
+	file_popup.set_item_disabled(file_popup.get_item_index(GaeaEditorFileList.Action.OPEN_RECENT), _history.is_empty())
 #endregion
 
 #region Edit menu
@@ -137,7 +137,7 @@ func update_menu_enabled_state() -> void:
 		edit_popup.set_item_shortcut_disabled(item_index, disabled)
 
 	for item_index in file_popup.item_count:
-		var action: GaeaFileList.Action = file_popup.get_item_id(item_index) as GaeaFileList.Action
+		var action: GaeaEditorFileList.Action = file_popup.get_item_id(item_index) as GaeaEditorFileList.Action
 		var disabled: bool = not file_system_container.can_do_action(action)
 		file_popup.set_item_disabled(item_index, disabled)
 		file_popup.set_item_shortcut_disabled(item_index, disabled)

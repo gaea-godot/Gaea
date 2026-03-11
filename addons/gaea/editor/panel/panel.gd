@@ -5,7 +5,7 @@ extends Control
 
 @export var main_editor: GaeaMainEditor
 @export var graph_edit: GaeaGraphEdit
-@export var file_list: GaeaFileList
+@export var file_list: GaeaEditorFileList
 @export var preview_panel: GaeaPreviewPanel
 
 var plugin: GaeaEditorPlugin

@@ -1,11 +1,9 @@
 extends GdUnitTestSuite
 
 
-const NODES_PATH := "res://addons/gaea/graph/graph_nodes/root/"
+const NODES_PATH := "res://addons/gaea/runtime/graph_nodes/root/"
 
 var nodes_in_root: Array[GaeaNodeResource]
-
-
 
 
 func _get_nodes_in_folder(folder_path: String) -> Array[GaeaNodeResource]:

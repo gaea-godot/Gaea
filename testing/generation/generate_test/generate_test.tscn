@@ -3,10 +3,10 @@
 [ext_resource type="Script" uid="uid://dgbm8nk2w51bw" path="res://testing/generation/generate_test/generation_tester.gd" id="1_snx83"]
 [ext_resource type="Script" uid="uid://d4feanreabm81" path="res://addons/gaea/runtime/scene_nodes/generator.gd" id="2_hp50f"]
 [ext_resource type="Resource" uid="uid://3ogbw502hfvu" path="res://testing/generation/generate_test/generation_walker.tres" id="3_snx83"]
-[ext_resource type="Script" uid="uid://ct2w70ehn4avu" path="res://addons/gaea/runtime/resources/gaea_generation_settings.gd" id="4_hp50f"]
+[ext_resource type="Script" uid="uid://ct2w70ehn4avu" path="res://addons/gaea/runtime/resources/generation_settings.gd" id="4_hp50f"]
 [ext_resource type="TileSet" uid="uid://bl5uvusqvjoht" path="res://testing/generation/generate_test/floor_walker_tileset.tres" id="4_yt4k6"]
 [ext_resource type="Script" uid="uid://b4x16tyyfihmb" path="res://addons/gaea/runtime/scene_nodes/renderers/tilemap_renderer.gd" id="5_r1xjd"]
-[ext_resource type="Script" uid="uid://rfsrtakmflly" path="res://addons/gaea/runtime/scene_nodes/threading/gaea_task_pool.gd" id="5_u1pxj"]
+[ext_resource type="Script" uid="uid://rfsrtakmflly" path="res://addons/gaea/runtime/scene_nodes/threading/task_pool.gd" id="5_u1pxj"]
 
 [sub_resource type="Resource" id="Resource_u1pxj"]
 script = ExtResource("4_hp50f")

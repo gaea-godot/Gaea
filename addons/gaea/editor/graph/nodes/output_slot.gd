@@ -1,5 +1,5 @@
 @tool
-class_name GaeaGraphNodeOutput
+class_name GaeaGraphNodeOutputSlot
 extends MarginContainer
 ## An output slot inside a [GaeaGraphNode].
 

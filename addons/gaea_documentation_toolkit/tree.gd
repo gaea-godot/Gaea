@@ -5,7 +5,7 @@ signal node_selected(resource: GaeaNodeResource)
 signal node_selected_for_creation(resource: GaeaNodeResource)
 signal special_node_selected_for_creation(id: StringName)
 
-const NODES_FOLDER_PATH: String = "res://addons/gaea/graph/graph_nodes/root/"
+const NODES_FOLDER_PATH: String = "res://addons/gaea/runtime/graph_nodes/root"
 
 var tree_dictionary: Dictionary
 
