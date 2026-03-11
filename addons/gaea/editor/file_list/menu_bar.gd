@@ -107,7 +107,10 @@ func _populate_edit_popup_menu() -> void:
 	)
 
 	edit_popup.add_separator()
-	_add_edit_menu_item(GaeaEditorGraphEdit.Action.GROUP_IN_FRAME, "Group Selection in New Frame", KeyModifierMask.KEY_MASK_CMD_OR_CTRL | KEY_G)
+	_add_edit_menu_item(
+		GaeaEditorGraphEdit.Action.GROUP_IN_FRAME, "Group Selection in New Frame",
+		KeyModifierMask.KEY_MASK_CMD_OR_CTRL | KEY_G
+	)
 
 	_add_edit_menu_item(GaeaEditorGraphEdit.Action.DETACH, "Detach from Parent Frame")
 

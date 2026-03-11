@@ -10,7 +10,8 @@ const CHECK = preload("uid://w7nuor02uk24")
 const CROSS = preload("uid://cl81d05sq3dmb")
 
 
-## If [code]GaeaValue.CheckMode.BOOLEAN[/code], each cell can only be checked or not. If [code]GaeaValue.CheckMode.TRISTATE[/code], each cell can either
+## If [code]GaeaValue.CheckMode.BOOLEAN[/code], each cell can only be checked or not.
+## If [code]GaeaValue.CheckMode.TRISTATE[/code], each cell can either
 ## be checked, crossed, or empty.
 @export var check_mode: GaeaValue.CheckMode = GaeaValue.CheckMode.BOOLEAN:
 	set(value):
