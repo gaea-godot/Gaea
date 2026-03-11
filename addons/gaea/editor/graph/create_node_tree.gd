@@ -2,7 +2,7 @@
 class_name GaeaEditorCreateNodeTree
 extends Tree
 
-const NODES_FOLDER_PATH: String = "res://addons/gaea/graph/graph_nodes/root/"
+const NODES_FOLDER_PATH: String = "res://addons/gaea/runtime/graph_nodes/root"
 
 @export var main_view: GaeaEditorMainView
 @export var description_label: RichTextLabel
