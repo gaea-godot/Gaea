@@ -1,5 +1,5 @@
 @tool
-@icon("../../../assets/node_resource.svg")
+@icon("../../assets/node_resource.svg")
 @abstract
 class_name GaeaNodeResource
 extends Resource
