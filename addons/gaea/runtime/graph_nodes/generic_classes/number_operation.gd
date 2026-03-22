@@ -41,8 +41,37 @@ class Definition:
 
 
 ## All possible operations.
-var operation_definitions: Dictionary[Operation, Definition]:
-	get = _get_operation_definitions
+static var operation_definitions: Dictionary[Operation, Definition] = {
+	Operation.ADD: Definition.new([&"a", &"b"], "a + b", func(a: Variant, b: Variant): return a + b),
+	Operation.SUBTRACT: Definition.new([&"a", &"b"], "a - b", func(a: Variant, b: Variant): return a - b),
+	Operation.MULTIPLY: Definition.new([&"a", &"b"], "a * b", func(a: Variant, b: Variant): return a * b),
+	Operation.DIVIDE: Definition.new(
+		[&"a", &"b"],
+		"a / b",
+		func(a: Variant, b: Variant): return 0 if is_zero_approx(b) else a / b
+	),
+	#Operation.REMAINDER: Definition.new([&"a", &"b"], "a % b", func(a: float, b: float): return 0.0 if is_zero_approx(b) else fmod(a, b)),
+	Operation.POWER: Definition.new([&"base", &"exp"], "base ** exp", pow),
+	Operation.MAX: Definition.new([&"a", &"b"], "max(a, b)", max),
+	Operation.MIN: Definition.new([&"a", &"b"], "min(a, b)", min),
+	#Operation.SNAPPED: Definition.new([&"a", "Step"], "snapped(a, step)", snapped),
+	Operation.ABS: Definition.new([&"a"], "abs(a)", abs),
+	Operation.CEIL: Definition.new([&"a"], "ceil(a)", ceil),
+	Operation.FLOOR: Definition.new([&"a"], "floor(a)", floor),
+	Operation.ROUND: Definition.new([&"a"], "round(a)", round),
+	Operation.CLAMP: Definition.new([&"a", &"min", &"max"], "clamp(a, min, max)", clamp),
+	#Operation.LERP: Definition.new([&"from", &"to", &"weight"], "lerpf(from, to, weight)", lerpf),
+	#Operation.LOG: Definition.new([&"a"], "log(a)", log),
+	Operation.REMAP: Definition.new(
+		[&"a", &"in_start", &"in_stop", &"out_start", &"out_stop"], "remap(a, ...)", remap
+	),
+	Operation.SIGN: Definition.new([&"a"], "sign(a)", sign),
+	Operation.SMOOTHSTEP: Definition.new([&"from", &"to", &"a"], "smoothstep(from, to, a)", smoothstep),
+	Operation.STEP: Definition.new(
+		[&"a", &"edge"], "step(a, edge)", func(a, edge): return 0 if a < edge else 1
+	),
+	Operation.WRAP: Definition.new([&"a", &"min", &"max"], "wrap(a, min, max)", wrap),
+}
 
 
 func _get_description() -> String:
@@ -140,63 +169,3 @@ func _get_data(_output_port: StringName, pouch: GaeaGenerationPouch) -> Variant:
 
 func _get_new_value(operation: Operation, args: Array) -> Variant:
 	return operation_definitions[operation].conversion.callv(args)
-
-
-func _get_operation_definitions() -> Dictionary[Operation, Definition]:
-	if not operation_definitions.is_empty():
-		return operation_definitions
-
-	operation_definitions.clear()
-	operation_definitions.assign({
-		Operation.ADD:
-			Definition.new([&"a", &"b"], "a + b", func(a: Variant, b: Variant): return a + b),
-		Operation.SUBTRACT:
-			Definition.new([&"a", &"b"], "a - b", func(a: Variant, b: Variant): return a - b),
-		Operation.MULTIPLY:
-			Definition.new([&"a", &"b"], "a * b", func(a: Variant, b: Variant): return a * b),
-		Operation.DIVIDE:
-			Definition.new(
-				[&"a", &"b"],
-				"a / b",
-				func(a: Variant, b: Variant): return 0 if is_zero_approx(b) else a / b
-			),
-		#Operation.REMAINDER:
-		#Definition.new([&"a", &"b"], "a % b", func(a: float, b: float): return 0.0 if is_zero_approx(b) else fmod(a, b)),
-		Operation.POWER:
-			Definition.new([&"base", &"exp"], "base ** exp", pow),
-		Operation.MAX:
-			Definition.new([&"a", &"b"], "max(a, b)", max),
-		Operation.MIN:
-			Definition.new([&"a", &"b"], "min(a, b)", min),
-		#Operation.SNAPPED:
-		#Definition.new([&"a", "Step"], "snapped(a, step)", snapped),
-		Operation.ABS:
-			Definition.new([&"a"], "abs(a)", abs),
-		Operation.CEIL:
-			Definition.new([&"a"], "ceil(a)", ceil),
-		Operation.FLOOR:
-			Definition.new([&"a"], "floor(a)", floor),
-		Operation.ROUND:
-			Definition.new([&"a"], "round(a)", round),
-		Operation.CLAMP:
-			Definition.new([&"a", &"min", &"max"], "clamp(a, min, max)", clamp),
-		#Operation.LERP:
-		#Definition.new([&"from", &"to", &"weight"], "lerpf(from, to, weight)", lerpf),
-		#Operation.LOG:
-		#Definition.new([&"a"], "log(a)", log),
-		Operation.REMAP:
-			Definition.new(
-				[&"a", &"in_start", &"in_stop", &"out_start", &"out_stop"], "remap(a, ...)", remap
-			),
-		Operation.SIGN:
-			Definition.new([&"a"], "sign(a)", sign),
-		Operation.SMOOTHSTEP:
-			Definition.new([&"from", &"to", &"a"], "smoothstep(from, to, a)", smoothstep),
-		Operation.STEP:
-			Definition.new(
-				[&"a", &"edge"], "step(a, edge)", func(a, edge): return 0 if a < edge else 1
-			),
-		Operation.WRAP:
-			Definition.new([&"a", &"min", &"max"], "wrap(a, min, max)", wrap),
-	})
-	return operation_definitions

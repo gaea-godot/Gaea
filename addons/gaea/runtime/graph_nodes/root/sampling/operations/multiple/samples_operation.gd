@@ -18,9 +18,17 @@ class Definition:
 
 
 ## All possible operations.
-var operation_definitions: Dictionary[Operation, Definition]:
-	get = _get_operation_definitions
-
+static var operation_definitions: Dictionary[Operation, Definition] = {
+	Operation.ADD: Definition.new([&"a", &"b"], "A + B", func(a: Variant, b: Variant): return a + b),
+	Operation.SUBTRACT: Definition.new([&"a", &"b"], "A - B", func(a: Variant, b: Variant): return a - b),
+	Operation.MULTIPLY: Definition.new([&"a", &"b"], "A * B", func(a: Variant, b: Variant): return a * b),
+	Operation.DIVIDE: Definition.new(
+		[&"a", &"b"],
+		"A / B",
+		func(a: Variant, b: Variant): return 0 if is_zero_approx(b) else a / b
+	),
+	Operation.LERP: Definition.new([&"a", &"b", &"weight"], "lerp(a, b, weight)", lerpf)
+}
 
 func _get_title() -> String:
 	return "SamplesOp"
@@ -127,26 +135,3 @@ func _get_data(_output_port: StringName, pouch: GaeaGenerationPouch) -> GaeaValu
 			)
 		)
 	return result
-
-
-func _get_operation_definitions() -> Dictionary[Operation, Definition]:
-	if not operation_definitions.is_empty():
-		return operation_definitions
-
-	operation_definitions.clear()
-	operation_definitions.assign({
-		Operation.ADD:
-		Definition.new([&"a", &"b"], "A + B", func(a: Variant, b: Variant): return a + b),
-		Operation.SUBTRACT:
-		Definition.new([&"a", &"b"], "A - B", func(a: Variant, b: Variant): return a - b),
-		Operation.MULTIPLY:
-		Definition.new([&"a", &"b"], "A * B", func(a: Variant, b: Variant): return a * b),
-		Operation.DIVIDE:
-		Definition.new(
-			[&"a", &"b"],
-			"A / B",
-			func(a: Variant, b: Variant): return 0 if is_zero_approx(b) else a / b
-		),
-		Operation.LERP: Definition.new([&"a", &"b", &"weight"], "lerp(a, b, weight)", lerpf)
-	})
-	return operation_definitions

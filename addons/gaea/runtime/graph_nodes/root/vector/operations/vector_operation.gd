@@ -22,9 +22,16 @@ class Definition:
 		conversion = _conversion
 
 
-var operation_definitions: Dictionary[Operation, Definition]:
-	get = _get_operation_definitions
-
+static var operation_definitions: Dictionary[Operation, Definition] = {
+	Operation.ADD: Definition.new([&"a", &"b"], "a + b", func(a: Variant, b: Variant): return a + b),
+	Operation.SUBTRACT: Definition.new([&"a", &"b"], "a - b", func(a: Variant, b: Variant): return a - b),
+	Operation.MULTIPLY: Definition.new([&"a", &"b"], "a * b", func(a: Variant, b: Variant): return a * b),
+	Operation.DIVIDE: Definition.new(
+		[&"a", &"b"],
+		"a / b",
+		func(a: Variant, b: Variant): return 0 if b.is_zero_approx() else a / b
+	),
+}
 
 func _get_title() -> String:
 	return "VectorOp"
@@ -130,25 +137,3 @@ func _get_data(_output_port: StringName, pouch: GaeaGenerationPouch) -> Variant:
 
 func _get_new_value(operation: Operation, args: Array) -> Variant:
 	return operation_definitions[operation].conversion.callv(args)
-
-
-func _get_operation_definitions() -> Dictionary[Operation, Definition]:
-	if not operation_definitions.is_empty():
-		return operation_definitions
-
-	operation_definitions.clear()
-	operation_definitions.assign({
-		Operation.ADD:
-		Definition.new([&"a", &"b"], "a + b", func(a: Variant, b: Variant): return a + b),
-		Operation.SUBTRACT:
-		Definition.new([&"a", &"b"], "a - b", func(a: Variant, b: Variant): return a - b),
-		Operation.MULTIPLY:
-		Definition.new([&"a", &"b"], "a * b", func(a: Variant, b: Variant): return a * b),
-		Operation.DIVIDE:
-		Definition.new(
-			[&"a", &"b"],
-			"a / b",
-			func(a: Variant, b: Variant): return 0 if b.is_zero_approx() else a / b
-		),
-	})
-	return operation_definitions
