@@ -19,15 +19,6 @@ extends Resource
 		world_size = value.max(Vector3i.ONE)
 
 
-## The size of a single cell.
-## Used with [ChunkLoader]s, or to get the cell position of a node using [method global_to_map].
-## Not required for generation to work.
-## In 2D, the size is in pixels; in 3D, it is in Godot units.
-@export var cell_size: Vector3i = Vector3i(16, 16, 1):
-	set(value):
-		cell_size = value.max(Vector3i.ZERO)
-
-
 func _validate_property(property: Dictionary) -> void:
 	if property.name == "seed" and random_seed_on_generate:
 		property.usage |= PROPERTY_USAGE_READ_ONLY

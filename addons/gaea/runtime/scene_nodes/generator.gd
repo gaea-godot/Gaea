@@ -57,7 +57,7 @@ func _set(property: StringName, value: Variant) -> bool:
 		&"data":
 			graph = value
 			return true
-		&"random_seed_on_generate", &"seed", &"world_size", &"cell_size":
+		&"random_seed_on_generate", &"seed", &"world_size":
 			_migrate_settings_property(property, value)
 			return true
 	return false
@@ -116,11 +116,6 @@ func _execution_task_finished(task: GaeaTask):
 ## erase the points of [param area].
 func request_area_erasure(area: AABB) -> void:
 	area_erased.emit.call_deferred(area)
-
-
-## Returns [param position] in cell coordinates based on [member cell_size].
-func global_to_map(position: Vector3) -> Vector3i:
-	return (position / Vector3(settings.cell_size)).floor()
 
 
 ## Emits [signal reset_requested]. Does nothing by itself, but notifies [GaeaRenderer]s that they should
