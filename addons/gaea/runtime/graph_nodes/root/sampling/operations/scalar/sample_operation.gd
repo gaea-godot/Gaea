@@ -3,6 +3,8 @@ class_name GaeaNodeSampleOp
 extends GaeaNodeNumOp
 ## Operations between all the cells of a sample grid and a [float] number.
 
+static var _custom_operation_definitions: Dictionary[Operation, Definition] = {}
+
 
 func _get_title() -> String:
 	return "SampleOp"
@@ -50,24 +52,26 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 
 
 func _get_operation_definitions() -> Dictionary[Operation, Definition]:
-	var definitions := super()
-	for definition: Definition in definitions.values():
+	if not _custom_operation_definitions.is_empty():
+		return _custom_operation_definitions
+	_custom_operation_definitions = super().duplicate_deep(Resource.DEEP_DUPLICATE_ALL)
+	for definition: Definition in _custom_operation_definitions.values():
 		# Kind of horrible code but it's fine
 		definition.output = definition.output.replace("a ", "A ")
 		definition.output = definition.output.replace(" a", " A")
 		definition.output = definition.output.replace("a,", "A,")
 		definition.output = definition.output.replace("(a)", "(A)")
 		definition.output = definition.output.replace("base", "A")
-	definitions[Operation.POWER].args[0] = &"a"
-	return definitions
+	_custom_operation_definitions[Operation.POWER].args[0] = &"a"
+	return _custom_operation_definitions
 
 
 func _get_data(_output_port: StringName, pouch: GaeaGenerationPouch) -> GaeaValue.Sample:
 	var operation: Operation = get_enum_selection(0) as Operation
-	var operation_definition: Definition = operation_definitions[operation]
+	var operation_definition: Definition = _get_operation_definitions()[operation]
 	var args: Array
 	var input_grid: GaeaValue.Sample = _get_arg(&"a", pouch)
-	for arg_name: StringName in operation_definitions[operation].args:
+	for arg_name: StringName in operation_definition.args:
 		if arg_name == &"a":
 			continue
 		args.append(_get_arg(arg_name, pouch))

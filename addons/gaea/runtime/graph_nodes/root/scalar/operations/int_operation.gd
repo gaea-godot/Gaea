@@ -3,6 +3,7 @@ class_name GaeaNodeIntOp
 extends GaeaNodeNumOp
 ## [int] operation.
 
+static var _custom_operation_definitions: Dictionary[Operation, Definition] = {}
 
 func _get_title() -> String:
 	return "IntOp"
@@ -30,11 +31,13 @@ func _get_description() -> String:
 
 
 func _get_operation_definitions() -> Dictionary[Operation, Definition]:
-	var definitions := super()
-	#definitions.erase(Operation.SNAPPED)
-	definitions.erase(Operation.CEIL)
-	definitions.erase(Operation.FLOOR)
-	definitions.erase(Operation.ROUND)
-	definitions.erase(Operation.SMOOTHSTEP)
-	definitions.erase(Operation.REMAP)
-	return definitions
+	if not _custom_operation_definitions.is_empty():
+		return _custom_operation_definitions
+
+	_custom_operation_definitions = super().duplicate_deep(Resource.DEEP_DUPLICATE_ALL)
+	_custom_operation_definitions.erase(Operation.CEIL)
+	_custom_operation_definitions.erase(Operation.FLOOR)
+	_custom_operation_definitions.erase(Operation.ROUND)
+	_custom_operation_definitions.erase(Operation.SMOOTHSTEP)
+	_custom_operation_definitions.erase(Operation.REMAP)
+	return _custom_operation_definitions

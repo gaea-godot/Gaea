@@ -41,7 +41,7 @@ class Definition:
 
 
 ## All possible operations.
-static var operation_definitions: Dictionary[Operation, Definition] = {
+static var _number_operation_definitions: Dictionary[Operation, Definition] = {
 	Operation.ADD: Definition.new([&"a", &"b"], "a + b", func(a: Variant, b: Variant): return a + b),
 	Operation.SUBTRACT: Definition.new([&"a", &"b"], "a - b", func(a: Variant, b: Variant): return a - b),
 	Operation.MULTIPLY: Definition.new([&"a", &"b"], "a * b", func(a: Variant, b: Variant): return a * b),
@@ -110,6 +110,7 @@ otherwise returns an interpolated value between [code]0[/code] and [code]1[/code
 func _get_tree_items() -> Array[GaeaNodeResource]:
 	var items: Array[GaeaNodeResource]
 	items.append_array(super())
+	var operation_definitions: Dictionary[Operation, Definition] = _get_operation_definitions()
 	for operation in operation_definitions.keys():
 		var item: GaeaNodeResource = get_script().new()
 		var operation_name: String = Operation.find_key(operation).to_pascal_case()
@@ -129,14 +130,14 @@ func _get_enums_count() -> int:
 func _get_enum_options(_idx: int) -> Dictionary:
 	var options: Dictionary = {}
 
-	for operation in operation_definitions.keys():
+	for operation in _get_operation_definitions().keys():
 		options.set(Operation.find_key(operation), operation)
 
 	return options
 
 
 func _get_arguments_list() -> Array[StringName]:
-	return operation_definitions.get(get_enum_selection(0)).args
+	return _get_operation_definitions().get(get_enum_selection(0)).args
 
 
 func _get_argument_display_name(arg_name: StringName) -> String:
@@ -156,16 +157,20 @@ func _get_output_ports_list() -> Array[StringName]:
 
 
 func _get_output_port_display_name(_output_name: StringName) -> String:
-	return operation_definitions[get_enum_selection(0)].output
+	return _get_operation_definitions()[get_enum_selection(0)].output
 
 
 func _get_data(_output_port: StringName, pouch: GaeaGenerationPouch) -> Variant:
 	var operation: Operation = get_enum_selection(0) as Operation
 	var args: Array
-	for arg_name: StringName in operation_definitions[operation].args:
+	for arg_name: StringName in _get_operation_definitions()[operation].args:
 		args.append(_get_arg(arg_name, pouch))
 	return _get_new_value(operation, args)
 
 
 func _get_new_value(operation: Operation, args: Array) -> Variant:
-	return operation_definitions[operation].conversion.callv(args)
+	return _get_operation_definitions()[operation].conversion.callv(args)
+
+
+func _get_operation_definitions() -> Dictionary[Operation, Definition]:
+	return _number_operation_definitions
