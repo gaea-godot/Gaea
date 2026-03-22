@@ -14,6 +14,7 @@ extends Resource
 @export var seed: int = randi()
 
 ## Leave [param z] as [code]1[/code] for 2D worlds.
+## For infinite worlds ignore this settings and use [GaeaChunkLoader] node.
 @export var world_size: Vector3i = Vector3i(128, 128, 1):
 	set(value):
 		world_size = value.max(Vector3i.ONE)
