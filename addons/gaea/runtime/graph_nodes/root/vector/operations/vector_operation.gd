@@ -136,7 +136,8 @@ func _get_operation_definitions() -> Dictionary[Operation, Definition]:
 	if not operation_definitions.is_empty():
 		return operation_definitions
 
-	operation_definitions = {
+	operation_definitions.clear()
+	operation_definitions.assign({
 		Operation.ADD:
 		Definition.new([&"a", &"b"], "a + b", func(a: Variant, b: Variant): return a + b),
 		Operation.SUBTRACT:
@@ -149,5 +150,5 @@ func _get_operation_definitions() -> Dictionary[Operation, Definition]:
 			"a / b",
 			func(a: Variant, b: Variant): return 0 if b.is_zero_approx() else a / b
 		),
-	}
+	})
 	return operation_definitions

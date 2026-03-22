@@ -146,7 +146,8 @@ func _get_operation_definitions() -> Dictionary[Operation, Definition]:
 	if not operation_definitions.is_empty():
 		return operation_definitions
 
-	operation_definitions = {
+	operation_definitions.clear()
+	operation_definitions.assign({
 		Operation.ADD:
 			Definition.new([&"a", &"b"], "a + b", func(a: Variant, b: Variant): return a + b),
 		Operation.SUBTRACT:
@@ -197,5 +198,5 @@ func _get_operation_definitions() -> Dictionary[Operation, Definition]:
 			),
 		Operation.WRAP:
 			Definition.new([&"a", &"min", &"max"], "wrap(a, min, max)", wrap),
-	}
+	})
 	return operation_definitions
