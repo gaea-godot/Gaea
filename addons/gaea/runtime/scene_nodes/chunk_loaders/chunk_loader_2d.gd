@@ -1,4 +1,6 @@
 @icon("../../../assets/chunk_loader.svg")
+
+## @deprecated: Use [GaeaChunkLoader] instead.
 class_name ChunkLoader2D
 extends Node
 

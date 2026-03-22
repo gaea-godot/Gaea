@@ -1,6 +1,7 @@
 class_name ThreadedChunkLoader2D
 extends ChunkLoader2D
 ## @experimental
+## @deprecated: Use [GaeaChunkLoader] instead.
 ## A threaded version of [ChunkLoader2D], allowing generation code to run parallel to the main thread of your game.
 
 @export var threaded: bool = true
