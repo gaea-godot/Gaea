@@ -1,3 +1,5 @@
+@tool
+
 class_name GaeaNodesCopy
 extends RefCounted
 ## An object that holds data to be pasted into a GaeaGraph.
@@ -63,6 +65,15 @@ func get_node_type(id: int) -> GaeaGraph.NodeType:
 
 func get_node_resource(id: int) -> GaeaNodeResource:
 	return _nodes.get(id, {}).get(&"resource")
+
+
+## Instantiate a fresh node resource from the node's script UID.
+func instantiate_node_resource(id: int) -> GaeaNodeResource:
+	var uid: String = get_node_data(id).get(&"uid")
+	if uid == null or not GaeaNodeResource.is_valid_node_resource(uid).is_empty():
+		push_error("Can't load resource script with UID '%s'" % uid)
+		return GaeaNodeInvalidScript.new()
+	return load(uid).new()
 
 
 func get_node_data(id: int) -> Dictionary:

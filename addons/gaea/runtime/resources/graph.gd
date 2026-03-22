@@ -454,10 +454,10 @@ func paste_nodes(copy: GaeaNodesCopy, at_position: Vector2) -> Array[int]:
 		var copy_id: int = -1
 		match copy.get_node_type(id):
 			NodeType.NODE:
-				copy_id = add_node_with_data(copy.get_node_resource(id), copy.get_node_data(id))
+				copy_id = add_node_with_data(copy.instantiate_node_resource(id), copy.get_node_data(id).duplicate_deep())
 				set_node_salt(copy_id, randi())
 			NodeType.FRAME:
-				copy_id = add_frame_with_data(copy.get_node_data(id))
+				copy_id = add_frame_with_data(copy.get_node_data(id).duplicate_deep())
 				frames.append(copy_id)
 		set_node_position(copy_id, copy.get_node_position(id) + offset)
 		id_mapping.set(id, copy_id)
