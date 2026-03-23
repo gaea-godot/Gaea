@@ -1,14 +1,14 @@
-[gd_scene format=3 uid="uid://mpo5o6d4uybu"]
+[gd_scene load_steps=8 format=3 uid="uid://mpo5o6d4uybu"]
 
-[ext_resource type="PackedScene" uid="uid://dx7xy4dgi3wwb" path="res://addons/gdUnit4/src/ui/parts/InspectorToolBar.tscn" id="1"]
-[ext_resource type="PackedScene" uid="uid://dva3tonxsxrlk" path="res://addons/gdUnit4/src/ui/parts/InspectorProgressBar.tscn" id="2"]
-[ext_resource type="PackedScene" uid="uid://c22l4odk7qesc" path="res://addons/gdUnit4/src/ui/parts/InspectorStatusBar.tscn" id="3"]
-[ext_resource type="PackedScene" uid="uid://djp8ait0bxpsc" path="res://addons/gdUnit4/src/ui/parts/InspectorMonitor.tscn" id="4"]
-[ext_resource type="Script" uid="uid://cevqniblw4lvl" path="res://addons/gdUnit4/src/ui/GdUnitInspector.gd" id="5"]
-[ext_resource type="PackedScene" uid="uid://bqfpidewtpeg0" path="res://addons/gdUnit4/src/ui/parts/InspectorTreePanel.tscn" id="7"]
-[ext_resource type="PackedScene" uid="uid://cn5mp3tmi2gb1" path="res://addons/gdUnit4/src/network/GdUnitServer.tscn" id="7_721no"]
+[ext_resource type="PackedScene" path="res://addons/gdUnit4/src/ui/parts/InspectorToolBar.tscn" id="1"]
+[ext_resource type="PackedScene" path="res://addons/gdUnit4/src/ui/parts/InspectorProgressBar.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://addons/gdUnit4/src/ui/parts/InspectorStatusBar.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://addons/gdUnit4/src/ui/parts/InspectorMonitor.tscn" id="4"]
+[ext_resource type="Script" path="res://addons/gdUnit4/src/ui/GdUnitInspector.gd" id="5"]
+[ext_resource type="PackedScene" path="res://addons/gdUnit4/src/ui/parts/InspectorTreePanel.tscn" id="7"]
+[ext_resource type="PackedScene" path="res://addons/gdUnit4/src/network/GdUnitServer.tscn" id="7_721no"]
 
-[node name="GdUnit" type="Panel" unique_id=184255897]
+[node name="GdUnit" type="Panel"]
 use_parent_material = true
 clip_contents = true
 anchors_preset = 15
@@ -19,7 +19,7 @@ size_flags_vertical = 3
 focus_mode = 2
 script = ExtResource("5")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=908938482]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 use_parent_material = true
 clip_contents = true
 layout_mode = 0
@@ -28,35 +28,35 @@ anchor_bottom = 1.0
 size_flags_vertical = 11
 theme_override_constants/separation = 0
 
-[node name="Header" type="VBoxContainer" parent="VBoxContainer" unique_id=58492476]
+[node name="Header" type="VBoxContainer" parent="VBoxContainer"]
 use_parent_material = true
 clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 9
 size_flags_vertical = 0
 
-[node name="ToolBar" parent="VBoxContainer/Header" unique_id=1163483994 instance=ExtResource("1")]
+[node name="ToolBar" parent="VBoxContainer/Header" instance=ExtResource("1")]
 layout_mode = 2
 size_flags_vertical = 1
 
-[node name="ProgressBar" parent="VBoxContainer/Header" unique_id=502066933 instance=ExtResource("2")]
+[node name="ProgressBar" parent="VBoxContainer/Header" instance=ExtResource("2")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 5
 max_value = 0.0
 
-[node name="StatusBar" parent="VBoxContainer/Header" unique_id=869389706 instance=ExtResource("3")]
+[node name="StatusBar" parent="VBoxContainer/Header" instance=ExtResource("3")]
 layout_mode = 2
 size_flags_horizontal = 11
 
-[node name="MainPanel" parent="VBoxContainer" unique_id=1733478355 instance=ExtResource("7")]
+[node name="MainPanel" parent="VBoxContainer" instance=ExtResource("7")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Monitor" parent="VBoxContainer" unique_id=1081182090 instance=ExtResource("4")]
+[node name="Monitor" parent="VBoxContainer" instance=ExtResource("4")]
 layout_mode = 2
 
-[node name="event_server" parent="." unique_id=1327227788 instance=ExtResource("7_721no")]
+[node name="event_server" parent="." instance=ExtResource("7_721no")]
 
 [connection signal="select_error_next" from="VBoxContainer/Header/StatusBar" to="VBoxContainer/MainPanel" method="_on_select_next_item_by_state" binds= [7]]
 [connection signal="select_error_prevous" from="VBoxContainer/Header/StatusBar" to="VBoxContainer/MainPanel" method="_on_select_previous_item_by_state" binds= [7]]

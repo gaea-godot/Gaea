@@ -1,6 +1,6 @@
-[gd_scene format=3 uid="uid://2eahgaw88y6q"]
+[gd_scene load_steps=6 format=3 uid="uid://2eahgaw88y6q"]
 
-[ext_resource type="Script" uid="uid://cgmlx2smdqygj" path="res://addons/gdUnit4/src/update/GdUnitUpdate.gd" id="1"]
+[ext_resource type="Script" path="res://addons/gdUnit4/src/update/GdUnitUpdate.gd" id="1"]
 
 [sub_resource type="Gradient" id="Gradient_wilsr"]
 colors = PackedColorArray(0.151276, 0.151276, 0.151276, 1, 1, 1, 1, 1)
@@ -17,7 +17,7 @@ gradient = SubResource("Gradient_i0qp8")
 fill_from = Vector2(0.794872, 0)
 fill_to = Vector2(0, 0)
 
-[node name="GdUnitUpdate" type="MarginContainer" unique_id=1667117629]
+[node name="GdUnitUpdate" type="MarginContainer"]
 clip_contents = true
 custom_minimum_size = Vector2(0, 80)
 anchors_preset = 10
@@ -29,14 +29,14 @@ theme_override_constants/margin_left = 10
 theme_override_constants/margin_right = 10
 script = ExtResource("1")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1253954547]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="Panel" type="Panel" parent="VBoxContainer" unique_id=724022909]
+[node name="Panel" type="Panel" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="message" type="RichTextLabel" parent="VBoxContainer/Panel" unique_id=62338798]
+[node name="message" type="RichTextLabel" parent="VBoxContainer/Panel"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -50,11 +50,11 @@ fit_content = true
 scroll_active = false
 shortcut_keys_enabled = false
 
-[node name="Panel2" type="Panel" parent="VBoxContainer" unique_id=1241467239]
+[node name="Panel2" type="Panel" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="progress" type="TextureProgressBar" parent="VBoxContainer/Panel2" unique_id=617962676]
+[node name="progress" type="TextureProgressBar" parent="VBoxContainer/Panel2"]
 unique_name_in_owner = true
 auto_translate_mode = 2
 clip_contents = true
@@ -67,7 +67,7 @@ grow_horizontal = 2
 grow_vertical = 2
 localize_numeral_system = false
 min_value = 1.0
-max_value = 6.0
+max_value = 5.0
 value = 1.0
 rounded = true
 allow_greater = true
@@ -77,21 +77,21 @@ texture_progress = SubResource("GradientTexture2D_wilsr")
 tint_under = Color(0.0235294, 0.145098, 0.168627, 1)
 tint_progress = Color(0.288912, 0.233442, 0.533772, 1)
 
-[node name="PanelContainer" type="MarginContainer" parent="VBoxContainer" unique_id=1737250341]
+[node name="PanelContainer" type="MarginContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/PanelContainer" unique_id=1578053831]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/PanelContainer"]
 layout_mode = 2
 theme_override_constants/separation = 10
 alignment = 2
 
-[node name="update" type="Button" parent="VBoxContainer/PanelContainer/HBoxContainer" unique_id=251335543]
+[node name="update" type="Button" parent="VBoxContainer/PanelContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Update"
 
-[node name="cancel" type="Button" parent="VBoxContainer/PanelContainer/HBoxContainer" unique_id=205494350]
+[node name="cancel" type="Button" parent="VBoxContainer/PanelContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Cancel"

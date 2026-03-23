@@ -1,15 +1,15 @@
-[gd_scene format=3 uid="uid://belidlfknh74r"]
+[gd_scene load_steps=3 format=3 uid="uid://belidlfknh74r"]
 
-[ext_resource type="Script" uid="uid://cqgukbcek7r06" path="res://addons/gdUnit4/src/core/runners/GdUnitTestRunner.gd" id="1"]
-[ext_resource type="Script" uid="uid://c0njpv53hi276" path="res://addons/gdUnit4/src/network/GdUnitTcpClient.gd" id="2"]
+[ext_resource type="Script" path="res://addons/gdUnit4/src/core/runners/GdUnitTestRunner.gd" id="1"]
+[ext_resource type="Script" path="res://addons/gdUnit4/src/network/GdUnitTcpClient.gd" id="2"]
 
-[node name="Control" type="Node" unique_id=237815759]
+[node name="Control" type="Node"]
 script = ExtResource("1")
 
-[node name="GdUnitTcpClient" type="Node" parent="." unique_id=415340604]
+[node name="GdUnitTcpClient" type="Node" parent="."]
 script = ExtResource("2")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1134383255]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
 custom_minimum_size = Vector2(0, 24)
 layout_direction = 2
 anchors_preset = 12
@@ -22,13 +22,12 @@ size_flags_horizontal = 3
 size_flags_vertical = 10
 alignment = 2
 
-[node name="Version" type="RichTextLabel" parent="HBoxContainer" unique_id=1926639720]
+[node name="Version" type="RichTextLabel" parent="HBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 size_flags_horizontal = 10
 bbcode_enabled = true
-text = "[center][color=#9887c4]gd[/color][color=#7a57d6]Unit[/color][color=#9887c4]4[/color] [color=#9887c4]6.1.1[/color][/center]"
 scroll_active = false
 shortcut_keys_enabled = false
 horizontal_alignment = 1
