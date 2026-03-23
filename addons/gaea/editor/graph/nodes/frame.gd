@@ -25,16 +25,16 @@ func _on_dragged(_from: Vector2, to: Vector2) -> void:
 	graph_edit.graph.set_node_position(id, to)
 
 
-func start_rename(gaea_panel: GaeaEditorPanel) -> void:
+func start_rename() -> void:
 	var line_edit: LineEdit = LineEdit.new()
 	line_edit.text = title
 	line_edit.select_all_on_focus = true
 	line_edit.expand_to_text_length = true
-	line_edit.position = gaea_panel.get_local_mouse_position()
+	line_edit.position = graph_edit.get_local_mouse_position()
 	line_edit.text_submitted.connect(_on_rename_text_submitted, CONNECT_ONE_SHOT)
 	line_edit.text_submitted.connect(line_edit.queue_free.unbind(1), CONNECT_DEFERRED)
 	line_edit.focus_exited.connect(line_edit.queue_free)
-	gaea_panel.add_child(line_edit)
+	graph_edit.add_child(line_edit)
 	line_edit.grab_click_focus()
 	line_edit.grab_focus()
 

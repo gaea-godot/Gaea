@@ -883,7 +883,7 @@ func _on_action_pressed(id: Action) -> void:
 			var selected: Array = get_selected()
 			var node: GraphElement = selected.front()
 			if node is GaeaEditorGraphFrame:
-				node.start_rename(owner)
+				node.start_rename()
 		Action.TINT:
 			var selected: Array = get_selected()
 			var node: GraphElement = selected.front()
