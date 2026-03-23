@@ -12,7 +12,6 @@
 script = ExtResource("4_hp50f")
 seed = 1649893508
 world_size = Vector3i(80, 45, 1)
-cell_size = Vector3i(8, 5, 1)
 metadata/_custom_type_script = "uid://ct2w70ehn4avu"
 
 [sub_resource type="Resource" id="Resource_yt4k6"]
