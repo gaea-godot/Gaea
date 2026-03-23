@@ -14,7 +14,7 @@ var renderer: TileMapGaeaRenderer:
 
 
 func before() -> void:
-	scene = load("uid://xfcy8wwh3sd7").instantiate()
+	scene = auto_free(load("uid://xfcy8wwh3sd7").instantiate())
 	runner = scene_runner(scene)
 
 

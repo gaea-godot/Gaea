@@ -14,7 +14,7 @@ var renderer: GridMapGaeaRenderer:
 
 
 func before() -> void:
-	scene = load("uid://bamaii0ujxbp2").instantiate()
+	scene = auto_free(load("uid://bamaii0ujxbp2").instantiate())
 	runner = scene_runner(scene)
 
 

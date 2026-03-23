@@ -6,8 +6,9 @@ var generator_seed:int
 
 const test_scene = "uid://dh5c2eomfri6n"
 
+
 func test_has_generated() -> void:
-	var scene : GaeaGenerationTester = load(test_scene).instantiate()
+	var scene : GaeaGenerationTester = auto_free(load(test_scene).instantiate())
 	var _runner := scene_runner(scene)
 	scene.gaea_generator.task_pool.multithreaded = false
 	await scene.test_generation(200)
@@ -20,14 +21,14 @@ func test_has_generated() -> void:
 	var task_pool := scene.gaea_generator.task_pool
 	assert_int(task_pool._tasks.size()).is_equal(0)
 
-	first_grid = scene.last_grid
+	first_grid = auto_free(scene.last_grid)
 	generator_seed = scene.gaea_generator.settings.seed
 	assert_that(first_grid).is_not_null()
 	assert_dict(first_grid._grid).is_not_empty()
 
 
 func test_generations_match() -> void:
-	var scene : GaeaGenerationTester = load(test_scene).instantiate()
+	var scene : GaeaGenerationTester = auto_free(load(test_scene).instantiate())
 	var _runner := scene_runner(scene)
 	scene.gaea_generator.task_pool.multithreaded = false
 	await scene.test_generation(generator_seed)
@@ -40,7 +41,7 @@ func test_generations_match() -> void:
 
 
 func test_multithreaded_match() -> void:
-	var scene : GaeaGenerationTester = load(test_scene).instantiate()
+	var scene : GaeaGenerationTester = auto_free(load(test_scene).instantiate())
 	var _runner := scene_runner(scene)
 	scene.gaea_generator.task_pool.multithreaded = true
 	scene.gaea_generator.task_pool.task_limit = 0
@@ -54,7 +55,7 @@ func test_multithreaded_match() -> void:
 
 
 func test_multithreaded_discard_new() -> void:
-	var scene : GaeaGenerationTester = load(test_scene).instantiate()
+	var scene : GaeaGenerationTester = auto_free(load(test_scene).instantiate())
 	var _runner := scene_runner(scene)
 	scene.gaea_generator.task_pool.multithreaded = true
 	scene.gaea_generator.task_pool.task_limit = 0
@@ -76,7 +77,7 @@ func test_multithreaded_discard_new() -> void:
 
 
 func test_multithreaded_discard_existing() -> void:
-	var scene : GaeaGenerationTester = load(test_scene).instantiate()
+	var scene : GaeaGenerationTester = auto_free(load(test_scene).instantiate())
 	var _runner := scene_runner(scene)
 	scene.gaea_generator.task_pool.multithreaded = true
 	scene.gaea_generator.task_pool.task_limit = 0
@@ -99,7 +100,7 @@ func test_multithreaded_discard_existing() -> void:
 
 
 func test_generations_dont_match() -> void:
-	var scene : GaeaGenerationTester = load(test_scene).instantiate()
+	var scene : GaeaGenerationTester = auto_free(load(test_scene).instantiate())
 	var _runner := scene_runner(scene)
 	scene.gaea_generator.task_pool.multithreaded = false
 	await scene.test_generation(5)
