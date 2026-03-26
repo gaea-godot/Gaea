@@ -25,6 +25,15 @@ func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
 	return super(arg_name)
 
 
+func _get_argument_description(arg_name: StringName) -> String:
+	match arg_name:
+		&"value":
+			return ("For each cell, if its value is equal to this"
+			+ ", it will be mapped to [param material]. Otherwise, it will be empty.")
+		_:
+			return super(arg_name)
+
+
 func _passes_mapping(
 	reference_sample: GaeaValue.Sample, cell: Vector3i, args: Dictionary[StringName, Variant]
 ) -> bool:

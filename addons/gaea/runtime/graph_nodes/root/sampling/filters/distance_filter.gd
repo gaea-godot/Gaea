@@ -25,6 +25,16 @@ func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
 	return super(arg_name)
 
 
+func _get_argument_description(arg_name: StringName) -> String:
+	match arg_name:
+		&"to_point":
+			return "Reference point for distance calculations."
+		&"distance_range":
+			return "For each cell, if it's outside this range of distance, it's filtered out."
+		_:
+			return super(arg_name)
+
+
 func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.SAMPLE
 

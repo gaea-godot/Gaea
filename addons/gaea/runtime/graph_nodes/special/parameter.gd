@@ -68,6 +68,10 @@ func _get_argument_default_value(_arg_name: StringName) -> Variant:
 	return _get_available_name(_get_title())
 
 
+func _get_argument_description(_arg_name: StringName) -> String:
+	return "Name of the argument exported in the editor, and by which it can be accessed in [GaeaGraph]."
+
+
 func _get_available_name(from: String) -> String:
 	from = from.rstrip("1234567890")
 	var available_name: String = from
@@ -90,6 +94,10 @@ func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.from_variant_type(
 		_get_variant_type(), _get_property_hint(), _get_property_hint_string()
 	)
+
+
+func _get_output_port_description(_output_name: StringName) -> String:
+	return "Returns the value as set in [GaeaGraph]."
 
 
 func _get_data(_output_port: StringName, pouch: GaeaGenerationPouch) -> Variant:

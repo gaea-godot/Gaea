@@ -33,6 +33,18 @@ func _get_argument_type(arg_name: StringName) -> GaeaValue.Type:
 	return super(arg_name)
 
 
+func _get_argument_description(arg_name: StringName) -> String:
+	match arg_name:
+		&"match_all":
+			return "Whether or not to require matching all flags in [param match_flags], or only one."
+		&"match_flags":
+			return "For each cell, if it has any or all of these flags (depending on [param match_all]), it's kept in. If not, it's filtered out."
+		&"exclude_flags":
+			return "For each cell, if it has any of these flags, it's always filtered out."
+		_:
+			return super(arg_name)
+
+
 func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.SAMPLE
 

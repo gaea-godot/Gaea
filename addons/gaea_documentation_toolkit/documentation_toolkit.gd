@@ -1,6 +1,18 @@
 @tool
 extends Control
 
+
+enum ExportDirectory {
+	COMMON,
+	IMAGES,
+	MARKDOWN,
+}
+
+const DOC_CLASS_URL: String = "[%s](https://docs.godotengine.org/en/latest/classes/class_%s.html)"
+const ARGUMENTS_HEADER_LINK := "#arguments"
+const SLOT_TYPES_LINK := "../the-basics/anatomy-of-a-graph.md#slot-types"
+
+
 @onready var tree := %Tree
 @onready var sub_viewport: SubViewport = %SubViewport
 @onready var open_folder_button: Button = %OpenFolderButton
@@ -8,15 +20,6 @@ extends Control
 @onready var markdown: RichTextLabel = %Markdown
 
 var graph_edit: GaeaEditorGraphEdit
-
-const DOC_CLASS_URL: String = "[%s](https://docs.godotengine.org/en/latest/classes/class_%s.html)"
-
-
-enum ExportDirectory {
-	COMMON,
-	IMAGES,
-	MARKDOWN,
-}
 
 
 func _ready() -> void:
@@ -124,7 +127,8 @@ func _get_node_documentation(resource: GaeaNodeResource) -> String:
 
 	var text: String = ""
 	var data: Dictionary[String, String] = {}
-	data.set("type", GaeaValue.get_type_string(resource.get_type()))
+	var type_metadata: String = GaeaValue.get_type_string(resource.get_type())
+	data.set("type", type_metadata)
 	data.set("image_path", _get_file_name(resource))
 
 	var node_path: String = resource.get_script().resource_path
@@ -135,9 +139,9 @@ func _get_node_documentation(resource: GaeaNodeResource) -> String:
 
 	var extra_title = resource.get_extra_documentation(GaeaNodeResource.DocumentationSection.TITLE)
 	if not extra_title.is_empty():
-		data.set("title", resource.get_title() + " " + extra_title)
+		data.set("title", resource.get_tree_name() + " " + extra_title)
 	else:
-		data.set("title", resource.get_title())
+		data.set("title", resource.get_tree_name())
 	data.set("description", resource.get_description())
 
 	var template: String = """---
@@ -178,27 +182,39 @@ category: {category}
 	var arguments: Array[StringName] = resource.get_arguments_list()
 	if arguments.size() > 0:
 		text += "\n## Arguments\n"
-		var headers: Array[String] = ["Type", "Name", "Description", "Default"]
+		var headers: Array[String] = ["Type", "Name (Display Name)", "Description", "Default"]
 		var rows: Array[Array] = []
 		var column_size: Array[int] = [4, 4, 11, 7]
-		for arg_name in arguments:
+		for arg_name: String in arguments:
 			if resource.get_argument_type(arg_name) == GaeaValue.Type.CATEGORY:
 				continue
 
+
+			var display_name: String = resource.get_argument_display_name(arg_name)
+			var name_column: String = "`%s`" % arg_name
+			if not display_name.is_empty():
+				name_column = "`%s` (%s)" % [arg_name, display_name]
+
 			var current_row: Array[String] = [
-				GaeaValue.get_type_string(resource.get_argument_type(arg_name)),
-				resource.get_argument_display_name(arg_name),
+				"[%s](%s)" % [
+					GaeaValue.get_type_string(resource.get_argument_type(arg_name)),
+					SLOT_TYPES_LINK
+				],
+				name_column,
 				resource.get_argument_description(arg_name)
 			]
-
-			if current_row[1].length() > 0:
-				current_row[1] = "`%s`" % current_row[1]
 
 			var default_value: Variant = resource.get_argument_default_value(arg_name)
 			if default_value is GaeaValue.GridType:
 				current_row.append("")
 			elif default_value is Dictionary or default_value is Array:
-				current_row.append(JSON.stringify(default_value))
+				if resource.get_argument_type(arg_name) == GaeaValue.Type.RANGE:
+					current_row.append("%s-%s" % [
+						default_value.get("min", "N/A"),
+						default_value.get("max", "N/A")
+					])
+				else:
+					current_row.append(JSON.stringify(default_value))
 			else:
 				current_row.append(var_to_str(default_value))
 
@@ -220,9 +236,15 @@ category: {category}
 	if outputs.size() > 0:
 		text += "\n## Outputs\n"
 		for output in outputs:
-			text += "\n### %s [%s]\n" % [
-				resource.get_output_port_display_name(output),
+			var display_name: String = resource.get_output_port_display_name(output)
+			var header: String = "`%s`" % output
+			if not display_name.is_empty():
+				header = "`%s` (%s)" % [output, display_name]
+
+			text += "\n### [%s](%s) - %s\n" % [
 				GaeaValue.get_type_string(resource.get_output_port_type(output)),
+				SLOT_TYPES_LINK,
+				header,
 			]
 			text += "\n" + resource.get_output_port_description(output)
 	text += get_extra.call(GaeaNodeResource.DocumentationSection.OUTPUTS)
@@ -261,8 +283,8 @@ func _bbcode_to_markdown(input: String) -> String:
 	input = input.replace("[code]", "`").replace("[/code]", "`")
 
 	# Find all [tag] to replace
-	var regex = RegEx.new()
-	regex.compile("\\[(?<name>[^\\]]+)\\]")
+	var regex := RegEx.new()
+	regex.compile("\\[(?<name>[^\\]]+)\\][^\\(]")
 	var tags: Array[String] = []
 	for result: RegExMatch in regex.search_all(input):
 		var tag: String = result.get_string("name")
@@ -272,7 +294,10 @@ func _bbcode_to_markdown(input: String) -> String:
 	for tag: String in tags:
 		if ClassDB.class_exists(tag):
 			input = input.replace("[%s]" % tag, DOC_CLASS_URL % [tag, tag.to_lower()])
-
-
+		elif tag.begins_with("Gaea"):
+			input = input.replace("[%s]" % tag, tag)
+	var param_regex := RegEx.new()
+	param_regex.compile("\\[param ([^\\]]+)\\]")
+	input = param_regex.sub(input, "[$1](%s)" % ARGUMENTS_HEADER_LINK, true)
 
 	return input.replace("[code]", "`").replace("[/code]", "`")

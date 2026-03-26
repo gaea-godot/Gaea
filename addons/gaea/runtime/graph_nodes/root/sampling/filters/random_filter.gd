@@ -37,6 +37,14 @@ func _get_argument_hint(arg_name: StringName) -> Dictionary[String, Variant]:
 	return super(arg_name)
 
 
+func _get_argument_description(arg_name: StringName) -> String:
+	match arg_name:
+		&"chance":
+			return "For each cell, the chance (in percentage) it's filtered or not."
+		_:
+			return super(arg_name)
+
+
 func _get_output_port_type(_output_name: StringName) -> GaeaValue.Type:
 	return GaeaValue.Type.SAMPLE
 
