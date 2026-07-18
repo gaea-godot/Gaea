@@ -29,6 +29,7 @@ enum Type {
 	RANGE = 100,
 	MATERIAL = 101, ## A [GaeaMaterial].
 	TEXTURE = 102, ## A [Texture].
+	CURVE = 103, ## A [GaeaCurve]
 	# Dictionary types from 200 to 299
 	SAMPLE = 200, ## A dictionary of the form [code]{Vector3i: float}[/code].
 	MAP = 201, ## A dictionary of the form [code]{Vector3i: GaeaMaterial}[/code].
@@ -139,6 +140,9 @@ static func from_variant_type(type: Variant.Type, _hint: PropertyHint = PROPERTY
 			if hint_string == "GaeaMaterial":
 				return Type.MATERIAL
 
+			if hint_string == "GaeaCurve":
+				return Type.CURVE
+
 			if hint_string.begins_with("Texture"):
 				return Type.TEXTURE
 	return Type.NULL
@@ -190,6 +194,8 @@ static func get_default_color(type: Type) -> Color:
 			return Color("f04c7f") # PINK
 		Type.MATERIAL:
 			return Color("eb2f06") # RED
+		Type.CURVE:
+			return Color("000fff") # BLUE-ish
 		# Dictionary types
 		Type.SAMPLE:
 			return Color("f0f8ff") # WHITE
@@ -223,6 +229,9 @@ static func get_display_icon(type: Type) -> Texture2D:
 			return load("uid://wx4ccwofr8yy")
 		Type.MATERIAL:
 			return load("uid://b0vqox8bodse")
+		Type.CURVE:
+			if Engine.is_editor_hint():
+				return Engine.get_singleton(&"EditorInterface").get_base_control().get_theme_icon(&"Curve", &"EditorIcons")
 		Type.TEXTURE:
 			if Engine.is_editor_hint():
 				return Engine.get_singleton(&"EditorInterface").get_base_control().get_theme_icon(&"Image", &"EditorIcons")
@@ -262,7 +271,7 @@ static func get_default_slot_icon(type: Type) -> Texture2D:
 		# Simple types
 		Type.RANGE:
 			return load("uid://dfsmxavxasx7x")
-		Type.MATERIAL:
+		Type.MATERIAL, Type.CURVE:
 			return load("uid://daasmk1v2rpcm")
 		Type.TEXTURE:
 			return load("uid://ccqq5l0ruur37")

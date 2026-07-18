@@ -49,7 +49,7 @@ func _on_generate_button_pressed() -> void:
 	_task_pool.task_limit = GaeaGenerationPriority.get_recommended_task_limit(_chunk_generation_count)
 
 	var settings: GaeaGenerationSettings = GaeaGenerationSettings.new()
-	settings.world_size = graph.preview_chunk_size
+	settings.world_size = graph.preview_world_size
 	settings.random_seed_on_generate = false
 	settings.seed = graph.preview_seed
 
