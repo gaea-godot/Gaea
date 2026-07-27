@@ -508,6 +508,8 @@ func get_node_position(id: int) -> Vector2:
 ## Sets the specified node's salt.
 func set_node_salt(id: int, salt: int) -> void:
 	set_node_data_value(id, &"salt", salt)
+	if is_instance_valid(get_node(id)):
+		get_node(id).salt = salt
 
 
 ## Returns the specified node's salt. Defaults to 0.

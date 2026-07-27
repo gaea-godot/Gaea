@@ -19,6 +19,7 @@ enum Action {
 	RENAME,
 	TOGGLE_TINT,
 	TINT,
+	SALT,
 	GROUP_IN_FRAME,
 	DETACH,
 	TOGGLE_AUTO_SHRINK,
@@ -853,6 +854,9 @@ func can_do_action(id: Action) -> bool:
 		Action.TINT, Action.TOGGLE_TINT, Action.TOGGLE_AUTO_SHRINK:
 			var selected: Array = get_selected()
 			return selected.size() == 1 and selected.front() is GaeaEditorGraphFrame
+		Action.SALT:
+			var selected: Array = get_selected()
+			return selected.size() == 1
 		Action.OPEN_IN_INSPECTOR:
 			var selected: Array = get_selected()
 			return selected.size() == 1 and selected.front() is GaeaNodeParameter
@@ -911,6 +915,9 @@ func _on_action_pressed(id: Action) -> void:
 			for node: GraphElement in selected:
 				if attached_elements.has(node.name):
 					detach_element_from_frame(node.name)
+		Action.SALT:
+			var node: GaeaEditorGraphNode = get_selected().front()
+			node.start_salt_change(owner)
 		Action.OPEN_IN_INSPECTOR:
 			var node: GaeaEditorGraphNode = get_selected().front()
 			var resource: GaeaNodeResource = node.resource
