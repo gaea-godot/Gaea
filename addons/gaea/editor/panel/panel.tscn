@@ -29,8 +29,8 @@ file_list = NodePath("FileSystemContainer")
 preview_panel = NodePath("MainView/PreviewPanel")
 
 [node name="FileSystemContainer" type="VBoxContainer" parent="." unique_id=1256614628 node_paths=PackedStringArray("graph_edit", "main_view", "menu_bar", "file_list", "context_menu", "file_dialog")]
-clip_contents = true
 custom_minimum_size = Vector2(200, 0)
+clip_contents = true
 layout_mode = 2
 script = ExtResource("2_eht7w")
 graph_edit = NodePath("../MainView/GraphEdit")
